@@ -8,11 +8,15 @@ import {AppRoutingModule} from './app-routing.module';
 import {RouterModule} from '@angular/router';
 import {CompanyResolverService} from './route-resolvers/company-resolver.service';
 import {DataStorageService} from './services/data-storage.service';
+import {CompanyDetailsComponent} from './components/company/company-details/company-details.component';
+import {DepartmentDetailsComponent} from './components/company/company-details/department-details/department-details.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    CompanyComponent
+    CompanyComponent,
+    CompanyDetailsComponent,
+    DepartmentDetailsComponent
   ],
   imports: [
     BrowserModule,

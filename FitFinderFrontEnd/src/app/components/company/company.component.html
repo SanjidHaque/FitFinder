@@ -1,5 +1,16 @@
-<div class="row list-group">
-  <div class="col-xs-4 list-group-item" *ngFor="let company of companies">
-    {{ company.name }}
+<div class="row">
+  <div class="offset-xl-5 col-xl-2 badge badge-secondary">
+    <h3>Companies</h3>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xl-4 list-group-item"
+       style="text-align: center; cursor: pointer;"
+       *ngFor="let company of companies"
+       routerLink="/company/{{ company.id }}/department"
+  >
+
+      {{ company.name }}
   </div>
 </div>
