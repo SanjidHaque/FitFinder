@@ -1,12 +1,13 @@
 <div class="row">
-  <div class="offset-xl-5 col-xl-2 badge badge-secondary">
-    <h3>Jobs</h3>
+  <div class="col-xl-12 badge badge-secondary">
+    <h3>Jobs available in {{ department.name }}</h3>
   </div>
 </div>
 
 <div class="row">
   <div class="col-xl-4 list-group-item"
        *ngFor="let job of jobs"
+       title="View details"
        style="cursor: pointer; text-align: center;"
   >
     {{ job.name }}

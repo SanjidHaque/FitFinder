@@ -10,13 +10,15 @@ import {CompanyResolverService} from './route-resolvers/company-resolver.service
 import {DataStorageService} from './services/data-storage.service';
 import {CompanyDetailsComponent} from './components/company/company-details/company-details.component';
 import {DepartmentDetailsComponent} from './components/company/company-details/department-details/department-details.component';
+import {CreateNewCompanyComponent} from './components/company/create-new-company/create-new-company.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CompanyComponent,
     CompanyDetailsComponent,
-    DepartmentDetailsComponent
+    DepartmentDetailsComponent,
+    CreateNewCompanyComponent
   ],
   imports: [
     BrowserModule,

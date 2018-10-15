@@ -1,16 +1,34 @@
-<div class="row">
-  <div class="offset-xl-5 col-xl-2 badge badge-secondary">
-    <h3>Companies</h3>
+<div class="row" >
+
+  <div class="col-xl-3 display-4"
+       style="text-align: left;
+       font-family: 'Poiret One';
+       font-size: 50px;
+
+">
+    FitFinder
   </div>
+
+  <div class="col-xl-6" style="text-align: center; padding-top: 20px;">
+    <h2>Your Companies</h2>
+  </div>
+
+  <div class="col-xl-3" style="text-align: right; padding-top: 20px;">
+    <button class="btn btn-outline-dark">New company</button>
+  </div>
+
 </div>
 
 <div class="row">
+
   <div class="col-xl-4 list-group-item"
        style="text-align: center; cursor: pointer;"
+       title="View details"
        *ngFor="let company of companies"
        routerLink="/company/{{ company.id }}/department"
   >
-
-      {{ company.name }}
+    {{ company.name }}
   </div>
+
 </div>
+
