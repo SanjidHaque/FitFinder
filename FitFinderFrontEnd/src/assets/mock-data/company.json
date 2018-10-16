@@ -1,6 +1,7 @@
 [{
   "id": "1",
   "name": "Kimco Realty Corporation",
+  "address": "44058 Basil Plaza",
   "departments":[{
     "id": "1",
     "companyId": "1",
@@ -275,6 +276,7 @@
   {
   "id": "2",
   "name": "Flowserve Corporation",
+    "address": "34 Gina Circle",
   "departments": [{
     "id": "1",
     "companyId": "2",
@@ -548,6 +550,7 @@
   {
   "id": "3",
   "name": "Xcel Energy Inc.",
+    "address": "487 Valley Edge Avenue",
   "departments":[{
     "id": "1",
     "companyId": "3",
@@ -821,6 +824,7 @@
   {
   "id": "4",
   "name": "Genpact Limited",
+    "address": "0176 Cambridge Center",
   "departments": [{
     "id": "1",
     "companyId": "4",
@@ -1095,6 +1099,7 @@
   {
   "id": "5",
   "name": "BlueStar TA-BIGITech Israel Technology ETF",
+    "address": "46 Johnson Circle",
   "departments": [{
     "id": "1",
     "companyId": "5",
@@ -1367,6 +1372,7 @@
   {
   "id": "6",
   "name": "FactSet Research Systems Inc.",
+    "address": "7842 Lillian Pass",
   "departments": [{
     "id": "1",
     "companyId": "6",
