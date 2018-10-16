@@ -1,20 +1,15 @@
 <div class="row" >
 
-  <div class="col-xl-3 display-4"
-       style="text-align: left;
-       font-family: 'Poiret One';
-       font-size: 50px;
-
-">
-    FitFinder
-  </div>
 
   <div class="col-xl-6" style="text-align: center; padding-top: 20px;">
-    <h2>Your Companies</h2>
+    <h5>Your Companies</h5>
   </div>
 
   <div class="col-xl-3" style="text-align: right; padding-top: 20px;">
-    <button class="btn btn-outline-dark">New company</button>
+    <button style="outline: 0;"
+            mat-stroked-button
+            (click)="createNewCompany()"
+            >New Company</button>
   </div>
 
 </div>
@@ -22,7 +17,7 @@
 <div class="row">
 
   <div class="col-xl-4 list-group-item"
-       style="text-align: center; cursor: pointer;"
+       style="text-align: center; cursor: pointer; outline: 0;"
        title="View details"
        *ngFor="let company of companies"
        routerLink="/company/{{ company.id }}/department"
@@ -30,5 +25,44 @@
     {{ company.name }}
   </div>
 
+</div>
+
+<mat-form-field>
+  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+</mat-form-field>
+
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" matSort>
+
+    <!-- ID Column -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+      <td mat-cell *matCellDef="let row"> {{row.id}} </td>
+    </ng-container>
+
+    <!-- Progress Column -->
+    <ng-container matColumnDef="progress">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Progress </th>
+      <td mat-cell *matCellDef="let row"> {{row.progress}}% </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+      <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+    </ng-container>
+
+    <!-- Color Column -->
+    <ng-container matColumnDef="color">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Color </th>
+      <td mat-cell *matCellDef="let row" [style.color]="row.color"> {{row.color}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+    </tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
 </div>
 

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 
 @Component({
   selector: 'app-create-new-company',
@@ -6,10 +7,6 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./create-new-company.component.css']
 })
 export class CreateNewCompanyComponent implements OnInit {
-
-  constructor() { }
-
   ngOnInit() {
   }
-
 }

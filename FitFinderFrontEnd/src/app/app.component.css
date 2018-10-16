@@ -1,3 +1,7 @@
 .container-fluid{
   width: auto;
 }
+
+.nav-link{
+  color: #000;
+}
