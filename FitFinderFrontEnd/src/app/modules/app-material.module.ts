@@ -10,6 +10,9 @@ import {
   MatTableModule
 } from '@angular/material';
 
+import {MatTooltipModule} from '@angular/material/tooltip';
+
+
 @NgModule({
   imports: [
     CommonModule,
@@ -19,7 +22,8 @@ import {
     MatInputModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatTooltipModule
   ],
   exports: [
     MatButtonModule,
@@ -28,7 +32,8 @@ import {
     MatInputModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatTooltipModule
   ],
   declarations: []
 })

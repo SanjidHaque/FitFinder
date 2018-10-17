@@ -1,4 +1,4 @@
-<div class="row" >
+<!--<div class="row" >
 
 
   <div class="col-xl-6" style="text-align: center; padding-top: 20px;">
@@ -25,44 +25,53 @@
     {{ company.name }}
   </div>
 
-</div>
+</div>-->
 
-<mat-form-field>
-  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+
+
+
+
+
+<mat-form-field style="padding: 30px 0px;">
+  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter companies">
 </mat-form-field>
+
+
 
 <div class="mat-elevation-z8">
   <table mat-table [dataSource]="dataSource" matSort>
 
-    <!-- ID Column -->
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
-      <td mat-cell *matCellDef="let row"> {{row.id}} </td>
+      <td mat-cell *matCellDef="let company">  {{ company.id }} </td>
     </ng-container>
 
-    <!-- Progress Column -->
-    <ng-container matColumnDef="progress">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Progress </th>
-      <td mat-cell *matCellDef="let row"> {{row.progress}}% </td>
-    </ng-container>
-
-    <!-- Name Column -->
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-      <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+      <td
+        matTooltip="View details"
+        matTooltipPosition ="left"
+        mat-cell *matCellDef="let company"> {{ company.name }} </td>
     </ng-container>
 
-    <!-- Color Column -->
-    <ng-container matColumnDef="color">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Color </th>
-      <td mat-cell *matCellDef="let row" [style.color]="row.color"> {{row.color}} </td>
+    <ng-container matColumnDef="address">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Address </th>
+      <td mat-cell *matCellDef="let company"> {{ company.address }}  </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
-    </tr>
+    <tr
+      routerLink="/company/{{ company.id }}/department"
+      style="outline: 0; cursor: pointer;"
+      mat-row *matRowDef="let company;
+      columns: displayedColumns;"
+    ></tr>
+
   </table>
 
-  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+  <mat-paginator [pageSizeOptions]="pageSizeOptions"></mat-paginator>
 </div>
+
+
+
 
