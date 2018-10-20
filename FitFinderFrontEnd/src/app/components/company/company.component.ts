@@ -52,6 +52,7 @@ export class CompanyComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(
       (company: Company) => {
+        console.log(company);
         this.saveNewCompany(company);
       }
     );

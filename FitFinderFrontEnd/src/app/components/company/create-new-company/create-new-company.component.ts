@@ -1,6 +1,8 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import {Component, OnInit} from '@angular/core';
+import {MatDialogRef} from '@angular/material';
 import {Company} from '../../../models/company.model';
+import {NgForm} from '@angular/forms';
+import {UUID} from 'angular2-uuid';
 
 @Component({
   selector: 'app-create-new-company',
@@ -14,12 +16,11 @@ export class CreateNewCompanyComponent implements OnInit {
   ngOnInit() {
   }
 
-  getNewCompanyData() {
-    const company = new Company('12', 'Test', '89/A', []);
+
+  getNewCompanyData(form: NgForm) {
+    const company = new Company( UUID.UUID() , form.value.name, form.value.address, []);
     return company;
   }
-  closeCreateNewCompanyDialog() {
-    this.dialogRef.close();
-  }
+
 
 }
