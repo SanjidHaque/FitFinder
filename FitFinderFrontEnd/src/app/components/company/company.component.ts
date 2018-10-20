@@ -1,7 +1,9 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {Company} from '../../models/company.model';
-import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import {MatDialog, MatDialogConfig, MatPaginator, MatSnackBar, MatSort, MatTableDataSource} from '@angular/material';
+import {CreateNewCompanyComponent} from './create-new-company/create-new-company.component';
+import {NotifierService} from 'angular-notifier';
 
 @Component({
   selector: 'app-company',
@@ -22,7 +24,9 @@ export class CompanyComponent implements OnInit {
 
 
   constructor(private route: ActivatedRoute,
-              private router: Router) {}
+              public snackBar: MatSnackBar,
+              public dialog: MatDialog,
+              private notifier: NotifierService) {}
 
   ngOnInit() {
     this.route.data.subscribe(
@@ -35,9 +39,30 @@ export class CompanyComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
-  createNewCompany() {
-    this.router.navigate(['/company/create-new-company']);
-  }
+  openCreateNewCompanyDialog() {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '600px';
+
+
+    const dialogRef = this.dialog.open(CreateNewCompanyComponent, dialogConfig);
+
+
+    dialogRef.afterClosed().subscribe(
+      (company: Company) => {
+        this.saveNewCompany(company);
+      }
+    );
+   }
+
+
+   saveNewCompany(company: Company) {
+     this.notifier.notify( 'default', 'Successfully added company!' );
+
+   }
+
 
 
   applyFilter(filterValue: string) {
@@ -47,6 +72,8 @@ export class CompanyComponent implements OnInit {
     }
   }
 }
+
+
 
 
 

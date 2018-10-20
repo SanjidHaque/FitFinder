@@ -1,34 +1,20 @@
-<!--<div class="row" >
 
 
-  <div class="col-xl-6" style="text-align: center; padding-top: 20px;">
-    <h5>Your Companies</h5>
-  </div>
-
-  <div class="col-xl-3" style="text-align: right; padding-top: 20px;">
-    <button style="outline: 0;"
-            mat-stroked-button
-            (click)="createNewCompany()"
-            >New Company</button>
-  </div>
-
-</div>
 
 <div class="row">
 
-  <div class="col-xl-4 list-group-item"
-       style="text-align: center; cursor: pointer; outline: 0;"
-       title="View details"
-       *ngFor="let company of companies"
-       routerLink="/company/{{ company.id }}/department"
-  >
-    {{ company.name }}
+  <div class="col-xl-8" style="padding-top: 15px;">
+    <h4 >Your companies...</h4>
   </div>
 
-</div>-->
+  <div class="col-xl-4" style="text-align: right; padding-top: 15px;">
+    <button style="outline: 0;"
+            mat-stroked-button
+            (click)="openCreateNewCompanyDialog()"
+    >New Company</button>
+  </div>
 
-
-
+</div>
 
 
 
@@ -71,6 +57,7 @@
 
   <mat-paginator [pageSizeOptions]="pageSizeOptions"></mat-paginator>
 </div>
+
 
 
 

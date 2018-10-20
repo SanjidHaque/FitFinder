@@ -1,11 +1,27 @@
-<form class="example-form">
 
-  <mat-form-field  class="example-full-width">
-    <input matInput placeholder="Company name">
-  </mat-form-field>
 
-  <mat-form-field  class="example-full-width">
-    <input matInput placeholder="Location">
-  </mat-form-field>
 
-</form>
+<h3 style="text-align: center;" mat-dialog-title>Create a new company</h3>
+
+<mat-dialog-content class="mat-typography">
+
+  <div class="example-container">
+
+        <mat-form-field>
+          <input matInput placeholder="Company name">
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput placeholder="Company location">
+        </mat-form-field>
+
+  </div>
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+
+  <button style="outline: 0;" mat-raised-button mat-dialog-close (click)="closeCreateNewCompanyDialog()">Cancel</button>
+  <button style="outline: 0;" mat-raised-button [mat-dialog-close]="getNewCompanyData()">Save</button>
+
+</mat-dialog-actions>

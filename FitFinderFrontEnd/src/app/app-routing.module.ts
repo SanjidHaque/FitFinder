@@ -12,13 +12,7 @@ const appRoutes: Routes = [
   {
     path: 'company',
     component: CompanyComponent,
-    resolve: { companies: CompanyResolverService },
-    children:
-      [
-        { path: 'create-new-company',
-          component: CreateNewCompanyComponent
-        }
-      ]
+    resolve: { companies: CompanyResolverService }
   },
   {
     path: 'company/:companyId/department',

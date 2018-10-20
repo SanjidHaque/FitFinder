@@ -1,10 +1,8 @@
-.example-form {
-  min-width: 150px;
-  max-width: 500px;
-  width: 100%;
+.example-container {
+  display: flex;
+  flex-direction: column;
 }
 
-.example-full-width {
+.example-container > * {
   width: 100%;
 }
-
