@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {MatDialogRef} from '@angular/material';
 import {Company} from '../../../models/company.model';
-import {NgForm} from '@angular/forms';
+import {FormControl, NgForm, Validators} from '@angular/forms';
 import {UUID} from 'angular2-uuid';
 
 @Component({
@@ -13,16 +13,23 @@ export class CreateNewCompanyComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<CreateNewCompanyComponent>) {}
 
+  email = new FormControl('', [Validators.required, Validators.email]);
+
   ngOnInit() {
   }
 
+  getErrorMessage() {
+    return this.email.hasError('required') ? 'You must enter an email' :
+      this.email.hasError('email') ? 'Not a valid email' : '';
+  }
 
   getNewCompanyData(form: NgForm) {
-    const company = new Company( UUID.UUID() , form.value.name, form.value.address, []);
+    const company =
+      new Company( UUID.UUID(), form.value.name, form.value.address, this.email.value, []);
     return company;
   }
 
-  close() {
+  closeDialog() {
     this.dialogRef.close();
   }
 

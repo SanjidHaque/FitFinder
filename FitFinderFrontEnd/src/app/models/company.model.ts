@@ -5,6 +5,7 @@ export class Company {
     public id: string,
     public name: string,
     public address: string,
+    public email: string,
     public departments: Department[]
   ) {}
 }

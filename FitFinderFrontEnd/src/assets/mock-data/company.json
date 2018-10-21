@@ -2,6 +2,7 @@
   "id": "1",
   "name": "Kimco Realty Corporation",
   "address": "44058 Basil Plaza",
+  "email": "chearsum0@alibaba.com",
   "departments":[{
     "id": "1",
     "companyId": "1",
@@ -276,8 +277,9 @@
   {
   "id": "2",
   "name": "Flowserve Corporation",
-    "address": "34 Gina Circle",
-  "departments": [{
+  "address": "34 Gina Circle",
+  "email": "dtomich1@oaic.gov.au",
+    "departments": [{
     "id": "1",
     "companyId": "2",
     "name": "Kids",
@@ -550,8 +552,9 @@
   {
   "id": "3",
   "name": "Xcel Energy Inc.",
-    "address": "487 Valley Edge Avenue",
-  "departments":[{
+  "address": "487 Valley Edge Avenue",
+  "email": "mrelton2@cnbc.com",
+    "departments":[{
     "id": "1",
     "companyId": "3",
     "name": "Kids",
@@ -824,8 +827,9 @@
   {
   "id": "4",
   "name": "Genpact Limited",
-    "address": "0176 Cambridge Center",
-  "departments": [{
+  "address": "0176 Cambridge Center",
+  "email": "trupprecht3@intel.com",
+    "departments": [{
     "id": "1",
     "companyId": "4",
     "name": "Kids",
@@ -1099,7 +1103,8 @@
   {
   "id": "5",
   "name": "BlueStar TA-BIGITech Israel Technology ETF",
-    "address": "46 Johnson Circle",
+  "address": "46 Johnson Circle",
+  "email": "bredihough4@alibaba.com",
   "departments": [{
     "id": "1",
     "companyId": "5",
@@ -1372,8 +1377,9 @@
   {
   "id": "6",
   "name": "FactSet Research Systems Inc.",
-    "address": "7842 Lillian Pass",
-  "departments": [{
+  "address": "7842 Lillian Pass",
+  "email": "wparres5@discovery.com",
+    "departments": [{
     "id": "1",
     "companyId": "6",
     "name": "Kids",

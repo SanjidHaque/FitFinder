@@ -16,7 +16,7 @@ export class CompanyComponent implements OnInit {
 
   subscription: Subscription;
 
-  displayedColumns: string[] = ['id', 'name', 'address'];
+  displayedColumns: string[] = ['name', 'address', 'email'];
   pageSizeOptions: string[] = ['5', '10', '25', '50'];
 
   dataSource: MatTableDataSource<Company>;
@@ -63,6 +63,7 @@ export class CompanyComponent implements OnInit {
 
     const dialogRef = this.dialog.open(CreateNewCompanyComponent, {
       disableClose: false,
+      hasBackdrop: true,
       autoFocus: true,
       width: '600px'
     });

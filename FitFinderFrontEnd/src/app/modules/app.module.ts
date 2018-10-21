@@ -15,7 +15,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ApplicantsComponent} from '../components/applicants/applicants.component';
 import {UsersComponent } from '../components/users/users.component';
 import {AppMaterialModule} from './app-material.module';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NotifierModule} from 'angular-notifier';
 import {DataShareService} from '../services/data-share.service';
 
@@ -39,6 +39,7 @@ import {DataShareService} from '../services/data-share.service';
     BrowserAnimationsModule,
     AppMaterialModule,
     FormsModule,
+    ReactiveFormsModule,
     NotifierModule.withConfig({
       position: {
         horizontal: {

@@ -14,7 +14,7 @@
             matInput
             placeholder="Company name">
 
-          <mat-error>This field is required</mat-error>
+          <mat-error>You must enter a name</mat-error>
 
         </mat-form-field>
 
@@ -27,9 +27,23 @@
             matInput
             placeholder="Company location">
 
-          <mat-error>This field is required</mat-error>
+          <mat-error>You must enter a location</mat-error>
 
         </mat-form-field>
+
+      <mat-form-field>
+        <input
+          id="email"
+          name="email"
+          [formControl]="email"
+          required
+          matInput
+
+          placeholder="Company email">
+
+        <mat-error *ngIf="email.invalid">{{ getErrorMessage() }}</mat-error>
+
+      </mat-form-field>
 
   </div>
 
@@ -40,7 +54,7 @@
   <button
     style="outline: 0;"
     mat-raised-button
-    (click) = "close()">Cancel</button>
+    (click) = "closeDialog()">Cancel</button>
 
   <button
     type="submit"
