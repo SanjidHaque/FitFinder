@@ -16,6 +16,9 @@ export class DataShareService {
     return this.companies.slice();
   }
 
-
+  saveNewCompany(company: Company) {
+    this.companies.unshift(company);
+    this.companiesChanged.next(this.companies.slice());
+  }
 
 }

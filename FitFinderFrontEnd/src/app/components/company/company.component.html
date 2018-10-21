@@ -9,7 +9,7 @@
 
   <div class="col-xl-4" style="text-align: right; padding-top: 15px;">
     <button style="outline: 0;"
-            mat-stroked-button
+            mat-raised-button
             (click)="openCreateNewCompanyDialog()"
     >New Company</button>
   </div>
@@ -27,13 +27,13 @@
 <div class="mat-elevation-z8">
   <table mat-table [dataSource]="dataSource" matSort>
 
-    <ng-container matColumnDef="id">
+    <ng-container style="outline: 0;" matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
       <td mat-cell *matCellDef="let company">  {{ company.id }} </td>
     </ng-container>
 
     <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+      <th  mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
       <td
         matTooltip="View details"
         matTooltipPosition ="left"
@@ -55,9 +55,8 @@
 
   </table>
 
-  <mat-paginator [pageSizeOptions]="pageSizeOptions"></mat-paginator>
+  <mat-paginator [pageSizeOptions]="pageSizeOptions" showFirstLastButtons></mat-paginator>
 </div>
-
 
 
 

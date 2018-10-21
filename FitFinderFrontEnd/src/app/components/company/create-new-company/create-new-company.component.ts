@@ -22,5 +22,9 @@ export class CreateNewCompanyComponent implements OnInit {
     return company;
   }
 
+  close() {
+    this.dialogRef.close();
+  }
+
 
 }

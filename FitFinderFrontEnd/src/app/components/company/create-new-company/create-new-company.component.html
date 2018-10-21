@@ -40,14 +40,14 @@
   <button
     style="outline: 0;"
     mat-raised-button
-    mat-dialog-close>Cancel</button>
+    (click) = "close()">Cancel</button>
 
   <button
     type="submit"
     style="outline: 0;"
     [disabled] = "!company.valid"
     mat-raised-button
-    [mat-dialog-close]="getNewCompanyData(company)">Save</button>
+    [mat-dialog-close] = "getNewCompanyData(company)">Save</button>
 
 </mat-dialog-actions>
 </form>

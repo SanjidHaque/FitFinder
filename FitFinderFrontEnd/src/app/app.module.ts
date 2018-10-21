@@ -17,6 +17,7 @@ import {UsersComponent } from './components/users/users.component';
 import {AppMaterialModule} from './modules/app-material.module';
 import {FormsModule} from '@angular/forms';
 import {NotifierModule} from 'angular-notifier';
+import {DataShareService} from './services/data-share.service';
 
 
 
@@ -62,6 +63,7 @@ import {NotifierModule} from 'angular-notifier';
 
   providers: [
     DataStorageService,
+    DataShareService,
     CompanyResolverService
   ],
 
