@@ -2,6 +2,10 @@
   width: auto;
 }
 
-.nav-link{
-  color: #000;
+.navbar-links {
+  text-decoration: none;
+}
+
+.navbar-links:hover {
+  color: black;
 }

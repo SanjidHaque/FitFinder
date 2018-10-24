@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {ThemePalette} from '@angular/material';
 
 @Component({
   selector: 'app-root',
@@ -6,10 +7,14 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+
   title = 'app';
-  test() {
-    this.title = 'sex';
-  }
+
+  navbarLinks =  [
+    {path: '/company', label: 'Companies'},
+    {path: '/applicants', label: 'Applicants'},
+    {path: '/users', label: 'Users'}
+    ]
 }
 
 

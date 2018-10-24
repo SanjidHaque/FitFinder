@@ -6,25 +6,30 @@
        font-family: 'Poiret One';
        font-size: 50px;
        cursor: pointer;
-       outline: 0"
+       outline: 0;"
        routerLink="/company"
   >
     FitFinder
   </div>
 
+
   <div class="col-xl-10" style="padding-top: 13px;">
-    <ul class="nav nav-tabs">
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/company" routerLinkActive="active">Companies</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/applicants" routerLinkActive="active">Applicants</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/users" routerLinkActive="active">Users</a>
-      </li>
-    </ul>
+
+    <nav mat-tab-nav-bar color="primary">
+
+      <a mat-tab-link
+         class  = "navbar-links"
+         *ngFor = "let navbarLink of navbarLinks"
+         [routerLink]="navbarLink.path"
+         routerLinkActive #routerLinkActive = "routerLinkActive"
+         [active]="routerLinkActive.isActive">
+        {{ navbarLink.label}}
+      </a>
+
+    </nav>
+
   </div>
+
 </div>
 
 
@@ -33,5 +38,6 @@
     <router-outlet></router-outlet>
   </div>
 </div>
+
 <notifier-container></notifier-container>
 

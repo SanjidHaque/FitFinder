@@ -13,6 +13,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatTabsModule} from '@angular/material/tabs';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     MatPaginatorModule,
     MatSortModule,
     MatTooltipModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatTabsModule
   ],
   exports: [
     MatButtonModule,
@@ -38,6 +40,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     MatSortModule,
     MatTooltipModule,
     MatSnackBarModule,
+    MatTabsModule
   ],
 
   entryComponents: [
