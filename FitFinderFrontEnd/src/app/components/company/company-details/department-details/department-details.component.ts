@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Company} from '../../../../models/company.model';
-import {ActivatedRoute, Params, Router} from '@angular/router';
+import {ActivatedRoute, Data, Params, Router} from '@angular/router';
 import {DataStorageService} from '../../../../services/data-storage.service';
 import {Job} from '../../../../models/job.model';
 import {Department} from '../../../../models/department.model';
@@ -20,9 +20,7 @@ export class DepartmentDetailsComponent implements OnInit {
   departments: Department[] = [];
   department: Department;
 
-  constructor(private route: ActivatedRoute,
-              private router: Router,
-              private dataStorageService: DataStorageService) {
+  constructor(private route: ActivatedRoute) {
     this.route.params
       .subscribe(
         (params: Params) => {
@@ -35,7 +33,7 @@ export class DepartmentDetailsComponent implements OnInit {
   ngOnInit() {
     this.route.data.
     subscribe(
-      (data: Company[]) => {
+      (data: Data) => {
         this.companies = data['companies'];
       }
     );

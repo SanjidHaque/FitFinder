@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {CreateNewCompanyComponent} from '../components/company/create-new-company/create-new-company.component';
+import {CreateNewCompanyDialogComponent} from '../components/company/create-new-company-dialog/create-new-company-dialog.component';
 
 
 import {MAT_DIALOG_DEFAULT_OPTIONS} from '@angular/material';
@@ -44,7 +44,7 @@ import {MatTabsModule} from '@angular/material/tabs';
   ],
 
   entryComponents: [
-  CreateNewCompanyComponent
+    CreateNewCompanyDialogComponent
   ],
 
   providers: [

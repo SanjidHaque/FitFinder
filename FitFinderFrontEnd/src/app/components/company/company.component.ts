@@ -1,8 +1,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Data} from '@angular/router';
 import {Company} from '../../models/company.model';
 import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
-import {CreateNewCompanyComponent} from './create-new-company/create-new-company.component';
+import {CreateNewCompanyDialogComponent} from './create-new-company-dialog/create-new-company-dialog.component';
 import {NotifierService} from 'angular-notifier';
 import {DataShareService} from '../../services/data-share.service';
 import {Subscription} from 'rxjs/index';
@@ -33,9 +33,10 @@ export class CompanyComponent implements OnInit {
               private notifier: NotifierService) {}
 
   ngOnInit() {
-    this.route.data.subscribe(
-      (companies: Company[]) => {
-        this.dataShareService.companies = companies['companies'];
+    this.route.data
+      .subscribe(
+      (data: Data) => {
+        this.dataShareService.companies = data['companies'];
       }
     );
     this.companies = this.dataShareService.getCompanies();
@@ -60,8 +61,7 @@ export class CompanyComponent implements OnInit {
 
 
   openCreateNewCompanyDialog() {
-
-    const dialogRef = this.dialog.open(CreateNewCompanyComponent, {
+    const dialogRef = this.dialog.open(CreateNewCompanyDialogComponent, {
       disableClose: false,
       hasBackdrop: true,
       autoFocus: true,
@@ -71,14 +71,14 @@ export class CompanyComponent implements OnInit {
     dialogRef.afterClosed().subscribe(
       (company: Company) => {
         if  (company !== undefined) {
-          this.addNewCompany(company);
+          this.onAddNewCompany(company);
         }
       }
     );
    }
 
 
-   addNewCompany(company: Company) {
+   onAddNewCompany(company: Company) {
      this.dataShareService.saveNewCompany(company);
      this.dataSourceOperations();
      this.notifier.notify( 'default', 'Successfully added company!' );

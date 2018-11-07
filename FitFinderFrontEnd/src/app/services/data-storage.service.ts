@@ -1,7 +1,6 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 import {Company} from '../models/company.model';
-import { Observable } from 'rxjs/index';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +11,7 @@ export class DataStorageService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getCompanies() : Observable<Company[]> {
+  getCompanies() {
     return this.httpClient.get<Company[]>(this.companyJson);
   }
 }

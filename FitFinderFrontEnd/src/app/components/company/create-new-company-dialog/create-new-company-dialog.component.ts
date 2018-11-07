@@ -5,13 +5,13 @@ import {FormControl, NgForm, Validators} from '@angular/forms';
 import {UUID} from 'angular2-uuid';
 
 @Component({
-  selector: 'app-create-new-company',
-  templateUrl: './create-new-company.component.html',
-  styleUrls: ['./create-new-company.component.css']
+  selector: 'app-create-new-company-dialog',
+  templateUrl: './create-new-company-dialog.component.html',
+  styleUrls: ['./create-new-company-dialog.component.css']
 })
-export class CreateNewCompanyComponent implements OnInit {
+export class CreateNewCompanyDialogComponent implements OnInit {
 
-  constructor(public dialogRef: MatDialogRef<CreateNewCompanyComponent>) {}
+  constructor(public dialogRef: MatDialogRef<CreateNewCompanyDialogComponent>) {}
 
   email = new FormControl('', [Validators.required, Validators.email]);
 
@@ -24,8 +24,12 @@ export class CreateNewCompanyComponent implements OnInit {
   }
 
   getNewCompanyData(form: NgForm) {
-    const company =
-      new Company( UUID.UUID(), form.value.name, form.value.address, this.email.value, []);
+    const company = new Company(
+      UUID.UUID(),
+      form.value.name,
+      form.value.address,
+      this.email.value,
+      []);
     return company;
   }
 
