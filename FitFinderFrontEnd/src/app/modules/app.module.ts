@@ -10,7 +10,7 @@ import {CompanyResolverService} from '../route-resolvers/company-resolver.servic
 import {DataStorageService} from '../services/data-storage.service';
 import {CompanyDetailsComponent} from '../components/company/company-details/company-details.component';
 import {DepartmentDetailsComponent} from '../components/company/company-details/department-details/department-details.component';
-import {CreateNewCompanyComponent} from '../components/company/create-new-company/create-new-company.component';
+import {CreateNewCompanyDialogComponent} from '../components/company/create-new-company-dialog/create-new-company-dialog.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ApplicantsComponent} from '../components/applicants/applicants.component';
 import {UsersComponent } from '../components/users/users.component';
@@ -27,7 +27,7 @@ import {DataShareService} from '../services/data-share.service';
     CompanyComponent,
     CompanyDetailsComponent,
     DepartmentDetailsComponent,
-    CreateNewCompanyComponent,
+    CreateNewCompanyDialogComponent,
     ApplicantsComponent,
     UsersComponent
   ],

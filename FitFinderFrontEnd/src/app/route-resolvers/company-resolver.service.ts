@@ -14,7 +14,7 @@ export class CompanyResolverService  implements Resolve<Company[]> {
   constructor(private dataStorageService: DataStorageService) { }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Company[]> |
-    Promise<any> | any {
+    Promise<Company[]> | Company[] {
     return this.dataStorageService.getCompanies();
   }
 

@@ -16,9 +16,7 @@ export class CompanyDetailsComponent implements OnInit {
   company: Company;
   departments: Department[] = [];
 
-  constructor(private route: ActivatedRoute,
-              private router: Router,
-              private dataStorageService: DataStorageService) {
+  constructor(private route: ActivatedRoute) {
     this.route.params
       .subscribe(
         (params: Params) => {

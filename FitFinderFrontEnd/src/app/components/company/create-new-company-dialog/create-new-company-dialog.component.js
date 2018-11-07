@@ -24,8 +24,8 @@ var CreateNewCompanyComponent = /** @class */ (function () {
     CreateNewCompanyComponent = __decorate([
         core_1.Component({
             selector: 'app-create-new-company',
-            templateUrl: './create-new-company.component.html',
-            styleUrls: ['./create-new-company.component.css']
+            templateUrl: './create-new-company-dialog.component.html',
+            styleUrls: ['./create-new-company-dialog.component.css']
         })
     ], CreateNewCompanyComponent);
     return CreateNewCompanyComponent;
