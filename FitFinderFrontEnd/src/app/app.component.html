@@ -1,35 +1,8 @@
 
 <div class="row container-fluid">
-
-  <div class="col-xl-2 display-4"
-       style="text-align: left;
-       font-family: 'Poiret One';
-       font-size: 50px;
-       cursor: pointer;
-       outline: 0;"
-       routerLink="/company"
-  >
-    FitFinder
+  <div class="col-xl-12">
+    <app-header></app-header>
   </div>
-
-
-  <div class="col-xl-10" style="padding-top: 13px;">
-
-    <nav mat-tab-nav-bar color="primary">
-
-      <a mat-tab-link
-         class  = "navbar-links"
-         *ngFor = "let navbarLink of navbarLinks"
-         [routerLink]="navbarLink.path"
-         routerLinkActive #routerLinkActive = "routerLinkActive"
-         [active]="routerLinkActive.isActive">
-        {{ navbarLink.label}}
-      </a>
-
-    </nav>
-
-  </div>
-
 </div>
 
 

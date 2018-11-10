@@ -1,38 +1,34 @@
 import {RouterModule, Routes} from '@angular/router';
 import {NgModule} from '@angular/core';
-import {CompanyComponent} from '../components/company/company.component';
-import {CompanyResolverService} from '../route-resolvers/company-resolver.service';
-import {CompanyDetailsComponent} from '../components/company/company-details/company-details.component';
-import {DepartmentDetailsComponent} from '../components/company/company-details/department-details/department-details.component';
-import {ApplicantsComponent} from '../components/applicants/applicants.component';
-import {UsersComponent} from '../components/users/users.component';
+
+import {CandidatesComponent} from '../components/candidates/candidates.component';
+import {JobsComponent} from '../components/jobs/jobs.component';
+import {InterviewsComponent} from '../components/interviews/interviews.component';
+import {DashboardComponent} from '../components/dashboard/dashboard.component';
 
 const appRoutes: Routes = [
   {
-    path: 'company',
-    component: CompanyComponent,
-    resolve: { companies: CompanyResolverService }
+    path: 'dashboard',
+    component: DashboardComponent
   },
   {
-    path: 'company/:companyId/department',
-    component: CompanyDetailsComponent,
-    resolve: { companies: CompanyResolverService }
+    path: 'jobs',
+    component: JobsComponent
   },
   {
-    path: 'company/:companyId/department/:departmentId/job',
-    component: DepartmentDetailsComponent,
-    resolve: { companies: CompanyResolverService }
+    path: 'candidates',
+    component: CandidatesComponent
   },
   {
-    path: 'applicants',
-    component: ApplicantsComponent
-  },
-  {
-    path: 'users',
-    component: UsersComponent
+    path: 'interviews',
+    component: InterviewsComponent
   },
 
-  { path : '', redirectTo: '/company', pathMatch : 'full'}
+  {
+    path : '',
+    redirectTo: '/dashboard',
+    pathMatch : 'full'
+  }
 ];
 
 

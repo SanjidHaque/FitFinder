@@ -2,34 +2,32 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule }    from '@angular/common/http';
 
-import {AppComponent} from '../app.component';
-import {CompanyComponent} from '../components/company/company.component';
-import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
+import {AppRoutingModule} from './modules/app-routing.module';
 import {RouterModule} from '@angular/router';
-import {CompanyResolverService} from '../route-resolvers/company-resolver.service';
-import {DataStorageService} from '../services/data-storage.service';
-import {CompanyDetailsComponent} from '../components/company/company-details/company-details.component';
-import {DepartmentDetailsComponent} from '../components/company/company-details/department-details/department-details.component';
-import {CreateNewCompanyDialogComponent} from '../components/company/create-new-company-dialog/create-new-company-dialog.component';
+import {CompanyResolverService} from './route-resolvers/company-resolver.service';
+import {DataStorageService} from './services/data-storage.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {ApplicantsComponent} from '../components/applicants/applicants.component';
-import {UsersComponent } from '../components/users/users.component';
-import {AppMaterialModule} from './app-material.module';
+import {AppMaterialModule} from './modules/app-material.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NotifierModule} from 'angular-notifier';
-import {DataShareService} from '../services/data-share.service';
+import {DataShareService} from './services/data-share.service';
+import {HeaderComponent} from './components/header/header.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { CandidatesComponent } from './components/candidates/candidates.component';
+import { JobsComponent } from './components/jobs/jobs.component';
+import { InterviewsComponent } from './components/interviews/interviews.component';
 
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    CompanyComponent,
-    CompanyDetailsComponent,
-    DepartmentDetailsComponent,
-    CreateNewCompanyDialogComponent,
-    ApplicantsComponent,
-    UsersComponent
+    HeaderComponent,
+    DashboardComponent,
+    CandidatesComponent,
+    JobsComponent,
+    InterviewsComponent
   ],
   imports: [
     BrowserModule,

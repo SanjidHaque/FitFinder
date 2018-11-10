@@ -1,0 +1,11 @@
+.container-fluid{
+  width: auto;
+}
+
+.navbar-links {
+  text-decoration: none;
+}
+
+.navbar-links:hover {
+  color: black;
+}

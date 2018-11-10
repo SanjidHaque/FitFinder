@@ -7,18 +7,4 @@ import {Observable, Subject} from 'rxjs/index';
 })
 export class DataShareService {
 
-
-  public companies: Company[] = [];
-  public companiesChanged = new Subject<Company[]>();
-
-
-  getCompanies() {
-    return this.companies.slice();
-  }
-
-  saveNewCompany(company: Company) {
-    this.companies.unshift(company);
-    this.companiesChanged.next(this.companies.slice());
-  }
-
 }
