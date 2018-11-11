@@ -9,3 +9,8 @@
 .navbar-links:hover {
   color: black;
 }
+
+.mat-tab-link{
+  opacity: .8!important;
+}
+

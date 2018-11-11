@@ -13,6 +13,10 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTabsModule} from '@angular/material/tabs';
+import {MatSelectModule} from '@angular/material/select';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatGridListModule} from '@angular/material/grid-list';
+import {MatCardModule} from '@angular/material/card';
 
 
 @NgModule({
@@ -27,7 +31,11 @@ import {MatTabsModule} from '@angular/material/tabs';
     MatSortModule,
     MatTooltipModule,
     MatSnackBarModule,
-    MatTabsModule
+    MatTabsModule,
+    MatSelectModule,
+    MatToolbarModule,
+    MatGridListModule,
+    MatCardModule
   ],
   exports: [
     MatButtonModule,
@@ -39,7 +47,11 @@ import {MatTabsModule} from '@angular/material/tabs';
     MatSortModule,
     MatTooltipModule,
     MatSnackBarModule,
-    MatTabsModule
+    MatTabsModule,
+    MatSelectModule,
+    MatToolbarModule,
+    MatGridListModule,
+    MatCardModule
   ],
 
   entryComponents: [
