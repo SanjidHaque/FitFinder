@@ -8,10 +8,11 @@ import {Component, Input, OnInit} from '@angular/core';
 export class HeaderComponent implements OnInit {
 
   navigationBarLinks =  [
-    {path: '/dashboard', label: 'Dashboard'},
-    {path: '/jobs', label: 'Jobs'},
-    {path: '/candidates', label: 'Candidates'},
-    {path: '/interviews', label: 'Interviews'}
+    {path: '/dashboard', label: 'Dashboard', iconClass: 'fas fa-tachometer-alt'},
+    {path: '/jobs', label: 'Jobs', iconClass: 'fas fa-briefcase'},
+    {path: '/candidates', label: 'Candidates', iconClass: 'fas fa-box-open'},
+    {path: '/interviews', label: 'Interviews', iconClass: 'far fa-calendar-alt'},
+    {path: '/settings', label: 'Settings', iconClass: 'fas fa-cog'}
   ];
 
   constructor() { }

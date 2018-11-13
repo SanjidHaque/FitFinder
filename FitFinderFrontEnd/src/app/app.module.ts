@@ -17,6 +17,13 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { CandidatesComponent } from './components/candidates/candidates.component';
 import { JobsComponent } from './components/jobs/jobs.component';
 import { InterviewsComponent } from './components/interviews/interviews.component';
+import { SettingsComponent } from './components/settings/settings.component';
+import { AddNewCandidateComponent } from './components/candidates/add-new-candidate/add-new-candidate.component';
+import { AddNewInterviewComponent } from './components/interviews/add-new-interview/add-new-interview.component';
+import { AddNewJobComponent } from './components/jobs/add-new-job/add-new-job.component';
+import { JobPanelComponent } from './components/jobs/job-panel/job-panel.component';
+import { CandidatePanelComponent } from './components/candidates/candidate-panel/candidate-panel.component';
+import {InterviewPanelComponent} from './components/interviews/interview-panel/interview-panel.component';
 
 
 
@@ -27,7 +34,14 @@ import { InterviewsComponent } from './components/interviews/interviews.componen
     DashboardComponent,
     CandidatesComponent,
     JobsComponent,
-    InterviewsComponent
+    InterviewsComponent,
+    SettingsComponent,
+    AddNewCandidateComponent,
+    AddNewInterviewComponent,
+    AddNewJobComponent,
+    JobPanelComponent,
+    CandidatePanelComponent,
+    InterviewPanelComponent
   ],
   imports: [
     BrowserModule,
