@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule }    from '@angular/common/http';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './modules/app-routing.module';
@@ -24,6 +25,7 @@ import { AddNewJobComponent } from './components/jobs/add-new-job/add-new-job.co
 import { JobPanelComponent } from './components/jobs/job-panel/job-panel.component';
 import { CandidatePanelComponent } from './components/candidates/candidate-panel/candidate-panel.component';
 import {InterviewPanelComponent} from './components/interviews/interview-panel/interview-panel.component';
+import { ProfileComponent } from './components/settings/profile/profile.component';
 
 
 
@@ -41,10 +43,12 @@ import {InterviewPanelComponent} from './components/interviews/interview-panel/i
     AddNewJobComponent,
     JobPanelComponent,
     CandidatePanelComponent,
-    InterviewPanelComponent
+    InterviewPanelComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
+    NgbModule,
     AppRoutingModule,
     RouterModule,
     HttpClientModule,

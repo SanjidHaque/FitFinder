@@ -17,6 +17,8 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatCardModule} from '@angular/material/card';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatIconModule} from '@angular/material/icon';
 
 
 @NgModule({
@@ -35,7 +37,9 @@ import {MatCardModule} from '@angular/material/card';
     MatSelectModule,
     MatToolbarModule,
     MatGridListModule,
-    MatCardModule
+    MatCardModule,
+    MatMenuModule,
+    MatIconModule
   ],
   exports: [
     MatButtonModule,
@@ -51,7 +55,9 @@ import {MatCardModule} from '@angular/material/card';
     MatSelectModule,
     MatToolbarModule,
     MatGridListModule,
-    MatCardModule
+    MatCardModule,
+    MatMenuModule,
+    MatIconModule
   ],
 
   entryComponents: [

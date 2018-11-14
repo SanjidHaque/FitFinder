@@ -12,6 +12,7 @@ import {JobPanelComponent} from '../components/jobs/job-panel/job-panel.componen
 import {CandidatePanelComponent} from '../components/candidates/candidate-panel/candidate-panel.component';
 import {InterviewPanelComponent} from '../components/interviews/interview-panel/interview-panel.component';
 import {SettingsComponent} from '../components/settings/settings.component';
+import {ProfileComponent} from '../components/settings/profile/profile.component';
 
 const appRoutes: Routes = [
   {
@@ -78,7 +79,13 @@ const appRoutes: Routes = [
   },
   {
     path: 'settings',
-    component: SettingsComponent
+    component: SettingsComponent,
+    children: [
+      {
+        path: 'profile',
+        component: ProfileComponent
+      }
+    ]
   },
   {
     path : '',

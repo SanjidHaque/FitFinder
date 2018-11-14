@@ -11,13 +11,17 @@ export class HeaderComponent implements OnInit {
     {path: '/dashboard', label: 'Dashboard', iconClass: 'fas fa-tachometer-alt'},
     {path: '/jobs', label: 'Jobs', iconClass: 'fas fa-briefcase'},
     {path: '/candidates', label: 'Candidates', iconClass: 'fas fa-box-open'},
-    {path: '/interviews', label: 'Interviews', iconClass: 'far fa-calendar-alt'},
-    {path: '/settings', label: 'Settings', iconClass: 'fas fa-cog'}
+    {path: '/interviews', label: 'Interviews', iconClass: 'far fa-calendar-alt'}
   ];
+
+
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  onLogout()  {
   }
 
 }
