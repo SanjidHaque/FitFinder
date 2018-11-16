@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -13,8 +13,6 @@ export class HeaderComponent implements OnInit {
     {path: '/candidates', label: 'Candidates', iconClass: 'fas fa-box-open'},
     {path: '/interviews', label: 'Interviews', iconClass: 'far fa-calendar-alt'}
   ];
-
-
 
   constructor() { }
 

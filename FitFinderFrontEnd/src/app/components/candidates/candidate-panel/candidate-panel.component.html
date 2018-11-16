@@ -1,0 +1,180 @@
+<br>
+
+<div class="row">
+
+  <div class="col-xl-10">
+    <h3>Candidates</h3>
+  </div>
+
+  <div class="col-xl-2">
+    <button
+      routerLink = "/candidates/add-new-candidate"
+      style="width: 100%;
+      outline: 0;"
+      color="primary"
+      mat-raised-button><i class="fas fa-plus"></i> New Candidate</button>
+  </div>
+
+</div>
+
+<!--
+<div class="row">
+
+  <div class="col-xl-3">
+
+    <div class="row" style="padding-top: 30px;">
+      <div class="col-xl-12">
+
+        <mat-button-toggle-group>
+          <mat-button-toggle value="bold">Bold</mat-button-toggle>
+          <mat-button-toggle value="italic">Italic</mat-button-toggle>
+          <mat-button-toggle value="underline">Underline</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+    </div>
+
+    <div class="row"  style="padding-top: 20px;">
+      <div class="col-xl-12">
+        Show Archived <mat-slide-toggle></mat-slide-toggle>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="col-xl-8">
+
+    <button mat-flat-button style="outline: 0;"><i class="fas fa-plus-circle"></i> Assign Job</button>
+    <button mat-flat-button style="outline: 0;"><i class="fas fa-tag"></i> Tag</button>
+    <button mat-flat-button style="outline: 0;"><i class="fas fa-sign-out-alt"></i> Status</button>
+    <button mat-flat-button style="outline: 0;"><i class="far fa-envelope"></i> Email</button>
+    <button mat-flat-button style="outline: 0;"><i class="far fa-calendar-alt"></i> Interview</button>
+    <button mat-flat-button style="outline: 0;"><i class="fas fa-thumbtack"></i> Task</button>
+    <button mat-flat-button style="outline: 0;"><i class="fas fa-archive"></i> Archive</button>
+    <button mat-flat-button style="outline: 0;"><i class="far fa-window-restore"></i> Restore</button>
+
+  </div>
+</div>
+
+<div class="row">
+  <div class="offset-xl-3 col-xl-8" style="border: 1px solid #f0f0f0; border-radius: 5px;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <div style="text-align: center;">
+      <i class="fab fa-blackberry fa-5x"></i>
+    </div>
+
+    <br>
+
+    <div style="text-align: center;">
+      <h3>You do not have any candidates</h3>
+    </div>
+
+    <div style="text-align: center;">
+      Candidates applying for your jobs will show up here.
+    </div>
+
+    <br>
+
+    <div style="text-align: center;">
+      <button
+        routerLink = "/candidates/add-new-candidate"
+        mat-raised-button style="outline: 0 ;">Create a New Candidate</button>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+  </div>
+</div>
+-->
+
+
+<div class="row">
+
+  <div class="col-xl-3">
+
+    <div class="row">
+
+      <div class="col-xl-12" style="padding-top: 30px; text-align: left; font-size: 14px;">
+        <mat-button-toggle-group #group="matButtonToggleGroup" [value]="selectedValue" (change)="onValueChange(group.value)">
+          <mat-button-toggle #checked value="all"> All </mat-button-toggle>
+          <mat-button-toggle value="active"> Active </mat-button-toggle>
+          <mat-button-toggle value="closed"> Closed </mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+
+    </div>
+
+    <div class="row" >
+
+      <div class="col-xl-12" style="padding-top: 20px; text-align: left; font-size: 14px;">
+        Show Archived <mat-slide-toggle color="primary"></mat-slide-toggle>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="col-xl-8">
+
+    <div class="row">
+      <div class="col-xl-12">
+        <button mat-flat-button style="outline: 0;"><i class="fas fa-plus-circle"></i> Assign Job</button>
+        <button mat-flat-button style="outline: 0;"><i class="fas fa-tag"></i> Tag</button>
+        <button mat-flat-button style="outline: 0;"><i class="fas fa-sign-out-alt"></i> Status</button>
+        <button mat-flat-button style="outline: 0;"><i class="far fa-envelope"></i> Email</button>
+        <button mat-flat-button style="outline: 0;"><i class="far fa-calendar-alt"></i> Interview</button>
+        <button mat-flat-button style="outline: 0;"><i class="fas fa-thumbtack"></i> Task</button>
+        <button mat-flat-button style="outline: 0;"><i class="fas fa-archive"></i> Archive</button>
+        <button mat-flat-button style="outline: 0;"><i class="far fa-window-restore"></i> Restore</button>
+      </div>
+    </div>
+
+    <div class="row" style="border: 1px solid #f0f0f0; border-radius: 5px;">
+      <div class="col-xl-12">
+        <br>
+        <br>
+        <br>
+        <br>
+        <div style="text-align: center;">
+          <i class="fab fa-blackberry fa-5x"></i>
+        </div>
+
+        <br>
+
+        <div style="text-align: center;">
+          <h3>You do not have any candidates</h3>
+        </div>
+
+        <div style="text-align: center;">
+          Candidates applying for your jobs will show up here.
+        </div>
+
+        <br>
+
+        <div style="text-align: center;">
+          <button
+            routerLink = "/candidates/add-new-candidate"
+            mat-raised-button style="outline: 0 ;">Create a New Candidate</button>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+      </div>
+    </div>
+
+
+
+  </div>
+
+</div>

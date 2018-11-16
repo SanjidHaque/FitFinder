@@ -6,13 +6,11 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './modules/app-routing.module';
 import {RouterModule} from '@angular/router';
-import {CompanyResolverService} from './route-resolvers/company-resolver.service';
 import {DataStorageService} from './services/data-storage.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppMaterialModule} from './modules/app-material.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NotifierModule} from 'angular-notifier';
-import {DataShareService} from './services/data-share.service';
 import {HeaderComponent} from './components/header/header.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { CandidatesComponent } from './components/candidates/candidates.component';
@@ -26,6 +24,8 @@ import { JobPanelComponent } from './components/jobs/job-panel/job-panel.compone
 import { CandidatePanelComponent } from './components/candidates/candidate-panel/candidate-panel.component';
 import {InterviewPanelComponent} from './components/interviews/interview-panel/interview-panel.component';
 import { ProfileComponent } from './components/settings/profile/profile.component';
+import {CandidateResolverService} from './route-resolvers/candidate-resolver.service';
+import {CandidateService} from './services/candidate.service';
 
 
 
@@ -80,8 +80,8 @@ import { ProfileComponent } from './components/settings/profile/profile.componen
 
   providers: [
     DataStorageService,
-    DataShareService,
-    CompanyResolverService
+    CandidateResolverService,
+    CandidateService
   ],
 
   bootstrap: [

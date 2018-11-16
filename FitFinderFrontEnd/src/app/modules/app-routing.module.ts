@@ -13,6 +13,7 @@ import {CandidatePanelComponent} from '../components/candidates/candidate-panel/
 import {InterviewPanelComponent} from '../components/interviews/interview-panel/interview-panel.component';
 import {SettingsComponent} from '../components/settings/settings.component';
 import {ProfileComponent} from '../components/settings/profile/profile.component';
+import {CandidateResolverService} from '../route-resolvers/candidate-resolver.service';
 
 const appRoutes: Routes = [
   {
@@ -41,6 +42,7 @@ const appRoutes: Routes = [
   {
     path: 'candidates',
     component: CandidatesComponent,
+    resolve: { candidates: CandidateResolverService },
     children: [
       {
         path: '',

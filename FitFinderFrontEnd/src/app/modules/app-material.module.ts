@@ -19,6 +19,9 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {MatCardModule} from '@angular/material/card';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatIconModule} from '@angular/material/icon';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 
 @NgModule({
@@ -39,7 +42,10 @@ import {MatIconModule} from '@angular/material/icon';
     MatGridListModule,
     MatCardModule,
     MatMenuModule,
-    MatIconModule
+    MatIconModule,
+    MatProgressBarModule,
+    MatSlideToggleModule,
+    MatButtonToggleModule
   ],
   exports: [
     MatButtonModule,
@@ -57,7 +63,10 @@ import {MatIconModule} from '@angular/material/icon';
     MatGridListModule,
     MatCardModule,
     MatMenuModule,
-    MatIconModule
+    MatIconModule,
+    MatProgressBarModule,
+    MatSlideToggleModule,
+    MatButtonToggleModule
   ],
 
   entryComponents: [
