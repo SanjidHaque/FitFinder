@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
 
-import {MAT_DIALOG_DEFAULT_OPTIONS, MatNativeDateModule} from '@angular/material';
+import {MAT_DATE_FORMATS, MAT_DATE_LOCALE, MAT_DIALOG_DEFAULT_OPTIONS, MatNativeDateModule} from '@angular/material';
 import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
@@ -79,7 +79,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 
   providers: [
     {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}
-  ],
+    ],
 
   declarations: []
 })
