@@ -1,15 +1,31 @@
-  <div class="loading-overlay"  style=" opacity: 0; padding-left: 0; padding-right: 0;" #spinnerElement>
-      <mat-progress-bar color="primary" mode="indeterminate"></mat-progress-bar>
-  </div>
-
-  <div class="row container-fluid">
-    <div class="col-xl-12">
-      <app-header ></app-header>
-    </div>
-  </div>
 
 
-  <div class="row container-fluid" style="height: 87vh!important; overflow-x: hidden; overflow-y: scroll;">
+   <div style="
+       opacity: 0;
+       padding-left: 0;
+       padding-right: 0;"
+        #spinnerElement>
+     <mat-progress-bar color="primary" mode="indeterminate"></mat-progress-bar>
+   </div>
+
+   <div class="row container-fluid">
+
+     <div class="col-xl-12" style="">
+       <app-header ></app-header>
+     </div>
+
+   </div>
+
+
+
+
+
+  <div class="row container-fluid"
+       style="height: 87vh!important;
+       box-sizing: border-box;
+       overflow-x: hidden;
+       overflow-y: scroll;
+       box-sizing: border-box;">
     <div class="col-xl-12">
       <router-outlet></router-outlet>
     </div>

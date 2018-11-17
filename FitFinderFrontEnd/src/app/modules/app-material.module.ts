@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
 
-import {MAT_DIALOG_DEFAULT_OPTIONS} from '@angular/material';
+import {MAT_DIALOG_DEFAULT_OPTIONS, MatNativeDateModule} from '@angular/material';
 import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
@@ -22,6 +22,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 
 @NgModule({
@@ -45,7 +46,9 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
     MatIconModule,
     MatProgressBarModule,
     MatSlideToggleModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   exports: [
     MatButtonModule,
@@ -66,7 +69,9 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
     MatIconModule,
     MatProgressBarModule,
     MatSlideToggleModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
 
   entryComponents: [

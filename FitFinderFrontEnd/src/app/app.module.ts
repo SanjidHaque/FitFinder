@@ -26,6 +26,9 @@ import {InterviewPanelComponent} from './components/interviews/interview-panel/i
 import { ProfileComponent } from './components/settings/profile/profile.component';
 import {CandidateResolverService} from './route-resolvers/candidate-resolver.service';
 import {CandidateService} from './services/candidate.service';
+import {InterviewService} from './services/interview.service';
+import {InterviewResolverService} from './route-resolvers/interview-resolver.service';
+import {JobResolverService} from './route-resolvers/job-resolver.service';
 
 
 
@@ -80,8 +83,11 @@ import {CandidateService} from './services/candidate.service';
 
   providers: [
     DataStorageService,
+    CandidateService,
+    InterviewService,
     CandidateResolverService,
-    CandidateService
+    InterviewResolverService,
+    JobResolverService
   ],
 
   bootstrap: [

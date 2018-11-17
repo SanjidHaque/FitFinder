@@ -19,13 +19,13 @@ export class CandidatePanelComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.selectedValue = 'all';
-    this.candidates = this.candidateService.getAllCandidates();
+    this.candidates = this.candidateService.getAllCandidate();
     this.subscription = this.candidateService.candidatesChanged
       .subscribe(
         (candidates: Candidate[]) => {
           this.candidates = candidates;
         }
-      )
+      );
     this.totalCandidates = this.candidates.length;
   }
 

@@ -1,0 +1,24 @@
+::ng-deep.mat-button-toggle-label-content{
+  line-height: 30px!important;
+}
+::ng-deep.mat-button-toggle-checked{
+  background-color: indigo!important;
+  color: white!important;
+
+}
+
+::ng-deep.mat-button-toggle-button{
+  outline: 0!important;
+}
+
+
+::ng-deep.mat-form-field-appearance-outline .mat-form-field-infix{
+  padding: .1em 0 .6em 0!important;
+}
+
+::ng-deep.mat-form-field-infix{
+  border-top: 0.9em solid transparent!important;
+}
+::ng-deep.mat-form-field-wrapper {
+   padding-bottom: 10px!important;
+}

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {JobService} from '../../services/job.service';
+import {ActivatedRoute, Data} from '@angular/router';
 
 @Component({
   selector: 'app-jobs',
@@ -7,9 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class JobsComponent implements OnInit {
 
-  constructor() { }
+  constructor(private jobService: JobService,
+              private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.route.data
+      .subscribe(
+        (data: Data) => {
+          this.jobService.jobs = data['jobs'];
+        }
+      );
   }
 
 }

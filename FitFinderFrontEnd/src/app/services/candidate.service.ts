@@ -10,9 +10,8 @@ export class CandidateService {
   candidates: Candidate[] = [];
   candidatesChanged = new Subject<Candidate[]>();
 
-  constructor() { }
 
-  getAllCandidates() {
+  getAllCandidate() {
     return this.candidates.slice();
   }
 

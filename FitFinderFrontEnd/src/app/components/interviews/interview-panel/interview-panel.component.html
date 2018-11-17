@@ -3,7 +3,7 @@
 <div class="row">
 
   <div class="col-xl-10">
-    <h3>Candidates</h3>
+    <h3>Interviews</h3>
   </div>
 
   <div class="col-xl-2">
@@ -18,4 +18,138 @@
 </div>
 
 
+<div class="row">
 
+  <div class="col-xl-3">
+
+    <div class="row">
+
+      <div class="offset-xl-1 col-xl-10" style="padding-top: 30px; text-align: left; font-size: 14px;">
+        <mat-button-toggle-group #group="matButtonToggleGroup" [value]="selectedValue" (change)="onValueChange(group.value)">
+          <mat-button-toggle value="all"> All </mat-button-toggle>
+          <mat-button-toggle value="upcoming"> Upcoming </mat-button-toggle>
+          <mat-button-toggle value="past"> Past </mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+
+    </div>
+
+    <div class="row" >
+      <div class="offset-xl-1 col-xl-10" style="padding-top: 17px; text-align: left; font-size: 14px;">
+        Show Archived <mat-slide-toggle color="primary"></mat-slide-toggle>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="offset-xl-1 col-xl-10" style="padding-top: 15px; font-size: 14px;">
+        Select Interview Type
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="offset-xl-1 col-xl-10" style="text-align: left; font-size: 14px;">
+
+        <mat-form-field appearance="outline">
+
+          <mat-select
+            [(value)]= "all"
+            style="
+            text-align: left;
+            font-weight: bold;">
+
+            <mat-option
+              style="
+              text-align: left;
+              font-weight: bold;"
+              *ngFor="let interviewStatus of interviewStatuses" [value]="interviewStatus">{{interviewStatus}}
+            </mat-option>
+
+          </mat-select>
+
+        </mat-form-field>
+
+      </div>
+    </div>
+
+
+
+    <div class="row">
+      <div class="offset-xl-1 col-xl-10" style="font-size: 14px;">
+        Search By Date
+      </div>
+    </div>
+
+
+
+
+
+    <div class="row">
+      <div class="offset-xl-1 col-xl-10" style="border: 2px solid whitesmoke; border-radius: 5px;">
+
+        <mat-calendar [selected]="selectedDate" (selectedChange)="selectedDate = $event"> </mat-calendar>
+      </div>
+    </div>
+
+
+
+
+
+
+  </div>
+
+  <div class="col-xl-8">
+
+    <div class="row">
+      <div class="col-xl-12" style="padding-left: 0; margin-top: 10px">
+        <button mat-flat-button [disabled]="totalInterviews == 0" style="background-color: transparent; outline: 0;"><i class="fas fa-archive"></i> Archive</button>
+        <button mat-flat-button [disabled]="totalInterviews == 0" style="background-color: transparent; outline: 0;"><i class="far fa-window-restore"></i> Restore</button>
+      </div>
+    </div>
+
+    <div class="row" style="margin-top: 10px; border: 1px solid #f0f0f0; border-radius: 5px;">
+      <div class="col-xl-12">
+        <br>
+        <br>
+        <br>
+        <br>
+        <div style="text-align: center;">
+          <i class="fas fa-calendar-alt fa-5x"></i>
+        </div>
+
+        <br>
+
+        <div style="text-align: center;">
+          <h3>You do not have any interviews</h3>
+        </div>
+
+        <div style="text-align: center;">
+          Good thing its easy to schedule one.
+        </div>
+
+        <div style="text-align: center;">
+          You can schedule interviews for either a single candidate or a batch.
+          {{ selectedDate }}
+        </div>
+
+        <br>
+
+        <div style="text-align: center;">
+          <button
+            routerLink = "/interviews/add-new-interview"
+            mat-raised-button style="outline: 0 ;">Schedule an interview</button>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+      </div>
+    </div>
+
+
+
+  </div>
+
+</div>

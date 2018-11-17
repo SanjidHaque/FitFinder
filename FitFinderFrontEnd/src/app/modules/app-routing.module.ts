@@ -14,6 +14,9 @@ import {InterviewPanelComponent} from '../components/interviews/interview-panel/
 import {SettingsComponent} from '../components/settings/settings.component';
 import {ProfileComponent} from '../components/settings/profile/profile.component';
 import {CandidateResolverService} from '../route-resolvers/candidate-resolver.service';
+import {
+  InterviewResolverService} from '../route-resolvers/interview-resolver.service';
+import {JobResolverService} from '../route-resolvers/job-resolver.service';
 
 const appRoutes: Routes = [
   {
@@ -23,6 +26,7 @@ const appRoutes: Routes = [
   {
     path: 'jobs',
     component: JobsComponent,
+    resolve: { jobs: JobResolverService },
     children: [
       {
         path: '',
@@ -63,6 +67,7 @@ const appRoutes: Routes = [
   {
     path: 'interviews',
     component: InterviewsComponent,
+    resolve: { interviews: InterviewResolverService },
     children: [
       {
         path: '',
