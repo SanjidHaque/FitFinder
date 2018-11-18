@@ -10,7 +10,7 @@ import {CandidateService} from '../../../services/candidate.service';
 })
 export class CandidatePanelComponent implements OnInit, OnDestroy {
 
-  public selectedValue: string;
+  selectedValue = '';
   candidates: Candidate[] = [];
   subscription: Subscription;
   totalCandidates = 0;

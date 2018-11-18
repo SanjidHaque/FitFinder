@@ -17,6 +17,12 @@ import {CandidateResolverService} from '../route-resolvers/candidate-resolver.se
 import {
   InterviewResolverService} from '../route-resolvers/interview-resolver.service';
 import {JobResolverService} from '../route-resolvers/job-resolver.service';
+import {ManageAccountComponent} from '../components/settings/manage-account/manage-account.component';
+import {ManageUsersComponent} from '../components/settings/manage-users/manage-users.component';
+import {DisqualifyReasonsComponent} from '../components/settings/disqualify-reasons/disqualify-reasons.component';
+import {WorkflowComponent} from '../components/settings/workflow/workflow.component';
+import {JobOpeningsComponent} from '../components/settings/job-openings/job-openings.component';
+import {CandidatesAndLeadsComponent} from '../components/settings/candidates-and-leads/candidates-and-leads.component';
 
 const appRoutes: Routes = [
   {
@@ -89,8 +95,37 @@ const appRoutes: Routes = [
     component: SettingsComponent,
     children: [
       {
+        path: '',
+        redirectTo: 'profile',
+        pathMatch: 'full'
+      },
+      {
+        path: 'manage-account',
+        component: ManageAccountComponent
+      },
+      {
+        path: 'manage-users',
+        component: ManageUsersComponent
+      },
+      {
         path: 'profile',
         component: ProfileComponent
+      },
+      {
+        path: 'candidates-and-leads',
+        component: CandidatesAndLeadsComponent
+      },
+      {
+        path: 'job-openings',
+        component: JobOpeningsComponent
+      },
+      {
+        path: 'workflow',
+        component: WorkflowComponent
+      },
+      {
+        path: 'disqualify-reasons',
+        component: DisqualifyReasonsComponent
       }
     ]
   },

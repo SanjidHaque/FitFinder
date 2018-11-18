@@ -29,6 +29,12 @@ import {CandidateService} from './services/candidate.service';
 import {InterviewService} from './services/interview.service';
 import {InterviewResolverService} from './route-resolvers/interview-resolver.service';
 import {JobResolverService} from './route-resolvers/job-resolver.service';
+import { ManageAccountComponent } from './components/settings/manage-account/manage-account.component';
+import { ManageUsersComponent } from './components/settings/manage-users/manage-users.component';
+import { CandidatesAndLeadsComponent } from './components/settings/candidates-and-leads/candidates-and-leads.component';
+import { JobOpeningsComponent } from './components/settings/job-openings/job-openings.component';
+import { WorkflowComponent } from './components/settings/workflow/workflow.component';
+import { DisqualifyReasonsComponent } from './components/settings/disqualify-reasons/disqualify-reasons.component';
 
 
 
@@ -47,7 +53,13 @@ import {JobResolverService} from './route-resolvers/job-resolver.service';
     JobPanelComponent,
     CandidatePanelComponent,
     InterviewPanelComponent,
-    ProfileComponent
+    ProfileComponent,
+    ManageAccountComponent,
+    ManageUsersComponent,
+    CandidatesAndLeadsComponent,
+    JobOpeningsComponent,
+    WorkflowComponent,
+    DisqualifyReasonsComponent
   ],
   imports: [
     BrowserModule,

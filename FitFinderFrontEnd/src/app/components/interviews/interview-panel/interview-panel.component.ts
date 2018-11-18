@@ -13,7 +13,7 @@ import * as moment from 'moment';
 })
 export class InterviewPanelComponent implements OnInit, OnDestroy, DoCheck {
 
-  public selectedValue: string;
+  selectedValue = '';
   interviews: Interview[] = [];
   subscription: Subscription;
   totalInterviews = 0;

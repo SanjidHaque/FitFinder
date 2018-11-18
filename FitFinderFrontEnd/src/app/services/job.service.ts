@@ -10,11 +10,11 @@ export class JobService {
   jobs: Job[] = [];
   jobsChanged = new Subject<Job[]>();
 
-  getAllInterview() {
+  getAllJob() {
     return this.jobs.slice();
   }
 
-  addNewInterview(job: Job) {
+  addNewJob(job: Job) {
     this.jobs.push(job);
     this.jobsChanged.next(this.jobs.slice());
   }
