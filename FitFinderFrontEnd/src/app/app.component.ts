@@ -1,4 +1,4 @@
-import {Component, ElementRef, NgZone, Renderer2, ViewChild} from '@angular/core';
+import {Component, ElementRef, NgZone, Renderer2, ViewChild, ViewEncapsulation} from '@angular/core';
 import {NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterEvent} from '@angular/router';
 
 @Component({

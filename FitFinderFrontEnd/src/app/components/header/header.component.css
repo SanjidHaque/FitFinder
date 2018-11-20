@@ -17,13 +17,15 @@ a.nav-item.nav-link:hover{
    padding-top: 0!important;
    padding-bottom: 0!important;
 }
-::ng-deep.mat-menu-content:not(:empty){
-  padding-top: 0!important;
-  padding-bottom: 0!important;
-}
 
 
 a.active.nav-item.nav-link.ng-star-inserted{
-  border-color: transparent;
-  background-color: transparent;
+border-color: transparent;
+background-color: transparent;
+}
+
+
+.mat-menu-content:not(:empty) {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
 }

@@ -1,4 +1,4 @@
-import {Component, DoCheck, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, DoCheck, Input, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {Candidate} from '../../../models/candidate.model';
 import {Subscription} from 'rxjs/index';
 import {CandidateService} from '../../../services/candidate.service';
@@ -6,7 +6,8 @@ import {CandidateService} from '../../../services/candidate.service';
 @Component({
   selector: 'app-candidate-panel',
   templateUrl: './candidate-panel.component.html',
-  styleUrls: ['./candidate-panel.component.css']
+  styleUrls: ['./candidate-panel.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class CandidatePanelComponent implements OnInit, OnDestroy {
 

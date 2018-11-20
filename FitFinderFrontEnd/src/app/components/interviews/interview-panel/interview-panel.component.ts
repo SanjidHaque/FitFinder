@@ -1,4 +1,4 @@
-import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
+import {Component, DoCheck, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {Interview} from '../../../models/interview.model';
 import {Subscription} from 'rxjs/index';
 import {InterviewService} from '../../../services/interview.service';
@@ -9,7 +9,8 @@ import * as moment from 'moment';
 @Component({
   selector: 'app-interview-panel',
   templateUrl: './interview-panel.component.html',
-  styleUrls: ['./interview-panel.component.css']
+  styleUrls: ['./interview-panel.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class InterviewPanelComponent implements OnInit, OnDestroy, DoCheck {
 

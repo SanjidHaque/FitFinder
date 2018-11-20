@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {JobService} from '../../services/job.service';
 import {ActivatedRoute, Data} from '@angular/router';
 

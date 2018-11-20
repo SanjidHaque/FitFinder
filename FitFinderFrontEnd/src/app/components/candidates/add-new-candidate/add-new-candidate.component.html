@@ -6,19 +6,13 @@
     <h3>New Candidate</h3>
   </div>
 
-  <div class="col-xl-2">
 
-    <div class="row">
+  <div class="col-xl-1 pr-xl-1">
+    <button style="width: 100%; outline: 0;" color="primary" mat-flat-button>Save</button>
+  </div>
 
-      <div class="col-xl-6">
-        <button style="width: 100%; outline: 0;" color="primary" mat-flat-button>Save</button>
-      </div>
-      <div class="col-xl-6">
-        <button style="width: 100%;outline: 0;" mat-stroked-button>Cancel</button>
-      </div>
-
-    </div>
-
+  <div class="col-xl-1 pl-xl-1">
+    <button style="width: 100%;outline: 0;" mat-stroked-button>Cancel</button>
   </div>
 
 </div>
@@ -27,7 +21,7 @@
 
 <div class="row">
 
-  <div class="col-xl-6">
+  <div class="col-xl-7">
 
     <div class="row">
       <div class="col-xl-12">
@@ -43,15 +37,142 @@
       </div>
     </div>
 
+    <div class="row">
+
+      <div class="col-xl-6">
+        <mat-form-field style="width: 100%;" appearance="outline">
+          <mat-label>First Name</mat-label>
+          <input matInput>
+        </mat-form-field>
+      </div>
+
+      <div class="col-xl-6">
+        <mat-form-field style="width: 100%;" appearance="outline">
+          <mat-label>Last Name</mat-label>
+          <input matInput>
+        </mat-form-field>
+      </div>
+
+    </div>
+
+
+    <div class="row">
+
+      <div class="col-xl-6">
+        <mat-form-field style="width: 100%;" appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput>
+        </mat-form-field>
+      </div>
+
+      <div class="col-xl-6">
+        <mat-form-field style="width: 100%;" appearance="outline">
+          <mat-label>Mobile</mat-label>
+          <input matInput>
+        </mat-form-field>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-xl-12">
+        <mat-form-field style="width: 100%;" appearance="outline">
+          <mat-label>Address</mat-label>
+          <input matInput>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+
+      <div class="col-xl-4">
+        <mat-form-field style="width: 100%;" appearance="outline">
+          <mat-label>City</mat-label>
+          <input matInput>
+        </mat-form-field>
+      </div>
+
+      <div class="col-xl-4">
+        <mat-form-field style="width: 100%;" appearance="outline">
+          <mat-label>State</mat-label>
+          <input matInput>
+        </mat-form-field>
+      </div>
+
+      <div class="col-xl-4">
+        <mat-form-field style="width: 100%;" appearance="outline">
+          <mat-label>Country</mat-label>
+          <input matInput>
+        </mat-form-field>
+      </div>
+
+    </div>
+
+    <div class="row">
+
+      <div class="col-xl-12">
+        <mat-form-field style="width: 100%;" appearance="outline">
+          <mat-label>Select Candidate Source</mat-label>
+          <mat-select placeholder="State">
+            <mat-option *ngIf="states.length == 0">No candidate source is available</mat-option>
+            <mat-option *ngFor="let state of states" [value]="state">{{state}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+    </div>
 
   </div>
 
-  <div class="col-xl-4">
+  <div class="col-xl-5">
 
+    <div class="row">
+      <div class="col-xl-6 col-4" style="padding-top: 7px;">
+        <h6>Attachments</h6>
+      </div>
+      <div class="col-xl-6 col-4 text-xl-right" >
+        <button style="outline: 0;" matTooltip="Add attachments" mat-flat-button><i class="fas fa-plus-circle"></i> Add</button>
+      </div>
 
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-xl-12">
+        <p style="font-size: .9rem; opacity: .5;"> No Attachments </p>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-xl-12">
+        <h6>Social</h6>
+      </div>
+    </div>
+    <hr>
 
+    <div class="row">
+      <div class="col-xl-12">
+
+        <mat-form-field style="width: 100%;" appearance="outline">
+          <mat-label>Facebook</mat-label>
+          <input matInput>
+        </mat-form-field>
+
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xl-12">
+
+        <mat-form-field style="width: 100%;" appearance="outline">
+          <mat-label>Linkedin</mat-label>
+          <input matInput>
+        </mat-form-field>
+
+      </div>
+    </div>
 
   </div>
+
 
 </div>
 

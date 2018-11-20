@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Job} from '../../../models/job.model';
 import {Subscription} from 'rxjs/index';
 import {JobService} from '../../../services/job.service';
@@ -6,7 +6,8 @@ import {JobService} from '../../../services/job.service';
 @Component({
   selector: 'app-job-panel',
   templateUrl: './job-panel.component.html',
-  styleUrls: ['./job-panel.component.css']
+  styleUrls: ['./job-panel.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class JobPanelComponent implements OnInit {
 

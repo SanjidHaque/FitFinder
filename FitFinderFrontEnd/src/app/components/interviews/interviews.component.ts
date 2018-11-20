@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {InterviewService} from '../../services/interview.service';
 import {ActivatedRoute, Data} from '@angular/router';
 
 @Component({
   selector: 'app-interviews',
   templateUrl: './interviews.component.html',
-  styleUrls: ['./interviews.component.css']
+  styleUrls: ['./interviews.component.css'],
 })
 export class InterviewsComponent implements OnInit {
 
