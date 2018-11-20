@@ -1,5 +1,8 @@
 <br>
-
+<form
+  [formGroup]="addNewCandidateForm"
+  (ngSubmit)="onSubmitNewCandidate()"
+  #form="ngForm">
 <div class="row">
 
   <div class="col-xl-10">
@@ -8,11 +11,22 @@
 
 
   <div class="col-xl-1 pr-xl-1">
-    <button style="width: 100%; outline: 0;" color="primary" mat-flat-button>Save</button>
+    <button
+      type="submit"
+      [disabled]="!form.valid"
+      style="width: 100%;
+      outline: 0;"
+      color="primary"
+      mat-flat-button>Save</button>
   </div>
 
   <div class="col-xl-1 pl-xl-1">
-    <button style="width: 100%;outline: 0;" mat-stroked-button>Cancel</button>
+    <button
+      type="button"
+      style="width:
+      100%;outline: 0;"
+      routerLink="/candidates"
+      mat-stroked-button>Cancel</button>
   </div>
 
 </div>
@@ -28,9 +42,9 @@
 
         <mat-form-field style="width: 100%;" appearance="outline">
           <mat-label>Select Job</mat-label>
-          <mat-select placeholder="State">
-            <mat-option *ngIf="states.length == 0">No job is available</mat-option>
-            <mat-option *ngFor="let state of states" [value]="state">{{state}}</mat-option>
+          <mat-select formControlName="job">
+            <mat-option *ngIf="jobs.length == 0">No job is available</mat-option>
+            <mat-option *ngFor="let job of jobs" [value]="job"> {{ job }} </mat-option>
           </mat-select>
         </mat-form-field>
 
@@ -42,14 +56,20 @@
       <div class="col-xl-6">
         <mat-form-field style="width: 100%;" appearance="outline">
           <mat-label>First Name</mat-label>
-          <input matInput>
+          <input
+            formControlName="firstName"
+            required
+            matInput>
+          <mat-error>You must enter a first name!</mat-error>
         </mat-form-field>
       </div>
 
       <div class="col-xl-6">
         <mat-form-field style="width: 100%;" appearance="outline">
           <mat-label>Last Name</mat-label>
-          <input matInput>
+          <input
+            formControlName="lastName"
+            matInput>
         </mat-form-field>
       </div>
 
@@ -61,14 +81,20 @@
       <div class="col-xl-6">
         <mat-form-field style="width: 100%;" appearance="outline">
           <mat-label>Email</mat-label>
-          <input matInput>
+          <input
+            formControlName="email"
+            required
+            matInput>
+          <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
         </mat-form-field>
       </div>
 
       <div class="col-xl-6">
         <mat-form-field style="width: 100%;" appearance="outline">
           <mat-label>Mobile</mat-label>
-          <input matInput>
+          <input
+            formControlName="mobile"
+            matInput>
         </mat-form-field>
       </div>
 
@@ -78,7 +104,9 @@
       <div class="col-xl-12">
         <mat-form-field style="width: 100%;" appearance="outline">
           <mat-label>Address</mat-label>
-          <input matInput>
+          <input
+            formControlName="address"
+            matInput>
         </mat-form-field>
       </div>
     </div>
@@ -88,21 +116,31 @@
       <div class="col-xl-4">
         <mat-form-field style="width: 100%;" appearance="outline">
           <mat-label>City</mat-label>
-          <input matInput>
+          <input
+            formControlName="city"
+            required
+            matInput>
+          <mat-error>You must enter a city!</mat-error>
         </mat-form-field>
       </div>
 
       <div class="col-xl-4">
         <mat-form-field style="width: 100%;" appearance="outline">
           <mat-label>State</mat-label>
-          <input matInput>
+          <input
+            formControlName="state"
+            matInput>
         </mat-form-field>
       </div>
 
       <div class="col-xl-4">
         <mat-form-field style="width: 100%;" appearance="outline">
           <mat-label>Country</mat-label>
-          <input matInput>
+          <input
+            formControlName="country"
+            required
+            matInput>
+          <mat-error>You must enter a country!</mat-error>
         </mat-form-field>
       </div>
 
@@ -113,10 +151,11 @@
       <div class="col-xl-12">
         <mat-form-field style="width: 100%;" appearance="outline">
           <mat-label>Select Candidate Source</mat-label>
-          <mat-select placeholder="State">
-            <mat-option *ngIf="states.length == 0">No candidate source is available</mat-option>
-            <mat-option *ngFor="let state of states" [value]="state">{{state}}</mat-option>
+          <mat-select required formControlName="candidateSource">
+            <mat-option *ngIf="sources.length == 0">No candidate source is available</mat-option>
+            <mat-option *ngFor="let source of sources" [value]="source"> {{ source }} </mat-option>
           </mat-select>
+          <mat-error>You must select a source!</mat-error>
         </mat-form-field>
       </div>
 
@@ -154,7 +193,9 @@
 
         <mat-form-field style="width: 100%;" appearance="outline">
           <mat-label>Facebook</mat-label>
-          <input matInput>
+          <input
+            formControlName="facebook"
+            matInput>
         </mat-form-field>
 
       </div>
@@ -165,7 +206,9 @@
 
         <mat-form-field style="width: 100%;" appearance="outline">
           <mat-label>Linkedin</mat-label>
-          <input matInput>
+          <input
+            formControlName="linkedin"
+            matInput>
         </mat-form-field>
 
       </div>
@@ -175,5 +218,5 @@
 
 
 </div>
-
+</form>
 
