@@ -13,7 +13,7 @@ namespace FitFinderBackEnd.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201809251654099_Initial"; }
+            get { return "201811221726407_Initial"; }
         }
         
         string IMigrationMetadata.Source
