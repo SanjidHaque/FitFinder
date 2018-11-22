@@ -448,7 +448,7 @@
 
     <hr>
 
-    <div class="row" *ngIf="filesToUpload.length == 0; else fileExists">
+    <div class="row" *ngIf="candidateAttachments.length == 0; else fileExists">
       <div class="col-xl-12">
         <p style="font-size: .9rem; opacity: .5;"> No Attachments </p>
       </div>
@@ -468,11 +468,22 @@
             text-align: left;">
 
               <div class="row">
+
                 <div class="col-xl-10">
 
                   {{ candidateAttachment.fileName }}
 
                 </div>
+
+                <div class="col-xl-2">
+                  <i
+                    style="cursor: pointer;"
+                    (click)="removeSelectedFiles(i)"
+                    matTooltip="Remove"
+                    matTooltipPosition="before"
+                    class="far fa-times-circle"></i>
+                </div>
+
               </div>
 
             </li>
@@ -483,19 +494,19 @@
 
 
       <hr>
-      <div class="row">
-        <div class="col-xl-12 text-xl-right">
-          <button
-            type="button"
-            style="outline: 0;"
-            mat-flat-button
-            (click)="removeSelectedFiles()">
-            <i class="far fa-times-circle"></i> Remove All</button>
-        </div>
-      </div>
 
     </ng-template>
 
+    <div class="row" *ngIf="candidateAttachments.length != 0">
+      <div class="col-xl-12 text-xl-right">
+        <button
+          type="button"
+          style="outline: 0;"
+          mat-flat-button
+          (click)="removeAllSelectedFiles()">
+          <i class="far fa-times-circle"></i> Remove All</button>
+      </div>
+    </div>
 
 
 

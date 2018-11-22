@@ -76,7 +76,6 @@ export class AddNewCandidateComponent implements OnInit {
 
 
   fileChangeEvent(fileInput: any) {
-    this.uploadResult = '';
     this.filesToUpload = <Array<File>>fileInput.target.files;
 
     for (let i = 0; i < this.filesToUpload.length; i++) {
@@ -89,10 +88,14 @@ export class AddNewCandidateComponent implements OnInit {
     document.getElementById('choseFile').click();
   }
 
-  removeSelectedFiles() {
+  removeAllSelectedFiles() {
     this.filesToUpload = [];
     this.fileUploadVar.nativeElement.value = '';
     this.candidateAttachments = [];
+  }
+
+  removeSelectedFiles(index: number) {
+    this.candidateAttachments.splice(index, 1);
   }
 
 
