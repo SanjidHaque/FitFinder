@@ -27,6 +27,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {CustomDateAdapter} from '../shared/custom-date-adapter';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 
 @NgModule({
@@ -52,7 +53,8 @@ import {CustomDateAdapter} from '../shared/custom-date-adapter';
     MatSlideToggleModule,
     MatButtonToggleModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatCheckboxModule
   ],
   exports: [
     MatButtonModule,
@@ -75,7 +77,8 @@ import {CustomDateAdapter} from '../shared/custom-date-adapter';
     MatSlideToggleModule,
     MatButtonToggleModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatCheckboxModule
   ],
 
   entryComponents: [

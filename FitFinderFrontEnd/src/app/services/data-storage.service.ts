@@ -10,26 +10,34 @@ import {Job} from '../models/job.model';
 export class DataStorageService {
   constructor(private httpClient: HttpClient) { }
 
-  private candidateJson = 'assets/mock-data/candidates.json';
-  private candidateApi = 'http://localhost:8080/api/GetAllCandidate';
+  private apiRootUrl = 'http://localhost:8080/api/';
 
-  private interviewJson = 'assets/mock-data/interviews.json';
-  private interviewApi = 'http://localhost:8080/api/GetAllInterview';
+  private getCandidateJson = 'assets/mock-data/candidates.json';
+  private getCandidateApi = 'http://localhost:8080/api/GetAllCandidate';
 
-  private jobJson = 'assets/mock-data/jobs.json';
-  private jobApi = 'http://localhost:8080/api/GetAllJob';
+  private getInterviewJson = 'assets/mock-data/interviews.json';
+  private getInterviewApi = 'http://localhost:8080/api/GetAllInterview';
+
+  private getJobJson = 'assets/mock-data/jobs.json';
+  private getJobApi = 'http://localhost:8080/api/GetAllJob';
 
   getAllCandidate() {
-    return this.httpClient.get<Candidate[]>(this.candidateJson);
+    return this.httpClient.get<Candidate[]>(this.getCandidateJson);
   }
 
   getAllInterview() {
-    return this.httpClient.get<Interview[]>(this.interviewJson);
+    return this.httpClient.get<Interview[]>(this.getInterviewJson);
   }
 
   getAllJob() {
-    return this.httpClient.get<Job[]>(this.jobJson);
+    return this.httpClient.get<Job[]>(this.getJobJson);
   }
+
+
+  addNewCandidate(candidate: Candidate) {
+    return this.httpClient.post(this.apiRootUrl + 'AddNewCandidate', candidate);
+  }
+
 
 
 }

@@ -33,7 +33,9 @@ export class CandidatePanelComponent implements OnInit, OnDestroy {
    onValueChange(value: string) {
     this.selectedValue = value;
   }
+  uploadAttachments() {
 
+  }
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
