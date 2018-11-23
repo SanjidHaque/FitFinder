@@ -85,8 +85,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
   ],
 
   providers: [
-    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}},
-    {provide: DateAdapter, useClass: CustomDateAdapter}
+    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}
   ],
 
   declarations: []

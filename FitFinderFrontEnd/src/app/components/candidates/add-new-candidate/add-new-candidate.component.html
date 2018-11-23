@@ -397,7 +397,10 @@
 
         <div class="row">
           <div class="col-xl-12 text-xl-right">
-            <mat-checkbox labelPosition="before" color="primary" formControlName='isCurrent'>Current</mat-checkbox>
+            <mat-checkbox
+              labelPosition="before"
+              color="primary"
+              formControlName='isCurrent'>Current</mat-checkbox>
           </div>
         </div>
 
@@ -469,13 +472,23 @@
 
               <div class="row">
 
-                <div class="col-xl-10">
+                <div class="col-xl-8">
 
                   {{ candidateAttachment.fileName }}
 
                 </div>
 
-                <div class="col-xl-2">
+                <div class="col-xl-2"
+                     style="font-size: .8rem;">
+                  <mat-checkbox
+                    [checked]= "candidateAttachments[i].isResume"
+                    (change)="changeResume(i,$event)"
+                    labelPosition="before"
+                    color="primary"
+                    >Resume</mat-checkbox>
+                </div>
+
+                <div class="offset-xl-1 col-xl-1">
                   <i
                     style="cursor: pointer;"
                     (click)="removeSelectedFiles(i)"

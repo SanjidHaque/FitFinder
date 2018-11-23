@@ -3,25 +3,30 @@ import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angul
 import {Router} from '@angular/router';
 import {DataStorageService} from '../../../services/data-storage.service';
 import {HttpClient} from '@angular/common/http';
-import { UUID } from 'angular2-uuid';
+import {UUID} from 'angular2-uuid';
 import {CandidateAttachment} from '../../../models/candidate-attachment.model';
 import {Candidate} from '../../../models/candidate.model';
 import {CandidateService} from '../../../services/candidate.service';
+import {DateAdapter} from '@angular/material';
+import {ShortDateAdapter} from '../../../date-adapters/short-date.adapter';
 
 
 @Component({
   selector: 'app-add-new-candidate',
   templateUrl: './add-new-candidate.component.html',
-  styleUrls: ['./add-new-candidate.component.css']
+  styleUrls: ['./add-new-candidate.component.css'],
+  providers: [{provide: DateAdapter, useClass: ShortDateAdapter}]
 })
 export class AddNewCandidateComponent implements OnInit {
 
   startDateOfEducation = [];
   startDateOfExperience = [];
 
+  myModel= false;
   filesToUpload: Array<File>;
   candidateAttachments: CandidateAttachment[] = [];
   @ViewChild('fileUpload') fileUploadVar: any;
+
 
 
   addNewCandidateForm: FormGroup;
@@ -79,9 +84,17 @@ export class AddNewCandidateComponent implements OnInit {
     this.filesToUpload = <Array<File>>fileInput.target.files;
 
     for (let i = 0; i < this.filesToUpload.length; i++) {
-      const files = new CandidateAttachment(UUID.UUID(), '', this.filesToUpload[i].name, '');
+      const files = new CandidateAttachment(
+        UUID.UUID(), '', this.filesToUpload[i].name, '', null);
       this.candidateAttachments.push(files);
     }
+  }
+
+  changeResume(index: number, value: any) {
+    for (let i = 0; i < this.candidateAttachments.length; i++) {
+      this.candidateAttachments[i].isResume = false;
+    }
+    this.candidateAttachments[index].isResume = value.checked;
   }
 
   getFile() {
