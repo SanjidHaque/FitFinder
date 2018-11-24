@@ -11,6 +11,7 @@ import {DateAdapter} from '@angular/material';
 import {ShortDateAdapter} from '../../../date-adapters/short-date.adapter';
 import {CandidateEducation} from '../../../models/candidate-education.model';
 import {CandidateExperience} from '../../../models/candidate-experience.model';
+import {NotifierService} from 'angular-notifier';
 
 
 @Component({
@@ -26,6 +27,8 @@ export class AddNewCandidateComponent implements OnInit {
   candidateExperience: CandidateExperience[] = [];
   candidateEducation: CandidateEducation[] = [];
   candidateAttachments: CandidateAttachment[] = [];
+  private notifier: NotifierService;
+
 
   filesToUpload: Array<File>;
   @ViewChild('fileUpload') fileUploadVar: any;
@@ -56,11 +59,12 @@ export class AddNewCandidateComponent implements OnInit {
    ];
 
   constructor(private router: Router,
-              private httpClient: HttpClient,
+              private notifierService: NotifierService,
               private dataStorageService: DataStorageService,
               private candidateService: CandidateService,
               private formBuilder: FormBuilder) {
     this.filesToUpload = [];
+    this.notifier = this.notifierService;
   }
 
   ngOnInit() {
@@ -88,7 +92,7 @@ export class AddNewCandidateComponent implements OnInit {
 
     for (let i = 0; i < this.filesToUpload.length; i++) {
       const files = new CandidateAttachment(
-        UUID.UUID(), '', this.filesToUpload[i].name, '', null);
+        '', '', this.filesToUpload[i].name, '', null);
       this.candidateAttachments.push(files);
     }
   }
@@ -104,6 +108,13 @@ export class AddNewCandidateComponent implements OnInit {
     document.getElementById('choseFile').click();
   }
 
+  initializeCandidate() {
+    this.candidateEducation = [];
+    this.candidateExperience = [];
+    this.candidateAttachments = [];
+  }
+
+
   removeAllSelectedFiles() {
     this.filesToUpload = [];
     this.fileUploadVar.nativeElement.value = '';
@@ -112,19 +123,6 @@ export class AddNewCandidateComponent implements OnInit {
 
   removeSelectedFiles(index: number) {
     this.candidateAttachments.splice(index, 1);
-  }
-
-
-
-  uploadFiles() {
-    if (this.filesToUpload.length > 0) {
-      const formData = new FormData();
-      for (let i = 0; i < this.filesToUpload.length; i++) {
-        formData.append('uploadedFiles', this.filesToUpload[i], this.filesToUpload[i].name);
-      }
-      const apiUrl = '/api/Upload/UploadFiles';
-      this.httpClient.post(apiUrl, formData);
-    }
   }
 
   getStartDateOfEducation(date: string, index: number) {
@@ -137,7 +135,7 @@ export class AddNewCandidateComponent implements OnInit {
   }
   populateEducationFields() {
     return this.formBuilder.group({
-      id: [UUID.UUID()],
+      id: [''],
       name: ['', Validators.required],
       instituteName: ['', Validators.required],
       result: [''],
@@ -157,7 +155,7 @@ export class AddNewCandidateComponent implements OnInit {
 
   populateExperienceFields() {
     return this.formBuilder.group({
-      id: [UUID.UUID()],
+      id: [''],
       employerName: ['', Validators.required],
       designation: ['', Validators.required],
       role: [''],
@@ -203,14 +201,17 @@ export class AddNewCandidateComponent implements OnInit {
    const isClosed = false;
 
    for ( let i = 0; i < this.candidateAttachments.length; i++ ) {
+     this.candidateAttachments[i].id = UUID.UUID();
      this.candidateAttachments[i].candidateId = candidateId;
    }
    for ( let i = 0; i < this.candidateEducation.length; i++ ) {
+     this.candidateEducation[i].id = UUID.UUID();
      this.candidateEducation[i].candidateId = candidateId;
    }
    for ( let i = 0; i < this.candidateExperience.length; i++ ) {
+     this.candidateExperience[i].id = UUID.UUID();
      this.candidateExperience[i].candidateId = candidateId;
-   }
+    }
 
    const newCandidate = new Candidate(
      candidateId, jobId, firstName, lastName, email, mobile, address,
@@ -220,12 +221,23 @@ export class AddNewCandidateComponent implements OnInit {
 
    this.candidateService.addNewCandidate(newCandidate);
    console.log(newCandidate);
-   /*this.dataStorageService.addNewCandidate(newCandidate)
-     .subscribe(
-       (data: any) => {
-         this.router.navigate(['/candidates']);
-       }
-     );*/
+
+    this.dataStorageService.addNewCandidate(newCandidate)
+      .subscribe(
+        (data: any) => {
+          console.log(data);
+          this.dataStorageService.uploadCandidateAttachment(this.filesToUpload, candidateId)
+            .subscribe(
+              (response: any) => {
+                console.log(response);
+                 // this.initializeCandidate();
+             //   this.addNewCandidateForm.reset();
+                  this.notifier.notify( 'default', 'New candidate added!' );
+              //  this.router.navigate(['/candidates']);
+              }
+            );
+        }
+      );
 
   }
 }

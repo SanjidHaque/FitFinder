@@ -40,7 +40,14 @@ export class DataStorageService {
 
 
 
-
+  uploadCandidateAttachment(candidateAttachments: Array<File>, candidateId: string) {
+    const formData = new FormData();
+    for (let i = 0; i < candidateAttachments.length; i++) {
+      formData.append('Candidate Attachments', candidateAttachments[i], candidateAttachments[i].name);
+    }
+   formData.append('Candidate Id', candidateId);
+    return this.httpClient.post(this.apiRootUrl + 'UploadCandidateAttachment', formData);
+  }
 
 
 

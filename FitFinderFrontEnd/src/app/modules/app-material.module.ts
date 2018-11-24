@@ -26,7 +26,6 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatDatepickerModule} from '@angular/material/datepicker';
-import {CustomDateAdapter} from '../shared/custom-date-adapter';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 
 

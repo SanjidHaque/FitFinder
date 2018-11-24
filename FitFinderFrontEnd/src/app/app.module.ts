@@ -84,7 +84,7 @@ import { DisqualifyReasonsComponent } from './components/settings/disqualify-rea
         }
       },
       behaviour: {
-        autoHide: 10000,
+        autoHide: 5000,
         onClick: false,
         onMouseover: 'pauseAutoHide',
         showDismissButton: true,
