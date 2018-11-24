@@ -7,13 +7,13 @@ namespace FitFinderBackEnd.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class Initial : IMigrationMetadata
+    public sealed partial class InitialAgain : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Initial));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialAgain));
         
         string IMigrationMetadata.Id
         {
-            get { return "201811221726407_Initial"; }
+            get { return "201811231754262_InitialAgain"; }
         }
         
         string IMigrationMetadata.Source

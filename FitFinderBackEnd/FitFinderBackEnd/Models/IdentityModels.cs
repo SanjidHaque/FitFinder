@@ -1,5 +1,7 @@
-﻿using System.Security.Claims;
+﻿using System.Data.Entity;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using FitFinderBackEnd.Models.Candidate;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -20,11 +22,25 @@ namespace FitFinderBackEnd.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public DbSet<Candidate.Candidate> Candidates { get; set; }
+        public DbSet<CandidateSource> CandidateSources { get; set; }
+        public DbSet<CandidateAttachment> CandidateAttachments { get; set; }
+        public DbSet<CandidateEducation> CandidateEducations { get; set; }
+        public DbSet<CandidateExperience> CandidateExperiences { get; set; }
+
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
-        
+
+        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Entity<Candidate.Candidate>()
+        //        .HasOptional(a => a.CandidateSource)
+        //        .WithOptionalDependent()
+        //        .WillCascadeOnDelete(true);
+        //}
+
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
