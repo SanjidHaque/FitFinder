@@ -10,16 +10,16 @@ import {Job} from '../models/job.model';
 export class DataStorageService {
   constructor(private httpClient: HttpClient) { }
 
-  private apiRootUrl = 'http://localhost:8080/api/';
+  private apiRootUrl = 'http://localhost:55586/api/';
 
   private getCandidateJson = 'assets/mock-data/candidates.json';
-  private getCandidateApi = 'http://localhost:8080/api/GetAllCandidate';
+  private getCandidateApi = 'http://localhost:55586/api/GetAllCandidate';
 
   private getInterviewJson = 'assets/mock-data/interviews.json';
-  private getInterviewApi = 'http://localhost:8080/api/GetAllInterview';
+  private getInterviewApi = 'http://localhost:55586/api/GetAllInterview';
 
   private getJobJson = 'assets/mock-data/jobs.json';
-  private getJobApi = 'http://localhost:8080/api/GetAllJob';
+  private getJobApi = 'http://localhost:55586/api/GetAllJob';
 
   getAllCandidate() {
     return this.httpClient.get<Candidate[]>(this.getCandidateJson);

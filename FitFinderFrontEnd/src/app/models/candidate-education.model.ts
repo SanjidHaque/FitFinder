@@ -1,6 +1,7 @@
 export class CandidateEducation {
   constructor(
     public id: string,
+    public candidateId: string,
     public name: string,
     public instituteName: string,
     public result: string,

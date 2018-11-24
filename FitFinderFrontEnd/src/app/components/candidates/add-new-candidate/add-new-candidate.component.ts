@@ -9,6 +9,8 @@ import {Candidate} from '../../../models/candidate.model';
 import {CandidateService} from '../../../services/candidate.service';
 import {DateAdapter} from '@angular/material';
 import {ShortDateAdapter} from '../../../date-adapters/short-date.adapter';
+import {CandidateEducation} from '../../../models/candidate-education.model';
+import {CandidateExperience} from '../../../models/candidate-experience.model';
 
 
 @Component({
@@ -21,10 +23,11 @@ export class AddNewCandidateComponent implements OnInit {
 
   startDateOfEducation = [];
   startDateOfExperience = [];
-
-  myModel= false;
-  filesToUpload: Array<File>;
+  candidateExperience: CandidateExperience[] = [];
+  candidateEducation: CandidateEducation[] = [];
   candidateAttachments: CandidateAttachment[] = [];
+
+  filesToUpload: Array<File>;
   @ViewChild('fileUpload') fileUploadVar: any;
 
 
@@ -191,8 +194,8 @@ export class AddNewCandidateComponent implements OnInit {
    const state = this.addNewCandidateForm.controls['state'].value;
    const country = this.addNewCandidateForm.controls['country'].value;
    const candidateSourceId = this.addNewCandidateForm.controls['candidateSourceId'].value;
-   const education = this.addNewCandidateForm.controls['education'].value;
-   const experience = this.addNewCandidateForm.controls['experience'].value;
+   this.candidateEducation = this.addNewCandidateForm.controls['education'].value;
+   this.candidateExperience = this.addNewCandidateForm.controls['experience'].value;
    const facebookUrl = this.addNewCandidateForm.controls['facebookUrl'].value;
    const linkedInUrl = this.addNewCandidateForm.controls['linkedInUrl'].value;
    const isArchived = false;
@@ -200,12 +203,19 @@ export class AddNewCandidateComponent implements OnInit {
    const isClosed = false;
 
    for ( let i = 0; i < this.candidateAttachments.length; i++ ) {
-     this.candidateAttachments[i].CandidateId = candidateId;
+     this.candidateAttachments[i].candidateId = candidateId;
+   }
+   for ( let i = 0; i < this.candidateEducation.length; i++ ) {
+     this.candidateEducation[i].candidateId = candidateId;
+   }
+   for ( let i = 0; i < this.candidateExperience.length; i++ ) {
+     this.candidateExperience[i].candidateId = candidateId;
    }
 
    const newCandidate = new Candidate(
-     candidateId, jobId, firstName, lastName, email, mobile, address, city,
-     state, country, candidateSourceId, education, experience, this.candidateAttachments,
+     candidateId, jobId, firstName, lastName, email, mobile, address,
+     city, state, country, candidateSourceId, this.candidateEducation,
+     this.candidateExperience, this.candidateAttachments,
      facebookUrl, linkedInUrl, isArchived, isHired, isClosed);
 
    this.candidateService.addNewCandidate(newCandidate);
