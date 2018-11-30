@@ -6,8 +6,8 @@ export class Candidate {
   constructor(
     public id: string,
     public jobId: string,
-    public firstName: string,
-    public lastName: string,
+    public FirstName: string,
+    public LastName: string,
     public email: string,
     public mobile: string,
     public address: string,
@@ -23,6 +23,6 @@ export class Candidate {
     public isArchived: boolean,
     public isHired: boolean,
     public isClosed: boolean,
-    public applicationDate: string
+    public ApplicationDate: string
   ) { }
 }
