@@ -11,6 +11,7 @@ import {DateAdapter} from '@angular/material';
 import {ShortDateAdapter} from '../../../date-adapters/short-date.adapter';
 import {CandidateEducation} from '../../../models/candidate-education.model';
 import {CandidateExperience} from '../../../models/candidate-experience.model';
+import {NotifierService} from 'angular-notifier';
 
 
 @Component({
@@ -29,12 +30,10 @@ export class AddNewCandidateComponent implements OnInit {
 
   filesToUpload: Array<File>;
   @ViewChild('fileUpload') fileUploadVar: any;
-
-
+  isDisabled = false;
 
   addNewCandidateForm: FormGroup;
   email = new FormControl('', [Validators.required, Validators.email]);
-
 
   jobs = [
     {jobId: '1', jobName: 'Senior Laravel Developer'},
@@ -56,8 +55,8 @@ export class AddNewCandidateComponent implements OnInit {
    ];
 
   constructor(private router: Router,
-              private httpClient: HttpClient,
               private dataStorageService: DataStorageService,
+              private notifierService: NotifierService,
               private candidateService: CandidateService,
               private formBuilder: FormBuilder) {
     this.filesToUpload = [];
@@ -82,14 +81,26 @@ export class AddNewCandidateComponent implements OnInit {
     });
   }
 
+  clearAllArrays() {
+    this.candidateAttachments = [];
+    this.candidateExperience = [];
+    this.candidateEducation = [];
+    this.startDateOfEducation = [];
+    this.startDateOfExperience = [];
+    this.filesToUpload = [];
+  }
 
   fileChangeEvent(fileInput: any) {
-    this.filesToUpload = <Array<File>>fileInput.target.files;
-
-    for (let i = 0; i < this.filesToUpload.length; i++) {
-      const files = new CandidateAttachment(
-        UUID.UUID(), '', this.filesToUpload[i].name, '', null);
-      this.candidateAttachments.push(files);
+    for (let i = 0; i < fileInput.target.files.length; i++) {
+      const fileName = fileInput.target.files[i].name.substr(0, fileInput.target.files[i].name.lastIndexOf('.'));
+      const fileExtension = fileInput.target.files[i].name.split('.').pop();
+      const newFileName = fileName + Date.now() + '.' + fileExtension;
+      const newFile = new File([fileInput.target.files[i]], newFileName, {type: fileInput.target.files[i].type});
+      this.filesToUpload.push(newFile);
+      console.log(this.filesToUpload);
+      const candidateAttachment = new CandidateAttachment(
+         '', '', fileInput.target.files[i].name, newFile.name, null);
+      this.candidateAttachments.push(candidateAttachment);
     }
   }
 
@@ -116,16 +127,7 @@ export class AddNewCandidateComponent implements OnInit {
 
 
 
-  uploadFiles() {
-    if (this.filesToUpload.length > 0) {
-      const formData = new FormData();
-      for (let i = 0; i < this.filesToUpload.length; i++) {
-        formData.append('uploadedFiles', this.filesToUpload[i], this.filesToUpload[i].name);
-      }
-      const apiUrl = '/api/Upload/UploadFiles';
-      this.httpClient.post(apiUrl, formData);
-    }
-  }
+
 
   getStartDateOfEducation(date: string, index: number) {
     this.startDateOfEducation[index] = date;
@@ -137,7 +139,7 @@ export class AddNewCandidateComponent implements OnInit {
   }
   populateEducationFields() {
     return this.formBuilder.group({
-      id: [UUID.UUID()],
+      id: [],
       name: ['', Validators.required],
       instituteName: ['', Validators.required],
       result: [''],
@@ -157,7 +159,7 @@ export class AddNewCandidateComponent implements OnInit {
 
   populateExperienceFields() {
     return this.formBuilder.group({
-      id: [UUID.UUID()],
+      id: [],
       employerName: ['', Validators.required],
       designation: ['', Validators.required],
       role: [''],
@@ -204,12 +206,15 @@ export class AddNewCandidateComponent implements OnInit {
 
    for ( let i = 0; i < this.candidateAttachments.length; i++ ) {
      this.candidateAttachments[i].candidateId = candidateId;
+     this.candidateAttachments[i].id = UUID.UUID();
    }
    for ( let i = 0; i < this.candidateEducation.length; i++ ) {
      this.candidateEducation[i].candidateId = candidateId;
+     this.candidateEducation[i].id = UUID.UUID();
    }
    for ( let i = 0; i < this.candidateExperience.length; i++ ) {
      this.candidateExperience[i].candidateId = candidateId;
+     this.candidateExperience[i].id = UUID.UUID();
    }
 
    const newCandidate = new Candidate(
@@ -219,11 +224,24 @@ export class AddNewCandidateComponent implements OnInit {
      facebookUrl, linkedInUrl, isArchived, isHired, isClosed);
 
    this.candidateService.addNewCandidate(newCandidate);
-   console.log(newCandidate);
-   /*this.dataStorageService.addNewCandidate(newCandidate)
+   this.notifierService.notify('default', 'New candidate added');
+   this.isDisabled = true;
+   this.router.navigate(['/candidates']);
+  /* this.dataStorageService.addNewCandidate(newCandidate)
      .subscribe(
        (data: any) => {
-         this.router.navigate(['/candidates']);
+         console.log(data);
+         this.dataStorageService.uploadCandidateAttachments(this.filesToUpload)
+           .subscribe(
+             (response: any) => {
+                console.log(response);
+                this.isDisabled = true;
+                this.clearAllArrays();
+                this.addNewCandidateForm.reset();
+                this.router.navigate(['/candidates']);
+                this.notifierService.notify('default', 'New candidate added');
+             }
+           );
        }
      );*/
 

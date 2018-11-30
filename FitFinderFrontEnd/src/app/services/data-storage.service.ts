@@ -38,10 +38,11 @@ export class DataStorageService {
     return this.httpClient.post(this.apiRootUrl + 'AddNewCandidate', candidate);
   }
 
-
-
-
-
-
-
+  uploadCandidateAttachments(attachments: Array<File>) {
+    const formData = new FormData();
+    for (let i = 0; i < attachments.length; i++) {
+      formData.append('Attachments', attachments[i], attachments[i].name);
+    }
+    return this.httpClient.post(this.apiRootUrl + 'UploadCandidateAttachments', formData);
+  }
 }

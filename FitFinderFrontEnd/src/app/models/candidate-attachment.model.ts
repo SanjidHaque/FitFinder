@@ -3,7 +3,7 @@ export class CandidateAttachment {
     public id: string,
     public candidateId: string,
     public fileName: string,
-    public filePath: string,
+    public modifiedFileName: string,
     public isResume: boolean
   ) {}
 }

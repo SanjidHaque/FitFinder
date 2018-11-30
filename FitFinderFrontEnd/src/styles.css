@@ -12,3 +12,12 @@
 body{
   overflow-x: hidden;
 }
+
+.notifier__notification--default {
+  background-color: black;
+}
+
+
+.notifier__notification--material .notifier__notification-button{
+ padding: 0 0 0 0!important;
+}
