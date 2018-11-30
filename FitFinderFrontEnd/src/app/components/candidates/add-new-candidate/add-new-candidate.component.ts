@@ -12,6 +12,7 @@ import {ShortDateAdapter} from '../../../date-adapters/short-date.adapter';
 import {CandidateEducation} from '../../../models/candidate-education.model';
 import {CandidateExperience} from '../../../models/candidate-experience.model';
 import {NotifierService} from 'angular-notifier';
+import * as moment from 'moment';
 
 
 @Component({
@@ -97,7 +98,6 @@ export class AddNewCandidateComponent implements OnInit {
       const newFileName = fileName + Date.now() + '.' + fileExtension;
       const newFile = new File([fileInput.target.files[i]], newFileName, {type: fileInput.target.files[i].type});
       this.filesToUpload.push(newFile);
-      console.log(this.filesToUpload);
       const candidateAttachment = new CandidateAttachment(
          '', '', fileInput.target.files[i].name, newFile.name, null);
       this.candidateAttachments.push(candidateAttachment);
@@ -203,6 +203,7 @@ export class AddNewCandidateComponent implements OnInit {
    const isArchived = false;
    const isHired = false;
    const isClosed = false;
+   const applicationDate = new Date();
 
    for ( let i = 0; i < this.candidateAttachments.length; i++ ) {
      this.candidateAttachments[i].candidateId = candidateId;
@@ -221,7 +222,7 @@ export class AddNewCandidateComponent implements OnInit {
      candidateId, jobId, firstName, lastName, email, mobile, address,
      city, state, country, candidateSourceId, this.candidateEducation,
      this.candidateExperience, this.candidateAttachments,
-     facebookUrl, linkedInUrl, isArchived, isHired, isClosed);
+     facebookUrl, linkedInUrl, isArchived, isHired, isClosed, applicationDate.toString());
 
    this.candidateService.addNewCandidate(newCandidate);
    this.notifierService.notify('default', 'New candidate added');

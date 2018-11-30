@@ -22,6 +22,7 @@ export class Candidate {
     public linkedInUrl: string,
     public isArchived: boolean,
     public isHired: boolean,
-    public isClosed: boolean
+    public isClosed: boolean,
+    public applicationDate: string
   ) { }
 }

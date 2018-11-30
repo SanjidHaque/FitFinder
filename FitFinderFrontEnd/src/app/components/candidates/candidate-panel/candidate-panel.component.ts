@@ -2,6 +2,8 @@ import {Component, DoCheck, Input, OnDestroy, OnInit, ViewEncapsulation} from '@
 import {Candidate} from '../../../models/candidate.model';
 import {Subscription} from 'rxjs/index';
 import {CandidateService} from '../../../services/candidate.service';
+import {ViewChild} from '@angular/core';
+import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 
 @Component({
   selector: 'app-candidate-panel',
@@ -15,7 +17,15 @@ export class CandidatePanelComponent implements OnInit, OnDestroy {
   candidates: Candidate[] = [];
   subscription: Subscription;
 
-  constructor(private candidateService: CandidateService) {}
+  displayedColumns: string[] = ['firstName', 'lastName', 'applicationDate'];
+  dataSource: MatTableDataSource<Candidate>;
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
+  constructor(private candidateService: CandidateService) {
+
+  }
 
   ngOnInit() {
     this.selectedValue = 'all';
@@ -24,12 +34,23 @@ export class CandidatePanelComponent implements OnInit, OnDestroy {
       .subscribe(
         (candidates: Candidate[]) => {
           this.candidates = candidates;
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+          this.dataSource = new MatTableDataSource(this.candidates);
         }
       );
   }
 
    onValueChange(value: string) {
     this.selectedValue = value;
+  }
+
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 
   ngOnDestroy() {
