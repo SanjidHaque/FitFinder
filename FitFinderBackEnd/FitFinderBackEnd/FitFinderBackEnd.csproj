@@ -253,6 +253,10 @@
     <Compile Include="Migrations\201811231754262_InitialAgain.Designer.cs">
       <DependentUpon>201811231754262_InitialAgain.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201811291600068_candidateAttachmentModelChanged.cs" />
+    <Compile Include="Migrations\201811291600068_candidateAttachmentModelChanged.Designer.cs">
+      <DependentUpon>201811291600068_candidateAttachmentModelChanged.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -364,6 +368,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811231754262_InitialAgain.resx">
       <DependentUpon>201811231754262_InitialAgain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811291600068_candidateAttachmentModelChanged.resx">
+      <DependentUpon>201811291600068_candidateAttachmentModelChanged.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

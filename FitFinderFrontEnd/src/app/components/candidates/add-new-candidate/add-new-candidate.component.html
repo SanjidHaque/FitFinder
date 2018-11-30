@@ -13,7 +13,7 @@
   <div class="col-xl-1 pr-xl-1">
     <button
       type="submit"
-      [disabled]="!form.valid"
+      [disabled]="!form.valid || isDisabled"
       style="width: 100%;
       outline: 0;"
       color="primary"

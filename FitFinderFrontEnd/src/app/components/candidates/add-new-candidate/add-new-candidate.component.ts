@@ -27,17 +27,13 @@ export class AddNewCandidateComponent implements OnInit {
   candidateExperience: CandidateExperience[] = [];
   candidateEducation: CandidateEducation[] = [];
   candidateAttachments: CandidateAttachment[] = [];
-  private notifier: NotifierService;
-
 
   filesToUpload: Array<File>;
   @ViewChild('fileUpload') fileUploadVar: any;
-
-
+  isDisabled = false;
 
   addNewCandidateForm: FormGroup;
   email = new FormControl('', [Validators.required, Validators.email]);
-
 
   jobs = [
     {jobId: '1', jobName: 'Senior Laravel Developer'},
@@ -59,12 +55,11 @@ export class AddNewCandidateComponent implements OnInit {
    ];
 
   constructor(private router: Router,
-              private notifierService: NotifierService,
               private dataStorageService: DataStorageService,
+              private notifierService: NotifierService,
               private candidateService: CandidateService,
               private formBuilder: FormBuilder) {
     this.filesToUpload = [];
-    this.notifier = this.notifierService;
   }
 
   ngOnInit() {
@@ -86,14 +81,26 @@ export class AddNewCandidateComponent implements OnInit {
     });
   }
 
+  clearAllArrays() {
+    this.candidateAttachments = [];
+    this.candidateExperience = [];
+    this.candidateEducation = [];
+    this.startDateOfEducation = [];
+    this.startDateOfExperience = [];
+    this.filesToUpload = [];
+  }
 
   fileChangeEvent(fileInput: any) {
-    this.filesToUpload = <Array<File>>fileInput.target.files;
-
-    for (let i = 0; i < this.filesToUpload.length; i++) {
-      const files = new CandidateAttachment(
-        '', '', this.filesToUpload[i].name, '', null);
-      this.candidateAttachments.push(files);
+    for (let i = 0; i < fileInput.target.files.length; i++) {
+      const fileName = fileInput.target.files[i].name.substr(0, fileInput.target.files[i].name.lastIndexOf('.'));
+      const fileExtension = fileInput.target.files[i].name.split('.').pop();
+      const newFileName = fileName + Date.now() + '.' + fileExtension;
+      const newFile = new File([fileInput.target.files[i]], newFileName, {type: fileInput.target.files[i].type});
+      this.filesToUpload.push(newFile);
+      console.log(this.filesToUpload);
+      const candidateAttachment = new CandidateAttachment(
+         '', '', fileInput.target.files[i].name, newFile.name, null);
+      this.candidateAttachments.push(candidateAttachment);
     }
   }
 
@@ -108,13 +115,6 @@ export class AddNewCandidateComponent implements OnInit {
     document.getElementById('choseFile').click();
   }
 
-  initializeCandidate() {
-    this.candidateEducation = [];
-    this.candidateExperience = [];
-    this.candidateAttachments = [];
-  }
-
-
   removeAllSelectedFiles() {
     this.filesToUpload = [];
     this.fileUploadVar.nativeElement.value = '';
@@ -124,6 +124,10 @@ export class AddNewCandidateComponent implements OnInit {
   removeSelectedFiles(index: number) {
     this.candidateAttachments.splice(index, 1);
   }
+
+
+
+
 
   getStartDateOfEducation(date: string, index: number) {
     this.startDateOfEducation[index] = date;
@@ -135,7 +139,7 @@ export class AddNewCandidateComponent implements OnInit {
   }
   populateEducationFields() {
     return this.formBuilder.group({
-      id: [''],
+      id: [],
       name: ['', Validators.required],
       instituteName: ['', Validators.required],
       result: [''],
@@ -155,7 +159,7 @@ export class AddNewCandidateComponent implements OnInit {
 
   populateExperienceFields() {
     return this.formBuilder.group({
-      id: [''],
+      id: [],
       employerName: ['', Validators.required],
       designation: ['', Validators.required],
       role: [''],
@@ -201,17 +205,17 @@ export class AddNewCandidateComponent implements OnInit {
    const isClosed = false;
 
    for ( let i = 0; i < this.candidateAttachments.length; i++ ) {
-     this.candidateAttachments[i].id = UUID.UUID();
      this.candidateAttachments[i].candidateId = candidateId;
+     this.candidateAttachments[i].id = UUID.UUID();
    }
    for ( let i = 0; i < this.candidateEducation.length; i++ ) {
-     this.candidateEducation[i].id = UUID.UUID();
      this.candidateEducation[i].candidateId = candidateId;
+     this.candidateEducation[i].id = UUID.UUID();
    }
    for ( let i = 0; i < this.candidateExperience.length; i++ ) {
-     this.candidateExperience[i].id = UUID.UUID();
      this.candidateExperience[i].candidateId = candidateId;
-    }
+     this.candidateExperience[i].id = UUID.UUID();
+   }
 
    const newCandidate = new Candidate(
      candidateId, jobId, firstName, lastName, email, mobile, address,
@@ -220,24 +224,26 @@ export class AddNewCandidateComponent implements OnInit {
      facebookUrl, linkedInUrl, isArchived, isHired, isClosed);
 
    this.candidateService.addNewCandidate(newCandidate);
-   console.log(newCandidate);
-
-    this.dataStorageService.addNewCandidate(newCandidate)
-      .subscribe(
-        (data: any) => {
-          console.log(data);
-          this.dataStorageService.uploadCandidateAttachment(this.filesToUpload, candidateId)
-            .subscribe(
-              (response: any) => {
+   this.notifierService.notify('default', 'New candidate added');
+   this.isDisabled = true;
+   this.router.navigate(['/candidates']);
+  /* this.dataStorageService.addNewCandidate(newCandidate)
+     .subscribe(
+       (data: any) => {
+         console.log(data);
+         this.dataStorageService.uploadCandidateAttachments(this.filesToUpload)
+           .subscribe(
+             (response: any) => {
                 console.log(response);
-                 // this.initializeCandidate();
-             //   this.addNewCandidateForm.reset();
-                  this.notifier.notify( 'default', 'New candidate added!' );
-              //  this.router.navigate(['/candidates']);
-              }
-            );
-        }
-      );
+                this.isDisabled = true;
+                this.clearAllArrays();
+                this.addNewCandidateForm.reset();
+                this.router.navigate(['/candidates']);
+                this.notifierService.notify('default', 'New candidate added');
+             }
+           );
+       }
+     );*/
 
   }
 }

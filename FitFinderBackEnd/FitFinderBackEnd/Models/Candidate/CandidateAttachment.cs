@@ -13,7 +13,7 @@ namespace FitFinderBackEnd.Models.Candidate
         public Candidate Candidate { get; set; }
         public string CandidateId { get; set; }
         public string FileName { get; set; }
-        public string FilePath  { get; set; }
+        public string ModifiedFileName { get; set; }
         public bool IsResume { get; set; }
     }
 }

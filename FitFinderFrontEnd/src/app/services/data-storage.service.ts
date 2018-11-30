@@ -38,17 +38,11 @@ export class DataStorageService {
     return this.httpClient.post(this.apiRootUrl + 'AddNewCandidate', candidate);
   }
 
-
-
-  uploadCandidateAttachment(candidateAttachments: Array<File>, candidateId: string) {
+  uploadCandidateAttachments(attachments: Array<File>) {
     const formData = new FormData();
-    for (let i = 0; i < candidateAttachments.length; i++) {
-      formData.append('Candidate Attachments', candidateAttachments[i], candidateAttachments[i].name);
+    for (let i = 0; i < attachments.length; i++) {
+      formData.append('Attachments', attachments[i], attachments[i].name);
     }
-   formData.append('Candidate Id', candidateId);
-    return this.httpClient.post(this.apiRootUrl + 'UploadCandidateAttachment', formData);
+    return this.httpClient.post(this.apiRootUrl + 'UploadCandidateAttachments', formData);
   }
-
-
-
 }

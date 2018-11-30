@@ -14,7 +14,6 @@ export class CandidatePanelComponent implements OnInit, OnDestroy {
   selectedValue = '';
   candidates: Candidate[] = [];
   subscription: Subscription;
-  totalCandidates = 0;
 
   constructor(private candidateService: CandidateService) {}
 
@@ -27,15 +26,12 @@ export class CandidatePanelComponent implements OnInit, OnDestroy {
           this.candidates = candidates;
         }
       );
-    this.totalCandidates = this.candidates.length;
   }
 
    onValueChange(value: string) {
     this.selectedValue = value;
   }
-  uploadAttachments() {
 
-  }
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
