@@ -2,7 +2,6 @@ import {Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {DataStorageService} from '../../../services/data-storage.service';
-import {HttpClient} from '@angular/common/http';
 import {UUID} from 'angular2-uuid';
 import {CandidateAttachment} from '../../../models/candidate-attachment.model';
 import {Candidate} from '../../../models/candidate.model';
@@ -12,7 +11,6 @@ import {ShortDateAdapter} from '../../../date-adapters/short-date.adapter';
 import {CandidateEducation} from '../../../models/candidate-education.model';
 import {CandidateExperience} from '../../../models/candidate-experience.model';
 import {NotifierService} from 'angular-notifier';
-import * as moment from 'moment';
 
 
 @Component({
@@ -124,10 +122,6 @@ export class AddNewCandidateComponent implements OnInit {
   removeSelectedFiles(index: number) {
     this.candidateAttachments.splice(index, 1);
   }
-
-
-
-
 
   getStartDateOfEducation(date: string, index: number) {
     this.startDateOfEducation[index] = date;

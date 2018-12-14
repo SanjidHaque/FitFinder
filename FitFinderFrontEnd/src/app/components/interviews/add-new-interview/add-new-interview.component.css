@@ -1,0 +1,7 @@
+.example-chip-list {
+  width: 100%;
+}
+
+#time-picker-wrapper[_ngcontent-c12] #time-picker[_ngcontent-c12] .time-picker-content[_ngcontent-c12] .time-picker-clock[_ngcontent-c12] button[_ngcontent-c12]{
+  outline: 0;
+}

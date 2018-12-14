@@ -235,6 +235,7 @@
                 (dateChange)="getStartDateOfEducation($event.value, i)"
                 [matDatepicker]="picker1"
                 readonly
+                (click)="picker1.open()"
               >
               <mat-datepicker-toggle
                 matTooltip = "Click Me!"
@@ -255,6 +256,7 @@
                 [matDatepicker]="picker2"
                 [min]="startDateOfEducation[i]"
                 readonly
+                (click)="picker2.open()"
               >
               <mat-error>Ending date is smaller than starting date!</mat-error>
               <mat-datepicker-toggle
@@ -361,6 +363,7 @@
                 (dateChange)="getStartDateOfExperience($event.value, i)"
                 [matDatepicker]="picker1"
                 readonly
+                (click)="picker1.open()"
               >
               <mat-datepicker-toggle
                 matTooltip = "Click Me!"
@@ -381,6 +384,7 @@
                 [matDatepicker]="picker2"
                 [min]="startDateOfExperience[i]"
                 readonly
+                (click)="picker2.open()"
               >
               <mat-error>Ending date is smaller than starting date!</mat-error>
               <mat-datepicker-toggle

@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 
 
 import {
-  DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MAT_DIALOG_DEFAULT_OPTIONS,
+  DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MAT_DIALOG_DEFAULT_OPTIONS, MatAutocompleteModule,
   MatNativeDateModule
 } from '@angular/material';
 import {MatTableModule} from '@angular/material/table';
@@ -27,6 +27,8 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatChipsModule} from '@angular/material/chips';
+
 
 
 @NgModule({
@@ -53,7 +55,9 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     MatButtonToggleModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatChipsModule,
+    MatAutocompleteModule
   ],
   exports: [
     MatButtonModule,
@@ -77,7 +81,9 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     MatButtonToggleModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatChipsModule,
+    MatAutocompleteModule
   ],
 
   entryComponents: [

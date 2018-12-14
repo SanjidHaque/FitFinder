@@ -35,6 +35,8 @@ import { CandidatesAndLeadsComponent } from './components/settings/candidates-an
 import { JobOpeningsComponent } from './components/settings/job-openings/job-openings.component';
 import { WorkflowComponent } from './components/settings/workflow/workflow.component';
 import { DisqualifyReasonsComponent } from './components/settings/disqualify-reasons/disqualify-reasons.component';
+import { AmazingTimePickerModule } from 'amazing-time-picker';
+
 
 
 
@@ -71,6 +73,7 @@ import { DisqualifyReasonsComponent } from './components/settings/disqualify-rea
     AppMaterialModule,
     FormsModule,
     ReactiveFormsModule,
+    AmazingTimePickerModule,
     NotifierModule.withConfig({
       position: {
         horizontal: {

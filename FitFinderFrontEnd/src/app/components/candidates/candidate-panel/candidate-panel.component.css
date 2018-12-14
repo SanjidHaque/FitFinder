@@ -13,18 +13,7 @@
 .mat-button-toggle-button{
   outline: 0!important;
 }
-table {
-  width: 100%;
-}
 
-.mat-form-field {
-  font-size: 14px;
-  width: 100%;
-}
-
-td, th {
-  width: 25%;
-}
 td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type, th.mat-header-cell:first-of-type{
   padding-top: 9px;
 }
