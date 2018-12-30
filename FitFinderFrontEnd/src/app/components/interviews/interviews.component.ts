@@ -17,6 +17,7 @@ export class InterviewsComponent implements OnInit {
       .subscribe(
         (data: Data) => {
           this.interviewService.interviews = data['interviews'];
+          this.interviewService.candidates = data['candidates'];
         }
       );
   }

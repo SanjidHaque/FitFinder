@@ -36,6 +36,9 @@ import { JobOpeningsComponent } from './components/settings/job-openings/job-ope
 import { WorkflowComponent } from './components/settings/workflow/workflow.component';
 import { DisqualifyReasonsComponent } from './components/settings/disqualify-reasons/disqualify-reasons.component';
 import { AmazingTimePickerModule } from 'amazing-time-picker';
+import {
+  SelectCandidatesForInterviewDialogComponent} from './components/interviews/add-new-interview/select-candidates-for-interview-dialog/select-candidates-for-interview-dialog.component';
+import { SearchCandidatePipe } from './pipes/search-candidate.pipe';
 
 
 
@@ -61,7 +64,9 @@ import { AmazingTimePickerModule } from 'amazing-time-picker';
     CandidatesAndLeadsComponent,
     JobOpeningsComponent,
     WorkflowComponent,
-    DisqualifyReasonsComponent
+    DisqualifyReasonsComponent,
+    SelectCandidatesForInterviewDialogComponent,
+    SearchCandidatePipe
   ],
   imports: [
     BrowserModule,
@@ -103,6 +108,9 @@ import { AmazingTimePickerModule } from 'amazing-time-picker';
     CandidateResolverService,
     InterviewResolverService,
     JobResolverService
+  ],
+  entryComponents: [
+    SelectCandidatesForInterviewDialogComponent
   ],
 
   bootstrap: [

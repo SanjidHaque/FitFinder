@@ -1,20 +1,20 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {Candidate} from '../../../models/candidate.model';
-import {CandidateService} from '../../../services/candidate.service';
+import {Candidate} from '../../../../models/candidate.model';
+import {CandidateService} from '../../../../services/candidate.service';
 import {SelectionModel} from '@angular/cdk/collections';
-
+import {InterviewService} from '../../../../services/interview.service';
 
 @Component({
-  selector: 'app-candidate-panel',
-  templateUrl: './candidate-panel.component.html',
-  styleUrls: ['./candidate-panel.component.css'],
+  selector: 'app-select-candidates-for-interview',
+  templateUrl: './select-candidates-for-interview-dialog.component.html',
+  styleUrls: ['./select-candidates-for-interview-dialog.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class CandidatePanelComponent implements OnInit {
+export class SelectCandidatesForInterviewDialogComponent implements OnInit {
 
-  selection = new SelectionModel<Candidate>(true, []);
-  selectedValue = 'all';
   candidates: Candidate[] = [];
+  selectedValue = 'all';
+  selection = new SelectionModel<Candidate>(true, []);
   candidateDefaultImage = 'assets/images/candidateDefaultImage.png';
 
   sources = [
@@ -26,14 +26,12 @@ export class CandidatePanelComponent implements OnInit {
     {sourceId: '6', sourceName: 'LinkedIn'},
     {sourceId: '7', sourceName: 'Simply Hired'},
     {sourceId: '8', sourceName: 'Website'}
-    ];
-
-  constructor(private candidateService: CandidateService) {}
+  ];
+  constructor(private interviewService: InterviewService) {}
 
   ngOnInit() {
-    this.candidates = this.candidateService.getAllCandidate();
- }
-
+    this.candidates = this.interviewService.getAllCandidate();
+  }
 
   isAllSelected() {
     const numSelected = this.selection.selected.length;
@@ -55,7 +53,4 @@ export class CandidatePanelComponent implements OnInit {
     return this.sources.find(x => x.sourceId === candidate.CandidateSourceId).sourceName;
   }
 
-  getInterviewDate() {
-
-  }
 }

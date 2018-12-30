@@ -48,7 +48,19 @@
   <div class="col-xl-8">
 
     <div class="row">
-      <div class="col-xl-12" style="padding-left: 0; margin-top: 10px">
+      <div class="col-xl-1 text-xl-left" style="padding-top: 17px;">
+
+        <mat-checkbox (change)="$event ? masterToggle() : null"
+                      color="primary"
+                      matTooltip="Select all"
+                      matTooltipPosition="left"
+                      style="margin-top: 18px;"
+                      [checked]="selection.hasValue() && isAllSelected()"
+                      [indeterminate]="selection.hasValue() && !isAllSelected()">
+        </mat-checkbox>
+
+      </div>
+      <div class="col-xl-11" style="padding-left: 0; margin-top: 10px">
         <button mat-flat-button [disabled]="candidates.length == 0 || !selection.hasValue()" style="background-color: transparent; outline: 0;"><i class="fas fa-plus-circle"></i> Assign Job</button>
         <button mat-flat-button [disabled]="candidates.length == 0 || !selection.hasValue()" style="background-color: transparent; outline: 0;"><i class="fas fa-tag"></i> Tag</button>
         <button mat-flat-button [disabled]="candidates.length == 0 || !selection.hasValue()" style="background-color: transparent; outline: 0;"><i class="fas fa-sign-out-alt"></i> Status</button>
@@ -104,55 +116,76 @@
       <div class="row" style="margin-top: 10px;">
         <div class="col-xl-12">
 
-          <mat-form-field style="width: 100%;">
-            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search candidates">
-          </mat-form-field>
-
-
-
-          <div class="mat-elevation-z8">
-            <table style="width: 100%;" mat-table [dataSource]="dataSource" matSort>
-
-              <ng-container matColumnDef="Select">
-                <th style="width: 10%;" mat-header-cell *matHeaderCellDef>
-                  <mat-checkbox (change)="$event ? masterToggle() : null"
-                                color="primary"
-                                [checked]="selection.hasValue() && isAllSelected()"
-                                [indeterminate]="selection.hasValue() && !isAllSelected()">
-                  </mat-checkbox>
-                </th>
-                <td style="width: 10%;" mat-cell *matCellDef="let row">
-                  <mat-checkbox (click)="$event.stopPropagation()"
-                                color="primary"
-                                (change)="$event ? selection.toggle(row) : null"
-                                [checked]="selection.isSelected(row)">
-                  </mat-checkbox>
-                </td>
-              </ng-container>
-
-              <ng-container matColumnDef="FirstName">
-                  <th style="width: 25%;" mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-                  <td style="width: 25%;" mat-cell *matCellDef="let candidate;">  {{ candidate.FirstName }} {{ candidate.LastName }} </td>
-              </ng-container>
-
-              <ng-container matColumnDef="ApplicationDate">
-                <th style="width: 25%;" mat-header-cell *matHeaderCellDef mat-sort-header> Date applied </th>
-                <td style="width: 25%;" mat-cell *matCellDef="let candidate;">  {{ candidate.ApplicationDate  }}  </td>
-              </ng-container>
-
-              <ng-container matColumnDef="Source" stickyEnd>
-                <th style="width: 25%;" st mat-header-cell *matHeaderCellDef> Source </th>
-                <td style="width: 25%;" mat-cell *matCellDef="let candidate;">  {{ getSourceName(candidate.CandidateSourceId)  }}  </td>
-              </ng-container>
-
-              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-              <tr mat-row *matRowDef="let candidate; columns: displayedColumns;"
-              ></tr>
-
-            </table>
-
-            <mat-paginator [pageSizeOptions]="pageSizeOptions" showFirstLastButtons></mat-paginator>
+          <div class="row">
+            <div class="col-xl-12">
+               <mat-form-field
+                 style="width: 100%;">
+                 <input
+                   matInput
+                   [(ngModel)]="term"
+                   placeholder="Search candidates">
+               </mat-form-field>
+            </div>
           </div>
+
+          <div class="row" *ngFor="let candidate of candidates | searchCandidate:term">
+            <div class="col-xl-12">
+              <div class="row">
+                <div class="col-xl-1">
+
+                  <div class="row">
+                    <div class="col-xl-12"
+                         style="padding-top: 25px;"
+                    >
+                      <mat-checkbox (click)="$event.stopPropagation()"
+                                    color="primary"
+                                    (change)="$event ? selection.toggle(candidate) : null"
+                                    [checked]="selection.isSelected(candidate)">
+                      </mat-checkbox>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div
+                  class="col-xl-1"
+                  style="
+                  padding-top: 5px;
+                  padding-bottom: 5px;">
+                  <img
+                    class="img-responsive"
+                    style="
+                    border-radius: 50%;height: 60px; width: 60px"
+                    [src]="candidateDefaultImage">
+                </div>
+
+                <div class="col-xl-5">
+                  <div class="row">
+
+                    <div class="col-xl-12" style="padding-top: 10px;">
+                     <strong>{{ candidate.FirstName }} {{ candidate.LastName }}</strong>
+                    </div>
+
+                  </div>
+                  <div class="row">
+                    <div
+                      style="font-size: 12px;"
+                      class="col-xl-12">
+
+                     <strong><i class="fab fa-osi"></i> {{ getSourceName(candidate) }}</strong>
+
+                    </div>
+                  </div>
+
+
+                </div>
+
+              </div>
+
+
+            </div>
+          </div>
+
 
 
         </div>

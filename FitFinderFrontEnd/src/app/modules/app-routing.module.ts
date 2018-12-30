@@ -73,7 +73,10 @@ const appRoutes: Routes = [
   {
     path: 'interviews',
     component: InterviewsComponent,
-    resolve: { interviews: InterviewResolverService },
+    resolve: {
+      interviews: InterviewResolverService,
+      candidates: CandidateResolverService
+    },
     children: [
       {
         path: '',

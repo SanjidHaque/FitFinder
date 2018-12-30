@@ -161,9 +161,73 @@
 
       </div>
 
+      <div class="row">
+
+        <div class="col-xl-6">
+          <h6>Candidates</h6>
+        </div>
+
+        <div class="col-xl-6 text-xl-right" *ngIf="selectedCandidates.length !== 0">
+
+          <button
+            type="button"
+            (click)="openSelectCandidatesDialog()"
+            mat-flat-button style="outline: 0 ;">
+            <i class="fas fa-plus-circle"></i> Select Candidate</button>
+
+        </div>
+
+      </div>
+      <hr>
+
+      <div class="row" *ngIf="selectedCandidates.length == 0; else candidateIsSelected">
+        <div class="offset-xl-1 col-xl-10">
+          <br>
+
+          <div style="opacity: .8; font-size: 40px; text-align: center;">
+            <i  class="fas fa-box-open"></i>
+          </div>
+
+
+
+          <div style="text-align: center;">
+            <h6>No Candidate Selected</h6>
+          </div>
+
+
+          <div style="text-align: center;">
+            <button
+              type="button"
+              (click)="openSelectCandidatesDialog()"
+              mat-flat-button style="outline: 0 ;">
+              <i class="fas fa-plus-circle"></i> Select Candidate</button>
+          </div>
+          <br>
+        </div>
+      </div>
+
+      <ng-template #candidateIsSelected>
+
+        <div class="row">
+          <div class="col-xl-12" *ngFor="let selectedCandidate of selectedCandidates">
+
+            <div class="row">
+              <div class="col-xl-12">
+
+
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </ng-template>
+
     </div>
 
   </div>
+
 
 
 

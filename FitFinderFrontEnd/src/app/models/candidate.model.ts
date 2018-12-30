@@ -14,7 +14,7 @@ export class Candidate {
     public city: string,
     public state: string,
     public country: string,
-    public candidateSourceId: string,
+    public CandidateSourceId: string,
     public candidateEducation: CandidateEducation[] = [],
     public candidateExperience: CandidateExperience[] = [],
     public candidateAttachment: CandidateAttachment[] = [],
