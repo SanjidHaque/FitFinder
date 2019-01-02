@@ -1,1 +1,132 @@
-[]
+[
+    {
+        "Id": "77af4729-2828-6ef9-5a1b-67c244cab64e",
+        "InterviewDate": "2019-01-02T18:00:00.000Z",
+        "InterviewName": "Junior",
+        "InterviewLocation": "Dhaka",
+        "InterviewStartTime": "12:00 PM",
+        "InterviewEndTime": "1:00 PM",
+        "InterviewTypeId": "2",
+        "CandidatesForInterview": [
+            {
+                "Id": "850baf60-98a6-5e32-3c01-77d0697a73ef",
+                "InterviewId": "77af4729-2828-6ef9-5a1b-67c244cab64e",
+                "Candidate": null,
+                "CandidateId": "44d6786e-5604-e4a6-de91-308eb9c1f6c4"
+            },
+            {
+                "Id": "cac72678-8007-f213-6af4-62453adb4e2d",
+                "InterviewId": "77af4729-2828-6ef9-5a1b-67c244cab64e",
+                "Candidate": null,
+                "CandidateId": "06fc59fb-b181-3ffe-5576-69cc69bc617d"
+            }
+        ],
+        "InterviewersForInterview": [
+            {
+                "Id": "2e5d70ae-b02e-2a96-3f72-05accb99055a",
+                "InterviewId": "77af4729-2828-6ef9-5a1b-67c244cab64e",
+                "InterviewerId": "4"
+            },
+            {
+                "Id": "96eb5dbb-0b2c-be0d-b4b1-fb75e1efe797",
+                "InterviewId": "77af4729-2828-6ef9-5a1b-67c244cab64e",
+                "InterviewerId": "1"
+            },
+            {
+                "Id": "dfa399f8-90e9-5198-8492-3e3e4772bc7a",
+                "InterviewId": "77af4729-2828-6ef9-5a1b-67c244cab64e",
+                "InterviewerId": "3"
+            }
+        ],
+        "InterviewStatus": "Pending"
+    },
+    {
+        "Id": "77af4729-2828-6ef9-5a1b-67c244cab65e",
+        "InterviewDate": "2018-12-24T18:00:00.000Z",
+        "InterviewName": "Board",
+        "InterviewLocation": "Dhaka",
+        "InterviewStartTime": "09:00 AM",
+        "InterviewEndTime": "10:30 AM",
+        "InterviewTypeId": "1",
+        "CandidatesForInterview": [],
+        "InterviewersForInterview": [],
+        "InterviewStatus": "Pending"
+    },
+    {
+        "Id": "77af4729-2828-6ef9-5a1b-67c244cab67e",
+        "InterviewDate": "2019-02-02T18:00:00.000Z",
+        "InterviewName": "Grand",
+        "InterviewLocation": "Dhaka",
+        "InterviewStartTime": "01:30 PM",
+        "InterviewEndTime": "4:30 PM",
+        "InterviewTypeId": "1",
+        "CandidatesForInterview": [],
+        "InterviewersForInterview": [],
+        "InterviewStatus": "Pending"
+    },
+    {
+        "Id": "77af4729-2828-6ef9-5a1b-67c244cab68e",
+        "InterviewDate": "2019-02-02T18:00:00.000Z",
+        "InterviewName": "The final",
+        "InterviewLocation": "Dhaka",
+        "InterviewStartTime": "06:30 PM",
+        "InterviewEndTime": "08:30 PM",
+        "InterviewTypeId": "1",
+        "CandidatesForInterview": [],
+        "InterviewersForInterview": [],
+        "InterviewStatus": "Pending"
+    },
+    {
+        "Id": "77af4729-2828-6ef9-5a1b-67c244cab69e",
+        "InterviewDate": "2019-01-02T18:00:00.000Z",
+        "InterviewName": "Junior Grand",
+        "InterviewLocation": "Austin, Texas",
+        "InterviewStartTime": "12:00 PM",
+        "InterviewEndTime": "3:00 PM",
+        "InterviewTypeId": "2",
+        "CandidatesForInterview": [],
+        "InterviewersForInterview": [
+            {
+                "Id": "dfa399f8-90e9-5198-8492-3e3124772bc7a",
+                "InterviewId": "77af4729-2828-6ef9-5a1b-67c244cab69e",
+                "InterviewerId": "3"
+            },
+            {
+                "Id": "2e5d70ae-b02e-2a96-3f72-05accb99058a",
+                "InterviewId": "77af4729-2828-6ef9-5a1b-67c244cab69e",
+                "InterviewerId": "4"
+            },
+            {
+                "Id": "96eb5dbb-0b2c-be0d-b4b1-fb75121efe797",
+                "InterviewId": "77af4729-2828-6ef9-5a1b-67c244cab69e",
+                "InterviewerId": "1"
+            }
+        ],
+        "InterviewStatus": "Pending"
+    },
+    {
+        "Id": "77af4729-2828-6ef9-5a1b-67c244cab70e",
+        "InterviewDate": "2019-01-02T18:00:00.000Z",
+        "InterviewName": "Junior Grand",
+        "InterviewLocation": "Austin, Texas",
+        "InterviewStartTime": "12:00 PM",
+        "InterviewEndTime": "3:00 PM",
+        "InterviewTypeId": "2",
+        "CandidatesForInterview": [
+            {
+                "Id": "850baf60-98a6-5e32-3c01-77ww0697a73ef",
+                "InterviewId": "77af4729-2828-6ef9-5a1b-67c244cab70e",
+                "Candidate": null,
+                "CandidateId": "44d6786e-5604-e4a6-de91-308eb9c1f6c4"
+            },
+            {
+                "Id": "cac72678-8007-f213-6af4-ww2453ldb4e2d",
+                "InterviewId": "77af4729-2828-6ef9-5a1b-67c244cab70e",
+                "Candidate": null,
+                "CandidateId": "06fc59fb-b181-3ffe-5576-69cc69bc617d"
+            }
+        ],
+        "InterviewersForInterview": [],
+        "InterviewStatus": "Pending"
+    }
+]
