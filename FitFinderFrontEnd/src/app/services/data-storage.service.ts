@@ -12,25 +12,25 @@ export class DataStorageService {
 
   private apiRootUrl = 'http://localhost:55586/api/';
 
-  private getCandidateJson = 'assets/mock-data/candidates.json';
-  private getCandidateApi = 'http://localhost:55586/api/GetAllCandidate';
+  private getAllCandidateJson = 'assets/mock-data/candidates.json';
+  private getAllCandidateApi = 'http://localhost:55586/api/GetAllCandidate';
 
-  private getInterviewJson = 'assets/mock-data/interviews.json';
-  private getInterviewApi = 'http://localhost:55586/api/GetAllInterview';
+  private getAllInterviewJson = 'assets/mock-data/interviews.json';
+  private getAllInterviewApi = 'http://localhost:55586/api/GetAllInterview';
 
-  private getJobJson = 'assets/mock-data/jobs.json';
-  private getJobApi = 'http://localhost:55586/api/GetAllJob';
+  private getAllJobJson = 'assets/mock-data/jobs.json';
+  private getAllJobApi = 'http://localhost:55586/api/GetAllJob';
 
   getAllCandidate() {
-    return this.httpClient.get<Candidate[]>(this.getCandidateJson);
+    return this.httpClient.get<Candidate[]>(this.getAllCandidateJson);
   }
 
   getAllInterview() {
-    return this.httpClient.get<Interview[]>(this.getInterviewJson);
+    return this.httpClient.get<Interview[]>(this.getAllInterviewJson);
   }
 
   getAllJob() {
-    return this.httpClient.get<Job[]>(this.getJobJson);
+    return this.httpClient.get<Job[]>(this.getAllJobJson);
   }
 
 
@@ -44,5 +44,9 @@ export class DataStorageService {
       formData.append('Attachments', attachments[i], attachments[i].name);
     }
     return this.httpClient.post(this.apiRootUrl + 'UploadCandidateAttachments', formData);
+  }
+
+  addNewInterview(interview: Interview) {
+    return this.httpClient.post(this.apiRootUrl + 'AddNewInterview', interview);
   }
 }

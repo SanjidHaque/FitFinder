@@ -130,25 +130,17 @@ export class AddNewInterviewComponent implements OnInit {
     this.interviewService.addNewInterview(interview);
     this.notifierService.notify('default', 'New interview added');
     this.isDisabled = true;
- //   this.router.navigate(['/interviews']);
-    /* this.dataStorageService.addNewCandidate(newCandidate)
+    this.router.navigate(['/interviews']);
+    /*this.dataStorageService.addNewCandidate(newCandidate)
        .subscribe(
          (data: any) => {
-           console.log(data);
-           this.dataStorageService.uploadCandidateAttachments(this.filesToUpload)
-             .subscribe(
-               (response: any) => {
-                  console.log(response);
-                  this.clearAllArrays();
-                  this.addNewCandidateForm.reset();
-                  this.router.navigate(['/candidates']);
-                  this.notifierService.notify('default', 'New candidate added');
-                  224 no line'll be removed when comment out this block
-               }
-             );
+           this.candidates = [];
+           this.addNewInterviewForm.reset();
+           this.router.navigate(['/interviews']);
+           this.notifierService.notify('default', 'New candidate added');
+           133 no line'll be removed, when comment out this block.
          }
        );*/
-
   }
 
   getTimeWithAmOrPm(time: string) {
