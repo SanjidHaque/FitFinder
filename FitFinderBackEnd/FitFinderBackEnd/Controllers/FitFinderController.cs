@@ -12,6 +12,7 @@ using System.Web.Http;
 using System.Web.Http.Cors;
 using FitFinderBackEnd.Models;
 using FitFinderBackEnd.Models.Candidate;
+using FitFinderBackEnd.Models.Interview;
 
 namespace FitFinderBackEnd.Controllers
 {
@@ -65,6 +66,33 @@ namespace FitFinderBackEnd.Controllers
                 Include(d => d.CandidateExperience).
                 Include(e => e.CandidateAttachment).ToList();
             return Ok(candidate);
+        }
+
+
+        [HttpPost]
+        [Route("api/AddNewInterview")]
+        public IHttpActionResult AddNewInterview(Interview interview)
+        {
+            if (interview == null)
+            {
+                return NotFound();
+            }
+
+            _context.CandidatesForInterviews.AddRange(interview.CandidatesForInterview);
+            _context.InterviewersForInterviews.AddRange(interview.InterviewersForInterview);
+            _context.Interviews.Add(interview);
+            _context.SaveChanges();
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("api/GetAllInterview")]
+        public IHttpActionResult GetAllInterview()
+        {
+            List<Interview> interview = _context.Interviews.
+                Include(c => c.CandidatesForInterview).
+                Include(d => d.InterviewersForInterview).ToList();
+            return Ok(interview);
         }
 
     }

@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using System.Threading.Tasks;
 using FitFinderBackEnd.Models.Candidate;
+using FitFinderBackEnd.Models.Interview;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -27,6 +28,11 @@ namespace FitFinderBackEnd.Models
         public DbSet<CandidateAttachment> CandidateAttachments { get; set; }
         public DbSet<CandidateEducation> CandidateEducations { get; set; }
         public DbSet<CandidateExperience> CandidateExperiences { get; set; }
+
+        public DbSet<CandidatesForInterview> CandidatesForInterviews { get; set; }
+        public DbSet<InterviewersForInterview> InterviewersForInterviews { get; set; }
+        public DbSet<Interview.Interview> Interviews { get; set; }
+    
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)

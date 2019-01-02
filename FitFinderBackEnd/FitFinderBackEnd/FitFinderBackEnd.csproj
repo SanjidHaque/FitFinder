@@ -257,6 +257,10 @@
     <Compile Include="Migrations\201811291600068_candidateAttachmentModelChanged.Designer.cs">
       <DependentUpon>201811291600068_candidateAttachmentModelChanged.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201901021618215_InterviewrRelatedModelsAdded.cs" />
+    <Compile Include="Migrations\201901021618215_InterviewrRelatedModelsAdded.Designer.cs">
+      <DependentUpon>201901021618215_InterviewrRelatedModelsAdded.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -266,6 +270,9 @@
     <Compile Include="Models\Candidate\CandidateExperience.cs" />
     <Compile Include="Models\Candidate\CandidateSource.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Interview\CandidatesForInterview.cs" />
+    <Compile Include="Models\Interview\Interview.cs" />
+    <Compile Include="Models\Interview\InterviewersForInterview.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
@@ -371,6 +378,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811291600068_candidateAttachmentModelChanged.resx">
       <DependentUpon>201811291600068_candidateAttachmentModelChanged.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901021618215_InterviewrRelatedModelsAdded.resx">
+      <DependentUpon>201901021618215_InterviewrRelatedModelsAdded.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
