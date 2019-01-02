@@ -12,7 +12,7 @@
   <div class="col-xl-1 pr-xl-1">
     <button
       type="submit"
-
+      [disabled]="!form.valid || isDisabled"
       style="width: 100%;
       outline: 0;"
       color="primary"
@@ -78,17 +78,26 @@
       <hr>
 
 
-
+      <div class="row">
+        <div class="col-xl-12">
 
           <mat-form-field style="width: 100%;" appearance="outline">
             <mat-select
               formControlName="interviewers"
               placeholder="Select interviewers" multiple>
               <mat-option
-                *ngFor="let user of users" [value]="user">{{ user.userName }}
+                *ngFor="let user of users" [value]="user">
+                <img
+                  style="border-radius: 50%;height: 30px; width: 30px"
+                  [src]= "candidateDefaultImage"> {{ user.userName }} |
+                <span style="font-size: 13px; opacity: 7;">{{ user.role }}</span>
               </mat-option>
             </mat-select>
           </mat-form-field>
+
+        </div>
+      </div>
+
 
 
       <div class="row">
@@ -167,20 +176,20 @@
           <h6>Candidates</h6>
         </div>
 
-        <div class="col-xl-6 text-xl-right" *ngIf="selectedCandidates.length !== 0">
+        <div class="col-xl-6 text-xl-right" *ngIf="candidates.length !== 0">
 
           <button
             type="button"
             (click)="openSelectCandidatesDialog()"
             mat-flat-button style="outline: 0 ;">
-            <i class="fas fa-plus-circle"></i> Select Candidate</button>
+            <i class="fas fa-plus-circle"></i> Select Candidates</button>
 
         </div>
 
       </div>
       <hr>
 
-      <div class="row" *ngIf="selectedCandidates.length == 0; else candidateIsSelected">
+      <div class="row" *ngIf="candidates.length == 0; else candidateIsSelected">
         <div class="offset-xl-1 col-xl-10">
           <br>
 
@@ -200,7 +209,7 @@
               type="button"
               (click)="openSelectCandidatesDialog()"
               mat-flat-button style="outline: 0 ;">
-              <i class="fas fa-plus-circle"></i> Select Candidate</button>
+              <i class="fas fa-plus-circle"></i> Select Candidates</button>
           </div>
           <br>
         </div>
@@ -209,15 +218,70 @@
       <ng-template #candidateIsSelected>
 
         <div class="row">
-          <div class="col-xl-12" *ngFor="let selectedCandidate of selectedCandidates">
+          <div class="offset-xl-1 col-xl-10"
+               style="padding-top: 10px; padding-bottom: 10px;"
+               *ngFor="let candidate of candidates; let i = index">
 
             <div class="row">
-              <div class="col-xl-12">
+              <div class="col-xl-12" style="
+               padding-top: 10px; padding-bottom: 10px;
+               border-radius: 8px;
+               border: 1px solid #1a237e;">
 
+                <div class="row">
+                  <div class="col-xl-2" style="text-align: center;">
 
+                    <img
+                      class="img-responsive"
+                      style="
+                      border-radius: 50%;height: 60px; width: 60px"
+                      [src]="candidateDefaultImage">
+
+                  </div>
+
+                  <div class="col-xl-9">
+
+                    <div class="row">
+                      <div class="col-xl-12" style="padding-top: 6px;">
+
+                       <strong>{{ candidate.FirstName }} {{ candidate.LastName }}</strong>
+
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-xl-12">
+
+                        <!--starmark is here-->
+
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <div class="col-xl-1">
+
+                    <i (click)="removeCandidate(i)" style="cursor: pointer;" matTooltip="Remove" class="fas fa-times"></i>
+
+                  </div>
+
+                </div>
 
               </div>
             </div>
+
+            <div class="row">
+
+              <div class="col-xl-6">
+              <!--  job status is here-->
+              </div>
+
+              <div class="col-xl-6">
+                <!--candidate status is here-->
+              </div>
+
+            </div>
+
 
           </div>
         </div>

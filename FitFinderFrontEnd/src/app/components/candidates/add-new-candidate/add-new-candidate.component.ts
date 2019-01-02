@@ -104,9 +104,9 @@ export class AddNewCandidateComponent implements OnInit {
 
   changeResume(index: number, value: any) {
     for (let i = 0; i < this.candidateAttachments.length; i++) {
-      this.candidateAttachments[i].isResume = false;
+      this.candidateAttachments[i].IsResume = false;
     }
-    this.candidateAttachments[index].isResume = value.checked;
+    this.candidateAttachments[index].IsResume = value.checked;
   }
 
   getFile() {
@@ -200,25 +200,25 @@ export class AddNewCandidateComponent implements OnInit {
    const applicationDate = new Date();
 
    for ( let i = 0; i < this.candidateAttachments.length; i++ ) {
-     this.candidateAttachments[i].candidateId = candidateId;
-     this.candidateAttachments[i].id = UUID.UUID();
+     this.candidateAttachments[i].CandidateId = candidateId;
+     this.candidateAttachments[i].Id = UUID.UUID();
    }
    for ( let i = 0; i < this.candidateEducation.length; i++ ) {
-     this.candidateEducation[i].candidateId = candidateId;
-     this.candidateEducation[i].id = UUID.UUID();
+     this.candidateEducation[i].CandidateId = candidateId;
+     this.candidateEducation[i].Id = UUID.UUID();
    }
    for ( let i = 0; i < this.candidateExperience.length; i++ ) {
-     this.candidateExperience[i].candidateId = candidateId;
-     this.candidateExperience[i].id = UUID.UUID();
+     this.candidateExperience[i].CandidateId = candidateId;
+     this.candidateExperience[i].Id = UUID.UUID();
    }
 
-   const newCandidate = new Candidate(
+   const candidate = new Candidate(
      candidateId, jobId, firstName, lastName, email, mobile, address,
      city, state, country, candidateSourceId, this.candidateEducation,
      this.candidateExperience, this.candidateAttachments,
      facebookUrl, linkedInUrl, isArchived, isHired, isClosed, applicationDate.toString());
 
-   this.candidateService.addNewCandidate(newCandidate);
+   this.candidateService.addNewCandidate(candidate);
    this.notifierService.notify('default', 'New candidate added');
    this.isDisabled = true;
    this.router.navigate(['/candidates']);
@@ -230,11 +230,11 @@ export class AddNewCandidateComponent implements OnInit {
            .subscribe(
              (response: any) => {
                 console.log(response);
-                this.isDisabled = true;
                 this.clearAllArrays();
                 this.addNewCandidateForm.reset();
                 this.router.navigate(['/candidates']);
                 this.notifierService.notify('default', 'New candidate added');
+                224 no line'll be removed when comment out this block
              }
            );
        }

@@ -6,6 +6,14 @@ import {Candidate} from '../../../models/candidate.model';
 import {
   SelectCandidatesForInterviewDialogComponent
 } from './select-candidates-for-interview-dialog/select-candidates-for-interview-dialog.component';
+import {UUID} from 'angular2-uuid';
+import {CandidatesForInterview} from '../../../models/candidates-for-interview.model';
+import {InterviewersForInterview} from '../../../models/interviewers-for-interview.model';
+import {Interview} from '../../../models/interview.model';
+import {InterviewService} from '../../../services/interview.service';
+import {Router} from '@angular/router';
+import {DataStorageService} from '../../../services/data-storage.service';
+import {NotifierService} from 'angular-notifier';
 
 @Component({
   selector: 'app-add-new-interview',
@@ -18,16 +26,16 @@ import {
 export class AddNewInterviewComponent implements OnInit {
 
   addNewInterviewForm: FormGroup;
-  selectedCandidates: Candidate[] = [];
+  candidates: Candidate[] = [];
   candidateDefaultImage = 'assets/images/candidateDefaultImage.png';
-
+  isDisabled = false;
 
   users = [
-    {id: '1', userName: 'Yaha Juan', role: 'Team member'},
-    {id: '2', userName: 'Cholo Han', role: 'Team member'},
+    {id: '1', userName: 'Yaha Juan', role: 'Super user'},
+    {id: '2', userName: 'Cholo Han', role: 'HR'},
     {id: '3', userName: 'Kaytui Hyan', role: 'Team member'},
     {id: '4', userName: 'Kunisu Honda', role: 'Team member'},
-    {id: '5', userName: 'Yahan Kawai', role: 'Team member'},
+    {id: '5', userName: 'Yahan Kawai', role: 'HR'},
     {id: '6', userName: 'Tatua Nokia', role: 'Team member'},
     {id: '7', userName: 'Vusimuji Momak', role: 'Team member'},
     {id: '8', userName: 'Wyengyu Duija', role: 'Team member'}
@@ -41,7 +49,12 @@ export class AddNewInterviewComponent implements OnInit {
     {id: '5', type: 'Panel'}
   ];
 
-  constructor(public dialog: MatDialog) {}
+  constructor(private dialog: MatDialog,
+              private interviewService: InterviewService,
+              private router: Router,
+              private dataStorageService: DataStorageService,
+              private notifierService: NotifierService) {
+  }
 
 
   ngOnInit() {
@@ -56,17 +69,104 @@ export class AddNewInterviewComponent implements OnInit {
     });
   }
 
+
+  getCandidatesForInterview(interviewId: string) {
+    const candidatesForInterview: CandidatesForInterview[] = [];
+
+    for (let i = 0; i < this.candidates.length; i++) {
+      const candidateForInterview =
+        new CandidatesForInterview(UUID.UUID(), interviewId, this.candidates[i].Id);
+      candidatesForInterview.push(candidateForInterview);
+    }
+    return candidatesForInterview;
+  }
+
+  getInterviewersForInterview(interviewId: string, interviewers: any[]) {
+    const interviewersForInterview: InterviewersForInterview[] = [];
+
+    for (let i = 0; i < interviewers.length; i++) {
+      const interviewerForInterview =
+        new InterviewersForInterview(UUID.UUID(), interviewId, interviewers[i].id  );
+      interviewersForInterview.push(interviewerForInterview);
+    }
+    return interviewersForInterview;
+  }
+
+  onSubmitNewInterview() {
+    const interviewId = UUID.UUID();
+    const interviewDate = this.addNewInterviewForm.controls['interviewDate'].value;
+    const interviewName = this.addNewInterviewForm.controls['interviewName'].value;
+    const interviewLocation = this.addNewInterviewForm.controls['interviewLocation'].value;
+
+    let interviewStartTime = this.addNewInterviewForm.controls['interviewStartTime'].value;
+    interviewStartTime = this.getTimeWithAmOrPm(interviewStartTime);
+
+    let interviewEndTime = this.addNewInterviewForm.controls['interviewEndTime'].value;
+    interviewEndTime = this.getTimeWithAmOrPm(interviewEndTime);
+
+    const interviewTypeId = this.addNewInterviewForm.controls['interviewTypeId'].value;
+    const candidatesForInterview = this.getCandidatesForInterview(interviewId);
+
+    let interviewersForInterview = this.addNewInterviewForm.controls['interviewers'].value;
+    interviewersForInterview = this.getInterviewersForInterview(interviewId, interviewersForInterview);
+
+    const interviewStatus = 'Pending';
+
+    const interview = new Interview(
+      interviewId,
+      interviewDate,
+      interviewName,
+      interviewLocation,
+      interviewStartTime,
+      interviewEndTime,
+      interviewTypeId,
+      candidatesForInterview,
+      interviewersForInterview,
+      interviewStatus
+    );
+
+    console.log(interview);
+
+    this.interviewService.addNewInterview(interview);
+    this.notifierService.notify('default', 'New interview added');
+    this.isDisabled = true;
+ //   this.router.navigate(['/interviews']);
+    /* this.dataStorageService.addNewCandidate(newCandidate)
+       .subscribe(
+         (data: any) => {
+           console.log(data);
+           this.dataStorageService.uploadCandidateAttachments(this.filesToUpload)
+             .subscribe(
+               (response: any) => {
+                  console.log(response);
+                  this.clearAllArrays();
+                  this.addNewCandidateForm.reset();
+                  this.router.navigate(['/candidates']);
+                  this.notifierService.notify('default', 'New candidate added');
+                  224 no line'll be removed when comment out this block
+               }
+             );
+         }
+       );*/
+
+  }
+
   getTimeWithAmOrPm(time: string) {
     const minutes = time.slice(3, 5);
+
     if (Number.parseInt(time.slice(0, 2)) > 12) {
       const hours = Number.parseInt(time.slice(0, 2)) - 12;
       const newTime = hours.toString() + ':' + minutes + ' PM';
+      return newTime;
     } else if (Number.parseInt(time.slice(0, 2)) === 0) {
       const newTime = '12' + ':' + minutes + ' AM';
+      return newTime;
     } else if (Number.parseInt(time.slice(0, 2)) === 12) {
       const newTime = '12' + ':' + minutes + ' PM';
+      return newTime;
     } else {
       const newTime = time + ' AM';
+      return newTime;
     }
   }
 
@@ -80,16 +180,21 @@ export class AddNewInterviewComponent implements OnInit {
       });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.selectedCandidates = result;
-      console.log(this.selectedCandidates);
+      if (result !== '') {
+        if (this.candidates.length !== 0 ) {
+            this.candidates =
+              Array.from(new Set(this.candidates.concat(result)));
+        } else {
+          this.candidates = result;
+        }
+      }
     });
   }
 
-
-
-  onSubmitNewInterview() {
-
+  removeCandidate(index: number) {
+    this.candidates.splice(index, 1);
   }
+
 
 }
 

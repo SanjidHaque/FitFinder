@@ -1,12 +1,12 @@
 export class CandidateExperience {
   constructor(
-    public id: string,
-    public candidateId: string,
-    public employerName: string,
-    public designation: string,
-    public role: string,
-    public startDate: string,
-    public endDate: string,
-    public isCurrent: boolean
+    public Id: string,
+    public CandidateId: string,
+    public EmployerName: string,
+    public Designation: string,
+    public Role: string,
+    public StartDate: string,
+    public EndDate: string,
+    public IsCurrent: boolean
   ) {}
 }

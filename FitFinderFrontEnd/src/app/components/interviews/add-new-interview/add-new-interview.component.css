@@ -5,3 +5,7 @@
 #time-picker-wrapper[_ngcontent-c12] #time-picker[_ngcontent-c12] .time-picker-content[_ngcontent-c12] .time-picker-clock[_ngcontent-c12] button[_ngcontent-c12]{
   outline: 0;
 }
+.example-additional-selection {
+  opacity: 0.75;
+  font-size: 0.75em;
+}

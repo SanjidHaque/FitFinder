@@ -1,11 +1,11 @@
 export class CandidateEducation {
   constructor(
-    public id: string,
-    public candidateId: string,
-    public name: string,
-    public instituteName: string,
-    public result: string,
-    public startDate: string,
-    public endDate: string
+    public Id: string,
+    public CandidateId: string,
+    public Name: string,
+    public InstituteName: string,
+    public Result: string,
+    public StartDate: string,
+    public EndDate: string
   ) {}
 }

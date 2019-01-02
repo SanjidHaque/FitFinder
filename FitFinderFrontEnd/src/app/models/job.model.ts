@@ -1,6 +1,6 @@
 export class Job {
   constructor(
-    public id: string,
-    public name: string
+    public Id: string,
+    public JobName: string
   ) {}
 }
