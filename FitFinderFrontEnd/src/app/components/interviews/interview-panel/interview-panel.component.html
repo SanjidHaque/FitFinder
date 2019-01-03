@@ -56,12 +56,17 @@
             style="
             text-align: left;
             font-weight: bold;">
-
+            <mat-option style="
+              text-align: left;
+              font-weight: bold;" [value]="'All'">
+              All
+            </mat-option>
             <mat-option
               style="
               text-align: left;
               font-weight: bold;"
-              *ngFor="let interviewStatus of interviewStatuses" [value]="interviewStatus">{{interviewStatus}}
+              *ngFor="let interviewType of interviewTypes" [value]="interviewType.id">
+              {{ interviewType.type }}
             </mat-option>
 
           </mat-select>
@@ -97,13 +102,27 @@
   <div class="col-xl-8">
 
     <div class="row">
-      <div class="col-xl-12" style="padding-left: 0; margin-top: 10px">
-        <button mat-flat-button [disabled]="totalInterviews == 0" style="background-color: transparent; outline: 0;"><i class="fas fa-archive"></i> Archive</button>
-        <button mat-flat-button [disabled]="totalInterviews == 0" style="background-color: transparent; outline: 0;"><i class="far fa-window-restore"></i> Restore</button>
+      <div class="col-xl-1 text-xl-left" style="padding-top: 18px;">
+
+        <mat-checkbox (change)="$event ? masterToggle() : null"
+                      color="primary"
+                      matTooltip="Select all"
+                      matTooltipPosition="left"
+                      style="margin-top: 18px;"
+                      [checked]="selection.hasValue() && isAllSelected()"
+                      [indeterminate]="selection.hasValue() && !isAllSelected()">
+        </mat-checkbox>
+
+      </div>
+      <div class="col-xl-11" style="padding-left: 0; margin-top: 10px">
+        <button mat-flat-button [disabled]="interviews.length == 0" style="background-color: transparent; outline: 0;"><i class="fas fa-archive"></i> Archive</button>
+        <button mat-flat-button [disabled]="interviews.length == 0" style="background-color: transparent; outline: 0;"><i class="far fa-window-restore"></i> Restore</button>
       </div>
     </div>
-
-    <div class="row" style="margin-top: 10px; border: 1px solid #f0f0f0; border-radius: 5px;">
+    <hr>
+    <div class="row"
+         *ngIf="interviews.length == 0; else interviewExists"
+         style="margin-top: 10px; border: 1px solid #f0f0f0; border-radius: 5px;">
       <div class="col-xl-12">
         <br>
         <br>
@@ -143,6 +162,83 @@
         <br>
       </div>
     </div>
+
+    <ng-template #interviewExists>
+
+      <div class="row" style="margin-top: 10px;">
+        <div class="col-xl-12">
+
+          <div class="row" *ngFor="let interview of interviews"
+               style="padding-bottom: 5px; padding-top: 5px;"
+          >
+            <div class="col-xl-1" style="padding-top: 18px;">
+
+              <mat-checkbox (click)="$event.stopPropagation()"
+                            color="primary"
+                            (change)="$event ? selection.toggle(interview) : null"
+                            [checked]="selection.isSelected(interview)">
+              </mat-checkbox>
+
+            </div>
+
+            <div class="col-xl-1"
+                 style="border: 2px solid whitesmoke; border-radius: 2px;">
+
+              <div class="row">
+                <div class="col-xl-12"
+                     style="font-weight: bold; text-align: center;">
+
+                  {{ getInterviewDay(interview) }}
+
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-12"
+                     style="font-size: 9px; font-weight: bold; text-align: center;">
+
+                  {{ getInterviewMonth(interview) | uppercase}}
+
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-12"
+                     style="
+                     font-size: 9px;
+                     background-color: #1a237e;
+                     color: white;
+                     font-weight: bold; text-align: center;">
+
+                  {{ getInterviewYear(interview) }}
+
+                </div>
+              </div>
+
+            </div>
+
+            <div class="col-xl-10">
+
+              <div class="row">
+                <div class="col-xl-12" style="padding-top: 3px;">
+                  <strong> {{ interview.InterviewStartTime }} - {{ interview.InterviewName }} </strong>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-xl-12" style="font-size: 12px;">
+                  <strong><i class="fas fa-ribbon"></i> {{ getInterviewTypeName(interview) }} - <i class="fas fa-users"></i> Sanjid Haque</strong>
+                </div>
+              </div>
+
+            </div>
+
+
+
+          </div>
+
+        </div>
+      </div>
+
+    </ng-template>
 
 
 

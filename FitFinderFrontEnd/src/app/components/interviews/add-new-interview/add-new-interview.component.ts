@@ -166,13 +166,14 @@ export class AddNewInterviewComponent implements OnInit {
     const dialogRef = this.dialog.open(SelectCandidatesForInterviewDialogComponent,
       {
         hasBackdrop: true,
+        disableClose: true,
         width: '1000px',
         minHeight: '650px',
         maxHeight: '650px'
       });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result !== '') {
+      if (result !== '' ) {
         if (this.candidates.length !== 0 ) {
             this.candidates =
               Array.from(new Set(this.candidates.concat(result)));

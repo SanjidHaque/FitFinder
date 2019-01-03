@@ -67,7 +67,7 @@
     {
         "Id": "77af4729-2828-6ef9-5a1b-67c244cab68e",
         "InterviewDate": "2019-02-02T18:00:00.000Z",
-        "InterviewName": "The final",
+        "InterviewName": "The Final",
         "InterviewLocation": "Dhaka",
         "InterviewStartTime": "06:30 PM",
         "InterviewEndTime": "08:30 PM",
@@ -79,7 +79,7 @@
     {
         "Id": "77af4729-2828-6ef9-5a1b-67c244cab69e",
         "InterviewDate": "2019-01-02T18:00:00.000Z",
-        "InterviewName": "Junior Grand",
+        "InterviewName": "Junior Dumb",
         "InterviewLocation": "Austin, Texas",
         "InterviewStartTime": "12:00 PM",
         "InterviewEndTime": "3:00 PM",
@@ -109,7 +109,7 @@
         "InterviewDate": "2019-01-02T18:00:00.000Z",
         "InterviewName": "Junior Grand",
         "InterviewLocation": "Austin, Texas",
-        "InterviewStartTime": "12:00 PM",
+        "InterviewStartTime": "11:00 PM",
         "InterviewEndTime": "3:00 PM",
         "InterviewTypeId": "2",
         "CandidatesForInterview": [

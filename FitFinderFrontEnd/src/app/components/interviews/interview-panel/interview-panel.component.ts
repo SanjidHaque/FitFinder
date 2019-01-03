@@ -1,7 +1,7 @@
-import {Component, DoCheck, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Interview} from '../../../models/interview.model';
-import {Subscription} from 'rxjs/index';
 import {InterviewService} from '../../../services/interview.service';
+import {SelectionModel} from '@angular/cdk/collections';
 import * as moment from 'moment';
 
 
@@ -12,34 +12,26 @@ import * as moment from 'moment';
   styleUrls: ['./interview-panel.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class InterviewPanelComponent implements OnInit, OnDestroy, DoCheck {
+export class InterviewPanelComponent implements OnInit {
 
-  selectedValue = '';
+  selectedValue = 'all';
   interviews: Interview[] = [];
-  subscription: Subscription;
-  totalInterviews = 0;
   all = 'All';
-  interviewStatuses = ['All', 'Single', 'Batch'];
-  selectedDate = '';
   selectedDateFormatted = '';
+  selection = new SelectionModel<Interview>(true, []);
+  interviewTypes = [
+    {id: '1', type: 'Face to Face'},
+    {id: '2', type: 'Telephonic'},
+    {id: '3', type: 'Video Conference'},
+    {id: '4', type: 'Group'},
+    {id: '5', type: 'Panel'}
+  ];
 
 
   constructor(private interviewService: InterviewService) {}
 
   ngOnInit() {
-    this.selectedValue = 'all';
     this.interviews = this.interviewService.getAllInterview();
-    this.subscription = this.interviewService.interviewsChanged
-      .subscribe(
-        (interviews: Interview[]) => {
-          this.interviews = interviews;
-        }
-      );
-    this.totalInterviews = this.interviews.length;
-
-  }
-
-  ngDoCheck() {
   }
 
   getDate(selectedDate: string) {
@@ -51,10 +43,31 @@ export class InterviewPanelComponent implements OnInit, OnDestroy, DoCheck {
     this.selectedValue = value;
   }
 
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.interviews.length;
+    return numSelected === numRows;
   }
 
+  masterToggle() {
+    this.isAllSelected() ?
+      this.selection.clear() :
+      this.interviews.forEach(row => this.selection.select(row));
+  }
 
+  getInterviewTypeName(interview: Interview) {
+    return this.interviewTypes.find(x => x.id === interview.InterviewTypeId).type;
+  }
+
+  getInterviewDay(interview: Interview) {
+    return moment(interview.InterviewDate).format('Do');
+  }
+
+  getInterviewMonth(interview: Interview) {
+    return moment(interview.InterviewDate).format('MMMM');
+  }
+
+  getInterviewYear(interview: Interview) {
+    return moment(interview.InterviewDate).format('YYYY');
+  }
 }
