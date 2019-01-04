@@ -1,3 +1,195 @@
-<p>
-  add-new-job works!
-</p>
+<br>
+<form
+  [formGroup]="addNewJobForm"
+  (ngSubmit)="onSubmitNewJob()"
+  #form="ngForm">
+  <div class="row">
+
+    <div class="col-xl-10">
+      <h3>New Job Opening</h3>
+    </div>
+
+    <div class="col-xl-1 pr-xl-1">
+      <button
+        type="submit"
+        style="width: 100%;
+      outline: 0;"
+        color="primary"
+        mat-flat-button>Save</button>
+    </div>
+
+    <div class="col-xl-1 pl-xl-1">
+      <button
+        type="button"
+        style="width:
+      100%;outline: 0;"
+        routerLink="/jobs"
+        mat-stroked-button>Cancel</button>
+    </div>
+
+  </div>
+  <hr>
+
+  <div class="row" style="padding-bottom: 50px;">
+    <div class="col-xl-8">
+
+      <div class="row">
+        <div class="col-xl-9">
+
+          <mat-form-field style="width: 100%;" appearance="outline">
+            <mat-label>Job Title</mat-label>
+            <input
+              formControlName="jobTitle"
+              required
+              matInput>
+            <mat-error>You must enter a job name!</mat-error>
+          </mat-form-field>
+
+        </div>
+
+        <div class="col-xl-3">
+
+          <mat-form-field style="width: 100%;" appearance="outline">
+            <mat-label>Job Code</mat-label>
+            <input
+              formControlName="jobCode"
+              matInput>
+          </mat-form-field>
+
+
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xl-12">
+          <h6>Job Description</h6>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xl-12">
+
+
+            <angular-editor
+              class="jobEditor"
+              formControlName="jobDescription"
+              [config]="jobDescriptionConfig">
+            </angular-editor>
+
+
+
+        </div>
+      </div>
+
+      <br>
+
+      <div class="row">
+        <div class="col-xl-12">
+          <h6>Job Requirements</h6>
+        </div>
+      </div>
+      <hr>
+      <br>
+
+
+      <div class="row">
+        <div class="col-xl-12">
+          <h6>Immediate</h6>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-xl-12">
+
+
+          <angular-editor
+            class="jobEditor"
+            formControlName="jobImmediate"
+            [config]="jobImmediateConfig">
+          </angular-editor>
+
+
+
+        </div>
+      </div>
+
+      <br>
+
+      <div class="row">
+        <div class="col-xl-12">
+          <h6>Intermediate</h6>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-xl-12">
+
+
+          <angular-editor
+            class="jobEditor"
+            formControlName="jobIntermediate"
+            [config]="jobIntermediateConfig">
+          </angular-editor>
+
+
+
+        </div>
+      </div>
+
+      <br>
+      <div class="row">
+        <div class="col-xl-12">
+          <h6>Good To Have</h6>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xl-12">
+
+
+          <angular-editor
+            class="jobEditor"
+            formControlName="jobGoodToHave"
+            [config]="jobGoodToHaveConfig">
+          </angular-editor>
+
+
+
+        </div>
+      </div>
+
+
+
+
+    </div>
+
+
+
+    <div class="col-xl-4">
+
+      <div class="row">
+        <div class="col-xl-12">
+          <mat-form-field style="width: 100%;" appearance="outline">
+            <mat-label>Location</mat-label>
+            <input
+              required
+              formControlName = "jobLocation"
+              matInput>
+            <mat-error>Job location is required</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xl-12">
+
+
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+

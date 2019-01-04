@@ -39,6 +39,7 @@ import { AmazingTimePickerModule } from 'amazing-time-picker';
 import {
   SelectCandidatesForInterviewDialogComponent} from './components/interviews/add-new-interview/select-candidates-for-interview-dialog/select-candidates-for-interview-dialog.component';
 import { SearchCandidatePipe } from './pipes/search-candidate.pipe';
+import { AngularEditorModule } from '@kolkov/angular-editor';
 
 
 
@@ -79,6 +80,7 @@ import { SearchCandidatePipe } from './pipes/search-candidate.pipe';
     FormsModule,
     ReactiveFormsModule,
     AmazingTimePickerModule,
+    AngularEditorModule,
     NotifierModule.withConfig({
       position: {
         horizontal: {

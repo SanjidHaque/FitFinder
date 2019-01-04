@@ -115,8 +115,8 @@
 
       </div>
       <div class="col-xl-11" style="padding-left: 0; margin-top: 10px">
-        <button mat-flat-button [disabled]="interviews.length == 0" style="background-color: transparent; outline: 0;"><i class="fas fa-archive"></i> Archive</button>
-        <button mat-flat-button [disabled]="interviews.length == 0" style="background-color: transparent; outline: 0;"><i class="far fa-window-restore"></i> Restore</button>
+        <button mat-flat-button [disabled]="interviews.length == 0 || !selection.hasValue()" style="background-color: transparent; outline: 0;"><i class="fas fa-archive"></i> Archive</button>
+        <button mat-flat-button [disabled]="interviews.length == 0 || !selection.hasValue()" style="background-color: transparent; outline: 0;"><i class="far fa-window-restore"></i> Restore</button>
       </div>
     </div>
     <hr>
@@ -182,7 +182,7 @@
             </div>
 
             <div class="col-xl-1"
-                 style="border: 2px solid whitesmoke; border-radius: 2px;">
+                 style="text-align: center; border: 2px solid whitesmoke; border-radius: 2px;">
 
               <div class="row">
                 <div class="col-xl-12"

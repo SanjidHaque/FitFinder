@@ -1,6 +1,13 @@
 export class Job {
+  Id: string;
+  JobTitle: string;
+
   constructor(
-    public Id: string,
-    public JobName: string
-  ) {}
+     id: string,
+     jobTitle: string
+  ) {
+
+    this.Id = id;
+    this.JobTitle = jobTitle;
+  }
 }

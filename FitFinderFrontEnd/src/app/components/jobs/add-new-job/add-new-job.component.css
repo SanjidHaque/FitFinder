@@ -1,0 +1,26 @@
+:host /deep/ angular-editor.jobEditor .angular-editor-button[title="Insert Image"]{
+  display: none
+}
+:host /deep/ angular-editor.jobEditor .angular-editor-button[title="Insert Link"]{
+  display: none
+}
+:host /deep/ angular-editor.jobEditor .angular-editor-button[title="Unlink"]{
+  display: none
+}
+:host /deep/ angular-editor.jobEditor .angular-editor-button[title="HTML Code"]{
+  display: none
+}
+
+
+
+:host /deep/ .angular-editor-toolbar[_ngcontent-c9] .angular-editor-toolbar-set[_ngcontent-c9] .select-heading[_ngcontent-c9] {
+  display: none!important;
+}
+
+:host /deep/ .angular-editor-toolbar[_ngcontent-c9] .angular-editor-toolbar-set[_ngcontent-c9] .select-font[_ngcontent-c9] {
+  display: none!important;
+}
+
+:host /deep/ .angular-editor-toolbar[_ngcontent-c9] .angular-editor-toolbar-set[_ngcontent-c9] .select-font-size[_ngcontent-c9] {
+  display: none!important;
+}

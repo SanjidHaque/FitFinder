@@ -39,7 +39,7 @@ export class AddNewCandidateComponent implements OnInit {
     {jobId: '2', jobName: 'UI/UX Designer'},
     {jobId: '3', jobName: 'ASP.Net Developer'},
     {jobId: '4', jobName: 'React.js & Node.js Developer'},
-    {jobId: '5', jobName: 'Django and MongoDB Developer'}
+    {jobId: '5', jobName: 'Django & MongoDB Developer'}
   ];
 
   sources = [
@@ -242,4 +242,3 @@ export class AddNewCandidateComponent implements OnInit {
 
   }
 }
-
