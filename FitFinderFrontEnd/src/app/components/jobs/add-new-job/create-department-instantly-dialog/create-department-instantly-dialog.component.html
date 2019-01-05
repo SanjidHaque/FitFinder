@@ -1,0 +1,51 @@
+
+
+    <h3 mat-dialog-title>New Department</h3>
+
+
+
+
+<div class="row">
+  <div class="col-xl-2">
+    <i style="font-size: 40px;" class="far fa-building"></i>
+  </div>
+
+  <div class="col-xl-10">
+    <mat-form-field style="width: 100%">
+      <input [(ngModel)]="data.name" matInput>
+    </mat-form-field>
+  </div>
+</div>
+
+    <div class="row">
+      <div class="col-xl-12" style="font-size: 12px; opacity: .7;">
+
+        Add or update different departments your organization needs.
+
+      </div>
+    </div>
+
+
+
+
+<div>
+  <div>
+
+    <mat-dialog-actions align="end">
+      <button
+        mat-flat-button
+        [disabled]="data.name == ''"
+        [mat-dialog-close]="data.name"
+        color="primary"
+        style="outline: 0;"
+         >Save</button>
+      <button
+        mat-stroked-button
+        mat-dialog-close
+        style="outline: 0;"
+        mat-dialog-close>Cancel</button>
+    </mat-dialog-actions>
+
+
+  </div>
+</div>

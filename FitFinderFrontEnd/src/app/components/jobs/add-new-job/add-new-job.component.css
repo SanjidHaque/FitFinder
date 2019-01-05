@@ -13,14 +13,12 @@
 
 
 
-:host /deep/ .angular-editor-toolbar[_ngcontent-c9] .angular-editor-toolbar-set[_ngcontent-c9] .select-heading[_ngcontent-c9] {
+::ng-deep select#fontSelector- {
   display: none!important;
 }
-
-:host /deep/ .angular-editor-toolbar[_ngcontent-c9] .angular-editor-toolbar-set[_ngcontent-c9] .select-font[_ngcontent-c9] {
+::ng-deep select#fontSizeSelector- {
   display: none!important;
 }
-
-:host /deep/ .angular-editor-toolbar[_ngcontent-c9] .angular-editor-toolbar-set[_ngcontent-c9] .select-font-size[_ngcontent-c9] {
+::ng-deep select#heading- {
   display: none!important;
 }

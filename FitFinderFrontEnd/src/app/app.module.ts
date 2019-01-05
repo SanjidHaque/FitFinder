@@ -40,6 +40,9 @@ import {
   SelectCandidatesForInterviewDialogComponent} from './components/interviews/add-new-interview/select-candidates-for-interview-dialog/select-candidates-for-interview-dialog.component';
 import { SearchCandidatePipe } from './pipes/search-candidate.pipe';
 import { AngularEditorModule } from '@kolkov/angular-editor';
+import { CreateDepartmentInstantlyDialogComponent } from './components/jobs/add-new-job/create-department-instantly-dialog/create-department-instantly-dialog.component';
+import { CreateEmploymentTypeInstantlyDialogComponent } from './components/jobs/add-new-job/create-employment-type-instantly-dialog/create-employment-type-instantly-dialog.component';
+import { CreateJobFunctionalityInstantlyDialogComponent } from './components/jobs/add-new-job/create-job-functionality-instantly-dialog/create-job-functionality-instantly-dialog.component';
 
 
 
@@ -67,7 +70,10 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
     WorkflowComponent,
     DisqualifyReasonsComponent,
     SelectCandidatesForInterviewDialogComponent,
-    SearchCandidatePipe
+    SearchCandidatePipe,
+    CreateDepartmentInstantlyDialogComponent,
+    CreateEmploymentTypeInstantlyDialogComponent,
+    CreateJobFunctionalityInstantlyDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -112,7 +118,10 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
     JobResolverService
   ],
   entryComponents: [
-    SelectCandidatesForInterviewDialogComponent
+    SelectCandidatesForInterviewDialogComponent,
+    CreateDepartmentInstantlyDialogComponent,
+    CreateEmploymentTypeInstantlyDialogComponent,
+    CreateJobFunctionalityInstantlyDialogComponent
   ],
 
   bootstrap: [

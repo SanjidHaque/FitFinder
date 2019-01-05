@@ -177,18 +177,130 @@
               required
               formControlName = "jobLocation"
               matInput>
-            <mat-error>Job location is required</mat-error>
+            <mat-error>You must enter a job location!</mat-error>
           </mat-form-field>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-xl-12">
+
+          <h6>Department <i
+            (click)="openCreateNewDepartmentInstantlyDialog()"
+            matTooltip="Add a new department"
+            matTooltipPosition="right"
+            style="cursor: pointer;"
+            class="fas fa-plus-circle"></i></h6>
+
         </div>
       </div>
 
       <div class="row">
         <div class="col-xl-12">
 
-
+          <mat-form-field style="width: 100%;" appearance="outline">
+            <mat-label>Select Department</mat-label>
+            <mat-select required formControlName="departmentId">
+              <mat-option
+                *ngIf="departments.length == 0">No department is available</mat-option>
+              <mat-option
+                *ngFor="let department of departments" [value]="department.id"> {{ department.name }} </mat-option>
+            </mat-select>
+            <mat-error>You must select a department!</mat-error>
+          </mat-form-field>
 
         </div>
       </div>
+
+      <div class="row">
+        <div class="col-xl-12">
+
+          <h6>Job Function <i
+            (click)="openCreateNewJobFunctionalitiesInstantlyDialog()"
+            matTooltip="Add a new job function"
+            matTooltipPosition="right"
+            style="cursor: pointer;"
+            class="fas fa-plus-circle"></i></h6>
+
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xl-12">
+
+          <mat-form-field style="width: 100%;" appearance="outline">
+            <mat-label>Select Job Function</mat-label>
+            <mat-select formControlName="jobFunctionalityId">
+              <mat-option
+                *ngIf="jobFunctionalities.length == 0">No job function is available</mat-option>
+              <mat-option
+                *ngFor="let jobFunctionality of jobFunctionalities" [value]="jobFunctionality.id"> {{ jobFunctionality.name }} </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-xl-12">
+
+          <h6>Employment Type <i
+            (click)="openCreateNewEmploymentTypesInstantlyDialog()"
+            matTooltip="Add a new job type"
+            matTooltipPosition="right"
+            style="cursor: pointer;"
+            class="fas fa-plus-circle"></i></h6>
+
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-xl-12">
+
+          <mat-form-field style="width: 100%;" appearance="outline">
+            <mat-label>Select Job Type</mat-label>
+            <mat-select formControlName="employmentTypeId">
+              <mat-option
+                *ngIf="employmentTypes.length == 0">No job type is available</mat-option>
+              <mat-option
+                *ngFor="let employmentType of employmentTypes" [value]="employmentType.id"> {{ employmentType.name }} </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xl-6">
+
+        </div>
+        <div class="col-xl-6">
+
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xl-6">
+
+        </div>
+        <div class="col-xl-6">
+
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-xl-6">
+
+        </div>
+        <div class="col-xl-6">
+
+        </div>
+      </div>
+
 
     </div>
   </div>
