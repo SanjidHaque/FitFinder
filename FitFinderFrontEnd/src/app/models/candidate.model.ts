@@ -1,6 +1,6 @@
 import {CandidateEducation} from './candidate-education.model';
 import {CandidateExperience} from './candidate-experience.model';
-import {CandidateAttachment} from './candidate-attachment.model';
+import {CandidateAttachment} from './canidate-attachment.model';
 
 export class Candidate {
    Id: string;

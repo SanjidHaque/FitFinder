@@ -6,6 +6,7 @@ import {CreateDepartmentInstantlyDialogComponent} from './create-department-inst
 import {UUID} from 'angular2-uuid';
 import {CreateEmploymentTypeInstantlyDialogComponent} from './create-employment-type-instantly-dialog/create-employment-type-instantly-dialog.component';
 import {CreateJobFunctionalityInstantlyDialogComponent} from './create-job-functionality-instantly-dialog/create-job-functionality-instantly-dialog.component';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-add-new-job',
@@ -51,8 +52,6 @@ export class AddNewJobComponent implements OnInit {
     uploadUrl: 'images'
   };
 
-  addNewJobForm: FormGroup;
-
   departments = [
     {id: '1', name: 'Accounts'},
     {id: '2', name: 'Finance'},
@@ -69,7 +68,9 @@ export class AddNewJobComponent implements OnInit {
     {id: '2', name: 'Part Time'},
     {id: '3', name: 'Internship'}
   ];
-  selectedDepartment = 'Accounts';
+
+  addNewJobForm: FormGroup;
+  minDate = '';
 
   constructor(private departmentDialog: MatDialog,
               private jobFunctionalitiesDialog: MatDialog,
@@ -78,6 +79,7 @@ export class AddNewJobComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.minDate = this.getTomorrowsDate();
     this.addNewJobForm = new FormGroup({
       'jobTitle': new FormControl('', Validators.required),
       'jobCode': new FormControl(''),
@@ -88,14 +90,34 @@ export class AddNewJobComponent implements OnInit {
       'jobLocation': new FormControl(''),
       'departmentId': new FormControl('', Validators.required),
       'jobFunctionalityId': new FormControl(''),
-      'employmentTypeId': new FormControl('')
+      'employmentTypeId': new FormControl(''),
+      'jobPositions': new FormControl('', [Validators.required, Validators.min(0)]),
+      'jobClosingDate': new FormControl('', Validators.required),
+      'jobExperienceStarts': new FormControl('', Validators.min(0)),
+      'jobExperienceEnds': new FormControl('', Validators.min(0)),
+      'jobSalaryStarts': new FormControl('', Validators.min(0)),
+      'jobSalaryEnds': new FormControl('', Validators.min(0))
     });
   }
-
+  getJobPositionErrorMessage() {
+    return this.addNewJobForm.controls['jobPositions'].hasError('required') ? 'You must enter a job position!' :
+      this.addNewJobForm.controls['jobPositions'].hasError('min') ? 'This value is invalid!' :
+        '';
+  }
 
   onSubmitNewJob() {
 
   }
+
+  getTomorrowsDate() {
+    const today = new Date();
+    const tomorrow =  today.setDate(today.getDate() + 1);
+    return moment(tomorrow).format('YYYY-MM-DD');
+  }
+
+
+
+
   openCreateNewDepartmentInstantlyDialog() {
     const dialogRef = this.departmentDialog.open(CreateDepartmentInstantlyDialogComponent,
       {
@@ -111,7 +133,6 @@ export class AddNewJobComponent implements OnInit {
       }
     });
   }
-
   openCreateNewJobFunctionalitiesInstantlyDialog() {
     const dialogRef = this.jobFunctionalitiesDialog.open(CreateJobFunctionalityInstantlyDialogComponent,
       {
@@ -127,7 +148,6 @@ export class AddNewJobComponent implements OnInit {
       }
     });
   }
-
   openCreateNewEmploymentTypesInstantlyDialog() {
     const dialogRef = this.employmentTypesDialog.open(CreateEmploymentTypeInstantlyDialogComponent,
       {

@@ -3,7 +3,6 @@ import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angul
 import {Router} from '@angular/router';
 import {DataStorageService} from '../../../services/data-storage.service';
 import {UUID} from 'angular2-uuid';
-import {CandidateAttachment} from '../../../models/candidate-attachment.model';
 import {Candidate} from '../../../models/candidate.model';
 import {CandidateService} from '../../../services/candidate.service';
 import {DateAdapter} from '@angular/material';
@@ -11,6 +10,7 @@ import {ShortDateAdapter} from '../../../date-adapters/short-date.adapter';
 import {CandidateEducation} from '../../../models/candidate-education.model';
 import {CandidateExperience} from '../../../models/candidate-experience.model';
 import {NotifierService} from 'angular-notifier';
+import {CandidateAttachment} from '../../../models/canidate-attachment.model';
 
 
 @Component({
@@ -100,6 +100,7 @@ export class AddNewCandidateComponent implements OnInit {
          '', '', fileInput.target.files[i].name, newFile.name, null);
       this.candidateAttachments.push(candidateAttachment);
     }
+    this.notifierService.notify('default', 'File uploaded successfully');
   }
 
   changeResume(index: number, value: any) {
