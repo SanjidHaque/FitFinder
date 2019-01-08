@@ -29,6 +29,7 @@ namespace FitFinderBackEnd.Models.Candidate
         public bool IsArchived  { get; set; }
         public bool IsHired { get; set; }
         public bool IsClosed  { get; set; }
-
+        public string ApplicationDate { get; set; }
+    
     }
 }

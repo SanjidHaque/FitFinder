@@ -261,6 +261,14 @@
     <Compile Include="Migrations\201901021618215_InterviewrRelatedModelsAdded.Designer.cs">
       <DependentUpon>201901021618215_InterviewrRelatedModelsAdded.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201901081523480_jobRelatedModelsAdded.cs" />
+    <Compile Include="Migrations\201901081523480_jobRelatedModelsAdded.Designer.cs">
+      <DependentUpon>201901081523480_jobRelatedModelsAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201901081525311_jobRelatedModelsAddedAgainNotThePreviousOne.cs" />
+    <Compile Include="Migrations\201901081525311_jobRelatedModelsAddedAgainNotThePreviousOne.Designer.cs">
+      <DependentUpon>201901081525311_jobRelatedModelsAddedAgainNotThePreviousOne.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -273,6 +281,8 @@
     <Compile Include="Models\Interview\CandidatesForInterview.cs" />
     <Compile Include="Models\Interview\Interview.cs" />
     <Compile Include="Models\Interview\InterviewersForInterview.cs" />
+    <Compile Include="Models\Job\Job.cs" />
+    <Compile Include="Models\Job\JobAttachment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
@@ -381,6 +391,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201901021618215_InterviewrRelatedModelsAdded.resx">
       <DependentUpon>201901021618215_InterviewrRelatedModelsAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901081523480_jobRelatedModelsAdded.resx">
+      <DependentUpon>201901081523480_jobRelatedModelsAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901081525311_jobRelatedModelsAddedAgainNotThePreviousOne.resx">
+      <DependentUpon>201901081525311_jobRelatedModelsAddedAgainNotThePreviousOne.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

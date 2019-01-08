@@ -243,7 +243,7 @@ export class AddNewCandidateComponent implements OnInit {
      .subscribe(
        (data: any) => {
          console.log(data);
-         this.dataStorageService.uploadCandidateAttachments(this.filesToUpload)
+         this.dataStorageService.uploadAttachments(this.filesToUpload)
            .subscribe(
              (response: any) => {
                 console.log(response);

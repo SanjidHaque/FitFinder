@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+	import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Candidate} from '../models/candidate.model';
 import {Interview} from '../models/interview.model';
@@ -49,4 +49,12 @@ export class DataStorageService {
   addNewInterview(interview: Interview) {
     return this.httpClient.post(this.apiRootUrl + 'AddNewInterview', interview);
   }
+
+addNewJob(job: Job) {
+    return this.httpClient.post(this.apiRootUrl + 'AddNewJob', job);
+  }
+
+
+
+
 }

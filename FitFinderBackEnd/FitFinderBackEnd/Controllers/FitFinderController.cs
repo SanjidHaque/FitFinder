@@ -13,6 +13,7 @@ using System.Web.Http.Cors;
 using FitFinderBackEnd.Models;
 using FitFinderBackEnd.Models.Candidate;
 using FitFinderBackEnd.Models.Interview;
+using FitFinderBackEnd.Models.Job;
 
 namespace FitFinderBackEnd.Controllers
 {
@@ -44,14 +45,14 @@ namespace FitFinderBackEnd.Controllers
         }
 
         [HttpPost]
-        [Route("api/UploadCandidateAttachments")]
-        public IHttpActionResult UploadCandidateAttachment()
+        [Route("api/UploadAttachments")]
+        public IHttpActionResult UploadAttachments()
         {              
             var httpRequest = HttpContext.Current.Request;          
             for (int i = 0; i<  httpRequest.Files.Count; i++)
             {
                 var postedFile = httpRequest.Files[i];
-                var filePath = HttpContext.Current.Server.MapPath("~/Content/Candidate Attachments/" + postedFile.FileName);
+                var filePath = HttpContext.Current.Server.MapPath("~/Content/Attachments/" + postedFile.FileName);
                 postedFile.SaveAs(filePath);        
             }
             return Ok();
@@ -95,5 +96,28 @@ namespace FitFinderBackEnd.Controllers
             return Ok(interview);
         }
 
+
+        [HttpPost]
+        [Route("api/AddNewJob")]
+        public IHttpActionResult AddNewJob(Job job)
+        {
+            if (job == null)
+            {
+                return NotFound();
+            }
+            _context.JobAttachments.AddRange(job.JobAttachment);
+            _context.Jobs.Add(job);
+            _context.SaveChanges();
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("api/GetAllJob")]
+        public IHttpActionResult GetAllJob()
+        {
+            List<Job> job = _context.Jobs.
+                Include(e => e.JobAttachment).ToList();
+            return Ok(job);
+        }
     }
 }
