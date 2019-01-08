@@ -97,7 +97,7 @@ export class AddNewCandidateComponent implements OnInit {
       const newFile = new File([fileInput.target.files[i]], newFileName, {type: fileInput.target.files[i].type});
       this.filesToUpload.push(newFile);
       const candidateAttachment = new CandidateAttachment(
-         '', '', fileInput.target.files[i].name, newFile.name, null);
+         '', '', fileInput.target.files[i].name, newFile.name, false);
       this.candidateAttachments.push(candidateAttachment);
     }
     this.notifierService.notify('default', 'File uploaded successfully');
@@ -214,10 +214,26 @@ export class AddNewCandidateComponent implements OnInit {
    }
 
    const candidate = new Candidate(
-     candidateId, jobId, firstName, lastName, email, mobile, address,
-     city, state, country, candidateSourceId, this.candidateEducation,
-     this.candidateExperience, this.candidateAttachments,
-     facebookUrl, linkedInUrl, isArchived, isHired, isClosed, applicationDate.toString());
+     candidateId,
+     jobId,
+     firstName,
+     lastName,
+     email,
+     mobile,
+     address,
+     city,
+     state,
+     country,
+     candidateSourceId,
+     this.candidateEducation,
+     this.candidateExperience,
+     this.candidateAttachments,
+     facebookUrl,
+     linkedInUrl,
+     isArchived,
+     isHired,
+     isClosed,
+     applicationDate.toString());
 
    this.candidateService.addNewCandidate(candidate);
    this.notifierService.notify('default', 'New candidate added');
@@ -235,7 +251,7 @@ export class AddNewCandidateComponent implements OnInit {
                 this.addNewCandidateForm.reset();
                 this.router.navigate(['/candidates']);
                 this.notifierService.notify('default', 'New candidate added');
-                224 no line'll be removed when comment out this block
+                239, 241 no line'll be removed when comment out this block
              }
            );
        }

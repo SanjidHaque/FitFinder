@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import {MatDialog} from '@angular/material';
@@ -7,6 +7,12 @@ import {UUID} from 'angular2-uuid';
 import {CreateEmploymentTypeInstantlyDialogComponent} from './create-employment-type-instantly-dialog/create-employment-type-instantly-dialog.component';
 import {CreateJobFunctionalityInstantlyDialogComponent} from './create-job-functionality-instantly-dialog/create-job-functionality-instantly-dialog.component';
 import * as moment from 'moment';
+import {JobAttachment} from '../../../models/job-attachment.model';
+import {NotifierService} from 'angular-notifier';
+import {Job} from '../../../models/job.model';
+import {JobService} from '../../../services/job.service';
+import {Router} from '@angular/router';
+import {DataStorageService} from '../../../services/data-storage.service';
 
 @Component({
   selector: 'app-add-new-job',
@@ -72,10 +78,19 @@ export class AddNewJobComponent implements OnInit {
   addNewJobForm: FormGroup;
   minDate = '';
 
+  jobAttachments: JobAttachment[] = [];
+  filesToUpload: Array<File>;
+  @ViewChild('fileUpload') fileUploadVar: any;
+  isDisabled = false;
+
   constructor(private departmentDialog: MatDialog,
               private jobFunctionalitiesDialog: MatDialog,
+              private notifierService: NotifierService,
+              private jobService: JobService,
+              private dataStorageService: DataStorageService,
+              private router: Router,
               private employmentTypesDialog: MatDialog) {
-
+    this.filesToUpload = [];
   }
 
   ngOnInit() {
@@ -99,14 +114,97 @@ export class AddNewJobComponent implements OnInit {
       'jobSalaryEnds': new FormControl('', Validators.min(0))
     });
   }
+
+  onSubmitNewJob() {
+    const jobId = UUID.UUID();
+
+    for ( let i = 0; i < this.jobAttachments.length; i++ ) {
+      this.jobAttachments[i].JobId = jobId;
+      this.jobAttachments[i].Id = UUID.UUID();
+    }
+
+    const job = new Job(
+      jobId,
+      this.addNewJobForm.controls['jobTitle'].value,
+      this.addNewJobForm.controls['jobCode'].value,
+      this.addNewJobForm.controls['jobDescription'].value,
+      this.addNewJobForm.controls['jobImmediate'].value,
+      this.addNewJobForm.controls['jobIntermediate'].value,
+      this.addNewJobForm.controls['jobGoodToHave'].value,
+      this.addNewJobForm.controls['jobLocation'].value,
+      this.addNewJobForm.controls['departmentId'].value,
+      this.addNewJobForm.controls['jobFunctionalityId'].value,
+      this.addNewJobForm.controls['employmentTypeId'].value,
+      this.addNewJobForm.controls['jobPositions'].value,
+      this.addNewJobForm.controls['jobClosingDate'].value,
+      this.addNewJobForm.controls['jobExperienceStarts'].value,
+      this.addNewJobForm.controls['jobExperienceEnds'].value,
+      this.addNewJobForm.controls['jobSalaryStarts'].value,
+      this.addNewJobForm.controls['jobSalaryEnds'].value,
+      this.jobAttachments
+    );
+    this.jobService.addNewJob(job);
+    console.log(job);
+    this.notifierService.notify('default', 'New job published');
+    this.isDisabled = true;
+    /*this.router.navigate(['/jobs']);
+    this.dataStorageService.addNewCandidate(job)
+       .subscribe(
+         (data: any) => {
+           this.dataStorageService.uploadAttachments(this.filesToUpload)
+             .subscribe(
+               (response: any) => {
+                  this.clearAllArrays();
+                  this.addNewJobForm.reset();
+                  this.router.navigate(['/jobs']);
+                  this.notifierService.notify('default', 'New job published');
+                 // 148, 150 no line'll be removed when comment out this block
+               }
+             );
+         }
+       );*/
+  }
+
+  fileChangeEvent(fileInput: any) {
+    for (let i = 0; i < fileInput.target.files.length; i++) {
+      const fileName = fileInput.target.files[i].name.substr(0, fileInput.target.files[i].name.lastIndexOf('.'));
+      const fileExtension = fileInput.target.files[i].name.split('.').pop();
+      const newFileName = fileName + Date.now() + '.' + fileExtension;
+      const newFile = new File([fileInput.target.files[i]], newFileName, {type: fileInput.target.files[i].type});
+      this.filesToUpload.push(newFile);
+      const jobAttachment = new JobAttachment(
+        '',
+        '',
+        fileInput.target.files[i].name,
+        newFile.name);
+      this.jobAttachments.push(jobAttachment);
+    }
+    this.notifierService.notify('default', 'File uploaded successfully');
+  }
+
+  clearAllArrays() {
+    this.jobAttachments = [];
+    this.filesToUpload = [];
+  }
+
+  getFile() {
+    document.getElementById('choseFile').click();
+  }
+
+  removeAllSelectedFiles() {
+    this.filesToUpload = [];
+    this.fileUploadVar.nativeElement.value = '';
+    this.jobAttachments = [];
+  }
+
+  removeSelectedFiles(index: number) {
+    this.jobAttachments.splice(index, 1);
+  }
+
   getJobPositionErrorMessage() {
     return this.addNewJobForm.controls['jobPositions'].hasError('required') ? 'You must enter a job position!' :
       this.addNewJobForm.controls['jobPositions'].hasError('min') ? 'This value is invalid!' :
         '';
-  }
-
-  onSubmitNewJob() {
-
   }
 
   getTomorrowsDate() {

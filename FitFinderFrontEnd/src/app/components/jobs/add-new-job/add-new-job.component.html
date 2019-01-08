@@ -11,6 +11,7 @@
 
     <div class="col-xl-1 pr-xl-1">
       <button
+        [disabled]="!form.valid || isDisabled"
         type="submit"
         style="width: 100%;
       outline: 0;"
@@ -392,6 +393,101 @@
               matInput>
             <mat-error>This value is invalid!</mat-error>
           </mat-form-field>
+
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xl-12">
+
+          <div class="row">
+
+            <div class="col-xl-6 col-4" style="padding-top: 7px;">
+              <h6>Attachments</h6>
+            </div>
+
+            <div class="col-xl-6 col-4 text-xl-right" >
+              <button
+                style="outline: 0;"
+                type="button"
+                matTooltip="Add attachments"
+                (click)="getFile()"
+                mat-flat-button><i class="fas fa-plus-circle"></i> Add</button>
+            </div>
+
+            <input id="choseFile"
+                   #fileUpload
+                   (change)="fileChangeEvent($event)"
+                   multiple
+                   hidden
+                   type="file"/>
+          </div>
+
+
+          <hr>
+
+          <div class="row" *ngIf="jobAttachments.length == 0; else fileExists">
+            <div class="col-xl-12">
+              <p style="font-size: .9rem; opacity: .5;"> No Attachments </p>
+            </div>
+          </div>
+
+          <ng-template #fileExists>
+
+            <div class="row">
+              <div class="col-xl-12">
+
+                <ol>
+                  <li *ngFor="let
+                   jobAttachment of
+                   jobAttachments; let i = index"
+                      style="font-size: .9rem;
+            color: black; font-weight: bold;
+            padding-top: 8px;
+            padding-bottom: 2px;
+            text-align: left;">
+
+                    <div class="row">
+
+                      <div class="col-xl-10">
+
+                        {{ jobAttachment.FileName }}
+
+                      </div>
+
+
+                      <div class="col-xl-2">
+                        <i
+                          style="cursor: pointer;"
+                          (click)="removeSelectedFiles(i)"
+                          matTooltip="Remove"
+                          matTooltipPosition="before"
+                          class="far fa-times-circle"></i>
+                      </div>
+
+                    </div>
+
+                  </li>
+                </ol>
+
+              </div>
+            </div>
+
+
+            <hr>
+
+          </ng-template>
+
+          <div class="row" *ngIf="jobAttachments.length != 0">
+            <div class="col-xl-12 text-xl-right">
+              <button
+                type="button"
+                style="outline: 0;"
+                mat-flat-button
+                (click)="removeAllSelectedFiles()">
+                <i class="far fa-times-circle"></i> Remove All</button>
+            </div>
+          </div>
 
         </div>
       </div>
