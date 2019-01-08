@@ -43,6 +43,7 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
 import { CreateDepartmentInstantlyDialogComponent } from './components/jobs/add-new-job/create-department-instantly-dialog/create-department-instantly-dialog.component';
 import { CreateEmploymentTypeInstantlyDialogComponent } from './components/jobs/add-new-job/create-employment-type-instantly-dialog/create-employment-type-instantly-dialog.component';
 import { CreateJobFunctionalityInstantlyDialogComponent } from './components/jobs/add-new-job/create-job-functionality-instantly-dialog/create-job-functionality-instantly-dialog.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 
 
@@ -73,7 +74,8 @@ import { CreateJobFunctionalityInstantlyDialogComponent } from './components/job
     SearchCandidatePipe,
     CreateDepartmentInstantlyDialogComponent,
     CreateEmploymentTypeInstantlyDialogComponent,
-    CreateJobFunctionalityInstantlyDialogComponent
+    CreateJobFunctionalityInstantlyDialogComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,

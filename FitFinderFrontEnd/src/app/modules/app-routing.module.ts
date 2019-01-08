@@ -23,6 +23,7 @@ import {DisqualifyReasonsComponent} from '../components/settings/disqualify-reas
 import {WorkflowComponent} from '../components/settings/workflow/workflow.component';
 import {JobOpeningsComponent} from '../components/settings/job-openings/job-openings.component';
 import {CandidatesAndLeadsComponent} from '../components/settings/candidates-and-leads/candidates-and-leads.component';
+import {PageNotFoundComponent} from '../components/page-not-found/page-not-found.component';
 
 const appRoutes: Routes = [
   {
@@ -136,6 +137,12 @@ const appRoutes: Routes = [
     path : '',
     redirectTo: '/dashboard',
     pathMatch : 'full'
+  },
+  { path: 'not-found',
+    component: PageNotFoundComponent,
+  },
+  { path: '**',
+    redirectTo: '/not-found'
   }
 ];
 
