@@ -24,6 +24,7 @@ import {WorkflowComponent} from '../components/settings/workflow/workflow.compon
 import {JobOpeningsComponent} from '../components/settings/job-openings/job-openings.component';
 import {CandidatesAndLeadsComponent} from '../components/settings/candidates-and-leads/candidates-and-leads.component';
 import {PageNotFoundComponent} from '../components/page-not-found/page-not-found.component';
+import {ViewCandidateComponent} from '../components/candidates/view-candidate/view-candidate.component';
 
 const appRoutes: Routes = [
   {
@@ -71,6 +72,15 @@ const appRoutes: Routes = [
       {
         path: 'add-new-candidate',
         component: AddNewCandidateComponent
+      },
+      {
+        path: ':candidate-id/view-candidate',
+        component: ViewCandidateComponent
+      },
+      {
+        path: ':candidate-id',
+        redirectTo: ':candidate-id/view-candidate',
+        pathMatch: 'full'
       }
     ]
   },

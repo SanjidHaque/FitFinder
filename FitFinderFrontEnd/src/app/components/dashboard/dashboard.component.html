@@ -35,14 +35,19 @@
     <mat-form-field>
 
     <mat-select
-      [(value)]= "allDepartments"
+      [(value)]="allDepartment"
       style="text-align: center;
       font-weight: bold;">
 
       <mat-option
         style="text-align: center;
         font-weight: bold;"
-        *ngFor="let state of states" [value]="state">{{state}}
+        [value]="allDepartment">All Department</mat-option>
+
+      <mat-option
+        style="text-align: center;
+        font-weight: bold;"
+        *ngFor="let department of departments" [value]="department.id ">{{department.name}}
       </mat-option>
 
     </mat-select>

@@ -3,6 +3,7 @@ import {Job} from '../../../models/job.model';
 import {Subscription} from 'rxjs/index';
 import {JobService} from '../../../services/job.service';
 import {SelectionModel} from '@angular/cdk/collections';
+import {MatTreeFlatDataSource} from '@angular/material';
 
 @Component({
   selector: 'app-job-panel',
@@ -15,6 +16,12 @@ export class JobPanelComponent implements OnInit {
   selectedValue = 'all';
   jobs: Job[] = [];
   selection = new SelectionModel<Job>(true, []);
+  departments = [
+    {id: '1', name: 'Accounts'},
+    {id: '2', name: 'Finance'},
+    {id: '3', name: 'Development'},
+    {id: '4', name: 'Engineering'}
+  ];
 
   constructor(private jobService: JobService) { }
 

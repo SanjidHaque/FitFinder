@@ -28,6 +28,8 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatChipsModule} from '@angular/material/chips';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatListModule} from '@angular/material/list';
 
 
 
@@ -57,7 +59,9 @@ import {MatChipsModule} from '@angular/material/chips';
     MatNativeDateModule,
     MatCheckboxModule,
     MatChipsModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatExpansionModule,
+    MatListModule
   ],
   exports: [
     MatButtonModule,
@@ -83,7 +87,9 @@ import {MatChipsModule} from '@angular/material/chips';
     MatNativeDateModule,
     MatCheckboxModule,
     MatChipsModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatExpansionModule,
+    MatListModule
   ],
 
   entryComponents: [

@@ -10,16 +10,13 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 export class DashboardComponent implements OnInit {
 
 
-  allDepartments = 'All Departments';
+  allDepartment = 'All Department';
 
-  states: string[] = [
-    'All Departments', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware',
-    'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky',
-    'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi',
-    'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico',
-    'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania',
-    'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont',
-    'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
+  departments = [
+    {id: '1', name: 'Accounts'},
+    {id: '2', name: 'Finance'},
+    {id: '3', name: 'Development'},
+    {id: '4', name: 'Engineering'}
   ];
   constructor() { }
 

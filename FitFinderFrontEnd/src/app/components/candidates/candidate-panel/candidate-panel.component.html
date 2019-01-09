@@ -1,5 +1,4 @@
 <br>
-
 <div class="row">
 
   <div class="col-xl-10">
@@ -37,7 +36,10 @@
 
     <div class="row" >
 
-      <div class="offset-xl-1 col-xl-10" style="padding-top: 20px; text-align: left; font-size: 14px;">
+      <div class="offset-xl-1 col-xl-10" style="
+       padding-top: 20px; text-align: left;
+       font-weight: bold;
+       font-size: 14px;">
         Show Archived <mat-slide-toggle color="primary"></mat-slide-toggle>
       </div>
 
@@ -152,8 +154,11 @@
                   padding-top: 5px;
                   padding-bottom: 5px;">
                   <img
+                    routerLink="/candidates/{{ candidate.Id }}/view-candidate"
                     class="img-responsive"
                     style="
+                    outline: 0;
+                    cursor: pointer;
                     border-radius: 50%;height: 60px; width: 60px"
                     [src]="candidateDefaultImage">
                 </div>
@@ -161,8 +166,16 @@
                 <div class="col-xl-5">
                   <div class="row">
 
-                    <div class="col-xl-12" style="padding-top: 10px;">
-                     <strong>{{ candidate.FirstName }} {{ candidate.LastName }}</strong>
+                    <div
+                      class="col-xl-12"
+                      style="
+                      padding-top: 10px;">
+                     <strong
+                       routerLink="/candidates/{{ candidate.Id }}/view-candidate"
+                       style="
+                       outline: 0;
+                       cursor: pointer;"
+                     >{{ candidate.FirstName }} {{ candidate.LastName }}</strong>
                     </div>
 
                   </div>

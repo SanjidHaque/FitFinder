@@ -1,0 +1,54 @@
+<br>
+<div class="row">
+
+  <div class="col-xl-2">
+    <div class="row">
+
+
+      <div
+        class="col-xl-4">
+        <button
+          routerLink="/candidates"
+          matTooltip="Go back"
+          matTooltipPosition="above"
+          style="outline: 0;"
+          mat-flat-button><i
+          style="font-size: 30px;"
+          class="far fa-arrow-alt-circle-left"></i></button>
+      </div>
+
+      <div class="col-xl-4">
+        <button
+          (click)="previousCandidate()"
+          matTooltip="Previous candidate"
+          matTooltipPosition="above"
+          style="outline: 0;"
+          mat-flat-button><i
+          style="font-size: 30px;"
+          class="fas fa-angle-double-left"></i></button>
+      </div>
+
+      <div class="col-xl-4">
+        <button
+          (click)="nextCandidate()"
+          matTooltip="Next candidate"
+          matTooltipPosition="above"
+          style="outline: 0;"
+          mat-flat-button><i
+          style="font-size: 30px;"
+          class="fas fa-angle-double-right"></i></button>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="offset-xl-8 col-xl-2 text-xl-right">
+    <button
+      style="
+      outline: 0;"
+      color="primary"
+      mat-raised-button> Assign Job</button>
+  </div>
+
+</div>
+<hr>
