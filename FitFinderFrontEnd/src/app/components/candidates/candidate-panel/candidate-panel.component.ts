@@ -2,6 +2,7 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Candidate} from '../../../models/candidate.model';
 import {CandidateService} from '../../../services/candidate.service';
 import {SelectionModel} from '@angular/cdk/collections';
+import {Job} from '../../../models/job.model';
 
 
 @Component({

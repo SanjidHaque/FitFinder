@@ -53,7 +53,11 @@ const appRoutes: Routes = [
   {
     path: 'candidates',
     component: CandidatesComponent,
-    resolve: { candidates: CandidateResolverService },
+    resolve:
+      {
+      candidates: CandidateResolverService,
+      jobs: JobResolverService
+      },
     children: [
       {
         path: '',

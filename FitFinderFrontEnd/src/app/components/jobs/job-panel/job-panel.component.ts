@@ -2,6 +2,7 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Job} from '../../../models/job.model';
 import {Subscription} from 'rxjs/index';
 import {JobService} from '../../../services/job.service';
+import {SelectionModel} from '@angular/cdk/collections';
 
 @Component({
   selector: 'app-job-panel',
@@ -11,23 +12,26 @@ import {JobService} from '../../../services/job.service';
 })
 export class JobPanelComponent implements OnInit {
 
-  selectedValue = '';
+  selectedValue = 'all';
   jobs: Job[] = [];
-  subscription: Subscription;
-  totalJobs = 0;
+  selection = new SelectionModel<Job>(true, []);
 
   constructor(private jobService: JobService) { }
 
   ngOnInit() {
-    this.selectedValue = 'all';
     this.jobs = this.jobService.getAllJob();
-    this.subscription = this.jobService.jobsChanged
-      .subscribe(
-        (jobs: Job[]) => {
-          this.jobs = jobs;
-        }
-      );
-    this.totalJobs = this.jobs.length;
+  }
+
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.jobs.length;
+    return numSelected === numRows;
+  }
+
+  masterToggle() {
+    this.isAllSelected() ?
+      this.selection.clear() :
+      this.jobs.forEach(row => this.selection.select(row));
   }
 
   onValueChange(value: string) {

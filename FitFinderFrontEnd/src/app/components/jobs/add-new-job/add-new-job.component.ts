@@ -144,25 +144,24 @@ export class AddNewJobComponent implements OnInit {
       this.jobAttachments
     );
     this.jobService.addNewJob(job);
-    console.log(job);
     this.notifierService.notify('default', 'New job published');
     this.isDisabled = true;
-  //  this.router.navigate(['/jobs']);
-    this.dataStorageService.addNewJob(job)
+    this.router.navigate(['/jobs']);
+    /*this.dataStorageService.addNewJob(job)
        .subscribe(
          (data: any) => {
            this.dataStorageService.uploadAttachments(this.filesToUpload)
              .subscribe(
                (response: any) => {
-                 // this.clearAllArrays();
-               //   this.addNewJobForm.reset();
-                //  this.router.navigate(['/jobs']);
+                  this.clearAllArrays();
+                  this.addNewJobForm.reset();
+                  this.router.navigate(['/jobs']);
                   this.notifierService.notify('default', 'New job published');
-                 /* 148, 150 no line'll be removed when comment out this block */
+                 /!* 148, 150 no line'll be removed when comment out this block *!/
                }
              );
          }
-       );
+       );*/
   }
 
   fileChangeEvent(fileInput: any) {

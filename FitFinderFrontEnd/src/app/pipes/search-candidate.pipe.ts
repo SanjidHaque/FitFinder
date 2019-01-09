@@ -9,8 +9,8 @@ export class SearchCandidatePipe implements PipeTransform {
     if (term === undefined) {
       return candidates;
     }
-    return candidates.filter(function (user) {
-      return (user.FirstName + user.LastName).toLowerCase()
+    return candidates.filter(function (candidate) {
+      return (candidate.FirstName + candidate.LastName).toLowerCase()
         .includes(term.toLowerCase());
     });
   }

@@ -11,6 +11,8 @@ import {CandidateEducation} from '../../../models/candidate-education.model';
 import {CandidateExperience} from '../../../models/candidate-experience.model';
 import {NotifierService} from 'angular-notifier';
 import {CandidateAttachment} from '../../../models/canidate-attachment.model';
+import {Job} from '../../../models/job.model';
+import {JobService} from '../../../services/job.service';
 
 
 @Component({
@@ -27,6 +29,8 @@ export class AddNewCandidateComponent implements OnInit {
   candidateEducation: CandidateEducation[] = [];
   candidateAttachments: CandidateAttachment[] = [];
 
+  jobs: Job[] = [];
+
   filesToUpload: Array<File>;
   @ViewChild('fileUpload') fileUploadVar: any;
   isDisabled = false;
@@ -34,13 +38,13 @@ export class AddNewCandidateComponent implements OnInit {
   addNewCandidateForm: FormGroup;
   email = new FormControl('', [Validators.required, Validators.email]);
 
-  jobs = [
+  /*jobs = [
     {jobId: '1', jobName: 'Senior Laravel Developer'},
     {jobId: '2', jobName: 'UI/UX Designer'},
     {jobId: '3', jobName: 'ASP.Net Developer'},
     {jobId: '4', jobName: 'React.js & Node.js Developer'},
     {jobId: '5', jobName: 'Django & MongoDB Developer'}
-  ];
+  ];*/
 
   sources = [
     {sourceId: '1', sourceName: 'BdJobs.com'},
@@ -54,6 +58,7 @@ export class AddNewCandidateComponent implements OnInit {
    ];
 
   constructor(private router: Router,
+              private jobService: JobService,
               private dataStorageService: DataStorageService,
               private notifierService: NotifierService,
               private candidateService: CandidateService,
@@ -78,6 +83,7 @@ export class AddNewCandidateComponent implements OnInit {
       'facebookUrl': new FormControl(''),
       'linkedInUrl': new FormControl('')
     });
+    this.jobs = this.jobService.getAllJob();
   }
 
   clearAllArrays() {

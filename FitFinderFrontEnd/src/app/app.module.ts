@@ -44,6 +44,7 @@ import { CreateDepartmentInstantlyDialogComponent } from './components/jobs/add-
 import { CreateEmploymentTypeInstantlyDialogComponent } from './components/jobs/add-new-job/create-employment-type-instantly-dialog/create-employment-type-instantly-dialog.component';
 import { CreateJobFunctionalityInstantlyDialogComponent } from './components/jobs/add-new-job/create-job-functionality-instantly-dialog/create-job-functionality-instantly-dialog.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { SearchJobPipe } from './pipes/search-job.pipe';
 
 
 
@@ -75,7 +76,8 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
     CreateDepartmentInstantlyDialogComponent,
     CreateEmploymentTypeInstantlyDialogComponent,
     CreateJobFunctionalityInstantlyDialogComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    SearchJobPipe
   ],
   imports: [
     BrowserModule,

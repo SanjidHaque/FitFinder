@@ -44,7 +44,7 @@
           <mat-label>Select Job</mat-label>
           <mat-select formControlName="jobId">
             <mat-option *ngIf="jobs.length == 0">No job is available</mat-option>
-            <mat-option *ngFor="let job of jobs" [value]="job.jobId"> {{ job.jobName }} </mat-option>
+            <mat-option *ngFor="let job of jobs" [value]="job.Id"> {{ job.JobTitle }} </mat-option>
           </mat-select>
         </mat-form-field>
 
