@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule }    from '@angular/common/http';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { StarRatingModule } from 'angular-star-rating';
 
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './modules/app-routing.module';
@@ -93,6 +94,7 @@ import { ViewCandidateComponent } from './components/candidates/view-candidate/v
     ReactiveFormsModule,
     AmazingTimePickerModule,
     AngularEditorModule,
+    StarRatingModule.forRoot(),
     NotifierModule.withConfig({
       position: {
         horizontal: {

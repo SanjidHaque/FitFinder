@@ -50,7 +50,7 @@ export class DataStorageService {
     return this.httpClient.post(this.apiRootUrl + 'AddNewInterview', interview);
   }
 
-addNewJob(job: Job) {
+  addNewJob(job: Job) {
     return this.httpClient.post(this.apiRootUrl + 'AddNewJob', job);
   }
 

@@ -2,6 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {Candidate} from '../../../models/candidate.model';
 import {CandidateService} from '../../../services/candidate.service';
+import * as moment from 'moment';
+import {CandidateAttachment} from '../../../models/canidate-attachment.model';
+import {CandidateEducation} from '../../../models/candidate-education.model';
+import {CandidateExperience} from '../../../models/candidate-experience.model';
 
 @Component({
   selector: 'app-view-candidate',
@@ -15,6 +19,8 @@ export class ViewCandidateComponent implements OnInit {
 
   candidates: Candidate[] = [];
   candidate: Candidate;
+
+  isJobAssinged = true;
 
 
   constructor(private route: ActivatedRoute,
@@ -47,7 +53,6 @@ export class ViewCandidateComponent implements OnInit {
       this.candidate = this.candidates[nextIndex];
       this.candidateId = this.candidates[nextIndex].Id;
       this.router.navigate(['/candidates/' + this.candidateId]);
-
   }
 
   nextCandidate() {
@@ -61,8 +66,57 @@ export class ViewCandidateComponent implements OnInit {
       this.candidate = this.candidates[nextIndex];
       this.candidateId = this.candidates[nextIndex].Id;
       this.router.navigate(['/candidates/' + this.candidateId]);
+  }
+
+  getApplicationDate() {
+    return moment(new Date(this.candidate.ApplicationDate)).format('Do MMM YYYY');
+  }
+
+  goToFacebookProfile() {
+    window.open('http://' + this.candidate.FacebookUrl);
+  }
+
+  goToLinkedInProfile() {
+    window.open('http://' + this.candidate.LinkedInUrl);
+  }
 
 
+  downloadFile(candidateAttachment: CandidateAttachment) {
+    /*window.open('http://localhost:55586/Content/Attachments/' + candidateAttachment.ModifiedFileName);*/
+    /*The above line will be comment out when working with back end.*/
+    window.open('assets/cseregular3rd.pdf');
+  }
+
+  getStartMonthOfEducation(candidateEducation: CandidateEducation) {
+    return moment(candidateEducation.StartDate).format('MMM');
+  }
+
+  getStartYearOfEducation(candidateEducation: CandidateEducation) {
+    return moment(candidateEducation.StartDate).format('YYYY');
+  }
+
+  getEndMonthOfEducation(candidateEducation: CandidateEducation) {
+    return moment(candidateEducation.EndDate).format('MMM');
+  }
+
+  getEndYearOfEducation(candidateEducation: CandidateEducation) {
+    return moment(candidateEducation.EndDate).format('YYYY');
+  }
+
+  getStartMonthOfExperience(candidateExperience: CandidateExperience) {
+    return moment(candidateExperience.StartDate).format('MMM');
+  }
+
+  getStartYearOfExperience(candidateExperience: CandidateExperience) {
+    return moment(candidateExperience.StartDate).format('YYYY');
+  }
+
+  getEndMonthOfExperience(candidateExperience: CandidateExperience) {
+    return moment(candidateExperience.EndDate).format('MMM');
+  }
+
+  getEndYearOfExperience(candidateExperience: CandidateExperience) {
+    return moment(candidateExperience.EndDate).format('YYYY');
   }
 
 }

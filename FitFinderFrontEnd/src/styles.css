@@ -7,8 +7,16 @@
 @import "~angular-notifier/styles/types/type-warning.css";
 @import "~angular-notifier/styles/types/type-error.css";
 
+@import '~css-star-rating/css/star-rating.css';
 
-body{
+.rating {
+  outline: 0!important;
+
+}
+
+
+
+body {
   overflow-x: hidden;
 }
 
