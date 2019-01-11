@@ -19,20 +19,20 @@ export class ViewCandidateComponent implements OnInit {
 
   candidates: Candidate[] = [];
   candidate: Candidate;
-
-  isJobAssinged = true;
+  albums = [];
 
 
   constructor(private route: ActivatedRoute,
               private router: Router,
+
               private candidateService: CandidateService) {
     this.route.params
       .subscribe(
         (params: Params) => {
           this.candidateId = params['candidate-id'];
-
         }
       );
+    /*this.getImageIntoAlbum();*/
   }
 
   ngOnInit() {
@@ -40,7 +40,17 @@ export class ViewCandidateComponent implements OnInit {
     this.candidate = this.candidates.find(x => x.Id === this.candidateId);
   }
 
+ /* getImageIntoAlbum() {
+    const src = this.candidateDefaultImage;
+    const album = {
+      src: src
+    };
+    this.albums.push(album);
+  }*/
 
+  showLargeImage() {
+
+  }
 
   previousCandidate() {
     const currentIndex = this.candidates.findIndex(x => x.Id === this.candidateId);
