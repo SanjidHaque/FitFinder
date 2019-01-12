@@ -200,9 +200,17 @@
 
             </div>
 
-            <div class="col-xl-3 text-xl-center" style="padding-top: 10px;">
-              <i class="fas fa-bullhorn"></i>
+            <div
+              *ngIf="job.IsPublished; else jobIsNotPublished"
+               class="col-xl-3 text-xl-center" style="padding-top: 10px;">
+              <i title="Published Job" class="fas fa-bullhorn"></i>
             </div>
+
+            <ng-template #jobIsNotPublished>
+              <div class="col-xl-3" style="padding-top: 10px;">
+
+              </div>
+            </ng-template>
 
             <div class="col-xl-1">
               <div class="row"  style="font-size: 25px;">

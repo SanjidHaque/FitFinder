@@ -27,10 +27,11 @@ export class SelectCandidatesForInterviewDialogComponent implements OnInit {
     {sourceId: '7', sourceName: 'Simply Hired'},
     {sourceId: '8', sourceName: 'Website'}
   ];
-  constructor(private interviewService: InterviewService) {}
+  constructor(private interviewService: InterviewService,
+              private candidateService: CandidateService) {}
 
   ngOnInit() {
-    this.candidates = this.interviewService.getAllCandidate();
+    this.candidates = this.candidateService.getAllCandidate();
   }
 
   isAllSelected() {

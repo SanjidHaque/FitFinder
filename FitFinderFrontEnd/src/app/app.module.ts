@@ -47,6 +47,8 @@ import { CreateJobFunctionalityInstantlyDialogComponent } from './components/job
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { SearchJobPipe } from './pipes/search-job.pipe';
 import { ViewCandidateComponent } from './components/candidates/view-candidate/view-candidate.component';
+import { ViewInterviewComponent } from './components/interviews/view-interview/view-interview.component';
+import { ViewJobComponent } from './components/jobs/view-job/view-job.component';
 
 
 
@@ -80,7 +82,9 @@ import { ViewCandidateComponent } from './components/candidates/view-candidate/v
     CreateJobFunctionalityInstantlyDialogComponent,
     PageNotFoundComponent,
     SearchJobPipe,
-    ViewCandidateComponent
+    ViewCandidateComponent,
+    ViewInterviewComponent,
+    ViewJobComponent
   ],
   imports: [
     BrowserModule,

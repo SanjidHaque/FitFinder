@@ -1,6 +1,8 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {InterviewService} from '../../services/interview.service';
 import {ActivatedRoute, Data} from '@angular/router';
+import {JobService} from '../../services/job.service';
+import {CandidateService} from '../../services/candidate.service';
 
 @Component({
   selector: 'app-interviews',
@@ -10,6 +12,8 @@ import {ActivatedRoute, Data} from '@angular/router';
 export class InterviewsComponent implements OnInit {
 
   constructor(private interviewService: InterviewService,
+              private jobService: JobService,
+              private candidateService: CandidateService,
               private route: ActivatedRoute) { }
 
   ngOnInit() {
@@ -17,7 +21,8 @@ export class InterviewsComponent implements OnInit {
       .subscribe(
         (data: Data) => {
           this.interviewService.interviews = data['interviews'];
-          this.interviewService.candidates = data['candidates'];
+          this.candidateService.candidates = data['candidates'];
+          this.jobService.jobs = data['jobs'];
         }
       );
   }

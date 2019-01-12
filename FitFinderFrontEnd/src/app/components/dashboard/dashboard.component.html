@@ -35,14 +35,10 @@
     <mat-form-field>
 
     <mat-select
+      (selectionChange)="selectValueChanged($event.value)"
       [(value)]="allDepartment"
       style="text-align: center;
       font-weight: bold;">
-
-      <mat-option
-        style="text-align: center;
-        font-weight: bold;"
-        [value]="allDepartment">All Department</mat-option>
 
       <mat-option
         style="text-align: center;
@@ -102,7 +98,7 @@
 
       <div class="col-xl-3" style="
       text-align: center; border-right: 1px solid #e5e5e5; font-size: 4vw;">
-        0
+        {{ activeCandidates }}
       </div>
       <div class="col-xl-3" style="
       text-align: center; border-right: 1px solid #e5e5e5;  font-size: 4vw;">
@@ -142,8 +138,167 @@
 
 <br><br>
 
+<div class="row">
 
-  <div class="row">
+  <div class="col-xl-6" >
+
+    <mat-card>
+
+      <div class="row">
+
+        <div class="col-xl-3 text-xl-left" style="font-size: 15px; font-weight: bold;">
+          SOURCES
+        </div>
+
+        <div class="col-xl-3 text-xl-center" style="font-size: 14px;">
+          Candidates
+        </div>
+
+        <div class="col-xl-3 text-xl-center" style="font-size: 14px;">
+          Active
+        </div>
+
+        <div class="col-xl-3 text-xl-center" style="font-size: 14px;">
+          Hired
+        </div>
+
+      </div>
+
+      <hr>
+
+      <div
+        style="height: 30vh;
+           overflow-x: hidden;
+           overflow-y: scroll;"
+        *ngIf="sources.length !== 0; else sourceExists">
+
+        <div class="row"
+             *ngFor="let source of sources"
+             style="padding-top: 8px;
+           border-bottom: 1px solid whitesmoke;
+           padding-bottom: 8px">
+
+          <div class="col-xl-3 text-xl-left" style="font-size: 15px; color: #4d94e5;">
+            {{ source.sourceName }}
+          </div>
+
+          <div class="col-xl-3 text-xl-center">
+            0
+          </div>
+
+          <div class="col-xl-3 text-xl-center">
+            1
+          </div>
+
+          <div class="col-xl-3 text-xl-center">
+            2
+          </div>
+
+        </div>
+
+      </div>
+
+      <ng-template #sourceExists>
+
+        <div class="row">
+          <div class="col-xl-12"
+               style="opacity: .5;
+             height: 30vh;
+             text-align: center;">
+
+            No Record
+
+          </div>
+        </div>
+
+      </ng-template>
+
+    </mat-card>
+
+  </div>
+
+  <div class="col-xl-6" >
+
+<mat-card>
+
+    <div class="row">
+
+      <div class="col-xl-3 text-xl-left" style="font-size: 15px; font-weight: bold;">
+        JOBS
+      </div>
+
+      <div class="col-xl-3 text-xl-center" style="font-size: 14px;">
+        Candidates
+      </div>
+
+      <div class="col-xl-3 text-xl-center" style="font-size: 14px;">
+        Active
+      </div>
+
+      <div class="col-xl-3 text-xl-center" style="font-size: 14px;">
+        Hired
+      </div>
+
+    </div>
+
+    <hr>
+
+    <div
+      style="height: 30vh;
+           overflow-x: hidden;
+           overflow-y: scroll;"
+      *ngIf="jobs.length !== 0; else jobExists">
+
+      <div class="row"
+           *ngFor="let job of jobs"
+           style="padding-top: 8px;
+           border-bottom: 1px solid whitesmoke;
+           padding-bottom: 8px">
+
+        <div class="col-xl-3 text-xl-left" style="font-size: 15px; color: #4d94e5;">
+          {{ job.JobTitle }}
+        </div>
+
+        <div class="col-xl-3 text-xl-center">
+          0
+        </div>
+
+        <div class="col-xl-3 text-xl-center">
+          1
+        </div>
+
+        <div class="col-xl-3 text-xl-center">
+          2
+        </div>
+
+      </div>
+
+    </div>
+
+    <ng-template #jobExists>
+
+      <div class="row">
+        <div class="col-xl-12"
+             style="opacity: .5;
+             height: 30vh;
+             text-align: center;">
+
+          No Record
+
+        </div>
+      </div>
+
+    </ng-template>
+
+</mat-card>
+
+  </div>
+
+</div>
+
+
+<br>
+<div class="row">
     <div class="col-xl-12" style="padding-bottom: 10px;">
 
       <div class="row">

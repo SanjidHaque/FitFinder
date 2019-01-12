@@ -58,6 +58,7 @@
         <mat-form-field appearance="outline">
 
           <mat-select
+            (selectionChange)="selectValueChanged($event.value)"
             [(value)]= "all"
             style="
             text-align: left;
@@ -71,7 +72,7 @@
               style="
               text-align: left;
               font-weight: bold;"
-              *ngFor="let interviewType of interviewTypes" [value]="interviewType.id">
+              *ngFor="let interviewType of interviewTypes"   [value]="interviewType.id">
               {{ interviewType.type }}
             </mat-option>
 
@@ -99,7 +100,10 @@
     <div class="row">
       <div class="offset-xl-1 col-xl-10" style="border: 2px solid whitesmoke; border-radius: 5px;">
 
-        <mat-calendar [selected]="selectedDate" (selectedChange)="selectedDate = $event" (selectedChange)="getDate($event)" > </mat-calendar>
+        <mat-calendar
+          [selected]="selectedDate"
+          (selectedChange)="selectedDate = $event"
+          (selectedChange)="getDate($event)" > </mat-calendar>
 
       </div>
     </div>
@@ -190,7 +194,13 @@
             </div>
 
             <div class="col-xl-1"
-                 style="text-align: center; border: 2px solid whitesmoke; border-radius: 2px;">
+                 routerLink="/interviews/{{ interview.Id }}/view-interview"
+                 style="
+                 text-align: center;
+                 border: 2px solid whitesmoke;
+                 outline: 0;
+                 cursor: pointer;
+                 border-radius: 2px;">
 
               <div class="row">
                 <div class="col-xl-12"
@@ -227,7 +237,12 @@
 
               <div class="row">
                 <div class="col-xl-12" style="padding-top: 3px;">
-                  <strong> {{ interview.InterviewStartTime }} - {{ interview.InterviewName }} </strong>
+                  <strong
+                    style="
+                       outline: 0;
+                       cursor: pointer;"
+                    routerLink="/interviews/{{ interview.Id }}/view-interview"
+                  > {{ interview.InterviewStartTime }} - {{ interview.InterviewName }} </strong>
                 </div>
               </div>
 

@@ -25,6 +25,8 @@ import {JobOpeningsComponent} from '../components/settings/job-openings/job-open
 import {CandidatesAndLeadsComponent} from '../components/settings/candidates-and-leads/candidates-and-leads.component';
 import {PageNotFoundComponent} from '../components/page-not-found/page-not-found.component';
 import {ViewCandidateComponent} from '../components/candidates/view-candidate/view-candidate.component';
+import {ViewInterviewComponent} from '../components/interviews/view-interview/view-interview.component';
+import {ViewJobComponent} from '../components/jobs/view-job/view-job.component';
 
 const appRoutes: Routes = [
   {
@@ -54,6 +56,15 @@ const appRoutes: Routes = [
       {
         path: 'add-new-job',
         component: AddNewJobComponent
+      },
+      {
+        path: ':job-id/view-job',
+        component: ViewJobComponent
+      },
+      {
+        path: ':job-id',
+        redirectTo: ':job-id/view-job',
+        pathMatch: 'full'
       }
     ]
   },
@@ -96,7 +107,8 @@ const appRoutes: Routes = [
     component: InterviewsComponent,
     resolve: {
       interviews: InterviewResolverService,
-      candidates: CandidateResolverService
+      candidates: CandidateResolverService,
+      jobs: JobResolverService
     },
     children: [
       {
@@ -111,6 +123,15 @@ const appRoutes: Routes = [
       {
         path: 'add-new-interview',
         component: AddNewInterviewComponent
+      },
+      {
+        path: ':interview-id/view-interview',
+        component: ViewInterviewComponent
+      },
+      {
+        path: ':interview-id',
+        redirectTo: ':interview-id/view-interview',
+        pathMatch: 'full'
       }
     ]
   },

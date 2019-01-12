@@ -18,7 +18,8 @@
         "JobSalaryStarts": "35000",
         "JobSalaryEnds": "23000",
         "JobAttachment": [],
-        "IsArchived": true
+        "IsArchived": true,
+        "IsPublished": true
     },
     {
         "Id": "37b7833c-b7a8-fa61-1199-e41cee145370",
@@ -39,7 +40,8 @@
         "JobSalaryStarts": "14000",
         "JobSalaryEnds": null,
         "JobAttachment": [],
-        "IsArchived": true
+        "IsArchived": true,
+        "IsPublished": true
     },
     {
         "Id": "38c60da1-f24d-b1af-3d46-e05759052290",
@@ -67,7 +69,8 @@
                 "ModifiedFileName": "162002038SkSanjidulHaqueEEE1011546963114415.pptx"
             }
         ],
-        "IsArchived": false
+        "IsArchived": false,
+        "IsPublished": false
     },
     {
         "Id": "4b0c3edf-44c5-2ba5-5f45-aed358cb2cca",
@@ -78,7 +81,7 @@
         "JobIntermediate": "Learn these things quickly<div><ul><li>How to write an manifesto.</li><li>How to walk upside down.</li></ul></div>",
         "JobGoodToHave": "Not a essential at present<div><ul><li>You have to score at least 13 T20 century.</li><li>Know how to sleep with fish.</li></ul></div>",
         "JobLocation": "Dhanmondi, Dhaka",
-        "DepartmentId": "2",
+        "DepartmentId": "1",
         "JobFunctionalityId": "3",
         "EmploymentTypeId": "1",
         "JobPositions": "2",
@@ -101,7 +104,8 @@
                 "ModifiedFileName": "SanjidHaqueJava2011546962604047.pptx"
             }
         ],
-       "IsArchived": false
+       "IsArchived": false,
+       "IsPublished": true
     },
     {
         "Id": "bce575fe-df3c-f121-d9e9-a77497603c24",
@@ -112,7 +116,7 @@
         "JobIntermediate": "<br>",
         "JobGoodToHave": "",
         "JobLocation": "Nowhere-2, Dhaka",
-        "DepartmentId": "4",
+        "DepartmentId": "1",
         "JobFunctionalityId": "2",
         "EmploymentTypeId": "2",
         "JobPositions": "2",
@@ -129,6 +133,7 @@
                 "ModifiedFileName": "cseregular2nd1546963543661.pdf"
             }
         ],
-        "IsArchived": false
+        "IsArchived": false,
+        "IsPublished": false
     }
 ]

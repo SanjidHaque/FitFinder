@@ -14,6 +14,9 @@ import {InterviewService} from '../../../services/interview.service';
 import {Router} from '@angular/router';
 import {DataStorageService} from '../../../services/data-storage.service';
 import {NotifierService} from 'angular-notifier';
+import {Job} from '../../../models/job.model';
+import {JobService} from '../../../services/job.service';
+import {CandidateService} from '../../../services/candidate.service';
 
 @Component({
   selector: 'app-add-new-interview',
@@ -30,6 +33,7 @@ export class AddNewInterviewComponent implements OnInit {
   candidateDefaultImage = 'assets/images/candidateDefaultImage.png';
   isDisabled = false;
 
+  jobs: Job[] = [];
   users = [
     {id: '1', userName: 'Yaha Juan', role: 'Super user'},
     {id: '2', userName: 'Cholo Han', role: 'HR'},
@@ -51,6 +55,7 @@ export class AddNewInterviewComponent implements OnInit {
 
   constructor(private dialog: MatDialog,
               private interviewService: InterviewService,
+              private jobService: JobService,
               private router: Router,
               private dataStorageService: DataStorageService,
               private notifierService: NotifierService) {
@@ -58,6 +63,7 @@ export class AddNewInterviewComponent implements OnInit {
 
 
   ngOnInit() {
+    this.jobs = this.jobService.getAllJob();
     this.addNewInterviewForm = new FormGroup({
       'interviewDate': new FormControl('', Validators.required),
       'interviewName': new FormControl(''),
@@ -69,6 +75,14 @@ export class AddNewInterviewComponent implements OnInit {
     });
   }
 
+  getJobTitle(candidateJobId: string) {
+
+    const jobTitle = this.jobs.find(x => x.Id === candidateJobId).JobTitle;
+    if (!jobTitle) {
+      return;
+    }
+    return jobTitle;
+  }
 
   getCandidatesForInterview(interviewId: string) {
     const candidatesForInterview: CandidatesForInterview[] = [];

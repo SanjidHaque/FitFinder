@@ -47,7 +47,7 @@
        font-weight: bold;
        opacity: .7;
        text-align: center;"
-       *ngIf="isJobAssinged === true; else jobNotAssigned">
+       *ngIf="candidate.JobId === ''; else jobNotAssigned">
     Assign Job to Change Candidate Status
   </div>
 
@@ -106,7 +106,6 @@
           <div class="col-xl-12">
 
             <img
-              (click)="showLargeImage()"
               class="img-responsive"
               style="outline: 0;
               border-radius: 50%; height: 70px; width: 70px"

@@ -49,6 +49,10 @@ export class InterviewPanelComponent implements OnInit {
     return numSelected === numRows;
   }
 
+  selectValueChanged(value: any) {
+    console.log(value);
+  }
+
   masterToggle() {
     this.isAllSelected() ?
       this.selection.clear() :
@@ -70,4 +74,6 @@ export class InterviewPanelComponent implements OnInit {
   getInterviewYear(interview: Interview) {
     return moment(interview.InterviewDate).format('YYYY');
   }
+
+
 }
