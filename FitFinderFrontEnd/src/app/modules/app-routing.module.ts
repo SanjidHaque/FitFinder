@@ -29,7 +29,13 @@ import {ViewCandidateComponent} from '../components/candidates/view-candidate/vi
 const appRoutes: Routes = [
   {
     path: 'dashboard',
-    component: DashboardComponent
+    component: DashboardComponent,
+    resolve:
+      {
+        candidates: CandidateResolverService,
+        interviews: InterviewResolverService,
+        jobs: JobResolverService
+      }
   },
   {
     path: 'jobs',

@@ -17,7 +17,8 @@
         "JobExperienceEnds": "1",
         "JobSalaryStarts": "35000",
         "JobSalaryEnds": "23000",
-        "JobAttachment": []
+        "JobAttachment": [],
+        "IsArchived": true
     },
     {
         "Id": "37b7833c-b7a8-fa61-1199-e41cee145370",
@@ -37,7 +38,8 @@
         "JobExperienceEnds": null,
         "JobSalaryStarts": "14000",
         "JobSalaryEnds": null,
-        "JobAttachment": []
+        "JobAttachment": [],
+        "IsArchived": true
     },
     {
         "Id": "38c60da1-f24d-b1af-3d46-e05759052290",
@@ -64,7 +66,8 @@
                 "FileName": "162002038SkSanjidulHaqueEEE101.pptx",
                 "ModifiedFileName": "162002038SkSanjidulHaqueEEE1011546963114415.pptx"
             }
-        ]
+        ],
+        "IsArchived": false
     },
     {
         "Id": "4b0c3edf-44c5-2ba5-5f45-aed358cb2cca",
@@ -97,7 +100,8 @@
                 "FileName": "SanjidHaqueJava201.pptx",
                 "ModifiedFileName": "SanjidHaqueJava2011546962604047.pptx"
             }
-        ]
+        ],
+       "IsArchived": false
     },
     {
         "Id": "bce575fe-df3c-f121-d9e9-a77497603c24",
@@ -124,6 +128,7 @@
                 "FileName": "cseregular2nd.pdf",
                 "ModifiedFileName": "cseregular2nd1546963543661.pdf"
             }
-        ]
+        ],
+        "IsArchived": false
     }
 ]

@@ -141,7 +141,8 @@ export class AddNewJobComponent implements OnInit {
       this.addNewJobForm.controls['jobExperienceEnds'].value,
       this.addNewJobForm.controls['jobSalaryStarts'].value,
       this.addNewJobForm.controls['jobSalaryEnds'].value,
-      this.jobAttachments
+      this.jobAttachments,
+      false
     );
     this.jobService.addNewJob(job);
     this.notifierService.notify('default', 'New job published');

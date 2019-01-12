@@ -19,6 +19,7 @@ export class Job {
   JobSalaryStarts: string;
   JobSalaryEnds: string;
   JobAttachment: JobAttachment[];
+  IsArchived: boolean;
 
   constructor(
      id: string,
@@ -38,7 +39,8 @@ export class Job {
      jobExperienceEnds: string,
      jobSalaryStarts: string,
      jobSalaryEnds: string,
-     jobAttachment: JobAttachment[] = []
+     jobAttachment: JobAttachment[] = [],
+     isArchived: boolean
   ) {
 
     this.Id = id;
@@ -59,5 +61,6 @@ export class Job {
     this.JobSalaryStarts = jobSalaryStarts;
     this.JobSalaryEnds = jobSalaryEnds;
     this.JobAttachment = jobAttachment;
+    this.IsArchived = isArchived;
   }
 }
