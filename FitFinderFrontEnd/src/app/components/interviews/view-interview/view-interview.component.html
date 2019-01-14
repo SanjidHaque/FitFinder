@@ -42,11 +42,104 @@
     </div>
   </div>
 
-  <div class="col-xl-2" >
 
-    <mat-form-field>
+
+  <div class="col-xl-8" *ngIf="!interview.IsArchived; else showArchivedMessage"></div>
+
+  <ng-template #showArchivedMessage>
+    <div class="col-xl-8" style="
+       font-weight: bold;
+       opacity: .7;
+       text-align: center;">
+      Archived
+    </div>
+  </ng-template>
+
+
+
+  <div
+    *ngIf="!interview.IsArchived; else interviewIsArchived"
+    class="col-xl-2 text-xl-right">
+    <button
+      [disabled]="disableEmailInvites"
+      style="
+      outline: 0;"
+      color="primary"
+      mat-raised-button>  <i class="far fa-envelope"></i> Email Invites</button>
+  </div>
+
+  <ng-template #interviewIsArchived>
+
+    <div class="col-xl-2 text-xl-right">
+      <button
+        style="
+        outline: 0;"
+        mat-stroked-button>Restore</button>
+    </div>
+
+
+  </ng-template>
+
+</div>
+<hr>
+
+
+<div class="row">
+
+
+  <div class="col-xl-1"
+         style="text-align: center;
+                border: 2px solid whitesmoke;
+                outline: 0;
+                cursor: pointer;
+                border-radius: 2px;">
+
+      <div class="row">
+        <div class="col-xl-12"
+             style="font-weight: bold;
+             font-size: 30px; text-align: center;">
+
+          {{ getInterviewDay(interview) }}
+
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xl-12"
+             style="
+             font-size: 13px;
+             font-weight: bold; text-align: center;">
+
+          {{ getInterviewMonth(interview) | uppercase}}
+
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xl-12"
+             style="font-size: 11px;
+                    background-color: #1a237e;
+                    color: white;
+                    font-weight: bold; text-align: center;">
+
+          {{ getInterviewYear(interview) }}
+
+        </div>
+      </div>
+
+    </div>
+
+  <div class="col-xl-9" style="font-size: 35px;">
+    {{ interview.InterviewStartTime }} - {{ interview.InterviewName }} ({{ getInterviewTypeName(interview) }})
+  </div>
+
+
+    <div class="col-xl-2">
+
+      <mat-form-field>
 
       <mat-select
+        [disabled]="interview.IsArchived"
         (selectionChange)="selectValueChanged($event.value)"
         [(value)]= "pending"
         style="
@@ -57,26 +150,285 @@
           style="
               text-align: center;
               font-weight: bold;"
-          *ngFor="let interviewAction of interviewActions"   [value]="interviewAction.Id">
-          {{ interviewAction.Name }}
+          *ngFor="let interviewStatus of interviewStatuses"   [value]="interviewStatus.Id">
+          {{ interviewStatus.Name }}
         </mat-option>
 
       </mat-select>
 
     </mat-form-field>
-
-  </div>
-
-  <div class="offset-xl-6 col-xl-2 text-xl-right">
-    <button
-      [disabled]="disableEmailInvites"
-      style="
-      outline: 0;"
-      color="primary"
-      mat-raised-button>  <i class="far fa-envelope"></i> Email Invites</button>
   </div>
 
 </div>
-<hr style="margin-top: 0;">
+<hr>
+
+<div class="row">
+
+
+  <div class="col-xl-1">
+    <button
+      [disabled]="interview.IsArchived"
+      style="background-color: transparent; outline: 0;"
+      mat-flat-button><i class="far fa-edit"></i> Edit</button>
+  </div>
+
+  <div class="col-xl-1">
+    <button
+      [disabled]="interview.IsArchived"
+      style="background-color: transparent; outline: 0;"
+      mat-flat-button><i class="fas fa-archive"></i> Archive</button>
+  </div>
+
+  <div class="col-xl-1">
+    <button
+      [disabled]="!interview.IsArchived"
+      style="background-color: transparent; outline: 0;"
+      mat-flat-button><i class="far fa-window-restore"></i> Restore</button>
+  </div>
+
+  <div class="col-xl-1">
+    <button
+      style="background-color: transparent; outline: 0;"
+      mat-flat-button><i class="far fa-trash-alt"></i> Delete</button>
+  </div>
+
+</div>
+<hr>
+
+<div class="row">
+
+  <div class="col-xl-5">
+
+    <div class="row" style="padding-top: 5px; padding-bottom: 5px; font-size: 17px;">
+      <div class="col-xl-12">
+        <i class="far fa-clock"></i>
+        {{ interview.InterviewStartTime }} - {{ interview.InterviewEndTime }}
+      </div>
+    </div>
+
+    <div class="row" style="padding-top: 5px; padding-bottom: 5px; font-size: 15px;">
+      <div class="col-xl-12">
+        <i class="fas fa-ribbon"></i> {{ getInterviewTypeName(interview) }} Interview
+      </div>
+    </div>
+
+    <div class="row" style="padding-top: 5px; padding-bottom: 5px; font-size: 15px;">
+      <div class="col-xl-12">
+        <i class="far fa-user"></i> Sanjid Haque
+      </div>
+    </div>
+
+    <div *ngIf="interview.InterviewLocation !== ''">
+      <br>
+      <div class="row">
+        <div class="col-xl-12">
+          <h6>VENUE</h6>
+        </div>
+      </div>
+      <hr>
+      <div class="row" style="padding-top: 5px; padding-bottom: 5px; font-size: 15px;">
+        <div class="col-xl-12">
+          <i class="fas fa-map-marker-alt"></i> {{ interview.InterviewLocation }}
+        </div>
+      </div>
+    </div>
+
+
+    <br>
+    <div class="row">
+      <div class="col-xl-12 text-xl-left">
+        <h6>INTERVIEWERS</h6>
+      </div>
+    </div>
+    <hr>
+
+    <div
+      class="row"
+      style="padding-top: 5px; padding-bottom: 5px;"
+      *ngFor="let interviewersForInterview of interview.InterviewersForInterview">
+      <div class="col-xl-1">
+        <img
+          class="img-responsive"
+          style="
+                    outline: 0;
+                    cursor: pointer;
+                    border-radius: 50%;height: 40px; width: 40px"
+          [src]="candidateDefaultImage">
+      </div>
+
+      <div class="col-xl-11 text-xl-left" style="padding-top: 6px;">
+       {{ getInterviewerName(interviewersForInterview.InterviewerId) }} |
+        <span style="font-size: 13px;">{{ getInterviewerRole(interviewersForInterview.InterviewerId) }}</span>
+      </div>
+    </div>
+
+
+  </div>
+
+  <div class="col-xl-7">
+
+
+    <div class="row"
+         *ngIf="interview.CandidatesForInterview.length === 0; else candidateIsSelected">
+      <div class="col-xl-12">
+        <br>
+
+        <div style="
+        opacity: .8; font-size: 50px; text-align: center;">
+          <i  class="fas fa-box-open"></i>
+        </div>
+
+
+
+        <div style="text-align: center;">
+          <h5>No Candidate Available</h5>
+        </div>
+
+
+        <div style="text-align: center;">
+          <button
+            [disabled]="interview.IsArchived"
+            type="button"
+            (click)="openSelectCandidatesDialog()"
+            mat-flat-button style="outline: 0; background-color: transparent;">
+            <i class="fas fa-plus-circle"></i> Add Candidates</button>
+        </div>
+        <br>
+      </div>
+    </div>
+
+    <ng-template #candidateIsSelected>
+      <div class="row">
+
+
+
+        <div class="offset-xl-7 col-xl-4 text-xl-right" *ngIf="interview.CandidatesForInterview.length !== 0">
+
+          <button
+            type="button"
+            (click)="openSelectCandidatesDialog()"
+            mat-flat-button style="outline: 0 ;">
+            <i class="fas fa-plus-circle"></i> Add Candidates</button>
+
+        </div>
+
+      </div>
+
+
+      <div class="row">
+        <div class="offset-xl-1 col-xl-10"
+             style="padding-top: 10px;
+               margin-top: 10px;
+               border-radius: 8px;
+               border: 1px solid #1a237e; padding-bottom: 10px;"
+             *ngFor="let candidatesForInterview of interview.CandidatesForInterview; let i = index">
+
+          <div class="row">
+            <div class="col-xl-12" style="
+               padding-top: 10px; padding-bottom: 10px;
+               ">
+
+              <div class="row">
+                <div class="col-xl-2" style="text-align: center;">
+
+                  <img
+                    class="img-responsive"
+                    style="
+                      border-radius: 50%;height: 60px; width: 60px"
+                    [src]="candidateDefaultImage">
+
+                </div>
+
+                <div class="col-xl-9">
+
+                  <div class="row">
+                    <div class="col-xl-12 text-xl-left"
+                         style="padding-top: 6px;">
+
+                      <strong> {{ getCandidateFullName(candidatesForInterview.CandidateId) }} </strong>
+
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-xl-3 text-xl-left"
+                         style="padding-top: 5px;">
+
+                      <star-rating
+                        [rating] = "4"
+                        [readOnly]="true"
+                        [starType]="'svg'"
+                      ></star-rating>
+
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="col-xl-1">
+
+                  <i (click)="removeCandidate(i)" style="cursor: pointer;" matTooltip="Remove" class="fas fa-times"></i>
+
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+
+          <hr>
+
+          <div class="row" *ngIf="jobNotAssigned">
+
+            <div class="col-xl-6"
+                 style="
+                   font-size: 14px;
+                   padding-top: 3px;
+                   padding-bottom: 3px;">
+
+              <i title="Job Application" class="fas fa-briefcase"></i>
+              {{ getJobTitle(candidatesForInterview.CandidateId) }}
+
+            </div>
+
+            <div class="col-xl-6">
+              <!--criteria name is here-->
+            </div>
+
+          </div>
+
+
+          <div class="row">
+
+            <div class="col-xl-12"
+                 style="font-size: 14px; padding-top: 3px; padding-bottom: 3px;">
+
+              <i title="Email" class="far fa-envelope"></i> {{ getCandidateEmail(candidatesForInterview.CandidateId) }}
+
+            </div>
+
+
+
+          </div>
+
+          <div class="row">
+
+            <div class="col-xl-12"
+                 style="font-size: 14px; padding-top: 3px; padding-bottom: 3px;">
+
+              <i  title="Address" class="fas fa-map-marker-alt"></i>
+             {{ getCandidateFullAddress(candidatesForInterview.CandidateId) }}
+
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+
+    </ng-template>
+  </div>
+
+</div>
 
 

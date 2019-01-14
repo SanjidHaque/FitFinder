@@ -83,10 +83,13 @@
         <div class="col-xl-12">
 
           <mat-form-field style="width: 100%;" appearance="outline">
+            <mat-label>Select Interviewers</mat-label>
             <mat-select
+              required
               formControlName="interviewers"
-              placeholder="Select interviewers" multiple>
+              multiple>
               <mat-option
+
                 *ngFor="let user of users" [value]="user">
                 <img
                   style="border-radius: 50%;height: 30px; width: 30px"
@@ -94,6 +97,7 @@
                 <span style="font-size: 13px; opacity: 7;">{{ user.role }}</span>
               </mat-option>
             </mat-select>
+            <mat-error>You must select at least one interviewer!</mat-error>
           </mat-form-field>
 
         </div>
@@ -161,9 +165,14 @@
         <div class="col-xl-12">
           <mat-form-field style="width: 100%;" appearance="outline">
             <mat-label>Select Interview Type</mat-label>
-            <mat-select required formControlName="interviewTypeId">
-              <mat-option *ngIf="interviewTypes.length == 0">No interview type is available</mat-option>
-              <mat-option *ngFor="let interviewType of interviewTypes" [value]="interviewType.id"> {{ interviewType.type }} </mat-option>
+            <mat-select
+              required
+              formControlName="interviewTypeId">
+              <mat-option
+                *ngIf="interviewTypes.length == 0">No interview type is available</mat-option>
+              <mat-option
+                *ngFor="let interviewType of interviewTypes"
+                [value]="interviewType.id"> {{ interviewType.type }} </mat-option>
             </mat-select>
             <mat-error>You must select an interview type!</mat-error>
           </mat-form-field>

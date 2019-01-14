@@ -72,7 +72,7 @@ export class AddNewCandidateComponent implements OnInit {
       'firstName': new FormControl('', Validators.required),
       'lastName': new FormControl(''),
       'email': new FormControl('', [Validators.required, Validators.email]),
-      'mobile': new FormControl(''),
+      'mobile': new FormControl('', Validators.required),
       'address': new FormControl(''),
       'city': new FormControl('', Validators.required),
       'state': new FormControl(''),

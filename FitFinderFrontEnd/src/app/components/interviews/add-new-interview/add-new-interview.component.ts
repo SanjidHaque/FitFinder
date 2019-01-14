@@ -67,13 +67,14 @@ export class AddNewInterviewComponent implements OnInit {
     this.addNewInterviewForm = new FormGroup({
       'interviewDate': new FormControl('', Validators.required),
       'interviewName': new FormControl(''),
-      'interviewers': new FormControl(''),
+      'interviewers': new FormControl('', Validators.required),
       'interviewLocation': new FormControl(''),
       'interviewStartTime': new FormControl('10:00', Validators.required),
       'interviewEndTime': new FormControl('11:30', Validators.required),
       'interviewTypeId': new FormControl('', Validators.required)
     });
   }
+
 
   getJobTitle(candidateJobId: string) {
 
@@ -125,6 +126,7 @@ export class AddNewInterviewComponent implements OnInit {
     interviewersForInterview = this.getInterviewersForInterview(interviewId, interviewersForInterview);
 
     const interviewStatus = 'Pending';
+    const isArchived = false;
 
     const interview = new Interview(
       interviewId,
@@ -136,7 +138,8 @@ export class AddNewInterviewComponent implements OnInit {
       interviewTypeId,
       candidatesForInterview,
       interviewersForInterview,
-      interviewStatus
+      interviewStatus,
+      isArchived
     );
 
     console.log(interview);

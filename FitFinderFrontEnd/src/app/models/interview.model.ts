@@ -12,6 +12,7 @@ export class Interview {
    CandidatesForInterview: CandidatesForInterview[] = [];
    InterviewersForInterview: InterviewersForInterview[] = [];
    InterviewStatus: string;
+   IsArchived: boolean;
 
   constructor (
      id: string,
@@ -23,7 +24,8 @@ export class Interview {
      interviewTypeId: string,
      candidatesForInterview: CandidatesForInterview[] = [],
      interviewersForInterview: InterviewersForInterview[] = [],
-     interviewStatus: string
+     interviewStatus: string,
+     isArchived: boolean
   ) {
 
     this.Id = id;
@@ -36,5 +38,6 @@ export class Interview {
     this.CandidatesForInterview = candidatesForInterview;
     this.InterviewersForInterview = interviewersForInterview;
     this.InterviewStatus = interviewStatus;
+    this.IsArchived = isArchived;
   }
 }
