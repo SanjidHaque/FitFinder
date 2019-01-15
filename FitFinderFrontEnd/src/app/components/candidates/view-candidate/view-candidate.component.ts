@@ -20,7 +20,16 @@ export class ViewCandidateComponent implements OnInit {
   candidates: Candidate[] = [];
   candidate: Candidate;
 
-
+  sources = [
+    {sourceId: '1', sourceName: 'BdJobs.com'},
+    {sourceId: '2', sourceName: 'Email'},
+    {sourceId: '3', sourceName: 'Facebook'},
+    {sourceId: '4', sourceName: 'Internal'},
+    {sourceId: '5', sourceName: 'Job is Job'},
+    {sourceId: '6', sourceName: 'LinkedIn'},
+    {sourceId: '7', sourceName: 'Simply Hired'},
+    {sourceId: '8', sourceName: 'Website'}
+  ];
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -71,7 +80,9 @@ export class ViewCandidateComponent implements OnInit {
   getApplicationDate() {
     return moment(new Date(this.candidate.ApplicationDate)).format('Do MMM YYYY');
   }
-
+  getCandidateSource() {
+    return this.sources.find(x => x.sourceId === this.candidate.CandidateSourceId).sourceName;
+  }
   goToFacebookProfile() {
     window.open('http://' + this.candidate.FacebookUrl);
   }
@@ -84,6 +95,7 @@ export class ViewCandidateComponent implements OnInit {
   downloadFile(candidateAttachment: CandidateAttachment) {
     /*window.open('http://localhost:55586/Content/Attachments/' + candidateAttachment.ModifiedFileName);*/
     /*The above line will be comment out when working with back end.*/
+
     window.open('assets/cseregular3rd.pdf');
   }
 

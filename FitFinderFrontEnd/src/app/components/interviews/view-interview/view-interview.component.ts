@@ -25,7 +25,7 @@ export class ViewInterviewComponent implements OnInit {
   interview: Interview;
   candidates: Candidate[] = [];
   jobs: Job[] = [];
-  jobNotAssigned = false;
+  jobNotAssigned: boolean;
   disableEmailInvites = false;
   candidateDefaultImage = 'assets/images/candidateDefaultImage.png';
 
@@ -39,7 +39,16 @@ export class ViewInterviewComponent implements OnInit {
     {id: '7', userName: 'Vusimuji Momak', role: 'Team member'},
     {id: '8', userName: 'Wyengyu Duija', role: 'Team member'}
   ];
-
+  sources = [
+    {sourceId: '1', sourceName: 'BdJobs.com'},
+    {sourceId: '2', sourceName: 'Email'},
+    {sourceId: '3', sourceName: 'Facebook'},
+    {sourceId: '4', sourceName: 'Internal'},
+    {sourceId: '5', sourceName: 'Job is Job'},
+    {sourceId: '6', sourceName: 'LinkedIn'},
+    {sourceId: '7', sourceName: 'Simply Hired'},
+    {sourceId: '8', sourceName: 'Website'}
+  ];
   interviewTypes = [
     {id: '1', type: 'Face to Face'},
     {id: '2', type: 'Telephonic'},
@@ -47,7 +56,6 @@ export class ViewInterviewComponent implements OnInit {
     {id: '4', type: 'Group'},
     {id: '5', type: 'Panel'}
   ];
-
   interviewStatuses = [
     { Id: '1', Name: 'Pending' },
     { Id: '2', Name: 'Invited' },
@@ -125,6 +133,17 @@ export class ViewInterviewComponent implements OnInit {
     })
   }
 
+  getApplicationDate(candidateId: string) {
+    const date = this.candidates.find(x => x.Id === candidateId).ApplicationDate;
+    return moment(new Date(date)).format('Do MMM YYYY');
+  }
+
+  getCandidateSource(candidateId: string) {
+    const sourceId = this.candidates.find( x => x.Id === candidateId).CandidateSourceId;
+    return this.sources.find(x => x.sourceId === sourceId).sourceName;
+  }
+
+
   getCandidateFullName(candidateId: string) {
     const candidate = this.candidates.find(x => x.Id === candidateId);
     return candidate.FirstName + ' ' + candidate.LastName;
@@ -151,14 +170,42 @@ export class ViewInterviewComponent implements OnInit {
     }
   }
 
+  goToFacebookProfile(candidateId: string) {
+    const candidateFb = this.candidates.find(x => x.Id === candidateId).FacebookUrl;
+    if (candidateFb !== '') {
+      window.open('http://' + candidateFb);
+    }
+  }
+
+  facebookUrlExist(candidateId: string) {
+    const candidateFb = this.candidates.find(x => x.Id === candidateId).FacebookUrl;
+    if (candidateFb === '') {
+      return false;
+    }
+    return true;
+  }
+
+  linkedInUrlExist(candidateId: string) {
+    const candidateLn = this.candidates.find(x => x.Id === candidateId).LinkedInUrl;
+    if (candidateLn === '') {
+      return false;
+    }
+    return true;
+  }
+
+  goToLinkedInProfile(candidateId: string) {
+    const candidateLn = this.candidates.find(x => x.Id === candidateId).LinkedInUrl;
+    if (candidateLn !== '') {
+      window.open('http://' + candidateLn);
+    }
+  }
 
   getJobTitle(candidateId: string) {
     const jobId = this.candidates.find(x => x.Id === candidateId).JobId;
     if (jobId === '' ) {
-      this.jobNotAssigned = true;
+      return '';
     } else {
       return this.jobs.find(x => x.Id === jobId).JobTitle;
-      this.jobNotAssigned = false;
     }
 
   }

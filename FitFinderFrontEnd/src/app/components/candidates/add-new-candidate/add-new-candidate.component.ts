@@ -38,13 +38,6 @@ export class AddNewCandidateComponent implements OnInit {
   addNewCandidateForm: FormGroup;
   email = new FormControl('', [Validators.required, Validators.email]);
 
-  /*jobs = [
-    {jobId: '1', jobName: 'Senior Laravel Developer'},
-    {jobId: '2', jobName: 'UI/UX Designer'},
-    {jobId: '3', jobName: 'ASP.Net Developer'},
-    {jobId: '4', jobName: 'React.js & Node.js Developer'},
-    {jobId: '5', jobName: 'Django & MongoDB Developer'}
-  ];*/
 
   sources = [
     {sourceId: '1', sourceName: 'BdJobs.com'},

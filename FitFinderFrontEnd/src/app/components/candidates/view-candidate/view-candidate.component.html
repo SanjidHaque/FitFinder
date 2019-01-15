@@ -168,7 +168,9 @@
 
     <div class="row">
       <div style="font-size: 14px;" class="col-xl-10">
-        <strong> <i title="Source/Candidate Application Date" class="fab fa-osi"></i>  Email</strong> on {{ getApplicationDate() }}
+        <strong> <i title="Source/Candidate Application Date"
+                    class="fab fa-osi"></i> {{ getCandidateSource() }} </strong> on
+        {{ getApplicationDate() }}
       </div>
 
       <div *ngIf="candidate.FacebookUrl !== ''" class="col-xl-1 text-xl-right" style="font-size: 22px;">
@@ -204,7 +206,7 @@
       </div>
     </div>
 
-    <div class="row" *ngIf="candidate.Mobile !== ''">
+    <div class="row">
       <div class="col-xl-12" style="font-size: 14px; padding-top: 3px; padding-bottom: 3px;">
 
         <i  title="Phone" class="fas fa-phone"></i> {{ candidate.Mobile }}
@@ -267,15 +269,15 @@
               <div class="col-xl-3">
                 <i
                   style="cursor: pointer;"
-                  title="Set as Resume" class="fas fa-file-prescription"></i>
+                  title="Set as Resume"
+                  class="fas fa-file-prescription"></i>
               </div>
 
 
 
               <div class="col-xl-3">
-                <i
-                  style="cursor: pointer;"
-                  title="Delete" class="far fa-trash-alt"></i>
+                <i style="cursor: pointer;"
+                   title="Delete" class="far fa-trash-alt"></i>
               </div>
 
             </div>

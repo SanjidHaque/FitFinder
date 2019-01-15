@@ -321,7 +321,8 @@
                margin-top: 10px;
                border-radius: 8px;
                border: 1px solid #1a237e; padding-bottom: 10px;"
-             *ngFor="let candidatesForInterview of interview.CandidatesForInterview; let i = index">
+             *ngFor="let candidatesForInterview of interview.CandidatesForInterview;
+             let i = index">
 
           <div class="row">
             <div class="col-xl-12" style="
@@ -345,7 +346,9 @@
                     <div class="col-xl-12 text-xl-left"
                          style="padding-top: 6px;">
 
-                      <strong> {{ getCandidateFullName(candidatesForInterview.CandidateId) }} </strong>
+                      <strong>
+                        {{ getCandidateFullName(candidatesForInterview.CandidateId) }}
+                      </strong>
 
                     </div>
                   </div>
@@ -361,13 +364,22 @@
                       ></star-rating>
 
                     </div>
+
+
+                    <div
+                      class="col-xl-9">
+
+                      <!--Stage criteria name is here-->
+                    </div>
                   </div>
 
                 </div>
 
-                <div class="col-xl-1">
+                <div class="col-xl-1" *ngIf="!interview.IsArchived">
 
-                  <i (click)="removeCandidate(i)" style="cursor: pointer;" matTooltip="Remove" class="fas fa-times"></i>
+                  <i (click)="removeCandidate(i)"
+                     style="cursor: pointer;"
+                     matTooltip="Remove" class="fas fa-times"></i>
 
                 </div>
 
@@ -378,24 +390,74 @@
 
           <hr>
 
-          <div class="row" *ngIf="jobNotAssigned">
+          <div class="row">
+            <div class="col-xl-6 text-xl-center">
+              <button
+                [disabled]="
+                getJobTitle(candidatesForInterview.CandidateId) === '' ||
+                interview.IsArchived"
+                mat-flat-button
+                style="outline: 0;
+                background-color: transparent;">
+                <i class="far fa-comment-alt"></i> Comment</button>
+            </div>
+            <div class="col-xl-6 text-xl-center">
+              <button
+                [disabled]="
+                getJobTitle(candidatesForInterview.CandidateId) === '' ||
+                interview.IsArchived"
+                mat-flat-button
+                style="outline: 0;
+                background-color: transparent;">
+                <i class="fas fa-sign-in-alt"></i> Status</button>
+            </div>
+          </div>
+          <hr>
 
-            <div class="col-xl-6"
+          <div class="row" *ngIf="getJobTitle(candidatesForInterview.CandidateId) !== ''">
+
+            <div class="col-xl-12"
                  style="
-                   font-size: 14px;
-                   padding-top: 3px;
-                   padding-bottom: 3px;">
+                   color: #4d94e5;
+                   font-size: 16px;
+                   padding-top: 5px;
+                   padding-bottom: 7px;">
 
               <i title="Job Application" class="fas fa-briefcase"></i>
-              {{ getJobTitle(candidatesForInterview.CandidateId) }}
+              <span style="
+                    color: #4d94e5;">
+                {{ getJobTitle(candidatesForInterview.CandidateId) }}</span>
 
             </div>
-
-            <div class="col-xl-6">
-              <!--criteria name is here-->
-            </div>
-
           </div>
+
+
+
+
+          <div class="row">
+            <div style="font-size: 14px;" class="col-xl-10">
+              <strong> <i title="Source/Candidate Application Date" class="fab fa-osi"></i>
+                {{ getCandidateSource(candidatesForInterview.CandidateId) }}
+              </strong> on {{ getApplicationDate(candidatesForInterview.CandidateId) }}
+            </div>
+
+            <div *ngIf="facebookUrlExist(candidatesForInterview.CandidateId)"
+                 class="col-xl-1 text-xl-right" style="font-size: 22px;">
+              <i style="cursor: pointer;"
+                 (click)="goToFacebookProfile(candidatesForInterview.CandidateId)"
+                 class="fab fa-facebook-square"></i>
+            </div>
+
+            <div *ngIf="linkedInUrlExist(candidatesForInterview.CandidateId)"
+                 class="col-xl-1 text-xl-left" style="font-size: 22px;">
+              <i
+                style="cursor: pointer;"
+                (click)="goToLinkedInProfile(candidatesForInterview.CandidateId)"
+                class="fab fa-linkedin"></i>
+            </div>
+          </div>
+          <hr>
+
 
 
           <div class="row">
@@ -407,8 +469,15 @@
 
             </div>
 
+          </div>
 
 
+          <div class="row">
+            <div class="col-xl-12" style="font-size: 14px; padding-top: 3px; padding-bottom: 3px;">
+
+              <i  title="Phone" class="fas fa-phone"></i> {{ getCandidatePhone(candidatesForInterview.CandidateId) }}
+
+            </div>
           </div>
 
           <div class="row">
@@ -418,6 +487,98 @@
 
               <i  title="Address" class="fas fa-map-marker-alt"></i>
              {{ getCandidateFullAddress(candidatesForInterview.CandidateId) }}
+
+            </div>
+          </div>
+          <br>
+
+          <div class="row">
+            <div class="col-xl-12">
+
+              <mat-accordion >
+                <mat-expansion-panel>
+
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                <span style="text-align: left; font-weight: bold; font-size: 14px;">
+                  EDUCATION
+                </span>
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+
+
+                  <div class="row">
+                    <div class="col-xl-12">
+
+                    </div>
+                  </div>
+
+
+                </mat-expansion-panel>
+              </mat-accordion>
+
+
+            </div>
+          </div>
+
+          <br>
+
+          <div class="row">
+            <div class="col-xl-12">
+
+              <mat-accordion >
+                <mat-expansion-panel>
+
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                <span style="text-align: left; font-weight: bold; font-size: 14px;">
+                  EXPERIENCE
+                </span>
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+
+
+                  <div class="row">
+                    <div class="col-xl-12">
+
+                    </div>
+                  </div>
+
+
+                </mat-expansion-panel>
+              </mat-accordion>
+
+
+            </div>
+          </div>
+
+          <br>
+
+          <div class="row">
+            <div class="col-xl-12">
+
+              <mat-accordion >
+                <mat-expansion-panel>
+
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                <span style="text-align: left; font-weight: bold; font-size: 14px;">
+                  ATTACHMENTS
+                </span>
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+
+                  <div class="row">
+                    <div class="col-xl-12">
+
+                    </div>
+                  </div>
+
+
+
+                </mat-expansion-panel>
+              </mat-accordion>
+
 
             </div>
           </div>
