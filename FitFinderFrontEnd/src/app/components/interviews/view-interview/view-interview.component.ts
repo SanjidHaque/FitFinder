@@ -133,6 +133,23 @@ export class ViewInterviewComponent implements OnInit {
     })
   }
 
+
+  getCandidateAttachment(candidateId: string) {
+    const attachments = this.candidates.find(x => x.Id === candidateId).CandidateAttachment;
+    if (attachments === []) {
+      return [];
+    } else {
+      return attachments;
+    }
+
+  }
+
+  downloadFile(modifiedFileName: string) {
+    /*window.open('http://localhost:55586/Content/Attachments/' + modifiedFileName);*/
+    /*The above line will be comment out when working with back end.*/
+    window.open('assets/cseregular3rd.pdf');
+  }
+
   getApplicationDate(candidateId: string) {
     const date = this.candidates.find(x => x.Id === candidateId).ApplicationDate;
     return moment(new Date(date)).format('Do MMM YYYY');

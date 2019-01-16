@@ -9,7 +9,7 @@
         class="col-xl-4">
         <button
           routerLink="/candidates"
-          matTooltip="Go back"
+          matTooltip="Candidate Panel"
           matTooltipPosition="above"
           style="outline: 0;"
           mat-flat-button><i
@@ -20,7 +20,7 @@
       <div class="col-xl-4">
         <button
           (click)="previousCandidate()"
-          matTooltip="Previous candidate"
+          matTooltip="Previous Candidate"
           matTooltipPosition="above"
           style="background-color: transparent; outline: 0;"
           mat-flat-button><i
@@ -31,7 +31,7 @@
       <div class="col-xl-4">
         <button
           (click)="nextCandidate()"
-          matTooltip="Next candidate"
+          matTooltip="Next Candidate"
           matTooltipPosition="above"
           style="background-color: transparent; outline: 0;"
           mat-flat-button><i
@@ -236,54 +236,54 @@
       <div class="col-xl-12" *ngFor="let candidateAttachment of candidate.CandidateAttachment">
 
         <div class="row">
-          <div class="col-xl-9" style="
+        <div class="col-xl-9" style="
           font-size: 14px;
           font-weight: bold;
           padding-top: 6px;
           padding-bottom: 6px;">
 
-            <i class="far fa-file"></i> {{ candidateAttachment.FileName }}
-            <span
-              style="
+          <i class="far fa-file"></i> {{ candidateAttachment.FileName }}
+          <span
+            style="
               color: #000;
               opacity: .6;
               font-size: 10px;"
-              *ngIf="candidateAttachment.IsResume">(Resume)</span>
+            *ngIf="candidateAttachment.IsResume">(Resume)</span>
 
-          </div>
+        </div>
 
-          <div class="col-xl-3">
+        <div class="col-xl-3">
 
-            <div class="row">
-
-
-              <div class="col-xl-3">
-                <i
-                  (click)="downloadFile(candidateAttachment)"
-                  style="cursor: pointer;"
-                  title="Download" class="fas fa-download"></i>
-              </div>
+          <div class="row">
 
 
-
-              <div class="col-xl-3">
-                <i
-                  style="cursor: pointer;"
-                  title="Set as Resume"
-                  class="fas fa-file-prescription"></i>
-              </div>
+            <div class="col-xl-3">
+              <i
+                (click)="downloadFile(candidateAttachment)"
+                style="cursor: pointer;"
+                title="Download" class="fas fa-download"></i>
+            </div>
 
 
 
-              <div class="col-xl-3">
-                <i style="cursor: pointer;"
-                   title="Delete" class="far fa-trash-alt"></i>
-              </div>
+            <div class="col-xl-3">
+              <i
+                style="cursor: pointer;"
+                title="Set as Resume"
+                class="fas fa-file-prescription"></i>
+            </div>
 
+
+
+            <div class="col-xl-3">
+              <i style="cursor: pointer;"
+                 title="Delete" class="far fa-trash-alt"></i>
             </div>
 
           </div>
+
         </div>
+      </div>
 
       </div>
     </div>
