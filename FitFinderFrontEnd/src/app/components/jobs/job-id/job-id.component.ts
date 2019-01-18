@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {MatDialog} from '@angular/material';
 import {NotifierService} from 'angular-notifier';
@@ -9,11 +9,11 @@ import {Job} from '../../../models/job.model';
 import * as moment from 'moment';
 
 @Component({
-  selector: 'app-view-job',
-  templateUrl: './view-job.component.html',
-  styleUrls: ['./view-job.component.css']
+  selector: 'app-job-id',
+  templateUrl: './job-id.component.html',
+  styleUrls: ['./job-id.component.css']
 })
-export class ViewJobComponent implements OnInit {
+export class JobIdComponent implements OnInit {
 
   jobId: string;
   job: Job;
@@ -42,6 +42,7 @@ export class ViewJobComponent implements OnInit {
   ngOnInit() {
     this.jobs = this.jobService.getAllJob();
     this.job = this.jobs.find( x => x.Id === this.jobId);
+    this.jobService.job = this.job;
   }
 
   getDepartmentName(departmentId: string) {
@@ -51,10 +52,7 @@ export class ViewJobComponent implements OnInit {
   getClosingDays() {
     const today = moment(new Date());
     const closingDate = moment(this.job.JobClosingDate);
-    if ( closingDate.diff(today, 'days') > 0) {
-      return  closingDate.diff(today, 'days');
-    }
-    return '';
+    return closingDate.diff(today, 'days');
   }
 
   previousJob() {
@@ -66,6 +64,7 @@ export class ViewJobComponent implements OnInit {
       nextIndex = currentIndex - 1;
     }
     this.job = this.jobs[nextIndex];
+    this.jobService.job = this.job;
     this.jobId = this.jobs[nextIndex].Id;
     this.router.navigate(['/jobs/' + this.jobId]);
   }
@@ -79,6 +78,7 @@ export class ViewJobComponent implements OnInit {
       nextIndex = currentIndex + 1;
     }
     this.job = this.jobs[nextIndex];
+    this.jobService.job = this.job;
     this.jobId = this.jobs[nextIndex].Id;
     this.router.navigate(['/jobs/' + this.jobId]);
   }

@@ -48,7 +48,9 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import { SearchJobPipe } from './pipes/search-job.pipe';
 import { ViewCandidateComponent } from './components/candidates/view-candidate/view-candidate.component';
 import { ViewInterviewComponent } from './components/interviews/view-interview/view-interview.component';
-import { ViewJobComponent } from './components/jobs/view-job/view-job.component';
+import { JobIdComponent } from './components/jobs/job-id/job-id.component';
+import { JobInfoComponent } from './components/jobs/job-id/job-info/job-info.component';
+import { JobCandidatesComponent } from './components/jobs/job-id/job-candidates/job-candidates.component';
 
 
 
@@ -84,7 +86,9 @@ import { ViewJobComponent } from './components/jobs/view-job/view-job.component'
     SearchJobPipe,
     ViewCandidateComponent,
     ViewInterviewComponent,
-    ViewJobComponent
+    JobIdComponent,
+    JobInfoComponent,
+    JobCandidatesComponent
   ],
   imports: [
     BrowserModule,

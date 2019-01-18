@@ -8,6 +8,7 @@ import {Subject} from 'rxjs/index';
 export class JobService {
 
   jobs: Job[] = [];
+  job: Job;
   jobsChanged = new Subject<Job[]>();
 
   getAllJob() {

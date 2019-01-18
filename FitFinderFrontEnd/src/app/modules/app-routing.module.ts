@@ -26,7 +26,9 @@ import {CandidatesAndLeadsComponent} from '../components/settings/candidates-and
 import {PageNotFoundComponent} from '../components/page-not-found/page-not-found.component';
 import {ViewCandidateComponent} from '../components/candidates/view-candidate/view-candidate.component';
 import {ViewInterviewComponent} from '../components/interviews/view-interview/view-interview.component';
-import {ViewJobComponent} from '../components/jobs/view-job/view-job.component';
+import {JobIdComponent} from '../components/jobs/job-id/job-id.component';
+import {JobInfoComponent} from '../components/jobs/job-id/job-info/job-info.component';
+import {JobCandidatesComponent} from '../components/jobs/job-id/job-candidates/job-candidates.component';
 
 const appRoutes: Routes = [
   {
@@ -58,13 +60,24 @@ const appRoutes: Routes = [
         component: AddNewJobComponent
       },
       {
-        path: ':job-id/view-job',
-        component: ViewJobComponent
-      },
-      {
         path: ':job-id',
-        redirectTo: ':job-id/view-job',
-        pathMatch: 'full'
+        component: JobIdComponent,
+        children:
+        [
+          {
+            path: '',
+            redirectTo: 'job-info',
+            pathMatch: 'full'
+          },
+          {
+            path: 'job-info',
+            component: JobInfoComponent
+          },
+          {
+            path: 'job-candidates',
+            component: JobCandidatesComponent
+          }
+        ]
       }
     ]
   },
