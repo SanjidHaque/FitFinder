@@ -18,7 +18,12 @@ export class ViewJobComponent implements OnInit {
   jobId: string;
   job: Job;
   jobs: Job[] = [];
-
+  departments = [
+    {id: '1', name: 'Accounts'},
+    {id: '2', name: 'Finance'},
+    {id: '3', name: 'Development'},
+    {id: '4', name: 'Engineering'}
+  ];
   constructor(private route: ActivatedRoute,
               private dialog: MatDialog,
               private notifierService: NotifierService,
@@ -37,6 +42,10 @@ export class ViewJobComponent implements OnInit {
   ngOnInit() {
     this.jobs = this.jobService.getAllJob();
     this.job = this.jobs.find( x => x.Id === this.jobId);
+  }
+
+  getDepartmentName(departmentId: string) {
+    return this.departments.find(x => x.id === departmentId ).name;
   }
 
   getClosingDays() {

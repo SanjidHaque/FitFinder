@@ -144,7 +144,8 @@ export class AddNewJobComponent implements OnInit {
       this.jobAttachments,
       false,
       true,
-      new Date().toString()
+      new Date().toString(),
+      false
     );
     this.jobService.addNewJob(job);
     this.notifierService.notify('default', 'New job published');

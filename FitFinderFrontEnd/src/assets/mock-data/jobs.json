@@ -19,7 +19,9 @@
         "JobSalaryEnds": "23000",
         "JobAttachment": [],
         "IsArchived": false,
-        "IsPublished": false
+        "IsPublished": false,
+      "JobCreatedDate" : "2019-01-01T18:00:00.000Z",
+      "IsFavourite": true
     },
     {
         "Id": "37b7833c-b7a8-fa61-1199-e41cee145370",
@@ -41,7 +43,10 @@
         "JobSalaryEnds": null,
         "JobAttachment": [],
         "IsArchived": true,
-        "IsPublished": true
+        "IsPublished": true,
+      "JobCreatedDate" : "2019-01-01T18:00:00.000Z",
+      "IsFavourite": true
+
     },
     {
         "Id": "38c60da1-f24d-b1af-3d46-e05759052290",
@@ -70,7 +75,10 @@
             }
         ],
         "IsArchived": false,
-        "IsPublished": true
+        "IsPublished": true,
+      "JobCreatedDate" : "2019-01-01T18:00:00.000Z",
+      "IsFavourite": false
+
     },
     {
         "Id": "4b0c3edf-44c5-2ba5-5f45-aed358cb2cca",
@@ -105,7 +113,9 @@
             }
         ],
        "IsArchived": false,
-       "IsPublished": true
+       "IsPublished": true,
+      "JobCreatedDate" : "2019-01-01T18:00:00.000Z",
+      "IsFavourite": true
     },
     {
         "Id": "bce575fe-df3c-f121-d9e9-a77497603c24",
@@ -134,6 +144,8 @@
             }
         ],
         "IsArchived": false,
-        "IsPublished": true
+        "IsPublished": true,
+      "JobCreatedDate" : "2019-01-01T18:00:00.000Z",
+      "IsFavourite": false
     }
 ]

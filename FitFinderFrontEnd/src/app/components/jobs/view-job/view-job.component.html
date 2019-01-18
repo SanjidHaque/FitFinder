@@ -108,10 +108,59 @@
   </div>
 
 
-
-
 </div>
 
 
 <hr>
+
+<!--
+<div class="row">
+  <div class="col-xl-1">
+    <i *ngIf="job.IsFavourite" style="color: #FFD61D;" class="fas fa-heart"></i>
+    <i *ngIf="!job.IsFavourite" class="far fa-heart"></i>
+  </div>
+</div>
+
+-->
+
+<div class="row">
+  <div class="col-xl-10">
+
+    <div class="row">
+      <div class="col-xl-12" style="font-size: 30px;">
+        {{ job.JobTitle }}
+      </div>
+    </div>
+
+    <div class="row" style="margin-top: 5px;">
+      <div class="col-xl-12"
+               style="font-size: 16px;">
+            <span
+              title="Job Code"
+              *ngIf="job.JobCode !== ''"
+            ><i class="fas fa-paperclip"></i> {{ job.JobCode }} &nbsp;
+            </span>
+
+            <span
+              title="Department"
+            ><i class="far fa-building"></i> {{ getDepartmentName(job.DepartmentId) }} &nbsp;
+            </span>
+
+            <span
+              title="Location"
+            ><i class="fas fa-map-marker-alt"></i> {{ job.JobLocation }}
+            </span>
+
+
+      </div>
+    </div>
+
+  </div>
+
+  <div class="col-xl-2">
+
+
+  </div>
+</div>
+
 
