@@ -269,7 +269,11 @@
               <mat-option
                 *ngIf="employmentTypes.length == 0">No job type is available</mat-option>
               <mat-option
-                *ngFor="let employmentType of employmentTypes" [value]="employmentType.id"> {{ employmentType.name }} </mat-option>
+                *ngFor="let
+                employmentType
+                of employmentTypes"
+                [value]="employmentType.id">
+                {{ employmentType.name }} </mat-option>
             </mat-select>
           </mat-form-field>
 

@@ -21,6 +21,7 @@ export class Job {
   JobAttachment: JobAttachment[];
   IsArchived: boolean;
   IsPublished: boolean;
+  JobCreatedDate: string;
 
   constructor(
      id: string,
@@ -42,7 +43,8 @@ export class Job {
      jobSalaryEnds: string,
      jobAttachment: JobAttachment[] = [],
      isArchived: boolean,
-     isPublished: boolean
+     isPublished: boolean,
+     jobCreatedDate: string,
   ) {
 
     this.Id = id;
@@ -65,5 +67,6 @@ export class Job {
     this.JobAttachment = jobAttachment;
     this.IsArchived = isArchived;
     this.IsPublished = isPublished;
+    this.JobCreatedDate = jobCreatedDate;
   }
 }

@@ -183,18 +183,39 @@
 
             </div>
 
-            <div class="col-xl-5">
+            <div class="col-xl-6">
 
               <div class="row">
                 <div class="col-xl-12" style="padding-top: 10px;">
-                  <strong>{{ job.JobTitle }}</strong>
+                  <strong
+                    routerLink="/jobs/{{ job.Id }}/view-job"
+                    style="
+                       outline: 0;
+                       cursor: pointer;"
+                  >
+                    {{ job.JobTitle }}</strong>
                 </div>
               </div>
 
               <div class="row">
                 <div class="col-xl-12"
                      style="font-size: 12px;">
-                <strong> <i class="fas fa-map-marker-alt"></i> {{ job.JobLocation }} </strong>
+                <strong
+                  title="Job Code"
+                  *ngIf="job.JobCode !== ''"
+                ><i class="fas fa-paperclip"></i> {{ job.JobCode }} &nbsp;
+                </strong>
+
+                <strong
+                  title="Department"
+                ><i class="far fa-building"></i> {{ getDepartmentName(job.DepartmentId) }} &nbsp;
+                </strong>
+
+                <strong
+                title="Location"
+                ><i class="fas fa-map-marker-alt"></i> {{ job.JobLocation }}
+                </strong>
+
                 </div>
               </div>
 
@@ -202,12 +223,29 @@
 
             <div
               *ngIf="job.IsPublished; else jobIsNotPublished"
-               class="col-xl-3 text-xl-center" style="padding-top: 10px;">
-              <i title="Published Job" class="fas fa-bullhorn"></i>
+               class="col-xl-2 text-xl-center" style="padding-top: 10px;">
+              <div class="row">
+                <div class="col-xl-12">
+                  <i title="Published Job" class="fas fa-bullhorn"></i>
+                </div>
+              </div>
+              <div
+                *ngIf="job.JobClosingDate !== ''
+                && getClosingDays(job.JobClosingDate) > 0"
+                class="row">
+                <div
+                  style="
+                font-weight: bold;
+                font-size: 11px;" class="col-xl-12 text-xl-center">
+                  <span
+                    matTooltip="Closing in {{ getClosingDays(job.JobClosingDate) }} Days"
+                    matTooltipPosition="after">{{ getClosingDays(job.JobClosingDate) }} days</span>
+                </div>
+              </div>
             </div>
 
             <ng-template #jobIsNotPublished>
-              <div class="col-xl-3" style="padding-top: 10px;">
+              <div class="col-xl-2" style="padding-top: 10px;">
 
               </div>
             </ng-template>

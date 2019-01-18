@@ -4,6 +4,7 @@ import {Subscription} from 'rxjs/index';
 import {JobService} from '../../../services/job.service';
 import {SelectionModel} from '@angular/cdk/collections';
 import {MatTreeFlatDataSource} from '@angular/material';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-job-panel',
@@ -27,6 +28,16 @@ export class JobPanelComponent implements OnInit {
 
   ngOnInit() {
     this.jobs = this.jobService.getAllJob();
+  }
+
+  getDepartmentName(departmentId: string) {
+    return this.departments.find(x => x.id === departmentId ).name;
+  }
+
+  getClosingDays(jobClosingDate: string) {
+    const today = moment(new Date());
+    const closingDate = moment(jobClosingDate);
+    return closingDate.diff(today, 'days');
   }
 
   isAllSelected() {

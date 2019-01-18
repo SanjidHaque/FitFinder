@@ -12,14 +12,14 @@
         "JobFunctionalityId": "2",
         "EmploymentTypeId": "1",
         "JobPositions": "2",
-        "JobClosingDate": "2019-02-12T18:00:00.000Z",
+        "JobClosingDate": "2019-01-18T18:00:00.000Z",
         "JobExperienceStarts": "3",
         "JobExperienceEnds": "1",
         "JobSalaryStarts": "35000",
         "JobSalaryEnds": "23000",
         "JobAttachment": [],
-        "IsArchived": true,
-        "IsPublished": true
+        "IsArchived": false,
+        "IsPublished": false
     },
     {
         "Id": "37b7833c-b7a8-fa61-1199-e41cee145370",
@@ -34,7 +34,7 @@
         "JobFunctionalityId": "2",
         "EmploymentTypeId": "2",
         "JobPositions": "4",
-        "JobClosingDate": "2019-02-02T18:00:00.000Z",
+        "JobClosingDate": "",
         "JobExperienceStarts": "1",
         "JobExperienceEnds": null,
         "JobSalaryStarts": "14000",
@@ -70,7 +70,7 @@
             }
         ],
         "IsArchived": false,
-        "IsPublished": false
+        "IsPublished": true
     },
     {
         "Id": "4b0c3edf-44c5-2ba5-5f45-aed358cb2cca",
@@ -120,7 +120,7 @@
         "JobFunctionalityId": "2",
         "EmploymentTypeId": "2",
         "JobPositions": "2",
-        "JobClosingDate": "2019-01-14T18:00:00.000Z",
+        "JobClosingDate": "",
         "JobExperienceStarts": null,
         "JobExperienceEnds": "2",
         "JobSalaryStarts": null,
@@ -134,6 +134,6 @@
             }
         ],
         "IsArchived": false,
-        "IsPublished": false
+        "IsPublished": true
     }
 ]

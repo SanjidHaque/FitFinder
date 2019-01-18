@@ -107,7 +107,7 @@ export class AddNewJobComponent implements OnInit {
       'jobFunctionalityId': new FormControl(''),
       'employmentTypeId': new FormControl(''),
       'jobPositions': new FormControl('', [Validators.required, Validators.min(0)]),
-      'jobClosingDate': new FormControl('', Validators.required),
+      'jobClosingDate': new FormControl(''),
       'jobExperienceStarts': new FormControl('', Validators.min(0)),
       'jobExperienceEnds': new FormControl('', Validators.min(0)),
       'jobSalaryStarts': new FormControl('', Validators.min(0)),
@@ -143,7 +143,8 @@ export class AddNewJobComponent implements OnInit {
       this.addNewJobForm.controls['jobSalaryEnds'].value,
       this.jobAttachments,
       false,
-      true
+      true,
+      new Date().toString()
     );
     this.jobService.addNewJob(job);
     this.notifierService.notify('default', 'New job published');
