@@ -24,12 +24,16 @@ import {WorkflowComponent} from '../components/settings/workflow/workflow.compon
 import {JobOpeningsComponent} from '../components/settings/job-openings/job-openings.component';
 import {CandidatesAndLeadsComponent} from '../components/settings/candidates-and-leads/candidates-and-leads.component';
 import {PageNotFoundComponent} from '../components/page-not-found/page-not-found.component';
-import {ViewCandidateComponent} from '../components/candidates/view-candidate/view-candidate.component';
-import {ViewInterviewComponent} from '../components/interviews/view-interview/view-interview.component';
+import {CandidateIdComponent} from '../components/candidates/candidate-id/candidate-id.component';
 import {JobIdComponent} from '../components/jobs/job-id/job-id.component';
 import {JobInfoComponent} from '../components/jobs/job-id/job-info/job-info.component';
 import {JobCandidatesComponent} from '../components/jobs/job-id/job-candidates/job-candidates.component';
 import {JobAnalyticsComponent} from '../components/jobs/job-id/job-analytics/job-analytics.component';
+import {CandidateInfoComponent} from '../components/candidates/candidate-id/candidate-info/candidate-info.component';
+import {CandidateEmailComponent} from '../components/candidates/candidate-id/candidate-email/candidate-email.component';
+import {CandidateInterviewComponent} from '../components/candidates/candidate-id/candidate-interview/candidate-interview.component';
+import {CandidateTaskComponent} from '../components/candidates/candidate-id/candidate-task/candidate-task.component';
+import {InterviewIdComponent} from '../components/interviews/interview-id/interview-id.component';
 
 const appRoutes: Routes = [
   {
@@ -109,13 +113,32 @@ const appRoutes: Routes = [
         component: AddNewCandidateComponent
       },
       {
-        path: ':candidate-id/view-candidate',
-        component: ViewCandidateComponent
-      },
-      {
         path: ':candidate-id',
-        redirectTo: ':candidate-id/view-candidate',
-        pathMatch: 'full'
+        component: CandidateIdComponent,
+        children:
+        [
+          {
+            path: '',
+            redirectTo: 'candidate-info',
+            pathMatch: 'full'
+          },
+          {
+            path: 'candidate-info',
+            component: CandidateInfoComponent
+          },
+          {
+            path: 'candidate-email',
+            component: CandidateEmailComponent
+          },
+          {
+            path: 'candidate-interview',
+            component: CandidateInterviewComponent
+          },
+          {
+            path: 'candidate-task',
+            component: CandidateTaskComponent
+          }
+        ]
       }
     ]
   },
@@ -143,12 +166,12 @@ const appRoutes: Routes = [
         component: AddNewInterviewComponent
       },
       {
-        path: ':interview-id/view-interview',
-        component: ViewInterviewComponent
+        path: ':interview-id/interview-info',
+        component: InterviewIdComponent
       },
       {
         path: ':interview-id',
-        redirectTo: ':interview-id/view-interview',
+        redirectTo: ':interview-id/interview-info',
         pathMatch: 'full'
       }
     ]

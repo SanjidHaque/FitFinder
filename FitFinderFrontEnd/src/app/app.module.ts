@@ -46,13 +46,16 @@ import { CreateEmploymentTypeInstantlyDialogComponent } from './components/jobs/
 import { CreateJobFunctionalityInstantlyDialogComponent } from './components/jobs/add-new-job/create-job-functionality-instantly-dialog/create-job-functionality-instantly-dialog.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { SearchJobPipe } from './pipes/search-job.pipe';
-import { ViewCandidateComponent } from './components/candidates/view-candidate/view-candidate.component';
-import { ViewInterviewComponent } from './components/interviews/view-interview/view-interview.component';
 import { JobIdComponent } from './components/jobs/job-id/job-id.component';
 import { JobInfoComponent } from './components/jobs/job-id/job-info/job-info.component';
 import { JobCandidatesComponent } from './components/jobs/job-id/job-candidates/job-candidates.component';
 import { JobAnalyticsComponent } from './components/jobs/job-id/job-analytics/job-analytics.component';
-
+import {CandidateIdComponent} from './components/candidates/candidate-id/candidate-id.component';
+import {CandidateInfoComponent} from './components/candidates/candidate-id/candidate-info/candidate-info.component';
+import {CandidateEmailComponent} from './components/candidates/candidate-id/candidate-email/candidate-email.component';
+import {CandidateTaskComponent} from './components/candidates/candidate-id/candidate-task/candidate-task.component';
+import {CandidateInterviewComponent} from './components/candidates/candidate-id/candidate-interview/candidate-interview.component';
+import {InterviewIdComponent} from './components/interviews/interview-id/interview-id.component';
 
 
 
@@ -85,12 +88,16 @@ import { JobAnalyticsComponent } from './components/jobs/job-id/job-analytics/jo
     CreateJobFunctionalityInstantlyDialogComponent,
     PageNotFoundComponent,
     SearchJobPipe,
-    ViewCandidateComponent,
-    ViewInterviewComponent,
+    CandidateIdComponent,
+    InterviewIdComponent,
     JobIdComponent,
     JobInfoComponent,
     JobCandidatesComponent,
-    JobAnalyticsComponent
+    JobAnalyticsComponent,
+    CandidateInfoComponent,
+    CandidateTaskComponent,
+    CandidateEmailComponent,
+    CandidateInterviewComponent
   ],
   imports: [
     BrowserModule,

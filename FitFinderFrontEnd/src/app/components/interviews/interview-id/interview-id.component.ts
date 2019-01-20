@@ -14,11 +14,11 @@ import {UUID} from 'angular2-uuid';
 import {CandidatesForInterview} from '../../../models/candidates-for-interview.model';
 
 @Component({
-  selector: 'app-view-interview',
-  templateUrl: './view-interview.component.html',
-  styleUrls: ['./view-interview.component.css']
+  selector: 'app-interview-id',
+  templateUrl: './interview-id.component.html',
+  styleUrls: ['./interviewid.component.css']
 })
-export class ViewInterviewComponent implements OnInit {
+export class InterviewIdComponent implements OnInit {
   interviewId: string;
   pending = '1';
   interviews: Interview[] = [];

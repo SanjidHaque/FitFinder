@@ -1,0 +1,605 @@
+<br>
+<div class="row">
+
+  <div class="col-xl-2">
+    <div class="row">
+
+
+      <div
+        class="col-xl-4">
+        <button
+          routerLink="/candidates"
+          matTooltip="Candidate Panel"
+          matTooltipPosition="above"
+          style="outline: 0;"
+          mat-flat-button><i
+          style="font-size: 30px;"
+          class="far fa-arrow-alt-circle-left"></i></button>
+      </div>
+
+      <div class="col-xl-4">
+        <button
+          (click)="previousCandidate()"
+          matTooltip="Previous Candidate"
+          matTooltipPosition="above"
+          style="background-color: transparent; outline: 0;"
+          mat-flat-button><i
+          style="font-size: 30px;"
+          class="fas fa-angle-double-left"></i></button>
+      </div>
+
+      <div class="col-xl-4">
+        <button
+          (click)="nextCandidate()"
+          matTooltip="Next Candidate"
+          matTooltipPosition="above"
+          style="background-color: transparent; outline: 0;"
+          mat-flat-button><i
+          style="font-size: 30px;"
+          class="fas fa-angle-double-right"></i></button>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="col-xl-8"
+       style="
+       font-weight: bold;
+       opacity: .7;
+       text-align: center;"
+       *ngIf="candidate.JobId === ''; else jobNotAssigned">
+    Assign Job to Change Candidate Status
+  </div>
+
+  <ng-template #jobNotAssigned>
+    <div class="col-xl-8">
+
+    </div>
+  </ng-template>
+
+  <div class="col-xl-2 text-xl-right">
+    <button
+      style="
+      outline: 0;"
+      color="primary"
+      mat-raised-button> Assign Job</button>
+  </div>
+
+</div>
+<hr>
+
+<div class="row">
+
+  <div class="col-xl-6">
+
+    <div class="row">
+
+      <div class="col-xl-10">
+
+        <div class="row">
+          <div class="col-xl-12"
+          style="font-size: 30px;">
+
+            {{ candidate.FirstName }}  {{ candidate.LastName }}
+
+          </div>
+        </div>
+
+        <div class="row" >
+          <div class="col-xl-4"
+               style="
+               text-align: left;">
+            <star-rating
+              [rating] = "0"
+              [readOnly]="true"
+              [starType]="'svg'"
+            ></star-rating>
+          </div>
+        </div>
+
+      </div>
+
+
+      <div class="col-xl-2" style="text-align: center;">
+
+        <div class="row">
+          <div class="col-xl-12">
+
+            <img
+              class="img-responsive"
+              style="outline: 0;
+              border-radius: 50%; height: 70px; width: 70px"
+              [src]="candidateDefaultImage">
+
+          </div>
+        </div>
+
+        <div class="row">
+
+          <div class="offset-xl-1 col-xl-5 text-xl-right">
+
+            <i style="cursor: pointer;"
+               title="Add/edit image" class="fas fa-plus-circle"></i>
+
+          </div>
+
+          <div class="col-xl-5 text-xl-left">
+
+            <i style="cursor: pointer;"
+               title="Remove image" class="far fa-trash-alt"></i>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <hr>
+
+    <div class="row">
+
+      <div class="col-xl-3 text-xl-center" *ngIf="candidate.IsFavourite">
+        <button
+          style="background-color: transparent; outline: 0; width: 100%;"
+          mat-flat-button><i
+          style="color: #FFD61D;" class="fas fa-heart"></i>
+          Unfavourite</button>
+      </div>
+
+      <div class="col-xl-3 text-xl-center" *ngIf="!candidate.IsFavourite">
+        <button
+          style="background-color: transparent; outline: 0; width: 100%"
+          mat-flat-button><i class="far fa-heart"></i>
+          Favourite</button>
+      </div>
+
+      <div *ngIf="!candidate.IsArchived" class="col-xl-3 text-xl-center">
+        <button
+          style="background-color: transparent; outline: 0;"
+          mat-flat-button><i class="fas fa-archive"></i> Archive</button>
+      </div>
+
+      <div *ngIf="candidate.IsArchived" class="col-xl-3 text-xl-center">
+        <button
+          style="background-color: transparent; outline: 0;"
+          mat-flat-button><i class="far fa-window-restore"></i> Restore</button>
+      </div>
+
+      <div *ngIf="!candidate.IsArchived || candidate.JobId !== ''" class="col-xl-3 text-xl-center">
+        <button
+          style="background-color: transparent; outline: 0;"
+          mat-flat-button><i class="far fa-edit"></i> Edit</button>
+      </div>
+
+      <div class="col-xl-3 text-xl-center">
+        <button
+          style="background-color: transparent; outline: 0;"
+          mat-flat-button><i class="far fa-trash-alt"></i> Delete</button>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+      <div style="font-size: 14px;" class="col-xl-10">
+        <strong> <i title="Source/Candidate Application Date"
+                    class="fab fa-osi"></i> {{ getCandidateSource() }} </strong> on
+        {{ getApplicationDate() }}
+      </div>
+
+      <div *ngIf="candidate.FacebookUrl !== ''" class="col-xl-1 text-xl-right" style="font-size: 22px;">
+        <i style="cursor: pointer;"
+           (click)="goToFacebookProfile()"
+           class="fab fa-facebook-square"></i>
+      </div>
+
+      <div *ngIf="candidate.LinkedInUrl !== ''" class="col-xl-1 text-xl-left" style="font-size: 22px;">
+        <i
+          style="cursor: pointer;"
+          (click)="goToLinkedInProfile()"
+          class="fab fa-linkedin"></i>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-xl-12">
+
+        <i title="Tag" style="font-size: 14px;" class="fas fa-tag"></i>
+        <button mat-flat-button style="background-color: transparent; outline: 0;">New <i class="fas fa-plus"></i></button>
+
+      </div>
+    </div>
+    <hr>
+
+    <div class="row">
+      <div class="col-xl-12" style="font-size: 14px; padding-top: 3px; padding-bottom: 3px;">
+
+        <i  title="Email" class="far fa-envelope"></i> {{ candidate.Email }}
+
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xl-12" style="font-size: 14px; padding-top: 3px; padding-bottom: 3px;">
+
+        <i  title="Phone" class="fas fa-phone"></i> {{ candidate.Mobile }}
+
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xl-12" style="font-size: 14px; padding-top: 3px; padding-bottom: 3px;">
+
+        <i  title="Address" class="fas fa-map-marker-alt"></i>
+        {{ candidate.Address }}, {{ candidate.City }}, {{ candidate.State }}, {{ candidate.Country }}
+
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+      <div class="col-xl-12" style="font-weight: bold;">
+        ATTACHMENTS
+      </div>
+    </div>
+    <hr>
+
+    <div class="row" *ngIf="candidate.CandidateAttachment.length !== 0; else noAttachments">
+      <div class="col-xl-12" *ngFor="let candidateAttachment of candidate.CandidateAttachment">
+
+        <div class="row">
+        <div class="col-xl-9" style="
+          font-size: 14px;
+          font-weight: bold;
+          padding-top: 6px;
+          padding-bottom: 6px;">
+
+          <i class="far fa-file"></i> {{ candidateAttachment.FileName }}
+          <span
+            style="
+              color: #000;
+              opacity: .6;
+              font-size: 10px;"
+            *ngIf="candidateAttachment.IsResume">(Resume)</span>
+
+        </div>
+
+        <div class="col-xl-3">
+
+          <div class="row">
+
+
+            <div class="col-xl-3">
+              <i
+                (click)="downloadFile(candidateAttachment)"
+                style="cursor: pointer;"
+                title="Download" class="fas fa-download"></i>
+            </div>
+
+
+
+            <div class="col-xl-3">
+              <i
+                style="cursor: pointer;"
+                title="Set as Resume"
+                class="fas fa-file-prescription"></i>
+            </div>
+
+
+
+            <div class="col-xl-3">
+              <i style="cursor: pointer;"
+                 title="Delete" class="far fa-trash-alt"></i>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      </div>
+    </div>
+
+    <ng-template #noAttachments>
+      <div class="row">
+        <div class="col-xl-12" style="
+        opacity: .7;
+        font-size: 14px;">
+          No Attachments
+        </div>
+      </div>
+    </ng-template>
+
+
+    <div class="row" *ngIf="candidate.CandidateEducation.length !== 0">
+      <div class="col-xl-12" style="
+      padding-top: 18px;
+      font-weight: bold;">
+        EDUCATION
+      </div>
+    </div>
+    <hr>
+
+    <div *ngIf="candidate.CandidateEducation.length !== 0">
+
+      <div class="row"
+           style="padding-bottom: 7px;
+                padding-top: 7px; "
+           *ngFor="let candidateEducation of candidate.CandidateEducation">
+        <div class="col-xl-8">
+
+          <div class="row">
+            <div class="col-xl-12"
+                 style="font-size: 18px;">
+              {{ candidateEducation.Name }}
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xl-12"
+                 style="font-size: 13px;">
+              <i class="fas fa-graduation-cap"></i> {{ candidateEducation.InstituteName }}
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xl-12"
+                 style="
+               font-weight: bold;
+               opacity: .8;
+               font-size: 12px;">
+              {{ candidateEducation.Result }}
+            </div>
+          </div>
+
+        </div>
+
+        <div class="col-xl-2">
+
+          <div class="row">
+            <div class="col-xl-12"
+                 style="
+
+               opacity: .8;
+               font-size: 12px;">
+
+              {{ getStartMonthOfEducation(candidateEducation) }}
+
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xl-12"
+                 style="
+
+               opacity: .8;
+               font-size: 12px;">
+
+              {{ getStartYearOfEducation(candidateEducation) }}
+
+            </div>
+          </div>
+
+        </div>
+
+        <div class="col-xl-2">
+
+          <div class="row">
+            <div class="col-xl-12"
+                 style="
+
+               opacity: .8;
+               font-size: 12px;">
+
+              {{ getEndMonthOfEducation(candidateEducation) }}
+
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xl-12"
+                 style="
+
+               opacity: .8;
+               font-size: 12px;">
+
+              {{ getEndYearOfEducation(candidateEducation) }}
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="row" *ngIf="candidate.CandidateExperience.length !== 0">
+      <div class="col-xl-12" style="
+      padding-top: 18px;
+      font-weight: bold;">
+        EXPERIENCE
+      </div>
+    </div>
+    <hr>
+
+    <div *ngIf="candidate.CandidateExperience.length !== 0">
+
+      <div class="row"
+           style="padding-bottom: 7px;
+                padding-top: 7px; "
+           *ngFor="let candidateExperience of candidate.CandidateExperience">
+        <div class="col-xl-8">
+
+          <div class="row">
+            <div class="col-xl-12"
+                 style="font-size: 18px;">
+              {{ candidateExperience.EmployerName }}
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xl-12"
+                 style="font-size: 13px;">
+              <i class="fas fa-briefcase"></i> {{ candidateExperience.Designation }} | {{  candidateExperience.Role}}
+            </div>
+          </div>
+
+
+        </div>
+
+        <div class="col-xl-2">
+
+          <div class="row">
+            <div class="col-xl-12"
+                 style="
+
+               opacity: .8;
+               font-size: 12px;">
+
+              {{ getStartMonthOfExperience(candidateExperience) }}
+
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xl-12"
+                 style="
+
+               opacity: .8;
+               font-size: 12px;">
+
+              {{ getStartYearOfExperience(candidateExperience) }}
+
+            </div>
+          </div>
+
+        </div>
+
+        <div class="col-xl-2" *ngIf="!candidateExperience.IsCurrent; else currentlyWorking">
+
+          <div class="row">
+            <div class="col-xl-12"
+                 style="
+
+               opacity: .8;
+               font-size: 12px;">
+
+              {{ getEndMonthOfExperience(candidateExperience) }}
+
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xl-12"
+                 style="
+
+               opacity: .8;
+               font-size: 12px;">
+
+              {{ getEndYearOfExperience(candidateExperience) }}
+
+            </div>
+          </div>
+
+        </div>
+
+        <ng-template #currentlyWorking>
+
+          <div class="col-xl-2">
+
+            <div class="row">
+              <div class="col-xl-12"
+                   style="opacity: .8;
+                   padding-top: 10px;
+                   font-size: 12px;">
+
+                Present
+
+              </div>
+            </div>
+          </div>
+
+        </ng-template>
+      </div>
+
+    </div>
+
+
+
+
+
+  </div>
+
+
+
+
+  <div class="col-xl-6">
+
+
+    <!--<div class="row">
+      <div class="col-xl-12">
+        Job name and criteria name is here
+      </div>
+    </div>
+-->
+
+
+    <div class="row">
+      <div class="col-xl-3 text-xl-center">
+        <button
+          matTooltip="Comments"
+          matTooltipPosition="below"
+          style="outline: 0; font-size: 20px; width: 100%;"
+          mat-flat-button routerLinkActive="active"
+          routerLink="candidate-info"><i class="far fa-comment-alt"></i></button>
+      </div>
+
+      <div class="col-xl-3 text-xl-center">
+        <button
+          matTooltip="Tasks"
+          matTooltipPosition="below"
+          style="outline: 0; font-size: 20px; width: 100%;"
+          mat-flat-button
+          routerLinkActive="active"
+          routerLink="candidate-task"><i class="fas fa-thumbtack"></i></button>
+      </div>
+
+      <div class="col-xl-3 text-xl-center">
+        <button
+          matTooltip="Email"
+          matTooltipPosition="below"
+          style="outline: 0; font-size: 20px; width: 100%;"
+          mat-flat-button
+          routerLinkActive="active"
+          routerLink="candidate-email"><i class="far fa-envelope"></i></button>
+      </div>
+
+      <div class="col-xl-3 text-xl-center">
+        <button
+          matTooltip="Interviews"
+          matTooltipPosition="below"
+          style="outline: 0; font-size: 20px; width: 100%;"
+          mat-flat-button
+          routerLinkActive="active"
+          routerLink="candidate-interview"><i class="fas fa-calendar-alt"></i></button>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xl-12">
+        <hr>
+        <br>
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+

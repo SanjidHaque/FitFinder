@@ -14,6 +14,9 @@ import * as moment from 'moment';
 })
 export class JobPanelComponent implements OnInit {
 
+  archivedChecked = false;
+  favouriteChecked = false;
+
   selectedValue = 'all';
   jobs: Job[] = [];
   selection = new SelectionModel<Job>(true, []);
@@ -27,7 +30,40 @@ export class JobPanelComponent implements OnInit {
   constructor(private jobService: JobService) { }
 
   ngOnInit() {
-    this.jobs = this.jobService.getAllJob();
+    this.jobs = this.jobService.getAllJob().filter(x => x.IsArchived === false);
+  }
+
+
+  archiveStatus(event: any) {
+    if (event.checked) {
+
+
+      this.jobs = this.jobService.getAllJob();
+      this.archivedChecked = true;
+    } else {
+      this.jobs = this.jobService.getAllJob().filter(x => x.IsArchived === false);
+      this.archivedChecked = false;
+    }
+  }
+
+  favouriteStatus(event: any) {
+    if (event.checked) {
+      if (!this.archivedChecked) {
+        this.jobs = this.jobService.getAllJob().filter(x => x.IsFavourite === true && x.IsArchived === false);
+      } else {
+        this.jobs = this.jobService.getAllJob().filter(x => x.IsFavourite === true);
+      }
+      this.favouriteChecked = true;
+
+    } else {
+      if (!this.archivedChecked) {
+        this.jobs = this.jobService.getAllJob().filter(x => x.IsArchived === false);
+      } else {
+        this.jobs = this.jobService.getAllJob();
+      }
+      this.favouriteChecked = false;
+
+    }
   }
 
   getDepartmentName(departmentId: string) {

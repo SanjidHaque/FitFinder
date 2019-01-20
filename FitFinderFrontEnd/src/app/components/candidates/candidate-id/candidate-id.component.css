@@ -1,0 +1,11 @@
+img:hover {
+  transform: scale(3);
+}
+
+img {
+  transition: transform .5s;
+}
+
+.active{
+  border: 2px solid #673ab7;
+}
