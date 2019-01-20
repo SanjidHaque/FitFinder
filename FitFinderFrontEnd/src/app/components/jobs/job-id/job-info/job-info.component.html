@@ -1,0 +1,478 @@
+<div class="row">
+  <div class="col-xl-6">
+
+    <div class="row">
+
+
+
+    <div class="col-xl-3 text-xl-center" *ngIf="job.IsFavourite">
+      <button
+        style="background-color: transparent; outline: 0; width: 100%;"
+        mat-flat-button><i
+        style="color: #FFD61D;" class="fas fa-heart"></i>
+        Unfavourite</button>
+    </div>
+
+    <div class="col-xl-3 text-xl-center" *ngIf="!job.IsFavourite">
+      <button
+        style="background-color: transparent; outline: 0; width: 100%"
+        mat-flat-button><i class="far fa-heart"></i>
+        Favourite</button>
+    </div>
+
+    <div *ngIf="!job.IsArchived" class="col-xl-3 text-xl-center">
+      <button
+        style="background-color: transparent; outline: 0; width: 100%"
+        mat-flat-button><i class="far fa-edit"></i> Edit</button>
+    </div>
+
+    <div *ngIf="!job.IsArchived" class="col-xl-3 text-xl-center">
+      <button
+        style="background-color: transparent; outline: 0; width: 100%"
+        mat-flat-button><i class="fas fa-archive"></i> Archive</button>
+    </div>
+
+    <div *ngIf="job.IsArchived" class="col-xl-3 text-xl-center">
+      <button
+        style="background-color: transparent; outline: 0; width: 100%"
+        mat-flat-button><i class="far fa-window-restore"></i> Restore</button>
+    </div>
+
+    <div class="col-xl-3 text-xl-center">
+      <button
+        style="background-color: transparent; outline: 0; width: 100%"
+        mat-flat-button><i class="far fa-trash-alt"></i> Delete</button>
+    </div>
+
+    </div>
+  </div>
+
+
+</div>
+<hr>
+
+<div class="row">
+  <div class="col-xl-5">
+
+    <div *ngIf="job.JobCode!== ''"
+         class="row"
+         style="padding-top: 3px;
+         font-size: 14px;
+         padding-bottom: 3px;">
+      <div class="col-xl-12">
+        <i class="fas fa-paperclip"></i> &nbsp;{{ job.JobCode }}
+      </div>
+    </div>
+
+    <div class="row"
+         style="padding-top: 3px;
+         font-size: 15px;
+         padding-bottom: 3px;">
+      <div class="col-xl-12">
+        <i class="far fa-building"></i> &nbsp;{{ getDepartmentName() }}
+      </div>
+    </div>
+
+    <div class="row"
+         style="padding-top: 3px;
+         font-size: 15px;
+         padding-bottom: 3px;">
+      <div class="col-xl-12">
+        <i class="fas fa-map-marker-alt"></i> &nbsp;{{ job.JobLocation }}
+      </div>
+    </div>
+
+    <div class="row"
+         style="padding-top: 3px;
+         font-size: 15px;
+         padding-bottom: 3px;">
+      <div class="col-xl-12">
+        <i class="fas fa-calendar-alt"></i> &nbsp;Created On {{ getCreatedDate() }}
+      </div>
+    </div>
+
+    <div *ngIf="job.JobClosingDate !== ''">
+
+      <div class="row"
+           *ngIf="getClosingDays() > 0"
+           style="padding-top: 3px;
+         font-size: 15px;
+         padding-bottom: 3px;">
+        <div class="col-xl-12">
+          <i class="fas fa-calendar-alt"></i> &nbsp;Closing On {{ getClosingDate() }}
+        </div>
+      </div>
+
+      <div class="row"
+           *ngIf="getClosingDays() === 0"
+           style="padding-top: 3px;
+         font-size: 15px;
+         padding-bottom: 3px;">
+        <div class="col-xl-12">
+          <i class="fas fa-calendar-alt"></i> &nbsp;Closing On {{ getClosingDate() }}
+        </div>
+      </div>
+
+      <div class="row"
+           *ngIf="getClosingDays() < 0"
+           style="padding-top: 3px;
+         font-size: 15px;
+         padding-bottom: 3px;">
+        <div class="col-xl-12">
+          <i class="fas fa-calendar-alt"></i> &nbsp;Closed On {{ getClosingDate() }}
+        </div>
+      </div>
+
+
+    </div>
+
+    <hr>
+
+    <div class="row">
+      <div class="col-xl-12">
+        <strong style="font-size: 13px;">Function : </strong>
+        <span style="font-size: 14px;">{{ getJobFunction() }}</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xl-12">
+        <strong style="font-size: 13px;">Type : </strong>
+        <span style="font-size: 14px;">{{ getJobType() }}</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xl-12">
+        <strong style="font-size: 13px;">Positions : </strong>
+        <span style="font-size: 14px;">{{ job.JobPositions }}</span>
+      </div>
+    </div>
+
+    <div *ngIf="job.JobExperienceStarts !== null && job.JobExperienceEnds !== null">
+
+      <div class="row" *ngIf="job.JobExperienceStarts < job.JobExperienceEnds">
+        <div class="col-xl-12">
+          <strong style="font-size: 13px;">Experience : </strong>
+          <span style="font-size: 14px;">{{ job.JobExperienceStarts }} -
+            {{ job.JobExperienceEnds }} years</span>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="job.JobExperienceStarts === job.JobExperienceEnds">
+        <div class="col-xl-12">
+          <strong style="font-size: 13px;">Experience : </strong>
+          <span style="font-size: 14px;">{{ job.JobExperienceEnds }} years</span>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="job.JobExperienceStarts > job.JobExperienceEnds">
+        <div class="col-xl-12">
+          <strong style="font-size: 13px;">Experience : </strong>
+          <span style="font-size: 14px;">{{ job.JobExperienceEnds }} -
+            {{ job.JobExperienceStarts }} years</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div *ngIf="job.JobExperienceStarts !== null && job.JobExperienceEnds === null">
+
+      <div class="row">
+        <div class="col-xl-12">
+          <strong style="font-size: 13px;">Experience : </strong>
+          <span style="font-size: 14px;">{{ job.JobExperienceStarts }} years</span>
+        </div>
+      </div>
+
+      </div>
+
+    <div *ngIf="job.JobExperienceStarts === null && job.JobExperienceEnds !== null">
+
+      <div class="row">
+        <div class="col-xl-12">
+          <strong style="font-size: 13px;">Experience : </strong>
+          <span style="font-size: 14px;">{{ job.JobExperienceEnds }} years</span>
+        </div>
+      </div>
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+    <div *ngIf="job.JobSalaryStarts !== null && job.JobSalaryEnds !== null">
+
+      <div class="row" *ngIf="job.JobSalaryStarts < job.JobSalaryEnds">
+        <div class="col-xl-12">
+          <strong style="font-size: 13px;">Salary : </strong>
+          <span style="font-size: 14px;">BDT {{ job.JobSalaryStarts }} -
+            {{ job.JobSalaryEnds }}</span>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="job.JobSalaryStarts === job.JobSalaryEnds">
+        <div class="col-xl-12">
+          <strong style="font-size: 13px;">Salary : </strong>
+          <span style="font-size: 14px;">BDT {{ job.JobSalaryEnds }}</span>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="job.JobSalaryStarts > job.JobSalaryEnds">
+        <div class="col-xl-12">
+          <strong style="font-size: 13px;">Salary : </strong>
+          <span style="font-size: 14px;">BDT {{ job.JobSalaryEnds }} -
+            {{ job.JobSalaryStarts }}</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div *ngIf="job.JobSalaryStarts !== null && job.JobSalaryEnds === null">
+
+      <div class="row">
+        <div class="col-xl-12">
+          <strong style="font-size: 13px;">Salary : </strong>
+          <span style="font-size: 14px;">BDT {{ job.JobSalaryStarts }}</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div *ngIf="job.JobSalaryStarts === null && job.JobSalaryEnds !== null">
+
+      <div class="row">
+        <div class="col-xl-12">
+          <strong style="font-size: 13px;">Salary : </strong>
+          <span style="font-size: 14px;">BDT {{ job.JobSalaryEnds }}</span>
+        </div>
+      </div>
+
+    </div>
+    <br>
+
+    <div class="row">
+
+      <div class="col-xl-6" style="padding-top: 7px;">
+        <h6>ATTACHMENTS</h6>
+      </div>
+
+      <div class="col-xl-6 text-xl-right" >
+        <button
+          style="outline: 0;"
+          type="button"
+          matTooltip="Add attachments"
+          (click)="getFile()"
+          mat-flat-button><i class="fas fa-plus-circle"></i> Add</button>
+      </div>
+
+      <input id="choseFile"
+             #fileUpload
+             (change)="fileChangeEvent($event)"
+             hidden
+             type="file"/>
+
+    </div>
+    <hr>
+
+    <div class="row" *ngIf="job.JobAttachment.length !== 0; else noAttachments">
+      <div class="col-xl-12" *ngFor="let jobAttachment of job.JobAttachment">
+
+        <div class="row">
+          <div class="col-xl-10" style="
+          font-size: 14px;
+          font-weight: bold;
+          padding-top: 6px;
+          padding-bottom: 6px;">
+
+            <i class="far fa-file"></i> {{ jobAttachment.FileName }}
+
+
+          </div>
+
+          <div class="col-xl-2" style="padding-top: 5px;">
+
+            <div class="row">
+
+
+              <div class="col-xl-6">
+                <i
+                  (click)="downloadFile(jobAttachment)"
+                  style="cursor: pointer;"
+                  title="Download" class="fas fa-download"></i>
+              </div>
+
+
+
+
+              <div class="col-xl-6">
+                <i style="cursor: pointer;"
+                   title="Delete" class="far fa-trash-alt"></i>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+    <ng-template #noAttachments>
+      <div class="row">
+        <div class="col-xl-12" style="
+        opacity: .7;
+        font-size: 14px;">
+          No Attachments
+        </div>
+      </div>
+    </ng-template>
+    <br>
+
+
+    <div class="row">
+      <div class="col-xl-12">
+        <h6>HIRING MANAGER</h6>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-xl-12">
+        <div class="row">
+          <div class="col-xl-1">
+            <img
+              style="
+                    outline: 0;
+                    border-radius: 50%;height: 40px; width: 40px"
+              [src]="candidateDefaultImage">
+          </div>
+
+          <div class="col-xl-11" style=" text-align: left; padding-top: 3px; font-size: 20px;">
+            Sanjid Haque
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+  </div>
+
+  <div class="col-xl-7">
+
+    <div class="row">
+      <div class="col-xl-12">
+        <h6>DESCRIPTION</h6>
+      </div>
+    </div>
+    <hr>
+
+    <div class="row" *ngIf="job.JobDescription !== ''; else noDescription">
+      <div class="col-xl-12" id="job-description">
+        {{ getJobDescription() }}
+      </div>
+    </div>
+
+    <ng-template #noDescription>
+      <div class="row" style="
+        opacity: .7;
+        font-size: 14px;">
+        <div class="col-xl-12">
+          No description is available.
+        </div>
+      </div>
+    </ng-template>
+    <br>
+
+    <div class="row">
+      <div class="col-xl-12">
+        <h6>REQUIRED SKILLS</h6>
+      </div>
+    </div>
+    <hr>
+
+    <div class="row">
+      <div class="col-xl-12">
+        <h6>IMMEDIATE</h6>
+      </div>
+    </div>
+    <hr>
+
+    <div class="row" *ngIf="job.JobImmediate !== ''; else noImmediate">
+      <div class="col-xl-12" id="job-immediate">
+        {{ getImmediateSkill() }}
+      </div>
+    </div>
+
+    <ng-template #noImmediate>
+      <div class="row" style="
+        opacity: .7;
+        font-size: 14px;">
+        <div class="col-xl-12">
+          No immediate requirements.
+        </div>
+      </div>
+    </ng-template>
+    <br>
+
+    <div class="row">
+      <div class="col-xl-12">
+        <h6>INTERMEDIATE</h6>
+      </div>
+    </div>
+    <hr>
+
+    <div class="row" *ngIf="job.JobIntermediate !== ''; else noIntermediate">
+      <div class="col-xl-12" id="job-intermediate">
+        {{ getIntermediateSkill() }}
+      </div>
+    </div>
+
+    <ng-template #noIntermediate>
+      <div class="row" style="
+        opacity: .7;
+        font-size: 14px;">
+        <div class="col-xl-12">
+          No intermediate requirements.
+        </div>
+      </div>
+    </ng-template>
+    <br>
+
+    <div class="row">
+      <div class="col-xl-12">
+        <h6>GOOD TO HAVE</h6>
+      </div>
+    </div>
+    <hr>
+
+    <div class="row" *ngIf="job.JobGoodToHave !== ''; else noGoodToHave">
+      <div class="col-xl-12" id="job-good-to-have">
+        {{ getGoodToHaveSkill() }}
+      </div>
+    </div>
+
+    <ng-template #noGoodToHave>
+      <div class="row" style="
+        opacity: .7;
+        font-size: 14px;">
+        <div class="col-xl-12">
+
+          No good to have requirements.
+
+        </div>
+      </div>
+    </ng-template>
+    <br>
+
+  </div>
+</div>
+<br>

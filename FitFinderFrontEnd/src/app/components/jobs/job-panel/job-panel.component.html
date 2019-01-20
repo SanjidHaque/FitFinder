@@ -46,6 +46,17 @@
 
     </div>
 
+    <div class="row" >
+
+      <div class="offset-xl-1 col-xl-10" style="
+       padding-top: 20px;
+       font-weight: bold;
+       text-align: left; font-size: 14px;">
+        Only Favourites <mat-slide-toggle color="primary"></mat-slide-toggle>
+      </div>
+
+    </div>
+
     <div class="row">
       <div class="offset-xl-1 col-xl-9" style="padding-top: 20px;">
 
@@ -186,14 +197,21 @@
             <div class="col-xl-6">
 
               <div class="row">
-                <div class="col-xl-12" style="padding-top: 10px;">
+                <div class="col-xl-12" style="padding-top: 10px; word-wrap: break-word; ">
                   <strong
                     routerLink="/jobs/{{ job.Id }}"
                     style="
                        outline: 0;
                        cursor: pointer;"
                   >
-                    {{ job.JobTitle }}</strong>
+                    {{ job.JobTitle }} </strong>
+                  <i
+                    *ngIf="job.IsFavourite"
+                    style="color: #FFD61D; cursor: pointer;" class="fas fa-heart"></i>
+
+                  <i style="cursor: pointer;"
+                    *ngIf="!job.IsFavourite"
+                    class="far fa-heart"></i>
                 </div>
               </div>
 

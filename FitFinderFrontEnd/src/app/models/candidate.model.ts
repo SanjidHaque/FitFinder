@@ -23,6 +23,7 @@ export class Candidate {
    IsHired: boolean;
    IsClosed: boolean;
    ApplicationDate: string;
+   IsFavourite: boolean;
 
   constructor(
      id: string,
@@ -44,7 +45,8 @@ export class Candidate {
      isArchived: boolean,
      isHired: boolean,
      isClosed: boolean,
-     applicationDate: string
+     applicationDate: string,
+     isFavourite: boolean
   ) {
     this.Id = id;
     this.JobId = jobId;
@@ -66,5 +68,6 @@ export class Candidate {
     this.IsHired = isHired;
     this.IsClosed = isClosed;
     this.ApplicationDate = applicationDate;
+    this.IsFavourite = isFavourite;
   }
 }

@@ -29,6 +29,7 @@ import {ViewInterviewComponent} from '../components/interviews/view-interview/vi
 import {JobIdComponent} from '../components/jobs/job-id/job-id.component';
 import {JobInfoComponent} from '../components/jobs/job-id/job-info/job-info.component';
 import {JobCandidatesComponent} from '../components/jobs/job-id/job-candidates/job-candidates.component';
+import {JobAnalyticsComponent} from '../components/jobs/job-id/job-analytics/job-analytics.component';
 
 const appRoutes: Routes = [
   {
@@ -76,6 +77,10 @@ const appRoutes: Routes = [
           {
             path: 'job-candidates',
             component: JobCandidatesComponent
+          },
+          {
+            path: 'job-analytics',
+            component: JobAnalyticsComponent
           }
         ]
       }

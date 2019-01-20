@@ -36,7 +36,7 @@ export class JobPanelComponent implements OnInit {
 
   getClosingDays(jobClosingDate: string) {
     const today = moment(new Date());
-    const closingDate = moment(jobClosingDate);
+    const closingDate = moment(new Date(jobClosingDate));
     return closingDate.diff(today, 'days');
   }
 

@@ -49,7 +49,8 @@
         "IsArchived": true,
         "IsHired": false,
         "IsClosed": false,
-        "ApplicationDate": "2018-11-29T18:00:00.000Z"
+        "ApplicationDate": "Sat Feb 19 2019 20:30:47 GMT+0600 (Bangladesh Standard Time)",
+      "IsFavourite":false
     },
     {
         "Id": "0e92f82c-5582-3684-9cea-a65e5b2b3318",
@@ -101,7 +102,8 @@
         "IsArchived": false,
         "IsHired": false,
         "IsClosed": false,
-      "ApplicationDate": "2018-11-24T18:00:00.000Z"
+      "ApplicationDate": "Sat Jan 19 2016 20:30:47 GMT+0600 (Bangladesh Standard Time)",
+      "IsFavourite":false
     },
     {
         "Id": "44d6786e-5604-e4a6-de91-308eb9c1f6c4",
@@ -175,7 +177,9 @@
         "IsArchived": true,
         "IsHired": false,
         "IsClosed": false,
-        "ApplicationDate": "Fri Dec 13 2018 15:53:01 GMT+0600 (Bangladesh Standard Time)"    },
+        "ApplicationDate": "Fri Dec 13 2018 15:53:01 GMT+0600 (Bangladesh Standard Time)",
+      "IsFavourite":false
+    },
     {
         "Id": "6ce10b59-22db-c7b6-b558-991cfc0c19e2",
         "JobId": "",
@@ -234,7 +238,8 @@
         "IsArchived": false,
         "IsHired": false,
         "IsClosed": false,
-        "ApplicationDate": "Fri Jan 11 2019 15:53:01 GMT+0600 (Bangladesh Standard Time)"
+        "ApplicationDate": "Fri Jan 11 2019 15:53:01 GMT+0600 (Bangladesh Standard Time)",
+      "IsFavourite": true
     },
     {
         "Id": "6f2842d2-ee21-9578-aba0-551344a522d2",
@@ -286,7 +291,8 @@
         "IsArchived": false,
         "IsHired": false,
         "IsClosed": false,
-        "ApplicationDate": "2018-11-16T18:00:00.000Z"
+        "ApplicationDate": "Sat Jan 12 2019 20:30:47 GMT+0600 (Bangladesh Standard Time)",
+      "IsFavourite":false
     },
     {
         "Id": "704674fd-fc1b-33ad-81fc-05a5f102ef82",
@@ -334,7 +340,8 @@
         "IsArchived": false,
         "IsHired": false,
         "IsClosed": false,
-        "ApplicationDate": "2018-11-15T18:00:00.000Z"
+        "ApplicationDate": "Sat Jan 17 2019 20:30:47 GMT+0600 (Bangladesh Standard Time)",
+      "IsFavourite":true
     },
     {
         "Id": "70d06bca-eb88-1df8-69b3-b710afe8b39c",
@@ -385,7 +392,8 @@
         "IsArchived": false,
         "IsHired": false,
         "IsClosed": false,
-        "ApplicationDate": "2018-11-12T18:00:00.000Z"
+        "ApplicationDate": "Sat Jan 15 2019 20:30:47 GMT+0600 (Bangladesh Standard Time)",
+      "IsFavourite":true
     },
     {
         "Id": "716fddde-58e5-e724-f22a-c972bfdcf3f8",
@@ -420,7 +428,7 @@
         "IsArchived": false,
         "IsHired": false,
         "IsClosed": false,
-        "ApplicationDate": "2018-11-19T18:00:00.000Z"
+        "ApplicationDate": "Sat Jan 29 2019 20:30:47 GMT+0600 (Bangladesh Standard Time)"
     },
     {
         "Id": "8b38f69b-ac18-ee18-14cf-4d2dd11316d0",
@@ -487,7 +495,8 @@
         "IsArchived": false,
         "IsHired": false,
         "IsClosed": false,
-        "ApplicationDate": "2018-11-22T18:00:00.000Z"
+        "ApplicationDate": "Sat Jan 19 2019 20:30:47 GMT+0600 (Bangladesh Standard Time)",
+      "IsFavourite":false
     },
     {
         "Id": "bacece2a-12bd-d102-b9f8-ea62b6676464",
@@ -547,7 +556,8 @@
         "IsArchived": false,
         "IsHired": false,
         "IsClosed": false,
-        "ApplicationDate": "2018-11-19T18:00:00.000Z"
+        "ApplicationDate": "Sat Jan 19 2019 20:30:47 GMT+0600 (Bangladesh Standard Time)",
+      "IsFavourite":true
     },
     {
         "Id": "c8a039c0-2923-4848-aec8-d00b43acbef4",
@@ -628,7 +638,8 @@
         "IsArchived": false,
         "IsHired": false,
         "IsClosed": false,
-        "ApplicationDate": "2018-11-13T18:00:00.000Z"
+        "ApplicationDate": "Sat Jan 19 2019 20:30:47 GMT+0600 (Bangladesh Standard Time)",
+      "IsFavourite":true
     },
     {
         "Id": "c9f817fe-e4e2-79a6-3507-979ef296d6e1",
@@ -680,7 +691,8 @@
         "IsArchived": false,
         "IsHired": false,
         "IsClosed": false,
-        "ApplicationDate": "2018-11-14T18:00:00.000Z"
+        "ApplicationDate": "Sat Jan 19 2019 20:30:47 GMT+0600 (Bangladesh Standard Time)",
+      "IsFavourite":false
     },
     {
         "Id": "f4242149-58ed-a8d0-f541-827dcb6ae1f3",
@@ -732,6 +744,7 @@
         "IsArchived": false,
         "IsHired": false,
         "IsClosed": false,
-        "ApplicationDate": "2018-11-22T18:00:00.000Z"
+        "ApplicationDate": "Sat Jan 19 2019 20:30:47 GMT+0600 (Bangladesh Standard Time)",
+      "IsFavourite":true
     }
 ]

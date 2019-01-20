@@ -16,6 +16,7 @@ export class AppComponent {
     router.events.subscribe((event: RouterEvent) => {
       this.navigationInterceptor(event)
     })
+    console.log(new Date().toString());
   }
 
   private navigationInterceptor(event: RouterEvent): void {

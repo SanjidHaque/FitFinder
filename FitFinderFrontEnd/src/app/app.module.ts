@@ -51,6 +51,7 @@ import { ViewInterviewComponent } from './components/interviews/view-interview/v
 import { JobIdComponent } from './components/jobs/job-id/job-id.component';
 import { JobInfoComponent } from './components/jobs/job-id/job-info/job-info.component';
 import { JobCandidatesComponent } from './components/jobs/job-id/job-candidates/job-candidates.component';
+import { JobAnalyticsComponent } from './components/jobs/job-id/job-analytics/job-analytics.component';
 
 
 
@@ -88,7 +89,8 @@ import { JobCandidatesComponent } from './components/jobs/job-id/job-candidates/
     ViewInterviewComponent,
     JobIdComponent,
     JobInfoComponent,
-    JobCandidatesComponent
+    JobCandidatesComponent,
+    JobAnalyticsComponent
   ],
   imports: [
     BrowserModule,

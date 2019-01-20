@@ -59,14 +59,28 @@
     </div>
 
     <div class="row"
-         *ngIf="job.JobClosingDate !== ''
+         *ngIf="job.JobClosingDate !== '' && job.IsPublished
                 && getClosingDays() > 0">
       <div class="col-xl-12"
            style="
        font-weight: bold;
        opacity: .7;
        text-align: center;">
-        Closing in {{ getClosingDays() }} Days
+        Closing On {{ getClosingDays() }} Days
+      </div>
+    </div>
+
+
+
+    <div class="row"
+         *ngIf="job.JobClosingDate !== '' && job.IsPublished
+                && getClosingDays() < 0">
+      <div class="col-xl-12"
+           style="
+       font-weight: bold;
+       opacity: .7;
+       text-align: center;">
+        Job Closed
       </div>
     </div>
 
@@ -115,16 +129,6 @@
 
 <hr>
 
-<!--
-<div class="row">
-  <div class="col-xl-1">
-    <i *ngIf="job.IsFavourite" style="color: #FFD61D;" class="fas fa-heart"></i>
-    <i *ngIf="!job.IsFavourite" class="far fa-heart"></i>
-  </div>
-</div>
-
--->
-
 <div class="row">
   <div class="col-xl-9">
 
@@ -136,7 +140,7 @@
 
     <div class="row" style="margin-top: 5px;">
       <div class="col-xl-12"
-               style="font-size: 16px;">
+               style="font-size: 17px;">
             <span
               title="Job Code"
               *ngIf="job.JobCode !== ''"
@@ -161,30 +165,44 @@
 
   <div class="col-xl-3">
 
-    <div class="row"
-    >
-      <div  class="col-xl-6"
-           style="text-align: center;">
+    <div class="row">
+
+      <div class="col-xl-4 text-xl-center">
          <button
-           style="outline: 0; font-size: 15px; width: 100%;"
+           matTooltip="Information"
+           matTooltipPosition="below"
+           style="outline: 0; font-size: 20px; width: 100%;"
            mat-flat-button routerLinkActive="active"
-           routerLink="job-info"><i class="fas fa-info"></i> Info</button>
+           routerLink="job-info"><i class="fas fa-info"></i></button>
       </div>
-      <div class="col-xl-6" style="text-align: center; ">
+
+      <div class="col-xl-4 text-xl-center">
         <button
-          style="outline: 0; font-size: 15px; width: 100%;"
+          matTooltip="Candidates"
+          matTooltipPosition="below"
+          style="outline: 0; font-size: 20px; width: 100%;"
           mat-flat-button
           routerLinkActive="active"
-          routerLink="job-candidates"><i class="fas fa-box-open"></i> Candidates</button>
+          routerLink="job-candidates"><i class="fas fa-box-open"></i></button>
       </div>
+
+      <div class="col-xl-4 text-xl-center">
+        <button
+          matTooltip="Analytics"
+          matTooltipPosition="below"
+          style="outline: 0; font-size: 20px; width: 100%;"
+          mat-flat-button
+          routerLinkActive="active"
+          routerLink="job-analytics"><i class="fas fa-chart-line"></i></button>
+      </div>
+
     </div>
 
 
   </div>
 </div>
 
-
-
+<hr>
 
 
 <router-outlet></router-outlet>

@@ -45,6 +45,17 @@
 
     </div>
 
+    <div class="row" >
+
+      <div class="offset-xl-1 col-xl-10" style="
+       padding-top: 20px; text-align: left;
+       font-weight: bold;
+       font-size: 14px;">
+        Favourites Only <mat-slide-toggle color="primary"></mat-slide-toggle>
+      </div>
+
+    </div>
+
   </div>
 
   <div class="col-xl-8">
@@ -163,7 +174,7 @@
                     [src]="candidateDefaultImage">
                 </div>
 
-                <div class="col-xl-5">
+                <div class="col-xl-10">
                   <div class="row">
 
                     <div
@@ -175,7 +186,14 @@
                        style="
                        outline: 0;
                        cursor: pointer;"
-                     >{{ candidate.FirstName }} {{ candidate.LastName }}</strong>
+                     >{{ candidate.FirstName }} {{ candidate.LastName }} </strong>
+                      <i
+                        *ngIf="candidate.IsFavourite"
+                        style="color: #FFD61D; cursor: pointer;" class="fas fa-heart"></i>
+
+                      <i style="cursor: pointer;"
+                         *ngIf="!candidate.IsFavourite"
+                         class="far fa-heart"></i>
                     </div>
 
                   </div>
@@ -184,7 +202,20 @@
                       style="font-size: 12px;"
                       class="col-xl-12">
 
-                     <strong><i class="fab fa-osi"></i> {{ getSourceName(candidate) }}</strong>
+                      <strong
+                        title="Job Application"
+                        *ngIf="candidate.JobId !== ''"
+                      ><i class="fab fa-osi"></i> {{ getJobName(candidate) }} &nbsp;
+                      </strong>
+
+                     <strong
+                       title="Candidate Source"
+                     ><i class="fab fa-osi"></i> {{ getSourceName(candidate) }} &nbsp;
+                     </strong>
+
+                      <strong
+                      title="Candidate Application Date"
+                      ><i class="fab fa-osi"></i> {{ getApplicationDate(candidate) }}</strong>
 
                     </div>
                   </div>

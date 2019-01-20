@@ -3,6 +3,8 @@ import {Candidate} from '../../../models/candidate.model';
 import {CandidateService} from '../../../services/candidate.service';
 import {SelectionModel} from '@angular/cdk/collections';
 import {Job} from '../../../models/job.model';
+import {JobService} from '../../../services/job.service';
+import * as moment from 'moment';
 
 
 @Component({
@@ -16,6 +18,7 @@ export class CandidatePanelComponent implements OnInit {
   selection = new SelectionModel<Candidate>(true, []);
   selectedValue = 'all';
   candidates: Candidate[] = [];
+  jobs: Job[] = [];
   candidateDefaultImage = 'assets/images/candidateDefaultImage.png';
 
   sources = [
@@ -29,12 +32,21 @@ export class CandidatePanelComponent implements OnInit {
     {sourceId: '8', sourceName: 'Website'}
     ];
 
-  constructor(private candidateService: CandidateService) {}
+  constructor(private candidateService: CandidateService,
+              private jobService: JobService) {}
 
   ngOnInit() {
     this.candidates = this.candidateService.getAllCandidate();
+    this.jobs = this.jobService.getAllJob();
  }
 
+  getJobName(candidate: Candidate) {
+    return this.jobs.find(x => x.Id === candidate.JobId).JobTitle;
+  }
+
+  getApplicationDate(candidate: Candidate) {
+    return moment(new Date(candidate.ApplicationDate)).format('Do MMMM, YYYY');
+  }
 
   isAllSelected() {
     const numSelected = this.selection.selected.length;

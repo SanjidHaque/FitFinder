@@ -11,16 +11,16 @@
         "DepartmentId": "3",
         "JobFunctionalityId": "2",
         "EmploymentTypeId": "1",
-        "JobPositions": "2",
-        "JobClosingDate": "2019-01-18T18:00:00.000Z",
-        "JobExperienceStarts": "3",
-        "JobExperienceEnds": "1",
-        "JobSalaryStarts": "35000",
-        "JobSalaryEnds": "23000",
+        "JobPositions": 2,
+        "JobClosingDate": "Sat Jan 23 2019 21:00:47 GMT+0600 (Bangladesh Standard Time)",
+        "JobExperienceStarts": 3,
+        "JobExperienceEnds": 1,
+        "JobSalaryStarts": 35000,
+        "JobSalaryEnds": 23000,
         "JobAttachment": [],
         "IsArchived": false,
-        "IsPublished": false,
-      "JobCreatedDate" : "2019-01-01T18:00:00.000Z",
+        "IsPublished": true,
+      "JobCreatedDate" : "Sat Jan 19 2018 20:30:47 GMT+0600 (Bangladesh Standard Time)",
       "IsFavourite": true
     },
     {
@@ -35,16 +35,16 @@
         "DepartmentId": "4",
         "JobFunctionalityId": "2",
         "EmploymentTypeId": "2",
-        "JobPositions": "4",
+        "JobPositions": 4,
         "JobClosingDate": "",
-        "JobExperienceStarts": "1",
+        "JobExperienceStarts": 1,
         "JobExperienceEnds": null,
-        "JobSalaryStarts": "14000",
+        "JobSalaryStarts": 14000,
         "JobSalaryEnds": null,
         "JobAttachment": [],
         "IsArchived": true,
         "IsPublished": true,
-      "JobCreatedDate" : "2019-01-01T18:00:00.000Z",
+      "JobCreatedDate" : "Sat Jan 11 2019 20:30:47 GMT+0600 (Bangladesh Standard Time)",
       "IsFavourite": true
 
     },
@@ -60,12 +60,12 @@
         "DepartmentId": "4",
         "JobFunctionalityId": "2",
         "EmploymentTypeId": "2",
-        "JobPositions": "1",
-        "JobClosingDate": "2019-01-30T18:00:00.000Z",
-        "JobExperienceStarts": "8",
-        "JobExperienceEnds": "10",
-        "JobSalaryStarts": "90000",
-        "JobSalaryEnds": "110000",
+        "JobPositions": 1,
+        "JobClosingDate": "Sat Jan 11 2019 20:30:47 GMT+0600 (Bangladesh Standard Time)",
+        "JobExperienceStarts": 8,
+        "JobExperienceEnds": 10,
+        "JobSalaryStarts": 90000,
+        "JobSalaryEnds": 110000,
         "JobAttachment": [
             {
                 "Id": "017127c8-c682-f256-69ec-103767191eee",
@@ -76,7 +76,7 @@
         ],
         "IsArchived": false,
         "IsPublished": true,
-      "JobCreatedDate" : "2019-01-01T18:00:00.000Z",
+      "JobCreatedDate" : "Sat Jan 10 2019 20:30:47 GMT+0600 (Bangladesh Standard Time)",
       "IsFavourite": false
 
     },
@@ -92,12 +92,12 @@
         "DepartmentId": "1",
         "JobFunctionalityId": "3",
         "EmploymentTypeId": "1",
-        "JobPositions": "2",
-        "JobClosingDate": "2019-01-22T18:00:00.000Z",
-        "JobExperienceStarts": "0",
-        "JobExperienceEnds": "2",
-        "JobSalaryStarts": "45000",
-        "JobSalaryEnds": "55000",
+        "JobPositions": 2,
+        "JobClosingDate": "Sat Jan 20 2019 20:30:47 GMT+0600 (Bangladesh Standard Time)",
+        "JobExperienceStarts": 0,
+        "JobExperienceEnds": 2,
+        "JobSalaryStarts": 45000,
+        "JobSalaryEnds": 55000,
         "JobAttachment": [
             {
                 "Id": "7fe3f661-ee81-d8f0-ed4f-0859b8c1890f",
@@ -113,8 +113,8 @@
             }
         ],
        "IsArchived": false,
-       "IsPublished": true,
-      "JobCreatedDate" : "2019-01-01T18:00:00.000Z",
+       "IsPublished": false,
+      "JobCreatedDate" : "Sat Jan 19 2019 20:30:47 GMT+0600 (Bangladesh Standard Time)",
       "IsFavourite": true
     },
     {
@@ -129,12 +129,12 @@
         "DepartmentId": "1",
         "JobFunctionalityId": "2",
         "EmploymentTypeId": "2",
-        "JobPositions": "2",
+        "JobPositions": 2,
         "JobClosingDate": "",
         "JobExperienceStarts": null,
-        "JobExperienceEnds": "2",
+        "JobExperienceEnds": 2,
         "JobSalaryStarts": null,
-        "JobSalaryEnds": "27000",
+        "JobSalaryEnds": 27000,
         "JobAttachment": [
             {
                 "Id": "33180bb2-0360-9f03-60ab-3d8a1538a81e",
@@ -145,7 +145,7 @@
         ],
         "IsArchived": false,
         "IsPublished": true,
-      "JobCreatedDate" : "2019-01-01T18:00:00.000Z",
+      "JobCreatedDate" : "Sat Jan 20 2019 20:30:47 GMT+0600 (Bangladesh Standard Time)",
       "IsFavourite": false
     }
 ]

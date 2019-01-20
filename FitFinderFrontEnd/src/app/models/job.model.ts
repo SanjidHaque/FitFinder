@@ -12,12 +12,12 @@ export class Job {
   DepartmentId: string;
   JobFunctionalityId: string;
   EmploymentTypeId: string;
-  JobPositions: string;
+  JobPositions: number;
   JobClosingDate: string;
-  JobExperienceStarts: string;
-  JobExperienceEnds: string;
-  JobSalaryStarts: string;
-  JobSalaryEnds: string;
+  JobExperienceStarts: number;
+  JobExperienceEnds: number;
+  JobSalaryStarts: number;
+  JobSalaryEnds: number;
   JobAttachment: JobAttachment[];
   IsArchived: boolean;
   IsPublished: boolean;
@@ -36,12 +36,12 @@ export class Job {
      departmentId: string,
      jobFunctionalityId: string,
      employmentTypeId: string,
-     jobPositions: string,
+     jobPositions: number,
      jobClosingDate: string,
-     jobExperienceStarts: string,
-     jobExperienceEnds: string,
-     jobSalaryStarts: string,
-     jobSalaryEnds: string,
+     jobExperienceStarts: number,
+     jobExperienceEnds: number,
+     jobSalaryStarts: number,
+     jobSalaryEnds: number,
      jobAttachment: JobAttachment[] = [],
      isArchived: boolean,
      isPublished: boolean,

@@ -276,15 +276,15 @@ export class ViewInterviewComponent implements OnInit {
   }
 
   getInterviewDay(interview: Interview) {
-    return moment(interview.InterviewDate).format('Do');
+    return moment(new Date(interview.InterviewDate)).format('Do');
   }
 
   getInterviewMonth(interview: Interview) {
-    return moment(interview.InterviewDate).format('MMMM');
+    return moment(new Date(interview.InterviewDate)).format('MMMM');
   }
 
   getInterviewYear(interview: Interview) {
-    return moment(interview.InterviewDate).format('YYYY');
+    return moment(new Date(interview.InterviewDate)).format('YYYY');
   }
 
 

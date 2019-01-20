@@ -165,30 +165,27 @@
 <div class="row">
 
 
-  <div class="col-xl-1">
+  <div *ngIf="!interview.IsArchived" class="col-xl-1 text-xl-center">
     <button
-      [disabled]="interview.IsArchived"
-      style="background-color: transparent; outline: 0;"
+      style="background-color: transparent; outline: 0; width: 100%;"
       mat-flat-button><i class="far fa-edit"></i> Edit</button>
   </div>
 
-  <div class="col-xl-1">
+  <div *ngIf="!interview.IsArchived" class="col-xl-1 text-xl-center">
     <button
-      [disabled]="interview.IsArchived"
-      style="background-color: transparent; outline: 0;"
+      style="background-color: transparent; outline: 0; width: 100%;"
       mat-flat-button><i class="fas fa-archive"></i> Archive</button>
   </div>
 
-  <div class="col-xl-1">
+  <div *ngIf="interview.IsArchived" class="col-xl-1 text-xl-center">
     <button
-      [disabled]="!interview.IsArchived"
-      style="background-color: transparent; outline: 0;"
+      style="background-color: transparent; outline: 0; width: 100%;"
       mat-flat-button><i class="far fa-window-restore"></i> Restore</button>
   </div>
 
-  <div class="col-xl-1">
+  <div class="col-xl-1 text-xl-center">
     <button
-      style="background-color: transparent; outline: 0;"
+      style="background-color: transparent; outline: 0; width: 100%;"
       mat-flat-button><i class="far fa-trash-alt"></i> Delete</button>
   </div>
 
@@ -305,9 +302,10 @@
         <div class="offset-xl-7 col-xl-4 text-xl-right" *ngIf="interview.CandidatesForInterview.length !== 0">
 
           <button
+            [disabled]="interview.IsArchived"
             type="button"
             (click)="openSelectCandidatesDialog()"
-            mat-flat-button style="outline: 0 ;">
+            mat-flat-button style="outline: 0; background-color: transparent;">
             <i class="fas fa-plus-circle"></i> Add Candidates</button>
 
         </div>

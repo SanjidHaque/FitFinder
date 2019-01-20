@@ -1,7 +1,7 @@
 [
     {
         "Id": "77af4729-2828-6ef9-5a1b-67c244cab64e",
-        "InterviewDate": "2019-01-02T18:00:00.000Z",
+        "InterviewDate": "Sat Jan 11 2019 20:30:47 GMT+0600 (Bangladesh Standard Time)",
         "InterviewName": "Junior",
         "InterviewLocation": "Dhaka",
         "InterviewStartTime": "12:00 PM",
@@ -26,7 +26,7 @@
     },
     {
       "Id": "77af4729-2828-6ef9-5a1b-67c244cab65e",
-      "InterviewDate": "2018-12-24T18:00:00.000Z",
+      "InterviewDate": "Sat Jan 11 2019 20:30:47 GMT+0600 (Bangladesh Standard Time)",
       "InterviewName": "Board",
       "InterviewLocation": "",
       "InterviewStartTime": "09:00 AM",
@@ -55,7 +55,7 @@
     },
     {
       "Id": "77af4729-2828-6ef9-5a1b-67c244cab67e",
-      "InterviewDate": "2019-02-02T18:00:00.000Z",
+      "InterviewDate": "Sat Jan 10 2019 20:30:47 GMT+0600 (Bangladesh Standard Time)",
       "InterviewName": "Grand",
       "InterviewLocation": "Dhaka",
       "InterviewStartTime": "01:30 PM",
@@ -79,7 +79,7 @@
     },
     {
       "Id": "77af4729-2828-6ef9-5a1b-67c244cab68e",
-      "InterviewDate": "2019-02-02T18:00:00.000Z",
+      "InterviewDate": "Sat Jan 20 2019 20:30:47 GMT+0600 (Bangladesh Standard Time)",
       "InterviewName": "The Final",
       "InterviewLocation": "",
       "InterviewStartTime": "06:30 PM",
@@ -108,7 +108,7 @@
     },
     {
       "Id": "77af4729-2828-6ef9-5a1b-67c244cab69e",
-      "InterviewDate": "2019-01-02T18:00:00.000Z",
+      "InterviewDate": "Sat Jan 11 2019 20:30:47 GMT+0600 (Bangladesh Standard Time)",
       "InterviewName": "Junior Dumb",
       "InterviewLocation": "Austin, Texas",
       "InterviewStartTime": "12:00 PM",
@@ -137,7 +137,7 @@
     },
     {
         "Id": "77af4729-2828-6ef9-5a1b-67c244cab70e",
-        "InterviewDate": "2019-01-02T18:00:00.000Z",
+        "InterviewDate": "Sat Jan 18 2019 20:30:47 GMT+0600 (Bangladesh Standard Time)",
         "InterviewName": "Junior Grand",
         "InterviewLocation": "Austin, Texas",
         "InterviewStartTime": "11:00 PM",

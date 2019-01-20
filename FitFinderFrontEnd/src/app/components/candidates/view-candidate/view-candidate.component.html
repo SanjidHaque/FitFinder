@@ -70,7 +70,7 @@
 
 <div class="row">
 
-  <div class="col-xl-5">
+  <div class="col-xl-6">
 
     <div class="row">
 
@@ -139,25 +139,41 @@
     <hr>
 
     <div class="row">
-      <div class="col-xl-3">
+
+      <div class="col-xl-3 text-xl-center" *ngIf="candidate.IsFavourite">
         <button
-          [disabled]="candidate.IsArchived"
+          style="background-color: transparent; outline: 0; width: 100%;"
+          mat-flat-button><i
+          style="color: #FFD61D;" class="fas fa-heart"></i>
+          Unfavourite</button>
+      </div>
+
+      <div class="col-xl-3 text-xl-center" *ngIf="!candidate.IsFavourite">
+        <button
+          style="background-color: transparent; outline: 0; width: 100%"
+          mat-flat-button><i class="far fa-heart"></i>
+          Favourite</button>
+      </div>
+
+      <div *ngIf="!candidate.IsArchived" class="col-xl-3 text-xl-center">
+        <button
           style="background-color: transparent; outline: 0;"
           mat-flat-button><i class="fas fa-archive"></i> Archive</button>
       </div>
-      <div class="col-xl-3">
+
+      <div *ngIf="candidate.IsArchived" class="col-xl-3 text-xl-center">
         <button
-          [disabled]="!candidate.IsArchived"
           style="background-color: transparent; outline: 0;"
           mat-flat-button><i class="far fa-window-restore"></i> Restore</button>
       </div>
-      <div class="col-xl-3">
+
+      <div *ngIf="!candidate.IsArchived || candidate.JobId !== ''" class="col-xl-3 text-xl-center">
         <button
-          [disabled]="candidate.JobId === ''"
           style="background-color: transparent; outline: 0;"
           mat-flat-button><i class="far fa-edit"></i> Edit</button>
       </div>
-      <div class="col-xl-3">
+
+      <div class="col-xl-3 text-xl-center">
         <button
           style="background-color: transparent; outline: 0;"
           mat-flat-button><i class="far fa-trash-alt"></i> Delete</button>
@@ -523,7 +539,7 @@
 
 
 
-  <div class="col-xl-7">
+  <div class="col-xl-6">
 
   </div>
 

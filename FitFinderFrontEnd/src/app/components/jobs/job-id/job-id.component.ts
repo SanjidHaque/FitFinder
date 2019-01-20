@@ -24,6 +24,7 @@ export class JobIdComponent implements OnInit {
     {id: '3', name: 'Development'},
     {id: '4', name: 'Engineering'}
   ];
+
   constructor(private route: ActivatedRoute,
               private dialog: MatDialog,
               private notifierService: NotifierService,
@@ -50,9 +51,9 @@ export class JobIdComponent implements OnInit {
   }
 
   getClosingDays() {
-    const today = moment(new Date());
-    const closingDate = moment(this.job.JobClosingDate);
-    return closingDate.diff(today, 'days');
+    const today = new Date();
+    const closingDate = moment(new Date(this.job.JobClosingDate));
+    return Math.ceil(closingDate.diff(today, 'days', true));
   }
 
   previousJob() {

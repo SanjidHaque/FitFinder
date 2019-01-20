@@ -232,7 +232,9 @@ export class AddNewCandidateComponent implements OnInit {
      isArchived,
      isHired,
      isClosed,
-     applicationDate.toString());
+     applicationDate.toString(),
+     false
+   );
 
    this.candidateService.addNewCandidate(candidate);
    this.notifierService.notify('default', 'New candidate added');
