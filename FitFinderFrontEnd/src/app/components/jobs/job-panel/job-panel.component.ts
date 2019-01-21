@@ -34,47 +34,20 @@ export class JobPanelComponent implements OnInit {
   }
 
 
+  onValueChange(value: string) {
+    this.selectedValue = value;
+    this.jobs = this.jobService.filterArchivedJob(value, this.archivedChecked, this.favouriteChecked);
+  }
+
   archiveStatus(event: any) {
-    if (event.checked) {
-      if (!this.favouriteChecked) {
-        this.jobs = this.jobService.getAllJob();
-
-      } else {
-        this.jobs = this.jobService.getAllJob().filter(x => x.IsArchived === true || x.IsFavourite === true);
-      }
-      this.archivedChecked = true;
-    } else {
-      if (!this.favouriteChecked) {
-        this.jobs = this.jobService.getAllJob().filter(x => x.IsArchived === false);
-
-      } else {
-        this.jobs = this.jobService.getAllJob().filter(x => x.IsArchived === false && x.IsFavourite === true);
-      }
-      this.archivedChecked = false;
-    }
+    this.archivedChecked = event.checked;
+    this.jobs = this.jobService.filterArchivedJob(this.selectedValue, this.archivedChecked, this.favouriteChecked);
   }
 
   favouriteStatus(event: any) {
-    if (event.checked) {
-      if (!this.archivedChecked) {
-        this.jobs = this.jobService.getAllJob().filter(x => x.IsFavourite === true && x.IsArchived === false);
-      } else {
-        this.jobs = this.jobService.getAllJob().filter(x => x.IsFavourite === true);
-      }
-      this.favouriteChecked = true;
-
-    } else {
-      if (!this.archivedChecked) {
-        this.jobs = this.jobService.getAllJob().filter(x => x.IsArchived === false);
-      } else {
-        this.jobs = this.jobService.getAllJob();
-      }
-      this.favouriteChecked = false;
-
-    }
+    this.favouriteChecked = event.checked;
+    this.jobs = this.jobService.filterArchivedJob(this.selectedValue, this.archivedChecked, this.favouriteChecked);
   }
-
-
 
   getDepartmentName(departmentId: string) {
     return this.departments.find(x => x.id === departmentId ).name;
@@ -96,11 +69,5 @@ export class JobPanelComponent implements OnInit {
     this.isAllSelected() ?
       this.selection.clear() :
       this.jobs.forEach(row => this.selection.select(row));
-  }
-
-  onValueChange(value: string) {
-    this.selectedValue = value;
-    this.jobs = this.jobService.jobPublishStatus(value, this.archivedChecked, this.favouriteChecked);
-
   }
 }
