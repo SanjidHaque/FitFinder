@@ -36,12 +36,20 @@ export class JobPanelComponent implements OnInit {
 
   archiveStatus(event: any) {
     if (event.checked) {
+      if (!this.favouriteChecked) {
+        this.jobs = this.jobService.getAllJob();
 
-
-      this.jobs = this.jobService.getAllJob();
+      } else {
+        this.jobs = this.jobService.getAllJob().filter(x => x.IsArchived === true || x.IsFavourite === true);
+      }
       this.archivedChecked = true;
     } else {
-      this.jobs = this.jobService.getAllJob().filter(x => x.IsArchived === false);
+      if (!this.favouriteChecked) {
+        this.jobs = this.jobService.getAllJob().filter(x => x.IsArchived === false);
+
+      } else {
+        this.jobs = this.jobService.getAllJob().filter(x => x.IsArchived === false && x.IsFavourite === true);
+      }
       this.archivedChecked = false;
     }
   }
@@ -65,6 +73,8 @@ export class JobPanelComponent implements OnInit {
 
     }
   }
+
+
 
   getDepartmentName(departmentId: string) {
     return this.departments.find(x => x.id === departmentId ).name;
@@ -90,5 +100,7 @@ export class JobPanelComponent implements OnInit {
 
   onValueChange(value: string) {
     this.selectedValue = value;
+    this.jobs = this.jobService.jobPublishStatus(value, this.archivedChecked, this.favouriteChecked);
+
   }
 }
