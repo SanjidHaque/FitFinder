@@ -34,6 +34,12 @@ import {CandidateEmailComponent} from '../components/candidates/candidate-id/can
 import {CandidateInterviewComponent} from '../components/candidates/candidate-id/candidate-interview/candidate-interview.component';
 import {CandidateTaskComponent} from '../components/candidates/candidate-id/candidate-task/candidate-task.component';
 import {InterviewIdComponent} from '../components/interviews/interview-id/interview-id.component';
+import {SourcesComponent} from '../components/settings/candidates-and-leads/sources/sources.component';
+import {TagsComponent} from '../components/settings/candidates-and-leads/tags/tags.component';
+import {DepartmentsComponent} from '../components/settings/job-openings/departments/departments.component';
+import {TypesComponent} from '../components/settings/job-openings/types/types.component';
+import {FunctionsComponent} from '../components/settings/job-openings/functions/functions.component';
+import {PipelineComponent} from '../components/settings/workflow/pipeline/pipeline.component';
 
 const appRoutes: Routes = [
   {
@@ -199,15 +205,63 @@ const appRoutes: Routes = [
       },
       {
         path: 'candidates-and-leads',
-        component: CandidatesAndLeadsComponent
+        component: CandidatesAndLeadsComponent,
+        children:
+        [
+          {
+            path: '',
+            redirectTo: 'sources',
+            pathMatch: 'full'
+          },
+          {
+            path: 'sources',
+            component: SourcesComponent
+          },
+          {
+            path: 'tags',
+            component: TagsComponent
+          }
+        ]
       },
       {
         path: 'job-openings',
-        component: JobOpeningsComponent
+        component: JobOpeningsComponent,
+        children:
+        [
+          {
+            path: '',
+            redirectTo: 'departments',
+            pathMatch: 'full'
+          },
+          {
+            path: 'departments',
+            component: DepartmentsComponent
+          },
+          {
+            path: 'types',
+            component: TypesComponent
+          },
+          {
+            path: 'functions',
+            component: FunctionsComponent
+          }
+        ]
       },
       {
         path: 'workflow',
-        component: WorkflowComponent
+        component: WorkflowComponent,
+        children:
+        [
+          {
+            path: '',
+            redirectTo: 'pipeline',
+            pathMatch: 'full'
+          },
+          {
+            path: 'pipeline',
+            component: PipelineComponent
+          }
+        ]
       },
       {
         path: 'disqualify-reasons',

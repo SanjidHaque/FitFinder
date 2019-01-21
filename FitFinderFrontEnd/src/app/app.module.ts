@@ -56,6 +56,12 @@ import {CandidateEmailComponent} from './components/candidates/candidate-id/cand
 import {CandidateTaskComponent} from './components/candidates/candidate-id/candidate-task/candidate-task.component';
 import {CandidateInterviewComponent} from './components/candidates/candidate-id/candidate-interview/candidate-interview.component';
 import {InterviewIdComponent} from './components/interviews/interview-id/interview-id.component';
+import { TagsComponent } from './components/settings/candidates-and-leads/tags/tags.component';
+import { SourcesComponent } from './components/settings/candidates-and-leads/sources/sources.component';
+import { DepartmentsComponent } from './components/settings/job-openings/departments/departments.component';
+import { TypesComponent } from './components/settings/job-openings/types/types.component';
+import { FunctionsComponent } from './components/settings/job-openings/functions/functions.component';
+import { PipelineComponent } from './components/settings/workflow/pipeline/pipeline.component';
 
 
 
@@ -97,7 +103,13 @@ import {InterviewIdComponent} from './components/interviews/interview-id/intervi
     CandidateInfoComponent,
     CandidateTaskComponent,
     CandidateEmailComponent,
-    CandidateInterviewComponent
+    CandidateInterviewComponent,
+    TagsComponent,
+    SourcesComponent,
+    DepartmentsComponent,
+    TypesComponent,
+    FunctionsComponent,
+    PipelineComponent
   ],
   imports: [
     BrowserModule,

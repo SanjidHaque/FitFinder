@@ -40,7 +40,9 @@
        padding-top: 20px; text-align: left;
        font-weight: bold;
        font-size: 14px;">
-        Show Archived <mat-slide-toggle color="primary"></mat-slide-toggle>
+        Show Archived <mat-slide-toggle
+        (change)="archiveStatus($event)"
+        color="primary"></mat-slide-toggle>
       </div>
 
     </div>
@@ -51,7 +53,9 @@
        padding-top: 20px; text-align: left;
        font-weight: bold;
        font-size: 14px;">
-        Favourites Only <mat-slide-toggle color="primary"></mat-slide-toggle>
+        Favourites Only <mat-slide-toggle
+        (change)="favouriteStatus($event)"
+        color="primary"></mat-slide-toggle>
       </div>
 
     </div>

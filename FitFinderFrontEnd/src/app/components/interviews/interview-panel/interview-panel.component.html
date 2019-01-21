@@ -25,7 +25,9 @@
     <div class="row">
 
       <div class="offset-xl-1 col-xl-10 " style="padding-top: 30px; text-align: left; font-size: 14px;">
-        <mat-button-toggle-group #group="matButtonToggleGroup" [value]="selectedValue" (change)="onValueChange(group.value)">
+        <mat-button-toggle-group
+          #group="matButtonToggleGroup"
+          [value]="selectedValue" (change)="onValueChange(group.value)">
           <mat-button-toggle value="all"> All </mat-button-toggle>
           <mat-button-toggle value="upcoming"> Upcoming </mat-button-toggle>
           <mat-button-toggle value="past"> Past </mat-button-toggle>

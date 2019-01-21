@@ -15,6 +15,9 @@ import * as moment from 'moment';
 })
 export class CandidatePanelComponent implements OnInit {
 
+  archivedChecked = false;
+  favouriteChecked = false;
+
   selection = new SelectionModel<Candidate>(true, []);
   selectedValue = 'all';
   candidates: Candidate[] = [];
@@ -40,6 +43,20 @@ export class CandidatePanelComponent implements OnInit {
     this.jobs = this.jobService.getAllJob();
  }
 
+  onValueChange(value: string) {
+    this.selectedValue = value;
+  }
+
+  archiveStatus(event: any) {
+    this.archivedChecked = event.checked;
+
+  }
+
+
+  favouriteStatus(event: any) {
+    this.favouriteChecked = event.checked;
+  }
+
   getJobName(candidate: Candidate) {
     return this.jobs.find(x => x.Id === candidate.JobId).JobTitle;
   }
@@ -58,10 +75,6 @@ export class CandidatePanelComponent implements OnInit {
     this.isAllSelected() ?
       this.selection.clear() :
       this.candidates.forEach(row => this.selection.select(row));
-  }
-
-  onValueChange(value: string) {
-    this.selectedValue = value;
   }
 
   getSourceName(candidate: Candidate) {
