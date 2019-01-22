@@ -230,7 +230,7 @@ const appRoutes: Routes = [
         [
           {
             path: '',
-            redirectTo: 'departments',
+            redirectTo: 'types',
             pathMatch: 'full'
           },
           {
