@@ -233,7 +233,9 @@ export class AddNewCandidateComponent implements OnInit {
      isHired,
      isClosed,
      applicationDate.toString(),
-     false
+     false,
+     [],
+     []
    );
 
    this.candidateService.addNewCandidate(candidate);

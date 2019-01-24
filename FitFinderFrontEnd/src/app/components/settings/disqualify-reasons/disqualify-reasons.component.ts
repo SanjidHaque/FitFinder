@@ -7,9 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DisqualifyReasonsComponent implements OnInit {
 
+  // color = 'blue';
   constructor() { }
 
   ngOnInit() {
+   // document.getElementById('d').style.backgroundColor = this.color;
   }
 
 }

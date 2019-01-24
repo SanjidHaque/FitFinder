@@ -1,6 +1,8 @@
 import {CandidateEducation} from './candidate-education.model';
 import {CandidateExperience} from './candidate-experience.model';
 import {CandidateAttachment} from './canidate-attachment.model';
+import {PipelineStageCriteriaStarRating} from './pipeline-stage-criteria-star-rating.model';
+import {PipelineStageStarRating} from './pipeline-stage-star-rating.model';
 
 export class Candidate {
    Id: string;
@@ -24,6 +26,8 @@ export class Candidate {
    IsClosed: boolean;
    ApplicationDate: string;
    IsFavourite: boolean;
+   PipelineStageStarRating: PipelineStageStarRating[];
+   PipelineStageCriteriaStarRating: PipelineStageCriteriaStarRating[];
 
   constructor(
      id: string,
@@ -46,7 +50,9 @@ export class Candidate {
      isHired: boolean,
      isClosed: boolean,
      applicationDate: string,
-     isFavourite: boolean
+     isFavourite: boolean,
+     pipelineStageStarRating: PipelineStageStarRating[] = [],
+     pipelineStageCriteriaStarRating: PipelineStageCriteriaStarRating[] = []
   ) {
     this.Id = id;
     this.JobId = jobId;
@@ -69,5 +75,7 @@ export class Candidate {
     this.IsClosed = isClosed;
     this.ApplicationDate = applicationDate;
     this.IsFavourite = isFavourite;
+    this.PipelineStageStarRating = pipelineStageStarRating;
+    this.PipelineStageCriteriaStarRating = pipelineStageCriteriaStarRating;
   }
 }
