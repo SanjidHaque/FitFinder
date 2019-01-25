@@ -77,9 +77,7 @@ export class CandidatePanelComponent implements OnInit {
       this.candidates.forEach(row => this.selection.select(row));
   }
 
-  getSourceName(candidate: Candidate) {
-    return this.sources.find(x => x.sourceId === candidate.CandidateSourceId).sourceName;
-  }
+
 
   getInterviewDate() {
 

@@ -40,6 +40,12 @@ import {DepartmentsComponent} from '../components/settings/job-openings/departme
 import {TypesComponent} from '../components/settings/job-openings/types/types.component';
 import {FunctionsComponent} from '../components/settings/job-openings/functions/functions.component';
 import {PipelineComponent} from '../components/settings/workflow/pipeline/pipeline.component';
+import {PipelineResolverService} from '../route-resolvers/pipeline-resolver.service';
+import {JobTypeResolverService} from '../route-resolvers/job-type-resolver.service';
+import {JobFunctionResolverService} from '../route-resolvers/job-function-resolver.service';
+import {DepartmentResolverService} from '../route-resolvers/department-resolver.service';
+import {SourceResolverService} from '../route-resolvers/source-resolver.service';
+import {TagResolverService} from '../route-resolvers/tag-resolver.service';
 
 const appRoutes: Routes = [
   {
@@ -206,6 +212,11 @@ const appRoutes: Routes = [
       {
         path: 'candidates-and-leads',
         component: CandidatesAndLeadsComponent,
+        resolve:
+          {
+            sources: SourceResolverService,
+            tags: TagResolverService
+          },
         children:
         [
           {
@@ -226,6 +237,12 @@ const appRoutes: Routes = [
       {
         path: 'job-openings',
         component: JobOpeningsComponent,
+        resolve:
+          {
+            jobTypes: JobTypeResolverService,
+            jobFunctions: JobFunctionResolverService,
+            departments: DepartmentResolverService
+          },
         children:
         [
           {
@@ -250,6 +267,10 @@ const appRoutes: Routes = [
       {
         path: 'workflow',
         component: WorkflowComponent,
+        resolve:
+          {
+            pipelines: PipelineResolverService
+          },
         children:
         [
           {

@@ -3,6 +3,12 @@ import {HttpClient} from '@angular/common/http';
 import {Candidate} from '../models/candidate.model';
 import {Interview} from '../models/interview.model';
 import {Job} from '../models/job.model';
+  import {Pipeline} from '../models/pipeline.model';
+  import {Source} from '../models/source.model';
+  import {Department} from '../models/department.model';
+  import {JobFunction} from '../models/job-function.model';
+  import {JobType} from '../models/job-type.model';
+  import {Tag} from '../models/tag.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +18,9 @@ export class DataStorageService {
 
   private apiRootUrl = 'http://localhost:55586/api/';
 
+  private getAllPipelineJson = 'assets/mock-data/pipelines.json';
+  private getAllPipelineApi = 'http://localhost:55586/api/GetAllPipeline';
+
   private getAllCandidateJson = 'assets/mock-data/candidates.json';
   private getAllCandidateApi = 'http://localhost:55586/api/GetAllCandidate';
 
@@ -20,6 +29,43 @@ export class DataStorageService {
 
   private getAllJobJson = 'assets/mock-data/jobs.json';
   private getAllJobApi = 'http://localhost:55586/api/GetAllJob';
+
+  private getAllSourceJson = 'assets/mock-data/sources.json';
+  private getAllSourceApi = 'http://localhost:55586/api/GetAllSource';
+
+  private getAllJobFunctionJson = 'assets/mock-data/job-functions.json';
+  private getAllJobFunctionApi = 'http://localhost:55586/api/GetAllJobFunction';
+
+  private getAllJobTypeJson = 'assets/mock-data/job-types.json';
+  private getAllJobTypeApi = 'http://localhost:55586/api/GetAllJobType';
+
+  private getAllDepartmentJson = 'assets/mock-data/departments.json';
+  private getAllDepartmentApi = 'http://localhost:55586/api/GetAllDepartment';
+
+  private getAllTagJson = 'assets/mock-data/tags.json';
+  private getAllTagApi = 'http://localhost:55586/api/GetAllTag';
+
+
+
+  getAllSource() {
+    return this.httpClient.get<Source[]>(this.getAllSourceJson);
+  }
+
+  getAllDepartment() {
+    return this.httpClient.get<Department[]>(this.getAllDepartmentJson);
+  }
+
+  getAllJobFunction() {
+    return this.httpClient.get<JobFunction[]>(this.getAllJobFunctionJson);
+  }
+
+  getAllJobType() {
+    return this.httpClient.get<JobType[]>(this.getAllJobTypeJson);
+  }
+
+  getAllTag() {
+    return this.httpClient.get<Tag[]>(this.getAllTagJson);
+  }
 
   getAllCandidate() {
     return this.httpClient.get<Candidate[]>(this.getAllCandidateJson);
@@ -33,6 +79,9 @@ export class DataStorageService {
     return this.httpClient.get<Job[]>(this.getAllJobJson);
   }
 
+  getAllPipeline() {
+    return this.httpClient.get<Pipeline[]>(this.getAllPipelineJson);
+  }
 
   addNewCandidate(candidate: Candidate) {
     return this.httpClient.post(this.apiRootUrl + 'AddNewCandidate', candidate);

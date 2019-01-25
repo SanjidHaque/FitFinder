@@ -41,9 +41,6 @@ import {
   SelectCandidatesForInterviewDialogComponent} from './components/interviews/add-new-interview/select-candidates-for-interview-dialog/select-candidates-for-interview-dialog.component';
 import { SearchCandidatePipe } from './pipes/search-candidate.pipe';
 import { AngularEditorModule } from '@kolkov/angular-editor';
-import { CreateDepartmentInstantlyDialogComponent } from './components/jobs/add-new-job/create-department-instantly-dialog/create-department-instantly-dialog.component';
-import { CreateEmploymentTypeInstantlyDialogComponent } from './components/jobs/add-new-job/create-employment-type-instantly-dialog/create-employment-type-instantly-dialog.component';
-import { CreateJobFunctionalityInstantlyDialogComponent } from './components/jobs/add-new-job/create-job-functionality-instantly-dialog/create-job-functionality-instantly-dialog.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { SearchJobPipe } from './pipes/search-job.pipe';
 import { JobIdComponent } from './components/jobs/job-id/job-id.component';
@@ -62,6 +59,18 @@ import { DepartmentsComponent } from './components/settings/job-openings/departm
 import { TypesComponent } from './components/settings/job-openings/types/types.component';
 import { FunctionsComponent } from './components/settings/job-openings/functions/functions.component';
 import { PipelineComponent } from './components/settings/workflow/pipeline/pipeline.component';
+import {PipelineResolverService} from './route-resolvers/pipeline-resolver.service';
+import { CreateSourceComponent } from './dialogs/create-source/create-source.component';
+import { CreateTagComponent } from './dialogs/create-tag/create-tag.component';
+import {CreateDepartmentComponent} from './dialogs/create-department/create-department.component';
+import {CreateJobFunctionComponent} from './dialogs/create-job-function/create-job-function.component';
+import {CreateJobTypeComponent} from './dialogs/create-job-type/create-job-type.component';
+import {SourceResolverService} from './route-resolvers/source-resolver.service';
+import {TagResolverService} from './route-resolvers/tag-resolver.service';
+import {JobTypeResolverService} from './route-resolvers/job-type-resolver.service';
+import {JobFunctionResolverService} from './route-resolvers/job-function-resolver.service';
+import {DepartmentResolverService} from './route-resolvers/department-resolver.service';
+import {SettingsService} from './services/settings.service';
 
 
 
@@ -89,9 +98,9 @@ import { PipelineComponent } from './components/settings/workflow/pipeline/pipel
     DisqualifyReasonsComponent,
     SelectCandidatesForInterviewDialogComponent,
     SearchCandidatePipe,
-    CreateDepartmentInstantlyDialogComponent,
-    CreateEmploymentTypeInstantlyDialogComponent,
-    CreateJobFunctionalityInstantlyDialogComponent,
+    CreateJobFunctionComponent,
+    CreateJobTypeComponent,
+    CreateDepartmentComponent,
     PageNotFoundComponent,
     SearchJobPipe,
     CandidateIdComponent,
@@ -109,7 +118,9 @@ import { PipelineComponent } from './components/settings/workflow/pipeline/pipel
     DepartmentsComponent,
     TypesComponent,
     FunctionsComponent,
-    PipelineComponent
+    PipelineComponent,
+    CreateSourceComponent,
+    CreateTagComponent
   ],
   imports: [
     BrowserModule,
@@ -152,13 +163,22 @@ import { PipelineComponent } from './components/settings/workflow/pipeline/pipel
     InterviewService,
     CandidateResolverService,
     InterviewResolverService,
-    JobResolverService
+    PipelineResolverService,
+    SourceResolverService,
+    TagResolverService,
+    JobTypeResolverService,
+    JobFunctionResolverService,
+    DepartmentResolverService,
+    JobResolverService,
+    SettingsService
   ],
   entryComponents: [
     SelectCandidatesForInterviewDialogComponent,
-    CreateDepartmentInstantlyDialogComponent,
-    CreateEmploymentTypeInstantlyDialogComponent,
-    CreateJobFunctionalityInstantlyDialogComponent
+    CreateDepartmentComponent,
+    CreateJobFunctionComponent,
+    CreateJobTypeComponent,
+    CreateSourceComponent,
+    CreateTagComponent
   ],
 
   bootstrap: [

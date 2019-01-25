@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import {Pipeline} from '../../../../models/pipeline.model';
+import {SettingsService} from '../../../../services/settings.service';
+import {ActivatedRoute, Data} from '@angular/router';
+import {PipelineStage} from '../../../../models/pipeline-stage.model';
 
 @Component({
   selector: 'app-pipeline',
@@ -7,9 +11,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PipelineComponent implements OnInit {
 
-  constructor() { }
+  pipelines: Pipeline[] = [];
+
+  constructor(private sharedService: SettingsService) {}
 
   ngOnInit() {
+   this.pipelines = this.sharedService.getAllPipeline();
   }
 
+  getNameAndColor(pipelineStage: PipelineStage) {
+    return pipelineStage.Name;
+  }
 }

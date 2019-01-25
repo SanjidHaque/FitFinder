@@ -1,4 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import {Department} from '../../../../models/department.model';
+import {MatDialog} from '@angular/material';
+import {DataStorageService} from '../../../../services/data-storage.service';
+import {NotifierService} from 'angular-notifier';
+import {CreateDepartmentComponent} from '../../../../dialogs/create-department/create-department.component';
+import {UUID} from 'angular2-uuid';
+import {CreateJobTypeComponent} from '../../../../dialogs/create-job-type/create-job-type.component';
+import {JobType} from '../../../../models/job-type.model';
+import {SettingsService} from '../../../../services/settings.service';
 
 @Component({
   selector: 'app-types',
@@ -7,9 +16,35 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TypesComponent implements OnInit {
 
-  constructor() { }
+  jobTypes: JobType[] = [];
+
+  constructor(private jobTypeDialog: MatDialog,
+              private dataStorageService: DataStorageService,
+              private settingsService: SettingsService,
+              private notifierService: NotifierService) { }
 
   ngOnInit() {
+    this.jobTypes = this.settingsService.getAllJobType();
+  }
+
+  addNewJobType() {
+    const dialogRef = this.jobTypeDialog.open(CreateJobTypeComponent,
+      {
+        hasBackdrop: true,
+        disableClose: true,
+        width: '400px',
+        data: { name: ''}
+      });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result !== '') {
+        const jobType = new JobType(
+          UUID.UUID(),
+          result
+        );
+        this.jobTypes.push(jobType);
+      }
+    });
   }
 
 }

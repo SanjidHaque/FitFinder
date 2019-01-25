@@ -2,10 +2,7 @@ import {Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import {MatDialog} from '@angular/material';
-import {CreateDepartmentInstantlyDialogComponent} from './create-department-instantly-dialog/create-department-instantly-dialog.component';
 import {UUID} from 'angular2-uuid';
-import {CreateEmploymentTypeInstantlyDialogComponent} from './create-employment-type-instantly-dialog/create-employment-type-instantly-dialog.component';
-import {CreateJobFunctionalityInstantlyDialogComponent} from './create-job-functionality-instantly-dialog/create-job-functionality-instantly-dialog.component';
 import * as moment from 'moment';
 import {JobAttachment} from '../../../models/job-attachment.model';
 import {NotifierService} from 'angular-notifier';
@@ -13,6 +10,9 @@ import {Job} from '../../../models/job.model';
 import {JobService} from '../../../services/job.service';
 import {Router} from '@angular/router';
 import {DataStorageService} from '../../../services/data-storage.service';
+import {CreateDepartmentComponent} from '../../../dialogs/create-department/create-department.component';
+import {CreateJobFunctionComponent} from '../../../dialogs/create-job-function/create-job-function.component';
+import {CreateJobTypeComponent} from '../../../dialogs/create-job-type/create-job-type.component';
 
 @Component({
   selector: 'app-add-new-job',
@@ -84,12 +84,12 @@ export class AddNewJobComponent implements OnInit {
   isDisabled = false;
 
   constructor(private departmentDialog: MatDialog,
-              private jobFunctionalitiesDialog: MatDialog,
+              private jobFunctionalityDialog: MatDialog,
               private notifierService: NotifierService,
               private jobService: JobService,
               private dataStorageService: DataStorageService,
               private router: Router,
-              private employmentTypesDialog: MatDialog) {
+              private jobType: MatDialog) {
     this.filesToUpload = [];
   }
 
@@ -219,8 +219,8 @@ export class AddNewJobComponent implements OnInit {
 
 
 
-  openCreateNewDepartmentInstantlyDialog() {
-    const dialogRef = this.departmentDialog.open(CreateDepartmentInstantlyDialogComponent,
+  addNewDepartment() {
+    const dialogRef = this.departmentDialog.open(CreateDepartmentComponent,
       {
         hasBackdrop: true,
         disableClose: true,
@@ -234,8 +234,10 @@ export class AddNewJobComponent implements OnInit {
       }
     });
   }
-  openCreateNewJobFunctionalitiesInstantlyDialog() {
-    const dialogRef = this.jobFunctionalitiesDialog.open(CreateJobFunctionalityInstantlyDialogComponent,
+
+
+  addNewJobFunction() {
+    const dialogRef = this.jobFunctionalityDialog.open(CreateJobFunctionComponent,
       {
         hasBackdrop: true,
         disableClose: true,
@@ -249,8 +251,11 @@ export class AddNewJobComponent implements OnInit {
       }
     });
   }
-  openCreateNewEmploymentTypesInstantlyDialog() {
-    const dialogRef = this.employmentTypesDialog.open(CreateEmploymentTypeInstantlyDialogComponent,
+
+
+
+  addNewJobType() {
+    const dialogRef = this.jobType.open(CreateJobTypeComponent,
       {
         hasBackdrop: true,
         disableClose: true,

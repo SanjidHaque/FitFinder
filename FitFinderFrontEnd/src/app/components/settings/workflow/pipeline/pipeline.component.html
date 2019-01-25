@@ -1,5 +1,157 @@
 <div class="row">
-  <div class="col-xl-12" style="font-size: 14px;  color: #656c8a">
+  <div class="col-xl-12" style="font-size: 14px;  color: #656c8a;">
     Define your recruitment workflow by creating different stages to match the actual recruitment procedure followed in your organization. You can trigger emails to candidates/leads at different stages, to increase candidate/lead engagement.
+  </div>
+</div>
+
+<br>
+
+<div class="row">
+  <div class="col-xl-12">
+    <h4>Candidate Pipeline</h4>
+  </div>
+</div>
+
+<div class="row" style="margin-top: 5px; font-size: 14px;  color: #656c8a;">
+  <div class="col-xl-12">
+    Manage and track your candidates through out their recruitment process by moving them across various stages. Create stages according to your requirements and simplify your hiring.
+  </div>
+</div>
+
+<br>
+
+<div class="row" *ngFor="let pipeline of pipelines">
+  <div class="col-xl-12">
+
+    <div class="row">
+      <div class="col-xl-12" style="font-weight: bold;">
+        <i style="color: rgba(216,213,214,1)" class="fas fa-circle"></i> {{ pipeline.Name }}
+      </div>
+    </div>
+
+    <div class="row"
+         style="padding-top: 10px;
+         margin-left: 18px;  padding-bottom: 15px;">
+
+
+      <div class="col-xl-4"
+           style="
+           padding: 5px;
+           "
+           *ngFor="let pipelineStage of pipeline.PipelineStage">
+        <div
+          style=
+            "background-color: #f2f8fd;
+             border: 1px solid #ddd;
+             padding: 8px;
+             border-radius: 3px;">
+
+          <div class="row">
+            <div class="col-xl-1">
+              <i
+                [ngStyle]="{'color': pipelineStage.Color }"
+                style="
+                font-size: 25px;"
+                class="fas fa-square"></i>
+            </div>
+            <div class="col-xl-10" style="padding-top: 3px;">
+           <h6>  {{ pipelineStage.Name }}</h6>
+            </div>
+          </div>
+
+          <div class="row" style="padding-top: 30px;">
+            <div class="col-xl-12 text-xl-right">
+              <i
+                *ngIf="pipeline.PipelineStage.length > 1
+                && pipeline.Id !== '0bd51acc-ec0e-47f8-a875-6806cdd2c2dd'"
+                style="cursor: pointer;
+              opacity: .8;
+               color: #bc0000; font-size: 17px;" class="far fa-trash-alt"></i> &nbsp;
+              <i style="cursor: pointer;
+              opacity: .8;
+               color: #345188; font-size: 17px;" class="fas fa-pencil-alt"></i>
+            </div>
+          </div>
+        </div>
+
+
+
+
+      </div>
+
+      <div class="col-xl-4"
+           *ngIf="pipeline.Id === 'ceeb1953-2f37-4f72-b17b-bb987a0c5fee' ||
+pipeline.Id === 'e24ef69b-6cef-4991-ab84-91feb1d189b8' ||
+ pipeline.Id === '21df27e7-3cc1-43c1-92b5-138c1907fe1c'"
+           style="
+           padding: 5px;">
+        <div
+          style=
+            "background-color: #f2f8fd;
+             border: 1px dashed #7e88e1;
+             padding: 8px;
+             border-radius: 3px;">
+
+          <div class="row">
+            <div class="col-xl-12"
+                 style="color: #00a7de;
+                 padding-bottom: 31px;
+                 padding-top: 31px;
+                 font-size: 14px;
+                  text-align: center;">
+             <span style="cursor: pointer;"> <i class="fas fa-plus-circle"></i> Add</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+      <div class="offset-xl-4 col-xl-4"
+           *ngIf="pipeline.Id === '7dd8dcfe-da60-40a3-81c4-b5306a782d7f' ||
+pipeline.Id === '7ab91872-1b61-4f8b-a7b4-bb8177027574' "
+           style="
+           padding: 5px;">
+        <div
+          style=
+            "background-color: #f3f5f7;
+             border: 1px solid #f3f5f7;
+             padding: 14px;
+             border-radius: 3px;">
+
+          <div *ngIf="pipeline.Id === '7dd8dcfe-da60-40a3-81c4-b5306a782d7f'">
+            <div class="row" >
+              <div class="col-xl-12">
+                <h6>Active stages</h6>
+              </div>
+            </div>
+            <div class="row" >
+              <div class="col-xl-12" style="font-size: 14px; opacity: .8;">
+                Active stage represent a potential candidate's journey.
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="pipeline.Id === '7ab91872-1b61-4f8b-a7b4-bb8177027574'">
+            <div class="row" >
+              <div class="col-xl-12">
+                <h6>Closed stages</h6>
+              </div>
+            </div>
+            <div class="row" >
+              <div class="col-xl-12" style="font-size: 14px; opacity: .8;">
+                Closed stage represent the result of your candidate journey.
+              </div>
+            </div>
+          </div>
+
+
+
+        </div>
+      </div>
+
+    </div>
+
+
   </div>
 </div>

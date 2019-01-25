@@ -1,26 +1,27 @@
 
 
-<h3 mat-dialog-title>New Job Type</h3>
+<h3 mat-dialog-title>New Source</h3>
 
 
 
 
 <div class="row">
   <div class="col-xl-2">
-    <i style="font-size: 40px;" class="fas fa-passport"></i>
+    <i style="font-size: 40px;" class="fab fa-osi"></i>
   </div>
 
   <div class="col-xl-10">
     <mat-form-field style="width: 100%">
-      <input [(ngModel)]="data.name" matInput>
+      <input required [(ngModel)]="data.name" matInput>
+      <mat-error>This field is required!</mat-error>
     </mat-form-field>
   </div>
 </div>
 
-<div class="row">
+<div class="row" style="padding-top: 10px;">
   <div class="col-xl-12" style="font-size: 12px; opacity: .7;">
 
-    Add or update different job types your organization hires.
+    Add or update different sources your organization needs.
 
   </div>
 </div>

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {ActivatedRoute, Data} from '@angular/router';
+import {SettingsService} from '../../../services/settings.service';
 
 @Component({
   selector: 'app-candidates-and-leads',
@@ -7,9 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CandidatesAndLeadsComponent implements OnInit {
 
-  constructor() { }
+  constructor(private route: ActivatedRoute,
+              private settingsService: SettingsService) { }
 
   ngOnInit() {
+    this.route.data.
+    subscribe(
+      (data: Data) => {
+        this.settingsService.tags = data['tags'];
+        this.settingsService.sources = data['sources'];
+      }
+    );
   }
-
 }

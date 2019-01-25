@@ -1,29 +1,30 @@
 
 
-    <h3 mat-dialog-title>New Department</h3>
+<h3 mat-dialog-title>New Job Type</h3>
 
 
 
 
 <div class="row">
   <div class="col-xl-2">
-    <i style="font-size: 40px;" class="far fa-building"></i>
+    <i style="font-size: 40px;" class="fas fa-passport"></i>
   </div>
 
   <div class="col-xl-10">
     <mat-form-field style="width: 100%">
-      <input [(ngModel)]="data.name" matInput>
+      <input required [(ngModel)]="data.name" matInput>
+      <mat-error>This field is required!</mat-error>
     </mat-form-field>
   </div>
 </div>
 
-    <div class="row">
-      <div class="col-xl-12" style="font-size: 12px; opacity: .7;">
+<div class="row" style="padding-top: 10px;">
+  <div class="col-xl-12" style="font-size: 12px; opacity: .7;">
 
-        Add or update different departments your organization needs.
+    Add or update different job types your organization hires.
 
-      </div>
-    </div>
+  </div>
+</div>
 
 
 
@@ -38,7 +39,7 @@
         [mat-dialog-close]="data.name"
         color="primary"
         style="outline: 0;"
-         >Save</button>
+      >Save</button>
       <button
         mat-stroked-button
         mat-dialog-close
