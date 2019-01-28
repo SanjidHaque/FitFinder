@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using FitFinderBackEnd.Models.Candidate;
 using FitFinderBackEnd.Models.Interview;
 using FitFinderBackEnd.Models.Job;
+using FitFinderBackEnd.Models.Settings;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -29,6 +30,12 @@ namespace FitFinderBackEnd.Models
         public DbSet<CandidateAttachment> CandidateAttachments { get; set; }
         public DbSet<CandidateEducation> CandidateEducations { get; set; }
         public DbSet<CandidateExperience> CandidateExperiences { get; set; }
+
+        public DbSet<Tag> Tags { get; set; }
+        public DbSet<Source> Sources { get; set; }
+        public DbSet<Department> Departments { get; set; }
+        public DbSet<JobFunction> JobFunctions { get; set; }
+        public DbSet<JobType> JobTypes { get; set; }
 
         public DbSet<CandidatesForInterview> CandidatesForInterviews { get; set; }
         public DbSet<InterviewersForInterview> InterviewersForInterviews { get; set; }

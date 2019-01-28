@@ -14,6 +14,7 @@ using FitFinderBackEnd.Models;
 using FitFinderBackEnd.Models.Candidate;
 using FitFinderBackEnd.Models.Interview;
 using FitFinderBackEnd.Models.Job;
+using FitFinderBackEnd.Models.Settings;
 
 namespace FitFinderBackEnd.Controllers
 {
@@ -119,5 +120,117 @@ namespace FitFinderBackEnd.Controllers
                 Include(e => e.JobAttachment).ToList();
             return Ok(job);
         }
+
+        [HttpGet]
+        [Route("api/GetAllJobType")]
+        public IHttpActionResult GetAllJobType()
+        {
+            List<JobType> jobTypes = _context.JobTypes.ToList();
+            return Ok(jobTypes);
+        }
+
+        [HttpGet]
+        [Route("api/GetAllTag")]
+        public IHttpActionResult GetAllTag()
+        {
+            List<Tag> tags = _context.Tags.ToList();
+            return Ok(tags);
+        }
+
+        [HttpGet]
+        [Route("api/GetAllSource")]
+        public IHttpActionResult GetAllSource()
+        {
+            List<Source> sources = _context.Sources.ToList();
+            return Ok(sources);
+        }
+
+        [HttpGet]
+        [Route("api/GetAllJobFunction")]
+        public IHttpActionResult GetAllJobFunction()
+        {
+            List<JobFunction> jobFunctions = _context.JobFunctions.ToList();
+            return Ok(jobFunctions);
+        }
+
+        [HttpGet]
+        [Route("api/GetAllDepartment")]
+        public IHttpActionResult GetAllDepartment()
+        {
+            List<Department> departments = _context.Departments.ToList();
+            return Ok(departments);
+        }
+
+
+
+        [HttpPost]
+        [Route("api/AddNewDepartment")]
+        public IHttpActionResult AddNewDepartment(Department department)
+        {
+            if (department == null)
+            {
+                return NotFound();
+            }
+            _context.Departments.Add(department);
+            _context.SaveChanges();
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("api/AddNewTag")]
+        public IHttpActionResult AddNewTag(Tag tag)
+        {
+            if (tag == null)
+            {
+                return NotFound();
+            }
+            _context.Tags.Add(tag);
+            _context.SaveChanges();
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("api/AddNewSource")]
+        public IHttpActionResult AddNewSource(Source source)
+        {
+            if (source == null)
+            {
+                return NotFound();
+            }
+            _context.Sources.Add(source);
+            _context.SaveChanges();
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("api/AddNewJobFunction")]
+        public IHttpActionResult AddNewJobFunction(JobFunction jobFunction)
+        {
+            if (jobFunction == null)
+            {
+                return NotFound();
+            }
+            _context.JobFunctions.Add(jobFunction);
+            _context.SaveChanges();
+            return Ok();
+        }
+
+
+        [HttpPost]
+        [Route("api/AddNewJobType")]
+        public IHttpActionResult AddNewJobType(JobType jobType)
+        {
+            if (jobType == null)
+            {
+                return NotFound();
+            }
+            _context.JobTypes.Add(jobType);
+            _context.SaveChanges();
+            return Ok();
+        }
+
     }
+
+
 }
+

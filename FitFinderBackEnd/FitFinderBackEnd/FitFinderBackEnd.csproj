@@ -269,6 +269,10 @@
     <Compile Include="Migrations\201901081525311_jobRelatedModelsAddedAgainNotThePreviousOne.Designer.cs">
       <DependentUpon>201901081525311_jobRelatedModelsAddedAgainNotThePreviousOne.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201901281247183_settingsRelatedModelsAdded.cs" />
+    <Compile Include="Migrations\201901281247183_settingsRelatedModelsAdded.Designer.cs">
+      <DependentUpon>201901281247183_settingsRelatedModelsAdded.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -283,6 +287,11 @@
     <Compile Include="Models\Interview\InterviewersForInterview.cs" />
     <Compile Include="Models\Job\Job.cs" />
     <Compile Include="Models\Job\JobAttachment.cs" />
+    <Compile Include="Models\Settings\Department.cs" />
+    <Compile Include="Models\Settings\JobFunction.cs" />
+    <Compile Include="Models\Settings\JobType.cs" />
+    <Compile Include="Models\Settings\Source.cs" />
+    <Compile Include="Models\Settings\Tag.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
@@ -397,6 +406,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201901081525311_jobRelatedModelsAddedAgainNotThePreviousOne.resx">
       <DependentUpon>201901081525311_jobRelatedModelsAddedAgainNotThePreviousOne.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901281247183_settingsRelatedModelsAdded.resx">
+      <DependentUpon>201901281247183_settingsRelatedModelsAdded.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
