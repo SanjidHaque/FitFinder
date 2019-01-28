@@ -8,6 +8,7 @@ import {NotifierService} from 'angular-notifier';
 import {CreateDepartmentComponent} from '../../../../dialogs/create-department/create-department.component';
 import {Department} from '../../../../models/department.model';
 import {SettingsService} from '../../../../services/settings.service';
+import {AddUpdateComponent} from '../../../../dialogs/add-update/add-update.component';
 
 @Component({
   selector: 'app-departments',
@@ -28,12 +29,18 @@ export class DepartmentsComponent implements OnInit {
   }
 
   addNewDepartment() {
-    const dialogRef = this.departmentDialog.open(CreateDepartmentComponent,
+    const dialogRef = this.departmentDialog.open(AddUpdateComponent,
       {
         hasBackdrop: true,
         disableClose: true,
         width: '400px',
-        data: { name: ''}
+        data:
+          {
+            header: 'New Department',
+            name: '',
+            iconClass: 'far fa-building',
+            footer: 'Add or update different departments your organization needs.'
+          }
       });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -43,6 +50,15 @@ export class DepartmentsComponent implements OnInit {
           result
         );
         this.departments.push(department);
+        this.notifierService.notify('default', 'New department added!');
+
+        this.dataStorageService.addNewDepartment(department)
+          .subscribe(
+            (data: any) => {
+              this.departments.push(department);
+              this.notifierService.notify('default', 'New department added!');
+            }
+          );
       }
     });
   }

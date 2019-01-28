@@ -33,7 +33,13 @@ export class TypesComponent implements OnInit {
         hasBackdrop: true,
         disableClose: true,
         width: '400px',
-        data: { name: ''}
+        data:
+          {
+            header: 'New Job Type',
+            name: '',
+            iconClass: 'fas fa-passport',
+            footer: 'Add or update different job types your organization hires.'
+          }
       });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -42,7 +48,17 @@ export class TypesComponent implements OnInit {
           UUID.UUID(),
           result
         );
+
         this.jobTypes.push(jobType);
+        this.notifierService.notify('default', 'New job type added!');
+
+        this.dataStorageService.addNewJobType(jobType)
+          .subscribe(
+            (data: any) => {
+              this.jobTypes.push(jobType);
+              this.notifierService.notify('default', 'New job type added!');
+            }
+          );
       }
     });
   }

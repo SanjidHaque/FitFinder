@@ -8,6 +8,7 @@ import {NotifierService} from 'angular-notifier';
 import {Tag} from '../../../../models/tag.model';
 import {CreateTagComponent} from '../../../../dialogs/create-tag/create-tag.component';
 import {SettingsService} from '../../../../services/settings.service';
+import {AddUpdateComponent} from '../../../../dialogs/add-update/add-update.component';
 
 @Component({
   selector: 'app-tags',
@@ -28,12 +29,18 @@ export class TagsComponent implements OnInit {
   }
 
   addNewTagDialog() {
-    const dialogRef = this.tagDialog.open(CreateTagComponent,
+    const dialogRef = this.tagDialog.open(AddUpdateComponent,
       {
         hasBackdrop: true,
         disableClose: true,
         width: '400px',
-        data: { name: ''}
+        data:
+          {
+            header: 'New Tag',
+            name: '',
+            iconClass: 'fas fa-tags',
+            footer: 'Add or update different tags your candidates need.'
+          }
       });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -42,7 +49,17 @@ export class TagsComponent implements OnInit {
           UUID.UUID(),
           result
         );
+
         this.tags.push(tag);
+        this.notifierService.notify('default', 'New tag added!');
+
+        this.dataStorageService.addNewTag(tag)
+          .subscribe(
+            (data: any) => {
+              this.tags.push(tag);
+              this.notifierService.notify('default', 'New tag added!');
+            }
+          );
 
       }
     });

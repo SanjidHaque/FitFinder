@@ -71,6 +71,7 @@ import {JobTypeResolverService} from './route-resolvers/job-type-resolver.servic
 import {JobFunctionResolverService} from './route-resolvers/job-function-resolver.service';
 import {DepartmentResolverService} from './route-resolvers/department-resolver.service';
 import {SettingsService} from './services/settings.service';
+import { AddUpdateComponent } from './dialogs/add-update/add-update.component';
 
 
 
@@ -120,7 +121,8 @@ import {SettingsService} from './services/settings.service';
     FunctionsComponent,
     PipelineComponent,
     CreateSourceComponent,
-    CreateTagComponent
+    CreateTagComponent,
+    AddUpdateComponent
   ],
   imports: [
     BrowserModule,
@@ -178,7 +180,8 @@ import {SettingsService} from './services/settings.service';
     CreateJobFunctionComponent,
     CreateJobTypeComponent,
     CreateSourceComponent,
-    CreateTagComponent
+    CreateTagComponent,
+    AddUpdateComponent
   ],
 
   bootstrap: [

@@ -8,6 +8,7 @@ import {UUID} from 'angular2-uuid';
 import {CreateJobFunctionComponent} from '../../../../dialogs/create-job-function/create-job-function.component';
 import {JobFunction} from '../../../../models/job-function.model';
 import {SettingsService} from '../../../../services/settings.service';
+import {AddUpdateComponent} from '../../../../dialogs/add-update/add-update.component';
 
 @Component({
   selector: 'app-functions',
@@ -28,12 +29,18 @@ export class FunctionsComponent implements OnInit {
   }
 
   addNewJobFunction() {
-    const dialogRef = this.jobFunctionDialog.open(CreateJobFunctionComponent,
+    const dialogRef = this.jobFunctionDialog.open(AddUpdateComponent,
       {
         hasBackdrop: true,
         disableClose: true,
         width: '400px',
-        data: { name: ''}
+        data:
+          {
+            header: 'New Job Function',
+            name: '',
+            iconClass: 'fas fa-briefcase',
+            footer: 'Add or update different job functions your organization needs.'
+          }
       });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -43,6 +50,15 @@ export class FunctionsComponent implements OnInit {
           result
         );
         this.jobFunctions.push(jobFunction);
+        this.notifierService.notify('default', 'New job function added!');
+
+        this.dataStorageService.addNewJobFunction(jobFunction)
+          .subscribe(
+            (data: any) => {
+              this.jobFunctions.push(jobFunction);
+              this.notifierService.notify('default', 'New job function added!');
+            }
+          );
       }
     });
   }
