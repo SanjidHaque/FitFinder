@@ -9,6 +9,7 @@ import {CreateJobFunctionComponent} from '../../../../dialogs/create-job-functio
 import {JobFunction} from '../../../../models/job-function.model';
 import {SettingsService} from '../../../../services/settings.service';
 import {AddUpdateComponent} from '../../../../dialogs/add-update/add-update.component';
+import {Tag} from '../../../../models/tag.model';
 
 @Component({
   selector: 'app-functions',
@@ -26,6 +27,39 @@ export class FunctionsComponent implements OnInit {
 
   ngOnInit() {
     this.jobFunctions = this.settingsService.getAllJobFunction();
+  }
+
+  editJobFunction(jobFunction: JobFunction) {
+    const dialogRef = this.jobFunctionDialog.open(AddUpdateComponent,
+      {
+        hasBackdrop: true,
+        disableClose: true,
+        width: '400px',
+        data:
+          {
+            header: 'Edit Job Function',
+            name: jobFunction.Name,
+            iconClass: 'fas fa-briefcase',
+            footer: 'Add or update different job functions your organization needs.'
+          }
+      });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result !== jobFunction.Name && result !== '') {
+
+        jobFunction.Name = result;
+        this.notifierService.notify('default', 'Job function updated!');
+
+        this.dataStorageService.editJobFunction(jobFunction)
+          .subscribe(
+            (data: any) => {
+              jobFunction.Name = result;
+              this.notifierService.notify('default', 'Job function updated!');
+            }
+          );
+
+      }
+    });
   }
 
   addNewJobFunction() {

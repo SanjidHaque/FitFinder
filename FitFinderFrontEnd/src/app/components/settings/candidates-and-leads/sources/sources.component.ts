@@ -7,6 +7,7 @@ import {CreateSourceComponent} from '../../../../dialogs/create-source/create-so
 import {Source} from '../../../../models/source.model';
 import {SettingsService} from '../../../../services/settings.service';
 import {AddUpdateComponent} from '../../../../dialogs/add-update/add-update.component';
+import {Tag} from '../../../../models/tag.model';
 
 @Component({
   selector: 'app-sources',
@@ -25,6 +26,39 @@ export class SourcesComponent implements OnInit {
     this.sources = this.settingsService.getAllSource();
   }
 
+  editSource(source: Source) {
+    const dialogRef = this.sourceDialog.open(AddUpdateComponent,
+      {
+        hasBackdrop: true,
+        disableClose: true,
+        width: '400px',
+        data:
+          {
+            header: 'Edit Source',
+            name: source.Name,
+            iconClass: 'fas fa-envelope-open-text',
+            footer: 'Add or update different sources your organization needs.'
+          }
+      });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result !== source.Name && result !== '') {
+
+        source.Name = result;
+        this.notifierService.notify('default', 'Source updated!');
+
+        this.dataStorageService.editSource(source)
+          .subscribe(
+            (data: any) => {
+              source.Name = result;
+              this.notifierService.notify('default', 'Source updated!');
+            }
+          );
+
+      }
+    });
+  }
+
   addNewSourceDialog() {
     const dialogRef = this.sourceDialog.open(AddUpdateComponent,
       {
@@ -35,7 +69,7 @@ export class SourcesComponent implements OnInit {
           {
             header: 'New Source',
             name: '',
-            iconClass: 'fab fa-wpforms',
+            iconClass: 'fas fa-envelope-open-text',
             footer: 'Add or update different sources your organization needs.'
           }
       });

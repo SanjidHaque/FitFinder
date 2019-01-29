@@ -8,6 +8,8 @@ import {UUID} from 'angular2-uuid';
 import {CreateJobTypeComponent} from '../../../../dialogs/create-job-type/create-job-type.component';
 import {JobType} from '../../../../models/job-type.model';
 import {SettingsService} from '../../../../services/settings.service';
+import {Tag} from '../../../../models/tag.model';
+import {AddUpdateComponent} from '../../../../dialogs/add-update/add-update.component';
 
 @Component({
   selector: 'app-types',
@@ -25,6 +27,40 @@ export class TypesComponent implements OnInit {
 
   ngOnInit() {
     this.jobTypes = this.settingsService.getAllJobType();
+  }
+
+
+  editJobType(jobType: JobType) {
+    const dialogRef = this.jobTypeDialog.open(AddUpdateComponent,
+      {
+        hasBackdrop: true,
+        disableClose: true,
+        width: '400px',
+        data:
+          {
+            header: 'Edit Job Type',
+            name: jobType.Name,
+            iconClass: 'fas fa-passport',
+            footer: 'Add or update different job types your organization hires.'
+          }
+      });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result !== jobType.Name && result !== '') {
+
+        jobType.Name = result;
+        this.notifierService.notify('default', 'Job type updated!');
+
+        this.dataStorageService.editJobType(jobType)
+          .subscribe(
+            (data: any) => {
+              jobType.Name = result;
+              this.notifierService.notify('default', 'Job type updated!');
+            }
+          );
+
+      }
+    });
   }
 
   addNewJobType() {

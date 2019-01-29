@@ -19,3 +19,30 @@
     </button>
   </div>
 </div>
+
+<br>
+<br>
+
+<div  *ngFor="let jobFunction of jobFunctions; let i = index">
+
+  <div class="row">
+    <div class="col-xl-10">
+      {{ jobFunction.Name }}
+    </div>
+
+    <div class="col-xl-1" *ngIf="i > 2">
+      <i style="cursor: pointer; opacity: .8;
+               color: #345188; font-size: 17px;" class="fas fa-pencil-alt"></i>
+    </div>
+
+    <div class="col-xl-1" *ngIf="i > 2">
+      <i style="cursor: pointer; opacity: .8;
+               color: #bc0000; font-size: 17px;" class="far fa-trash-alt"></i> &nbsp;
+    </div>
+
+  </div>
+
+  <hr *ngIf="i !== jobFunctions.length - 1">
+  <br *ngIf="i === jobFunctions.length - 1">
+
+</div>

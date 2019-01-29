@@ -1,1 +1,18 @@
-[]
+[
+  {
+    "Id": "36cbbe46-c477-9375-f10e-cc377846d991",
+    "Name": "Email"
+  },
+  {
+    "Id": "3fb747ef-3d5b-2133-6e96-4466c1898976",
+    "Name": "Facebook"
+  },
+  {
+    "Id": "63d3edb0-3820-0951-4ba3-b7fe7fbbb8b5",
+    "Name": "Bdjobs.com"
+  },
+  {
+    "Id": "d009d417-6b55-42c3-90de-aa7474a9a2c0",
+    "Name": "LinkedIn"
+  }
+]

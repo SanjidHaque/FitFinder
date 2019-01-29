@@ -123,5 +123,24 @@ export class DataStorageService {
     return this.httpClient.post(this.apiRootUrl + 'AddNewJobFunction', jobFunction);
   }
 
+  editTag(tag: Tag) {
+    return this.httpClient.post(this.apiRootUrl + 'EditTag', tag);
+  }
+
+  editJobType(jobType: JobType) {
+    return this.httpClient.post(this.apiRootUrl + 'EditJobType', jobType);
+  }
+
+  editJobFunction(jobFunction: JobFunction) {
+    return this.httpClient.post(this.apiRootUrl + 'EditJobFunction', jobFunction);
+  }
+
+  editSource(source: Source) {
+    return this.httpClient.post(this.apiRootUrl + 'EditSource', source);
+  }
+
+  editDepartment(department: Department) {
+    return this.httpClient.post(this.apiRootUrl + 'EditDepartment', department);
+  }
 
 }

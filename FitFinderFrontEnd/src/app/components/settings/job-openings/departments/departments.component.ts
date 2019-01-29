@@ -28,6 +28,39 @@ export class DepartmentsComponent implements OnInit {
     this.departments = this.settingsService.getAllDepartment();
   }
 
+  editDepartment(department: Department) {
+    const dialogRef = this.departmentDialog.open(AddUpdateComponent,
+      {
+        hasBackdrop: true,
+        disableClose: true,
+        width: '400px',
+        data:
+          {
+            header: 'Edit Department',
+            name: department.Name,
+            iconClass: 'far fa-building',
+            footer: 'Add or update different departments your organization needs.'
+          }
+      });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result !== department.Name && result !== '') {
+
+        department.Name = result;
+        this.notifierService.notify('default', 'Department updated!');
+
+        this.dataStorageService.editDepartment(department)
+          .subscribe(
+            (data: any) => {
+              department.Name = result;
+              this.notifierService.notify('default', 'Department updated!');
+            }
+          );
+
+      }
+    });
+  }
+
   addNewDepartment() {
     const dialogRef = this.departmentDialog.open(AddUpdateComponent,
       {

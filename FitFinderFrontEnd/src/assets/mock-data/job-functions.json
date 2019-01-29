@@ -1,1 +1,14 @@
-[]
+[
+  {
+    "Id": "212572b9-faea-5713-20b2-e391615f9643",
+    "Name": "Consulting"
+  },
+  {
+    "Id": "49a3ddfd-cef4-4192-33a4-5f4fdf6d9266",
+    "Name": "Computer Software"
+  },
+  {
+    "Id": "65460324-8c8c-ff88-7fef-8f8595ab6bba",
+    "Name": "Community and Social Services"
+  }
+]

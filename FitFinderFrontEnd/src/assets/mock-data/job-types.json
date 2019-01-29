@@ -1,1 +1,14 @@
-[]
+[
+  {
+    "Id": "856a2ec4-8452-2e91-555f-55d8830543da",
+    "Name": "Intern"
+  },
+  {
+    "Id": "92e8048a-a3bb-ef4a-33b9-58e5e5b958f3",
+    "Name": "Full-Time"
+  },
+  {
+    "Id": "aa517951-880c-35d0-2ce6-d52a525f9bb2",
+    "Name": "Part-Time"
+  }
+]

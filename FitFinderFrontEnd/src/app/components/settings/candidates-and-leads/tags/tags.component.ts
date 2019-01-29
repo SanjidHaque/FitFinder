@@ -28,6 +28,39 @@ export class TagsComponent implements OnInit {
     this.tags = this.settingsService.getAllTag();
   }
 
+  editTag(tag: Tag) {
+    const dialogRef = this.tagDialog.open(AddUpdateComponent,
+      {
+        hasBackdrop: true,
+        disableClose: true,
+        width: '400px',
+        data:
+          {
+            header: 'Edit Tag',
+            name: tag.Name,
+            iconClass: 'fas fa-tags',
+            footer: 'Add or update different tags your candidates need.'
+          }
+      });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result !== tag.Name && result !== '') {
+
+        tag.Name = result;
+        this.notifierService.notify('default', 'Tag updated!');
+
+        this.dataStorageService.editTag(tag)
+          .subscribe(
+            (data: any) => {
+              tag.Name = result;
+              this.notifierService.notify('default', 'Tag updated!');
+            }
+          );
+
+      }
+    });
+  }
+
   addNewTagDialog() {
     const dialogRef = this.tagDialog.open(AddUpdateComponent,
       {
