@@ -8,8 +8,7 @@ namespace FitFinderBackEnd.Models.Job
 {
     public class Job
     {
-        [Key]
-        public string Id { get; set; }
+        public long Id { get; set; }
         public string JobTitle { get; set; }
         public string JobCode { get; set; }
         public string JobDescription { get; set; }
@@ -17,9 +16,9 @@ namespace FitFinderBackEnd.Models.Job
         public string JobIntermediate { get; set; }
         public string JobGoodToHave { get; set; }
         public string JobLocation { get; set; }
-        public string DepartmentId { get; set; }
-        public string JobFunctionalityId { get; set; }
-        public string EmploymentTypeId { get; set; }
+        public long DepartmentId { get; set; }
+        public long JobFunctionalityId { get; set; }
+        public long EmploymentTypeId { get; set; }
         public string JobPositions { get; set; }
         public string JobClosingDate { get; set; }
         public string JobExperienceStarts { get; set; }

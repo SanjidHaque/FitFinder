@@ -245,33 +245,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201811231749156_Initial.cs" />
-    <Compile Include="Migrations\201811231749156_Initial.Designer.cs">
-      <DependentUpon>201811231749156_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201811231754262_InitialAgain.cs" />
-    <Compile Include="Migrations\201811231754262_InitialAgain.Designer.cs">
-      <DependentUpon>201811231754262_InitialAgain.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201811291600068_candidateAttachmentModelChanged.cs" />
-    <Compile Include="Migrations\201811291600068_candidateAttachmentModelChanged.Designer.cs">
-      <DependentUpon>201811291600068_candidateAttachmentModelChanged.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201901021618215_InterviewrRelatedModelsAdded.cs" />
-    <Compile Include="Migrations\201901021618215_InterviewrRelatedModelsAdded.Designer.cs">
-      <DependentUpon>201901021618215_InterviewrRelatedModelsAdded.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201901081523480_jobRelatedModelsAdded.cs" />
-    <Compile Include="Migrations\201901081523480_jobRelatedModelsAdded.Designer.cs">
-      <DependentUpon>201901081523480_jobRelatedModelsAdded.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201901081525311_jobRelatedModelsAddedAgainNotThePreviousOne.cs" />
-    <Compile Include="Migrations\201901081525311_jobRelatedModelsAddedAgainNotThePreviousOne.Designer.cs">
-      <DependentUpon>201901081525311_jobRelatedModelsAddedAgainNotThePreviousOne.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201901281247183_settingsRelatedModelsAdded.cs" />
-    <Compile Include="Migrations\201901281247183_settingsRelatedModelsAdded.Designer.cs">
-      <DependentUpon>201901281247183_settingsRelatedModelsAdded.cs</DependentUpon>
+    <Compile Include="Migrations\201902010952474_allModels.cs" />
+    <Compile Include="Migrations\201902010952474_allModels.Designer.cs">
+      <DependentUpon>201902010952474_allModels.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -280,7 +256,6 @@
     <Compile Include="Models\Candidate\CandidateAttachment.cs" />
     <Compile Include="Models\Candidate\CandidateEducation.cs" />
     <Compile Include="Models\Candidate\CandidateExperience.cs" />
-    <Compile Include="Models\Candidate\CandidateSource.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Interview\CandidatesForInterview.cs" />
     <Compile Include="Models\Interview\Interview.cs" />
@@ -389,26 +364,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201811231749156_Initial.resx">
-      <DependentUpon>201811231749156_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201811231754262_InitialAgain.resx">
-      <DependentUpon>201811231754262_InitialAgain.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201811291600068_candidateAttachmentModelChanged.resx">
-      <DependentUpon>201811291600068_candidateAttachmentModelChanged.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201901021618215_InterviewrRelatedModelsAdded.resx">
-      <DependentUpon>201901021618215_InterviewrRelatedModelsAdded.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201901081523480_jobRelatedModelsAdded.resx">
-      <DependentUpon>201901081523480_jobRelatedModelsAdded.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201901081525311_jobRelatedModelsAddedAgainNotThePreviousOne.resx">
-      <DependentUpon>201901081525311_jobRelatedModelsAddedAgainNotThePreviousOne.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201901281247183_settingsRelatedModelsAdded.resx">
-      <DependentUpon>201901281247183_settingsRelatedModelsAdded.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201902010952474_allModels.resx">
+      <DependentUpon>201902010952474_allModels.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -8,10 +8,8 @@ namespace FitFinderBackEnd.Models.Candidate
 {
     public class CandidateExperience
     {
-        [Key]
-        public string Id { get; set; }
-        public Candidate Candidate { get; set; }
-        public string CandidateId { get; set; }
+        public long Id { get; set; }
+        public long CandidateId { get; set; }
         public string EmployerName { get; set; }
         public string Designation { get; set; }
         public string Role { get; set; }
