@@ -227,11 +227,11 @@ const appRoutes: Routes = [
           {
             path: 'sources',
             component: SourcesComponent
-          },
+          }/*,
           {
             path: 'tags',
             component: TagsComponent
-          }
+          }*/
         ]
       },
       {

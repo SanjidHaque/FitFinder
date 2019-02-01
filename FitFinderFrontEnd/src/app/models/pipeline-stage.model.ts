@@ -1,17 +1,17 @@
 import {PipelineStageCriteria} from './pipeline-stage-criteria.model';
 
 export class PipelineStage {
-  Id: string;
+  Id: number;
   Name: string;
   Color: string;
-  PipelineId: string;
+  PipelineId: number;
   PipelineStageCriteria: PipelineStageCriteria[];
 
   constructor(
-    id: string,
+    id: number,
     name: string,
     color: string,
-    pipelineId: string,
+    pipelineId: number,
     pipelineStageCriteria: PipelineStageCriteria[] = []
   ) {
     this.Id = id;

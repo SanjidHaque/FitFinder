@@ -1,7 +1,7 @@
 import {JobAttachment} from './job-attachment.model';
 
 export class Job {
-  Id: string;
+  Id: number;
   JobTitle: string;
   JobCode: string;
   JobDescription: string;
@@ -9,9 +9,9 @@ export class Job {
   JobIntermediate: string;
   JobGoodToHave: string;
   JobLocation: string;
-  DepartmentId: string;
-  JobFunctionalityId: string;
-  EmploymentTypeId: string;
+  DepartmentId: number;
+  JobFunctionalityId: number;
+  EmploymentTypeId: number;
   JobPositions: number;
   JobClosingDate: string;
   JobExperienceStarts: number;
@@ -25,7 +25,7 @@ export class Job {
   IsFavourite: boolean;
 
   constructor(
-     id: string,
+     id: number,
      jobTitle: string,
      jobCode: string,
      jobDescription: string,
@@ -33,9 +33,9 @@ export class Job {
      jobIntermediate: string,
      jobGoodToHave: string,
      jobLocation: string,
-     departmentId: string,
-     jobFunctionalityId: string,
-     employmentTypeId: string,
+     departmentId: number,
+     jobFunctionalityId: number,
+     employmentTypeId: number,
      jobPositions: number,
      jobClosingDate: string,
      jobExperienceStarts: number,

@@ -80,7 +80,7 @@ export class FunctionsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result !== '') {
         const jobFunction = new JobFunction(
-          UUID.UUID(),
+          null,
           result
         );
         this.jobFunctions.push(jobFunction);

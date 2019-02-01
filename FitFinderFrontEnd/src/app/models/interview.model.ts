@@ -2,26 +2,26 @@ import {CandidatesForInterview} from './candidates-for-interview.model';
 import {InterviewersForInterview} from './interviewers-for-interview.model';
 
 export class Interview {
-   Id: string;
+   Id: number;
    InterviewDate: string;
    InterviewName: string;
    InterviewLocation: string;
    InterviewStartTime: string;
    InterviewEndTime: string;
-   InterviewTypeId: string;
+   InterviewTypeId: number;
    CandidatesForInterview: CandidatesForInterview[] = [];
    InterviewersForInterview: InterviewersForInterview[] = [];
    InterviewStatus: string;
    IsArchived: boolean;
 
   constructor (
-     id: string,
+     id: number,
      interviewDate: string,
      interviewName: string,
      interviewLocation: string,
      interviewStartTime: string,
      interviewEndTime: string,
-     interviewTypeId: string,
+     interviewTypeId: number,
      candidatesForInterview: CandidatesForInterview[] = [],
      interviewersForInterview: InterviewersForInterview[] = [],
      interviewStatus: string,

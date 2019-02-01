@@ -79,11 +79,11 @@
       </div>
       <div class="col-xl-11" style="padding-left: 0; margin-top: 10px">
         <button mat-flat-button [disabled]="candidates.length == 0 || !selection.hasValue()" style="background-color: transparent; outline: 0;"><i class="fas fa-plus-circle"></i> Assign Job</button>
-        <button mat-flat-button [disabled]="candidates.length == 0 || !selection.hasValue()" style="background-color: transparent; outline: 0;"><i class="fas fa-tag"></i> Tag</button>
+        <!--<button mat-flat-button [disabled]="candidates.length == 0 || !selection.hasValue()" style="background-color: transparent; outline: 0;"><i class="fas fa-tag"></i> Tag</button>-->
         <button mat-flat-button [disabled]="candidates.length == 0 || !selection.hasValue()" style="background-color: transparent; outline: 0;"><i class="fas fa-sign-out-alt"></i> Status</button>
         <button mat-flat-button [disabled]="candidates.length == 0 || !selection.hasValue()" style="background-color: transparent; outline: 0;"><i class="far fa-envelope"></i> Email</button>
         <button mat-flat-button [disabled]="candidates.length == 0 || !selection.hasValue()" style="background-color: transparent; outline: 0;"><i class="far fa-calendar-alt"></i> Interview</button>
-        <button mat-flat-button [disabled]="candidates.length == 0 || !selection.hasValue()" style="background-color: transparent; outline: 0;"><i class="fas fa-thumbtack"></i> Task</button>
+        <!--<button mat-flat-button [disabled]="candidates.length == 0 || !selection.hasValue()" style="background-color: transparent; outline: 0;"><i class="fas fa-thumbtack"></i> Task</button>-->
         <button mat-flat-button [disabled]="candidates.length == 0 || !selection.hasValue()" style="background-color: transparent; outline: 0;"><i class="fas fa-archive"></i> Archive</button>
         <button mat-flat-button [disabled]="candidates.length == 0 || !selection.hasValue()" style="background-color: transparent; outline: 0;"><i class="far fa-window-restore"></i> Restore</button>
       </div>
@@ -214,7 +214,7 @@
 
                      <strong
                        title="Candidate Source"
-                     ><i class="fab fa-osi"></i> {{ getSourceName(candidate) }} &nbsp;
+                     ><i class="fab fa-osi"></i> {{ getCandidateSource(candidate) }} &nbsp;
                      </strong>
 
                       <strong

@@ -79,7 +79,7 @@ export class TagsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result !== '') {
         const tag = new Tag(
-          UUID.UUID(),
+          null,
           result
         );
 

@@ -15,14 +15,14 @@ import * as moment from 'moment';
 })
 export class JobIdComponent implements OnInit {
 
-  jobId: string;
+  jobId: number;
   job: Job;
   jobs: Job[] = [];
   departments = [
-    {id: '1', name: 'Accounts'},
-    {id: '2', name: 'Finance'},
-    {id: '3', name: 'Development'},
-    {id: '4', name: 'Engineering'}
+    {id: 1, name: 'Accounts'},
+    {id: 2, name: 'Finance'},
+    {id: 3, name: 'Development'},
+    {id: 4, name: 'Engineering'}
   ];
 
   constructor(private route: ActivatedRoute,
@@ -46,7 +46,7 @@ export class JobIdComponent implements OnInit {
     this.jobService.job = this.job;
   }
 
-  getDepartmentName(departmentId: string) {
+  getDepartmentName(departmentId: number) {
     return this.departments.find(x => x.id === departmentId ).name;
   }
 

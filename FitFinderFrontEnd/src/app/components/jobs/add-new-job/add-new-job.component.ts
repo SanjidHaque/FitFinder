@@ -59,20 +59,20 @@ export class AddNewJobComponent implements OnInit {
   };
 
   departments = [
-    {id: '1', name: 'Accounts'},
-    {id: '2', name: 'Finance'},
-    {id: '3', name: 'Development'},
-    {id: '4', name: 'Engineering'}
+    {id: 1, name: 'Accounts'},
+    {id: 2, name: 'Finance'},
+    {id: 3, name: 'Development'},
+    {id: 4, name: 'Engineering'}
   ];
   jobFunctionalities = [
-    {id: '1', name: 'Research'},
-    {id: '2', name: 'Sales'},
-    {id: '3', name: 'Consulting'}
+    {id: 1, name: 'Research'},
+    {id: 2, name: 'Sales'},
+    {id: 3, name: 'Consulting'}
   ];
   employmentTypes = [
-    {id: '1', name: 'Full Time'},
-    {id: '2', name: 'Part Time'},
-    {id: '3', name: 'Internship'}
+    {id: 1, name: 'Full Time'},
+    {id: 2, name: 'Part Time'},
+    {id: 3, name: 'Internship'}
   ];
 
   addNewJobForm: FormGroup;
@@ -116,11 +116,11 @@ export class AddNewJobComponent implements OnInit {
   }
 
   onSubmitNewJob() {
-    const jobId = UUID.UUID();
+    const jobId = null;
 
     for ( let i = 0; i < this.jobAttachments.length; i++ ) {
-      this.jobAttachments[i].JobId = jobId;
-      this.jobAttachments[i].Id = UUID.UUID();
+      this.jobAttachments[i].JobId = null;
+      this.jobAttachments[i].Id = null;
     }
 
     const job = new Job(
@@ -176,8 +176,8 @@ export class AddNewJobComponent implements OnInit {
       const newFile = new File([fileInput.target.files[i]], newFileName, {type: fileInput.target.files[i].type});
       this.filesToUpload.push(newFile);
       const jobAttachment = new JobAttachment(
-        '',
-        '',
+        null,
+         null,
         fileInput.target.files[i].name,
         newFile.name);
       this.jobAttachments.push(jobAttachment);
@@ -230,7 +230,7 @@ export class AddNewJobComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result !== '') {
-        this.departments.push({id: UUID.UUID(), name: result});
+        this.departments.push({id: null, name: result});
       }
     });
   }
@@ -247,7 +247,7 @@ export class AddNewJobComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result !== '') {
-        this.jobFunctionalities.push({id: UUID.UUID(), name: result});
+        this.jobFunctionalities.push({id: null, name: result});
       }
     });
   }
@@ -265,7 +265,7 @@ export class AddNewJobComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result !== '') {
-        this.employmentTypes.push({id: UUID.UUID(), name: result});
+        this.employmentTypes.push({id: null, name: result});
       }
     });
   }

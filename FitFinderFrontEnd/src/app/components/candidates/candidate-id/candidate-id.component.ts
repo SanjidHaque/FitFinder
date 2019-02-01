@@ -14,21 +14,21 @@ import {CandidateExperience} from '../../../models/candidate-experience.model';
 })
 export class CandidateIdComponent implements OnInit {
 
-  candidateId: string;
+  candidateId: number;
   candidateDefaultImage = 'assets/images/candidateDefaultImage.png';
 
   candidates: Candidate[] = [];
   candidate: Candidate;
 
   sources = [
-    {sourceId: '1', sourceName: 'BdJobs.com'},
-    {sourceId: '2', sourceName: 'Email'},
-    {sourceId: '3', sourceName: 'Facebook'},
-    {sourceId: '4', sourceName: 'Internal'},
-    {sourceId: '5', sourceName: 'Job is Job'},
-    {sourceId: '6', sourceName: 'LinkedIn'},
-    {sourceId: '7', sourceName: 'Simply Hired'},
-    {sourceId: '8', sourceName: 'Website'}
+    {sourceId: 1, sourceName: 'BdJobs.com'},
+    {sourceId: 2, sourceName: 'Email'},
+    {sourceId: 3, sourceName: 'Facebook'},
+    {sourceId: 4, sourceName: 'Internal'},
+    {sourceId: 5, sourceName: 'Job is Job'},
+    {sourceId: 6, sourceName: 'LinkedIn'},
+    {sourceId: 7, sourceName: 'Simply Hired'},
+    {sourceId: 8, sourceName: 'Website'}
   ];
 
   constructor(private route: ActivatedRoute,
@@ -81,7 +81,7 @@ export class CandidateIdComponent implements OnInit {
     return moment(new Date(this.candidate.ApplicationDate)).format('Do MMM YYYY');
   }
   getCandidateSource() {
-    return this.sources.find(x => x.sourceId === this.candidate.CandidateSourceId).sourceName;
+    return this.sources.find(x => x.sourceId === this.candidate.SourceId).sourceName;
   }
   goToFacebookProfile() {
     window.open('http://' + this.candidate.FacebookUrl);

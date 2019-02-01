@@ -25,15 +25,15 @@ export class CandidatePanelComponent implements OnInit {
   candidateDefaultImage = 'assets/images/candidateDefaultImage.png';
 
   sources = [
-    {sourceId: '1', sourceName: 'BdJobs.com'},
-    {sourceId: '2', sourceName: 'Email'},
-    {sourceId: '3', sourceName: 'Facebook'},
-    {sourceId: '4', sourceName: 'Internal'},
-    {sourceId: '5', sourceName: 'Job is Job'},
-    {sourceId: '6', sourceName: 'LinkedIn'},
-    {sourceId: '7', sourceName: 'Simply Hired'},
-    {sourceId: '8', sourceName: 'Website'}
-    ];
+    {sourceId: 1, sourceName: 'BdJobs.com'},
+    {sourceId: 2, sourceName: 'Email'},
+    {sourceId: 3, sourceName: 'Facebook'},
+    {sourceId: 4, sourceName: 'Internal'},
+    {sourceId: 5, sourceName: 'Job is Job'},
+    {sourceId: 6, sourceName: 'LinkedIn'},
+    {sourceId: 7, sourceName: 'Simply Hired'},
+    {sourceId: 8, sourceName: 'Website'}
+  ];
 
   constructor(private candidateService: CandidateService,
               private jobService: JobService) {}
@@ -78,6 +78,9 @@ export class CandidatePanelComponent implements OnInit {
   }
 
 
+  getCandidateSource(candidate: Candidate) {
+    return this.sources.find(x => x.sourceId === candidate.SourceId).sourceName;
+  }
 
   getInterviewDate() {
 

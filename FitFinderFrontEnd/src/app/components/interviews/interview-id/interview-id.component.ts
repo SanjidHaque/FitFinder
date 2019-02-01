@@ -16,10 +16,10 @@ import {CandidatesForInterview} from '../../../models/candidates-for-interview.m
 @Component({
   selector: 'app-interview-id',
   templateUrl: './interview-id.component.html',
-  styleUrls: ['./interviewid.component.css']
+  styleUrls: ['./interview-id.component.css']
 })
 export class InterviewIdComponent implements OnInit {
-  interviewId: string;
+  interviewId: number;
   pending = '1';
   interviews: Interview[] = [];
   interview: Interview;
@@ -30,37 +30,37 @@ export class InterviewIdComponent implements OnInit {
   candidateDefaultImage = 'assets/images/candidateDefaultImage.png';
 
   users = [
-    {id: '1', userName: 'Yaha Juan', role: 'Super user'},
-    {id: '2', userName: 'Cholo Han', role: 'HR'},
-    {id: '3', userName: 'Kaytui Hyan', role: 'Team member'},
-    {id: '4', userName: 'Kunisu Honda', role: 'Team member'},
-    {id: '5', userName: 'Yahan Kawai', role: 'HR'},
-    {id: '6', userName: 'Tatua Nokia', role: 'Team member'},
-    {id: '7', userName: 'Vusimuji Momak', role: 'Team member'},
-    {id: '8', userName: 'Wyengyu Duija', role: 'Team member'}
+    {id: 1, userName: 'Yaha Juan', role: 'Super user'},
+    {id: 2, userName: 'Cholo Han', role: 'HR'},
+    {id: 3, userName: 'Kaytui Hyan', role: 'Team member'},
+    {id: 4, userName: 'Kunisu Honda', role: 'Team member'},
+    {id: 5, userName: 'Yahan Kawai', role: 'HR'},
+    {id: 6, userName: 'Tatua Nokia', role: 'Team member'},
+    {id: 7, userName: 'Vusimuji Momak', role: 'Team member'},
+    {id: 8, userName: 'Wyengyu Duija', role: 'Team member'}
   ];
   sources = [
-    {sourceId: '1', sourceName: 'BdJobs.com'},
-    {sourceId: '2', sourceName: 'Email'},
-    {sourceId: '3', sourceName: 'Facebook'},
-    {sourceId: '4', sourceName: 'Internal'},
-    {sourceId: '5', sourceName: 'Job is Job'},
-    {sourceId: '6', sourceName: 'LinkedIn'},
-    {sourceId: '7', sourceName: 'Simply Hired'},
-    {sourceId: '8', sourceName: 'Website'}
+    {sourceId: 1, sourceName: 'BdJobs.com'},
+    {sourceId: 2, sourceName: 'Email'},
+    {sourceId: 3, sourceName: 'Facebook'},
+    {sourceId: 4, sourceName: 'Internal'},
+    {sourceId: 5, sourceName: 'Job is Job'},
+    {sourceId: 6, sourceName: 'LinkedIn'},
+    {sourceId: 7, sourceName: 'Simply Hired'},
+    {sourceId: 8, sourceName: 'Website'}
   ];
   interviewTypes = [
-    {id: '1', type: 'Face to Face'},
-    {id: '2', type: 'Telephonic'},
-    {id: '3', type: 'Video Conference'},
-    {id: '4', type: 'Group'},
-    {id: '5', type: 'Panel'}
+    {id: 1, type: 'Face to Face'},
+    {id: 2, type: 'Telephonic'},
+    {id: 3, type: 'Video Conference'},
+    {id: 4, type: 'Group'},
+    {id: 5, type: 'Panel'}
   ];
   interviewStatuses = [
-    { Id: '1', Name: 'Pending' },
-    { Id: '2', Name: 'Invited' },
-    { Id: '3', Name: 'Confirmed' },
-    { Id: '4', Name: 'Declined' }
+    { Id: 1, Name: 'Pending' },
+    { Id: 2, Name: 'Invited' },
+    { Id: 3, Name: 'Confirmed' },
+    { Id: 4, Name: 'Declined' }
   ];
 
   constructor(private route: ActivatedRoute,
@@ -106,7 +106,7 @@ export class InterviewIdComponent implements OnInit {
 
         for (let i = 0; i < result.length; i++) {
           const candidateForInterview = new CandidatesForInterview(
-            UUID.UUID(),
+            null,
             this.interviewId,
             result[i].Id
           );
@@ -134,7 +134,7 @@ export class InterviewIdComponent implements OnInit {
   }
 
 
-  getCandidateAttachment(candidateId: string) {
+  getCandidateAttachment(candidateId: number) {
     const attachments = this.candidates.find(x => x.Id === candidateId).CandidateAttachment;
     if (attachments === []) {
       return [];
@@ -144,36 +144,36 @@ export class InterviewIdComponent implements OnInit {
 
   }
 
-  downloadFile(modifiedFileName: string) {
+  downloadFile(modifiedFileName: number) {
     /*window.open('http://localhost:55586/Content/Attachments/' + modifiedFileName);*/
     /*The above line will be comment out when working with back end.*/
     window.open('assets/cseregular3rd.pdf');
   }
 
-  getApplicationDate(candidateId: string) {
+  getApplicationDate(candidateId: number) {
     const date = this.candidates.find(x => x.Id === candidateId).ApplicationDate;
     return moment(new Date(date)).format('Do MMM YYYY');
   }
 
-  getCandidateSource(candidateId: string) {
-    const sourceId = this.candidates.find( x => x.Id === candidateId).CandidateSourceId;
+  getCandidateSource(candidateId: number) {
+    const sourceId = this.candidates.find( x => x.Id === candidateId).SourceId;
     return this.sources.find(x => x.sourceId === sourceId).sourceName;
   }
 
 
-  getCandidateFullName(candidateId: string) {
+  getCandidateFullName(candidateId: number) {
     const candidate = this.candidates.find(x => x.Id === candidateId);
     return candidate.FirstName + ' ' + candidate.LastName;
   }
-  getCandidateEmail(candidateId: string) {
+  getCandidateEmail(candidateId: number) {
     return this.candidates.find(x => x.Id === candidateId).Email;
   }
 
-  getCandidatePhone(candidateId: string) {
+  getCandidatePhone(candidateId: number) {
     return this.candidates.find(x => x.Id === candidateId).Mobile;
   }
 
-  getCandidateFullAddress(candidateId: string) {
+  getCandidateFullAddress(candidateId: number) {
     const candidate = this.candidates.find(x => x.Id === candidateId);
     if (candidate.Address === '') {
       return candidate.City + ', ' + candidate.State + ', ' + candidate.Country;
@@ -187,14 +187,14 @@ export class InterviewIdComponent implements OnInit {
     }
   }
 
-  goToFacebookProfile(candidateId: string) {
+  goToFacebookProfile(candidateId: number) {
     const candidateFb = this.candidates.find(x => x.Id === candidateId).FacebookUrl;
     if (candidateFb !== '') {
       window.open('http://' + candidateFb);
     }
   }
 
-  facebookUrlExist(candidateId: string) {
+  facebookUrlExist(candidateId: number) {
     const candidateFb = this.candidates.find(x => x.Id === candidateId).FacebookUrl;
     if (candidateFb === '') {
       return false;
@@ -202,7 +202,7 @@ export class InterviewIdComponent implements OnInit {
     return true;
   }
 
-  linkedInUrlExist(candidateId: string) {
+  linkedInUrlExist(candidateId: number) {
     const candidateLn = this.candidates.find(x => x.Id === candidateId).LinkedInUrl;
     if (candidateLn === '') {
       return false;
@@ -210,16 +210,16 @@ export class InterviewIdComponent implements OnInit {
     return true;
   }
 
-  goToLinkedInProfile(candidateId: string) {
+  goToLinkedInProfile(candidateId: number) {
     const candidateLn = this.candidates.find(x => x.Id === candidateId).LinkedInUrl;
     if (candidateLn !== '') {
       window.open('http://' + candidateLn);
     }
   }
 
-  getJobTitle(candidateId: string) {
+  getJobTitle(candidateId: number) {
     const jobId = this.candidates.find(x => x.Id === candidateId).JobId;
-    if (jobId === '' ) {
+    if (jobId === null ) {
       return '';
     } else {
       return this.jobs.find(x => x.Id === jobId).JobTitle;
@@ -232,16 +232,16 @@ export class InterviewIdComponent implements OnInit {
     return this.interviewTypes.find(x => x.id === interview.InterviewTypeId).type;
   }
 
-  getInterviewerName(interviewerId: string) {
+  getInterviewerName(interviewerId: number) {
     return this.users.find(x => x.id === interviewerId).userName;
   }
 
-  getInterviewerRole(interviewerId: string) {
+  getInterviewerRole(interviewerId: number) {
     return this.users.find(x => x.id === interviewerId).role;
   }
 
   selectValueChanged(value: any) {
-    if (value === '3' || value === '4' ) {
+    if (value === 3 || value === 4 ) {
       this.disableEmailInvites = true;
     } else {
       this.disableEmailInvites = false;

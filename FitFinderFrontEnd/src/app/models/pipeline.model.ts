@@ -1,12 +1,12 @@
 import {PipelineStage} from './pipeline-stage.model';
 
 export class Pipeline {
-  Id: string;
+  Id: number;
   Name: string;
   PipelineStage: PipelineStage[];
 
   constructor(
-    id: string,
+    id: number,
     name: string,
     pipelineStage: PipelineStage[] = []
   ) {

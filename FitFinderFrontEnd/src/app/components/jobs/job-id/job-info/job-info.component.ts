@@ -21,20 +21,20 @@ export class JobInfoComponent implements OnInit, DoCheck {
 
 
   departments = [
-    {id: '1', name: 'Accounts'},
-    {id: '2', name: 'Finance'},
-    {id: '3', name: 'Development'},
-    {id: '4', name: 'Engineering'}
+    {id: 1, name: 'Accounts'},
+    {id: 2, name: 'Finance'},
+    {id: 3, name: 'Development'},
+    {id: 4, name: 'Engineering'}
   ];
   jobFunctionalities = [
-    {id: '1', name: 'Research'},
-    {id: '2', name: 'Sales'},
-    {id: '3', name: 'Consulting'}
+    {id: 1, name: 'Research'},
+    {id: 2, name: 'Sales'},
+    {id: 3, name: 'Consulting'}
   ];
   employmentTypes = [
-    {id: '1', name: 'Full Time'},
-    {id: '2', name: 'Part Time'},
-    {id: '3', name: 'Internship'}
+    {id: 1, name: 'Full Time'},
+    {id: 2, name: 'Part Time'},
+    {id: 3, name: 'Internship'}
   ];
   constructor(private jobService: JobService,
               private notifierService: NotifierService) {
@@ -81,7 +81,7 @@ export class JobInfoComponent implements OnInit, DoCheck {
         const newFile = new File([fileInput.target.files[i]], newFileName, {type: fileInput.target.files[i].type});
         this.filesToUpload.push(newFile);
         const jobAttachment = new JobAttachment(
-          UUID.UUID(), this.job.Id, fileInput.target.files[i].name, newFile.name);
+          null, this.job.Id, fileInput.target.files[i].name, newFile.name);
         this.job.JobAttachment.push(jobAttachment);
         this.notifierService.notify('default', 'File uploaded successfully');
       } else {

@@ -1,6 +1,6 @@
 export class JobFunction {
   constructor(
-    public Id: string,
+    public Id: number,
     public Name: string
   ) {}
 }

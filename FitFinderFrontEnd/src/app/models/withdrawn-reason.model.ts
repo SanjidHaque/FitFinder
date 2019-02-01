@@ -1,9 +1,9 @@
 export class WithdrawnReason {
-  Id: string;
+  Id: number;
   Name: string;
 
   constructor(
-    id: string,
+    id: number,
     name: string
   ) {
     this.Id = id;

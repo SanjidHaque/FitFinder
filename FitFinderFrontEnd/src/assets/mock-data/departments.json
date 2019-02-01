@@ -1,14 +1,14 @@
 [
   {
-    "Id": "0b8bb6bb-379f-7300-90db-3603f1ec566d",
+    "Id": 1,
     "Name": "Human Resource "
   },
   {
-    "Id": "39dd1da5-a272-ac36-1a7f-39a8631a6851",
+    "Id": 2,
     "Name": "Finance"
   },
   {
-    "Id": "f05767ef-6bd4-50d0-898a-4be06c4ae287",
+    "Id": 3,
     "Name": "Information Technology"
   }
 ]

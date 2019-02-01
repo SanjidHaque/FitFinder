@@ -79,7 +79,7 @@ export class DepartmentsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result !== '') {
         const department = new Department(
-          UUID.UUID(),
+          null,
           result
         );
         this.departments.push(department);

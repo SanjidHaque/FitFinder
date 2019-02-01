@@ -40,14 +40,14 @@ export class AddNewCandidateComponent implements OnInit {
 
 
   sources = [
-    {sourceId: '1', sourceName: 'BdJobs.com'},
-    {sourceId: '2', sourceName: 'Email'},
-    {sourceId: '3', sourceName: 'Facebook'},
-    {sourceId: '4', sourceName: 'Internal'},
-    {sourceId: '5', sourceName: 'Job is Job'},
-    {sourceId: '6', sourceName: 'LinkedIn'},
-    {sourceId: '7', sourceName: 'Simply Hired'},
-    {sourceId: '8', sourceName: 'Website'}
+    {sourceId: 1, sourceName: 'BdJobs.com'},
+    {sourceId: 2, sourceName: 'Email'},
+    {sourceId: 3, sourceName: 'Facebook'},
+    {sourceId: 4, sourceName: 'Internal'},
+    {sourceId: 5, sourceName: 'Job is Job'},
+    {sourceId: 6, sourceName: 'LinkedIn'},
+    {sourceId: 7, sourceName: 'Simply Hired'},
+    {sourceId: 8, sourceName: 'Website'}
    ];
 
   constructor(private router: Router,
@@ -96,7 +96,7 @@ export class AddNewCandidateComponent implements OnInit {
       const newFile = new File([fileInput.target.files[i]], newFileName, {type: fileInput.target.files[i].type});
       this.filesToUpload.push(newFile);
       const candidateAttachment = new CandidateAttachment(
-         '', '', fileInput.target.files[i].name, newFile.name, false);
+         null, null, fileInput.target.files[i].name, newFile.name, false);
       this.candidateAttachments.push(candidateAttachment);
     }
     this.notifierService.notify('default', 'File uploaded successfully');
@@ -179,7 +179,6 @@ export class AddNewCandidateComponent implements OnInit {
   }
 
   onSubmitNewCandidate() {
-   const candidateId = UUID.UUID();
    const jobId = this.addNewCandidateForm.controls['jobId'].value;
    const firstName = this.addNewCandidateForm.controls['firstName'].value;
    const lastName = this.addNewCandidateForm.controls['lastName'].value;
@@ -200,20 +199,20 @@ export class AddNewCandidateComponent implements OnInit {
    const applicationDate = new Date();
 
    for ( let i = 0; i < this.candidateAttachments.length; i++ ) {
-     this.candidateAttachments[i].CandidateId = candidateId;
-     this.candidateAttachments[i].Id = UUID.UUID();
+     this.candidateAttachments[i].CandidateId = null;
+     this.candidateAttachments[i].Id = null;
    }
    for ( let i = 0; i < this.candidateEducation.length; i++ ) {
-     this.candidateEducation[i].CandidateId = candidateId;
-     this.candidateEducation[i].Id = UUID.UUID();
+     this.candidateEducation[i].CandidateId = null;
+     this.candidateEducation[i].Id = null;
    }
    for ( let i = 0; i < this.candidateExperience.length; i++ ) {
-     this.candidateExperience[i].CandidateId = candidateId;
-     this.candidateExperience[i].Id = UUID.UUID();
+     this.candidateExperience[i].CandidateId = null;
+     this.candidateExperience[i].Id = null;
    }
 
    const candidate = new Candidate(
-     candidateId,
+     null,
      jobId,
      firstName,
      lastName,

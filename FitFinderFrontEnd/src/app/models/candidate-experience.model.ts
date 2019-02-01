@@ -1,7 +1,7 @@
 export class CandidateExperience {
   constructor(
-    public Id: string,
-    public CandidateId: string,
+    public Id: number,
+    public CandidateId: number,
     public EmployerName: string,
     public Designation: string,
     public Role: string,

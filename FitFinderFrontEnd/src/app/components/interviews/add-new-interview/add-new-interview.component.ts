@@ -35,22 +35,22 @@ export class AddNewInterviewComponent implements OnInit {
 
   jobs: Job[] = [];
   users = [
-    {id: '1', userName: 'Yaha Juan', role: 'Super user'},
-    {id: '2', userName: 'Cholo Han', role: 'HR'},
-    {id: '3', userName: 'Kaytui Hyan', role: 'Team member'},
-    {id: '4', userName: 'Kunisu Honda', role: 'Team member'},
-    {id: '5', userName: 'Yahan Kawai', role: 'HR'},
-    {id: '6', userName: 'Tatua Nokia', role: 'Team member'},
-    {id: '7', userName: 'Vusimuji Momak', role: 'Team member'},
-    {id: '8', userName: 'Wyengyu Duija', role: 'Team member'}
+    {id: 1, userName: 'Yaha Juan', role: 'Super user'},
+    {id: 2, userName: 'Cholo Han', role: 'HR'},
+    {id: 3, userName: 'Kaytui Hyan', role: 'Team member'},
+    {id: 4, userName: 'Kunisu Honda', role: 'Team member'},
+    {id: 5, userName: 'Yahan Kawai', role: 'HR'},
+    {id: 6, userName: 'Tatua Nokia', role: 'Team member'},
+    {id: 7, userName: 'Vusimuji Momak', role: 'Team member'},
+    {id: 8, userName: 'Wyengyu Duija', role: 'Team member'}
   ];
 
   interviewTypes = [
-    {id: '1', type: 'Face to Face'},
-    {id: '2', type: 'Telephonic'},
-    {id: '3', type: 'Video Conference'},
-    {id: '4', type: 'Group'},
-    {id: '5', type: 'Panel'}
+    {id: 1, type: 'Face to Face'},
+    {id: 2, type: 'Telephonic'},
+    {id: 3, type: 'Video Conference'},
+    {id: 4, type: 'Group'},
+    {id: 5, type: 'Panel'}
   ];
 
   constructor(private dialog: MatDialog,
@@ -76,7 +76,7 @@ export class AddNewInterviewComponent implements OnInit {
   }
 
 
-  getJobTitle(candidateJobId: string) {
+  getJobTitle(candidateJobId: number) {
 
     const jobTitle = this.jobs.find(x => x.Id === candidateJobId).JobTitle;
     if (!jobTitle) {
@@ -85,30 +85,30 @@ export class AddNewInterviewComponent implements OnInit {
     return jobTitle;
   }
 
-  getCandidatesForInterview(interviewId: string) {
+  getCandidatesForInterview(interviewId: number) {
     const candidatesForInterview: CandidatesForInterview[] = [];
 
     for (let i = 0; i < this.candidates.length; i++) {
       const candidateForInterview =
-        new CandidatesForInterview(UUID.UUID(), interviewId, this.candidates[i].Id);
+        new CandidatesForInterview(null, interviewId, this.candidates[i].Id);
       candidatesForInterview.push(candidateForInterview);
     }
     return candidatesForInterview;
   }
 
-  getInterviewersForInterview(interviewId: string, interviewers: any[]) {
+  getInterviewersForInterview(interviewId: number, interviewers: any[]) {
     const interviewersForInterview: InterviewersForInterview[] = [];
 
     for (let i = 0; i < interviewers.length; i++) {
       const interviewerForInterview =
-        new InterviewersForInterview(UUID.UUID(), interviewId, interviewers[i].id  );
+        new InterviewersForInterview(null, interviewId, interviewers[i].id  );
       interviewersForInterview.push(interviewerForInterview);
     }
     return interviewersForInterview;
   }
 
   onSubmitNewInterview() {
-    const interviewId = UUID.UUID();
+    const interviewId = null;
     const interviewDate = this.addNewInterviewForm.controls['interviewDate'].value;
     const interviewName = this.addNewInterviewForm.controls['interviewName'].value;
     const interviewLocation = this.addNewInterviewForm.controls['interviewLocation'].value;

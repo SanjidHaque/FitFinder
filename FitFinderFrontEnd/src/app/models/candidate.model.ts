@@ -5,8 +5,8 @@ import {PipelineStageCriteriaStarRating} from './pipeline-stage-criteria-star-ra
 import {PipelineStageStarRating} from './pipeline-stage-star-rating.model';
 
 export class Candidate {
-   Id: string;
-   JobId: string;
+   Id: number;
+   JobId: number;
    FirstName: string;
    LastName: string;
    Email: string;
@@ -15,7 +15,7 @@ export class Candidate {
    City: string;
    State: string;
    Country: string;
-   CandidateSourceId: string;
+   SourceId: number;
    CandidateEducation: CandidateEducation[];
    CandidateExperience: CandidateExperience[];
    CandidateAttachment: CandidateAttachment[];
@@ -30,8 +30,8 @@ export class Candidate {
    PipelineStageCriteriaStarRating: PipelineStageCriteriaStarRating[];
 
   constructor(
-     id: string,
-     jobId: string,
+     id: number,
+     jobId: number,
      firstName: string,
      lastName: string,
      email: string,
@@ -40,7 +40,7 @@ export class Candidate {
      city: string,
      state: string,
      country: string,
-     candidateSourceId: string,
+     sourceId: number,
      candidateEducation: CandidateEducation[] = [],
      candidateExperience: CandidateExperience[] = [],
      candidateAttachment: CandidateAttachment[] = [],
@@ -64,7 +64,7 @@ export class Candidate {
     this.City = city;
     this.State = state ;
     this.Country = country;
-    this.CandidateSourceId = candidateSourceId;
+    this.SourceId = sourceId;
     this.CandidateEducation = candidateEducation;
     this.CandidateExperience = candidateExperience;
     this.CandidateAttachment = candidateAttachment;

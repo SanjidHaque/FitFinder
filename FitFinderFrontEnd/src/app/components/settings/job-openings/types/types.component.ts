@@ -81,7 +81,7 @@ export class TypesComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result !== '') {
         const jobType = new JobType(
-          UUID.UUID(),
+          null,
           result
         );
 

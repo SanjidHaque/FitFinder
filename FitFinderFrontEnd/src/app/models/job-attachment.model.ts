@@ -1,7 +1,7 @@
 export class JobAttachment {
   constructor(
-    public Id: string,
-    public JobId: string,
+    public Id: number,
+    public JobId: number,
     public FileName: string,
     public ModifiedFileName: string
   ) {}

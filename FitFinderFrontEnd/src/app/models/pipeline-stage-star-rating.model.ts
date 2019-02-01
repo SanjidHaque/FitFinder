@@ -1,14 +1,14 @@
 export class PipelineStageStarRating {
-  Id: string;
+  Id: number;
   Rating: number;
-  PipelineStageId: string;
-  CandidateId: string;
+  PipelineStageId: number;
+  CandidateId: number;
 
   constructor(
-    id: string,
+    id: number,
     rating: number,
-    pipelineStageId: string,
-    candidateId: string
+    pipelineStageId: number,
+    candidateId: number
 ) {
     this.Id = id;
     this.Rating = rating;

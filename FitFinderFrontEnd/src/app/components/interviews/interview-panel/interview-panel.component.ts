@@ -20,11 +20,11 @@ export class InterviewPanelComponent implements OnInit {
   selectedDateFormatted = '';
   selection = new SelectionModel<Interview>(true, []);
   interviewTypes = [
-    {id: '1', type: 'Face to Face'},
-    {id: '2', type: 'Telephonic'},
-    {id: '3', type: 'Video Conference'},
-    {id: '4', type: 'Group'},
-    {id: '5', type: 'Panel'}
+    {id: 1, type: 'Face to Face'},
+    {id: 2, type: 'Telephonic'},
+    {id: 3, type: 'Video Conference'},
+    {id: 4, type: 'Group'},
+    {id: 5, type: 'Panel'}
   ];
 
 

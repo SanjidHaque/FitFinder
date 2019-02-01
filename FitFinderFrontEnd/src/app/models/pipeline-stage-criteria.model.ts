@@ -1,11 +1,11 @@
 export class PipelineStageCriteria {
-  Id: string;
+  Id: number;
   Name: string;
-  PipelineStageId: string;
+  PipelineStageId: number;
   constructor(
-    id: string,
+    id: number,
     name: string,
-    pipelineStageId: string
+    pipelineStageId: number
   ) {
     this.Id = id;
     this.Name = name;

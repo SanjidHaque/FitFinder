@@ -1,7 +1,7 @@
 export class InterviewersForInterview {
   constructor(
-    public Id: string,
-    public InterviewId: string,
-    public InterviewerId: string
+    public Id: number,
+    public InterviewId: number,
+    public InterviewerId: number
   ) {}
 }

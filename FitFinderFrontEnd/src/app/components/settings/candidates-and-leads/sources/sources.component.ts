@@ -77,7 +77,7 @@ export class SourcesComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result !== '') {
         const source = new Source(
-          UUID.UUID(),
+          null,
           result
         );
 
