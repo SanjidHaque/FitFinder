@@ -249,6 +249,10 @@
     <Compile Include="Migrations\201902010952474_allModels.Designer.cs">
       <DependentUpon>201902010952474_allModels.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201902011852409_candidateModelChanged.cs" />
+    <Compile Include="Migrations\201902011852409_candidateModelChanged.Designer.cs">
+      <DependentUpon>201902011852409_candidateModelChanged.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -366,6 +370,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201902010952474_allModels.resx">
       <DependentUpon>201902010952474_allModels.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902011852409_candidateModelChanged.resx">
+      <DependentUpon>201902011852409_candidateModelChanged.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
