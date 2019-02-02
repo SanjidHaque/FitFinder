@@ -15,7 +15,7 @@ import {Candidate} from '../../models/candidate.model';
 
 })
 export class DashboardComponent implements OnInit {
-  allDepartment = '0';
+  allDepartment = 0;
 
   candidates: Candidate[] = [];
   interviews: Interview[] = [];

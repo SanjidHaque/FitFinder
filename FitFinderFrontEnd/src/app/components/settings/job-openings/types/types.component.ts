@@ -1,14 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {Department} from '../../../../models/department.model';
 import {MatDialog} from '@angular/material';
 import {DataStorageService} from '../../../../services/data-storage.service';
 import {NotifierService} from 'angular-notifier';
-import {CreateDepartmentComponent} from '../../../../dialogs/create-department/create-department.component';
-import {UUID} from 'angular2-uuid';
-import {CreateJobTypeComponent} from '../../../../dialogs/create-job-type/create-job-type.component';
 import {JobType} from '../../../../models/job-type.model';
 import {SettingsService} from '../../../../services/settings.service';
-import {Tag} from '../../../../models/tag.model';
 import {AddUpdateComponent} from '../../../../dialogs/add-update/add-update.component';
 
 @Component({
@@ -48,10 +43,8 @@ export class TypesComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result !== jobType.Name && result !== '') {
 
-        jobType.Name = result;
-        this.notifierService.notify('default', 'Job type updated!');
 
-        this.dataStorageService.editJobType(jobType)
+        this.dataStorageService.editJobType({Id: jobType.Id, Name: result})
           .subscribe(
             (data: any) => {
               jobType.Name = result;
@@ -64,7 +57,7 @@ export class TypesComponent implements OnInit {
   }
 
   addNewJobType() {
-    const dialogRef = this.jobTypeDialog.open(CreateJobTypeComponent,
+    const dialogRef = this.jobTypeDialog.open(AddUpdateComponent,
       {
         hasBackdrop: true,
         disableClose: true,
@@ -85,8 +78,6 @@ export class TypesComponent implements OnInit {
           result
         );
 
-        this.jobTypes.push(jobType);
-        this.notifierService.notify('default', 'New job type added!');
 
         this.dataStorageService.addNewJobType(jobType)
           .subscribe(

@@ -10,6 +10,7 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using System.Web.Routing;
 using FitFinderBackEnd.Models;
 using FitFinderBackEnd.Models.Candidate;
 using FitFinderBackEnd.Models.Interview;
@@ -330,7 +331,163 @@ namespace FitFinderBackEnd.Controllers
             return Ok();
         }
 
+        [HttpPost]
+        [Route("api/AddNewRejectedReason")]
+        public IHttpActionResult AddNewRejectedReason(RejectedReason rejectedReason)
+        {
+            if (rejectedReason == null)
+            {
+                return NotFound();
+            }
+            _context.RejectedReasons.Add(rejectedReason);
+            _context.SaveChanges();
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("api/AddNewWithdrawnReason")]
+        public IHttpActionResult AddNewWithdrawnReason(WithdrawnReason withdrawnReason)
+        {
+            if (withdrawnReason == null)
+            {
+                return NotFound();
+            }
+            _context.WithdrawnReasons.Add(withdrawnReason);
+            _context.SaveChanges();
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("api/GetAllRejectedReason")]
+        public IHttpActionResult GetAllRejectedReason()
+        {
+            List<RejectedReason> rejectedReasons = _context.RejectedReasons.OrderBy(x => x.Id).ToList();
+            return Ok(rejectedReasons);
+        }
+
+        [HttpGet]
+        [Route("api/GetAllWithdrawnReason")]
+        public IHttpActionResult GetAllWithdrawnReason()
+        {
+            List<WithdrawnReason> withdrawnReasons = _context.WithdrawnReasons.OrderBy(x => x.Id).ToList();
+            return Ok(withdrawnReasons);
+        }
+
+
+        [HttpPost]
+        [Route("api/EditRejectedReason")]
+        public IHttpActionResult EditRejectedReason(RejectedReason rejectedReason)
+        {
+            if (rejectedReason == null)
+            {
+                return NotFound();
+            }
+
+            RejectedReason getRejectedReason = _context.RejectedReasons.FirstOrDefault(x => x.Id == rejectedReason.Id);
+
+            if (getRejectedReason == null)
+            {
+                return NotFound();
+            }
+
+            getRejectedReason.Name = rejectedReason.Name;
+            _context.SaveChanges();
+
+            return Ok();
+        }
+
+
+        [HttpPost]
+        [Route("api/EditWithdrawnReason")]
+        public IHttpActionResult EditWithdrawnReason(WithdrawnReason withdrawnReason)
+        {
+            if (withdrawnReason == null)
+            {
+                return NotFound();
+            }
+
+            WithdrawnReason getWithdrawnReason = _context.WithdrawnReasons.FirstOrDefault(x => x.Id == withdrawnReason.Id);
+
+            if (getWithdrawnReason == null)
+            {
+                return NotFound();
+            }
+
+            getWithdrawnReason.Name = withdrawnReason.Name;
+            _context.SaveChanges();
+
+            return Ok();
+        }
+
+
+        [HttpPost]
+        [Route("api/AddNewPipeline")]
+        public IHttpActionResult AddNewPipeline(Pipeline pipeline)
+        {
+            _context.Pipelines.Add(pipeline);
+
+            foreach (var pipelineStage in pipeline.PipelineStage)
+            {
+                pipelineStage.PipelineId = pipeline.Id;
+            }
+
+            _context.PipelineStages.AddRange(pipeline.PipelineStage);
+
+            _context.SaveChanges();
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("api/GetAllPipeline")]
+        public IHttpActionResult GetAllPipeline()
+        {
+            List<Pipeline> pipelines = _context.Pipelines.Include(a => a.PipelineStage.Select(b => b.PipelineStageCriteria))
+                .OrderBy(x => x.Id).ToList();
+            return Ok(pipelines);
+        }
+
+        [HttpPost]
+        [Route("api/AddNewPipelineStage")]
+        public IHttpActionResult AddNewPipelineStage(PipelineStage pipelineStage)
+        {
+            if (pipelineStage == null)
+            {
+                return NotFound();
+            }
+
+            _context.PipelineStages.Add(pipelineStage);
+            _context.SaveChanges();
+            return Ok();
+        }
+
+        [HttpPut]
+        [Route("api/EditPipelineStage")]
+        public IHttpActionResult EditPipelineStage(PipelineStage pipelineStage)
+        {
+            if (pipelineStage == null)
+            {
+                return NotFound();
+            }
+
+            PipelineStage getPipelineStage = _context.PipelineStages.FirstOrDefault(x => x.Id == pipelineStage.Id);
+
+            if (getPipelineStage == null)
+            {
+                return NotFound();
+            }
+            getPipelineStage.Name = pipelineStage.Name;
+            getPipelineStage.Color = pipelineStage.Color;
+
+            _context.SaveChanges();
+
+            return Ok();
+        }
+
+
+
     }
+
+
 
 
 }

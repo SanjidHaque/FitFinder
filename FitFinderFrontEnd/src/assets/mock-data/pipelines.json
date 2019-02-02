@@ -1,204 +1,107 @@
 [
   {
-    "Id": "7dd8dcfe-da60-40a3-81c4-b5306a782d7f",
+    "Id": 1,
     "Name": "NEW",
-    "PipelineStage":
-      [
-        {
-          "Id": "5fd5d313-c3c4-4f87-b16a-e75dc54017ca",
-          "Name": "New",
-          "Color": "#ff6600",
-          "PipelineId": "7dd8dcfe-da60-40a3-81c4-b5306a782d7f",
-          "PipelineStageCriteria":
-            [
-              {
-                "Id": "52aaece4-9ccc-400b-af69-64daf24c3627",
-                "Name": "English Skill",
-                "PipelineStageId": "5fd5d313-c3c4-4f87-b16a-e75dc54017ca"
-              },
-              {
-                "Id": "940b1930-af96-4b08-bf92-787b7250c7e8",
-                "Name": "Swimming Skill",
-                "PipelineStageId": "5fd5d313-c3c4-4f87-b16a-e75dc54017ca"
-              }
-            ]
-        }
-      ]
-
-  },
-
-  {
-    "Id": "ceeb1953-2f37-4f72-b17b-bb987a0c5fee",
-    "Name": "INREVIEW",
-    "PipelineStage":
-    [
+    "PipelineStage": [
       {
-        "Id": "2cd7fec7-e45a-4aae-97b0-383b4b4ce33e",
+        "Id": 1,
+        "Name": "New",
+        "Color": "#ff6600",
+        "PipelineId": 1,
+        "PipelineStageCriteria": []
+      }
+    ]
+  },
+  {
+    "Id": 2,
+    "Name": "INREVIEW",
+    "PipelineStage": [
+      {
+        "Id": 2,
         "Name": "In Review",
         "Color": "#498BC5",
-        "PipelineId": "ceeb1953-2f37-4f72-b17b-bb987a0c5fee",
-        "PipelineStageCriteria":
-        [
-          {
-            "Id": "c1390676-b3bb-4ebe-8973-7427f84b6eeb",
-            "Name": "Walking Skill",
-            "PipelineStageId": "2cd7fec7-e45a-4aae-97b0-383b4b4ce33e"
-          },
-          {
-            "Id": "3f7da1d5-af0b-48a0-a6c7-b1409996d0fe",
-            "Name": "Running Skill",
-            "PipelineStageId": "2cd7fec7-e45a-4aae-97b0-383b4b4ce33e"
-          },
-          {
-            "Id": "4ec5f95e-1efd-4609-8e56-1fde0979f587",
-            "Name": "Smiling Skill",
-            "PipelineStageId": "2cd7fec7-e45a-4aae-97b0-383b4b4ce33e"
-          }
-        ]
+        "PipelineId": 2,
+        "PipelineStageCriteria": []
       }
     ]
-
   },
-
   {
-    "Id": "e24ef69b-6cef-4991-ab84-91feb1d189b8",
+    "Id": 3,
     "Name": "INTERVIEW",
-    "PipelineStage":
-    [
+    "PipelineStage": [
       {
-        "Id": "c83f8835-2f23-40f5-84a2-2a04072d8f8d",
+        "Id": 3,
         "Name": "Interview",
         "Color": "#00ccff",
-        "PipelineId": "e24ef69b-6cef-4991-ab84-91feb1d189b8",
-        "PipelineStageCriteria":
-        [
-          {
-            "Id": "d1e14bd4-714e-43f1-8577-3f23a8d6ded6",
-            "Name": "PHP Knowledge",
-            "PipelineStageId": "c83f8835-2f23-40f5-84a2-2a04072d8f8d"
-          },
-          {
-            "Id": "c67fdb1c-c9c6-47f6-b75c-0e724dc07721",
-            "Name": "Javascript Knowledge",
-            "PipelineStageId": "c83f8835-2f23-40f5-84a2-2a04072d8f8d"
-          },
-          {
-            "Id": "d96f1270-7c32-4f4b-8b50-63bce4074f89",
-            "Name": "HTML and CSS Knowledge",
-            "PipelineStageId": "c83f8835-2f23-40f5-84a2-2a04072d8f8d"
-          }
-        ]
+        "PipelineId": 3,
+        "PipelineStageCriteria": []
       },
-
       {
-        "Id": "f6d252b2-382b-4e3d-a201-b48e5d9c9bd5",
+        "Id": 4,
         "Name": "Viva",
         "Color": "#66cc99",
-        "PipelineId": "e24ef69b-6cef-4991-ab84-91feb1d189b8",
-        "PipelineStageCriteria":
-        [
-          {
-            "Id": "07f00d81-2ff7-410c-8c34-c7a8f281496d",
-            "Name": "OOP Knowledge",
-            "PipelineStageId": "f6d252b2-382b-4e3d-a201-b48e5d9c9bd5"
-          },
-          {
-            "Id": "fd5bb598-a320-4370-bfe5-db0773dfc309",
-            "Name": "Javascript Knowledge",
-            "PipelineStageId": "f6d252b2-382b-4e3d-a201-b48e5d9c9bd5"
-          },
-          {
-            "Id": "21df27e7-3cc1-43c1-92b5-138c1907fe1c",
-            "Name": "HTML and CSS Knowledge",
-            "PipelineStageId": "f6d252b2-382b-4e3d-a201-b48e5d9c9bd5"
-          }
-        ]
+        "PipelineId": 3,
+        "PipelineStageCriteria": []
       }
-
-
     ]
   },
-
   {
-    "Id": "21df27e7-3cc1-43c1-92b5-138c1907fe1c",
+    "Id": 4,
     "Name": "OFFERED",
-    "PipelineStage":
-    [
+    "PipelineStage": [
       {
-        "Id": "ecd5e999-e75d-4e43-b54f-a5da329843bb",
+        "Id": 5,
         "Name": "Offered",
         "Color": "#6666ff",
-        "PipelineId": "21df27e7-3cc1-43c1-92b5-138c1907fe1c",
-        "PipelineStageCriteria":
-        [
-
-        ]
+        "PipelineId": 4,
+        "PipelineStageCriteria": []
       }
     ]
-
   },
   {
-    "Id": "5e19d2f4-16c9-41c9-a109-fe0df6ccb2d9",
+    "Id": 5,
     "Name": "ONHOLD",
-    "PipelineStage":
-    [
+    "PipelineStage": [
       {
-        "Id": "5ee7b545-b12e-4e4f-b2bb-6a2efe047e50",
+        "Id": 6,
         "Name": "On Hold",
         "Color": "#663300",
-        "PipelineId": "5e19d2f4-16c9-41c9-a109-fe0df6ccb2d9",
-        "PipelineStageCriteria":
-        [
-
-        ]
+        "PipelineId": 5,
+        "PipelineStageCriteria": []
       }
     ]
-
   },
   {
-    "Id": "7ab91872-1b61-4f8b-a7b4-bb8177027574",
+    "Id": 6,
     "Name": "HIRED",
-    "PipelineStage":
-    [
+    "PipelineStage": [
       {
-        "Id": "2645e320-03aa-41cb-9415-eeb98ce1771a",
+        "Id": 7,
         "Name": "Hired",
         "Color": "#58CCB7",
-        "PipelineId": "7ab91872-1b61-4f8b-a7b4-bb8177027574",
-        "PipelineStageCriteria":
-        [
-
-        ]
+        "PipelineId": 6,
+        "PipelineStageCriteria": []
       }
     ]
-
   },
   {
-    "Id": "0bd51acc-ec0e-47f8-a875-6806cdd2c2dd",
+    "Id": 7,
     "Name": "REJECTED",
-    "PipelineStage":
-    [
+    "PipelineStage": [
       {
-        "Id": "8dc791bc-9f87-4d28-9d3f-1f9cb853f5f0",
+        "Id": 8,
         "Name": "Rejected",
         "Color": "#ff0000",
-        "PipelineId": "0bd51acc-ec0e-47f8-a875-6806cdd2c2dd",
-        "PipelineStageCriteria":
-        [
-
-        ]
+        "PipelineId": 7,
+        "PipelineStageCriteria": []
       },
       {
-        "Id": "8dc791bc-9187-2d28-9e3f+1f9cb853f5f0",
+        "Id": 9,
         "Name": "Withdrawn",
         "Color": "#AAA",
-        "PipelineId": "0bd51acc-ec0e-47f8-a875-6806cdd2c2dd",
-        "PipelineStageCriteria":
-        [
-
-        ]
+        "PipelineId": 7,
+        "PipelineStageCriteria": []
       }
     ]
-
   }
 ]

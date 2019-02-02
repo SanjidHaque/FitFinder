@@ -30,7 +30,7 @@
     </div>
 
     <div class="col-xl-1" *ngIf="i > 3">
-      <i style="cursor: pointer; opacity: .8;
+      <i (click)="editSource(source)" style="cursor: pointer; opacity: .8;
                color: #345188; font-size: 17px;" class="fas fa-pencil-alt"></i>
     </div>
 

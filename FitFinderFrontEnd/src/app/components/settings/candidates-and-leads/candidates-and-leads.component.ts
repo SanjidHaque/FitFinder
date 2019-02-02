@@ -16,7 +16,6 @@ export class CandidatesAndLeadsComponent implements OnInit {
     this.route.data.
     subscribe(
       (data: Data) => {
-        this.settingsService.tags = data['tags'];
         this.settingsService.sources = data['sources'];
       }
     );

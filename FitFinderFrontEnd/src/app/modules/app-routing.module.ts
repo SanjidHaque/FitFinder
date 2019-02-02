@@ -46,6 +46,8 @@ import {JobFunctionResolverService} from '../route-resolvers/job-function-resolv
 import {DepartmentResolverService} from '../route-resolvers/department-resolver.service';
 import {SourceResolverService} from '../route-resolvers/source-resolver.service';
 import {TagResolverService} from '../route-resolvers/tag-resolver.service';
+import {RejectedReasonResolverService} from '../route-resolvers/rejected-reason-resolver.service';
+import {WithdrawnReasonResolverService} from '../route-resolvers/withdrawn-reason-resolver.service';
 
 const appRoutes: Routes = [
   {
@@ -214,8 +216,8 @@ const appRoutes: Routes = [
         component: CandidatesAndLeadsComponent,
         resolve:
           {
-            sources: SourceResolverService,
-            tags: TagResolverService
+            sources: SourceResolverService/*,
+            tags: TagResolverService*/
           },
         children:
         [
@@ -286,7 +288,12 @@ const appRoutes: Routes = [
       },
       {
         path: 'disqualify-reasons',
-        component: DisqualifyReasonsComponent
+        component: DisqualifyReasonsComponent,
+        resolve:
+          {
+            withdrawnReasons: WithdrawnReasonResolverService,
+            rejectedReasons: RejectedReasonResolverService
+          }
       }
     ]
   },

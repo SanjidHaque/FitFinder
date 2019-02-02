@@ -1,0 +1,14 @@
+[
+  {
+    "Id": 1,
+    "Name": "Withdrew to accept another job"
+  },
+  {
+    "Id": 2,
+    "Name": "Declined the position when offered"
+  },
+  {
+    "Id": 3,
+    "Name": "Not available for interview"
+  }
+]

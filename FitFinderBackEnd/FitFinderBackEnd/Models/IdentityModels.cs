@@ -40,6 +40,12 @@ namespace FitFinderBackEnd.Models
         public DbSet<Interview.Interview> Interviews { get; set; }
         public DbSet<JobAttachment> JobAttachments { get; set; }
         public DbSet<Job.Job> Jobs { get; set; }
+
+        public DbSet<RejectedReason> RejectedReasons { get; set; }
+        public DbSet<WithdrawnReason> WithdrawnReasons { get; set; }
+        public DbSet<Pipeline> Pipelines { get; set; }
+        public DbSet<PipelineStage> PipelineStages { get; set; }
+        public DbSet<PipelineStageCriteria> PipelineStageCriterias { get; set; }
     
 
         public ApplicationDbContext()

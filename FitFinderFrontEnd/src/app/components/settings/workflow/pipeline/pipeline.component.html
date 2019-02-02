@@ -48,28 +48,38 @@
 
           <div class="row">
             <div class="col-xl-1">
-              <i
+              <!--<i
                 [ngStyle]="{'color': pipelineStage.Color }"
                 style="
                 font-size: 25px;"
-                class="fas fa-square"></i>
+                class="fas fa-square"></i>-->
+              <input
+                readonly
+                style="outline: 0;
+                border: 1px solid white;
+                border-radius: 3px;
+                cursor: pointer; height: 25px; width: 25px;"
+                [style.background]="pipelineStage.Color"/>
             </div>
             <div class="col-xl-10" style="padding-top: 3px;">
-           <h6>  {{ pipelineStage.Name }}</h6>
+           <h6> &nbsp; {{ pipelineStage.Name }}</h6>
             </div>
           </div>
 
           <div class="row" style="padding-top: 30px;">
             <div class="col-xl-12 text-xl-right">
+
               <i
-                *ngIf="pipeline.PipelineStage.length > 1
-                && pipeline.Id !== '0bd51acc-ec0e-47f8-a875-6806cdd2c2dd'"
+                (click)="editPipelineStage(pipelineStage)"
                 style="cursor: pointer;
               opacity: .8;
-               color: #bc0000; font-size: 17px;" class="far fa-trash-alt"></i> &nbsp;
-              <i style="cursor: pointer;
+               color: #345188; font-size: 17px;" class="fas fa-pencil-alt"></i>&nbsp;
+              <i
+                *ngIf="pipeline.PipelineStage.length > 1
+                && pipeline.Id !== 7"
+                style="cursor: pointer;
               opacity: .8;
-               color: #345188; font-size: 17px;" class="fas fa-pencil-alt"></i>
+               color: #bc0000; font-size: 17px;" class="far fa-trash-alt"></i>
             </div>
           </div>
         </div>
@@ -80,9 +90,9 @@
       </div>
 
       <div class="col-xl-4"
-           *ngIf="pipeline.Id === 'ceeb1953-2f37-4f72-b17b-bb987a0c5fee' ||
-pipeline.Id === 'e24ef69b-6cef-4991-ab84-91feb1d189b8' ||
- pipeline.Id === '21df27e7-3cc1-43c1-92b5-138c1907fe1c'"
+           *ngIf="pipeline.Id === 2 ||
+pipeline.Id === 3 ||
+ pipeline.Id === 4"
            style="
            padding: 5px;">
         <div
@@ -99,7 +109,9 @@ pipeline.Id === 'e24ef69b-6cef-4991-ab84-91feb1d189b8' ||
                  padding-top: 31px;
                  font-size: 14px;
                   text-align: center;">
-             <span style="cursor: pointer;"> <i class="fas fa-plus-circle"></i> Add</span>
+             <span
+               (click)="addNewPipelineStage(pipeline.Id)"
+               style="cursor: pointer;"> <i class="fas fa-plus-circle"></i> Add</span>
             </div>
           </div>
 
@@ -108,8 +120,8 @@ pipeline.Id === 'e24ef69b-6cef-4991-ab84-91feb1d189b8' ||
 
 
       <div class="offset-xl-4 col-xl-4"
-           *ngIf="pipeline.Id === '7dd8dcfe-da60-40a3-81c4-b5306a782d7f' ||
-pipeline.Id === '7ab91872-1b61-4f8b-a7b4-bb8177027574' "
+           *ngIf="pipeline.Id === 1 ||
+pipeline.Id === 6 "
            style="
            padding: 5px;">
         <div
@@ -119,7 +131,7 @@ pipeline.Id === '7ab91872-1b61-4f8b-a7b4-bb8177027574' "
              padding: 14px;
              border-radius: 3px;">
 
-          <div *ngIf="pipeline.Id === '7dd8dcfe-da60-40a3-81c4-b5306a782d7f'">
+          <div *ngIf="pipeline.Id === 1">
             <div class="row" >
               <div class="col-xl-12">
                 <h6>Active stages</h6>
@@ -132,7 +144,7 @@ pipeline.Id === '7ab91872-1b61-4f8b-a7b4-bb8177027574' "
             </div>
           </div>
 
-          <div *ngIf="pipeline.Id === '7ab91872-1b61-4f8b-a7b4-bb8177027574'">
+          <div *ngIf="pipeline.Id === 6">
             <div class="row" >
               <div class="col-xl-12">
                 <h6>Closed stages</h6>

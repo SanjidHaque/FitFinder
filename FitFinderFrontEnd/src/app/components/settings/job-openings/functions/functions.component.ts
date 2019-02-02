@@ -3,9 +3,7 @@ import {Department} from '../../../../models/department.model';
 import {MatDialog} from '@angular/material';
 import {DataStorageService} from '../../../../services/data-storage.service';
 import {NotifierService} from 'angular-notifier';
-import {CreateDepartmentComponent} from '../../../../dialogs/create-department/create-department.component';
 import {UUID} from 'angular2-uuid';
-import {CreateJobFunctionComponent} from '../../../../dialogs/create-job-function/create-job-function.component';
 import {JobFunction} from '../../../../models/job-function.model';
 import {SettingsService} from '../../../../services/settings.service';
 import {AddUpdateComponent} from '../../../../dialogs/add-update/add-update.component';
@@ -47,10 +45,8 @@ export class FunctionsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result !== jobFunction.Name && result !== '') {
 
-        jobFunction.Name = result;
-        this.notifierService.notify('default', 'Job function updated!');
 
-        this.dataStorageService.editJobFunction(jobFunction)
+        this.dataStorageService.editJobFunction({Id: jobFunction.Id, Name: result})
           .subscribe(
             (data: any) => {
               jobFunction.Name = result;
@@ -83,8 +79,6 @@ export class FunctionsComponent implements OnInit {
           null,
           result
         );
-        this.jobFunctions.push(jobFunction);
-        this.notifierService.notify('default', 'New job function added!');
 
         this.dataStorageService.addNewJobFunction(jobFunction)
           .subscribe(

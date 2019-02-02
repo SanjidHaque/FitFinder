@@ -60,11 +60,6 @@ import { TypesComponent } from './components/settings/job-openings/types/types.c
 import { FunctionsComponent } from './components/settings/job-openings/functions/functions.component';
 import { PipelineComponent } from './components/settings/workflow/pipeline/pipeline.component';
 import {PipelineResolverService} from './route-resolvers/pipeline-resolver.service';
-import { CreateSourceComponent } from './dialogs/create-source/create-source.component';
-import { CreateTagComponent } from './dialogs/create-tag/create-tag.component';
-import {CreateDepartmentComponent} from './dialogs/create-department/create-department.component';
-import {CreateJobFunctionComponent} from './dialogs/create-job-function/create-job-function.component';
-import {CreateJobTypeComponent} from './dialogs/create-job-type/create-job-type.component';
 import {SourceResolverService} from './route-resolvers/source-resolver.service';
 import {TagResolverService} from './route-resolvers/tag-resolver.service';
 import {JobTypeResolverService} from './route-resolvers/job-type-resolver.service';
@@ -72,6 +67,8 @@ import {JobFunctionResolverService} from './route-resolvers/job-function-resolve
 import {DepartmentResolverService} from './route-resolvers/department-resolver.service';
 import {SettingsService} from './services/settings.service';
 import { AddUpdateComponent } from './dialogs/add-update/add-update.component';
+import { AddUpdatePipelineStageComponent } from './dialogs/add-update-pipeline-stage/add-update-pipeline-stage.component';
+import { ColorPickerModule } from 'ngx-color-picker';
 
 
 
@@ -99,9 +96,6 @@ import { AddUpdateComponent } from './dialogs/add-update/add-update.component';
     DisqualifyReasonsComponent,
     SelectCandidatesForInterviewDialogComponent,
     SearchCandidatePipe,
-    CreateJobFunctionComponent,
-    CreateJobTypeComponent,
-    CreateDepartmentComponent,
     PageNotFoundComponent,
     SearchJobPipe,
     CandidateIdComponent,
@@ -120,12 +114,12 @@ import { AddUpdateComponent } from './dialogs/add-update/add-update.component';
     TypesComponent,
     FunctionsComponent,
     PipelineComponent,
-    CreateSourceComponent,
-    CreateTagComponent,
-    AddUpdateComponent
+    AddUpdateComponent,
+    AddUpdatePipelineStageComponent
   ],
   imports: [
     BrowserModule,
+    ColorPickerModule,
     NgbModule,
     AppRoutingModule,
     RouterModule,
@@ -176,12 +170,8 @@ import { AddUpdateComponent } from './dialogs/add-update/add-update.component';
   ],
   entryComponents: [
     SelectCandidatesForInterviewDialogComponent,
-    CreateDepartmentComponent,
-    CreateJobFunctionComponent,
-    CreateJobTypeComponent,
-    CreateSourceComponent,
-    CreateTagComponent,
-    AddUpdateComponent
+    AddUpdateComponent,
+    AddUpdatePipelineStageComponent
   ],
 
   bootstrap: [

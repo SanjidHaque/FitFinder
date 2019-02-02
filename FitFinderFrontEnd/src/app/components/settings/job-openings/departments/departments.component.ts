@@ -1,11 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {CreateJobTypeComponent} from '../../../../dialogs/create-job-type/create-job-type.component';
-import {UUID} from 'angular2-uuid';
-import {Tag} from '../../../../models/tag.model';
 import {MatDialog} from '@angular/material';
 import {DataStorageService} from '../../../../services/data-storage.service';
 import {NotifierService} from 'angular-notifier';
-import {CreateDepartmentComponent} from '../../../../dialogs/create-department/create-department.component';
 import {Department} from '../../../../models/department.model';
 import {SettingsService} from '../../../../services/settings.service';
 import {AddUpdateComponent} from '../../../../dialogs/add-update/add-update.component';
@@ -46,10 +42,8 @@ export class DepartmentsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result !== department.Name && result !== '') {
 
-        department.Name = result;
-        this.notifierService.notify('default', 'Department updated!');
 
-        this.dataStorageService.editDepartment(department)
+        this.dataStorageService.editDepartment({Id: department.Id, Name: result})
           .subscribe(
             (data: any) => {
               department.Name = result;
@@ -82,8 +76,6 @@ export class DepartmentsComponent implements OnInit {
           null,
           result
         );
-        this.departments.push(department);
-        this.notifierService.notify('default', 'New department added!');
 
         this.dataStorageService.addNewDepartment(department)
           .subscribe(

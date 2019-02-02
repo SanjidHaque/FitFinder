@@ -30,7 +30,7 @@
     </div>
 
     <div class="col-xl-1" *ngIf="i > 2">
-      <i style="cursor: pointer; opacity: .8;
+      <i (click)="editJobType(jobType)" style="cursor: pointer; opacity: .8;
                color: #345188; font-size: 17px;" class="fas fa-pencil-alt"></i>
     </div>
 

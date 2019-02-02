@@ -2,7 +2,6 @@ import {Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import {MatDialog} from '@angular/material';
-import {UUID} from 'angular2-uuid';
 import * as moment from 'moment';
 import {JobAttachment} from '../../../models/job-attachment.model';
 import {NotifierService} from 'angular-notifier';
@@ -10,9 +9,10 @@ import {Job} from '../../../models/job.model';
 import {JobService} from '../../../services/job.service';
 import {Router} from '@angular/router';
 import {DataStorageService} from '../../../services/data-storage.service';
-import {CreateDepartmentComponent} from '../../../dialogs/create-department/create-department.component';
-import {CreateJobFunctionComponent} from '../../../dialogs/create-job-function/create-job-function.component';
-import {CreateJobTypeComponent} from '../../../dialogs/create-job-type/create-job-type.component';
+import {AddUpdateComponent} from '../../../dialogs/add-update/add-update.component';
+import {Department} from '../../../models/department.model';
+import {JobFunction} from '../../../models/job-function.model';
+import {JobType} from '../../../models/job-type.model';
 
 @Component({
   selector: 'app-add-new-job',
@@ -220,34 +220,72 @@ export class AddNewJobComponent implements OnInit {
 
 
   addNewDepartment() {
-    const dialogRef = this.departmentDialog.open(CreateDepartmentComponent,
+    const dialogRef = this.departmentDialog.open(AddUpdateComponent,
       {
         hasBackdrop: true,
         disableClose: true,
         width: '400px',
-        data: { name: ''}
+        data:
+          {
+            header: 'New Department',
+            name: '',
+            iconClass: 'far fa-building',
+            footer: 'Add or update different departments your organization needs.'
+          }
       });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result !== '') {
+       /* const department = new Department(
+          null,
+          result
+        );*/
         this.departments.push({id: null, name: result});
+        this.notifierService.notify('default', 'New department added!');
+
+        /*this.dataStorageService.addNewDepartment(department)
+          .subscribe(
+            (data: any) => {
+              this.departments.push(department);
+              this.notifierService.notify('default', 'New department added!');
+            }
+          );*/
       }
     });
   }
 
 
   addNewJobFunction() {
-    const dialogRef = this.jobFunctionalityDialog.open(CreateJobFunctionComponent,
+    const dialogRef = this.jobFunctionalityDialog.open(AddUpdateComponent,
       {
         hasBackdrop: true,
         disableClose: true,
         width: '400px',
-        data: { name: ''}
+        data:
+          {
+            header: 'New Job Function',
+            name: '',
+            iconClass: 'fas fa-briefcase',
+            footer: 'Add or update different job functions your organization needs.'
+          }
       });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result !== '') {
+       /* const jobFunction = new JobFunction(
+          null,
+          result
+        );*/
         this.jobFunctionalities.push({id: null, name: result});
+        this.notifierService.notify('default', 'New job function added!');
+
+        /*this.dataStorageService.addNewJobFunction(jobFunction)
+          .subscribe(
+            (data: any) => {
+              this.jobFunctions.push(jobFunction);
+              this.notifierService.notify('default', 'New job function added!');
+            }
+          );*/
       }
     });
   }
@@ -255,17 +293,37 @@ export class AddNewJobComponent implements OnInit {
 
 
   addNewJobType() {
-    const dialogRef = this.jobType.open(CreateJobTypeComponent,
+    const dialogRef = this.jobType.open(AddUpdateComponent,
       {
         hasBackdrop: true,
         disableClose: true,
         width: '400px',
-        data: { name: ''}
+        data:
+          {
+            header: 'New Job Type',
+            name: '',
+            iconClass: 'fas fa-passport',
+            footer: 'Add or update different job types your organization hires.'
+          }
       });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result !== '') {
+      /*  const jobType = new JobType(
+          null,
+          result
+        );*/
+
         this.employmentTypes.push({id: null, name: result});
+        this.notifierService.notify('default', 'New job type added!');
+
+        /*this.dataStorageService.addNewJobType(jobType)
+          .subscribe(
+            (data: any) => {
+              this.jobTypes.push(jobType);
+              this.notifierService.notify('default', 'New job type added!');
+            }
+          );*/
       }
     });
   }

@@ -2,12 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {MatDialog} from '@angular/material';
 import {DataStorageService} from '../../../../services/data-storage.service';
 import {NotifierService} from 'angular-notifier';
-import {UUID} from 'angular2-uuid';
-import {CreateSourceComponent} from '../../../../dialogs/create-source/create-source.component';
 import {Source} from '../../../../models/source.model';
 import {SettingsService} from '../../../../services/settings.service';
 import {AddUpdateComponent} from '../../../../dialogs/add-update/add-update.component';
-import {Tag} from '../../../../models/tag.model';
 
 @Component({
   selector: 'app-sources',
@@ -44,10 +41,8 @@ export class SourcesComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result !== source.Name && result !== '') {
 
-        source.Name = result;
-        this.notifierService.notify('default', 'Source updated!');
 
-        this.dataStorageService.editSource(source)
+        this.dataStorageService.editSource({Id: source.Id, Name: result})
           .subscribe(
             (data: any) => {
               source.Name = result;
@@ -81,8 +76,6 @@ export class SourcesComponent implements OnInit {
           result
         );
 
-        this.sources.push(source);
-        this.notifierService.notify('default', 'New source added!');
 
         this.dataStorageService.addNewSource(source)
           .subscribe(

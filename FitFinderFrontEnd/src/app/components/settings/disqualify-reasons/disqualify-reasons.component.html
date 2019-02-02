@@ -15,9 +15,91 @@
 <br>
 
 <div class="row">
-  <div class="col-xl-12 text-xl-left" id="d">
-    <button mat-raised-button color="primary" style="outline: 0;">
-      Create New Reason
+  <div class="col-xl-12">
+    <h6>REASONS FOR REJECTION BY HIRING MANAGER</h6>
+  </div>
+</div>
+
+<hr>
+
+<div  *ngFor="let rejectedReason of rejectedReasons; let i = index">
+
+  <div class="row">
+    <div class="col-xl-10">
+      {{ rejectedReason.Name }}
+    </div>
+
+    <div class="col-xl-1" *ngIf="i > 1">
+      <i (click)="editRejectedReason(rejectedReason)"
+         style="cursor: pointer; opacity: .8;
+               color: #345188; font-size: 17px;" class="fas fa-pencil-alt"></i>
+    </div>
+
+    <div class="col-xl-1" *ngIf="i > 1">
+      <i style="cursor: pointer; opacity: .8;
+               color: #bc0000; font-size: 17px;" class="far fa-trash-alt"></i> &nbsp;
+    </div>
+
+  </div>
+
+  <hr *ngIf="i !== rejectedReasons.length - 1">
+  <br *ngIf="i === rejectedReasons.length - 1">
+
+</div>
+
+
+
+<div class="row">
+  <div class="col-xl-12 text-xl-left">
+    <button (click)="addNewRejectedReasonDialog()"
+            mat-stroked-button color="primary" style="outline: 0;">
+      <i class="fas fa-plus-circle"></i> Add Reason
+    </button>
+  </div>
+</div>
+
+<br>
+<br>
+
+
+<div class="row">
+  <div class="col-xl-12">
+    <h6>REASONS FOR WITHDRAWAL OF APPLICATION BY CANDIDATE</h6>
+  </div>
+</div>
+<hr>
+<div  *ngFor="let withdrawnReason of withdrawnReasons; let j = index">
+
+  <div class="row">
+    <div class="col-xl-10">
+      {{ withdrawnReason.Name }}
+    </div>
+
+    <div class="col-xl-1" *ngIf="j > 2">
+      <i (click)="editWithdrawnReason(withdrawnReason)" style="cursor: pointer; opacity: .8;
+               color: #345188; font-size: 17px;" class="fas fa-pencil-alt"></i>
+    </div>
+
+    <div class="col-xl-1" *ngIf="j > 2">
+      <i style="cursor: pointer; opacity: .8;
+               color: #bc0000; font-size: 17px;" class="far fa-trash-alt"></i> &nbsp;
+    </div>
+
+  </div>
+
+  <hr *ngIf="j !== withdrawnReasons.length - 1">
+  <br *ngIf="j === withdrawnReasons.length - 1">
+
+</div>
+
+
+
+
+<div class="row">
+  <div class="col-xl-12 text-xl-left">
+    <button (click)="addNewWithdrawnReasonDialog()"
+            mat-stroked-button color="primary" style="outline: 0;">
+      <i class="fas fa-plus-circle"></i> Add Reason
     </button>
   </div>
 </div>

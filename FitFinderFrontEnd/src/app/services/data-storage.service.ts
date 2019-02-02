@@ -9,6 +9,9 @@ import {Job} from '../models/job.model';
   import {JobFunction} from '../models/job-function.model';
   import {JobType} from '../models/job-type.model';
   import {Tag} from '../models/tag.model';
+  import {RejectedReason} from '../models/rejected-reason.model';
+  import {WithdrawnReason} from '../models/withdrawn-reason.model';
+  import {PipelineStage} from '../models/pipeline-stage.model';
 
 @Injectable({
   providedIn: 'root'
@@ -45,26 +48,32 @@ export class DataStorageService {
   private getAllTagJson = 'assets/mock-data/tags.json';
   private getAllTagApi = 'http://localhost:55586/api/GetAllTag';
 
+  private getAllRejectedReasonJson = 'assets/mock-data/rejected-reasons.json';
+  private getAllRejectedReasonApi = 'http://localhost:55586/api/GetAllRejectedReason';
+
+  private getAllWithdrawnReasonJson = 'assets/mock-data/withdrawn-reasons.json';
+  private getAllWithdrawnReasonApi = 'http://localhost:55586/api/GetAllWithdrawnReason';
+
 
 
   getAllSource() {
-    return this.httpClient.get<Source[]>(this.getAllSourceJson);
+    return this.httpClient.get<Source[]>(this.getAllSourceApi);
   }
 
   getAllDepartment() {
-    return this.httpClient.get<Department[]>(this.getAllDepartmentJson);
+    return this.httpClient.get<Department[]>(this.getAllDepartmentApi);
   }
 
   getAllJobFunction() {
-    return this.httpClient.get<JobFunction[]>(this.getAllJobFunctionJson);
+    return this.httpClient.get<JobFunction[]>(this.getAllJobFunctionApi);
   }
 
   getAllJobType() {
-    return this.httpClient.get<JobType[]>(this.getAllJobTypeJson);
+    return this.httpClient.get<JobType[]>(this.getAllJobTypeApi);
   }
 
   getAllTag() {
-    return this.httpClient.get<Tag[]>(this.getAllTagJson);
+    return this.httpClient.get<Tag[]>(this.getAllTagApi);
   }
 
   getAllCandidate() {
@@ -80,7 +89,7 @@ export class DataStorageService {
   }
 
   getAllPipeline() {
-    return this.httpClient.get<Pipeline[]>(this.getAllPipelineJson);
+    return this.httpClient.get<Pipeline[]>(this.getAllPipelineApi);
   }
 
   addNewCandidate(candidate: Candidate) {
@@ -124,23 +133,57 @@ export class DataStorageService {
   }
 
   editTag(tag: Tag) {
-    return this.httpClient.post(this.apiRootUrl + 'EditTag', tag);
+    return this.httpClient.put(this.apiRootUrl + 'EditTag', tag);
   }
 
   editJobType(jobType: JobType) {
-    return this.httpClient.post(this.apiRootUrl + 'EditJobType', jobType);
+    return this.httpClient.put(this.apiRootUrl + 'EditJobType', jobType);
   }
 
   editJobFunction(jobFunction: JobFunction) {
-    return this.httpClient.post(this.apiRootUrl + 'EditJobFunction', jobFunction);
+    return this.httpClient.put(this.apiRootUrl + 'EditJobFunction', jobFunction);
   }
 
   editSource(source: Source) {
-    return this.httpClient.post(this.apiRootUrl + 'EditSource', source);
+    return this.httpClient.put(this.apiRootUrl + 'EditSource', source);
   }
 
   editDepartment(department: Department) {
-    return this.httpClient.post(this.apiRootUrl + 'EditDepartment', department);
+    return this.httpClient.put(this.apiRootUrl + 'EditDepartment', department);
   }
+
+
+  addNewRejectedReason(rejectedReason: RejectedReason) {
+    return this.httpClient.post(this.apiRootUrl + 'AddNewRejectedReason', rejectedReason);
+  }
+
+  addNewWithdrawnReason(withdrawnReason: WithdrawnReason) {
+    return this.httpClient.post(this.apiRootUrl + 'AddNewWithdrawnReason', withdrawnReason);
+  }
+
+  editRejectedReason(rejectedReason: RejectedReason) {
+    return this.httpClient.put(this.apiRootUrl + 'EditRejectedReason', rejectedReason);
+  }
+
+  editWithdrawnReason(withdrawnReason: WithdrawnReason) {
+    return this.httpClient.put(this.apiRootUrl + 'EditWithdrawnReason', withdrawnReason);
+  }
+
+  getAllRejectedReason() {
+    return this.httpClient.get<RejectedReason[]>(this.getAllRejectedReasonApi);
+  }
+
+  getAllWithdrawnReason() {
+    return this.httpClient.get<WithdrawnReason[]>(this.getAllWithdrawnReasonApi);
+  }
+
+  addNewPipelineStage(pipelineStage: PipelineStage) {
+    return this.httpClient.post(this.apiRootUrl + 'AddNewPipelineStage', pipelineStage);
+  }
+
+  editPipelineStage(pipelineStage: PipelineStage) {
+    return this.httpClient.put(this.apiRootUrl + 'EditPipelineStage', pipelineStage);
+  }
+
 
 }
