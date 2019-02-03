@@ -396,7 +396,6 @@ namespace FitFinderBackEnd.Controllers
             return Ok();
         }
 
-
         [HttpPut]
         [Route("api/EditWithdrawnReason")]
         public IHttpActionResult EditWithdrawnReason(WithdrawnReason withdrawnReason)
@@ -457,6 +456,43 @@ namespace FitFinderBackEnd.Controllers
 
             _context.PipelineStages.Add(pipelineStage);
             _context.SaveChanges();
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("api/AddNewPipelineStageCriteria")]
+        public IHttpActionResult AddNewPipelineStageCriteria(PipelineStageCriteria pipelineStageCriteria)
+        {
+            if (pipelineStageCriteria == null)
+            {
+                return NotFound();
+            }
+
+            _context.PipelineStageCriterias.Add(pipelineStageCriteria);
+            _context.SaveChanges();
+            return Ok();
+        }
+
+        [HttpPut]
+        [Route("api/EditPipelineStageCriteria")]
+        public IHttpActionResult EditPipelineStageCriteria(PipelineStageCriteria pipelineStageCriteria)
+        {
+            if (pipelineStageCriteria == null)  
+            {
+                return NotFound();
+            }
+
+            PipelineStageCriteria getPipelineStageCriteria = _context.PipelineStageCriterias.FirstOrDefault(x => x.Id == pipelineStageCriteria.Id);
+
+            if (getPipelineStageCriteria == null)
+            {
+                return NotFound();
+            }
+
+            getPipelineStageCriteria.Name = pipelineStageCriteria.Name;
+
+            _context.SaveChanges();
+
             return Ok();
         }
 

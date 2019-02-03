@@ -123,7 +123,7 @@ export class DisqualifyReasonsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result !== '' && result !== rejectedReason.Name) {
         const editRejectedReason = new RejectedReason(
-          null,
+          rejectedReason.Id,
           result
         );
 
@@ -131,7 +131,7 @@ export class DisqualifyReasonsComponent implements OnInit {
         this.dataStorageService.editRejectedReason(editRejectedReason )
           .subscribe(
             (data: any) => {
-              rejectedReason.Name = result.name;
+              rejectedReason.Name = result;
               this.notifierService.notify('default', 'Reason updated successfully!');
             }
           );
@@ -158,7 +158,7 @@ export class DisqualifyReasonsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result !== '' && result !== withdrawnReason.Name) {
         const editWithdrawnReason = new WithdrawnReason(
-          null,
+          withdrawnReason.Id,
           result
         );
 
@@ -166,7 +166,7 @@ export class DisqualifyReasonsComponent implements OnInit {
         this.dataStorageService.editWithdrawnReason(editWithdrawnReason)
           .subscribe(
             (data: any) => {
-              withdrawnReason.Name = result.name;
+              withdrawnReason.Name = result;
               this.notifierService.notify('default', 'Reason updated successfully!');
             }
           );

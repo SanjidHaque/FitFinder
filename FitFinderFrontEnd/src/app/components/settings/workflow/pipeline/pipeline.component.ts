@@ -112,15 +112,16 @@ export class PipelineComponent implements OnInit {
   }
 
 
-  pipelineStageCriteria() {
+  pipelineStageCriteria(pipelineStage: PipelineStage) {
     const dialogRef = this.dialog.open(PipelineStageCriteriaComponent,
       {
         hasBackdrop: true,
         disableClose: true,
-        width: '450px',
+        width: '650px',
         data:
           {
-
+            iconClass: 'fas fa-flag-checkered',
+            stage: pipelineStage
           }
       });
   }

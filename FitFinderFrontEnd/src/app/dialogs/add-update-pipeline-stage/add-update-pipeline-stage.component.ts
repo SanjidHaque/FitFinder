@@ -16,8 +16,4 @@ export class AddUpdatePipelineStageComponent implements OnInit {
   ngOnInit() {
   }
 
-  /*close() {
-    this.dialogRef.close();
-  }*/
-
 }

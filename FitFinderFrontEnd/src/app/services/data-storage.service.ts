@@ -12,6 +12,7 @@ import {Job} from '../models/job.model';
   import {RejectedReason} from '../models/rejected-reason.model';
   import {WithdrawnReason} from '../models/withdrawn-reason.model';
   import {PipelineStage} from '../models/pipeline-stage.model';
+  import {PipelineStageCriteria} from '../models/pipeline-stage-criteria.model';
 
 @Injectable({
   providedIn: 'root'
@@ -185,5 +186,12 @@ export class DataStorageService {
     return this.httpClient.put(this.apiRootUrl + 'EditPipelineStage', pipelineStage);
   }
 
+  addNewPipelineStageCriteria(pipelineStageCriteria: PipelineStageCriteria) {
+    return this.httpClient.post(this.apiRootUrl + 'AddNewPipelineStageCriteria', pipelineStageCriteria);
+  }
 
+  editPipelineStageCriteria(pipelineStageCriteria: PipelineStageCriteria) {
+    return this.httpClient.put(this.apiRootUrl + 'EditPipelineStageCriteria', pipelineStageCriteria);
+  }
+  }
 }

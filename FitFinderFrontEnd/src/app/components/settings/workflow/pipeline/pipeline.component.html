@@ -62,17 +62,15 @@
                 [style.background]="pipelineStage.Color"/>
             </div>
             <div class="col-xl-10" style="padding-top: 3px;">
-           <h6> &nbsp; {{ pipelineStage.Name }}</h6>
+           <h6
+             title="Click To See Pipeline Stage Criteria"
+             style="cursor: pointer;"
+             (click)="pipelineStageCriteria(pipelineStage)"> &nbsp; {{ pipelineStage.Name }}</h6>
             </div>
           </div>
 
           <div class="row" style="padding-top: 30px;">
-            <div class="col-xl-2 text-xl-right">
-              <i style="cursor: pointer;"
-                (click)="pipelineStageCriteria()" class="far fa-flag"></i>
-            </div>
-
-            <div class="col-xl-10 text-xl-right">
+            <div class="col-xl-12 text-xl-right">
 
               <i
                 (click)="editPipelineStage(pipelineStage)"
