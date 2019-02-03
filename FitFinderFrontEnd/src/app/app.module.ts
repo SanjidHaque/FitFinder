@@ -69,6 +69,7 @@ import {SettingsService} from './services/settings.service';
 import { AddUpdateComponent } from './dialogs/add-update/add-update.component';
 import { AddUpdatePipelineStageComponent } from './dialogs/add-update-pipeline-stage/add-update-pipeline-stage.component';
 import { ColorPickerModule } from 'ngx-color-picker';
+import { PipelineStageCriteriaComponent } from './dialogs/pipeline-stage-criteria/pipeline-stage-criteria.component';
 
 
 
@@ -115,7 +116,8 @@ import { ColorPickerModule } from 'ngx-color-picker';
     FunctionsComponent,
     PipelineComponent,
     AddUpdateComponent,
-    AddUpdatePipelineStageComponent
+    AddUpdatePipelineStageComponent,
+    PipelineStageCriteriaComponent
   ],
   imports: [
     BrowserModule,
@@ -171,7 +173,8 @@ import { ColorPickerModule } from 'ngx-color-picker';
   entryComponents: [
     SelectCandidatesForInterviewDialogComponent,
     AddUpdateComponent,
-    AddUpdatePipelineStageComponent
+    AddUpdatePipelineStageComponent,
+    PipelineStageCriteriaComponent
   ],
 
   bootstrap: [

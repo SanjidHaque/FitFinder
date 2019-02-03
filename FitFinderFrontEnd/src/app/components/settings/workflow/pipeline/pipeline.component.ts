@@ -9,6 +9,7 @@ import {NotifierService} from 'angular-notifier';
 import {AddUpdateComponent} from '../../../../dialogs/add-update/add-update.component';
 import {JobType} from '../../../../models/job-type.model';
 import {AddUpdatePipelineStageComponent} from '../../../../dialogs/add-update-pipeline-stage/add-update-pipeline-stage.component';
+import {PipelineStageCriteriaComponent} from '../../../../dialogs/pipeline-stage-criteria/pipeline-stage-criteria.component';
 
 @Component({
   selector: 'app-pipeline',
@@ -108,5 +109,19 @@ export class PipelineComponent implements OnInit {
       }
 
     });
+  }
+
+
+  pipelineStageCriteria() {
+    const dialogRef = this.dialog.open(PipelineStageCriteriaComponent,
+      {
+        hasBackdrop: true,
+        disableClose: true,
+        width: '450px',
+        data:
+          {
+
+          }
+      });
   }
 }

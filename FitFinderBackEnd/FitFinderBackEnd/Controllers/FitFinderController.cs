@@ -374,7 +374,7 @@ namespace FitFinderBackEnd.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPut]
         [Route("api/EditRejectedReason")]
         public IHttpActionResult EditRejectedReason(RejectedReason rejectedReason)
         {
@@ -397,7 +397,7 @@ namespace FitFinderBackEnd.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPut]
         [Route("api/EditWithdrawnReason")]
         public IHttpActionResult EditWithdrawnReason(WithdrawnReason withdrawnReason)
         {
