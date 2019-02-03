@@ -48,6 +48,7 @@ import {SourceResolverService} from '../route-resolvers/source-resolver.service'
 import {TagResolverService} from '../route-resolvers/tag-resolver.service';
 import {RejectedReasonResolverService} from '../route-resolvers/rejected-reason-resolver.service';
 import {WithdrawnReasonResolverService} from '../route-resolvers/withdrawn-reason-resolver.service';
+import {CandidateScoreCardComponent} from '../components/candidates/candidate-id/candidate-score-card/candidate-score-card.component';
 
 const appRoutes: Routes = [
   {
@@ -57,13 +58,22 @@ const appRoutes: Routes = [
       {
         candidates: CandidateResolverService,
         interviews: InterviewResolverService,
-        jobs: JobResolverService
+        jobs: JobResolverService,
+        departments: DepartmentResolverService,
+        sources: SourceResolverService
       }
   },
   {
     path: 'jobs',
     component: JobsComponent,
-    resolve: { jobs: JobResolverService },
+    resolve:
+      {
+        jobs: JobResolverService,
+        jobTypes: JobTypeResolverService,
+        jobFunctions: JobFunctionResolverService,
+        departments: DepartmentResolverService,
+        sources: SourceResolverService
+      },
     children: [
       {
         path: '',
@@ -134,12 +144,16 @@ const appRoutes: Routes = [
         [
           {
             path: '',
-            redirectTo: 'candidate-info',
+            redirectTo: 'candidate-scorecard',
             pathMatch: 'full'
           },
           {
             path: 'candidate-info',
             component: CandidateInfoComponent
+          },
+          {
+            path: 'candidate-scorecard',
+            component: CandidateScoreCardComponent
           },
           {
             path: 'candidate-email',
@@ -164,7 +178,8 @@ const appRoutes: Routes = [
     resolve: {
       interviews: InterviewResolverService,
       candidates: CandidateResolverService,
-      jobs: JobResolverService
+      jobs: JobResolverService,
+      sources: SourceResolverService
     },
     children: [
       {

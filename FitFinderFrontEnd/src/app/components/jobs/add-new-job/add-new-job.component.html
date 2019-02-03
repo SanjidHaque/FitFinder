@@ -208,7 +208,7 @@
               <mat-option
                 *ngIf="departments.length == 0">No department is available</mat-option>
               <mat-option
-                *ngFor="let department of departments" [value]="department.id"> {{ department.name }} </mat-option>
+                *ngFor="let department of departments" [value]="department.Id"> {{ department.Name }} </mat-option>
             </mat-select>
             <mat-error>You must select a department!</mat-error>
           </mat-form-field>
@@ -238,7 +238,7 @@
               <mat-option
                 *ngIf="jobFunctionalities.length == 0">No job function is available</mat-option>
               <mat-option
-                *ngFor="let jobFunctionality of jobFunctionalities" [value]="jobFunctionality.id"> {{ jobFunctionality.name }} </mat-option>
+                *ngFor="let jobFunctionality of jobFunctionalities" [value]="jobFunctionality.Id"> {{ jobFunctionality.Name }} </mat-option>
             </mat-select>
           </mat-form-field>
 
@@ -272,8 +272,8 @@
                 *ngFor="let
                 employmentType
                 of employmentTypes"
-                [value]="employmentType.id">
-                {{ employmentType.name }} </mat-option>
+                [value]="employmentType.Id">
+                {{ employmentType.Name }} </mat-option>
             </mat-select>
           </mat-form-field>
 
@@ -422,7 +422,6 @@
             <input id="choseFile"
                    #fileUpload
                    (change)="fileChangeEvent($event)"
-                   multiple
                    hidden
                    type="file"/>
           </div>

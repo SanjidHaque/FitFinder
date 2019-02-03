@@ -47,7 +47,7 @@
        font-weight: bold;
        opacity: .7;
        text-align: center;"
-       *ngIf="candidate.JobId === ''; else jobNotAssigned">
+       *ngIf="candidate.AssignedJobToCandidate.length === 0; else jobNotAssigned">
     Assign Job to Change Candidate Status
   </div>
 
@@ -90,6 +90,7 @@
                style="
                text-align: left;">
             <star-rating
+              size="medium"
               [rating] = "0"
               [readOnly]="true"
               [starType]="'svg'"
@@ -167,7 +168,7 @@
           mat-flat-button><i class="far fa-window-restore"></i> Restore</button>
       </div>
 
-      <div *ngIf="!candidate.IsArchived || candidate.JobId !== ''" class="col-xl-3 text-xl-center">
+      <div *ngIf="!candidate.IsArchived || candidate.AssignedJobToCandidate.length !== 0" class="col-xl-3 text-xl-center">
         <button
           style="background-color: transparent; outline: 0;"
           mat-flat-button><i class="far fa-edit"></i> Edit</button>
@@ -322,7 +323,7 @@
         EDUCATION
       </div>
     </div>
-    <hr>
+    <hr *ngIf="candidate.CandidateEducation.length !== 0">
 
     <div *ngIf="candidate.CandidateEducation.length !== 0">
 
@@ -426,7 +427,7 @@
         EXPERIENCE
       </div>
     </div>
-    <hr>
+    <hr *ngIf="candidate.CandidateEducation.length !== 0">
 
     <div *ngIf="candidate.CandidateExperience.length !== 0">
 
@@ -551,26 +552,17 @@
 
 
     <div class="row">
-      <div class="col-xl-3 text-xl-center">
+      <div class="col-xl-4 text-xl-center">
         <button
-          matTooltip="Comments"
+          matTooltip="Scorecard"
           matTooltipPosition="below"
           style="outline: 0; font-size: 20px; width: 100%;"
           mat-flat-button routerLinkActive="active"
-          routerLink="candidate-info"><i class="far fa-comment-alt"></i></button>
+          routerLink="candidate-scorecard"><i class="far fa-list-alt"></i></button>
       </div>
 
-      <div class="col-xl-3 text-xl-center">
-        <button
-          matTooltip="Tasks"
-          matTooltipPosition="below"
-          style="outline: 0; font-size: 20px; width: 100%;"
-          mat-flat-button
-          routerLinkActive="active"
-          routerLink="candidate-task"><i class="fas fa-thumbtack"></i></button>
-      </div>
 
-      <div class="col-xl-3 text-xl-center">
+      <div class="col-xl-4 text-xl-center">
         <button
           matTooltip="Email"
           matTooltipPosition="below"
@@ -580,7 +572,7 @@
           routerLink="candidate-email"><i class="far fa-envelope"></i></button>
       </div>
 
-      <div class="col-xl-3 text-xl-center">
+      <div class="col-xl-4 text-xl-center">
         <button
           matTooltip="Interviews"
           matTooltipPosition="below"

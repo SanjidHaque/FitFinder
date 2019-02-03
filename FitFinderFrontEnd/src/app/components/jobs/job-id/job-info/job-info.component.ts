@@ -6,6 +6,10 @@ import {CandidateAttachment} from '../../../../models/canidate-attachment.model'
 import {JobAttachment} from '../../../../models/job-attachment.model';
 import {NotifierService} from 'angular-notifier';
 import {UUID} from 'angular2-uuid';
+import {Department} from '../../../../models/department.model';
+import {JobFunction} from '../../../../models/job-function.model';
+import {JobType} from '../../../../models/job-type.model';
+import {SettingsService} from '../../../../services/settings.service';
 
 @Component({
   selector: 'app-job-info',
@@ -20,30 +24,21 @@ export class JobInfoComponent implements OnInit, DoCheck {
   @ViewChild('fileUpload') fileUploadVar: any;
 
 
-  departments = [
-    {id: 1, name: 'Accounts'},
-    {id: 2, name: 'Finance'},
-    {id: 3, name: 'Development'},
-    {id: 4, name: 'Engineering'}
-  ];
-  jobFunctionalities = [
-    {id: 1, name: 'Research'},
-    {id: 2, name: 'Sales'},
-    {id: 3, name: 'Consulting'}
-  ];
-  employmentTypes = [
-    {id: 1, name: 'Full Time'},
-    {id: 2, name: 'Part Time'},
-    {id: 3, name: 'Internship'}
-  ];
+  departments: Department[] = [];
+  jobFunctionalities: JobFunction[] = [];
+  employmentTypes: JobType[] = [];
+
   constructor(private jobService: JobService,
+              private settingsService: SettingsService,
               private notifierService: NotifierService) {
     this.filesToUpload = [];
   }
 
   ngOnInit() {
     this.job = this.jobService.job;
-
+    this.employmentTypes = this.settingsService.getAllJobType();
+    this.jobFunctionalities = this.settingsService.getAllJobFunction();
+    this.departments = this.settingsService.getAllDepartment();
   }
 
   ngDoCheck() {
@@ -95,16 +90,16 @@ export class JobInfoComponent implements OnInit, DoCheck {
   }
 
   downloadFile(jobAttachment: JobAttachment) {
-    /*window.open('http://localhost:55586/Content/Attachments/' + jobAttachment.ModifiedFileName);*/
-    /*The above line will be comment out when working with back end.*/
-
-    window.open('assets/cseregular3rd.pdf');
+    window.open('http://localhost:55586/Content/Attachments/' + jobAttachment.ModifiedFileName);
+    /*window.open('assets/cseregular3rd.pdf');*/
   }
   getJobFunction() {
-    return this.jobFunctionalities.find(  x => x.id === this.job.JobFunctionalityId).name;
+    return this.jobFunctionalities.find(
+      x => x.Id === this.job.JobFunctionalityId).Name;
   }
   getJobType() {
-    return this.employmentTypes.find(  x => x.id === this.job.EmploymentTypeId).name;
+    return this.employmentTypes.find(
+      x => x.Id === this.job.EmploymentTypeId).Name;
   }
   getClosingDays() {
     const today = new Date();
@@ -114,7 +109,8 @@ export class JobInfoComponent implements OnInit, DoCheck {
   }
 
   getDepartmentName() {
-    return this.departments.find( x => x.id === this.job.DepartmentId).name;
+    return this.departments.find(
+      x => x.Id === this.job.DepartmentId).Name;
   }
 
   getCreatedDate() {

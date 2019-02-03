@@ -19,5 +19,6 @@ namespace FitFinderBackEnd.Models.Interview
         public List<CandidatesForInterview> CandidatesForInterview { get; set; }
         public List<InterviewersForInterview> InterviewersForInterview { get; set; }
         public string InterviewStatus { get; set; }
+        public bool IsArchived { get; set; }
     }
 }

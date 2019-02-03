@@ -7,6 +7,8 @@ import {CandidateService} from '../../../services/candidate.service';
 import {InterviewService} from '../../../services/interview.service';
 import {Job} from '../../../models/job.model';
 import * as moment from 'moment';
+import {Department} from '../../../models/department.model';
+import {SettingsService} from '../../../services/settings.service';
 
 @Component({
   selector: 'app-job-id',
@@ -18,24 +20,18 @@ export class JobIdComponent implements OnInit {
   jobId: number;
   job: Job;
   jobs: Job[] = [];
-  departments = [
-    {id: 1, name: 'Accounts'},
-    {id: 2, name: 'Finance'},
-    {id: 3, name: 'Development'},
-    {id: 4, name: 'Engineering'}
-  ];
+  departments: Department[] = [];
 
   constructor(private route: ActivatedRoute,
               private dialog: MatDialog,
               private notifierService: NotifierService,
               private jobService: JobService,
               private router: Router,
-              private candidateService: CandidateService,
-              private interviewService: InterviewService) {
+              private settingsService: SettingsService) {
     this.route.params
       .subscribe(
         (params: Params) => {
-          this.jobId = params['job-id'];
+          this.jobId = +params['job-id'];
         }
       );
   }
@@ -44,10 +40,11 @@ export class JobIdComponent implements OnInit {
     this.jobs = this.jobService.getAllJob();
     this.job = this.jobs.find( x => x.Id === this.jobId);
     this.jobService.job = this.job;
+    this.departments = this.settingsService.getAllDepartment();
   }
 
   getDepartmentName(departmentId: number) {
-    return this.departments.find(x => x.id === departmentId ).name;
+    return this.departments.find(x => x.Id === departmentId ).Name;
   }
 
   getClosingDays() {

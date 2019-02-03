@@ -261,9 +261,22 @@
     <Compile Include="Migrations\201902021031286_Withdrawn.Designer.cs">
       <DependentUpon>201902021031286_Withdrawn.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201902031222556_allModelsChanged.cs" />
+    <Compile Include="Migrations\201902031222556_allModelsChanged.Designer.cs">
+      <DependentUpon>201902031222556_allModelsChanged.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902031717404_jobModelChanged.cs" />
+    <Compile Include="Migrations\201902031717404_jobModelChanged.Designer.cs">
+      <DependentUpon>201902031717404_jobModelChanged.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902031734038_jobModelChangedAgain.cs" />
+    <Compile Include="Migrations\201902031734038_jobModelChangedAgain.Designer.cs">
+      <DependentUpon>201902031734038_jobModelChangedAgain.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Candidate\AssignedJobToCandidate.cs" />
     <Compile Include="Models\Candidate\Candidate.cs" />
     <Compile Include="Models\Candidate\CandidateAttachment.cs" />
     <Compile Include="Models\Candidate\CandidateEducation.cs" />
@@ -392,6 +405,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201902021031286_Withdrawn.resx">
       <DependentUpon>201902021031286_Withdrawn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902031222556_allModelsChanged.resx">
+      <DependentUpon>201902031222556_allModelsChanged.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902031717404_jobModelChanged.resx">
+      <DependentUpon>201902031717404_jobModelChanged.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902031734038_jobModelChangedAgain.resx">
+      <DependentUpon>201902031734038_jobModelChangedAgain.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

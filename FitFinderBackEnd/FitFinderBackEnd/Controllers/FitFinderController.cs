@@ -53,6 +53,7 @@ namespace FitFinderBackEnd.Controllers
                 candidateAttachment.Id = candidate.Id;
             }
 
+           
 
             _context.CandidateAttachments.AddRange(candidate.CandidateAttachment);
             _context.CandidateEducations.AddRange(candidate.CandidateEducation);
@@ -83,7 +84,8 @@ namespace FitFinderBackEnd.Controllers
             List<Candidate> candidate = _context.Candidates.
                 Include(c => c.CandidateEducation).
                 Include(d => d.CandidateExperience).
-                Include(e => e.CandidateAttachment).OrderBy(x => x.Id).ToList();
+                Include(e => e.CandidateAttachment).
+                Include(f => f.AssignedJobToCandidate).OrderBy(x => x.Id).ToList();
             return Ok(candidate);
         }
 
@@ -518,6 +520,7 @@ namespace FitFinderBackEnd.Controllers
 
             return Ok();
         }
+
 
 
 

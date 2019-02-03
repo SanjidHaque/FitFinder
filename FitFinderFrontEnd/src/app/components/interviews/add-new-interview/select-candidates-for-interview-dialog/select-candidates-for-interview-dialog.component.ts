@@ -3,6 +3,8 @@ import {Candidate} from '../../../../models/candidate.model';
 import {CandidateService} from '../../../../services/candidate.service';
 import {SelectionModel} from '@angular/cdk/collections';
 import {InterviewService} from '../../../../services/interview.service';
+import {Source} from '../../../../models/source.model';
+import {SettingsService} from '../../../../services/settings.service';
 
 @Component({
   selector: 'app-select-candidates-for-interview',
@@ -17,23 +19,16 @@ export class SelectCandidatesForInterviewDialogComponent implements OnInit {
   selection = new SelectionModel<Candidate>(true, []);
   candidateDefaultImage = 'assets/images/candidateDefaultImage.png';
 
-  sources = [
-    {sourceId: 1, sourceName: 'BdJobs.com'},
-    {sourceId: 2, sourceName: 'Email'},
-    {sourceId: 3, sourceName: 'Facebook'},
-    {sourceId: 4, sourceName: 'Internal'},
-    {sourceId: 5, sourceName: 'Job is Job'},
-    {sourceId: 6, sourceName: 'LinkedIn'},
-    {sourceId: 7, sourceName: 'Simply Hired'},
-    {sourceId: 8, sourceName: 'Website'}
-  ];
+  sources: Source[] = [];
 
 
   constructor(private interviewService: InterviewService,
-              private candidateService: CandidateService) {}
+              private candidateService: CandidateService,
+              private settingsService: SettingsService) {}
 
   ngOnInit() {
     this.candidates = this.candidateService.getAllCandidate();
+    this.sources = this.settingsService.getAllSource();
   }
 
   isAllSelected() {
@@ -53,7 +48,7 @@ export class SelectCandidatesForInterviewDialogComponent implements OnInit {
   }
 
   getSourceName(candidate: Candidate) {
-    return this.sources.find(x => x.sourceId === candidate.SourceId).sourceName;
+    return this.sources.find(x => x.Id === candidate.SourceId).Name;
   }
 
 }

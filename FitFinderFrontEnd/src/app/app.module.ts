@@ -4,6 +4,7 @@ import { HttpClientModule }    from '@angular/common/http';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { StarRatingModule } from 'angular-star-rating';
 
+
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './modules/app-routing.module';
 import {RouterModule} from '@angular/router';
@@ -70,6 +71,7 @@ import { AddUpdateComponent } from './dialogs/add-update/add-update.component';
 import { AddUpdatePipelineStageComponent } from './dialogs/add-update-pipeline-stage/add-update-pipeline-stage.component';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { PipelineStageCriteriaComponent } from './dialogs/pipeline-stage-criteria/pipeline-stage-criteria.component';
+import { CandidateScoreCardComponent } from './components/candidates/candidate-id/candidate-score-card/candidate-score-card.component';
 
 
 
@@ -117,7 +119,8 @@ import { PipelineStageCriteriaComponent } from './dialogs/pipeline-stage-criteri
     PipelineComponent,
     AddUpdateComponent,
     AddUpdatePipelineStageComponent,
-    PipelineStageCriteriaComponent
+    PipelineStageCriteriaComponent,
+    CandidateScoreCardComponent
   ],
   imports: [
     BrowserModule,

@@ -128,14 +128,14 @@
 
     <hr>
 
-    <div class="row">
+    <div class="row" *ngIf="job.JobFunctionalityId !== null">
       <div class="col-xl-12">
         <strong style="font-size: 13px;">Function : </strong>
         <span style="font-size: 14px;">{{ getJobFunction() }}</span>
       </div>
     </div>
 
-    <div class="row">
+    <div class="row" *ngIf="job.EmploymentTypeId !== null">
       <div class="col-xl-12">
         <strong style="font-size: 13px;">Type : </strong>
         <span style="font-size: 14px;">{{ getJobType() }}</span>
@@ -205,56 +205,60 @@
 
 
 
+<div *ngIf="job.JobSalaryStarts !== null && job.JobSalaryEnds !== null">
 
+  <div *ngIf="job.JobSalaryStarts !== null && job.JobSalaryEnds !== null">
 
-    <div *ngIf="job.JobSalaryStarts !== null && job.JobSalaryEnds !== null">
-
-      <div class="row" *ngIf="job.JobSalaryStarts < job.JobSalaryEnds">
-        <div class="col-xl-12">
-          <strong style="font-size: 13px;">Salary : </strong>
-          <span style="font-size: 14px;">BDT {{ job.JobSalaryStarts }} -
-            {{ job.JobSalaryEnds }}</span>
-        </div>
+    <div class="row" *ngIf="job.JobSalaryStarts < job.JobSalaryEnds">
+      <div class="col-xl-12">
+        <strong style="font-size: 13px;">Salary : </strong>
+        <span style="font-size: 14px;">BDT {{ job.JobSalaryStarts }} -
+          {{ job.JobSalaryEnds }}</span>
       </div>
-
-      <div class="row" *ngIf="job.JobSalaryStarts === job.JobSalaryEnds">
-        <div class="col-xl-12">
-          <strong style="font-size: 13px;">Salary : </strong>
-          <span style="font-size: 14px;">BDT {{ job.JobSalaryEnds }}</span>
-        </div>
-      </div>
-
-      <div class="row" *ngIf="job.JobSalaryStarts > job.JobSalaryEnds">
-        <div class="col-xl-12">
-          <strong style="font-size: 13px;">Salary : </strong>
-          <span style="font-size: 14px;">BDT {{ job.JobSalaryEnds }} -
-            {{ job.JobSalaryStarts }}</span>
-        </div>
-      </div>
-
     </div>
 
-    <div *ngIf="job.JobSalaryStarts !== null && job.JobSalaryEnds === null">
-
-      <div class="row">
-        <div class="col-xl-12">
-          <strong style="font-size: 13px;">Salary : </strong>
-          <span style="font-size: 14px;">BDT {{ job.JobSalaryStarts }}</span>
-        </div>
+    <div class="row" *ngIf="job.JobSalaryStarts === job.JobSalaryEnds">
+      <div class="col-xl-12">
+        <strong style="font-size: 13px;">Salary : </strong>
+        <span style="font-size: 14px;">BDT {{ job.JobSalaryEnds }}</span>
       </div>
-
     </div>
 
-    <div *ngIf="job.JobSalaryStarts === null && job.JobSalaryEnds !== null">
-
-      <div class="row">
-        <div class="col-xl-12">
-          <strong style="font-size: 13px;">Salary : </strong>
-          <span style="font-size: 14px;">BDT {{ job.JobSalaryEnds }}</span>
-        </div>
+    <div class="row" *ngIf="job.JobSalaryStarts > job.JobSalaryEnds">
+      <div class="col-xl-12">
+        <strong style="font-size: 13px;">Salary : </strong>
+        <span style="font-size: 14px;">BDT {{ job.JobSalaryEnds }} -
+          {{ job.JobSalaryStarts }}</span>
       </div>
-
     </div>
+
+  </div>
+
+  <div *ngIf="job.JobSalaryStarts !== null && job.JobSalaryEnds === null">
+
+    <div class="row">
+      <div class="col-xl-12">
+        <strong style="font-size: 13px;">Salary : </strong>
+        <span style="font-size: 14px;">BDT {{ job.JobSalaryStarts }}</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div *ngIf="job.JobSalaryStarts === null && job.JobSalaryEnds !== null">
+
+    <div class="row">
+      <div class="col-xl-12">
+        <strong style="font-size: 13px;">Salary : </strong>
+        <span style="font-size: 14px;">BDT {{ job.JobSalaryEnds }}</span>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
     <br>
 
     <div class="row">

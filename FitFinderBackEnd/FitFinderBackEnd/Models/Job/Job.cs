@@ -16,15 +16,19 @@ namespace FitFinderBackEnd.Models.Job
         public string JobIntermediate { get; set; }
         public string JobGoodToHave { get; set; }
         public string JobLocation { get; set; }
-        public long DepartmentId { get; set; }
-        public long JobFunctionalityId { get; set; }
-        public long EmploymentTypeId { get; set; }
-        public string JobPositions { get; set; }
+        public long? DepartmentId { get; set; }
+        public long? JobFunctionalityId { get; set; }
+        public long? EmploymentTypeId { get; set; }
+        public long? JobPositions { get; set; }
         public string JobClosingDate { get; set; }
-        public string JobExperienceStarts { get; set; }
-        public string JobExperienceEnds { get; set; }
-        public string JobSalaryStarts { get; set; }
-        public string JobSalaryEnds { get; set; }
+        public long? JobExperienceStarts { get; set; }
+        public long? JobExperienceEnds { get; set; }
+        public long? JobSalaryStarts { get; set; }
+        public long? JobSalaryEnds { get; set; }
         public List<JobAttachment> JobAttachment { get; set; }
+        public bool IsArchived { get; set; }
+        public bool IsPublished { get; set; }
+        public string JobCreatedDate { get; set; }
+        public bool IsFavourite { get; set; }
     }
 }

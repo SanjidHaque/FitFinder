@@ -13,6 +13,7 @@ import {AddUpdateComponent} from '../../../dialogs/add-update/add-update.compone
 import {Department} from '../../../models/department.model';
 import {JobFunction} from '../../../models/job-function.model';
 import {JobType} from '../../../models/job-type.model';
+import {SettingsService} from '../../../services/settings.service';
 
 @Component({
   selector: 'app-add-new-job',
@@ -58,22 +59,9 @@ export class AddNewJobComponent implements OnInit {
     uploadUrl: 'images'
   };
 
-  departments = [
-    {id: 1, name: 'Accounts'},
-    {id: 2, name: 'Finance'},
-    {id: 3, name: 'Development'},
-    {id: 4, name: 'Engineering'}
-  ];
-  jobFunctionalities = [
-    {id: 1, name: 'Research'},
-    {id: 2, name: 'Sales'},
-    {id: 3, name: 'Consulting'}
-  ];
-  employmentTypes = [
-    {id: 1, name: 'Full Time'},
-    {id: 2, name: 'Part Time'},
-    {id: 3, name: 'Internship'}
-  ];
+  departments: Department[] = [];
+  jobFunctionalities: JobFunction[] = [];
+  employmentTypes: JobType[] = [];
 
   addNewJobForm: FormGroup;
   minDate = '';
@@ -84,6 +72,7 @@ export class AddNewJobComponent implements OnInit {
   isDisabled = false;
 
   constructor(private departmentDialog: MatDialog,
+              private settingsService: SettingsService,
               private jobFunctionalityDialog: MatDialog,
               private notifierService: NotifierService,
               private jobService: JobService,
@@ -94,6 +83,10 @@ export class AddNewJobComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.employmentTypes = this.settingsService.getAllJobType();
+    this.jobFunctionalities = this.settingsService.getAllJobFunction();
+    this.departments = this.settingsService.getAllDepartment();
+
     this.minDate = this.getTomorrowsDate();
     this.addNewJobForm = new FormGroup({
       'jobTitle': new FormControl('', Validators.required),
@@ -147,42 +140,55 @@ export class AddNewJobComponent implements OnInit {
       new Date().toString(),
       false
     );
-    this.jobService.addNewJob(job);
-    this.notifierService.notify('default', 'New job published');
+
     this.isDisabled = true;
-    this.router.navigate(['/jobs']);
-    /*this.dataStorageService.addNewJob(job)
+    this.dataStorageService.addNewJob(job)
        .subscribe(
          (data: any) => {
            this.dataStorageService.uploadAttachments(this.filesToUpload)
              .subscribe(
                (response: any) => {
-                  this.clearAllArrays();
-                  this.addNewJobForm.reset();
-                  this.router.navigate(['/jobs']);
-                  this.notifierService.notify('default', 'New job published');
-                 /!* 148, 150 no line'll be removed when comment out this block *!/
+                this.dataStorageService.getAllJob()
+                   .subscribe(
+                     (jobs: any) => {
+                       this.jobService.jobs = jobs;
+                       this.clearAllArrays();
+                       this.addNewJobForm.reset();
+                       const lastJob = this.jobService.jobs[this.jobService.jobs.length - 1];
+                       this.router.navigate(['/jobs/', lastJob.Id, '/job-info']);
+                       this.notifierService.notify('default', 'New job published');
+                     }
+                   );
+
+
                }
              );
          }
-       );*/
+       );
   }
 
   fileChangeEvent(fileInput: any) {
     for (let i = 0; i < fileInput.target.files.length; i++) {
       const fileName = fileInput.target.files[i].name.substr(0, fileInput.target.files[i].name.lastIndexOf('.'));
       const fileExtension = fileInput.target.files[i].name.split('.').pop();
-      const newFileName = fileName + Date.now() + '.' + fileExtension;
-      const newFile = new File([fileInput.target.files[i]], newFileName, {type: fileInput.target.files[i].type});
-      this.filesToUpload.push(newFile);
-      const jobAttachment = new JobAttachment(
-        null,
-         null,
-        fileInput.target.files[i].name,
-        newFile.name);
-      this.jobAttachments.push(jobAttachment);
+
+      if (fileExtension === 'doc' || fileExtension === 'docx' || fileExtension === 'pdf') {
+        const newFileName = fileName + Date.now() + '.' + fileExtension;
+        const newFile = new File([fileInput.target.files[i]], newFileName, {type: fileInput.target.files[i].type});
+        this.filesToUpload.push(newFile);
+        const jobAttachment = new JobAttachment(
+          null,
+          null,
+          fileInput.target.files[i].name,
+          newFile.name);
+        this.jobAttachments.push(jobAttachment);
+        this.notifierService.notify('default', 'File uploaded successfully');
+
+      } else {
+        this.notifierService.notify('default', 'Unsupported format!');
+      }
     }
-    this.notifierService.notify('default', 'File uploaded successfully');
+    this.fileUploadVar.nativeElement.value = '';
   }
 
   clearAllArrays() {
@@ -236,20 +242,22 @@ export class AddNewJobComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result !== '') {
-       /* const department = new Department(
+        const department = new Department(
           null,
           result
-        );*/
-        this.departments.push({id: null, name: result});
-        this.notifierService.notify('default', 'New department added!');
+        );
 
-        /*this.dataStorageService.addNewDepartment(department)
+        this.dataStorageService.addNewDepartment(department)
           .subscribe(
             (data: any) => {
-              this.departments.push(department);
+              this.dataStorageService.getAllDepartment().subscribe(
+                (departments: any) => {
+                  this.departments = departments;
+                }
+              );
               this.notifierService.notify('default', 'New department added!');
             }
-          );*/
+          );
       }
     });
   }
@@ -272,20 +280,22 @@ export class AddNewJobComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result !== '') {
-       /* const jobFunction = new JobFunction(
+        const jobFunction = new JobFunction(
           null,
           result
-        );*/
-        this.jobFunctionalities.push({id: null, name: result});
-        this.notifierService.notify('default', 'New job function added!');
+        );
 
-        /*this.dataStorageService.addNewJobFunction(jobFunction)
+        this.dataStorageService.addNewJobFunction(jobFunction)
           .subscribe(
             (data: any) => {
-              this.jobFunctions.push(jobFunction);
+              this.dataStorageService.getAllJobFunction().subscribe(
+                (jobFunctions: any) => {
+                  this.jobFunctionalities = jobFunctions;
+                }
+              );
               this.notifierService.notify('default', 'New job function added!');
             }
-          );*/
+          );
       }
     });
   }
@@ -309,21 +319,23 @@ export class AddNewJobComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result !== '') {
-      /*  const jobType = new JobType(
+        const jobType = new JobType(
           null,
           result
-        );*/
+        );
 
-        this.employmentTypes.push({id: null, name: result});
-        this.notifierService.notify('default', 'New job type added!');
 
-        /*this.dataStorageService.addNewJobType(jobType)
+        this.dataStorageService.addNewJobType(jobType)
           .subscribe(
             (data: any) => {
-              this.jobTypes.push(jobType);
+              this.dataStorageService.getAllJobType().subscribe(
+                (jobTypes: any) => {
+                  this.employmentTypes = jobTypes;
+                }
+              );
               this.notifierService.notify('default', 'New job type added!');
             }
-          );*/
+          );
       }
     });
   }

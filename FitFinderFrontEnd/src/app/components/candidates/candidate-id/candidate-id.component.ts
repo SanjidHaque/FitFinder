@@ -8,6 +8,7 @@ import {CandidateEducation} from '../../../models/candidate-education.model';
 import {CandidateExperience} from '../../../models/candidate-experience.model';
 import {Source} from '../../../models/source.model';
 import {SettingsService} from '../../../services/settings.service';
+import {RatingModule} from 'primeng/rating';
 
 @Component({
   selector: 'app-candidate-id',
@@ -18,6 +19,7 @@ export class CandidateIdComponent implements OnInit {
 
   candidateId: number;
   candidateDefaultImage = 'assets/images/candidateDefaultImage.png';
+  rating: 0;
 
   candidates: Candidate[] = [];
   candidate: Candidate;
@@ -32,7 +34,7 @@ export class CandidateIdComponent implements OnInit {
     this.route.params
       .subscribe(
         (params: Params) => {
-          this.candidateId = params['candidate-id'];
+          this.candidateId = +params['candidate-id'];
         }
       );
 

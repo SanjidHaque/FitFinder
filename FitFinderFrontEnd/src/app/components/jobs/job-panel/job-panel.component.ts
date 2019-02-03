@@ -5,6 +5,8 @@ import {JobService} from '../../../services/job.service';
 import {SelectionModel} from '@angular/cdk/collections';
 import {MatTreeFlatDataSource} from '@angular/material';
 import * as moment from 'moment';
+import {Department} from '../../../models/department.model';
+import {SettingsService} from '../../../services/settings.service';
 
 @Component({
   selector: 'app-job-panel',
@@ -20,17 +22,14 @@ export class JobPanelComponent implements OnInit {
   selectedValue = 'all';
   jobs: Job[] = [];
   selection = new SelectionModel<Job>(true, []);
-  departments = [
-    {id: '1', name: 'Accounts'},
-    {id: '2', name: 'Finance'},
-    {id: '3', name: 'Development'},
-    {id: '4', name: 'Engineering'}
-  ];
+  departments: Department[] = [];
 
-  constructor(private jobService: JobService) { }
+  constructor(private jobService: JobService,
+              private settingsService: SettingsService) { }
 
   ngOnInit() {
     this.jobs = this.jobService.getAllJob().filter(x => x.IsArchived === false);
+    this.departments = this.settingsService.getAllDepartment();
   }
 
 
@@ -49,8 +48,8 @@ export class JobPanelComponent implements OnInit {
     this.jobs = this.jobService.filterArchivedJob(this.selectedValue, this.archivedChecked, this.favouriteChecked);
   }
 
-  getDepartmentName(departmentId: string) {
-    return this.departments.find(x => x.id === departmentId ).name;
+  getDepartmentName(departmentId: number) {
+    return this.departments.find(x => x.Id === departmentId ).Name;
   }
 
   getClosingDays(jobClosingDate: string) {

@@ -6,7 +6,6 @@ import {Candidate} from '../../../models/candidate.model';
 import {
   SelectCandidatesForInterviewDialogComponent
 } from './select-candidates-for-interview-dialog/select-candidates-for-interview-dialog.component';
-import {UUID} from 'angular2-uuid';
 import {CandidatesForInterview} from '../../../models/candidates-for-interview.model';
 import {InterviewersForInterview} from '../../../models/interviewers-for-interview.model';
 import {Interview} from '../../../models/interview.model';
@@ -16,7 +15,6 @@ import {DataStorageService} from '../../../services/data-storage.service';
 import {NotifierService} from 'angular-notifier';
 import {Job} from '../../../models/job.model';
 import {JobService} from '../../../services/job.service';
-import {CandidateService} from '../../../services/candidate.service';
 
 @Component({
   selector: 'app-add-new-interview',
@@ -141,23 +139,17 @@ export class AddNewInterviewComponent implements OnInit {
       interviewStatus,
       isArchived
     );
-
-    console.log(interview);
-
-    this.interviewService.addNewInterview(interview);
-    this.notifierService.notify('default', 'New interview added');
     this.isDisabled = true;
-    this.router.navigate(['/interviews']);
-    /*this.dataStorageService.addNewCandidate(newCandidate)
+    this.dataStorageService.addNewInterview(interview)
        .subscribe(
          (data: any) => {
+           this.interviewService.addNewInterview(interview);
            this.candidates = [];
            this.addNewInterviewForm.reset();
            this.router.navigate(['/interviews']);
-           this.notifierService.notify('default', 'New candidate added');
-           133 no line'll be removed, when comment out this block.
+           this.notifierService.notify('default', 'New interview added');
          }
-       );*/
+       );
   }
 
   getTimeWithAmOrPm(time: string) {

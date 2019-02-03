@@ -87,14 +87,20 @@ export class AddNewCandidateComponent implements OnInit {
     for (let i = 0; i < fileInput.target.files.length; i++) {
       const fileName = fileInput.target.files[i].name.substr(0, fileInput.target.files[i].name.lastIndexOf('.'));
       const fileExtension = fileInput.target.files[i].name.split('.').pop();
-      const newFileName = fileName + Date.now() + '.' + fileExtension;
-      const newFile = new File([fileInput.target.files[i]], newFileName, {type: fileInput.target.files[i].type});
-      this.filesToUpload.push(newFile);
-      const candidateAttachment = new CandidateAttachment(
-         null, null, fileInput.target.files[i].name, newFile.name, false);
-      this.candidateAttachments.push(candidateAttachment);
+
+      if (fileExtension === 'doc' || fileExtension === 'docx' || fileExtension === 'pdf') {
+        const newFileName = fileName + Date.now() + '.' + fileExtension;
+        const newFile = new File([fileInput.target.files[i]], newFileName, {type: fileInput.target.files[i].type});
+        this.filesToUpload.push(newFile);
+        const candidateAttachment = new CandidateAttachment(
+          null, null, fileInput.target.files[i].name, newFile.name, false);
+        this.candidateAttachments.push(candidateAttachment);
+        this.notifierService.notify('default', 'File uploaded successfully');
+      } else {
+        this.notifierService.notify('default', 'Unsupported format!');
+      }
     }
-    this.notifierService.notify('default', 'File uploaded successfully');
+    this.fileUploadVar.nativeElement.value = '';
   }
 
   changeResume(index: number, value: any) {
@@ -237,7 +243,6 @@ export class AddNewCandidateComponent implements OnInit {
    this.dataStorageService.addNewCandidate(candidate)
      .subscribe(
        (data: any) => {
-         console.log(data);
          this.dataStorageService.uploadAttachments(this.filesToUpload)
            .subscribe(
              (response: any) => {

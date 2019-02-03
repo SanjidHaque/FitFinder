@@ -12,6 +12,8 @@ import {SelectCandidatesForInterviewDialogComponent} from '../add-new-interview/
 import {MatDialog} from '@angular/material';
 import {UUID} from 'angular2-uuid';
 import {CandidatesForInterview} from '../../../models/candidates-for-interview.model';
+import {Source} from '../../../models/source.model';
+import {SettingsService} from '../../../services/settings.service';
 
 @Component({
   selector: 'app-interview-id',
@@ -26,6 +28,7 @@ export class InterviewIdComponent implements OnInit {
   candidates: Candidate[] = [];
   jobs: Job[] = [];
   jobNotAssigned: boolean;
+  sources: Source[] = [];
   disableEmailInvites = false;
   candidateDefaultImage = 'assets/images/candidateDefaultImage.png';
 
@@ -39,16 +42,7 @@ export class InterviewIdComponent implements OnInit {
     {id: 7, userName: 'Vusimuji Momak', role: 'Team member'},
     {id: 8, userName: 'Wyengyu Duija', role: 'Team member'}
   ];
-  sources = [
-    {sourceId: 1, sourceName: 'BdJobs.com'},
-    {sourceId: 2, sourceName: 'Email'},
-    {sourceId: 3, sourceName: 'Facebook'},
-    {sourceId: 4, sourceName: 'Internal'},
-    {sourceId: 5, sourceName: 'Job is Job'},
-    {sourceId: 6, sourceName: 'LinkedIn'},
-    {sourceId: 7, sourceName: 'Simply Hired'},
-    {sourceId: 8, sourceName: 'Website'}
-  ];
+
   interviewTypes = [
     {id: 1, type: 'Face to Face'},
     {id: 2, type: 'Telephonic'},
@@ -56,6 +50,7 @@ export class InterviewIdComponent implements OnInit {
     {id: 4, type: 'Group'},
     {id: 5, type: 'Panel'}
   ];
+
   interviewStatuses = [
     { Id: 1, Name: 'Pending' },
     { Id: 2, Name: 'Invited' },
@@ -67,13 +62,14 @@ export class InterviewIdComponent implements OnInit {
               private dialog: MatDialog,
               private notifierService: NotifierService,
               private jobService: JobService,
+              private settingsService: SettingsService,
               private router: Router,
               private candidateService: CandidateService,
               private interviewService: InterviewService) {
     this.route.params
       .subscribe(
         (params: Params) => {
-          this.interviewId = params['interview-id'];
+          this.interviewId = +params['interview-id'];
         }
       );
   }
@@ -83,6 +79,7 @@ export class InterviewIdComponent implements OnInit {
     this.candidates = this.candidateService.getAllCandidate();
     this.interviews = this.interviewService.getAllInterview();
     this.interview = this.interviews.find(x => x.Id === this.interviewId);
+    this.sources = this.settingsService.getAllSource();
   }
 
   removeCandidate(index: number) {
@@ -157,7 +154,7 @@ export class InterviewIdComponent implements OnInit {
 
   getCandidateSource(candidateId: number) {
     const sourceId = this.candidates.find( x => x.Id === candidateId).SourceId;
-    return this.sources.find(x => x.sourceId === sourceId).sourceName;
+    return this.sources.find(x => x.Id === sourceId).Name;
   }
 
 
