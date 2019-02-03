@@ -27,7 +27,6 @@
 
       <div class="offset-xl-1 col-xl-10" style="padding-top: 30px; text-align: left; font-size: 14px;">
         <mat-button-toggle-group
-          [disabled]="jobs.length === 0"
           #group="matButtonToggleGroup" [value]="selectedValue"
                                  (change)="onValueChange(group.value)">
           <mat-button-toggle value="all"> All </mat-button-toggle>
@@ -46,7 +45,6 @@
        text-align: left; font-size: 14px;">
         Show Archived <mat-slide-toggle
         (change)="archiveStatus($event)"
-        [disabled]="jobs.length === 0"
         color="primary"></mat-slide-toggle>
       </div>
 
@@ -60,7 +58,6 @@
        text-align: left; font-size: 14px;">
         Only Favourites <mat-slide-toggle
         (change)="favouriteStatus($event)"
-        [disabled]="jobs.length === 0"
         color="primary"></mat-slide-toggle>
       </div>
 
@@ -112,7 +109,6 @@
       <div class="col-xl-1 text-xl-left" style="padding-top: 18px;">
 
         <mat-checkbox (change)="$event ? masterToggle() : null"
-                      [disabled]="jobs.length === 0"
                       color="primary"
                       matTooltip="Select all"
                       matTooltipPosition="left"

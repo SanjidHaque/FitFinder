@@ -273,6 +273,10 @@
     <Compile Include="Migrations\201902031734038_jobModelChangedAgain.Designer.cs">
       <DependentUpon>201902031734038_jobModelChangedAgain.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201902031849183_interviewModelChanged.cs" />
+    <Compile Include="Migrations\201902031849183_interviewModelChanged.Designer.cs">
+      <DependentUpon>201902031849183_interviewModelChanged.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -414,6 +418,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201902031734038_jobModelChangedAgain.resx">
       <DependentUpon>201902031734038_jobModelChangedAgain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902031849183_interviewModelChanged.resx">
+      <DependentUpon>201902031849183_interviewModelChanged.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

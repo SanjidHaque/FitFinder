@@ -11,7 +11,7 @@ export class Interview {
    InterviewTypeId: number;
    CandidatesForInterview: CandidatesForInterview[] = [];
    InterviewersForInterview: InterviewersForInterview[] = [];
-   InterviewStatus: string;
+   InterviewStatusId: number;
    IsArchived: boolean;
 
   constructor (
@@ -24,7 +24,7 @@ export class Interview {
      interviewTypeId: number,
      candidatesForInterview: CandidatesForInterview[] = [],
      interviewersForInterview: InterviewersForInterview[] = [],
-     interviewStatus: string,
+     interviewStatusId: number,
      isArchived: boolean
   ) {
 
@@ -37,7 +37,7 @@ export class Interview {
     this.InterviewTypeId =  interviewTypeId;
     this.CandidatesForInterview = candidatesForInterview;
     this.InterviewersForInterview = interviewersForInterview;
-    this.InterviewStatus = interviewStatus;
+    this.InterviewStatusId = interviewStatusId;
     this.IsArchived = isArchived;
   }
 }

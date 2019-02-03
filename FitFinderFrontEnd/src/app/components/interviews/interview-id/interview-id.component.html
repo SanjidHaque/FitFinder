@@ -302,7 +302,7 @@
         <div class="offset-xl-7 col-xl-4 text-xl-right" *ngIf="interview.CandidatesForInterview.length !== 0">
 
           <button
-            [disabled]="interview.IsArchived"
+            [disabled]="interview.IsArchived || candidateService.candidates.length === 0"
             type="button"
             (click)="openSelectCandidatesDialog()"
             mat-flat-button style="outline: 0; background-color: transparent;">

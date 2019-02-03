@@ -155,7 +155,7 @@ export class AddNewJobComponent implements OnInit {
                        this.clearAllArrays();
                        this.addNewJobForm.reset();
                        const lastJob = this.jobService.jobs[this.jobService.jobs.length - 1];
-                       this.router.navigate(['/jobs/', lastJob.Id, '/job-info']);
+                       this.router.navigate(['/jobs/', lastJob.Id ]);
                        this.notifierService.notify('default', 'New job published');
                      }
                    );

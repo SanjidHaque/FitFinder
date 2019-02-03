@@ -25,7 +25,8 @@ export class InterviewsComponent implements OnInit {
           this.interviewService.interviews = data['interviews'];
           this.candidateService.candidates = data['candidates'];
           this.jobService.jobs = data['jobs'];
-          this.settingsService.sources = data['sources']        }
+          this.settingsService.sources = data['sources']
+        }
       );
   }
 

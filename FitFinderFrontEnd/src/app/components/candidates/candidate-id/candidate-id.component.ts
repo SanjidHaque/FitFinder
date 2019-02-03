@@ -8,7 +8,7 @@ import {CandidateEducation} from '../../../models/candidate-education.model';
 import {CandidateExperience} from '../../../models/candidate-experience.model';
 import {Source} from '../../../models/source.model';
 import {SettingsService} from '../../../services/settings.service';
-import {RatingModule} from 'primeng/rating';
+
 
 @Component({
   selector: 'app-candidate-id',

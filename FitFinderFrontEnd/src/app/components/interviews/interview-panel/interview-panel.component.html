@@ -26,7 +26,7 @@
 
       <div class="offset-xl-1 col-xl-10 " style="padding-top: 30px; text-align: left; font-size: 14px;">
         <mat-button-toggle-group
-          [disabled]="interviews.length === 0"
+
           #group="matButtonToggleGroup"
           [value]="selectedValue" (change)="onValueChange(group.value)">
           <mat-button-toggle value="all"> All </mat-button-toggle>
@@ -42,7 +42,7 @@
       padding-top: 17px; text-align: left;
       font-weight: bold;
       font-size: 14px;">
-        Show Archived <mat-slide-toggle [disabled]="interviews.length === 0"
+        Show Archived <mat-slide-toggle
                                         color="primary"></mat-slide-toggle>
       </div>
     </div>
@@ -62,7 +62,6 @@
         <mat-form-field appearance="outline">
 
           <mat-select
-            [disabled]="interviews.length === 0"
             (selectionChange)="selectValueChanged($event.value)"
             [(value)]= "all"
             style="
@@ -122,7 +121,6 @@
       <div class="col-xl-1 text-xl-left" style="padding-top: 18px;">
 
         <mat-checkbox (change)="$event ? masterToggle() : null"
-                      [disabled]="interviews.length === 0"
                       color="primary"
                       matTooltip="Select all"
                       matTooltipPosition="left"

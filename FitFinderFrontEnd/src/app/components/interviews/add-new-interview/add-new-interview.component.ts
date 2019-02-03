@@ -15,6 +15,7 @@ import {DataStorageService} from '../../../services/data-storage.service';
 import {NotifierService} from 'angular-notifier';
 import {Job} from '../../../models/job.model';
 import {JobService} from '../../../services/job.service';
+import {CandidateService} from '../../../services/candidate.service';
 
 @Component({
   selector: 'app-add-new-interview',
@@ -53,6 +54,7 @@ export class AddNewInterviewComponent implements OnInit {
 
   constructor(private dialog: MatDialog,
               private interviewService: InterviewService,
+              private candidateService: CandidateService,
               private jobService: JobService,
               private router: Router,
               private dataStorageService: DataStorageService,
@@ -62,6 +64,7 @@ export class AddNewInterviewComponent implements OnInit {
 
   ngOnInit() {
     this.jobs = this.jobService.getAllJob();
+
     this.addNewInterviewForm = new FormGroup({
       'interviewDate': new FormControl('', Validators.required),
       'interviewName': new FormControl(''),
@@ -122,8 +125,6 @@ export class AddNewInterviewComponent implements OnInit {
 
     let interviewersForInterview = this.addNewInterviewForm.controls['interviewers'].value;
     interviewersForInterview = this.getInterviewersForInterview(interviewId, interviewersForInterview);
-
-    const interviewStatus = 'Pending';
     const isArchived = false;
 
     const interview = new Interview(
@@ -136,18 +137,25 @@ export class AddNewInterviewComponent implements OnInit {
       interviewTypeId,
       candidatesForInterview,
       interviewersForInterview,
-      interviewStatus,
+      1,
       isArchived
     );
     this.isDisabled = true;
     this.dataStorageService.addNewInterview(interview)
        .subscribe(
          (data: any) => {
-           this.interviewService.addNewInterview(interview);
-           this.candidates = [];
-           this.addNewInterviewForm.reset();
-           this.router.navigate(['/interviews']);
-           this.notifierService.notify('default', 'New interview added');
+           this.dataStorageService.getAllInterview()
+             .subscribe(
+               (interviews: any) => {
+                 this.interviewService.interviews = interviews;
+                 this.candidates = [];
+                 this.addNewInterviewForm.reset();
+                 const lastInterview = this.interviewService.interviews[this.interviewService.interviews.length - 1];
+                 this.router.navigate(['/interviews/', lastInterview.Id ]);
+                 this.notifierService.notify('default', 'New interview added');
+               }
+             );
+
          }
        );
   }

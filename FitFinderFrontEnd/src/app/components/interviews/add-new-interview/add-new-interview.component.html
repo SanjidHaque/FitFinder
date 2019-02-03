@@ -216,6 +216,7 @@
 
           <div style="text-align: center;">
             <button
+              [disabled]="candidateService.candidates.length === 0"
               type="button"
               (click)="openSelectCandidatesDialog()"
               mat-flat-button style="outline: 0 ;">
@@ -290,7 +291,7 @@
 
             <hr>
 
-            <div class="row" *ngIf="candidate.JobId !== ''">
+            <div class="row" *ngIf="candidate.AssignedJobToCandidate.length !== 0">
 
               <div class="col-xl-6"
                    style="

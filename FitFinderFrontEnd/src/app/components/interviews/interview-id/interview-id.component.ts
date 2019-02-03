@@ -22,7 +22,7 @@ import {SettingsService} from '../../../services/settings.service';
 })
 export class InterviewIdComponent implements OnInit {
   interviewId: number;
-  pending = '1';
+  pending = 1;
   interviews: Interview[] = [];
   interview: Interview;
   candidates: Candidate[] = [];
@@ -215,12 +215,12 @@ export class InterviewIdComponent implements OnInit {
   }
 
   getJobTitle(candidateId: number) {
-    const jobId = this.candidates.find(x => x.Id === candidateId).JobId;
-    if (jobId === null ) {
+    const jobId = this.candidates.find(x => x.Id === candidateId).AssignedJobToCandidate;
+    if (jobId.length === 0 ) {
       return '';
-    } else {
+    } /*else {
       return this.jobs.find(x => x.Id === jobId).JobTitle;
-    }
+    }*/
 
   }
 
