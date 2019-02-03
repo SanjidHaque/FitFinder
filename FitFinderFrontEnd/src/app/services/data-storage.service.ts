@@ -78,15 +78,15 @@ export class DataStorageService {
   }
 
   getAllCandidate() {
-    return this.httpClient.get<Candidate[]>(this.getAllCandidateJson);
+    return this.httpClient.get<Candidate[]>(this.getAllCandidateApi);
   }
 
   getAllInterview() {
-    return this.httpClient.get<Interview[]>(this.getAllInterviewJson);
+    return this.httpClient.get<Interview[]>(this.getAllInterviewApi);
   }
 
   getAllJob() {
-    return this.httpClient.get<Job[]>(this.getAllJobJson);
+    return this.httpClient.get<Job[]>(this.getAllJobApi);
   }
 
   getAllPipeline() {
@@ -193,5 +193,5 @@ export class DataStorageService {
   editPipelineStageCriteria(pipelineStageCriteria: PipelineStageCriteria) {
     return this.httpClient.put(this.apiRootUrl + 'EditPipelineStageCriteria', pipelineStageCriteria);
   }
-  }
+
 }

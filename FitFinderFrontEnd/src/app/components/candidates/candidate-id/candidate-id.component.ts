@@ -6,6 +6,8 @@ import * as moment from 'moment';
 import {CandidateAttachment} from '../../../models/canidate-attachment.model';
 import {CandidateEducation} from '../../../models/candidate-education.model';
 import {CandidateExperience} from '../../../models/candidate-experience.model';
+import {Source} from '../../../models/source.model';
+import {SettingsService} from '../../../services/settings.service';
 
 @Component({
   selector: 'app-candidate-id',
@@ -20,21 +22,13 @@ export class CandidateIdComponent implements OnInit {
   candidates: Candidate[] = [];
   candidate: Candidate;
 
-  sources = [
-    {sourceId: 1, sourceName: 'BdJobs.com'},
-    {sourceId: 2, sourceName: 'Email'},
-    {sourceId: 3, sourceName: 'Facebook'},
-    {sourceId: 4, sourceName: 'Internal'},
-    {sourceId: 5, sourceName: 'Job is Job'},
-    {sourceId: 6, sourceName: 'LinkedIn'},
-    {sourceId: 7, sourceName: 'Simply Hired'},
-    {sourceId: 8, sourceName: 'Website'}
-  ];
+  sources: Source[] = [];
 
   constructor(private route: ActivatedRoute,
               private router: Router,
 
-              private candidateService: CandidateService) {
+              private candidateService: CandidateService,
+              private settingsService: SettingsService) {
     this.route.params
       .subscribe(
         (params: Params) => {
@@ -47,6 +41,7 @@ export class CandidateIdComponent implements OnInit {
   ngOnInit() {
     this.candidates = this.candidateService.getAllCandidate();
     this.candidate = this.candidates.find(x => x.Id === this.candidateId);
+    this.sources = this.settingsService.getAllSource();
   }
 
 
@@ -81,7 +76,7 @@ export class CandidateIdComponent implements OnInit {
     return moment(new Date(this.candidate.ApplicationDate)).format('Do MMM YYYY');
   }
   getCandidateSource() {
-    return this.sources.find(x => x.sourceId === this.candidate.SourceId).sourceName;
+    return this.sources.find(x => x.Id === this.candidate.SourceId).Name;
   }
   goToFacebookProfile() {
     window.open('http://' + this.candidate.FacebookUrl);

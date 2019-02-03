@@ -3,6 +3,7 @@ import {CandidateExperience} from './candidate-experience.model';
 import {CandidateAttachment} from './canidate-attachment.model';
 import {PipelineStageCriteriaStarRating} from './pipeline-stage-criteria-star-rating.model';
 import {PipelineStageStarRating} from './pipeline-stage-star-rating.model';
+import {AssignedJobToCandidate} from './assigned-job-to-candidate.model';
 
 export class Candidate {
    Id: number;
@@ -19,6 +20,7 @@ export class Candidate {
    CandidateEducation: CandidateEducation[];
    CandidateExperience: CandidateExperience[];
    CandidateAttachment: CandidateAttachment[];
+   AssignedJobToCandidate: AssignedJobToCandidate[];
    FacebookUrl: string;
    LinkedInUrl: string;
    IsArchived: boolean;
@@ -26,8 +28,7 @@ export class Candidate {
    IsClosed: boolean;
    ApplicationDate: string;
    IsFavourite: boolean;
-   PipelineStageStarRating: PipelineStageStarRating[];
-   PipelineStageCriteriaStarRating: PipelineStageCriteriaStarRating[];
+
 
   constructor(
      id: number,
@@ -44,15 +45,15 @@ export class Candidate {
      candidateEducation: CandidateEducation[] = [],
      candidateExperience: CandidateExperience[] = [],
      candidateAttachment: CandidateAttachment[] = [],
+     assignedJobToCandidate: AssignedJobToCandidate[] = [],
      facebookUrl: string,
      linkedInUrl: string,
      isArchived: boolean,
      isHired: boolean,
      isClosed: boolean,
      applicationDate: string,
-     isFavourite: boolean,
-     pipelineStageStarRating: PipelineStageStarRating[] = [],
-     pipelineStageCriteriaStarRating: PipelineStageCriteriaStarRating[] = []
+     isFavourite: boolean
+
   ) {
     this.Id = id;
     this.JobId = jobId;
@@ -68,6 +69,7 @@ export class Candidate {
     this.CandidateEducation = candidateEducation;
     this.CandidateExperience = candidateExperience;
     this.CandidateAttachment = candidateAttachment;
+    this.AssignedJobToCandidate = assignedJobToCandidate;
     this.FacebookUrl = facebookUrl;
     this.LinkedInUrl = linkedInUrl;
     this.IsArchived = isArchived;
@@ -75,7 +77,6 @@ export class Candidate {
     this.IsClosed = isClosed;
     this.ApplicationDate = applicationDate;
     this.IsFavourite = isFavourite;
-    this.PipelineStageStarRating = pipelineStageStarRating;
-    this.PipelineStageCriteriaStarRating = pipelineStageCriteriaStarRating;
+
   }
 }

@@ -13,6 +13,8 @@ import {NotifierService} from 'angular-notifier';
 import {CandidateAttachment} from '../../../models/canidate-attachment.model';
 import {Job} from '../../../models/job.model';
 import {JobService} from '../../../services/job.service';
+import {SettingsService} from '../../../services/settings.service';
+import {Source} from '../../../models/source.model';
 
 
 @Component({
@@ -30,6 +32,7 @@ export class AddNewCandidateComponent implements OnInit {
   candidateAttachments: CandidateAttachment[] = [];
 
   jobs: Job[] = [];
+  sources: Source[] = [];
 
   filesToUpload: Array<File>;
   @ViewChild('fileUpload') fileUploadVar: any;
@@ -39,19 +42,9 @@ export class AddNewCandidateComponent implements OnInit {
   email = new FormControl('', [Validators.required, Validators.email]);
 
 
-  sources = [
-    {sourceId: 1, sourceName: 'BdJobs.com'},
-    {sourceId: 2, sourceName: 'Email'},
-    {sourceId: 3, sourceName: 'Facebook'},
-    {sourceId: 4, sourceName: 'Internal'},
-    {sourceId: 5, sourceName: 'Job is Job'},
-    {sourceId: 6, sourceName: 'LinkedIn'},
-    {sourceId: 7, sourceName: 'Simply Hired'},
-    {sourceId: 8, sourceName: 'Website'}
-   ];
-
   constructor(private router: Router,
               private jobService: JobService,
+              private settingsService: SettingsService,
               private dataStorageService: DataStorageService,
               private notifierService: NotifierService,
               private candidateService: CandidateService,
@@ -60,6 +53,9 @@ export class AddNewCandidateComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.sources = this.settingsService.getAllSource();
+    this.jobs = this.jobService.getAllJob();
+
     this.addNewCandidateForm = new FormGroup({
       'jobId': new FormControl(''),
       'firstName': new FormControl('', Validators.required),
@@ -76,7 +72,6 @@ export class AddNewCandidateComponent implements OnInit {
       'facebookUrl': new FormControl(''),
       'linkedInUrl': new FormControl('')
     });
-    this.jobs = this.jobService.getAllJob();
   }
 
   clearAllArrays() {
@@ -226,38 +221,36 @@ export class AddNewCandidateComponent implements OnInit {
      this.candidateEducation,
      this.candidateExperience,
      this.candidateAttachments,
+     [],
      facebookUrl,
      linkedInUrl,
      isArchived,
      isHired,
      isClosed,
      applicationDate.toString(),
-     false,
-     [],
-     []
+     false
    );
 
-   this.candidateService.addNewCandidate(candidate);
-   this.notifierService.notify('default', 'New candidate added');
+
+
    this.isDisabled = true;
-   this.router.navigate(['/candidates']);
-  /* this.dataStorageService.addNewCandidate(newCandidate)
+   this.dataStorageService.addNewCandidate(candidate)
      .subscribe(
        (data: any) => {
          console.log(data);
          this.dataStorageService.uploadAttachments(this.filesToUpload)
            .subscribe(
              (response: any) => {
-                console.log(response);
+               this.candidateService.addNewCandidate(candidate);
                 this.clearAllArrays();
                 this.addNewCandidateForm.reset();
                 this.router.navigate(['/candidates']);
                 this.notifierService.notify('default', 'New candidate added');
-                239, 241 no line'll be removed when comment out this block
+
              }
            );
        }
-     );*/
+     );
 
   }
 }

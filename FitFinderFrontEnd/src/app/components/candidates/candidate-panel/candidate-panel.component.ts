@@ -5,6 +5,8 @@ import {SelectionModel} from '@angular/cdk/collections';
 import {Job} from '../../../models/job.model';
 import {JobService} from '../../../services/job.service';
 import * as moment from 'moment';
+import {SettingsService} from '../../../services/settings.service';
+import {Source} from '../../../models/source.model';
 
 
 @Component({
@@ -22,23 +24,17 @@ export class CandidatePanelComponent implements OnInit {
   selectedValue = 'all';
   candidates: Candidate[] = [];
   jobs: Job[] = [];
+  sources: Source[] = [];
   candidateDefaultImage = 'assets/images/candidateDefaultImage.png';
 
-  sources = [
-    {sourceId: 1, sourceName: 'BdJobs.com'},
-    {sourceId: 2, sourceName: 'Email'},
-    {sourceId: 3, sourceName: 'Facebook'},
-    {sourceId: 4, sourceName: 'Internal'},
-    {sourceId: 5, sourceName: 'Job is Job'},
-    {sourceId: 6, sourceName: 'LinkedIn'},
-    {sourceId: 7, sourceName: 'Simply Hired'},
-    {sourceId: 8, sourceName: 'Website'}
-  ];
+
 
   constructor(private candidateService: CandidateService,
+              private settingsService: SettingsService,
               private jobService: JobService) {}
 
   ngOnInit() {
+    this.sources = this.settingsService.getAllSource();
     this.candidates = this.candidateService.getAllCandidate();
     this.jobs = this.jobService.getAllJob();
  }
@@ -79,7 +75,7 @@ export class CandidatePanelComponent implements OnInit {
 
 
   getCandidateSource(candidate: Candidate) {
-    return this.sources.find(x => x.sourceId === candidate.SourceId).sourceName;
+    return this.sources.find(x => x.Id === candidate.SourceId).Name;
   }
 
   getInterviewDate() {

@@ -109,8 +109,9 @@ const appRoutes: Routes = [
     component: CandidatesComponent,
     resolve:
       {
-      candidates: CandidateResolverService,
-      jobs: JobResolverService
+        candidates: CandidateResolverService,
+        jobs: JobResolverService,
+        sources: SourceResolverService
       },
     children: [
       {
@@ -216,8 +217,7 @@ const appRoutes: Routes = [
         component: CandidatesAndLeadsComponent,
         resolve:
           {
-            sources: SourceResolverService/*,
-            tags: TagResolverService*/
+            sources: SourceResolverService
           },
         children:
         [
@@ -229,11 +229,7 @@ const appRoutes: Routes = [
           {
             path: 'sources',
             component: SourcesComponent
-          }/*,
-          {
-            path: 'tags',
-            component: TagsComponent
-          }*/
+          }
         ]
       },
       {

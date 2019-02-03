@@ -13,7 +13,7 @@
   <div class="col-xl-1 pr-xl-1">
     <button
       type="submit"
-      [disabled]="!form.valid || isDisabled"
+      [disabled]="!form.valid || !isDisabled"
       style="width: 100%;
       outline: 0;"
       color="primary"
@@ -154,8 +154,8 @@
         <mat-form-field style="width: 100%;" appearance="outline">
           <mat-label>Select Candidate Source</mat-label>
           <mat-select required formControlName="candidateSourceId">
-            <mat-option *ngIf="sources.length == 0">No candidate source is available</mat-option>
-            <mat-option *ngFor="let source of sources" [value]="source.sourceId"> {{ source.sourceName }} </mat-option>
+            <mat-option *ngIf="sources.length == 0">No source is available</mat-option>
+            <mat-option *ngFor="let source of sources" [value]="source.Id"> {{ source.Name }} </mat-option>
           </mat-select>
           <mat-error>You must select a source!</mat-error>
         </mat-form-field>
