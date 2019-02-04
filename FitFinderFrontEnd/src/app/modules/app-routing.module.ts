@@ -123,7 +123,8 @@ const appRoutes: Routes = [
         jobs: JobResolverService,
         sources: SourceResolverService,
         interviews: InterviewResolverService,
-        departments: DepartmentResolverService
+        departments: DepartmentResolverService,
+        pipelines: PipelineResolverService
       },
     children: [
       {

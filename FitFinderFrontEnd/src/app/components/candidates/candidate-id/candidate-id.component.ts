@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {Candidate} from '../../../models/candidate.model';
 import {CandidateService} from '../../../services/candidate.service';
@@ -8,9 +8,13 @@ import {CandidateEducation} from '../../../models/candidate-education.model';
 import {CandidateExperience} from '../../../models/candidate-experience.model';
 import {Source} from '../../../models/source.model';
 import {SettingsService} from '../../../services/settings.service';
-import {SelectCandidatesForInterviewDialogComponent} from '../../../dialogs/select-candidates-for-interview-dialog/select-candidates-for-interview-dialog.component';
 import {MatDialog} from '@angular/material';
 import {AssignJobToCandidateComponent} from '../../../dialogs/assign-job-to-candidate/assign-job-to-candidate.component';
+import {AssignedJobToCandidate} from '../../../models/assigned-job-to-candidate.model';
+import {Job} from '../../../models/job.model';
+import {JobService} from '../../../services/job.service';
+import {Pipeline} from '../../../models/pipeline.model';
+import {forEachToken} from 'tslint';
 
 
 @Component({
@@ -23,15 +27,21 @@ export class CandidateIdComponent implements OnInit {
   candidateId: number;
   candidateDefaultImage = 'assets/images/candidateDefaultImage.png';
   rating: 0;
+  new = 1;
+  name = 'New';
+  color = 'blue';
+  pipelines: Pipeline[] = [];
 
   candidates: Candidate[] = [];
   candidate: Candidate;
+  jobs: Job[] = [];
 
   sources: Source[] = [];
 
   constructor(private route: ActivatedRoute,
               private router: Router,
               private dialog: MatDialog,
+              private jobService: JobService,
               private candidateService: CandidateService,
               private settingsService: SettingsService) {
     this.route.params
@@ -44,9 +54,27 @@ export class CandidateIdComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.jobs = this.jobService.getAllJob();
+    this.pipelines = this.settingsService.getAllPipeline();
     this.candidates = this.candidateService.getAllCandidate();
     this.candidate = this.candidates.find(x => x.Id === this.candidateId);
     this.sources = this.settingsService.getAllSource();
+  }
+
+  getStyle() {
+    return 'blue';
+  }
+
+  selectValueChanged(pipelineStageId: number) {
+    for (let i = 0; i < this.pipelines.length; i++) {
+
+      for (let j = 0; j < this.pipelines[i].PipelineStage.length; j++) {
+        if (this.pipelines[i].PipelineStage[j].Id === pipelineStageId) {
+          this.name = this.pipelines[i].PipelineStage[j].Name;
+          this.color = this.pipelines[i].PipelineStage[j].Color;
+        }
+      }
+    }
   }
 
   assignJobDialog(candidate: Candidate) {
@@ -59,14 +87,27 @@ export class CandidateIdComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result !== '' ) {
-        if (this.candidates.length !== 0 ) {
-          this.candidates =
-            Array.from(new Set(this.candidates.concat(result)));
-        } else {
-          this.candidates = result;
-        }
+        const assignJobToCandidate = new AssignedJobToCandidate(
+          null,
+          this.candidateId,
+          result[0].Id
+        );
+        this.candidate.AssignedJobToCandidate.push(assignJobToCandidate);
       }
     });
+  }
+
+  getLastAssignedJobName() {
+   const lastIndex = this.candidate.AssignedJobToCandidate.length - 1;
+   return this.jobs.find(
+     x => x.Id ===
+       this.candidate.AssignedJobToCandidate[lastIndex].JobId).JobTitle;
+  }
+
+  goToJobDetail() {
+    const lastIndex = this.candidate.AssignedJobToCandidate.length - 1;
+    const jobId = this.candidate.AssignedJobToCandidate[lastIndex].JobId;
+    this.router.navigate(['jobs/',  jobId ]);
   }
 
   previousCandidate() {

@@ -1,10 +1,11 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import * as moment from 'moment';
 import {Job} from '../../models/job.model';
 import {SelectionModel} from '@angular/cdk/collections';
 import {Department} from '../../models/department.model';
 import {JobService} from '../../services/job.service';
 import {SettingsService} from '../../services/settings.service';
+import {MatSelectionList} from '@angular/material';
 
 @Component({
   selector: 'app-assign-job-to-candidate',
@@ -20,7 +21,7 @@ export class AssignJobToCandidateComponent implements OnInit {
 
   selectedValue = 'all';
   jobs: Job[] = [];
-  selection = new SelectionModel<Job>(true, []);
+  selection = new SelectionModel<Job>(false, []);
   departments: Department[] = [];
 
   constructor(private jobService: JobService,

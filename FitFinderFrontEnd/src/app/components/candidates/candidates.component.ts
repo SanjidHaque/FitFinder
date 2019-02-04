@@ -24,6 +24,7 @@ export class CandidatesComponent implements OnInit {
           this.jobService.jobs = data['jobs'];
           this.settingsService.sources = data['sources'];
           this.settingsService.departments = data['departments'];
+          this.settingsService.pipelines = data['pipelines'];
         }
     );
   }

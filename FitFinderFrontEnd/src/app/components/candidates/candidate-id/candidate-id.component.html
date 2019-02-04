@@ -192,14 +192,14 @@
       </div>
 
       <div *ngIf="candidate.FacebookUrl !== ''" class="col-xl-1 text-xl-right" style="font-size: 22px;">
-        <i style="cursor: pointer;"
+        <i style="cursor: pointer; color: #4267b2;"
            (click)="goToFacebookProfile()"
            class="fab fa-facebook-square"></i>
       </div>
 
       <div *ngIf="candidate.LinkedInUrl !== ''" class="col-xl-1 text-xl-left" style="font-size: 22px;">
         <i
-          style="cursor: pointer;"
+          style="cursor: pointer; color: #0077b5;"
           (click)="goToLinkedInProfile()"
           class="fab fa-linkedin"></i>
       </div>
@@ -544,12 +544,79 @@
   <div class="col-xl-6">
 
 
-    <!--<div class="row">
-      <div class="col-xl-12">
-        Job name and criteria name is here
+    <div *ngIf="candidate.AssignedJobToCandidate.length!==0">
+
+      <div class="row"
+           style="
+           background-color: #fafbfb;
+           border: 1px solid #e6e6e6;
+           padding-top: 10px;
+           padding-bottom: 10px;
+           border-left: 5px solid #90dac9;">
+
+        <div class="col-xl-5"
+             style="color: #4b96e6;
+             font-size: 17px;
+             padding-left: 15px;">
+
+          <span
+            style="cursor: "
+            (click)="goToJobDetail()"
+            title="Go To Detail"
+          >{{ getLastAssignedJobName() }} </span>
+        </div>
+
+        <div class="col-xl-4">
+          <mat-form-field appearance="outline">
+            <mat-select
+              (selectionChange)="selectValueChanged($event.value)"
+              [(value)]="new"
+              style="font-size: 15px; ">
+
+              <mat-select-trigger>
+                <input
+                  readonly
+                  style="outline: 0;
+                border: 1px solid white;
+                border-radius: 3px;
+                cursor: pointer; height: 25px; width: 25px;"
+                  [style.background]="color"/>
+                {{ name }}
+              </mat-select-trigger>
+
+              <mat-optgroup
+
+                *ngFor="let pipeline of pipelines" [label]="pipeline.Name">
+
+                <mat-option
+
+                  style="font-size: 15px;"
+                  *ngFor="let pipelineStage of pipeline.PipelineStage"
+                            [value]="pipelineStage.Id">
+
+                    <input
+                      readonly
+                      style="outline: 0;
+                border: 1px solid white;
+                border-radius: 3px;
+                cursor: pointer; height: 25px; width: 25px;"
+                      [style.background]="pipelineStage.Color"/>
+                   {{ pipelineStage.Name }}
+
+                </mat-option>
+
+              </mat-optgroup>
+
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+
       </div>
+      <br>
+
     </div>
--->
+
 
 
     <div class="row">
