@@ -75,12 +75,12 @@
 
       <div class="col-xl-11 col-11">
 
-        <mat-form-field
+        <mat-form-field appearance="outline"
           style="width: 100%;">
           <input
             matInput
             [(ngModel)]="term"
-            placeholder="Search candidates">
+            placeholder="Search Candidates">
         </mat-form-field>
 
       </div>
@@ -89,89 +89,116 @@
 
     <mat-dialog-content class="mat-typography">
 
-
-      <div class="row" *ngFor="let candidate of candidates | searchCandidate:term">
-
-        <div class="col-xl-1">
-
-          <div class="row">
-            <div class="col-xl-12"
-                 style="padding-top: 25px;"
-            >
-              <mat-checkbox (click)="$event.stopPropagation()"
-                            color="primary"
-                            (change)="$event ? selection.toggle(candidate) : null"
-                            [checked]="selection.isSelected(candidate)">
-              </mat-checkbox>
-            </div>
+      <div class="row"
+           *ngIf="candidates.length == 0; else candidateExists"
+           style="margin-top: 10px;
+           opacity: .8;
+           border: 1px solid #f0f0f0; border-radius: 5px;">
+        <div class="col-xl-12">
+          <br>
+          <br>
+          <div style="text-align: center;">
+            <i class="fab fa-blackberry fa-5x"></i>
           </div>
 
-        </div>
+          <br>
 
-        <div
-          class="col-xl-1"
-          style="
+          <div style="text-align: center;">
+            <h4>You do not have any candidate</h4>
+          </div>
+          <br>
+
+        </div>
+      </div>
+
+      <ng-template #candidateExists>
+
+        <div class="row" *ngFor="let candidate of candidates | searchCandidate:term">
+
+          <div class="col-xl-1">
+
+            <div class="row">
+              <div class="col-xl-12"
+                   style="padding-top: 25px;"
+              >
+                <mat-checkbox (click)="$event.stopPropagation()"
+                              color="primary"
+                              (change)="$event ? selection.toggle(candidate) : null"
+                              [checked]="selection.isSelected(candidate)">
+                </mat-checkbox>
+              </div>
+            </div>
+
+          </div>
+
+          <div
+            class="col-xl-1"
+            style="
                   padding-top: 5px;
                   padding-bottom: 5px;">
-          <img
-            class="img-responsive"
-            style="
+            <img
+              class="img-responsive"
+              style="
                     outline: 0;
                     cursor: pointer;
                     border-radius: 50%;height: 60px; width: 60px"
-            [src]="candidateDefaultImage">
-        </div>
+              [src]="candidateDefaultImage">
+          </div>
 
-        <div class="col-xl-10">
-          <div class="row">
+          <div class="col-xl-10">
+            <div class="row">
 
-            <div
-              class="col-xl-12"
-              style="
-                      padding-top: 10px;">
-              <strong
+              <div
+                class="col-xl-12"
                 style="
+                      padding-top: 10px;">
+                <strong
+                  style="
                        outline: 0;
                        cursor: pointer;"
-              >{{ candidate.FirstName }} {{ candidate.LastName }} </strong>
-              <i
-                *ngIf="candidate.IsFavourite"
-                style="color: #FFD61D; cursor: pointer;" class="fas fa-heart"></i>
+                >{{ candidate.FirstName }} {{ candidate.LastName }} </strong>
+                <i
+                  *ngIf="candidate.IsFavourite"
+                  style="color: #FFD61D; cursor: pointer;" class="fas fa-heart"></i>
 
-              <i style="cursor: pointer;"
-                 *ngIf="!candidate.IsFavourite"
-                 class="far fa-heart"></i>
-            </div>
-
-          </div>
-          <div class="row">
-            <div
-              style="font-size: 12px;"
-              class="col-xl-12">
-
-              <strong
-                title="Job Application"
-                *ngIf="candidate.AssignedJobToCandidate.length !== 0"
-              ><i class="fab fa-osi"></i> {{ getJobName(candidate) }} &nbsp;
-              </strong>
-
-              <strong
-                title="Candidate Source"
-              ><i class="fab fa-osi"></i> {{ getCandidateSource(candidate) }} &nbsp;
-              </strong>
-
-              <strong
-                title="Candidate Application Date"
-              ><i class="fab fa-osi"></i> {{ getApplicationDate(candidate) }}</strong>
+                <i style="cursor: pointer;"
+                   *ngIf="!candidate.IsFavourite"
+                   class="far fa-heart"></i>
+              </div>
 
             </div>
+            <div class="row">
+              <div
+                style="font-size: 12px;"
+                class="col-xl-12">
+
+                <strong
+                  title="Job Application"
+                  *ngIf="candidate.AssignedJobToCandidate.length !== 0"
+                ><i class="fab fa-osi"></i> {{ getJobName(candidate) }} &nbsp;
+                </strong>
+
+                <strong
+                  title="Candidate Source"
+                ><i class="fab fa-osi"></i> {{ getCandidateSource(candidate) }} &nbsp;
+                </strong>
+
+                <strong
+                  title="Candidate Application Date"
+                ><i class="fab fa-osi"></i> {{ getApplicationDate(candidate) }}</strong>
+
+              </div>
+            </div>
+
+
           </div>
 
 
         </div>
 
+      </ng-template>
 
-      </div>
+
 
 
     </mat-dialog-content>

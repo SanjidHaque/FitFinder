@@ -33,7 +33,7 @@ export class SelectCandidatesForInterviewDialogComponent implements OnInit {
               private settingsService: SettingsService) {}
 
   ngOnInit() {
-    this.candidates = this.candidateService.getAllCandidate();
+    this.candidates = [];
     this.sources = this.settingsService.getAllSource();
     this.jobs = this.jobService.getAllJob();
   }
