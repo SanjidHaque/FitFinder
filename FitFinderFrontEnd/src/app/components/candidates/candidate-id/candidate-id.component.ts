@@ -8,6 +8,9 @@ import {CandidateEducation} from '../../../models/candidate-education.model';
 import {CandidateExperience} from '../../../models/candidate-experience.model';
 import {Source} from '../../../models/source.model';
 import {SettingsService} from '../../../services/settings.service';
+import {SelectCandidatesForInterviewDialogComponent} from '../../../dialogs/select-candidates-for-interview-dialog/select-candidates-for-interview-dialog.component';
+import {MatDialog} from '@angular/material';
+import {AssignJobToCandidateComponent} from '../../../dialogs/assign-job-to-candidate/assign-job-to-candidate.component';
 
 
 @Component({
@@ -28,7 +31,7 @@ export class CandidateIdComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private router: Router,
-
+              private dialog: MatDialog,
               private candidateService: CandidateService,
               private settingsService: SettingsService) {
     this.route.params
@@ -46,7 +49,25 @@ export class CandidateIdComponent implements OnInit {
     this.sources = this.settingsService.getAllSource();
   }
 
+  assignJobDialog(candidate: Candidate) {
+    const dialogRef = this.dialog.open(AssignJobToCandidateComponent,
+      {
+        hasBackdrop: true,
+        disableClose: true,
+        width: '1000px'
+      });
 
+    dialogRef.afterClosed().subscribe(result => {
+      if (result !== '' ) {
+        if (this.candidates.length !== 0 ) {
+          this.candidates =
+            Array.from(new Set(this.candidates.concat(result)));
+        } else {
+          this.candidates = result;
+        }
+      }
+    });
+  }
 
   previousCandidate() {
     const currentIndex = this.candidates.findIndex(x => x.Id === this.candidateId);
@@ -90,10 +111,8 @@ export class CandidateIdComponent implements OnInit {
 
 
   downloadFile(candidateAttachment: CandidateAttachment) {
-    /*window.open('http://localhost:55586/Content/Attachments/' + candidateAttachment.ModifiedFileName);*/
-    /*The above line will be comment out when working with back end.*/
-
-    window.open('assets/cseregular3rd.pdf');
+    window.open('http://localhost:55586/Content/Attachments/' +
+      candidateAttachment.ModifiedFileName);
   }
 
   getStartMonthOfEducation(candidateEducation: CandidateEducation) {

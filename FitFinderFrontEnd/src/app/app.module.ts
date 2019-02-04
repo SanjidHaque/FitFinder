@@ -39,7 +39,7 @@ import { WorkflowComponent } from './components/settings/workflow/workflow.compo
 import { DisqualifyReasonsComponent } from './components/settings/disqualify-reasons/disqualify-reasons.component';
 import { AmazingTimePickerModule } from 'amazing-time-picker';
 import {
-  SelectCandidatesForInterviewDialogComponent} from './components/interviews/add-new-interview/select-candidates-for-interview-dialog/select-candidates-for-interview-dialog.component';
+  SelectCandidatesForInterviewDialogComponent} from './dialogs/select-candidates-for-interview-dialog/select-candidates-for-interview-dialog.component';
 import { SearchCandidatePipe } from './pipes/search-candidate.pipe';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
@@ -72,6 +72,7 @@ import { AddUpdatePipelineStageComponent } from './dialogs/add-update-pipeline-s
 import { ColorPickerModule } from 'ngx-color-picker';
 import { PipelineStageCriteriaComponent } from './dialogs/pipeline-stage-criteria/pipeline-stage-criteria.component';
 import { CandidateScoreCardComponent } from './components/candidates/candidate-id/candidate-score-card/candidate-score-card.component';
+import { AssignJobToCandidateComponent } from './dialogs/assign-job-to-candidate/assign-job-to-candidate.component';
 
 
 
@@ -120,7 +121,8 @@ import { CandidateScoreCardComponent } from './components/candidates/candidate-i
     AddUpdateComponent,
     AddUpdatePipelineStageComponent,
     PipelineStageCriteriaComponent,
-    CandidateScoreCardComponent
+    CandidateScoreCardComponent,
+    AssignJobToCandidateComponent
   ],
   imports: [
     BrowserModule,
@@ -175,6 +177,7 @@ import { CandidateScoreCardComponent } from './components/candidates/candidate-i
   ],
   entryComponents: [
     SelectCandidatesForInterviewDialogComponent,
+    AssignJobToCandidateComponent,
     AddUpdateComponent,
     AddUpdatePipelineStageComponent,
     PipelineStageCriteriaComponent

@@ -5,7 +5,7 @@ import {LongDateAdapter} from '../../../date-adapters/long-date.adpater';
 import {Candidate} from '../../../models/candidate.model';
 import {
   SelectCandidatesForInterviewDialogComponent
-} from './select-candidates-for-interview-dialog/select-candidates-for-interview-dialog.component';
+} from '../../../dialogs/select-candidates-for-interview-dialog/select-candidates-for-interview-dialog.component';
 import {CandidatesForInterview} from '../../../models/candidates-for-interview.model';
 import {InterviewersForInterview} from '../../../models/interviewers-for-interview.model';
 import {Interview} from '../../../models/interview.model';
@@ -184,9 +184,7 @@ export class AddNewInterviewComponent implements OnInit {
       {
         hasBackdrop: true,
         disableClose: true,
-        width: '1000px',
-        minHeight: '650px',
-        maxHeight: '650px'
+        width: '1000px'
       });
 
     dialogRef.afterClosed().subscribe(result => {

@@ -8,7 +8,7 @@ import {NotifierService} from 'angular-notifier';
 import {Candidate} from '../../../models/candidate.model';
 import {Job} from '../../../models/job.model';
 import {JobService} from '../../../services/job.service';
-import {SelectCandidatesForInterviewDialogComponent} from '../add-new-interview/select-candidates-for-interview-dialog/select-candidates-for-interview-dialog.component';
+import {SelectCandidatesForInterviewDialogComponent} from '../../../dialogs/select-candidates-for-interview-dialog/select-candidates-for-interview-dialog.component';
 import {MatDialog} from '@angular/material';
 import {UUID} from 'angular2-uuid';
 import {CandidatesForInterview} from '../../../models/candidates-for-interview.model';
