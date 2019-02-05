@@ -109,7 +109,12 @@ export class CandidateIdComponent implements OnInit {
 
     });
   }
+  moveToRejected() {
+    this.changeStatus(8);
+  }
 
+  moveToNextStage() {
+  }
   assignJobDialog(candidate: Candidate) {
     const dialogRef = this.dialog.open(AssignJobToCandidateComponent,
       {

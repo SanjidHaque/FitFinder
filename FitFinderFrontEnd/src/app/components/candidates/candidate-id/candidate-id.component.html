@@ -613,15 +613,15 @@
           </mat-form-field>
         </div>
 
-        <div class="col-xl-1"
-             style="padding-top: 3px;"
-        ><button class="btn btn-danger">
-          <i class="fas fa-times"></i>
-        </button></div>
+        <div class="col-xl-1" style="padding-top: 3px;">
+          <button
+            (click)="moveToRejected()"
+            class="btn btn-danger"><i class="fas fa-times"></i></button></div>
 
-        <div class="col-xl-1"
-             style="padding-top: 3px; padding-left: 2px;">
-          <button class="btn btn-success">
+        <div class="col-xl-1" style="padding-top: 3px; padding-left: 2px;">
+          <button
+            (click)="moveToNextStage()"
+            class="btn btn-success">
             <i class="fas fa-angle-double-right"></i>
           </button></div>
 
