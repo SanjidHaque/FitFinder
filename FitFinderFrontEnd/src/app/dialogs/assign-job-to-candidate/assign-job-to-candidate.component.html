@@ -15,7 +15,7 @@
 
     <div class="row">
 
-      <div class="offset-xl-1 col-xl-10" style="padding-top: 30px; text-align: left; font-size: 14px;">
+      <div class="offset-xl-1 col-xl-10" style="padding-top: 14px; text-align: left; font-size: 14px;">
         <mat-button-toggle-group
           #group="matButtonToggleGroup" [value]="selectedValue"
           (change)="onValueChange(group.value)">
@@ -105,7 +105,7 @@
 
       <div class="col-xl-11 col-11">
 
-        <mat-form-field appearance="outline"
+        <mat-form-field appearance="outline" class="select-candidates"
           style="width: 100%;">
           <input
             matInput
@@ -143,163 +143,169 @@
 
       <ng-template #jobExists>
 
-        <div class="row"
-             style="padding-bottom: 7px; padding-top: 7px;"
-             *ngFor="let job of jobs | searchJob:term">
+        <div style="height: 40vh; overflow-x: hidden; overflow-y: visible;">
 
-          <div class="col-xl-1">
+          <div class="row"
+               style="padding-bottom: 7px; padding-top: 7px;"
+               *ngFor="let job of jobs | searchJob:term">
 
-            <div class="row">
-              <div class="col-xl-12"
-                   style="padding-top: 25px;"
-              >
-                <mat-checkbox (click)="$event.stopPropagation()"
-                              color="primary"
-                              (change)="$event ? selection.toggle(job) : null"
-                              [checked]="selection.isSelected(job)">
-                </mat-checkbox>
-              </div>
-            </div>
+            <div class="col-xl-1">
 
-          </div>
-
-          <div class="col-xl-6">
-
-            <div class="row">
-              <div class="col-xl-12" style="padding-top: 10px; word-wrap: break-word; ">
-                <strong
-                  style="
-                       outline: 0;
-                       cursor: pointer;"
-                >
-                  {{ job.JobTitle }} </strong>
-                <i
-                  *ngIf="job.IsFavourite"
-                  style="color: #FFD61D; cursor: pointer;" class="fas fa-heart"></i>
-
-                <i style="cursor: pointer;"
-                   *ngIf="!job.IsFavourite"
-                   class="far fa-heart"></i>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-xl-12"
-                   style="font-size: 12px;">
-                <strong
-                  title="Job Code"
-                  *ngIf="job.JobCode !== ''"
-                ><i class="fas fa-paperclip"></i> {{ job.JobCode }} &nbsp;
-                </strong>
-
-                <strong
-                  title="Department"
-                ><i class="far fa-building"></i> {{ getDepartmentName(job.DepartmentId) }} &nbsp;
-                </strong>
-
-                <strong
-                  title="Location"
-                ><i class="fas fa-map-marker-alt"></i> {{ job.JobLocation }}
-                </strong>
-
-              </div>
-            </div>
-
-          </div>
-
-          <div class="col-xl-4 text-xl-right"
-               style="font-weight: bold; opacity: .5;"
-               *ngIf="job.IsArchived; else notArchived">
-            <br>
-            <i style="background-color: #eee;
-              border-color: #ccc;" class="far fa-square"></i>
-            <span
-              style="font-size: 14px;"
-            > Archived</span>
-
-          </div>
-
-          <ng-template #notArchived>
-
-            <div
-              *ngIf="job.IsPublished; else jobIsNotPublished"
-              class="col-xl-2 text-xl-center" style="padding-top: 10px;">
               <div class="row">
-                <div class="col-xl-12">
-                  <i title="Published Job" class="fas fa-bullhorn"></i>
+                <div class="col-xl-12"
+                     style="padding-top: 25px;"
+                >
+                  <mat-checkbox (click)="$event.stopPropagation()"
+                                color="primary"
+                                (change)="$event ? selection.toggle(job) : null"
+                                [checked]="selection.isSelected(job)">
+                  </mat-checkbox>
                 </div>
               </div>
+
+            </div>
+
+            <div class="col-xl-6">
+
+              <div class="row">
+                <div class="col-xl-12" style="padding-top: 10px; word-wrap: break-word; ">
+                  <strong
+                    style="
+                       outline: 0;
+                       cursor: pointer;"
+                  >
+                    {{ job.JobTitle }} </strong>
+                  <i
+                    *ngIf="job.IsFavourite"
+                    style="color: #FFD61D; cursor: pointer;" class="fas fa-heart"></i>
+
+                  <i style="cursor: pointer;"
+                     *ngIf="!job.IsFavourite"
+                     class="far fa-heart"></i>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-xl-12"
+                     style="font-size: 12px;">
+                  <strong
+                    title="Job Code"
+                    *ngIf="job.JobCode !== ''"
+                  ><i class="fas fa-paperclip"></i> {{ job.JobCode }} &nbsp;
+                  </strong>
+
+                  <strong
+                    title="Department"
+                  ><i class="far fa-building"></i> {{ getDepartmentName(job.DepartmentId) }} &nbsp;
+                  </strong>
+
+                  <strong
+                    title="Location"
+                  ><i class="fas fa-map-marker-alt"></i> {{ job.JobLocation }}
+                  </strong>
+
+                </div>
+              </div>
+
+            </div>
+
+            <div class="col-xl-4 text-xl-right"
+                 style="font-weight: bold; opacity: .5;"
+                 *ngIf="job.IsArchived; else notArchived">
+              <br>
+              <i style="background-color: #eee;
+              border-color: #ccc;" class="far fa-square"></i>
+              <span
+                style="font-size: 14px;"
+              > Archived</span>
+
+            </div>
+
+            <ng-template #notArchived>
+
               <div
-                *ngIf="job.JobClosingDate !== ''
-                && getClosingDays(job.JobClosingDate) > 0"
-                class="row">
+                *ngIf="job.IsPublished; else jobIsNotPublished"
+                class="col-xl-2 text-xl-center" style="padding-top: 15px;">
+                <div class="row">
+                  <div class="col-xl-12">
+                    <i title="Published Job" class="fas fa-bullhorn"></i>
+                  </div>
+                </div>
                 <div
-                  style="
+                  *ngIf="job.JobClosingDate !== ''
+                && getClosingDays(job.JobClosingDate) > 0"
+                  class="row">
+                  <div
+                    style="
                 font-weight: bold;
                 font-size: 11px;" class="col-xl-12 text-xl-center">
                   <span
                     matTooltip="Closing in {{ getClosingDays(job.JobClosingDate) }} Days"
                     matTooltipPosition="after">{{ getClosingDays(job.JobClosingDate) }} days</span>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <ng-template #jobIsNotPublished>
-              <div class="col-xl-2" style="padding-top: 10px;">
+              <ng-template #jobIsNotPublished>
+                <div class="col-xl-2" style="padding-top: 10px;">
 
+                </div>
+              </ng-template>
+
+              <div class="col-xl-1" style="padding-top: 7px;">
+                <div class="row"  style="font-size: 25px">
+                  <div class="col-xl-12">
+                    0
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-xl-12"
+                       style="font-weight: bold; font-size: 9px; opacity: .9;" >
+                    New
+                  </div>
+                </div>
               </div>
+
+              <div class="col-xl-1" style="padding-top: 7px;">
+                <div class="row"  style="font-size: 25px;">
+                  <div class="col-xl-12">
+                    0
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-xl-12"
+                       style="font-weight: bold; font-size: 9px; opacity: .9;" >
+                    Active
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xl-1" style="padding-top: 7px;">
+                <div class="row"  style="font-size: 25px;">
+                  <div class="col-xl-12">
+                    0
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-xl-12"
+                       style="font-weight: bold; font-size: 9px; opacity: .9;" >
+                    Hired
+                  </div>
+                </div>
+              </div>
+
             </ng-template>
 
-            <div class="col-xl-1">
-              <div class="row"  style="font-size: 25px;">
-                <div class="col-xl-12">
-                  0
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-xl-12"
-                     style="font-weight: bold; font-size: 9px; opacity: .9;" >
-                  New
-                </div>
-              </div>
-            </div>
-
-            <div class="col-xl-1">
-              <div class="row"  style="font-size: 25px;">
-                <div class="col-xl-12">
-                  0
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-xl-12"
-                     style="font-weight: bold; font-size: 9px; opacity: .9;" >
-                  Active
-                </div>
-              </div>
-            </div>
-
-            <div class="col-xl-1">
-              <div class="row"  style="font-size: 25px;">
-                <div class="col-xl-12">
-                  0
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-xl-12"
-                     style="font-weight: bold; font-size: 9px; opacity: .9;" >
-                  Hired
-                </div>
-              </div>
-            </div>
-
-          </ng-template>
 
 
+          </div>
 
         </div>
+
+
 
       </ng-template>
 

@@ -56,13 +56,19 @@ export class PipelineComponent implements OnInit {
           []
         );
 
-        const getPipelineStage = this.pipelines.find(x => x.Id === pipelineId).PipelineStage;
+       /* const getPipelineStage = this.pipelines.find(x => x.Id === pipelineId).PipelineStage;*/
 
         this.dataStorageService.addNewPipelineStage(pipelineStage)
           .subscribe(
             (data: any) => {
-              getPipelineStage.push(pipelineStage);
-              this.notifierService.notify('default', 'New stage added!');
+              this.dataStorageService.getAllPipeline().
+                subscribe(
+                (pipelines: any) => {
+                  this.pipelines = pipelines;
+                  this.notifierService.notify('default', 'New stage added!');
+                }
+              );
+
             }
           );
       }

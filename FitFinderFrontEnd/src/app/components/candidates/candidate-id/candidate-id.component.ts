@@ -14,7 +14,7 @@ import {AssignedJobToCandidate} from '../../../models/assigned-job-to-candidate.
 import {Job} from '../../../models/job.model';
 import {JobService} from '../../../services/job.service';
 import {Pipeline} from '../../../models/pipeline.model';
-import {forEachToken} from 'tslint';
+
 
 
 @Component({

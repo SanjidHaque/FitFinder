@@ -567,7 +567,7 @@
         </div>
 
         <div class="col-xl-4">
-          <mat-form-field appearance="outline">
+          <mat-form-field appearance="outline" class="job-assign">
             <mat-select
               (selectionChange)="selectValueChanged($event.value)"
               [(value)]="new"
@@ -609,6 +609,50 @@
 
             </mat-select>
           </mat-form-field>
+        </div>
+
+        <div class="col-xl-1"
+             style="padding-top: 3px;"
+        ><button class="btn btn-danger">
+          <i class="fas fa-times"></i>
+        </button></div>
+
+        <div class="col-xl-1"
+             style="padding-top: 3px; padding-left: 2px;">
+          <button class="btn btn-success">
+            <i class="fas fa-angle-double-right"></i>
+          </button></div>
+
+        <div class="col-xl-1"
+             style="    padding-left: 1px;
+    padding-top: 1px;"
+        >
+
+
+          <button mat-icon-button
+                  style="outline: 0;"
+                  [matMenuTriggerFor]="menu">
+            <mat-icon>
+              more_horiz
+            </mat-icon>
+          </button>
+
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item>
+              <mat-icon>add_circle_outline</mat-icon>
+              <span>Add To Job</span>
+            </button>
+            <button mat-menu-item>
+              <mat-icon>subdirectory_arrow_right
+              </mat-icon>
+              <span>Change Job</span>
+            </button>
+            <button mat-menu-item>
+              <mat-icon>remove_circle_outline
+              </mat-icon>
+              <span>Remove Job</span>
+            </button>
+          </mat-menu>
         </div>
 
 

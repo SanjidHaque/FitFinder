@@ -29,3 +29,25 @@ body {
 .notifier__notification--material .notifier__notification-button{
  padding: 0 0 0 0!important;
 }
+
+
+.job-assign.mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: 2px 2px 9px 3px!important;
+}
+
+.interview-type.mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: 5px 2px 11px 9px!important;
+}
+
+.select-candidates.mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: 9px 2px 12px 2px!important;
+}
+
+.job-assign.mat-form-field-appearance-outline .mat-form-field-wrapper {
+  margin: 0 0 0 0;
+}
+
+
+.job-assign .mat-form-field-wrapper {
+  padding-bottom: 0;
+}

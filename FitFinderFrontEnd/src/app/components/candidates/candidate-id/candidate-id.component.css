@@ -3,6 +3,7 @@
   border: 2px solid #673ab7;
 }
 
-.mat-form-field-appearance-outline .mat-form-field-infix {
-  padding: 2px 2px 9px 3px!important;
+
+.btn{
+  border-radius: 3px;
 }

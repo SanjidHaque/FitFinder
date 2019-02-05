@@ -73,9 +73,9 @@
 
       </div>
 
-      <div class="col-xl-11 col-11">
+      <div class="col-xl-11 col-11" style="padding-top: 5px;">
 
-        <mat-form-field appearance="outline"
+        <mat-form-field appearance="outline" class="select-candidates"
           style="width: 100%;">
           <input
             matInput
@@ -112,89 +112,94 @@
       </div>
 
       <ng-template #candidateExists>
+<div style="height: 40vh; overflow-x: hidden; overflow-y: visible;">
 
-        <div class="row" *ngFor="let candidate of candidates | searchCandidate:term">
+  <div class="row"
+       *ngFor="let candidate of candidates | searchCandidate:term">
 
-          <div class="col-xl-1">
+    <div class="col-xl-1">
 
-            <div class="row">
-              <div class="col-xl-12"
-                   style="padding-top: 25px;"
-              >
-                <mat-checkbox (click)="$event.stopPropagation()"
-                              color="primary"
-                              (change)="$event ? selection.toggle(candidate) : null"
-                              [checked]="selection.isSelected(candidate)">
-                </mat-checkbox>
-              </div>
-            </div>
+      <div class="row">
+        <div class="col-xl-12"
+             style="padding-top: 25px;"
+        >
+          <mat-checkbox (click)="$event.stopPropagation()"
+                        color="primary"
+                        (change)="$event ? selection.toggle(candidate) : null"
+                        [checked]="selection.isSelected(candidate)">
+          </mat-checkbox>
+        </div>
+      </div>
 
-          </div>
+    </div>
 
-          <div
-            class="col-xl-1"
-            style="
+    <div
+      class="col-xl-1"
+      style="
                   padding-top: 5px;
                   padding-bottom: 5px;">
-            <img
-              class="img-responsive"
-              style="
+      <img
+        class="img-responsive"
+        style="
                     outline: 0;
                     cursor: pointer;
                     border-radius: 50%;height: 60px; width: 60px"
-              [src]="candidateDefaultImage">
-          </div>
+        [src]="candidateDefaultImage">
+    </div>
 
-          <div class="col-xl-10">
-            <div class="row">
+    <div class="col-xl-10">
+      <div class="row">
 
-              <div
-                class="col-xl-12"
-                style="
+        <div
+          class="col-xl-12"
+          style="
                       padding-top: 10px;">
-                <strong
-                  style="
+          <strong
+            style="
                        outline: 0;
                        cursor: pointer;"
-                >{{ candidate.FirstName }} {{ candidate.LastName }} </strong>
-                <i
-                  *ngIf="candidate.IsFavourite"
-                  style="color: #FFD61D; cursor: pointer;" class="fas fa-heart"></i>
+          >{{ candidate.FirstName }} {{ candidate.LastName }} </strong>
+          <i
+            *ngIf="candidate.IsFavourite"
+            style="color: #FFD61D; cursor: pointer;" class="fas fa-heart"></i>
 
-                <i style="cursor: pointer;"
-                   *ngIf="!candidate.IsFavourite"
-                   class="far fa-heart"></i>
-              </div>
+          <i style="cursor: pointer;"
+             *ngIf="!candidate.IsFavourite"
+             class="far fa-heart"></i>
+        </div>
 
-            </div>
-            <div class="row">
-              <div
-                style="font-size: 12px;"
-                class="col-xl-12">
+      </div>
+      <div class="row">
+        <div
+          style="font-size: 12px;"
+          class="col-xl-12">
 
-                <strong
-                  title="Job Application"
-                  *ngIf="candidate.AssignedJobToCandidate.length !== 0"
-                ><i class="fab fa-osi"></i> {{ getJobName(candidate) }} &nbsp;
-                </strong>
+          <strong
+            title="Job Application"
+            *ngIf="candidate.AssignedJobToCandidate.length !== 0"
+          ><i class="fab fa-osi"></i> {{ getJobName(candidate) }} &nbsp;
+          </strong>
 
-                <strong
-                  title="Candidate Source"
-                ><i class="fab fa-osi"></i> {{ getCandidateSource(candidate) }} &nbsp;
-                </strong>
+          <strong
+            title="Candidate Source"
+          ><i class="fab fa-osi"></i> {{ getCandidateSource(candidate) }} &nbsp;
+          </strong>
 
-                <strong
-                  title="Candidate Application Date"
-                ><i class="fab fa-osi"></i> {{ getApplicationDate(candidate) }}</strong>
-
-              </div>
-            </div>
-
-
-          </div>
-
+          <strong
+            title="Candidate Application Date"
+          ><i class="fab fa-osi"></i> {{ getApplicationDate(candidate) }}</strong>
 
         </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+</div>
+
 
       </ng-template>
 
