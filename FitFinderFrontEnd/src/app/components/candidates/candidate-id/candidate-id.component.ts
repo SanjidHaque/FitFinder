@@ -14,6 +14,8 @@ import {AssignedJobToCandidate} from '../../../models/assigned-job-to-candidate.
 import {Job} from '../../../models/job.model';
 import {JobService} from '../../../services/job.service';
 import {Pipeline} from '../../../models/pipeline.model';
+import {ChangeStatusComponent} from '../../../dialogs/change-status/change-status.component';
+import {PipelineStage} from '../../../models/pipeline-stage.model';
 
 
 
@@ -25,6 +27,7 @@ import {Pipeline} from '../../../models/pipeline.model';
 export class CandidateIdComponent implements OnInit {
 
   candidateId: number;
+  selectTabIndex = 0;
   candidateDefaultImage = 'assets/images/candidateDefaultImage.png';
   rating: 0;
   new = 1;
@@ -61,9 +64,7 @@ export class CandidateIdComponent implements OnInit {
     this.sources = this.settingsService.getAllSource();
   }
 
-  getStyle() {
-    return 'blue';
-  }
+
 
   selectValueChanged(pipelineStageId: number) {
     for (let i = 0; i < this.pipelines.length; i++) {
@@ -75,6 +76,38 @@ export class CandidateIdComponent implements OnInit {
         }
       }
     }
+    this.changeStatus(pipelineStageId);
+  }
+
+  changeStatus(pipelineStageId: number) {
+   const pipelineStages: PipelineStage[] = [];
+
+    for (let i = 0; i < this.pipelines.length; i++) {
+      for (let j = 0; j < this.pipelines[i].PipelineStage.length; j++) {
+        pipelineStages.push(this.pipelines[i].PipelineStage[j]);
+      }
+    }
+
+     for (let k = 0; k < pipelineStages.length; k++) {
+      if (pipelineStages[k].Id === pipelineStageId) {
+        this.selectTabIndex = k;
+      }
+    }
+
+    const dialogRef = this.dialog.open(ChangeStatusComponent,
+      {
+        hasBackdrop: true,
+        disableClose: true,
+        width: '600px',
+        data: {
+          pipelines: this.pipelines,
+          selectTab: this.selectTabIndex
+        }
+      });
+
+    dialogRef.afterClosed().subscribe(result => {
+
+    });
   }
 
   assignJobDialog(candidate: Candidate) {
@@ -96,6 +129,8 @@ export class CandidateIdComponent implements OnInit {
       }
     });
   }
+
+
 
   getLastAssignedJobName() {
    const lastIndex = this.candidate.AssignedJobToCandidate.length - 1;

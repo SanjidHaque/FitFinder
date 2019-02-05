@@ -73,6 +73,7 @@ import { ColorPickerModule } from 'ngx-color-picker';
 import { PipelineStageCriteriaComponent } from './dialogs/pipeline-stage-criteria/pipeline-stage-criteria.component';
 import { CandidateScoreCardComponent } from './components/candidates/candidate-id/candidate-score-card/candidate-score-card.component';
 import { AssignJobToCandidateComponent } from './dialogs/assign-job-to-candidate/assign-job-to-candidate.component';
+import { ChangeStatusComponent } from './dialogs/change-status/change-status.component';
 
 
 
@@ -122,7 +123,8 @@ import { AssignJobToCandidateComponent } from './dialogs/assign-job-to-candidate
     AddUpdatePipelineStageComponent,
     PipelineStageCriteriaComponent,
     CandidateScoreCardComponent,
-    AssignJobToCandidateComponent
+    AssignJobToCandidateComponent,
+    ChangeStatusComponent
   ],
   imports: [
     BrowserModule,
@@ -180,7 +182,8 @@ import { AssignJobToCandidateComponent } from './dialogs/assign-job-to-candidate
     AssignJobToCandidateComponent,
     AddUpdateComponent,
     AddUpdatePipelineStageComponent,
-    PipelineStageCriteriaComponent
+    PipelineStageCriteriaComponent,
+    ChangeStatusComponent
   ],
 
   bootstrap: [
