@@ -1,15 +1,30 @@
 <div class="row">
-  <div class="col-xl-4">
+
+  <div class="col-xl-8" style=" font-size: 17px; font-weight: bold; padding-top: 3px">
+
+      <i class="fas fa-flag-checkered"></i> {{ currentStageName }}
+
+  </div>
+
+  <div class="col-xl-4 text-xl-center">
     <h4>Change Status</h4>
   </div>
 
-  <div class="col-xl-7 text-xl-right"
-       style=" font-size: 14px; font-weight: bold; padding-top: 6px">
-
-    <i class="fas fa-flag-checkered"></i> {{ currentStageName }}
-
-  </div>
 </div>
+
+  <div class="row" style="padding-top: 0;">
+    <div class="col-xl-12">
+
+        <star-rating
+          style="cursor: pointer;"
+          size="medium"
+          [starType]="'svg'"
+        ></star-rating>
+
+
+    </div>
+  </div>
+
 
 <hr>
 
@@ -41,10 +56,24 @@
          overflow-x: hidden;">
 
           <div class="row"
+               style="font-size: 15px;
+                 padding-bottom: 6px;
+                 padding-top: 6px;
+                 border-bottom: 1px solid #f2f2f2"
                *ngFor="let criteria of pipelineStage.PipelineStageCriteria">
-            <div class="col-xl-12">
+            <div class="col-xl-8">
 
-              {{ criteria.Name }}
+              &bull; &nbsp; {{ criteria.Name }}
+
+            </div>
+
+            <div class="col-xl-4 text-xl-right">
+
+              <star-rating
+                style="cursor: pointer;"
+                size="medium"
+                [starType]="'svg'"
+              ></star-rating>
 
             </div>
           </div>

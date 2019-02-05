@@ -98,7 +98,7 @@ export class CandidateIdComponent implements OnInit {
       {
         hasBackdrop: true,
         disableClose: true,
-        width: '600px',
+        width: '700px',
         data: {
           pipelines: this.pipelines,
           selectTab: this.selectTabIndex
