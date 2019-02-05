@@ -1,0 +1,74 @@
+<div class="row">
+  <div class="col-xl-4">
+    <h4>Change Status</h4>
+  </div>
+
+  <div class="col-xl-7 text-xl-right"
+       style=" font-size: 14px; font-weight: bold; padding-top: 6px">
+
+    <i class="fas fa-flag-checkered"></i> {{ currentStageName }}
+
+  </div>
+</div>
+
+<hr>
+
+<mat-tab-group
+
+  disableRipple="true"
+  [selectedIndex]="data.selectTab"
+  (selectedIndexChange)="tabChange($event)">
+
+
+    <mat-tab
+      *ngFor="let pipelineStage of pipelineStages;">
+      <ng-template mat-tab-label >
+        <input
+          readonly
+          style="outline: 0;
+                border: 1px solid white;
+                border-radius: 3px;
+                cursor: pointer; height: 25px; width: 25px;"
+          [style.background]="pipelineStage.Color"/> &nbsp;
+        {{ pipelineStage.Name }}
+      </ng-template>
+
+      <ng-template matTabContent>
+
+        <div style="height: 30vh;
+         overflow-y: scroll;
+         padding-top: 20px;
+         overflow-x: hidden;">
+
+          <div class="row"
+               *ngFor="let criteria of pipelineStage.PipelineStageCriteria">
+            <div class="col-xl-12">
+
+              {{ criteria.Name }}
+
+            </div>
+          </div>
+
+        </div>
+
+
+      </ng-template>
+
+    </mat-tab>
+</mat-tab-group>
+
+<hr>
+<div>
+  <mat-dialog-actions align="end">
+    <button
+      mat-flat-button
+      disabled
+      color="primary"
+      style="outline: 0;"
+    >OK</button>
+    <button
+      mat-stroked-button
+      style="outline: 0;"
+      mat-dialog-close>Cancel</button>
+  </mat-dialog-actions>
+</div>
