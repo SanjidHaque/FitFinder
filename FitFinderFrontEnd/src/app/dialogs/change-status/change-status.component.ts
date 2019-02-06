@@ -31,6 +31,9 @@ export class ChangeStatusComponent implements OnInit {
       this.pipelineStages[index].Name;
   }
 
+  resetCriteriaMark() {
+
+  }
 
 
 

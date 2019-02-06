@@ -9,15 +9,17 @@
 @import '~font-awesome/css/font-awesome.css';
 @import '~css-star-rating/css/star-rating.css';
 
+
+
 .rating {
   outline: 0!important;
   justify-content: left!important;
 }
 
 
-.criteria.rating{
+.criteria.rating {
   outline: 0!important;
-  justify-content: center!important;
+  justify-content: left!important;
 }
 
 

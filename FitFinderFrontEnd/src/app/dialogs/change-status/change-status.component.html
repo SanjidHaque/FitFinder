@@ -12,21 +12,25 @@
 
 </div>
 
-  <div class="row" style="padding-top: 0;">
-    <div class="col-xl-12">
+  <div class="row" style="padding-top: 0; padding-bottom: 10px;">
+    <div class="col-xl-3">
 
         <star-rating
           style="cursor: pointer;"
           size="medium"
           [starType]="'svg'"
         ></star-rating>
+    </div>
 
-
+    <div class="col-xl-8" style="margin-left: -45px;">
+      <i
+        (click)="resetCriteriaMark()"
+        class="far fa-times-circle"></i>
     </div>
   </div>
 
 
-<hr>
+
 
 <mat-tab-group
 
@@ -50,7 +54,9 @@
 
       <ng-template matTabContent>
 
-        <div style="height: 30vh;
+        <div
+          *ngIf="pipelineStage.PipelineStageCriteria.length !== 0; else criteriaExist"
+          style="height: 30vh;
          overflow-y: scroll;
          padding-top: 20px;
          overflow-x: hidden;">
@@ -58,16 +64,17 @@
           <div class="row"
                style="font-size: 15px;
                  padding-bottom: 6px;
+                 padding-right: 10px;
                  padding-top: 6px;
                  border-bottom: 1px solid #f2f2f2"
                *ngFor="let criteria of pipelineStage.PipelineStageCriteria">
-            <div class="col-xl-8">
+            <div class="col-xl-8" style="padding-left: 25px;">
 
               &bull; &nbsp; {{ criteria.Name }}
 
             </div>
 
-            <div class="col-xl-4 text-xl-right">
+            <div class="col-xl-3 text-xl-right" style="padding-left: 60px;">
 
               <star-rating
                 style="cursor: pointer;"
@@ -76,17 +83,56 @@
               ></star-rating>
 
             </div>
+
+            <div class="col-xl-1">
+
+              <i
+                (click)="resetCriteriaMark()"
+                class="far fa-times-circle"></i>
+
+            </div>
+
           </div>
 
+        </div>
+
+        <ng-template #criteriaExist>
+
+          <div class="row" style="
+          text-align: center;
+          font-weight: bold;
+          opacity: .7;
+          height: 30vh;">
+            <div class="col-xl-12" style="padding-top: 20px;">
+              No stage criteria is available here.
+
+            </div>
+          </div>
+
+
+        </ng-template>
+
+        <div class="row" style="padding-top: 30px;">
+          <div class="offset-xl-1 col-xl-10">
+
+            <form>
+              <mat-form-field appearance="outline" style="width: 100%">
+                <textarea matInput placeholder="Internal comment"></textarea>
+              </mat-form-field>
+            </form>
+
+          </div>
         </div>
 
 
       </ng-template>
 
+
+
+
     </mat-tab>
 </mat-tab-group>
 
-<hr>
 <div>
   <mat-dialog-actions align="end">
     <button
