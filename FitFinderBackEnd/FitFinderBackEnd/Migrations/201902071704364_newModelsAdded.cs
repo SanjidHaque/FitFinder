@@ -3,7 +3,7 @@ namespace FitFinderBackEnd.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class _new : DbMigration
+    public partial class newModelsAdded : DbMigration
     {
         public override void Up()
         {
@@ -93,6 +93,21 @@ namespace FitFinderBackEnd.Migrations
                 .Index(t => t.JobId);
             
             CreateTable(
+                "dbo.CriteriaScores",
+                c => new
+                    {
+                        Id = c.Long(nullable: false, identity: true),
+                        JobAssignedId = c.Long(nullable: false),
+                        Rating = c.Long(nullable: false),
+                        PipelineStageCriteriaId = c.Long(nullable: false),
+                        CandidateId = c.Long(nullable: false),
+                        JobId = c.Long(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.JobAssigneds", t => t.JobAssignedId, cascadeDelete: true)
+                .Index(t => t.JobAssignedId);
+            
+            CreateTable(
                 "dbo.Jobs",
                 c => new
                     {
@@ -132,6 +147,36 @@ namespace FitFinderBackEnd.Migrations
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Jobs", t => t.JobId, cascadeDelete: true)
                 .Index(t => t.JobId);
+            
+            CreateTable(
+                "dbo.StageComments",
+                c => new
+                    {
+                        Id = c.Long(nullable: false, identity: true),
+                        JobAssignedId = c.Long(nullable: false),
+                        PipelineStageId = c.Long(nullable: false),
+                        CandidateId = c.Long(nullable: false),
+                        JobId = c.Long(nullable: false),
+                        Comment = c.String(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.JobAssigneds", t => t.JobAssignedId, cascadeDelete: true)
+                .Index(t => t.JobAssignedId);
+            
+            CreateTable(
+                "dbo.StageScores",
+                c => new
+                    {
+                        Id = c.Long(nullable: false, identity: true),
+                        JobAssignedId = c.Long(nullable: false),
+                        Rating = c.Long(nullable: false),
+                        PipelineStageId = c.Long(nullable: false),
+                        CandidateId = c.Long(nullable: false),
+                        JobId = c.Long(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.JobAssigneds", t => t.JobAssignedId, cascadeDelete: true)
+                .Index(t => t.JobAssignedId);
             
             CreateTable(
                 "dbo.CandidatesForInterviews",
@@ -341,8 +386,11 @@ namespace FitFinderBackEnd.Migrations
             DropForeignKey("dbo.PipelineStageCriterias", "PipelineStageId", "dbo.PipelineStages");
             DropForeignKey("dbo.InterviewersForInterviews", "InterviewId", "dbo.Interviews");
             DropForeignKey("dbo.CandidatesForInterviews", "InterviewId", "dbo.Interviews");
+            DropForeignKey("dbo.StageScores", "JobAssignedId", "dbo.JobAssigneds");
+            DropForeignKey("dbo.StageComments", "JobAssignedId", "dbo.JobAssigneds");
             DropForeignKey("dbo.JobAssigneds", "JobId", "dbo.Jobs");
             DropForeignKey("dbo.JobAttachments", "JobId", "dbo.Jobs");
+            DropForeignKey("dbo.CriteriaScores", "JobAssignedId", "dbo.JobAssigneds");
             DropForeignKey("dbo.JobAssigneds", "CandidateId", "dbo.Candidates");
             DropForeignKey("dbo.CandidateExperiences", "CandidateId", "dbo.Candidates");
             DropForeignKey("dbo.CandidateEducations", "CandidateId", "dbo.Candidates");
@@ -357,7 +405,10 @@ namespace FitFinderBackEnd.Migrations
             DropIndex("dbo.PipelineStages", new[] { "PipelineId" });
             DropIndex("dbo.InterviewersForInterviews", new[] { "InterviewId" });
             DropIndex("dbo.CandidatesForInterviews", new[] { "InterviewId" });
+            DropIndex("dbo.StageScores", new[] { "JobAssignedId" });
+            DropIndex("dbo.StageComments", new[] { "JobAssignedId" });
             DropIndex("dbo.JobAttachments", new[] { "JobId" });
+            DropIndex("dbo.CriteriaScores", new[] { "JobAssignedId" });
             DropIndex("dbo.JobAssigneds", new[] { "JobId" });
             DropIndex("dbo.JobAssigneds", new[] { "CandidateId" });
             DropIndex("dbo.CandidateExperiences", new[] { "CandidateId" });
@@ -380,8 +431,11 @@ namespace FitFinderBackEnd.Migrations
             DropTable("dbo.InterviewersForInterviews");
             DropTable("dbo.Departments");
             DropTable("dbo.CandidatesForInterviews");
+            DropTable("dbo.StageScores");
+            DropTable("dbo.StageComments");
             DropTable("dbo.JobAttachments");
             DropTable("dbo.Jobs");
+            DropTable("dbo.CriteriaScores");
             DropTable("dbo.JobAssigneds");
             DropTable("dbo.Candidates");
             DropTable("dbo.CandidateExperiences");

@@ -49,9 +49,7 @@ namespace FitFinderBackEnd.Models
 
         public DbSet<JobAssigned> JobAssiged { get; set; }
 
-        // public DbSet<PipelineStageStarRating> PipelineStageStarRatings { get; set; }
-        // public DbSet<PipelineStageCriteriaStarRating> PipelineStageCriteriaStarRatings { get; set; }    
-        //public DbSet<PipelineStageComment> PipelineStageComments { get; set; }    
+       
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
