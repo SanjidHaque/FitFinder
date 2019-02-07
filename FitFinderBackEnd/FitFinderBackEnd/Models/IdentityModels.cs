@@ -47,11 +47,10 @@ namespace FitFinderBackEnd.Models
         public DbSet<PipelineStage> PipelineStages { get; set; }
         public DbSet<PipelineStageCriteria> PipelineStageCriterias { get; set; }
 
-      //  public DbSet<JobAssigned> JobAssiged { get; set; }
+        public DbSet<JobAssigned> JobAssiged { get; set; }
 
-    //     public DbSet<AssignedJobToCandidate> AssignedJobToCandidates { get; set; }
-        //public DbSet<PipelineStageStarRating> PipelineStageStarRatings { get; set; }
-        //public DbSet<PipelineStageCriteriaStarRating> PipelineStageCriteriaStarRatings { get; set; }    
+        // public DbSet<PipelineStageStarRating> PipelineStageStarRatings { get; set; }
+        // public DbSet<PipelineStageCriteriaStarRating> PipelineStageCriteriaStarRatings { get; set; }    
         //public DbSet<PipelineStageComment> PipelineStageComments { get; set; }    
 
         public ApplicationDbContext()
