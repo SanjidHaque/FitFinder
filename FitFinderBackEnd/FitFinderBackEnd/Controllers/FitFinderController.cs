@@ -85,6 +85,7 @@ namespace FitFinderBackEnd.Controllers
                 Include(c => c.CandidateEducation).
                 Include(d => d.CandidateExperience).
                 Include(e => e.CandidateAttachment).
+                Include(f => f.JobAssigned).
                OrderBy(x => x.Id).ToList();
             return Ok(candidate);
         }

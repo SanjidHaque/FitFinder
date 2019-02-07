@@ -245,9 +245,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201902071704364_newModelsAdded.cs" />
-    <Compile Include="Migrations\201902071704364_newModelsAdded.Designer.cs">
-      <DependentUpon>201902071704364_newModelsAdded.cs</DependentUpon>
+    <Compile Include="Migrations\201902071833201_newModelsAddedAgain.cs" />
+    <Compile Include="Migrations\201902071833201_newModelsAddedAgain.Designer.cs">
+      <DependentUpon>201902071833201_newModelsAddedAgain.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -282,10 +282,6 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\FitFinder.mdf" />
-    <Content Include="App_Data\FitFinder_log.ldf">
-      <DependentUpon>FitFinder.mdf</DependentUpon>
-    </Content>
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -344,7 +340,9 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
   </ItemGroup>
@@ -375,8 +373,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201902071704364_newModelsAdded.resx">
-      <DependentUpon>201902071704364_newModelsAdded.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201902071833201_newModelsAddedAgain.resx">
+      <DependentUpon>201902071833201_newModelsAddedAgain.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

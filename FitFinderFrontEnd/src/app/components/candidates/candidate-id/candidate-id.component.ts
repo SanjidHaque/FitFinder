@@ -16,8 +16,8 @@ import {JobService} from '../../../services/job.service';
 import {Pipeline} from '../../../models/pipeline.model';
 import {ChangeStatusComponent} from '../../../dialogs/change-status/change-status.component';
 import {PipelineStage} from '../../../models/pipeline-stage.model';
-import {StageScore} from '../../../models/pipeline-stage-star-rating.model';
-import {CriteriaScore} from '../../../models/pipeline-stage-criteria-star-rating.model';
+import {StageScore} from '../../../models/stage-score.model';
+import {CriteriaScore} from '../../../models/criteria-score.model';
 
 
 
@@ -173,7 +173,7 @@ export class CandidateIdComponent implements OnInit {
 
           }
         }
-        const assignJobToCandidate = new JobAssigned(
+        const jobAssigned = new JobAssigned(
           null,
           this.candidateId,
           result[0].Id,
@@ -182,7 +182,7 @@ export class CandidateIdComponent implements OnInit {
           []
         );
 
-        this.candidate.AssignedJobToCandidate.push(assignJobToCandidate);
+        this.candidate.JobAssigned.push(jobAssigned);
         
 
 
@@ -193,15 +193,15 @@ export class CandidateIdComponent implements OnInit {
 
 
   getLastAssignedJobName() {
-   const lastIndex = this.candidate.AssignedJobToCandidate.length - 1;
+   const lastIndex = this.candidate.JobAssigned.length - 1;
    return this.jobs.find(
      x => x.Id ===
-       this.candidate.AssignedJobToCandidate[lastIndex].JobId).JobTitle;
+       this.candidate.JobAssigned[lastIndex].JobId).JobTitle;
   }
 
   goToJobDetail() {
-    const lastIndex = this.candidate.AssignedJobToCandidate.length - 1;
-    const jobId = this.candidate.AssignedJobToCandidate[lastIndex].JobId;
+    const lastIndex = this.candidate.JobAssigned.length - 1;
+    const jobId = this.candidate.JobAssigned[lastIndex].JobId;
     this.router.navigate(['jobs/',  jobId ]);
   }
 

@@ -1,8 +1,8 @@
 import {CandidateEducation} from './candidate-education.model';
 import {CandidateExperience} from './candidate-experience.model';
 import {CandidateAttachment} from './canidate-attachment.model';
-import {CriteriaScore} from './pipeline-stage-criteria-star-rating.model';
-import {StageScore} from './pipeline-stage-star-rating.model';
+import {CriteriaScore} from './criteria-score.model';
+import {StageScore} from './stage-score.model';
 import {JobAssigned} from './job-assigned.model';
 
 export class Candidate {
@@ -20,7 +20,7 @@ export class Candidate {
    CandidateEducation: CandidateEducation[];
    CandidateExperience: CandidateExperience[];
    CandidateAttachment: CandidateAttachment[];
-   AssignedJobToCandidate: JobAssigned[];
+   JobAssigned: JobAssigned[];
    FacebookUrl: string;
    LinkedInUrl: string;
    IsArchived: boolean;
@@ -45,7 +45,7 @@ export class Candidate {
      candidateEducation: CandidateEducation[] = [],
      candidateExperience: CandidateExperience[] = [],
      candidateAttachment: CandidateAttachment[] = [],
-     assignedJobToCandidate: JobAssigned[] = [],
+     jobAssigned: JobAssigned[] = [],
      facebookUrl: string,
      linkedInUrl: string,
      isArchived: boolean,
@@ -69,7 +69,7 @@ export class Candidate {
     this.CandidateEducation = candidateEducation;
     this.CandidateExperience = candidateExperience;
     this.CandidateAttachment = candidateAttachment;
-    this.AssignedJobToCandidate = assignedJobToCandidate;
+    this.JobAssigned = jobAssigned;
     this.FacebookUrl = facebookUrl;
     this.LinkedInUrl = linkedInUrl;
     this.IsArchived = isArchived;

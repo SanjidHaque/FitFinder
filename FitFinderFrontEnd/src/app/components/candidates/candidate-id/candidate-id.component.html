@@ -47,7 +47,7 @@
        font-weight: bold;
        opacity: .7;
        text-align: center;"
-       *ngIf="candidate.AssignedJobToCandidate.length === 0; else jobNotAssigned">
+       *ngIf="candidate.JobAssigned.length === 0; else jobNotAssigned">
     Assign Job to Change Candidate Status
   </div>
 
@@ -169,7 +169,7 @@
           mat-flat-button><i class="far fa-window-restore"></i> Restore</button>
       </div>
 
-      <div *ngIf="!candidate.IsArchived || candidate.AssignedJobToCandidate.length !== 0" class="col-xl-3 text-xl-center">
+      <div *ngIf="!candidate.IsArchived || candidate.JobAssigned.length !== 0" class="col-xl-3 text-xl-center">
         <button
           style="background-color: transparent; outline: 0;"
           mat-flat-button><i class="far fa-edit"></i> Edit</button>
@@ -544,7 +544,7 @@
   <div class="col-xl-6">
 
 
-    <div *ngIf="candidate.AssignedJobToCandidate.length!==0">
+    <div *ngIf="candidate.JobAssigned.length!==0">
 
       <div class="row"
            style="
