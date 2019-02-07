@@ -23,7 +23,7 @@ namespace FitFinderBackEnd.Models.Candidate
         public List<CandidateEducation> CandidateEducation { get; set; }     
         public List<CandidateExperience> CandidateExperience { get; set; }    
         public List<CandidateAttachment> CandidateAttachment { get; set; }
-        public List<AssignedJobToCandidate> AssignedJobToCandidate { get; set; }   
+        public List<JobAssigned> JobAssigned { get; set; }   
         public string FacebookUrl { get; set; }   
         public string LinkedInUrl  { get; set; }
         public bool IsArchived  { get; set; }

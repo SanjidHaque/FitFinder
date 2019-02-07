@@ -245,46 +245,18 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201902010952474_allModels.cs" />
-    <Compile Include="Migrations\201902010952474_allModels.Designer.cs">
-      <DependentUpon>201902010952474_allModels.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902011852409_candidateModelChanged.cs" />
-    <Compile Include="Migrations\201902011852409_candidateModelChanged.Designer.cs">
-      <DependentUpon>201902011852409_candidateModelChanged.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902020911489_PipelineRelateModels.cs" />
-    <Compile Include="Migrations\201902020911489_PipelineRelateModels.Designer.cs">
-      <DependentUpon>201902020911489_PipelineRelateModels.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902021031286_Withdrawn.cs" />
-    <Compile Include="Migrations\201902021031286_Withdrawn.Designer.cs">
-      <DependentUpon>201902021031286_Withdrawn.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902031222556_allModelsChanged.cs" />
-    <Compile Include="Migrations\201902031222556_allModelsChanged.Designer.cs">
-      <DependentUpon>201902031222556_allModelsChanged.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902031717404_jobModelChanged.cs" />
-    <Compile Include="Migrations\201902031717404_jobModelChanged.Designer.cs">
-      <DependentUpon>201902031717404_jobModelChanged.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902031734038_jobModelChangedAgain.cs" />
-    <Compile Include="Migrations\201902031734038_jobModelChangedAgain.Designer.cs">
-      <DependentUpon>201902031734038_jobModelChangedAgain.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902031849183_interviewModelChanged.cs" />
-    <Compile Include="Migrations\201902031849183_interviewModelChanged.Designer.cs">
-      <DependentUpon>201902031849183_interviewModelChanged.cs</DependentUpon>
+    <Compile Include="Migrations\201902071603398_jobAssigned.cs" />
+    <Compile Include="Migrations\201902071603398_jobAssigned.Designer.cs">
+      <DependentUpon>201902071603398_jobAssigned.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\Candidate\AssignedJobToCandidate.cs" />
     <Compile Include="Models\Candidate\Candidate.cs" />
     <Compile Include="Models\Candidate\CandidateAttachment.cs" />
     <Compile Include="Models\Candidate\CandidateEducation.cs" />
     <Compile Include="Models\Candidate\CandidateExperience.cs" />
+    <Compile Include="Models\Candidate\JobAssigned.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Interview\CandidatesForInterview.cs" />
     <Compile Include="Models\Interview\Interview.cs" />
@@ -398,29 +370,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201902010952474_allModels.resx">
-      <DependentUpon>201902010952474_allModels.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902011852409_candidateModelChanged.resx">
-      <DependentUpon>201902011852409_candidateModelChanged.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902020911489_PipelineRelateModels.resx">
-      <DependentUpon>201902020911489_PipelineRelateModels.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902021031286_Withdrawn.resx">
-      <DependentUpon>201902021031286_Withdrawn.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902031222556_allModelsChanged.resx">
-      <DependentUpon>201902031222556_allModelsChanged.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902031717404_jobModelChanged.resx">
-      <DependentUpon>201902031717404_jobModelChanged.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902031734038_jobModelChangedAgain.resx">
-      <DependentUpon>201902031734038_jobModelChangedAgain.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902031849183_interviewModelChanged.resx">
-      <DependentUpon>201902031849183_interviewModelChanged.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201902071603398_jobAssigned.resx">
+      <DependentUpon>201902071603398_jobAssigned.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

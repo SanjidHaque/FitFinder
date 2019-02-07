@@ -85,7 +85,7 @@ namespace FitFinderBackEnd.Controllers
                 Include(c => c.CandidateEducation).
                 Include(d => d.CandidateExperience).
                 Include(e => e.CandidateAttachment).
-                Include(f => f.AssignedJobToCandidate).OrderBy(x => x.Id).ToList();
+               OrderBy(x => x.Id).ToList();
             return Ok(candidate);
         }
 
@@ -190,6 +190,7 @@ namespace FitFinderBackEnd.Controllers
             List<Department> departments = _context.Departments.OrderBy(x => x.Id).ToList();
             return Ok(departments);
         }
+
 
 
 
@@ -517,12 +518,27 @@ namespace FitFinderBackEnd.Controllers
             getPipelineStage.Color = pipelineStage.Color;
 
             _context.SaveChanges();
+           
 
             return Ok();
         }
 
+       // [HttpPost]
+       // [Route("api/AssignedJobToCandidate")]
+       // public IHttpActionResult AssignedJobToCandidate(AssignedJobToCandidate assignedJobToCandidate)
+       // {
+       //     if (assignedJobToCandidate == null)
+       //     {
+       //         return NotFound();
+       //     }
 
-
+       // //    _context.PipelineStageStarRatings.AddRange(assignedJobToCandidate.PipelineStageStarRating);
+       ////     _context.PipelineStageCriteriaStarRatings.AddRange(assignedJobToCandidate.PipelineStageCriteriaStarRating);
+       //  //   _context.PipelineStageComments.AddRange(assignedJobToCandidate.PipelineStageComment);
+       //     _context.AssignedJobToCandidates.Add(assignedJobToCandidate);
+       // //    _context.SaveChanges();
+       //     return Ok();
+       // }
 
     }
 
