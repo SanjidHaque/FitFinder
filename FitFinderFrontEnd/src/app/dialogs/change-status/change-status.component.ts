@@ -35,6 +35,14 @@ export class ChangeStatusComponent implements OnInit {
 
   }
 
+  getStageMark() {
+
+  }
+
+  getCriteriaMark() {
+
+  }
+
 
 
 

@@ -16,6 +16,8 @@ import {JobService} from '../../../services/job.service';
 import {Pipeline} from '../../../models/pipeline.model';
 import {ChangeStatusComponent} from '../../../dialogs/change-status/change-status.component';
 import {PipelineStage} from '../../../models/pipeline-stage.model';
+import {PipelineStageStarRating} from '../../../models/pipeline-stage-star-rating.model';
+import {PipelineStageCriteriaStarRating} from '../../../models/pipeline-stage-criteria-star-rating.model';
 
 
 
@@ -34,6 +36,7 @@ export class CandidateIdComponent implements OnInit {
   name = 'New';
   color = 'blue';
   pipelines: Pipeline[] = [];
+  pipelineStageStarRating: PipelineStageStarRating[] = [];
 
   candidates: Candidate[] = [];
   candidate: Candidate;
@@ -94,6 +97,9 @@ export class CandidateIdComponent implements OnInit {
       }
     }
 
+
+
+
     const dialogRef = this.dialog.open(ChangeStatusComponent,
       {
         hasBackdrop: true,
@@ -101,7 +107,8 @@ export class CandidateIdComponent implements OnInit {
         width: '700px',
         data: {
           pipelines: this.pipelines,
-          selectTab: this.selectTabIndex
+          selectTab: this.selectTabIndex,
+          candidate: this.candidate
         }
       });
 
@@ -115,6 +122,9 @@ export class CandidateIdComponent implements OnInit {
 
   moveToNextStage() {
   }
+
+
+
   assignJobDialog(candidate: Candidate) {
     const dialogRef = this.dialog.open(AssignJobToCandidateComponent,
       {
@@ -125,12 +135,55 @@ export class CandidateIdComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result !== '' ) {
+
+
+        const pipelineStageRating: PipelineStageStarRating[] = [];
+        const pipelineStageCriteriaRating: PipelineStageCriteriaStarRating[] = [];
+
+        for (let i = 0; i < this.pipelines.length; i++) {
+          for (let j = 0; j < this.pipelines[i].PipelineStage.length; j++) {
+
+            const stageRating = new PipelineStageStarRating(
+              null,
+              0,
+              this.pipelines[i].PipelineStage[j].Id,
+              this.candidateId,
+              result[0].Id
+            );
+
+            pipelineStageRating.push(stageRating);
+
+            for (let l = 0;
+                 l < this.pipelines[i].PipelineStage[j].PipelineStageCriteria.length;
+                 l++) {
+
+              const criteriaRating = new PipelineStageCriteriaStarRating(
+                null,
+                0,
+                this.pipelines[i].PipelineStage[j].PipelineStageCriteria[l].Id,
+                this.candidateId,
+                result[0].Id
+              );
+
+              pipelineStageCriteriaRating.push(criteriaRating);
+
+            }
+
+          }
+        }
         const assignJobToCandidate = new AssignedJobToCandidate(
           null,
           this.candidateId,
-          result[0].Id
+          result[0].Id,
+          pipelineStageRating,
+          pipelineStageCriteriaRating,
+          []
         );
+
         this.candidate.AssignedJobToCandidate.push(assignJobToCandidate);
+        
+
+
       }
     });
   }
