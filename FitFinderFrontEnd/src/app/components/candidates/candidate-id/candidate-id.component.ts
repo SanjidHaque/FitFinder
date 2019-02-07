@@ -10,14 +10,14 @@ import {Source} from '../../../models/source.model';
 import {SettingsService} from '../../../services/settings.service';
 import {MatDialog} from '@angular/material';
 import {AssignJobToCandidateComponent} from '../../../dialogs/assign-job-to-candidate/assign-job-to-candidate.component';
-import {AssignedJobToCandidate} from '../../../models/assigned-job-to-candidate.model';
+import {JobAssigned} from '../../../models/job-assigned.model';
 import {Job} from '../../../models/job.model';
 import {JobService} from '../../../services/job.service';
 import {Pipeline} from '../../../models/pipeline.model';
 import {ChangeStatusComponent} from '../../../dialogs/change-status/change-status.component';
 import {PipelineStage} from '../../../models/pipeline-stage.model';
-import {PipelineStageStarRating} from '../../../models/pipeline-stage-star-rating.model';
-import {PipelineStageCriteriaStarRating} from '../../../models/pipeline-stage-criteria-star-rating.model';
+import {StageScore} from '../../../models/pipeline-stage-star-rating.model';
+import {CriteriaScore} from '../../../models/pipeline-stage-criteria-star-rating.model';
 
 
 
@@ -36,7 +36,7 @@ export class CandidateIdComponent implements OnInit {
   name = 'New';
   color = 'blue';
   pipelines: Pipeline[] = [];
-  pipelineStageStarRating: PipelineStageStarRating[] = [];
+  pipelineStageStarRating: StageScore[] = [];
 
   candidates: Candidate[] = [];
   candidate: Candidate;
@@ -137,13 +137,14 @@ export class CandidateIdComponent implements OnInit {
       if (result !== '' ) {
 
 
-        const pipelineStageRating: PipelineStageStarRating[] = [];
-        const pipelineStageCriteriaRating: PipelineStageCriteriaStarRating[] = [];
+        const pipelineStageRating: StageScore[] = [];
+        const pipelineStageCriteriaRating: CriteriaScore[] = [];
 
         for (let i = 0; i < this.pipelines.length; i++) {
           for (let j = 0; j < this.pipelines[i].PipelineStage.length; j++) {
 
-            const stageRating = new PipelineStageStarRating(
+            const stageRating = new StageScore(
+              null,
               null,
               0,
               this.pipelines[i].PipelineStage[j].Id,
@@ -157,7 +158,8 @@ export class CandidateIdComponent implements OnInit {
                  l < this.pipelines[i].PipelineStage[j].PipelineStageCriteria.length;
                  l++) {
 
-              const criteriaRating = new PipelineStageCriteriaStarRating(
+              const criteriaRating = new CriteriaScore(
+                null,
                 null,
                 0,
                 this.pipelines[i].PipelineStage[j].PipelineStageCriteria[l].Id,
@@ -171,7 +173,7 @@ export class CandidateIdComponent implements OnInit {
 
           }
         }
-        const assignJobToCandidate = new AssignedJobToCandidate(
+        const assignJobToCandidate = new JobAssigned(
           null,
           this.candidateId,
           result[0].Id,

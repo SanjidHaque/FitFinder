@@ -1,6 +1,6 @@
-export class PipelineStageCriteriaStarRating {
+export class CriteriaScore {
   Id: number;
-  AssignedJobToCandidateId: number;
+  JobAssignedId: number;
   Rating: number;
   PipelineStageCriteriaId: number;
   CandidateId: number;
@@ -8,7 +8,7 @@ export class PipelineStageCriteriaStarRating {
 
   constructor(
     id: number,
-    assignedJobToCandidate: number,
+    jobAssignedId: number,
     rating: number,
     pipelineStageCriteriaId: number,
     candidateId: number,
@@ -19,6 +19,6 @@ export class PipelineStageCriteriaStarRating {
     this.PipelineStageCriteriaId = pipelineStageCriteriaId;
     this.CandidateId = candidateId;
     this.JobId = jobId;
-    this.AssignedJobToCandidateId = assignedJobToCandidate;
+    this.JobAssignedId = jobAssignedId;
   }
 }

@@ -1,7 +1,7 @@
 
-export class PipelineStageComment {
+export class StageComment {
   Id: number;
-  AssignedJobToCandidateId: number;
+  JobAssignedId: number;
   PipelineStageId: number;
   CandidateId: number;
   JobId: number;
@@ -9,7 +9,7 @@ export class PipelineStageComment {
 
   constructor(
     id: number,
-    assignedJobToCandidate: number,
+    jobAssignedId: number,
     pipelineStageId: number,
     candidateId: number,
     jobId: number,
@@ -20,6 +20,6 @@ export class PipelineStageComment {
     this.CandidateId = candidateId;
     this.JobId = jobId;
     this.Comment = comment;
-    this.AssignedJobToCandidateId = assignedJobToCandidate;
+    this.JobAssignedId = jobAssignedId;
   }
 }

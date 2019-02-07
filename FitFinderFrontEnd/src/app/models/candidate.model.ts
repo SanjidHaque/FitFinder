@@ -1,9 +1,9 @@
 import {CandidateEducation} from './candidate-education.model';
 import {CandidateExperience} from './candidate-experience.model';
 import {CandidateAttachment} from './canidate-attachment.model';
-import {PipelineStageCriteriaStarRating} from './pipeline-stage-criteria-star-rating.model';
-import {PipelineStageStarRating} from './pipeline-stage-star-rating.model';
-import {AssignedJobToCandidate} from './assigned-job-to-candidate.model';
+import {CriteriaScore} from './pipeline-stage-criteria-star-rating.model';
+import {StageScore} from './pipeline-stage-star-rating.model';
+import {JobAssigned} from './job-assigned.model';
 
 export class Candidate {
    Id: number;
@@ -20,7 +20,7 @@ export class Candidate {
    CandidateEducation: CandidateEducation[];
    CandidateExperience: CandidateExperience[];
    CandidateAttachment: CandidateAttachment[];
-   AssignedJobToCandidate: AssignedJobToCandidate[];
+   AssignedJobToCandidate: JobAssigned[];
    FacebookUrl: string;
    LinkedInUrl: string;
    IsArchived: boolean;
@@ -45,7 +45,7 @@ export class Candidate {
      candidateEducation: CandidateEducation[] = [],
      candidateExperience: CandidateExperience[] = [],
      candidateAttachment: CandidateAttachment[] = [],
-     assignedJobToCandidate: AssignedJobToCandidate[] = [],
+     assignedJobToCandidate: JobAssigned[] = [],
      facebookUrl: string,
      linkedInUrl: string,
      isArchived: boolean,
