@@ -48,11 +48,6 @@
 
           <div class="row">
             <div class="col-xl-1">
-              <!--<i
-                [ngStyle]="{'color': pipelineStage.Color }"
-                style="
-                font-size: 25px;"
-                class="fas fa-square"></i>-->
               <input
                 readonly
                 style="outline: 0;
@@ -62,10 +57,22 @@
                 [style.background]="pipelineStage.Color"/>
             </div>
             <div class="col-xl-10" style="padding-top: 3px;">
+
            <h6
+             *ngIf="pipeline.Id !== 6 && pipeline.Id !== 7; else notHiredOrDisqualified "
              title="Click To See Pipeline Stage Criteria"
              style="cursor: pointer;"
-             (click)="pipelineStageCriteria(pipelineStage)"> &nbsp; {{ pipelineStage.Name }}</h6>
+             (click)="pipelineStageCriteria(pipelineStage)"> &nbsp; {{ pipelineStage.Name }}
+           </h6>
+
+              <ng-template #notHiredOrDisqualified>
+
+                <h6>
+                  &nbsp; {{ pipelineStage.Name }}
+                </h6>
+
+              </ng-template>
+
             </div>
           </div>
 

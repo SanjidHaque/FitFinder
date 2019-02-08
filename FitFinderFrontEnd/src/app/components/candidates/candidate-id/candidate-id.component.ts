@@ -18,6 +18,7 @@ import {ChangeStatusComponent} from '../../../dialogs/change-status/change-statu
 import {PipelineStage} from '../../../models/pipeline-stage.model';
 import {StageScore} from '../../../models/stage-score.model';
 import {CriteriaScore} from '../../../models/criteria-score.model';
+import {DataStorageService} from '../../../services/data-storage.service';
 
 
 
@@ -48,6 +49,7 @@ export class CandidateIdComponent implements OnInit {
               private router: Router,
               private dialog: MatDialog,
               private jobService: JobService,
+              private dataStorageService: DataStorageService,
               private candidateService: CandidateService,
               private settingsService: SettingsService) {
     this.route.params
@@ -108,7 +110,10 @@ export class CandidateIdComponent implements OnInit {
         data: {
           pipelines: this.pipelines,
           selectTab: this.selectTabIndex,
-          candidate: this.candidate
+          candidate: this.candidate,
+          pipelineStageId: pipelineStageId,
+          stageScore: this.candidate.JobAssigned[this.candidate.JobAssigned.length - 1].StageScore,
+          criteriaScore: this.candidate.JobAssigned[this.candidate.JobAssigned.length - 1].CriteriaScore
         }
       });
 
@@ -116,6 +121,8 @@ export class CandidateIdComponent implements OnInit {
 
     });
   }
+
+
   moveToRejected() {
     this.changeStatus(8);
   }
@@ -182,10 +189,13 @@ export class CandidateIdComponent implements OnInit {
           []
         );
 
-        this.candidate.JobAssigned.push(jobAssigned);
-        
-
-
+        // this.candidate.JobAssigned.push(jobAssigned);
+        this.dataStorageService.jobAssigned(jobAssigned)
+          .subscribe(
+            (getJobAssigned: any) => {
+               this.candidate.JobAssigned.push(getJobAssigned);
+            }
+          );
       }
     });
   }

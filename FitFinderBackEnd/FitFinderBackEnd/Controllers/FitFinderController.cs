@@ -85,7 +85,9 @@ namespace FitFinderBackEnd.Controllers
                 Include(c => c.CandidateEducation).
                 Include(d => d.CandidateExperience).
                 Include(e => e.CandidateAttachment).
-                Include(f => f.JobAssigned).
+                Include(f => f.JobAssigned.Select(x => x.StageScore)).
+                Include(f => f.JobAssigned.Select(x => x.CriteriaScore)).
+                Include(f => f.JobAssigned.Select(x => x.StageComment)).
                OrderBy(x => x.Id).ToList();
             return Ok(candidate);
         }
@@ -524,22 +526,42 @@ namespace FitFinderBackEnd.Controllers
             return Ok();
         }
 
-       // [HttpPost]
-       // [Route("api/AssignedJobToCandidate")]
-       // public IHttpActionResult AssignedJobToCandidate(AssignedJobToCandidate assignedJobToCandidate)
-       // {
-       //     if (assignedJobToCandidate == null)
-       //     {
-       //         return NotFound();
-       //     }
+        [HttpPost]
+        [Route("api/JobAssigned")]
+        public IHttpActionResult JobAssigned(JobAssigned jobAssigned)
+        {
+            if (jobAssigned == null)
+            {
+                return NotFound();
+            }
 
-       // //    _context.PipelineStageStarRatings.AddRange(assignedJobToCandidate.PipelineStageStarRating);
-       ////     _context.PipelineStageCriteriaStarRatings.AddRange(assignedJobToCandidate.PipelineStageCriteriaStarRating);
-       //  //   _context.PipelineStageComments.AddRange(assignedJobToCandidate.PipelineStageComment);
-       //     _context.AssignedJobToCandidates.Add(assignedJobToCandidate);
-       // //    _context.SaveChanges();
-       //     return Ok();
-       // }
+            _context.JobAssiged.Add(jobAssigned);
+
+
+
+            foreach (var stageScore in jobAssigned.StageScore)
+            {
+                stageScore.JobAssignedId = jobAssigned.Id;
+            }
+
+
+            foreach (var criteriaScore in jobAssigned.CriteriaScore)
+            {
+                criteriaScore.JobAssignedId = jobAssigned.Id;
+            }
+
+            foreach (var stageComment in jobAssigned.StageComment)
+            {
+                stageComment.JobAssignedId = jobAssigned.Id;
+            }
+
+            _context.StageScores.AddRange(jobAssigned.StageScore);
+            _context.CriteriaScores.AddRange(jobAssigned.CriteriaScore);
+            _context.StageComments.AddRange(jobAssigned.StageComment);
+           
+            _context.SaveChanges();
+            return Ok(jobAssigned);
+        }
 
     }
 

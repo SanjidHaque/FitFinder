@@ -12,13 +12,21 @@
 
 </div>
 
-  <div class="row" style="padding-top: 0; padding-bottom: 10px;">
+  <div
+    *ngIf="currentStageId !== 7 &&
+     currentStageId !== 8 &&
+     currentStageId !== 9; else notHiredOrDisqualifed"
+    class="row" style="padding-top: 0; padding-bottom: 10px;">
     <div class="col-xl-3">
 
         <star-rating
           style="cursor: pointer;"
           size="medium"
+          staticColor="123"
+          [rating]="getStageScore(currentStageId)"
           [starType]="'svg'"
+          [hoverEnabled]="true"
+          (ratingChange)="stageScoreChanged($event, currentStageId)"
         ></star-rating>
     </div>
 
@@ -28,6 +36,15 @@
         class="far fa-times-circle"></i>
     </div>
   </div>
+
+<ng-template #notHiredOrDisqualifed>
+
+  <div style="padding-top: 5px; padding-bottom: 5px;">
+
+
+  </div>
+
+</ng-template>
 
 
 
@@ -79,7 +96,11 @@
               <star-rating
                 style="cursor: pointer;"
                 size="medium"
+                staticColor="123"
                 [starType]="'svg'"
+                [hoverEnabled]="true"
+                [rating]="getCriteriaScore(criteria.Id)"
+                (ratingChange)="criteriaScoreChanged($event, criteria.Id)"
               ></star-rating>
 
             </div>
@@ -101,7 +122,8 @@
           <div class="row" style="
           text-align: center;
           font-weight: bold;
-          opacity: .7;
+          font-size: 14px;
+          opacity: .6;
           height: 30vh;">
             <div class="col-xl-12" style="padding-top: 20px;">
               No stage criteria is available here.

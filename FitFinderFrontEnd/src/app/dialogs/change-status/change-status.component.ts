@@ -11,6 +11,7 @@ export class ChangeStatusComponent implements OnInit {
 
   pipelineStages: PipelineStage[] = [];
   currentStageName: string;
+  currentStageId: number;
 
   constructor(
     public dialogRef: MatDialogRef<ChangeStatusComponent>,
@@ -24,26 +25,60 @@ export class ChangeStatusComponent implements OnInit {
     }
     this.currentStageName =
       this.pipelineStages[this.data.selectTab].Name;
+    this.currentStageId = this.data.pipelineStageId;
   }
 
   tabChange(index: number) {
     this.currentStageName =
       this.pipelineStages[index].Name;
+    this.currentStageId = this.pipelineStages[index].Id;
+
   }
 
   resetCriteriaMark() {
 
   }
 
-  getStageMark() {
+  criteriaScoreChanged(event: any, criteriaId: number) {
+    for (let j = 0; j < this.data.criteriaScore.length; j++) {
+      if (this.data.criteriaScore[j].PipelineStageCriteriaId === criteriaId) {
+        this.data.criteriaScore[j].Rating = event.rating;
+      }
+    }
+  }
+
+
+
+  stageScoreChanged(event: any, stageId: number) {
+    for (let j = 0; j < this.data.stageScore.length; j++) {
+      if (this.data.stageScore[j].PipelineStageId === stageId) {
+        this.data.stageScore[j].Rating = event.rating;
+      }
+    }
+  }
+
+
+  getStageScore(stageId: number) {
+   
+
+    for (let j = 0; j < this.data.stageScore.length; j++) {
+      if (this.data.stageScore[j].PipelineStageId === stageId) {
+        return this.data.stageScore[j].Rating;
+      }
+    }
+    return 0;
 
   }
 
-  getCriteriaMark() {
+  getCriteriaScore(criteriaId: number) {
 
+    for (let j = 0; j < this.data.criteriaScore.length; j++) {
+      if (this.data.criteriaScore[j].PipelineStageCriteriaId === criteriaId) {
+        return this.data.criteriaScore[j].Rating;
+      }
+    }
+    return 0;
   }
-
-
 
 
 }

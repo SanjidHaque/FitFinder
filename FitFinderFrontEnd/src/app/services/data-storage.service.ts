@@ -13,6 +13,7 @@ import {Job} from '../models/job.model';
   import {WithdrawnReason} from '../models/withdrawn-reason.model';
   import {PipelineStage} from '../models/pipeline-stage.model';
   import {PipelineStageCriteria} from '../models/pipeline-stage-criteria.model';
+  import {JobAssigned} from '../models/job-assigned.model';
 
 @Injectable({
   providedIn: 'root'
@@ -54,6 +55,8 @@ export class DataStorageService {
 
   private getAllWithdrawnReasonJson = 'assets/mock-data/withdrawn-reasons.json';
   private getAllWithdrawnReasonApi = 'http://localhost:55586/api/GetAllWithdrawnReason';
+
+
 
 
 
@@ -192,6 +195,10 @@ export class DataStorageService {
 
   editPipelineStageCriteria(pipelineStageCriteria: PipelineStageCriteria) {
     return this.httpClient.put(this.apiRootUrl + 'EditPipelineStageCriteria', pipelineStageCriteria);
+  }
+
+  jobAssigned(jobAssigned: JobAssigned) {
+    return this.httpClient.post(this.apiRootUrl + 'JobAssigned', jobAssigned);
   }
 
 }

@@ -48,6 +48,9 @@ namespace FitFinderBackEnd.Models
         public DbSet<PipelineStageCriteria> PipelineStageCriterias { get; set; }
 
         public DbSet<JobAssigned> JobAssiged { get; set; }
+        public DbSet<StageScore> StageScores { get; set; }
+        public DbSet<CriteriaScore> CriteriaScores { get; set; }
+        public DbSet<StageComment> StageComments { get; set; }
 
        
 
