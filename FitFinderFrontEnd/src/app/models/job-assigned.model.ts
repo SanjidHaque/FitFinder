@@ -1,6 +1,6 @@
 import {StageScore} from './stage-score.model';
 import {CriteriaScore} from './criteria-score.model';
-import {StageComment} from './pipeline-stage-comment.model';
+import {StageComment} from './stage-comment.model';
 
 export class JobAssigned {
   public Id: number;
@@ -9,6 +9,7 @@ export class JobAssigned {
   public StageScore: StageScore[];
   public CriteriaScore: CriteriaScore[];
   public StageComment: StageComment[];
+  public CurrentStageId: number;
 
   constructor(
     id: number,
@@ -16,7 +17,8 @@ export class JobAssigned {
     jobId: number,
     stageScore: StageScore[] = [],
     criteriaScore: CriteriaScore[] = [],
-    stageComment: StageComment[] = []
+    stageComment: StageComment[] = [],
+    currentStageId: number
   ) {
     this.Id = id;
     this.CandidateId = candidateId;
@@ -24,5 +26,6 @@ export class JobAssigned {
     this.StageScore = stageScore;
     this.CriteriaScore = criteriaScore;
     this.StageComment = stageComment;
+    this.CurrentStageId = currentStageId;
   }
 }

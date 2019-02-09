@@ -139,7 +139,10 @@
 
             <form>
               <mat-form-field appearance="outline" style="width: 100%">
-                <textarea matInput placeholder="Internal comment"></textarea>
+                <textarea
+                  name="name"
+                  [(ngModel)]="data.comment"
+                  matInput placeholder="Internal comment"></textarea>
               </mat-form-field>
             </form>
 
@@ -159,13 +162,13 @@
   <mat-dialog-actions align="end">
     <button
       mat-flat-button
-      disabled
+      [mat-dialog-close]="data"
       color="primary"
       style="outline: 0;"
     >OK</button>
     <button
       mat-stroked-button
       style="outline: 0;"
-      mat-dialog-close>Cancel</button>
+      [mat-dialog-close]=null>Cancel</button>
   </mat-dialog-actions>
 </div>

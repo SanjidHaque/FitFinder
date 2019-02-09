@@ -201,4 +201,8 @@ export class DataStorageService {
     return this.httpClient.post(this.apiRootUrl + 'JobAssigned', jobAssigned);
   }
 
+  jobStatusChanged(jobAssigned: JobAssigned) {
+    return this.httpClient.put(this.apiRootUrl + 'JobStatusChanged', jobAssigned);
+  }
+
 }

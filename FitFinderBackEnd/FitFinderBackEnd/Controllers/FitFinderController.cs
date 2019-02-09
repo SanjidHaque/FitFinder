@@ -81,14 +81,24 @@ namespace FitFinderBackEnd.Controllers
         [Route("api/GetAllCandidate")]
         public IHttpActionResult GetAllCandidate()
         {
+            //List<Candidate> candidate = _context.Candidates.
+            //    Include(c => c.CandidateEducation).
+            //    Include(d => d.CandidateExperience).
+            //    Include(e => e.CandidateAttachment).
+            //    Include(f => f.JobAssigned.Select(g => g.StageScore).Select(tr => tr.))
+
+            //   .OrderBy(x => x.Id).ToList();
+
             List<Candidate> candidate = _context.Candidates.
                 Include(c => c.CandidateEducation).
                 Include(d => d.CandidateExperience).
                 Include(e => e.CandidateAttachment).
-                Include(f => f.JobAssigned.Select(x => x.StageScore)).
-                Include(f => f.JobAssigned.Select(x => x.CriteriaScore)).
-                Include(f => f.JobAssigned.Select(x => x.StageComment)).
-               OrderBy(x => x.Id).ToList();
+                Include(f => f.JobAssigned.Select(g => g.StageScore.Select(a => a.JobAssigned))).
+                Include(f => f.JobAssigned.Select(g => g.CriteriaScore.Select(a => a.JobAssigned))).
+                Include(f => f.JobAssigned.Select(g => g.StageComment.Select(a => a.JobAssigned)))
+                .OrderBy(x => x.Id).ToList();
+
+
             return Ok(candidate);
         }
 
@@ -524,6 +534,57 @@ namespace FitFinderBackEnd.Controllers
            
 
             return Ok();
+        }
+
+
+
+        [HttpPut]
+        [Route("api/JobStatusChanged")]
+        public IHttpActionResult JobStatusChanged(JobAssigned jobAssigned)
+        {
+
+
+
+
+
+
+            if (jobAssigned == null)
+            {
+                return NotFound();
+            }
+
+            List<StageScore> stageScore = _context.StageScores.Where(x => x.JobAssignedId == jobAssigned.Id).ToList();
+            List<CriteriaScore> criteriaScore = _context.CriteriaScores.Where(x => x.JobAssignedId == jobAssigned.Id).ToList();
+
+
+
+
+
+            _context.StageScores.RemoveRange(stageScore);
+            _context.CriteriaScores.RemoveRange(criteriaScore);
+            _context.SaveChanges();
+
+
+
+            _context.StageScores.AddRange(jobAssigned.StageScore);
+            _context.CriteriaScores.AddRange(jobAssigned.CriteriaScore);
+            _context.StageComments.AddRange(jobAssigned.StageComment);
+
+            JobAssigned getAssignedJob = _context.JobAssiged.FirstOrDefault(x => x.Id == jobAssigned.Id);
+            getAssignedJob.CurrentStageId = jobAssigned.CurrentStageId;
+            _context.SaveChanges();
+
+            List<StageScore> getStageScore = _context.StageScores.Where(x => x.JobAssignedId == jobAssigned.Id).ToList();
+            List<CriteriaScore> getCriteriaScore = _context.CriteriaScores.Where(x => x.JobAssignedId == jobAssigned.Id).ToList();
+
+
+            return Ok(new
+            {
+                StageScore = getStageScore,
+                CriteriaScore = getCriteriaScore
+            });
+
+
         }
 
         [HttpPost]

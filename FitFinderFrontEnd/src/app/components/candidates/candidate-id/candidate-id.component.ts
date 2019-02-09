@@ -19,6 +19,8 @@ import {PipelineStage} from '../../../models/pipeline-stage.model';
 import {StageScore} from '../../../models/stage-score.model';
 import {CriteriaScore} from '../../../models/criteria-score.model';
 import {DataStorageService} from '../../../services/data-storage.service';
+import {StageComment} from '../../../models/stage-comment.model';
+import {NotifierService} from 'angular-notifier';
 
 
 
@@ -48,6 +50,7 @@ export class CandidateIdComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private router: Router,
               private dialog: MatDialog,
+              private notifierService: NotifierService,
               private jobService: JobService,
               private dataStorageService: DataStorageService,
               private candidateService: CandidateService,
@@ -113,22 +116,79 @@ export class CandidateIdComponent implements OnInit {
           candidate: this.candidate,
           pipelineStageId: pipelineStageId,
           stageScore: this.candidate.JobAssigned[this.candidate.JobAssigned.length - 1].StageScore,
-          criteriaScore: this.candidate.JobAssigned[this.candidate.JobAssigned.length - 1].CriteriaScore
+          criteriaScore: this.candidate.JobAssigned[this.candidate.JobAssigned.length - 1].CriteriaScore,
+          comment: '',
+          status: false
         }
       });
 
     dialogRef.afterClosed().subscribe(result => {
+     if (result !== null) {
+       let currentStageId = 1;
+       const allPipelineStages: PipelineStage[] = [];
+
+
+
+       for (let i = 0; i < this.pipelines.length; i++) {
+         for (let j = 0; j < this.pipelines[i].PipelineStage.length; j++) {
+           allPipelineStages.push(this.pipelines[i].PipelineStage[j]);
+         }
+       }
+
+       currentStageId = allPipelineStages[result.selectTab].Id;
+
+       const stageComments: StageComment[] = [];
+       if (result.comment !== '') {
+         const stageComment = new StageComment(
+           null,
+           this.candidate.JobAssigned[this.candidate.JobAssigned.length - 1].Id,
+           currentStageId,
+           this.candidateId,
+           this.candidate.JobAssigned[this.candidate.JobAssigned.length - 1].JobId,
+           result.comment
+         );
+         stageComments.push(stageComment);
+         this.candidate.JobAssigned[this.candidate.JobAssigned.length - 1].StageComment.push(stageComment);
+       }
+
+
+       for (let i = 0; i < result.stageScore.length; i++) {
+         result.stageScore[i].Id = null;
+       }
+
+       for (let i = 0; i < result.criteriaScore.length; i++) {
+         result.criteriaScore[i].Id = null;
+       }
+
+       const jobAssigned = new JobAssigned(
+         this.candidate.JobAssigned[this.candidate.JobAssigned.length - 1].Id,
+         this.candidateId,
+         this.candidate.JobAssigned[this.candidate.JobAssigned.length - 1].JobId,
+         result.stageScore,
+         result.criteriaScore,
+         stageComments,
+         currentStageId
+       );
+
+
+
+       this.dataStorageService.jobStatusChanged(jobAssigned)
+         .subscribe(
+           (data: any) => {
+
+           //  this.candidate.JobAssigned[this.candidate.JobAssigned.length - 1] = data;
+             this.candidate.JobAssigned[ this.candidate.JobAssigned.length - 1].StageScore = data.StageScore;
+             this.candidate.JobAssigned[ this.candidate.JobAssigned.length - 1].CriteriaScore = data.CriteriaScore;
+             this.candidate.JobAssigned[ this.candidate.JobAssigned.length - 1].CurrentStageId = currentStageId;
+             this.notifierService.notify('default', 'Status changed!');
+           }
+         );
+     }
+
 
     });
   }
 
-
-  moveToRejected() {
-    this.changeStatus(8);
-  }
-
-  moveToNextStage() {
-  }
 
 
 
@@ -144,13 +204,14 @@ export class CandidateIdComponent implements OnInit {
       if (result !== '' ) {
 
 
-        const pipelineStageRating: StageScore[] = [];
-        const pipelineStageCriteriaRating: CriteriaScore[] = [];
+        const stageScores: StageScore[] = [];
+        const criteriaScores: CriteriaScore[] = [];
+        const stageComments: StageComment[] = [];
 
         for (let i = 0; i < this.pipelines.length; i++) {
           for (let j = 0; j < this.pipelines[i].PipelineStage.length; j++) {
 
-            const stageRating = new StageScore(
+            const stageScore = new StageScore(
               null,
               null,
               0,
@@ -158,14 +219,13 @@ export class CandidateIdComponent implements OnInit {
               this.candidateId,
               result[0].Id
             );
-
-            pipelineStageRating.push(stageRating);
+            stageScores.push(stageScore);
 
             for (let l = 0;
                  l < this.pipelines[i].PipelineStage[j].PipelineStageCriteria.length;
                  l++) {
 
-              const criteriaRating = new CriteriaScore(
+              const criteriaScore = new CriteriaScore(
                 null,
                 null,
                 0,
@@ -173,8 +233,7 @@ export class CandidateIdComponent implements OnInit {
                 this.candidateId,
                 result[0].Id
               );
-
-              pipelineStageCriteriaRating.push(criteriaRating);
+              criteriaScores.push(criteriaScore);
 
             }
 
@@ -184,16 +243,19 @@ export class CandidateIdComponent implements OnInit {
           null,
           this.candidateId,
           result[0].Id,
-          pipelineStageRating,
-          pipelineStageCriteriaRating,
-          []
+          stageScores,
+          criteriaScores,
+          [],
+          1
         );
 
-        // this.candidate.JobAssigned.push(jobAssigned);
+
+
+
         this.dataStorageService.jobAssigned(jobAssigned)
           .subscribe(
             (getJobAssigned: any) => {
-               this.candidate.JobAssigned.push(getJobAssigned);
+              this.candidate.JobAssigned.push(getJobAssigned);
             }
           );
       }
@@ -213,6 +275,13 @@ export class CandidateIdComponent implements OnInit {
     const lastIndex = this.candidate.JobAssigned.length - 1;
     const jobId = this.candidate.JobAssigned[lastIndex].JobId;
     this.router.navigate(['jobs/',  jobId ]);
+  }
+
+  moveToRejected() {
+    this.changeStatus(8);
+  }
+
+  moveToNextStage() {
   }
 
   previousCandidate() {

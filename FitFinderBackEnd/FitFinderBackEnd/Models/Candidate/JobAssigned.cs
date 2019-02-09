@@ -16,5 +16,6 @@ namespace FitFinderBackEnd.Models.Candidate
         public List<StageScore> StageScore { get; set; }
         public List<CriteriaScore> CriteriaScore { get; set; }
         public List<StageComment> StageComment { get; set; }
+        public long CurrentStageId { get; set; }
     }
 }

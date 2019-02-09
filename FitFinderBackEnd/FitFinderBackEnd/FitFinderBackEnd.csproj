@@ -249,6 +249,14 @@
     <Compile Include="Migrations\201902071833201_newModelsAddedAgain.Designer.cs">
       <DependentUpon>201902071833201_newModelsAddedAgain.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201902081333041_jobAssignedModelCnanged.cs" />
+    <Compile Include="Migrations\201902081333041_jobAssignedModelCnanged.Designer.cs">
+      <DependentUpon>201902081333041_jobAssignedModelCnanged.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902081609066_jobAssignedModelCnangedAgain.cs" />
+    <Compile Include="Migrations\201902081609066_jobAssignedModelCnangedAgain.Designer.cs">
+      <DependentUpon>201902081609066_jobAssignedModelCnangedAgain.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -375,6 +383,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201902071833201_newModelsAddedAgain.resx">
       <DependentUpon>201902071833201_newModelsAddedAgain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902081333041_jobAssignedModelCnanged.resx">
+      <DependentUpon>201902081333041_jobAssignedModelCnanged.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902081609066_jobAssignedModelCnangedAgain.resx">
+      <DependentUpon>201902081609066_jobAssignedModelCnangedAgain.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

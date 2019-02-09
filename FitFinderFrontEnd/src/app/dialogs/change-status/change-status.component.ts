@@ -12,6 +12,7 @@ export class ChangeStatusComponent implements OnInit {
   pipelineStages: PipelineStage[] = [];
   currentStageName: string;
   currentStageId: number;
+  status = false;
 
   constructor(
     public dialogRef: MatDialogRef<ChangeStatusComponent>,
@@ -32,7 +33,6 @@ export class ChangeStatusComponent implements OnInit {
     this.currentStageName =
       this.pipelineStages[index].Name;
     this.currentStageId = this.pipelineStages[index].Id;
-
   }
 
   resetCriteriaMark() {
@@ -40,9 +40,11 @@ export class ChangeStatusComponent implements OnInit {
   }
 
   criteriaScoreChanged(event: any, criteriaId: number) {
+    this.status = true;
     for (let j = 0; j < this.data.criteriaScore.length; j++) {
       if (this.data.criteriaScore[j].PipelineStageCriteriaId === criteriaId) {
         this.data.criteriaScore[j].Rating = event.rating;
+
       }
     }
   }
@@ -50,16 +52,18 @@ export class ChangeStatusComponent implements OnInit {
 
 
   stageScoreChanged(event: any, stageId: number) {
+    this.status = true;
     for (let j = 0; j < this.data.stageScore.length; j++) {
       if (this.data.stageScore[j].PipelineStageId === stageId) {
         this.data.stageScore[j].Rating = event.rating;
+
       }
     }
   }
 
 
   getStageScore(stageId: number) {
-   
+
 
     for (let j = 0; j < this.data.stageScore.length; j++) {
       if (this.data.stageScore[j].PipelineStageId === stageId) {
