@@ -175,11 +175,28 @@ export class CandidateIdComponent implements OnInit {
        this.dataStorageService.jobStatusChanged(jobAssigned)
          .subscribe(
            (data: any) => {
+             console.log(data);
+             this.candidate.JobAssigned[this.candidate.JobAssigned.length - 1] = data;
+             /*this.dataStorageService.removeOldScores(jobAssigned)
+               .subscribe(
+                 (oldScores : any) => {
 
-           //  this.candidate.JobAssigned[this.candidate.JobAssigned.length - 1] = data;
-             this.candidate.JobAssigned[ this.candidate.JobAssigned.length - 1].StageScore = data.StageScore;
+
+                   this.dataStorageService.addNewScores(jobAssigned)
+                     .subscribe(
+                       (newScores : any) => {
+
+                       }
+                     );
+
+
+                 }
+               );*/
+
+
+             /*this.candidate.JobAssigned[ this.candidate.JobAssigned.length - 1].StageScore = data.StageScore;
              this.candidate.JobAssigned[ this.candidate.JobAssigned.length - 1].CriteriaScore = data.CriteriaScore;
-             this.candidate.JobAssigned[ this.candidate.JobAssigned.length - 1].CurrentStageId = currentStageId;
+             this.candidate.JobAssigned[ this.candidate.JobAssigned.length - 1].CurrentStageId = currentStageId;*/
              this.notifierService.notify('default', 'Status changed!');
            }
          );

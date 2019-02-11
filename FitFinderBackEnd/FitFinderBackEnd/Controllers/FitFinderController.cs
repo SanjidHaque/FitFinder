@@ -553,28 +553,35 @@ namespace FitFinderBackEnd.Controllers
                 return NotFound();
             }
 
-            List<StageScore> stageScore = _context.StageScores.Where(x => x.JobAssignedId == jobAssigned.Id).ToList();
-            List<CriteriaScore> criteriaScore = _context.CriteriaScores.Where(x => x.JobAssignedId == jobAssigned.Id).ToList();
+            //List<StageScore> stageScore = _context.StageScores.Where(x => x.JobAssignedId == jobAssigned.Id).ToList();
+            //List<CriteriaScore> criteriaScore = _context.CriteriaScores.Where(x => x.JobAssignedId == jobAssigned.Id).ToList();
 
 
 
 
 
-            _context.StageScores.RemoveRange(stageScore);
-            _context.CriteriaScores.RemoveRange(criteriaScore);
-            _context.SaveChanges();
+            //_context.StageScores.RemoveRange(stageScore);
+            //_context.CriteriaScores.RemoveRange(criteriaScore);
+            //_context.SaveChanges();
 
 
 
-            _context.StageScores.AddRange(jobAssigned.StageScore);
-            _context.CriteriaScores.AddRange(jobAssigned.CriteriaScore);
-            _context.StageComments.AddRange(jobAssigned.StageComment);
+            //_context.StageScores.AddRange(jobAssigned.StageScore);
+            //_context.CriteriaScores.AddRange(jobAssigned.CriteriaScore);
+            //_context.StageComments.AddRange(jobAssigned.StageComment);
 
             JobAssigned getAssignedJob = _context.JobAssiged.FirstOrDefault(x => x.Id == jobAssigned.Id);
             getAssignedJob.CurrentStageId = jobAssigned.CurrentStageId;
             _context.SaveChanges();
 
-            List<StageScore> getStageScore = _context.StageScores.Where(x => x.JobAssignedId == jobAssigned.Id).ToList();
+
+            RemoveOldScores(jobAssigned);
+            AddNewScores(jobAssigned);
+            List<JobAssigned> jobAssigneds =  GetNewScores(jobAssigned);
+            return Ok(getAssignedJob);
+
+
+            /*List<StageScore> getStageScore = _context.StageScores.Where(x => x.JobAssignedId == jobAssigned.Id).ToList();
             List<CriteriaScore> getCriteriaScore = _context.CriteriaScores.Where(x => x.JobAssignedId == jobAssigned.Id).ToList();
 
 
@@ -583,9 +590,52 @@ namespace FitFinderBackEnd.Controllers
                 StageScore = getStageScore,
                 CriteriaScore = getCriteriaScore
             });
+            //return Ok();*/
 
 
         }
+
+        public List<JobAssigned> GetNewScores(JobAssigned jobAssigned)
+        {
+            List<JobAssigned> getJobAssigned = _context.JobAssiged.Where(x => x.Id == jobAssigned.Id)
+                   .Include(b => b.StageScore).Include(c => c.StageComment).Include(d => d.CriteriaScore).ToList();
+              return  getJobAssigned;
+        }
+
+
+
+
+        public void RemoveOldScores(JobAssigned jobAssigned)
+        {
+            List<StageScore> stageScore = _context.StageScores.Where(x => x.JobAssignedId == jobAssigned.Id).ToList();
+            List<CriteriaScore> criteriaScore = _context.CriteriaScores.Where(x => x.JobAssignedId == jobAssigned.Id).ToList();
+            _context.StageScores.RemoveRange(stageScore);
+            _context.CriteriaScores.RemoveRange(criteriaScore);
+            _context.SaveChanges();
+          
+        }
+
+        public void AddNewScores(JobAssigned jobAssigned)
+        {
+            _context.StageScores.AddRange(jobAssigned.StageScore);
+            _context.CriteriaScores.AddRange(jobAssigned.CriteriaScore);
+            _context.StageComments.AddRange(jobAssigned.StageComment);
+            _context.SaveChanges();
+
+        }
+
+        //[HttpGet]
+        //[Route("api/GetNewScores")]
+        //public IHttpActionResult GetNewScores(JobAssigned jobAssigned)
+        //{
+        //    List<JobAssigned> getJobAssigned = _context.JobAssiged.Where(x => x.Id == jobAssigned.Id)
+        //        .Include(b => b.StageScore).Include(c => c.StageComment).Include(d => d.CriteriaScore).ToList();
+        //    return Ok(getJobAssigned);
+        //}
+
+
+
+
 
         [HttpPost]
         [Route("api/JobAssigned")]
