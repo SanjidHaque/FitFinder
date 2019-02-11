@@ -39,7 +39,6 @@ export class CandidateIdComponent implements OnInit {
   name = 'New';
   color = 'blue';
   pipelines: Pipeline[] = [];
-  pipelineStageStarRating: StageScore[] = [];
 
   candidates: Candidate[] = [];
   candidate: Candidate;
@@ -102,9 +101,6 @@ export class CandidateIdComponent implements OnInit {
       }
     }
 
-
-
-
     const dialogRef = this.dialog.open(ChangeStatusComponent,
       {
         hasBackdrop: true,
@@ -124,11 +120,9 @@ export class CandidateIdComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
      if (result !== null) {
+
        let currentStageId = 1;
        const allPipelineStages: PipelineStage[] = [];
-
-
-
        for (let i = 0; i < this.pipelines.length; i++) {
          for (let j = 0; j < this.pipelines[i].PipelineStage.length; j++) {
            allPipelineStages.push(this.pipelines[i].PipelineStage[j]);
@@ -136,10 +130,9 @@ export class CandidateIdComponent implements OnInit {
        }
 
        currentStageId = allPipelineStages[result.selectTab].Id;
-
        const stageComments: StageComment[] = [];
        if (result.comment !== '') {
-         const stageComment = new StageComment(
+          const stageComment = new StageComment(
            null,
            this.candidate.JobAssigned[this.candidate.JobAssigned.length - 1].Id,
            currentStageId,
@@ -147,14 +140,14 @@ export class CandidateIdComponent implements OnInit {
            this.candidate.JobAssigned[this.candidate.JobAssigned.length - 1].JobId,
            result.comment
          );
-         stageComments.push(stageComment);
-         this.candidate.JobAssigned[this.candidate.JobAssigned.length - 1].StageComment.push(stageComment);
+          stageComments.push(stageComment);
        }
 
 
        for (let i = 0; i < result.stageScore.length; i++) {
          result.stageScore[i].Id = null;
        }
+       
 
        for (let i = 0; i < result.criteriaScore.length; i++) {
          result.criteriaScore[i].Id = null;
@@ -170,42 +163,18 @@ export class CandidateIdComponent implements OnInit {
          currentStageId
        );
 
-
+       console.log(stageComments);
 
        this.dataStorageService.jobStatusChanged(jobAssigned)
          .subscribe(
            (data: any) => {
-             console.log(data);
              this.candidate.JobAssigned[this.candidate.JobAssigned.length - 1] = data;
-             /*this.dataStorageService.removeOldScores(jobAssigned)
-               .subscribe(
-                 (oldScores : any) => {
-
-
-                   this.dataStorageService.addNewScores(jobAssigned)
-                     .subscribe(
-                       (newScores : any) => {
-
-                       }
-                     );
-
-
-                 }
-               );*/
-
-
-             /*this.candidate.JobAssigned[ this.candidate.JobAssigned.length - 1].StageScore = data.StageScore;
-             this.candidate.JobAssigned[ this.candidate.JobAssigned.length - 1].CriteriaScore = data.CriteriaScore;
-             this.candidate.JobAssigned[ this.candidate.JobAssigned.length - 1].CurrentStageId = currentStageId;*/
              this.notifierService.notify('default', 'Status changed!');
            }
          );
      }
-
-
     });
   }
-
 
 
 
@@ -220,10 +189,25 @@ export class CandidateIdComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result !== '' ) {
 
+        const jobId = result[0].Id;
 
         const stageScores: StageScore[] = [];
         const criteriaScores: CriteriaScore[] = [];
         const stageComments: StageComment[] = [];
+
+
+
+        const stageComment = new StageComment(
+          null,
+          null,
+          1,
+          this.candidateId,
+          jobId,
+          'Created from '
+        );
+
+
+        stageComments.push(stageComment);
 
         for (let i = 0; i < this.pipelines.length; i++) {
           for (let j = 0; j < this.pipelines[i].PipelineStage.length; j++) {
@@ -234,7 +218,7 @@ export class CandidateIdComponent implements OnInit {
               0,
               this.pipelines[i].PipelineStage[j].Id,
               this.candidateId,
-              result[0].Id
+              jobId
             );
             stageScores.push(stageScore);
 
@@ -248,7 +232,7 @@ export class CandidateIdComponent implements OnInit {
                 0,
                 this.pipelines[i].PipelineStage[j].PipelineStageCriteria[l].Id,
                 this.candidateId,
-                result[0].Id
+                jobId
               );
               criteriaScores.push(criteriaScore);
 
@@ -262,12 +246,9 @@ export class CandidateIdComponent implements OnInit {
           result[0].Id,
           stageScores,
           criteriaScores,
-          [],
+          stageComments,
           1
         );
-
-
-
 
         this.dataStorageService.jobAssigned(jobAssigned)
           .subscribe(
@@ -278,7 +259,6 @@ export class CandidateIdComponent implements OnInit {
       }
     });
   }
-
 
 
   getLastAssignedJobName() {

@@ -33,7 +33,7 @@ export class ChangeStatusComponent implements OnInit {
     this.currentStageName =
       this.pipelineStages[index].Name;
     this.currentStageId = this.pipelineStages[index].Id;
-    this.data.selectTab = this.pipelineStages[index].Id;
+    this.data.comment = '';
   }
 
   resetCriteriaMark() {

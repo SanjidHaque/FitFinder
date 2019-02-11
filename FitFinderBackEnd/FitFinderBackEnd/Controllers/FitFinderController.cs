@@ -542,66 +542,36 @@ namespace FitFinderBackEnd.Controllers
         [Route("api/JobStatusChanged")]
         public IHttpActionResult JobStatusChanged(JobAssigned jobAssigned)
         {
-
-
-
-
-
-
             if (jobAssigned == null)
             {
                 return NotFound();
             }
-
-            //List<StageScore> stageScore = _context.StageScores.Where(x => x.JobAssignedId == jobAssigned.Id).ToList();
-            //List<CriteriaScore> criteriaScore = _context.CriteriaScores.Where(x => x.JobAssignedId == jobAssigned.Id).ToList();
-
-
-
-
-
-            //_context.StageScores.RemoveRange(stageScore);
-            //_context.CriteriaScores.RemoveRange(criteriaScore);
-            //_context.SaveChanges();
-
-
-
-            //_context.StageScores.AddRange(jobAssigned.StageScore);
-            //_context.CriteriaScores.AddRange(jobAssigned.CriteriaScore);
-            //_context.StageComments.AddRange(jobAssigned.StageComment);
-
+            
             JobAssigned getAssignedJob = _context.JobAssiged.FirstOrDefault(x => x.Id == jobAssigned.Id);
             getAssignedJob.CurrentStageId = jobAssigned.CurrentStageId;
             _context.SaveChanges();
 
-
             RemoveOldScores(jobAssigned);
             AddNewScores(jobAssigned);
-            List<JobAssigned> jobAssigneds =  GetNewScores(jobAssigned);
-            return Ok(getAssignedJob);
-
-
-            /*List<StageScore> getStageScore = _context.StageScores.Where(x => x.JobAssignedId == jobAssigned.Id).ToList();
-            List<CriteriaScore> getCriteriaScore = _context.CriteriaScores.Where(x => x.JobAssignedId == jobAssigned.Id).ToList();
-
-
-            return Ok(new
+            if (jobAssigned.StageComment.Count!=0)
             {
-                StageScore = getStageScore,
-                CriteriaScore = getCriteriaScore
-            });
-            //return Ok();*/
-
-
+                AddNewStageComment(jobAssigned);
+            }
+            return Ok(GetNewScores(jobAssigned));
         }
 
-        public List<JobAssigned> GetNewScores(JobAssigned jobAssigned)
+
+        public JobAssigned GetNewScores(JobAssigned jobAssigned)
         {
-            List<JobAssigned> getJobAssigned = _context.JobAssiged.Where(x => x.Id == jobAssigned.Id)
-                   .Include(b => b.StageScore).Include(c => c.StageComment).Include(d => d.CriteriaScore).ToList();
-              return  getJobAssigned;
+            return _context.JobAssiged.FirstOrDefault(x => x.Id == jobAssigned.Id);
         }
 
+
+        public void AddNewStageComment(JobAssigned jobAssigned)
+        {
+            _context.StageComments.AddRange(jobAssigned.StageComment);
+            _context.SaveChanges();
+        }
 
 
 
@@ -619,20 +589,9 @@ namespace FitFinderBackEnd.Controllers
         {
             _context.StageScores.AddRange(jobAssigned.StageScore);
             _context.CriteriaScores.AddRange(jobAssigned.CriteriaScore);
-            _context.StageComments.AddRange(jobAssigned.StageComment);
             _context.SaveChanges();
 
         }
-
-        //[HttpGet]
-        //[Route("api/GetNewScores")]
-        //public IHttpActionResult GetNewScores(JobAssigned jobAssigned)
-        //{
-        //    List<JobAssigned> getJobAssigned = _context.JobAssiged.Where(x => x.Id == jobAssigned.Id)
-        //        .Include(b => b.StageScore).Include(c => c.StageComment).Include(d => d.CriteriaScore).ToList();
-        //    return Ok(getJobAssigned);
-        //}
-
 
 
 
