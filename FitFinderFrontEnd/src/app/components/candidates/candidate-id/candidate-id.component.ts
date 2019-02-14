@@ -147,7 +147,7 @@ export class CandidateIdComponent implements OnInit {
        for (let i = 0; i < result.stageScore.length; i++) {
          result.stageScore[i].Id = null;
        }
-       
+
 
        for (let i = 0; i < result.criteriaScore.length; i++) {
          result.criteriaScore[i].Id = null;

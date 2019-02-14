@@ -59,6 +59,7 @@
 
   <div class="col-xl-2 text-xl-right">
     <button
+      [disabled]="candidate.JobAssigned.length >= 0"
       (click)="assignJobDialog(candidate)"
       style="
       outline: 0;"
