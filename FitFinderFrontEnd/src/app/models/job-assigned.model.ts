@@ -10,6 +10,7 @@ export class JobAssigned {
   public CriteriaScore: CriteriaScore[];
   public StageComment: StageComment[];
   public CurrentStageId: number;
+  public IsActive: boolean;
 
   constructor(
     id: number,
@@ -18,7 +19,8 @@ export class JobAssigned {
     stageScore: StageScore[] = [],
     criteriaScore: CriteriaScore[] = [],
     stageComment: StageComment[] = [],
-    currentStageId: number
+    currentStageId: number,
+    isActive: boolean
   ) {
     this.Id = id;
     this.CandidateId = candidateId;
@@ -27,5 +29,6 @@ export class JobAssigned {
     this.CriteriaScore = criteriaScore;
     this.StageComment = stageComment;
     this.CurrentStageId = currentStageId;
+    this.IsActive = isActive;
   }
 }

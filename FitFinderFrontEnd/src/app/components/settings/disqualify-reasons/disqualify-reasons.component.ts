@@ -59,8 +59,8 @@ export class DisqualifyReasonsComponent implements OnInit {
 
         this.dataStorageService.addNewRejectedReason(rejectedReason)
           .subscribe(
-            (data: any) => {
-              this.rejectedReasons.push(rejectedReason);
+            (newRejectedReason: RejectedReason) => {
+              this.rejectedReasons.push(newRejectedReason);
               this.notifierService.notify('default', 'New reason added!');
             }
           );
@@ -95,8 +95,8 @@ export class DisqualifyReasonsComponent implements OnInit {
 
         this.dataStorageService.addNewWithdrawnReason(withdrawnReason)
           .subscribe(
-            (data: any) => {
-              this.withdrawnReasons.push(withdrawnReason);
+            (newWithdrawnReason: WithdrawnReason) => {
+              this.withdrawnReasons.push(newWithdrawnReason);
               this.notifierService.notify('default', 'New reason added!');
             }
           );

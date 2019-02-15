@@ -1,13 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {Department} from '../../../../models/department.model';
 import {MatDialog} from '@angular/material';
 import {DataStorageService} from '../../../../services/data-storage.service';
 import {NotifierService} from 'angular-notifier';
-import {UUID} from 'angular2-uuid';
 import {JobFunction} from '../../../../models/job-function.model';
 import {SettingsService} from '../../../../services/settings.service';
 import {AddUpdateComponent} from '../../../../dialogs/add-update/add-update.component';
-import {Tag} from '../../../../models/tag.model';
 
 @Component({
   selector: 'app-functions',
@@ -82,8 +79,8 @@ export class FunctionsComponent implements OnInit {
 
         this.dataStorageService.addNewJobFunction(jobFunction)
           .subscribe(
-            (data: any) => {
-              this.jobFunctions.push(jobFunction);
+            (newJobFunction: JobFunction) => {
+              this.jobFunctions.push(newJobFunction);
               this.notifierService.notify('default', 'New job function added!');
             }
           );

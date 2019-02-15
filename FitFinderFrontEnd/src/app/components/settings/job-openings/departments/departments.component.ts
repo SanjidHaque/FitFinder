@@ -79,8 +79,8 @@ export class DepartmentsComponent implements OnInit {
 
         this.dataStorageService.addNewDepartment(department)
           .subscribe(
-            (data: any) => {
-              this.departments.push(department);
+            (newDepartment: any) => {
+              this.departments.push(newDepartment);
               this.notifierService.notify('default', 'New department added!');
             }
           );

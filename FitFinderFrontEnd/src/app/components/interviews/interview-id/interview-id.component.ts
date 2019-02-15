@@ -218,10 +218,7 @@ export class InterviewIdComponent implements OnInit {
     const jobId = this.candidates.find(x => x.Id === candidateId).JobAssigned;
     if (jobId.length === 0 ) {
       return '';
-    } /*else {
-      return this.jobs.find(x => x.Id === jobId).JobTitle;
-    }*/
-
+    }
   }
 
 

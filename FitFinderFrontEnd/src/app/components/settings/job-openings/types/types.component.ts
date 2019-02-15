@@ -81,8 +81,8 @@ export class TypesComponent implements OnInit {
 
         this.dataStorageService.addNewJobType(jobType)
           .subscribe(
-            (data: any) => {
-              this.jobTypes.push(jobType);
+            (newJobType: any) => {
+              this.jobTypes.push(newJobType);
               this.notifierService.notify('default', 'New job type added!');
             }
           );

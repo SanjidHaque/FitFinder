@@ -79,8 +79,8 @@ export class SourcesComponent implements OnInit {
 
         this.dataStorageService.addNewSource(source)
           .subscribe(
-            (data: any) => {
-              this.sources.push(source);
+            (newSource: Source) => {
+              this.sources.push(newSource);
               this.notifierService.notify('default', 'New source added!');
             }
           );

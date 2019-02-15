@@ -59,7 +59,7 @@
 
   <div class="col-xl-2 text-xl-right">
     <button
-      [disabled]="candidate.JobAssigned.length >= 0"
+      [disabled]="candidate.JobAssigned.length !== 0"
       (click)="assignJobDialog(candidate)"
       style="
       outline: 0;"
@@ -237,7 +237,7 @@
       <div class="col-xl-12" style="font-size: 14px; padding-top: 3px; padding-bottom: 3px;">
 
         <i  title="Address" class="fas fa-map-marker-alt"></i>
-        {{ candidate.Address }}, {{ candidate.City }}, {{ candidate.State }}, {{ candidate.Country }}
+        {{ candidate.Address }} {{ candidate.City }} {{ candidate.State }} {{ candidate.Country }}
 
       </div>
     </div>
@@ -566,8 +566,8 @@
           <mat-form-field appearance="outline" class="job-assign">
             <mat-select
               class="stage-select"
-              (selectionChange)="selectValueChanged($event.value)"
-              [(value)]="new"
+              (selectionChange)="pipelineStageChanged($event.value)"
+              [(value)]="currentStageId"
               style="font-size: 15px; ">
 
               <mat-select-trigger>
@@ -587,6 +587,7 @@
 
 
                 <mat-option
+
 
                   style="font-size: 15px; background-color: #ffffff;"
                   *ngFor="let pipelineStage of pipeline.PipelineStage"
@@ -636,10 +637,6 @@
           </button>
 
           <mat-menu #menu="matMenu">
-            <button mat-menu-item>
-              <mat-icon>add_circle_outline</mat-icon>
-              <span>Add To Job</span>
-            </button>
             <button mat-menu-item>
               <mat-icon>subdirectory_arrow_right
               </mat-icon>

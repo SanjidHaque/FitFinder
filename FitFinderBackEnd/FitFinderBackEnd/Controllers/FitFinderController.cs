@@ -81,14 +81,6 @@ namespace FitFinderBackEnd.Controllers
         [Route("api/GetAllCandidate")]
         public IHttpActionResult GetAllCandidate()
         {
-            //List<Candidate> candidate = _context.Candidates.
-            //    Include(c => c.CandidateEducation).
-            //    Include(d => d.CandidateExperience).
-            //    Include(e => e.CandidateAttachment).
-            //    Include(f => f.JobAssigned.Select(g => g.StageScore).Select(tr => tr.))
-
-            //   .OrderBy(x => x.Id).ToList();
-
             List<Candidate> candidate = _context.Candidates.
                 Include(c => c.CandidateEducation).
                 Include(d => d.CandidateExperience).
@@ -217,7 +209,7 @@ namespace FitFinderBackEnd.Controllers
             }
             _context.Departments.Add(department);
             _context.SaveChanges();
-            return Ok();
+            return Ok(department);
         }
 
        
@@ -232,7 +224,7 @@ namespace FitFinderBackEnd.Controllers
             }
             _context.Sources.Add(source);
             _context.SaveChanges();
-            return Ok();
+            return Ok(source);
         }
 
         [HttpPost]
@@ -245,7 +237,7 @@ namespace FitFinderBackEnd.Controllers
             }
             _context.JobFunctions.Add(jobFunction);
             _context.SaveChanges();
-            return Ok();
+            return Ok(jobFunction);
         }
 
 
@@ -259,7 +251,7 @@ namespace FitFinderBackEnd.Controllers
             }
             _context.JobTypes.Add(jobType);
             _context.SaveChanges();
-            return Ok();
+            return Ok(jobType);
         }
 
         [HttpPut]
@@ -357,7 +349,7 @@ namespace FitFinderBackEnd.Controllers
             }
             _context.RejectedReasons.Add(rejectedReason);
             _context.SaveChanges();
-            return Ok();
+            return Ok(rejectedReason);
         }
 
         [HttpPost]
@@ -370,7 +362,7 @@ namespace FitFinderBackEnd.Controllers
             }
             _context.WithdrawnReasons.Add(withdrawnReason);
             _context.SaveChanges();
-            return Ok();
+            return Ok(withdrawnReason);
         }
 
         [HttpGet]
@@ -472,7 +464,7 @@ namespace FitFinderBackEnd.Controllers
 
             _context.PipelineStages.Add(pipelineStage);
             _context.SaveChanges();
-            return Ok();
+            return Ok(pipelineStage);
         }
 
         [HttpPost]
@@ -486,7 +478,7 @@ namespace FitFinderBackEnd.Controllers
 
             _context.PipelineStageCriterias.Add(pipelineStageCriteria);
             _context.SaveChanges();
-            return Ok();
+            return Ok(pipelineStageCriteria);
         }
 
         [HttpPut]

@@ -7,6 +7,7 @@ import {Subject} from 'rxjs/index';
 })
 export class CandidateService {
 
+  candidate: Candidate;
   candidates: Candidate[] = [];
   candidatesChanged = new Subject<Candidate[]>();
 

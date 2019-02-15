@@ -55,8 +55,8 @@ export class PipelineStageCriteriaComponent implements OnInit {
 
         this.dataStorageService.addNewPipelineStageCriteria(pipelineStageCriteria)
           .subscribe(
-            (data: any) => {
-              this.data.stage.PipelineStageCriteria.push(pipelineStageCriteria);
+            (newPipelineStageCriteria: PipelineStageCriteria) => {
+              this.data.stage.PipelineStageCriteria.push(newPipelineStageCriteria);
               this.notifierService.notify('default', 'New criteria added!');
             }
           );

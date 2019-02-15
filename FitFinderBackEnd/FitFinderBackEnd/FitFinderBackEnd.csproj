@@ -257,6 +257,10 @@
     <Compile Include="Migrations\201902081609066_jobAssignedModelCnangedAgain.Designer.cs">
       <DependentUpon>201902081609066_jobAssignedModelCnangedAgain.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201902151703582_jobAssignedModelChanged.cs" />
+    <Compile Include="Migrations\201902151703582_jobAssignedModelChanged.Designer.cs">
+      <DependentUpon>201902151703582_jobAssignedModelChanged.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -389,6 +393,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201902081609066_jobAssignedModelCnangedAgain.resx">
       <DependentUpon>201902081609066_jobAssignedModelCnangedAgain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902151703582_jobAssignedModelChanged.resx">
+      <DependentUpon>201902151703582_jobAssignedModelChanged.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

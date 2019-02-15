@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, DoCheck, OnInit, ViewEncapsulation} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {Candidate} from '../../../models/candidate.model';
 import {CandidateService} from '../../../services/candidate.service';
@@ -21,6 +21,7 @@ import {CriteriaScore} from '../../../models/criteria-score.model';
 import {DataStorageService} from '../../../services/data-storage.service';
 import {StageComment} from '../../../models/stage-comment.model';
 import {NotifierService} from 'angular-notifier';
+import {forEach} from '@angular/router/src/utils/collection';
 
 
 
@@ -29,15 +30,15 @@ import {NotifierService} from 'angular-notifier';
   templateUrl: './candidate-id.component.html',
   styleUrls: ['./candidate-id.component.css']
 })
-export class CandidateIdComponent implements OnInit {
+export class CandidateIdComponent implements OnInit, DoCheck {
 
   candidateId: number;
   selectTabIndex = 0;
   candidateDefaultImage = 'assets/images/candidateDefaultImage.png';
   rating: 0;
-  new = 1;
-  name = 'New';
-  color = 'blue';
+  currentStageId = 0;
+  name = '';
+  color = '';
   pipelines: Pipeline[] = [];
 
   candidates: Candidate[] = [];
@@ -64,26 +65,49 @@ export class CandidateIdComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.jobs = this.jobService.getAllJob();
-    this.pipelines = this.settingsService.getAllPipeline();
     this.candidates = this.candidateService.getAllCandidate();
+    this.pipelines = this.settingsService.getAllPipeline();
+    this.jobs = this.jobService.getAllJob();
     this.candidate = this.candidates.find(x => x.Id === this.candidateId);
+    this.candidateService.candidate = this.candidate;
     this.sources = this.settingsService.getAllSource();
+    this.getCurrentStageNameAndColor();
+  }
+
+  ngDoCheck() {
+    this.candidate = this.candidateService.candidate;
+    this.getCurrentStageNameAndColor();
   }
 
 
+  getCurrentStageNameAndColor() {
+    if (this.candidate.JobAssigned.length !== 0) {
+      this.currentStageId =
+        this.candidate.JobAssigned.find( x => x.IsActive === true).CurrentStageId;
+      this.name = this.detectStageChange(this.currentStageId).stageName;
+      this.color = this.detectStageChange(this.currentStageId).stageColor;
+    }
+  }
 
-  selectValueChanged(pipelineStageId: number) {
+  pipelineStageChanged(pipelineStageId: number) {
+    this.changeStatus(pipelineStageId);
+    this.currentStageId = this.detectStageChange(pipelineStageId).stageId;
+    this.name = this.detectStageChange(pipelineStageId).stageName;
+    this.color = this.detectStageChange(pipelineStageId).stageColor;
+  }
+
+  detectStageChange(pipelineStageId: number) {
     for (let i = 0; i < this.pipelines.length; i++) {
-
       for (let j = 0; j < this.pipelines[i].PipelineStage.length; j++) {
         if (this.pipelines[i].PipelineStage[j].Id === pipelineStageId) {
-          this.name = this.pipelines[i].PipelineStage[j].Name;
-          this.color = this.pipelines[i].PipelineStage[j].Color;
+          return ({
+            stageId: this.pipelines[i].PipelineStage[j].Id,
+            stageName: this.pipelines[i].PipelineStage[j].Name,
+            stageColor: this.pipelines[i].PipelineStage[j].Color
+          });
         }
       }
     }
-    this.changeStatus(pipelineStageId);
   }
 
   changeStatus(pipelineStageId: number) {
@@ -160,10 +184,9 @@ export class CandidateIdComponent implements OnInit {
          result.stageScore,
          result.criteriaScore,
          stageComments,
-         currentStageId
+         currentStageId,
+         true
        );
-
-       console.log(stageComments);
 
        this.dataStorageService.jobStatusChanged(jobAssigned)
          .subscribe(
@@ -247,7 +270,8 @@ export class CandidateIdComponent implements OnInit {
           stageScores,
           criteriaScores,
           stageComments,
-          1
+          1,
+          true
         );
 
         this.dataStorageService.jobAssigned(jobAssigned)
@@ -289,9 +313,10 @@ export class CandidateIdComponent implements OnInit {
     } else {
        nextIndex = currentIndex - 1;
     }
-      this.candidate = this.candidates[nextIndex];
-      this.candidateId = this.candidates[nextIndex].Id;
-      this.router.navigate(['/candidates/' + this.candidateId]);
+    this.candidate = this.candidates[nextIndex];
+    this.candidateService.candidate = this.candidates[nextIndex];
+    this.candidateId = this.candidates[nextIndex].Id;
+    this.router.navigate(['/candidates/' + this.candidateId]);
   }
 
   nextCandidate() {
@@ -302,9 +327,10 @@ export class CandidateIdComponent implements OnInit {
     } else {
       nextIndex = currentIndex + 1;
     }
-      this.candidate = this.candidates[nextIndex];
-      this.candidateId = this.candidates[nextIndex].Id;
-      this.router.navigate(['/candidates/' + this.candidateId]);
+    this.candidate = this.candidates[nextIndex];
+    this.candidateService.candidate = this.candidates[nextIndex];
+    this.candidateId = this.candidates[nextIndex].Id;
+    this.router.navigate(['/candidates/' + this.candidateId]);
   }
 
   getApplicationDate() {
@@ -320,7 +346,6 @@ export class CandidateIdComponent implements OnInit {
   goToLinkedInProfile() {
     window.open('http://' + this.candidate.LinkedInUrl);
   }
-
 
   downloadFile(candidateAttachment: CandidateAttachment) {
     window.open('http://localhost:55586/Content/Attachments/' +
