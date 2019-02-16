@@ -599,6 +599,20 @@ namespace FitFinderBackEnd.Controllers
             return Ok();
         }
 
+        [HttpPut]
+        [Route("api/RestoreCandidates")]
+        public IHttpActionResult RestoreCandidates(List<Candidate> candidates)
+        {
+            foreach (var candidate in candidates)
+            {
+                Candidate getCandidate = _context.Candidates.FirstOrDefault(x => x.Id == candidate.Id);
+                if (getCandidate != null) getCandidate.IsArchived = false;
+            }
+
+            _context.SaveChanges();
+            return Ok();
+        }
+
 
         [HttpPost]
         [Route("api/JobAssigned")]

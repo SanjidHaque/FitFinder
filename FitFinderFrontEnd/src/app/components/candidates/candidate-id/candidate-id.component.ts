@@ -210,6 +210,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
           header: 'Archive Candidates',
           iconClass: 'fas fa-archive',
           confirmationText: 'Are you sure?',
+          buttonText: 'Archive',
           confirmationStatus: false
         }
       });
@@ -228,11 +229,38 @@ export class CandidateIdComponent implements OnInit, DoCheck {
       }
       }
     );
-
-
-
   }
 
+  restoreCandidates(candidate: Candidate) {
+    const dialogRef = this.dialog.open(ConfirmationComponent,
+      {
+        hasBackdrop: true,
+        disableClose: true,
+        width: '400px',
+        data: {
+          header: 'Restore Candidates',
+          iconClass: 'far fa-window-restore',
+          confirmationText: 'Are you sure?',
+          buttonText: 'Restore',
+          confirmationStatus: false
+        }
+      });
+
+    dialogRef.afterClosed().subscribe(result => {
+        if (result.confirmationStatus) {
+          const candidates: Candidate[] = [];
+          candidates.push(candidate);
+          this.dataStorageService.restoreCandidates(candidates)
+            .subscribe(
+              (response: any) => {
+                this.candidate.IsArchived = false;
+                this.notifierService.notify('default', 'Restored successfully!')
+              }
+            );
+        }
+      }
+    );
+  }
   assignJobDialog(candidate: Candidate) {
     const dialogRef = this.dialog.open(AssignJobToCandidateComponent,
       {

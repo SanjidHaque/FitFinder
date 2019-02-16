@@ -208,4 +208,24 @@ export class DataStorageService {
   archiveCandidates(candidates: Candidate[]) {
     return this.httpClient.put(this.apiRootUrl + 'ArchiveCandidates', candidates);
   }
+
+  restoreCandidates(candidates: Candidate[]) {
+    return this.httpClient.put(this.apiRootUrl + 'RestoreCandidates', candidates);
+  }
+
+  archiveJobs(jobs: Job[]) {
+    return this.httpClient.put(this.apiRootUrl + 'ArchiveJobs', jobs);
+  }
+
+  restoreJobs(jobs: Job[]) {
+    return this.httpClient.put(this.apiRootUrl + 'RestoreJobs', jobs);
+  }
+
+  archiveInterviews(interviews: Interview[]) {
+    return this.httpClient.put(this.apiRootUrl + 'ArchiveInterviews', interviews);
+  }
+
+  restoreInterviews(interviews: Interview[]) {
+    return this.httpClient.put(this.apiRootUrl + 'RestoreInterviews', interviews);
+  }
 }
