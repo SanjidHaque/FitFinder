@@ -303,6 +303,29 @@ export class CandidateIdComponent implements OnInit, DoCheck {
   }
 
   moveToNextStage() {
+    const pipelineStages: PipelineStage[] = [];
+    let currentStageId;
+    if (this.candidate.JobAssigned.length !== 0) {
+       currentStageId = this
+        .candidate.JobAssigned
+        .find( x => x.IsActive === true).CurrentStageId;
+    }
+
+    for (let i = 0; i < this.pipelines.length; i++) {
+      for (let j = 0; j < this.pipelines[i].PipelineStage.length; j++) {
+        pipelineStages.push(this.pipelines[i].PipelineStage[j]);
+      }
+    }
+
+    for (let i = 0; i < pipelineStages.length; i++) {
+      if (pipelineStages[i].Id === currentStageId) {
+        const nextStageIndex = i + 1;
+        if (nextStageIndex !== pipelineStages.length) {
+          const nextStageId = pipelineStages[nextStageIndex].Id;
+          this.changeStatus(nextStageId);
+        }
+      }
+    }
   }
 
   previousCandidate() {
