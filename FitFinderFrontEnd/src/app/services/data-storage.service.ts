@@ -205,7 +205,7 @@ export class DataStorageService {
     return this.httpClient.put(this.apiRootUrl + 'JobStatusChanged', jobAssigned);
   }
 
- /* getNewScores(jobAssigned: JobAssigned) {
-    return this.httpClient.get(this.apiRootUrl + 'GetNewScores', jobAssigned);
-  }*/
+  archiveCandidates(candidates: Candidate[]) {
+    return this.httpClient.put(this.apiRootUrl + 'ArchiveCandidates', candidates);
+  }
 }

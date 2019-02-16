@@ -161,6 +161,7 @@
       <div *ngIf="!candidate.IsArchived" class="col-xl-3 text-xl-center">
         <button
           style="background-color: transparent; outline: 0;"
+          (click)="archiveCandidates(candidate)"
           mat-flat-button><i class="fas fa-archive"></i> Archive</button>
       </div>
 

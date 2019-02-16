@@ -22,6 +22,7 @@ import {DataStorageService} from '../../../services/data-storage.service';
 import {StageComment} from '../../../models/stage-comment.model';
 import {NotifierService} from 'angular-notifier';
 import {forEach} from '@angular/router/src/utils/collection';
+import {ConfirmationComponent} from '../../../dialogs/confirmation/confirmation.component';
 
 
 
@@ -199,7 +200,35 @@ export class CandidateIdComponent implements OnInit, DoCheck {
     });
   }
 
+  archiveCandidates(candidate: Candidate) {
+    const dialogRef = this.dialog.open(ConfirmationComponent,
+      {
+        hasBackdrop: true,
+        disableClose: true,
+        width: '400px',
+        data: {
+          header: 'Archive Candidates',
+          iconClass: 'fas fa-archive',
+          confirmationText: 'Are you sure?',
+          confirmationStatus: false
+        }
+      });
 
+    dialogRef.afterClosed().subscribe(result => {
+
+      }
+    );
+
+   /* const candidates: Candidate[] = [];
+    candidates.push(candidate);
+    this.dataStorageService.archiveCandidates(candidates)
+      .subscribe(
+        (response: any) => {
+
+        }
+      );*/
+
+  }
 
   assignJobDialog(candidate: Candidate) {
     const dialogRef = this.dialog.open(AssignJobToCandidateComponent,

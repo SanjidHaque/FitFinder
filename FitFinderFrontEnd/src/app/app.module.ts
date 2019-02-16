@@ -74,6 +74,7 @@ import { PipelineStageCriteriaComponent } from './dialogs/pipeline-stage-criteri
 import { CandidateScoreCardComponent } from './components/candidates/candidate-id/candidate-score-card/candidate-score-card.component';
 import { AssignJobToCandidateComponent } from './dialogs/assign-job-to-candidate/assign-job-to-candidate.component';
 import { ChangeStatusComponent } from './dialogs/change-status/change-status.component';
+import { ConfirmationComponent } from './dialogs/confirmation/confirmation.component';
 
 
 
@@ -124,7 +125,8 @@ import { ChangeStatusComponent } from './dialogs/change-status/change-status.com
     PipelineStageCriteriaComponent,
     CandidateScoreCardComponent,
     AssignJobToCandidateComponent,
-    ChangeStatusComponent
+    ChangeStatusComponent,
+    ConfirmationComponent
   ],
   imports: [
     BrowserModule,
@@ -183,7 +185,8 @@ import { ChangeStatusComponent } from './dialogs/change-status/change-status.com
     AddUpdateComponent,
     AddUpdatePipelineStageComponent,
     PipelineStageCriteriaComponent,
-    ChangeStatusComponent
+    ChangeStatusComponent,
+    ConfirmationComponent
   ],
 
   bootstrap: [

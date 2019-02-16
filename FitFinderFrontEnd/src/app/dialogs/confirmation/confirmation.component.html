@@ -1,0 +1,46 @@
+
+
+<h3 mat-dialog-title>{{ data.header }}</h3>
+
+<div>
+  <hr>
+</div>
+
+
+
+<div class="row">
+
+  <div class="col-xl-2">
+    <i style="font-size: 33px;" [ngClass]="data.iconClass" ></i>
+  </div>
+
+  <div class="col-xl-10"
+       style="font-size: 20px;">
+    {{ data.confirmationText }}
+  </div>
+</div>
+
+<br>
+
+
+
+
+
+<div>
+
+  <mat-dialog-actions align="end">
+    <button
+      (click)="confirmClick()"
+      style="background-color: #ec971f; border-color: #d58512; color: #fff; outline: 0;"
+      mat-flat-button
+    >Archive</button>
+    <button
+      (click)="cancelClick()"
+      mat-stroked-button
+      style="outline: 0;">
+      Cancel</button>
+  </mat-dialog-actions>
+
+
+</div>
+
