@@ -585,7 +585,19 @@ namespace FitFinderBackEnd.Controllers
 
         }
 
+        [HttpPut]
+        [Route("api/ArchiveCandidates")]
+        public IHttpActionResult ArchiveCandidates(List<Candidate> candidates)
+        {
+            foreach (var candidate in candidates)
+            {
+                Candidate getCandidate = _context.Candidates.FirstOrDefault(x => x.Id == candidate.Id);
+                if (getCandidate != null) getCandidate.IsArchived = true;
+            }
 
+            _context.SaveChanges();
+            return Ok();
+        }
 
 
         [HttpPost]

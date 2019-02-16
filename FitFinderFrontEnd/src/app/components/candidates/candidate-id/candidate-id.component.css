@@ -7,3 +7,11 @@
 .btn{
   border-radius: 3px;
 }
+
+.fade {
+  opacity: .6;
+}
+
+.not-fade {
+  opacity: 1;
+}

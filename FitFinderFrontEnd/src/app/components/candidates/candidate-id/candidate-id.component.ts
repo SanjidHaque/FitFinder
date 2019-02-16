@@ -215,18 +215,21 @@ export class CandidateIdComponent implements OnInit, DoCheck {
       });
 
     dialogRef.afterClosed().subscribe(result => {
-
+      if (result.confirmationStatus) {
+         const candidates: Candidate[] = [];
+         candidates.push(candidate);
+         this.dataStorageService.archiveCandidates(candidates)
+             .subscribe(
+                (response: any) => {
+                  this.candidate.IsArchived = true;
+                  this.notifierService.notify('default', 'Archived successfully!')
+                }
+           );
+      }
       }
     );
 
-   /* const candidates: Candidate[] = [];
-    candidates.push(candidate);
-    this.dataStorageService.archiveCandidates(candidates)
-      .subscribe(
-        (response: any) => {
 
-        }
-      );*/
 
   }
 

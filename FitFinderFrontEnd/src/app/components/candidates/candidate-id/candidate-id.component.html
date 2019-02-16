@@ -541,9 +541,10 @@
 
   <div class="col-xl-6">
 
-    <div *ngIf="candidate.JobAssigned.length!==0">
+    <div *ngIf="candidate.JobAssigned.length!==0 ">
 
       <div class="row"
+           [ngStyle]="{'opacity': candidate.IsArchived ? .8 : 1 }"
            style="
            background-color: #fafbfb;
            border: 1px solid antiquewhite;
@@ -557,6 +558,11 @@
              padding-left: 15px;">
 
           <span
+            *ngIf="candidate.IsArchived"
+          >{{ getLastAssignedJobName() }} </span>
+
+          <span
+            *ngIf="!candidate.IsArchived"
             style="cursor: pointer;"
             (click)="goToJobDetail()"
             title="Go To Detail"
@@ -566,6 +572,7 @@
         <div class="col-xl-4">
           <mat-form-field appearance="outline" class="job-assign">
             <mat-select
+              [disabled]="candidate.IsArchived"
               class="stage-select"
               (selectionChange)="pipelineStageChanged($event.value)"
               [(value)]="currentStageId"
@@ -574,6 +581,7 @@
               <mat-select-trigger>
                 <input
                   readonly
+                  [ngClass]="candidate.IsArchived ? 'fade' : 'not-fade'"
                   style="outline: 0;
                 border: 1px solid white;
                 border-radius: 3px;
@@ -613,25 +621,28 @@
 
         <div class="col-xl-1" style="padding-top: 3px;">
           <button
+            [disabled]="candidate.IsArchived"
             (click)="moveToRejected()"
             class="btn btn-danger"><i class="fas fa-times"></i></button></div>
 
         <div class="col-xl-1" style="padding-top: 3px; padding-left: 2px;">
           <button
+            [disabled]="candidate.IsArchived"
             (click)="moveToNextStage()"
             class="btn btn-success">
             <i class="fas fa-angle-double-right"></i>
           </button></div>
 
         <div class="col-xl-1"
-             style="    padding-left: 1px;
-    padding-top: 1px;"
-        >
+             style="
+             padding-left: 1px;
+             padding-top: 1px;">
 
-
-          <button mat-icon-button
-                  style="outline: 0;"
-                  [matMenuTriggerFor]="menu">
+          <button
+            [disabled]="candidate.IsArchived"
+            mat-icon-button
+            style="outline: 0;"
+            [matMenuTriggerFor]="menu">
             <mat-icon>
               more_horiz
             </mat-icon>
