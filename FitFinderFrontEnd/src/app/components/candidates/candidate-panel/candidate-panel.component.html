@@ -79,14 +79,41 @@
 
       </div>
       <div class="col-xl-11" style="padding-left: 0; margin-top: 10px">
-        <button mat-flat-button [disabled]="candidates.length == 0 || !selection.hasValue()" style="background-color: transparent; outline: 0;"><i class="fas fa-plus-circle"></i> Assign Job</button>
+        <button
+          mat-flat-button
+          [disabled]="candidates.length == 0
+          ||
+          !selection.hasValue()"
+          style="background-color: transparent; outline: 0;"><i class="fas fa-plus-circle"></i> Assign Job</button>
         <!--<button mat-flat-button [disabled]="candidates.length == 0 || !selection.hasValue()" style="background-color: transparent; outline: 0;"><i class="fas fa-tag"></i> Tag</button>-->
-        <button mat-flat-button [disabled]="candidates.length == 0 || !selection.hasValue()" style="background-color: transparent; outline: 0;"><i class="fas fa-sign-out-alt"></i> Status</button>
-        <button mat-flat-button [disabled]="candidates.length == 0 || !selection.hasValue()" style="background-color: transparent; outline: 0;"><i class="far fa-envelope"></i> Email</button>
+        <button
+          mat-flat-button
+          [disabled]="candidates.length == 0
+          ||
+          !selection.hasValue()"
+          style="background-color: transparent; outline: 0;"><i class="fas fa-sign-out-alt"></i> Status</button>
+        <button
+          mat-flat-button
+          [disabled]="candidates.length == 0
+          ||
+          !selection.hasValue()"
+          style="background-color: transparent; outline: 0;"><i class="far fa-envelope"></i> Email</button>
         <button mat-flat-button [disabled]="candidates.length == 0 || !selection.hasValue()" style="background-color: transparent; outline: 0;"><i class="far fa-calendar-alt"></i> Interview</button>
         <!--<button mat-flat-button [disabled]="candidates.length == 0 || !selection.hasValue()" style="background-color: transparent; outline: 0;"><i class="fas fa-thumbtack"></i> Task</button>-->
-        <button mat-flat-button [disabled]="candidates.length == 0 || !selection.hasValue()" style="background-color: transparent; outline: 0;"><i class="fas fa-archive"></i> Archive</button>
-        <button mat-flat-button [disabled]="candidates.length == 0 || !selection.hasValue()" style="background-color: transparent; outline: 0;"><i class="far fa-window-restore"></i> Restore</button>
+        <button
+          mat-flat-button
+          (click)="archiveCandidates()"
+          [disabled]="candidates.length == 0
+          ||
+          !selection.hasValue()"
+          style="background-color: transparent; outline: 0;"><i class="fas fa-archive"></i> Archive</button>
+        <button
+          (click)="restoreCandidates()"
+          mat-flat-button
+          [disabled]="candidates.length == 0
+          ||
+          !selection.hasValue()"
+          style="background-color: transparent; outline: 0;"><i class="far fa-window-restore"></i> Restore</button>
       </div>
     </div>
 
@@ -193,12 +220,15 @@
                        cursor: pointer;"
                      >{{ candidate.FirstName }} {{ candidate.LastName }} </strong>
                       <i
+                        (click)="unfavouriteCandidates(candidate)"
                         *ngIf="candidate.IsFavourite"
                         style="color: #FFD61D; cursor: pointer;" class="fas fa-heart"></i>
 
-                      <i style="cursor: pointer;"
-                         *ngIf="!candidate.IsFavourite"
-                         class="far fa-heart"></i>
+                      <i
+                        (click)="favouriteCandidates(candidate)"
+                        style="cursor: pointer;"
+                        *ngIf="!candidate.IsFavourite"
+                        class="far fa-heart"></i>
                     </div>
 
                   </div>

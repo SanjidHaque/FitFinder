@@ -7,6 +7,10 @@ import {JobService} from '../../../services/job.service';
 import * as moment from 'moment';
 import {SettingsService} from '../../../services/settings.service';
 import {Source} from '../../../models/source.model';
+import {NotifierService} from 'angular-notifier';
+import {DataStorageService} from '../../../services/data-storage.service';
+import {ConfirmationComponent} from '../../../dialogs/confirmation/confirmation.component';
+import {MatDialog} from '@angular/material';
 
 
 @Component({
@@ -30,6 +34,9 @@ export class CandidatePanelComponent implements OnInit {
 
 
   constructor(private candidateService: CandidateService,
+              private notifierService: NotifierService,
+              private dialog: MatDialog,
+              private dataStorageService: DataStorageService,
               private settingsService: SettingsService,
               private jobService: JobService) {}
 
@@ -39,6 +46,118 @@ export class CandidatePanelComponent implements OnInit {
     this.jobs = this.jobService.getAllJob();
  }
 
+  favouriteCandidates(candidate: Candidate) {
+    const candidates: Candidate[] = [];
+    candidates.push(candidate);
+    this.dataStorageService.favouriteCandidates(candidates)
+      .subscribe(
+        (response: any) => {
+          for (let i = 0; i < this.candidates.length; i++) {
+              if (this.candidates[i].Id === candidate.Id) {
+                this.candidates[i].IsFavourite = true;
+              }
+          }
+          this.notifierService.notify('default', 'Added to favourites!')
+        }
+      );
+  }
+
+  unfavouriteCandidates(candidate: Candidate) {
+    const candidates: Candidate[] = [];
+    candidates.push(candidate);
+    this.dataStorageService.unfavouriteCandidates(candidates)
+      .subscribe(
+        (response: any) => {
+          for (let i = 0; i < this.candidates.length; i++) {
+            if (this.candidates[i].Id === candidate.Id) {
+              this.candidates[i].IsFavourite = false;
+            }
+          }
+          this.notifierService.notify('default', 'Removed from favourites!')
+        }
+      );
+  }
+
+  archiveCandidates() {
+
+
+    const dialogRef = this.dialog.open(ConfirmationComponent,
+      {
+        hasBackdrop: true,
+        disableClose: true,
+        width: '400px',
+        data: {
+          header: 'Archive Candidates',
+          iconClass: 'fas fa-archive',
+          confirmationText: 'Are you sure?',
+          buttonText: 'Archive',
+          confirmationStatus: false
+        }
+      });
+
+
+
+    dialogRef.afterClosed().subscribe(result => {
+        if (result.confirmationStatus) {
+          let candidates: Candidate[] = [];
+          candidates = this.selection.selected;
+          this.dataStorageService.archiveCandidates(candidates)
+            .subscribe(
+              (response: any) => {
+                for (let i = 0; i < this.candidates.length; i++) {
+                 for (let j = 0; j < candidates.length; j++) {
+                   if (this.candidates[i].Id === candidates[j].Id)  {
+                     this.candidates[i].IsArchived = true;
+                   }
+                 }
+                }
+                this.selection.clear();
+                this.notifierService.notify('default', 'Archived successfully!')
+              }
+            );
+        }
+      }
+    );
+  }
+
+  restoreCandidates() {
+    const dialogRef = this.dialog.open(ConfirmationComponent,
+      {
+        hasBackdrop: true,
+        disableClose: true,
+        width: '400px',
+        data: {
+          header: 'Restore Candidates',
+          iconClass: 'far fa-window-restore',
+          confirmationText: 'Are you sure?',
+          buttonText: 'Restore',
+          confirmationStatus: false
+        }
+      });
+
+    dialogRef.afterClosed().subscribe(result => {
+        if (result.confirmationStatus) {
+          let candidates: Candidate[] = [];
+          candidates = this.selection.selected;
+          this.dataStorageService.restoreCandidates(candidates)
+            .subscribe(
+              (response: any) => {
+                for (let i = 0; i < this.candidates.length; i++) {
+                  for (let j = 0; j < candidates.length; j++) {
+                    if (this.candidates[i].Id === candidates[j].Id)  {
+                      this.candidates[i].IsArchived = false;
+                    }
+                  }
+                }
+                this.selection.clear();
+                this.notifierService.notify('default', 'Restored successfully!')
+              }
+            );
+        }
+      }
+    );
+  }
+
   onValueChange(value: string) {
     this.selectedValue = value;
   }
@@ -47,8 +166,6 @@ export class CandidatePanelComponent implements OnInit {
     this.archivedChecked = event.checked;
 
   }
-
-
   favouriteStatus(event: any) {
     this.favouriteChecked = event.checked;
   }

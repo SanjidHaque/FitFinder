@@ -44,5 +44,61 @@ namespace FitFinderBackEnd.Controllers
                 Include(e => e.JobAttachment).OrderBy(x => x.Id).ToList();
             return Ok(job);
         }
+
+        [HttpPut]
+        [Route("api/ArchiveJobs")]
+        public IHttpActionResult ArchiveJobs(List<Job> jobs)
+        {
+            foreach (var job in jobs)
+            {
+                Job getJob = _context.Jobs.FirstOrDefault(x => x.Id == job.Id);
+                if (getJob != null) getJob.IsArchived = true;
+            }
+
+            _context.SaveChanges();
+            return Ok();
+        }
+
+        [HttpPut]
+        [Route("api/RestoreJobs")]
+        public IHttpActionResult RestoreJobs(List<Job> jobs)
+        {
+            foreach (var job in jobs)
+            {
+                Job getJob = _context.Jobs.FirstOrDefault(x => x.Id == job.Id);
+                if (getJob != null) getJob.IsArchived = false;
+            }
+
+            _context.SaveChanges();
+            return Ok();
+        }
+
+        [HttpPut]
+        [Route("api/FavouriteJobs")]
+        public IHttpActionResult FavouriteJobs(List<Job> jobs)
+        {
+            foreach (var job in jobs)
+            {
+                Job getJob = _context.Jobs.FirstOrDefault(x => x.Id == job.Id);
+                if (getJob != null) getJob.IsFavourite = true;
+            }
+
+            _context.SaveChanges();
+            return Ok();
+        }
+
+        [HttpPut]
+        [Route("api/UnfavouriteJobs")]
+        public IHttpActionResult UnfavouriteJobs(List<Job> jobs)
+        {
+            foreach (var job in jobs)
+            {
+                Job getJob = _context.Jobs.FirstOrDefault(x => x.Id == job.Id);
+                if (getJob != null) getJob.IsFavourite = false;
+            }
+
+            _context.SaveChanges();
+            return Ok();
+        }
     }
 }

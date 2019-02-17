@@ -52,5 +52,33 @@ namespace FitFinderBackEnd.Controllers
                 Include(d => d.InterviewersForInterview).OrderBy(x => x.Id).ToList();
             return Ok(interview);
         }
+
+        [HttpPut]
+        [Route("api/ArchiveInterviews")]
+        public IHttpActionResult ArchiveInterviews(List<Interview> interviews)
+        {
+            foreach (var interview in interviews)
+            {
+                Interview getInterview = _context.Interviews.FirstOrDefault(x => x.Id == interview.Id);
+                if (getInterview != null) getInterview.IsArchived = true;
+            }
+
+            _context.SaveChanges();
+            return Ok();
+        }
+
+        [HttpPut]
+        [Route("api/RestoreInterviews")]
+        public IHttpActionResult RestoreInterviews(List<Interview> interviews)
+        {
+            foreach (var interview in interviews)
+            {
+                Interview getInterview = _context.Interviews.FirstOrDefault(x => x.Id == interview.Id);
+                if (getInterview != null) getInterview.IsArchived = false;
+            }
+
+            _context.SaveChanges();
+            return Ok();
+        }
     }
 }

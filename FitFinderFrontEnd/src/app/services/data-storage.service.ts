@@ -237,6 +237,14 @@ export class DataStorageService {
     return this.httpClient.put(this.apiRootUrl + 'UnfavouriteCandidates', candidates);
   }
 
+  favouriteJobs(jobs: Job[]) {
+    return this.httpClient.put(this.apiRootUrl + 'FavouriteJobs', jobs);
+  }
+
+  unfavouriteJobs(jobs: Job[]) {
+    return this.httpClient.put(this.apiRootUrl + 'UnfavouriteJobs', jobs);
+  }
+
 
 
 
