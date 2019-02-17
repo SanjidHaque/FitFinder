@@ -1,167 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using System.Data.Entity.Validation;
-using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
-using System.Web.Routing;
 using FitFinderBackEnd.Models;
-using FitFinderBackEnd.Models.Candidate;
-using FitFinderBackEnd.Models.Interview;
-using FitFinderBackEnd.Models.Job;
 using FitFinderBackEnd.Models.Settings;
 
 namespace FitFinderBackEnd.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
-    public class FitFinderController : ApiController
+    public class SettingsController : ApiController
     {
-        private ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public FitFinderController()
+        public SettingsController()
         {
             _context = new ApplicationDbContext();
         }
-
-        [HttpPost]
-        [Route("api/AddNewCandidate")]
-        public IHttpActionResult AddNewCandidate(Candidate candidate)
-        {
-            if (candidate == null)
-            {
-                return NotFound();
-            }
-            _context.Candidates.Add(candidate);
-
-            foreach (var candidateEducation in candidate.CandidateEducation)
-            {
-                candidateEducation.Id = candidate.Id;
-            }
-            foreach (var candidateExperience in candidate.CandidateExperience)
-            {
-                candidateExperience.Id = candidate.Id;
-            }
-
-            foreach (var candidateAttachment in candidate.CandidateAttachment)
-            {
-                candidateAttachment.Id = candidate.Id;
-            }
-
-           
-
-            _context.CandidateAttachments.AddRange(candidate.CandidateAttachment);
-            _context.CandidateEducations.AddRange(candidate.CandidateEducation);
-            _context.CandidateExperiences.AddRange(candidate.CandidateExperience);
-            
-            _context.SaveChanges();
-            return Ok();
-        }
-
-        [HttpPost]
-        [Route("api/UploadAttachments")]
-        public IHttpActionResult UploadAttachments()
-        {              
-            var httpRequest = HttpContext.Current.Request;          
-            for (int i = 0; i<  httpRequest.Files.Count; i++)
-            {
-                var postedFile = httpRequest.Files[i];
-                var filePath = HttpContext.Current.Server.MapPath("~/Content/Attachments/" + postedFile.FileName);
-                postedFile.SaveAs(filePath);        
-            }
-            return Ok();
-        }
-
-        [HttpGet]
-        [Route("api/GetAllCandidate")]
-        public IHttpActionResult GetAllCandidate()
-        {
-            List<Candidate> candidate = _context.Candidates.
-                Include(c => c.CandidateEducation).
-                Include(d => d.CandidateExperience).
-                Include(e => e.CandidateAttachment).
-                Include(f => f.JobAssigned.Select(g => g.StageScore.Select(a => a.JobAssigned))).
-                Include(f => f.JobAssigned.Select(g => g.CriteriaScore.Select(a => a.JobAssigned))).
-                Include(f => f.JobAssigned.Select(g => g.StageComment.Select(a => a.JobAssigned)))
-                .OrderBy(x => x.Id).ToList();
-
-
-            return Ok(candidate);
-        }
-
-
-        [HttpPost]
-        [Route("api/AddNewInterview")]
-        public IHttpActionResult AddNewInterview(Interview interview)
-        {
-            if (interview == null)
-            {
-                return NotFound();
-            }
-            _context.Interviews.Add(interview);
-            
-            foreach (var candidatesForInterview in interview.CandidatesForInterview)
-            {
-                candidatesForInterview.Id = interview.Id;
-            }
-
-            foreach (var interviewersForInterview in interview.InterviewersForInterview)
-            {
-                interviewersForInterview.Id = interview.Id;
-            }
-
-            _context.CandidatesForInterviews.AddRange(interview.CandidatesForInterview);
-            _context.InterviewersForInterviews.AddRange(interview.InterviewersForInterview);
-           
-            _context.SaveChanges();
-            return Ok();
-        }
-
-        [HttpGet]
-        [Route("api/GetAllInterview")]
-        public IHttpActionResult GetAllInterview()
-        {
-            List<Interview> interview = _context.Interviews.
-                Include(c => c.CandidatesForInterview).
-                Include(d => d.InterviewersForInterview).OrderBy(x => x.Id).ToList();
-            return Ok(interview);
-        }
-
-
-        [HttpPost]
-        [Route("api/AddNewJob")]
-        public IHttpActionResult AddNewJob(Job job)
-        {
-            if (job == null)
-            {
-                return NotFound();
-            }
-
-            _context.Jobs.Add(job);
-            foreach (var jobAttachment in job.JobAttachment)
-            {
-                jobAttachment.JobId = job.Id;
-            }
-            _context.JobAttachments.AddRange(job.JobAttachment);
-           
-            _context.SaveChanges();
-            return Ok();
-        }
-
-        [HttpGet]
-        [Route("api/GetAllJob")]
-        public IHttpActionResult GetAllJob()
-        {
-            List<Job> job = _context.Jobs.
-                Include(e => e.JobAttachment).OrderBy(x => x.Id).ToList();
-            return Ok(job);
-        }
-
         [HttpGet]
         [Route("api/GetAllJobType")]
         public IHttpActionResult GetAllJobType()
@@ -170,7 +25,7 @@ namespace FitFinderBackEnd.Controllers
             return Ok(jobTypes);
         }
 
-        
+
 
         [HttpGet]
         [Route("api/GetAllSource")]
@@ -212,7 +67,7 @@ namespace FitFinderBackEnd.Controllers
             return Ok(department);
         }
 
-       
+
 
         [HttpPost]
         [Route("api/AddNewSource")]
@@ -485,7 +340,7 @@ namespace FitFinderBackEnd.Controllers
         [Route("api/EditPipelineStageCriteria")]
         public IHttpActionResult EditPipelineStageCriteria(PipelineStageCriteria pipelineStageCriteria)
         {
-            if (pipelineStageCriteria == null)  
+            if (pipelineStageCriteria == null)
             {
                 return NotFound();
             }
@@ -523,138 +378,9 @@ namespace FitFinderBackEnd.Controllers
             getPipelineStage.Color = pipelineStage.Color;
 
             _context.SaveChanges();
-           
+
 
             return Ok();
         }
-
-
-
-        [HttpPut]
-        [Route("api/JobStatusChanged")]
-        public IHttpActionResult JobStatusChanged(JobAssigned jobAssigned)
-        {
-            if (jobAssigned == null)
-            {
-                return NotFound();
-            }
-            
-            JobAssigned getAssignedJob = _context.JobAssiged.FirstOrDefault(x => x.Id == jobAssigned.Id);
-            getAssignedJob.CurrentStageId = jobAssigned.CurrentStageId;
-            _context.SaveChanges();
-
-            RemoveOldScores(jobAssigned);
-            AddNewScores(jobAssigned);
-            if (jobAssigned.StageComment.Count!=0)
-            {
-                AddNewStageComment(jobAssigned);
-            }
-            return Ok(GetNewScores(jobAssigned));
-        }
-
-
-        public JobAssigned GetNewScores(JobAssigned jobAssigned)
-        {
-            return _context.JobAssiged.FirstOrDefault(x => x.Id == jobAssigned.Id);
-        }
-
-
-        public void AddNewStageComment(JobAssigned jobAssigned)
-        {
-            _context.StageComments.AddRange(jobAssigned.StageComment);
-            _context.SaveChanges();
-        }
-
-
-
-        public void RemoveOldScores(JobAssigned jobAssigned)
-        {
-            List<StageScore> stageScore = _context.StageScores.Where(x => x.JobAssignedId == jobAssigned.Id).ToList();
-            List<CriteriaScore> criteriaScore = _context.CriteriaScores.Where(x => x.JobAssignedId == jobAssigned.Id).ToList();
-            _context.StageScores.RemoveRange(stageScore);
-            _context.CriteriaScores.RemoveRange(criteriaScore);
-            _context.SaveChanges();
-          
-        }
-
-        public void AddNewScores(JobAssigned jobAssigned)
-        {
-            _context.StageScores.AddRange(jobAssigned.StageScore);
-            _context.CriteriaScores.AddRange(jobAssigned.CriteriaScore);
-            _context.SaveChanges();
-
-        }
-
-        [HttpPut]
-        [Route("api/ArchiveCandidates")]
-        public IHttpActionResult ArchiveCandidates(List<Candidate> candidates)
-        {
-            foreach (var candidate in candidates)
-            {
-                Candidate getCandidate = _context.Candidates.FirstOrDefault(x => x.Id == candidate.Id);
-                if (getCandidate != null) getCandidate.IsArchived = true;
-            }
-
-            _context.SaveChanges();
-            return Ok();
-        }
-
-        [HttpPut]
-        [Route("api/RestoreCandidates")]
-        public IHttpActionResult RestoreCandidates(List<Candidate> candidates)
-        {
-            foreach (var candidate in candidates)
-            {
-                Candidate getCandidate = _context.Candidates.FirstOrDefault(x => x.Id == candidate.Id);
-                if (getCandidate != null) getCandidate.IsArchived = false;
-            }
-
-            _context.SaveChanges();
-            return Ok();
-        }
-
-
-        [HttpPost]
-        [Route("api/JobAssigned")]
-        public IHttpActionResult JobAssigned(JobAssigned jobAssigned)
-        {
-            if (jobAssigned == null)
-            {
-                return NotFound();
-            }
-
-            _context.JobAssiged.Add(jobAssigned);
-
-
-
-            foreach (var stageScore in jobAssigned.StageScore)
-            {
-                stageScore.JobAssignedId = jobAssigned.Id;
-            }
-
-
-            foreach (var criteriaScore in jobAssigned.CriteriaScore)
-            {
-                criteriaScore.JobAssignedId = jobAssigned.Id;
-            }
-
-            foreach (var stageComment in jobAssigned.StageComment)
-            {
-                stageComment.JobAssignedId = jobAssigned.Id;
-            }
-
-            _context.StageScores.AddRange(jobAssigned.StageScore);
-            _context.CriteriaScores.AddRange(jobAssigned.CriteriaScore);
-            _context.StageComments.AddRange(jobAssigned.StageComment);
-           
-            _context.SaveChanges();
-            return Ok(jobAssigned);
-        }
-
     }
-
-
-
-
 }
-

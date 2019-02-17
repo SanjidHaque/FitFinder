@@ -145,6 +145,7 @@
 
       <div class="col-xl-3 text-xl-center" *ngIf="candidate.IsFavourite">
         <button
+          (click)="unfavouriteCandidates(candidate)"
           style="background-color: transparent; outline: 0; width: 100%;"
           mat-flat-button><i
           style="color: #FFD61D;" class="fas fa-heart"></i>
@@ -153,6 +154,7 @@
 
       <div class="col-xl-3 text-xl-center" *ngIf="!candidate.IsFavourite">
         <button
+          (click)="favouriteCandidates(candidate)"
           style="background-color: transparent; outline: 0; width: 100%"
           mat-flat-button><i class="far fa-heart"></i>
           Favourite</button>

@@ -228,4 +228,17 @@ export class DataStorageService {
   restoreInterviews(interviews: Interview[]) {
     return this.httpClient.put(this.apiRootUrl + 'RestoreInterviews', interviews);
   }
+
+  favouriteCandidates(candidates: Candidate[]) {
+    return this.httpClient.put(this.apiRootUrl + 'FavouriteCandidates', candidates);
+  }
+
+  unfavouriteCandidates(candidates: Candidate[]) {
+    return this.httpClient.put(this.apiRootUrl + 'UnfavouriteCandidates', candidates);
+  }
+
+
+
+
+
 }

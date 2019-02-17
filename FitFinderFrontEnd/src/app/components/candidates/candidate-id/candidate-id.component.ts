@@ -200,6 +200,30 @@ export class CandidateIdComponent implements OnInit, DoCheck {
     });
   }
 
+  favouriteCandidates(candidate: Candidate) {
+    const candidates: Candidate[] = [];
+    candidates.push(candidate);
+    this.dataStorageService.favouriteCandidates(candidates)
+      .subscribe(
+        (response: any) => {
+          this.candidate.IsFavourite = true;
+          this.notifierService.notify('default', 'Added to favourites!')
+        }
+      );
+  }
+
+  unfavouriteCandidates(candidate: Candidate) {
+    const candidates: Candidate[] = [];
+    candidates.push(candidate);
+    this.dataStorageService.unfavouriteCandidates(candidates)
+      .subscribe(
+        (response: any) => {
+          this.candidate.IsFavourite = false;
+          this.notifierService.notify('default', 'Removed from favourites!')
+        }
+      );
+  }
+
   archiveCandidates(candidate: Candidate) {
     const dialogRef = this.dialog.open(ConfirmationComponent,
       {
