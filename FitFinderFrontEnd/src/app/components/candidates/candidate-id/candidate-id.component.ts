@@ -92,9 +92,9 @@ export class CandidateIdComponent implements OnInit, DoCheck {
 
   pipelineStageChanged(pipelineStageId: number) {
     this.changeStatus(pipelineStageId);
-    this.currentStageId = this.detectStageChange(pipelineStageId).stageId;
+    /*this.currentStageId = this.detectStageChange(pipelineStageId).stageId;
     this.name = this.detectStageChange(pipelineStageId).stageName;
-    this.color = this.detectStageChange(pipelineStageId).stageColor;
+    this.color = this.detectStageChange(pipelineStageId).stageColor;*/
   }
 
   detectStageChange(pipelineStageId: number) {
@@ -120,11 +120,16 @@ export class CandidateIdComponent implements OnInit, DoCheck {
       }
     }
 
-     for (let k = 0; k < pipelineStages.length; k++) {
+    const stageScores = this.candidate.JobAssigned[this.candidate.JobAssigned.length - 1].StageScore;
+    const criteriaScores = this.candidate.JobAssigned[this.candidate.JobAssigned.length - 1].CriteriaScore;
+
+    for (let k = 0; k < pipelineStages.length; k++) {
       if (pipelineStages[k].Id === pipelineStageId) {
         this.selectTabIndex = k;
       }
     }
+
+
 
     const dialogRef = this.dialog.open(ChangeStatusComponent,
       {
@@ -136,8 +141,10 @@ export class CandidateIdComponent implements OnInit, DoCheck {
           selectTab: this.selectTabIndex,
           candidate: this.candidate,
           pipelineStageId: pipelineStageId,
-          stageScore: this.candidate.JobAssigned[this.candidate.JobAssigned.length - 1].StageScore,
-          criteriaScore: this.candidate.JobAssigned[this.candidate.JobAssigned.length - 1].CriteriaScore,
+          stageScore:
+          this.candidate.JobAssigned[this.candidate.JobAssigned.length - 1].StageScore,
+          criteriaScore:
+          this.candidate.JobAssigned[this.candidate.JobAssigned.length - 1].CriteriaScore,
           comment: '',
           status: false
         }
@@ -194,6 +201,9 @@ export class CandidateIdComponent implements OnInit, DoCheck {
            (data: any) => {
              this.candidate.JobAssigned[this.candidate.JobAssigned.length - 1] = data;
              this.notifierService.notify('default', 'Status changed!');
+             this.currentStageId = this.detectStageChange(currentStageId).stageId;
+             this.name = this.detectStageChange(currentStageId).stageName;
+             this.color = this.detectStageChange(currentStageId).stageColor;
            }
          );
      }

@@ -16,9 +16,11 @@ namespace FitFinderBackEnd.Controllers
         {
             _context = new ApplicationDbContext();
         }
-        [HttpPut]
+
+
+        [HttpPost]
         [Route("api/JobStatusChanged")]
-        public IHttpActionResult JobStatusChanged(JobAssigned jobAssigned)
+        public  IHttpActionResult JobStatusChanged(JobAssigned jobAssigned)
         {
             if (jobAssigned == null)
             {
@@ -31,6 +33,7 @@ namespace FitFinderBackEnd.Controllers
 
             RemoveOldScores(jobAssigned);
             AddNewScores(jobAssigned);
+            _context.SaveChanges();
             if (jobAssigned.StageComment.Count != 0)
             {
                 AddNewStageComment(jobAssigned);
@@ -48,18 +51,18 @@ namespace FitFinderBackEnd.Controllers
         public void AddNewStageComment(JobAssigned jobAssigned)
         {
             _context.StageComments.AddRange(jobAssigned.StageComment);
-            _context.SaveChanges();
+           
         }
 
 
 
-        public void RemoveOldScores(JobAssigned jobAssigned)
+        public void  RemoveOldScores(JobAssigned jobAssigned)
         {
             List<StageScore> stageScore = _context.StageScores.Where(x => x.JobAssignedId == jobAssigned.Id).ToList();
             List<CriteriaScore> criteriaScore = _context.CriteriaScores.Where(x => x.JobAssignedId == jobAssigned.Id).ToList();
             _context.StageScores.RemoveRange(stageScore);
             _context.CriteriaScores.RemoveRange(criteriaScore);
-            _context.SaveChanges();
+        
 
         }
 
@@ -67,7 +70,7 @@ namespace FitFinderBackEnd.Controllers
         {
             _context.StageScores.AddRange(jobAssigned.StageScore);
             _context.CriteriaScores.AddRange(jobAssigned.CriteriaScore);
-            _context.SaveChanges();
+            
 
         }
 

@@ -202,7 +202,7 @@ export class DataStorageService {
   }
 
   jobStatusChanged(jobAssigned: JobAssigned) {
-    return this.httpClient.put(this.apiRootUrl + 'JobStatusChanged', jobAssigned);
+    return this.httpClient.post(this.apiRootUrl + 'JobStatusChanged', jobAssigned);
   }
 
   archiveCandidates(candidates: Candidate[]) {
@@ -244,9 +244,4 @@ export class DataStorageService {
   unfavouriteJobs(jobs: Job[]) {
     return this.httpClient.put(this.apiRootUrl + 'UnfavouriteJobs', jobs);
   }
-
-
-
-
-
 }
