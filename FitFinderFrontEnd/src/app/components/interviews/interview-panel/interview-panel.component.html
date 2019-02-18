@@ -107,7 +107,8 @@
         <mat-calendar
           [selected]="selectedDate"
           (selectedChange)="selectedDate = $event"
-          (selectedChange)="getDate($event)" > </mat-calendar>
+          (selectedChange)="getDate($event)" >
+        </mat-calendar>
 
       </div>
     </div>
@@ -131,11 +132,29 @@
 
       </div>
       <div class="col-xl-11" style="padding-left: 0; margin-top: 10px">
-        <button mat-flat-button [disabled]="interviews.length == 0 || !selection.hasValue()" style="background-color: transparent; outline: 0;"><i class="fas fa-archive"></i> Archive</button>
-        <button mat-flat-button [disabled]="interviews.length == 0 || !selection.hasValue()" style="background-color: transparent; outline: 0;"><i class="far fa-window-restore"></i> Restore</button>
+
+        <button
+          (click)="archiveInterviews()"
+          mat-flat-button
+          [disabled]="interviews.length == 0
+          ||
+          !selection.hasValue()"
+          style="background-color: transparent; outline: 0;">
+          <i class="fas fa-archive"></i>
+          Archive</button>
+
+        <button
+          (click)="restoreInterviews()"
+          mat-flat-button
+          [disabled]="interviews.length == 0
+          ||
+          !selection.hasValue()"
+          style="background-color: transparent; outline: 0;">
+          <i class="far fa-window-restore"></i>
+          Restore</button>
       </div>
     </div>
-    <hr>
+
     <div class="row"
          *ngIf="interviews.length == 0; else interviewExists"
          style="margin-top: 10px; border: 1px solid #f0f0f0; border-radius: 5px;">
@@ -184,9 +203,21 @@
       <div class="row" style="margin-top: 10px;">
         <div class="col-xl-12">
 
-          <div class="row" *ngFor="let interview of interviews"
-               style="padding-bottom: 7px; padding-top: 7px;"
-          >
+          <div class="row">
+            <div class="col-xl-12">
+              <mat-form-field
+                style="width: 100%;">
+                <input
+                  matInput
+                  [(ngModel)]="term"
+                  placeholder="Search interviews">
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row" *ngFor="let interview of interviews | searchJob:term"
+               style="padding-bottom: 7px; padding-top: 7px;">
+
             <div class="col-xl-1" style="padding-top: 18px;">
 
               <mat-checkbox (click)="$event.stopPropagation()"

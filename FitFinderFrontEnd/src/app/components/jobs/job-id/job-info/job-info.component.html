@@ -7,6 +7,7 @@
 
     <div class="col-xl-3 text-xl-center" *ngIf="job.IsFavourite">
       <button
+        (click)="unfavouriteJobs(job)"
         style="background-color: transparent; outline: 0; width: 100%;"
         mat-flat-button><i
         style="color: #FFD61D;" class="fas fa-heart"></i>
@@ -15,6 +16,7 @@
 
     <div class="col-xl-3 text-xl-center" *ngIf="!job.IsFavourite">
       <button
+        (click)="favouriteJobs(job)"
         style="background-color: transparent; outline: 0; width: 100%"
         mat-flat-button><i class="far fa-heart"></i>
         Favourite</button>
@@ -28,12 +30,14 @@
 
     <div *ngIf="!job.IsArchived" class="col-xl-3 text-xl-center">
       <button
+        (click)="archiveJobs(job)"
         style="background-color: transparent; outline: 0; width: 100%"
         mat-flat-button><i class="fas fa-archive"></i> Archive</button>
     </div>
 
     <div *ngIf="job.IsArchived" class="col-xl-3 text-xl-center">
       <button
+        (click)="restoreJobs(job)"
         style="background-color: transparent; outline: 0; width: 100%"
         mat-flat-button><i class="far fa-window-restore"></i> Restore</button>
     </div>

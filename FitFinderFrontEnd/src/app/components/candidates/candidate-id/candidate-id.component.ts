@@ -231,7 +231,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
         disableClose: true,
         width: '400px',
         data: {
-          header: 'Archive Candidates',
+          header: 'Archive Candidate',
           iconClass: 'fas fa-archive',
           confirmationText: 'Are you sure?',
           buttonText: 'Archive',
@@ -262,7 +262,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
         disableClose: true,
         width: '400px',
         data: {
-          header: 'Restore Candidates',
+          header: 'Restore Candidate',
           iconClass: 'far fa-window-restore',
           confirmationText: 'Are you sure?',
           buttonText: 'Restore',
@@ -295,15 +295,10 @@ export class CandidateIdComponent implements OnInit, DoCheck {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result !== '' ) {
-
         const jobId = result[0].Id;
-
         const stageScores: StageScore[] = [];
         const criteriaScores: CriteriaScore[] = [];
         const stageComments: StageComment[] = [];
-
-
-
         const stageComment = new StageComment(
           null,
           null,
@@ -312,7 +307,6 @@ export class CandidateIdComponent implements OnInit, DoCheck {
           jobId,
           'Created from '
         );
-
 
         stageComments.push(stageComment);
 

@@ -14,6 +14,8 @@ import {UUID} from 'angular2-uuid';
 import {CandidatesForInterview} from '../../../models/candidates-for-interview.model';
 import {Source} from '../../../models/source.model';
 import {SettingsService} from '../../../services/settings.service';
+import {ConfirmationComponent} from '../../../dialogs/confirmation/confirmation.component';
+import {DataStorageService} from '../../../services/data-storage.service';
 
 @Component({
   selector: 'app-interview-id',
@@ -42,7 +44,6 @@ export class InterviewIdComponent implements OnInit {
     {id: 7, userName: 'Vusimuji Momak', role: 'Team member'},
     {id: 8, userName: 'Wyengyu Duija', role: 'Team member'}
   ];
-
   interviewTypes = [
     {id: 1, type: 'Face to Face'},
     {id: 2, type: 'Telephonic'},
@@ -50,7 +51,6 @@ export class InterviewIdComponent implements OnInit {
     {id: 4, type: 'Group'},
     {id: 5, type: 'Panel'}
   ];
-
   interviewStatuses = [
     { Id: 1, Name: 'Pending' },
     { Id: 2, Name: 'Invited' },
@@ -59,11 +59,12 @@ export class InterviewIdComponent implements OnInit {
   ];
 
   constructor(private route: ActivatedRoute,
-              private dialog: MatDialog,
-              private notifierService: NotifierService,
               private jobService: JobService,
               private settingsService: SettingsService,
               private router: Router,
+              private notifierService: NotifierService,
+              private dataStorageService: DataStorageService,
+              private dialog: MatDialog,
               private candidateService: CandidateService,
               private interviewService: InterviewService) {
     this.route.params
@@ -80,6 +81,69 @@ export class InterviewIdComponent implements OnInit {
     this.interviews = this.interviewService.getAllInterview();
     this.interview = this.interviews.find(x => x.Id === this.interviewId);
     this.sources = this.settingsService.getAllSource();
+  }
+
+
+  archiveInterviews(interview: Interview) {
+    const dialogRef = this.dialog.open(ConfirmationComponent,
+      {
+        hasBackdrop: true,
+        disableClose: true,
+        width: '400px',
+        data: {
+          header: 'Archive Interview',
+          iconClass: 'fas fa-archive',
+          confirmationText: 'Are you sure?',
+          buttonText: 'Archive',
+          confirmationStatus: false
+        }
+      });
+
+    dialogRef.afterClosed().subscribe(result => {
+        if (result.confirmationStatus) {
+          const interviews: Interview[] = [];
+          interviews.push(interview);
+          this.dataStorageService.restoreInterviews(interviews)
+            .subscribe(
+              (response: any) => {
+                this.interview.IsArchived = true;
+                this.notifierService.notify('default', 'Archived successfully!')
+              }
+            );
+        }
+      }
+    );
+  }
+
+  restoreInterviews(interview: Interview) {
+    const dialogRef = this.dialog.open(ConfirmationComponent,
+      {
+        hasBackdrop: true,
+        disableClose: true,
+        width: '400px',
+        data: {
+          header: 'Restore Interview',
+          iconClass: 'far fa-window-restore',
+          confirmationText: 'Are you sure?',
+          buttonText: 'Restore',
+          confirmationStatus: false
+        }
+      });
+
+    dialogRef.afterClosed().subscribe(result => {
+        if (result.confirmationStatus) {
+          const interviews: Interview[] = [];
+          interviews.push(interview);
+          this.dataStorageService.restoreInterviews(interviews)
+            .subscribe(
+              (response: any) => {
+                this.interview.IsArchived = false;
+                this.notifierService.notify('default', 'Restored successfully!')
+              }
+            );
+        }
+      }
+    );
   }
 
   removeCandidate(index: number) {
@@ -132,19 +196,17 @@ export class InterviewIdComponent implements OnInit {
 
 
   getCandidateAttachment(candidateId: number) {
-    const attachments = this.candidates.find(x => x.Id === candidateId).CandidateAttachment;
+    const attachments = this.candidates
+      .find(x => x.Id === candidateId).CandidateAttachment;
     if (attachments === []) {
       return [];
     } else {
       return attachments;
     }
-
   }
 
-  downloadFile(modifiedFileName: number) {
-    /*window.open('http://localhost:55586/Content/Attachments/' + modifiedFileName);*/
-    /*The above line will be comment out when working with back end.*/
-    window.open('assets/cseregular3rd.pdf');
+  downloadFile(modifiedFileName: string) {
+    window.open('http://localhost:55586/Content/Attachments/' + modifiedFileName);
   }
 
   getApplicationDate(candidateId: number) {

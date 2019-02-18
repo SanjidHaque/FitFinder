@@ -9,6 +9,9 @@ import {Job} from '../../../models/job.model';
 import * as moment from 'moment';
 import {Department} from '../../../models/department.model';
 import {SettingsService} from '../../../services/settings.service';
+import {Candidate} from '../../../models/candidate.model';
+import {ConfirmationComponent} from '../../../dialogs/confirmation/confirmation.component';
+import {DataStorageService} from '../../../services/data-storage.service';
 
 @Component({
   selector: 'app-job-id',
@@ -24,6 +27,7 @@ export class JobIdComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private dialog: MatDialog,
+              private dataStorageService: DataStorageService,
               private notifierService: NotifierService,
               private jobService: JobService,
               private router: Router,
@@ -41,6 +45,39 @@ export class JobIdComponent implements OnInit {
     this.job = this.jobs.find( x => x.Id === this.jobId);
     this.jobService.job = this.job;
     this.departments = this.settingsService.getAllDepartment();
+  }
+
+
+
+  restoreJobs(job: Job) {
+    const dialogRef = this.dialog.open(ConfirmationComponent,
+      {
+        hasBackdrop: true,
+        disableClose: true,
+        width: '400px',
+        data: {
+          header: 'Restore Job',
+          iconClass: 'fas fa-archive',
+          confirmationText: 'Are you sure?',
+          buttonText: 'Archive',
+          confirmationStatus: false
+        }
+      });
+
+    dialogRef.afterClosed().subscribe(result => {
+        if (result.confirmationStatus) {
+          const jobs: Job[] = [];
+          jobs.push(job);
+          this.dataStorageService.restoreJobs(jobs)
+            .subscribe(
+              (response: any) => {
+                this.job.IsArchived = false;
+                this.notifierService.notify('default', 'Restored successfully!')
+              }
+            );
+        }
+      }
+    );
   }
 
   getDepartmentName(departmentId: number) {

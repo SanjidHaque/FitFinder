@@ -79,8 +79,6 @@ export class CandidatePanelComponent implements OnInit {
   }
 
   archiveCandidates() {
-
-
     const dialogRef = this.dialog.open(ConfirmationComponent,
       {
         hasBackdrop: true,
@@ -94,8 +92,6 @@ export class CandidatePanelComponent implements OnInit {
           confirmationStatus: false
         }
       });
-
-
 
     dialogRef.afterClosed().subscribe(result => {
         if (result.confirmationStatus) {

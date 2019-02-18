@@ -72,6 +72,7 @@
 
     <div class="col-xl-2 text-xl-right">
       <button
+        (click)="restoreInterviews(interview)"
         style="
         outline: 0;"
         mat-stroked-button><i class="far fa-window-restore"></i> Restore</button>
@@ -164,32 +165,42 @@
 
 <div class="row">
 
+  <div class="col-xl-6">
+    <div class="row">
 
-  <div *ngIf="!interview.IsArchived" class="col-xl-1 text-xl-center">
-    <button
-      style="background-color: transparent; outline: 0; width: 100%;"
-      mat-flat-button><i class="far fa-edit"></i> Edit</button>
-  </div>
+      <div *ngIf="!interview.IsArchived" class="col-xl-3 text-xl-center">
+        <button
+          style="background-color: transparent; outline: 0; width: 100%;"
+          mat-flat-button><i class="far fa-edit"></i> Edit</button>
+      </div>
 
-  <div *ngIf="!interview.IsArchived" class="col-xl-1 text-xl-center">
-    <button
-      style="background-color: transparent; outline: 0; width: 100%;"
-      mat-flat-button><i class="fas fa-archive"></i> Archive</button>
-  </div>
+      <div *ngIf="!interview.IsArchived" class="col-xl-3 text-xl-center">
+        <button
+          (click)="archiveInterviews(interview)"
+          style="background-color: transparent; outline: 0; width: 100%;"
+          mat-flat-button><i class="fas fa-archive"></i> Archive</button>
+      </div>
 
-  <div *ngIf="interview.IsArchived" class="col-xl-1 text-xl-center">
-    <button
-      style="background-color: transparent; outline: 0; width: 100%;"
-      mat-flat-button><i class="far fa-window-restore"></i> Restore</button>
-  </div>
+      <div *ngIf="interview.IsArchived" class="col-xl-3 text-xl-center">
+        <button
+          (click)="restoreInterviews(interview)"
+          style="background-color: transparent; outline: 0; width: 100%;"
+          mat-flat-button><i class="far fa-window-restore"></i> Restore</button>
+      </div>
 
-  <div class="col-xl-1 text-xl-center">
-    <button
-      style="background-color: transparent; outline: 0; width: 100%;"
-      mat-flat-button><i class="far fa-trash-alt"></i> Delete</button>
+      <div class="col-xl-3 text-xl-center">
+        <button
+          style="background-color: transparent; outline: 0; width: 100%;"
+          mat-flat-button><i class="far fa-trash-alt"></i> Delete</button>
+      </div>
+
+
+    </div>
+
   </div>
 
 </div>
+
 <hr>
 
 <div class="row">

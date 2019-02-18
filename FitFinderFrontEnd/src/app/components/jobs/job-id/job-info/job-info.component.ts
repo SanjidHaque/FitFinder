@@ -10,6 +10,9 @@ import {Department} from '../../../../models/department.model';
 import {JobFunction} from '../../../../models/job-function.model';
 import {JobType} from '../../../../models/job-type.model';
 import {SettingsService} from '../../../../services/settings.service';
+import {ConfirmationComponent} from '../../../../dialogs/confirmation/confirmation.component';
+import {MatDialog} from '@angular/material';
+import {DataStorageService} from '../../../../services/data-storage.service';
 
 @Component({
   selector: 'app-job-info',
@@ -30,6 +33,8 @@ export class JobInfoComponent implements OnInit, DoCheck {
 
   constructor(private jobService: JobService,
               private settingsService: SettingsService,
+              private dialog: MatDialog,
+              private dataStorageService: DataStorageService,
               private notifierService: NotifierService) {
     this.filesToUpload = [];
   }
@@ -45,6 +50,91 @@ export class JobInfoComponent implements OnInit, DoCheck {
    this.job = this.jobService.job;
   }
 
+  favouriteJobs(job: Job) {
+    const jobs: Job[] = [];
+    jobs.push(job);
+    this.dataStorageService.favouriteJobs(jobs)
+      .subscribe(
+        (response: any) => {
+          this.job.IsFavourite = true;
+          this.notifierService.notify('default', 'Added to favourites!')
+        }
+      );
+  }
+
+  unfavouriteJobs(job: Job) {
+    const jobs: Job[] = [];
+    jobs.push(job);
+    this.dataStorageService.unfavouriteJobs(jobs)
+      .subscribe(
+        (response: any) => {
+          this.job.IsFavourite = false;
+          this.notifierService.notify('default', 'Removed from favourites!')
+        }
+      );
+  }
+
+  archiveJobs(job: Job) {
+    const dialogRef = this.dialog.open(ConfirmationComponent,
+      {
+        hasBackdrop: true,
+        disableClose: true,
+        width: '400px',
+        data: {
+          header: 'Archive Job',
+          iconClass: 'fas fa-archive',
+          confirmationText: 'Are you sure?',
+          buttonText: 'Archive',
+          confirmationStatus: false
+        }
+      });
+
+    dialogRef.afterClosed().subscribe(result => {
+        if (result.confirmationStatus) {
+          const jobs: Job[] = [];
+          jobs.push(job);
+          this.dataStorageService.archiveJobs(jobs)
+            .subscribe(
+              (response: any) => {
+                this.job.IsArchived = true;
+                this.notifierService.notify('default', 'Archived successfully!')
+              }
+            );
+        }
+      }
+    );
+  }
+
+  restoreJobs(job: Job) {
+    const dialogRef = this.dialog.open(ConfirmationComponent,
+      {
+        hasBackdrop: true,
+        disableClose: true,
+        width: '400px',
+        data: {
+          header: 'Restore Job',
+          iconClass: 'fas fa-archive',
+          confirmationText: 'Are you sure?',
+          buttonText: 'Archive',
+          confirmationStatus: false
+        }
+      });
+
+    dialogRef.afterClosed().subscribe(result => {
+        if (result.confirmationStatus) {
+          const jobs: Job[] = [];
+          jobs.push(job);
+          this.dataStorageService.restoreJobs(jobs)
+            .subscribe(
+              (response: any) => {
+                this.job.IsArchived = false;
+                this.notifierService.notify('default', 'Restored successfully!')
+              }
+            );
+        }
+      }
+    );
+  }
   getJobDescription() {
     document.getElementById('job-description').innerHTML = this.job.JobDescription;
   }
