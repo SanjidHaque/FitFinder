@@ -92,9 +92,6 @@ export class CandidateIdComponent implements OnInit, DoCheck {
 
   pipelineStageChanged(pipelineStageId: number) {
     this.changeStatus(pipelineStageId);
-    /*this.currentStageId = this.detectStageChange(pipelineStageId).stageId;
-    this.name = this.detectStageChange(pipelineStageId).stageName;
-    this.color = this.detectStageChange(pipelineStageId).stageColor;*/
   }
 
   detectStageChange(pipelineStageId: number) {
@@ -120,8 +117,10 @@ export class CandidateIdComponent implements OnInit, DoCheck {
       }
     }
 
-    const stageScores = this.candidate.JobAssigned[this.candidate.JobAssigned.length - 1].StageScore;
-    const criteriaScores = this.candidate.JobAssigned[this.candidate.JobAssigned.length - 1].CriteriaScore;
+    const stageScores = this.candidate.JobAssigned
+      .find(x => x.Id === this.getActiveJobAssignedId()).StageScore;
+    const criteriaScores = this.candidate.JobAssigned
+      .find(x => x.Id === this.getActiveJobAssignedId()).CriteriaScore;
 
     for (let k = 0; k < pipelineStages.length; k++) {
       if (pipelineStages[k].Id === pipelineStageId) {
@@ -142,9 +141,13 @@ export class CandidateIdComponent implements OnInit, DoCheck {
           candidate: this.candidate,
           pipelineStageId: pipelineStageId,
           stageScore:
-          this.candidate.JobAssigned[this.candidate.JobAssigned.length - 1].StageScore,
+          this.candidate.JobAssigned
+            .find(x => x.Id === this.getActiveJobAssignedId())
+            .StageScore,
           criteriaScore:
-          this.candidate.JobAssigned[this.candidate.JobAssigned.length - 1].CriteriaScore,
+          this.candidate.JobAssigned
+            .find(x => x.Id === this.getActiveJobAssignedId())
+            .CriteriaScore,
           comment: '',
           status: false
         }
@@ -166,10 +169,12 @@ export class CandidateIdComponent implements OnInit, DoCheck {
        if (result.comment !== '') {
           const stageComment = new StageComment(
            null,
-           this.candidate.JobAssigned[this.candidate.JobAssigned.length - 1].Id,
+           this.getActiveJobAssignedId(),
            currentStageId,
            this.candidateId,
-           this.candidate.JobAssigned[this.candidate.JobAssigned.length - 1].JobId,
+           this.candidate.JobAssigned
+             .find(x => x.Id === this.getActiveJobAssignedId())
+             .JobId,
            result.comment
          );
           stageComments.push(stageComment);
@@ -186,9 +191,11 @@ export class CandidateIdComponent implements OnInit, DoCheck {
        }
 
        const jobAssigned = new JobAssigned(
-         this.candidate.JobAssigned[this.candidate.JobAssigned.length - 1].Id,
+         this.getActiveJobAssignedId(),
          this.candidateId,
-         this.candidate.JobAssigned[this.candidate.JobAssigned.length - 1].JobId,
+         this.candidate.JobAssigned
+           .find(x => x.Id === this.getActiveJobAssignedId())
+           .JobId,
          result.stageScore,
          result.criteriaScore,
          stageComments,
@@ -199,7 +206,9 @@ export class CandidateIdComponent implements OnInit, DoCheck {
        this.dataStorageService.jobStatusChanged(jobAssigned)
          .subscribe(
            (data: any) => {
-             this.candidate.JobAssigned[this.candidate.JobAssigned.length - 1] = data;
+             const activeJobAssignedIndex
+               = this.candidate.JobAssigned.findIndex( x => x.Id === this.getActiveJobAssignedId());
+             this.candidate.JobAssigned[activeJobAssignedIndex] = data;
              this.notifierService.notify('default', 'Status changed!');
              this.currentStageId = this.detectStageChange(currentStageId).stageId;
              this.name = this.detectStageChange(currentStageId).stageName;
@@ -366,12 +375,20 @@ export class CandidateIdComponent implements OnInit, DoCheck {
           .subscribe(
             (getJobAssigned: any) => {
               this.candidate.JobAssigned.push(getJobAssigned);
+              this.changeStatus(1);
             }
           );
       }
     });
   }
 
+
+  getActiveJobAssignedId() {
+    return this.candidate.JobAssigned
+      .find(
+        x => x.IsActive === true
+    ).Id;
+  }
 
   getLastAssignedJobName() {
    const lastIndex = this.candidate.JobAssigned.length - 1;
