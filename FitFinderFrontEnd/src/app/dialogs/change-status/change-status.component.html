@@ -32,7 +32,8 @@
 
     <div class="col-xl-8" style="margin-left: -45px;">
       <i
-        (click)="resetCriteriaMark()"
+        style="cursor: pointer;"
+        (click)="resetStageScore(currentStageId)"
         class="far fa-times-circle"></i>
     </div>
   </div>
@@ -108,9 +109,9 @@
             <div class="col-xl-1">
 
               <i
-                (click)="resetCriteriaMark()"
+                style="cursor: pointer;"
+                (click)="resetCriteriaScore(criteria.Id)"
                 class="far fa-times-circle"></i>
-
             </div>
 
           </div>

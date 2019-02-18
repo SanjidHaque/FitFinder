@@ -40,8 +40,22 @@ export class ChangeStatusComponent implements OnInit {
     this.data.selectTab = index;
   }
 
-  resetCriteriaMark() {
+  resetCriteriaScore(criteriaId: number) {
+    for (let j = 0; j < this.data.criteriaScore.length; j++) {
+      if (this.data.criteriaScore[j].PipelineStageCriteriaId === criteriaId) {
+        this.data.criteriaScore[j].Rating = 0;
+        return;
+      }
+    }
+  }
 
+  resetStageScore(stageId: number) {
+    for (let j = 0; j < this.data.stageScore.length; j++) {
+      if (this.data.stageScore[j].PipelineStageId === stageId) {
+        this.data.stageScore[j].Rating = 0;
+        return;
+      }
+    }
   }
 
   criteriaScoreChanged(event: any, criteriaId: number) {
