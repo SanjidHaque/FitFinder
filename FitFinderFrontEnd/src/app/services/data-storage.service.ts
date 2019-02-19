@@ -1,5 +1,5 @@
 	import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Candidate} from '../models/candidate.model';
 import {Interview} from '../models/interview.model';
 import {Job} from '../models/job.model';
@@ -22,38 +22,16 @@ export class DataStorageService {
   constructor(private httpClient: HttpClient) { }
 
   private apiRootUrl = 'http://localhost:55586/api/';
-
-  private getAllPipelineJson = 'assets/mock-data/pipelines.json';
   private getAllPipelineApi = 'http://localhost:55586/api/GetAllPipeline';
-
-  private getAllCandidateJson = 'assets/mock-data/candidates.json';
   private getAllCandidateApi = 'http://localhost:55586/api/GetAllCandidate';
-
-  private getAllInterviewJson = 'assets/mock-data/interviews.json';
   private getAllInterviewApi = 'http://localhost:55586/api/GetAllInterview';
-
-  private getAllJobJson = 'assets/mock-data/jobs.json';
   private getAllJobApi = 'http://localhost:55586/api/GetAllJob';
-
-  private getAllSourceJson = 'assets/mock-data/sources.json';
   private getAllSourceApi = 'http://localhost:55586/api/GetAllSource';
-
-  private getAllJobFunctionJson = 'assets/mock-data/job-functions.json';
   private getAllJobFunctionApi = 'http://localhost:55586/api/GetAllJobFunction';
-
-  private getAllJobTypeJson = 'assets/mock-data/job-types.json';
   private getAllJobTypeApi = 'http://localhost:55586/api/GetAllJobType';
-
-  private getAllDepartmentJson = 'assets/mock-data/departments.json';
   private getAllDepartmentApi = 'http://localhost:55586/api/GetAllDepartment';
-
-  private getAllTagJson = 'assets/mock-data/tags.json';
   private getAllTagApi = 'http://localhost:55586/api/GetAllTag';
-
-  private getAllRejectedReasonJson = 'assets/mock-data/rejected-reasons.json';
   private getAllRejectedReasonApi = 'http://localhost:55586/api/GetAllRejectedReason';
-
-  private getAllWithdrawnReasonJson = 'assets/mock-data/withdrawn-reasons.json';
   private getAllWithdrawnReasonApi = 'http://localhost:55586/api/GetAllWithdrawnReason';
 
 
@@ -244,4 +222,10 @@ export class DataStorageService {
   unfavouriteJobs(jobs: Job[]) {
     return this.httpClient.put(this.apiRootUrl + 'UnfavouriteJobs', jobs);
   }
+
+  removeAssignedJob (jobAssigned: JobAssigned) {
+    return this.httpClient.post( this.apiRootUrl + 'RemoveAssignedJob', jobAssigned);
+  }
+
+
 }

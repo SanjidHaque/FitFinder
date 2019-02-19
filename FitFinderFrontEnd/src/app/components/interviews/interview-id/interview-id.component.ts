@@ -155,9 +155,7 @@ export class InterviewIdComponent implements OnInit {
       {
         hasBackdrop: true,
         disableClose: true,
-        width: '1000px',
-        minHeight: '650px',
-        maxHeight: '650px'
+        width: '1000px'
       });
 
     dialogRef.afterClosed().subscribe(result => {

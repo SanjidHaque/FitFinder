@@ -652,12 +652,16 @@
           </button>
 
           <mat-menu #menu="matMenu">
-            <button mat-menu-item>
+            <button
+              (click)="changeAssignedJob()"
+              mat-menu-item>
               <mat-icon>subdirectory_arrow_right
               </mat-icon>
               <span>Change Job</span>
             </button>
-            <button mat-menu-item>
+            <button
+              (click)="removeAssignedJob()"
+              mat-menu-item>
               <mat-icon>remove_circle_outline
               </mat-icon>
               <span>Remove Job</span>

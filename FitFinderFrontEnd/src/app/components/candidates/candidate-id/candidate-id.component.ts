@@ -23,6 +23,7 @@ import {StageComment} from '../../../models/stage-comment.model';
 import {NotifierService} from 'angular-notifier';
 import {forEach} from '@angular/router/src/utils/collection';
 import {ConfirmationComponent} from '../../../dialogs/confirmation/confirmation.component';
+import {DeleteComponent} from '../../../dialogs/delete/delete.component';
 
 
 
@@ -106,6 +107,45 @@ export class CandidateIdComponent implements OnInit, DoCheck {
         }
       }
     }
+  }
+
+  changeAssignedJob() {
+
+  }
+
+  removeAssignedJob() {
+    const jobAssigned = this.candidate.JobAssigned
+      .find(x => x.Id === this.getActiveJobAssignedId());
+    const jobName = this.jobs.find(x => x.Id === jobAssigned.JobId).JobTitle;
+
+    const dialogRef = this.dialog.open(DeleteComponent,
+      {
+        hasBackdrop: true,
+        disableClose: true,
+        width: '400px',
+        data: {
+          header: 'Remove Job',
+          iconClass: 'far fa-trash-alt',
+          confirmationText: 'Are you sure you want to remove ' + jobName + ' from Candidate??',
+          buttonText: 'Remove',
+          confirmationStatus: false
+        }
+      });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result.confirmationStatus) {
+        this.dataStorageService.removeAssignedJob(jobAssigned)
+          .subscribe(
+            (data: any) => {
+              const index = this.candidate.JobAssigned
+                .findIndex(x => x.Id === this.getActiveJobAssignedId());
+              this.candidate.JobAssigned.splice(index, 1);
+              this.notifierService.notify('default', 'Job removed.')
+            }
+          );
+      }
+    }
+    );
   }
 
   changeStatus(pipelineStageId: number) {
@@ -273,7 +313,6 @@ export class CandidateIdComponent implements OnInit, DoCheck {
       }
     );
   }
-
   restoreCandidates(candidate: Candidate) {
     const dialogRef = this.dialog.open(ConfirmationComponent,
       {

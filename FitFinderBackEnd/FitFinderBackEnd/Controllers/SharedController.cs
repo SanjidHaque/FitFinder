@@ -110,5 +110,20 @@ namespace FitFinderBackEnd.Controllers
             _context.SaveChanges();
             return Ok(jobAssigned);
         }
+
+        [HttpPost]
+        [Route("api/RemoveAssignedJob")]
+        public IHttpActionResult RemoveAssignedJob(JobAssigned jobAssigned)
+        {
+                JobAssigned getJobAssigned = _context.JobAssiged.FirstOrDefault(x => x.Id == jobAssigned.Id);
+                if (getJobAssigned != null)
+                {
+                    _context.JobAssiged.Remove(getJobAssigned);
+                    _context.SaveChanges();
+                    return Ok();
+            }
+                       
+            return NotFound();
+        }
     }
 }

@@ -215,7 +215,7 @@ const appRoutes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'profile',
+        redirectTo: 'workflow',
         pathMatch: 'full'
       },
       {

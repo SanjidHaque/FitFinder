@@ -75,6 +75,7 @@ import { CandidateScoreCardComponent } from './components/candidates/candidate-i
 import { AssignJobToCandidateComponent } from './dialogs/assign-job-to-candidate/assign-job-to-candidate.component';
 import { ChangeStatusComponent } from './dialogs/change-status/change-status.component';
 import { ConfirmationComponent } from './dialogs/confirmation/confirmation.component';
+import { DeleteComponent } from './dialogs/delete/delete.component';
 
 
 
@@ -126,7 +127,8 @@ import { ConfirmationComponent } from './dialogs/confirmation/confirmation.compo
     CandidateScoreCardComponent,
     AssignJobToCandidateComponent,
     ChangeStatusComponent,
-    ConfirmationComponent
+    ConfirmationComponent,
+    DeleteComponent
   ],
   imports: [
     BrowserModule,
@@ -186,7 +188,8 @@ import { ConfirmationComponent } from './dialogs/confirmation/confirmation.compo
     AddUpdatePipelineStageComponent,
     PipelineStageCriteriaComponent,
     ChangeStatusComponent,
-    ConfirmationComponent
+    ConfirmationComponent,
+    DeleteComponent
   ],
 
   bootstrap: [
