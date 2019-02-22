@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
-using System.Web.Http.ModelBinding;
+using System.Web.Http.Cors;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -14,13 +14,14 @@ using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using FitFinderBackEnd.Models;
+using FitFinderBackEnd.Models.Settings;
 using FitFinderBackEnd.Providers;
 using FitFinderBackEnd.Results;
 
 namespace FitFinderBackEnd.Controllers
 {
-    [Authorize]
-    [RoutePrefix("api/Account")]
+   
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class AccountController : ApiController
     {
         private const string LocalLoginProvider = "Local";
@@ -319,16 +320,26 @@ namespace FitFinderBackEnd.Controllers
         }
 
         // POST api/Account/Register
+        [HttpPost]
         [AllowAnonymous]
-        [Route("api/Register")]
-        public async Task<IHttpActionResult> Register(RegisterBindingModel model)
+        [Route("api/Account/Register")]
+        public async Task<IHttpActionResult> Register(User model)
         {
-            if (!ModelState.IsValid)
+            if (model==null)
             {
                 return BadRequest(ModelState);
             }
 
-            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
+            var user = new ApplicationUser()
+            {
+                UserName = model.UserName,
+                Email = model.Email,
+                PhoneNumber = model.PhoneNumber
+            };
+            user.FirstName = model.FirstName;
+            user.LastName = model.LastName;
+            user.CompanyId = model.CompanyId;
+            user.CompanyName = model.CompanyName;
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
 
@@ -337,7 +348,7 @@ namespace FitFinderBackEnd.Controllers
                 return GetErrorResult(result);
             }
 
-            return Ok();
+            return Ok(result);
         }
 
         // POST api/Account/RegisterExternal

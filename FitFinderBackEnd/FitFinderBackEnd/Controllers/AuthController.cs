@@ -15,7 +15,7 @@ namespace FitFinderBackEnd.Controllers
     {
         [HttpPost]
         [AllowAnonymous]
-        [Route("api/Register")]
+        [Route("api/CustomRegister")]
         public IdentityResult Register(User newUser)
         {
             var userStore = new UserStore<ApplicationUser>(new ApplicationDbContext());
