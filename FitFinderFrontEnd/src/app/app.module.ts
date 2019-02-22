@@ -76,6 +76,8 @@ import { AssignJobToCandidateComponent } from './dialogs/assign-job-to-candidate
 import { ChangeStatusComponent } from './dialogs/change-status/change-status.component';
 import { ConfirmationComponent } from './dialogs/confirmation/confirmation.component';
 import { DeleteComponent } from './dialogs/delete/delete.component';
+import {SignInComponent} from './components/sign-in/sign-in.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 
 
 
@@ -128,7 +130,9 @@ import { DeleteComponent } from './dialogs/delete/delete.component';
     AssignJobToCandidateComponent,
     ChangeStatusComponent,
     ConfirmationComponent,
-    DeleteComponent
+    DeleteComponent,
+    SignInComponent,
+    ForgotPasswordComponent
   ],
   imports: [
     BrowserModule,

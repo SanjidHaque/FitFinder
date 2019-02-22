@@ -1,0 +1,10 @@
+a:hover{
+  color: #00bfff;
+  outline: 0;
+  text-decoration: none;
+}
+
+a{
+  color: #555;
+  font-size: 19px;
+}

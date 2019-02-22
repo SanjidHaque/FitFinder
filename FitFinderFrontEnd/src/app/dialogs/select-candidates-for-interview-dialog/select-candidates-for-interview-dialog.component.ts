@@ -43,7 +43,8 @@ export class SelectCandidatesForInterviewDialogComponent implements OnInit {
   }
 
   getJobName(candidate: Candidate) {
-    return this.jobs.find(x => x.Id === candidate.JobId).JobTitle;
+    const assignedJobId = candidate.JobAssigned.find(x => x.IsActive === true).JobId;
+    return this.jobs.find(x => x.Id === assignedJobId).JobTitle;
   }
 
   getApplicationDate(candidate: Candidate) {

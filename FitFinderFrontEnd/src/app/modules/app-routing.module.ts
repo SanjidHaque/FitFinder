@@ -49,6 +49,8 @@ import {TagResolverService} from '../route-resolvers/tag-resolver.service';
 import {RejectedReasonResolverService} from '../route-resolvers/rejected-reason-resolver.service';
 import {WithdrawnReasonResolverService} from '../route-resolvers/withdrawn-reason-resolver.service';
 import {CandidateScoreCardComponent} from '../components/candidates/candidate-id/candidate-score-card/candidate-score-card.component';
+import {SignInComponent} from '../components/sign-in/sign-in.component';
+import {ForgotPasswordComponent} from '../components/forgot-password/forgot-password.component';
 
 const appRoutes: Routes = [
   {
@@ -312,8 +314,16 @@ const appRoutes: Routes = [
     ]
   },
   {
+    path: 'sign-in',
+    component: SignInComponent
+  },
+  {
+    path: 'forgot-password',
+    component: ForgotPasswordComponent
+  },
+  {
     path : '',
-    redirectTo: '/dashboard',
+    redirectTo: '/sign-in',
     pathMatch : 'full'
   },
   { path: 'not-found',
