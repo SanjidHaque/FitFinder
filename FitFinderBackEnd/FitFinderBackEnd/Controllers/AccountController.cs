@@ -320,7 +320,7 @@ namespace FitFinderBackEnd.Controllers
 
         // POST api/Account/Register
         [AllowAnonymous]
-        [Route("Register")]
+        [Route("api/Register")]
         public async Task<IHttpActionResult> Register(RegisterBindingModel model)
         {
             if (!ModelState.IsValid)
