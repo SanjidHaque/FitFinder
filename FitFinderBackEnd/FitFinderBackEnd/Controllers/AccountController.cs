@@ -21,6 +21,7 @@ using FitFinderBackEnd.Results;
 
 namespace FitFinderBackEnd.Controllers
 {
+   
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class AccountController : ApiController
     {
