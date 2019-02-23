@@ -1,9 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using FitFinderBackEnd.Models;
+using FitFinderBackEnd.Services;
 
 namespace FitFinderBackEnd
 {
@@ -34,10 +36,14 @@ namespace FitFinderBackEnd
                 RequireLowercase = true,
                 RequireUppercase = true,
             };
+            manager.EmailService = new EmailService();
             var dataProtectionProvider = options.DataProtectionProvider;
             if (dataProtectionProvider != null)
             {
-                manager.UserTokenProvider = new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
+                manager.UserTokenProvider = new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"))
+                {
+                    TokenLifespan = TimeSpan.FromHours(3)
+                };
             }
             return manager;
         }

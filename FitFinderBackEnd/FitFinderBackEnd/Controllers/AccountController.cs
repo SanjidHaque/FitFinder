@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Http.ModelBinding;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -14,13 +15,13 @@ using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using FitFinderBackEnd.Models;
+using FitFinderBackEnd.Models.Settings;
 using FitFinderBackEnd.Providers;
 using FitFinderBackEnd.Results;
 
 namespace FitFinderBackEnd.Controllers
 {
-    [Authorize]
-    [RoutePrefix("api/Account")]
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class AccountController : ApiController
     {
         private const string LocalLoginProvider = "Local";
@@ -319,16 +320,26 @@ namespace FitFinderBackEnd.Controllers
         }
 
         // POST api/Account/Register
+        [HttpPost]
         [AllowAnonymous]
         [Route("api/Register")]
-        public async Task<IHttpActionResult> Register(RegisterBindingModel model)
+        public async Task<IHttpActionResult> Register(User model)
         {
-            if (!ModelState.IsValid)
+            if (model == null)
             {
                 return BadRequest(ModelState);
             }
 
-            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
+            var user = new ApplicationUser()
+            {
+                UserName = model.UserName,
+                Email = model.Email,
+                PhoneNumber = model.PhoneNumber
+            };
+            user.FirstName = model.FirstName;
+            user.LastName = model.LastName;
+            user.CompanyId = model.CompanyId;
+            user.CompanyName = model.CompanyName;
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
 
@@ -337,7 +348,58 @@ namespace FitFinderBackEnd.Controllers
                 return GetErrorResult(result);
             }
 
-            return Ok();
+            string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+
+           // var callbackUrl = new Uri(Url.Link("ConfirmEmailRoute", new { userId = user.Id, code = code }));
+            string callbackUrl = 
+                Url.Link("DefaultApi", new { controller = "Account", action = "ConfirmEmail", userId = user.Id, code = code });
+
+            await UserManager
+                .SendEmailAsync(user.Id, "Confirm your account",
+                    "Please confirm your account by clicking <a href=\"" 
+                     + callbackUrl + "\">here</a>");
+
+           
+
+            return Ok(result);
+
+        }
+
+        [Route("user/{id:guid}", Name = "GetUserById")]
+        public async Task<IHttpActionResult> GetUser(string Id)
+        {
+            //Only SuperAdmin or Admin can delete users (Later when implement roles)
+            var user = await this.UserManager.FindByIdAsync(Id);
+
+            if (user != null)
+            {
+                return Ok();
+            }
+
+            return NotFound();
+
+        }
+
+
+
+        [HttpGet]
+        [Route("ConfirmEmail", Name = "ConfirmEmailRoute")]
+        public async Task<IHttpActionResult> ConfirmEmail(string userId = "", string code = "")
+        {
+            if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(code))
+            {
+                ModelState.AddModelError("", "User Id and Code are required");
+                return BadRequest(ModelState);
+            }
+
+            IdentityResult result = await UserManager.ConfirmEmailAsync(userId, code);
+
+            if (result.Succeeded)
+            {
+                return Ok();
+            }
+            return GetErrorResult(result);
+           
         }
 
         // POST api/Account/RegisterExternal
