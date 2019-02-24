@@ -10,7 +10,7 @@ export class AppComponent {
 
   @ViewChild('spinnerElement') spinnerElement: ElementRef;
 
-  constructor(private router: Router,
+  constructor(public router: Router,
               private ngZone: NgZone,
               private renderer2: Renderer2) {
     router.events.subscribe((event: RouterEvent) => {
