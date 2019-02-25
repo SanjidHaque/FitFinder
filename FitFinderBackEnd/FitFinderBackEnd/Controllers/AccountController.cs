@@ -350,42 +350,21 @@ namespace FitFinderBackEnd.Controllers
             }
 
             string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-
-           // var callbackUrl = new Uri(Url.Link("ConfirmEmailRoute", new { userId = user.Id, code = code }));
-            string callbackUrl = 
-                Url.Link("DefaultApi", new { controller = "Account", action = "ConfirmEmail", userId = user.Id, code = code });
+            var callbackUrl = new Uri(Url.Link("ConfirmEmailRoute", new { userId = user.Id, code = code }));
 
             await UserManager
                 .SendEmailAsync(user.Id, "Confirm your account",
-                    "Please confirm your account by clicking <a href=\"" 
+                    "Please confirm your account by clicking <a href=\""
                      + callbackUrl + "\">here</a>");
-
-           
-
             return Ok(result);
-
         }
 
-        [Route("user/{id:guid}", Name = "GetUserById")]
-        public async Task<IHttpActionResult> GetUser(string Id)
-        {
-            //Only SuperAdmin or Admin can delete users (Later when implement roles)
-            var user = await this.UserManager.FindByIdAsync(Id);
-
-            if (user != null)
-            {
-                return Ok();
-            }
-
-            return NotFound();
-
-        }
 
 
 
         [HttpGet]
         [Route("ConfirmEmail", Name = "ConfirmEmailRoute")]
-        public async Task<IHttpActionResult> ConfirmEmail(string userId = "", string code = "")
+        public async Task<IHttpActionResult> ConfirmEmail(string userId, string code)
         {
             if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(code))
             {
@@ -393,15 +372,23 @@ namespace FitFinderBackEnd.Controllers
                 return BadRequest(ModelState);
             }
 
+            ApplicationUser user = await UserManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
             IdentityResult result = await UserManager.ConfirmEmailAsync(userId, code);
 
             if (result.Succeeded)
             {
-                return Ok();
+                return Ok(result);
             }
+        
             return GetErrorResult(result);
-           
         }
+
+
 
         // POST api/Account/RegisterExternal
         [OverrideAuthentication]
@@ -446,7 +433,20 @@ namespace FitFinderBackEnd.Controllers
 
             base.Dispose(disposing);
         }
+        [Route("user/{id:guid}", Name = "GetUserById")]
+        public async Task<IHttpActionResult> GetUser(string Id)
+        {
+            //Only SuperAdmin or Admin can delete users (Later when implement roles)
+            var user = await this.UserManager.FindByIdAsync(Id);
 
+            if (user != null)
+            {
+                return Ok();
+            }
+
+            return NotFound();
+
+        }
         #region Helpers
 
         private IAuthenticationManager Authentication
