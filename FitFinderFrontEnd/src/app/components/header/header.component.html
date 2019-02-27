@@ -1,5 +1,7 @@
 
-<div class="row container-fluid">
+<div class="row container-fluid"
+     style="padding-top: 5px;"
+>
 
   <div class="col-xl-2 col-12 display-4"
        style="text-align: left;
@@ -30,14 +32,20 @@
         <h3><i class="fas fa-chevron-circle-down"></i></h3>
 
         <mat-menu #menu="matMenu">
-          <button routerLink="/settings/profile" mat-menu-item>
-            <h6><i class="fas fa-anchor"></i> Profile</h6>
+          <button
+            style="outline: 0;"
+            routerLink="/settings/profile" mat-menu-item>
+            <i class="fas fa-anchor"></i> Profile
           </button>
-          <button routerLink="/settings" mat-menu-item>
-            <h6><i class="fas fa-cog"></i> Settings</h6>
+          <button
+            style="outline: 0;"
+            routerLink="/settings" mat-menu-item>
+            <i class="fas fa-cog"></i> Settings
           </button>
-          <button (click)="onLogout()" mat-menu-item>
-            <h6><i class="fas fa-power-off"></i> Sign Out</h6>
+          <button
+            style="outline: 0;"
+            (click)="onLogout()" mat-menu-item>
+            <i class="fas fa-power-off"></i> Sign Out
           </button>
         </mat-menu>
 

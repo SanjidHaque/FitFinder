@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule }    from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { StarRatingModule } from 'angular-star-rating';
 
@@ -78,7 +78,9 @@ import { ConfirmationComponent } from './dialogs/confirmation/confirmation.compo
 import { DeleteComponent } from './dialogs/delete/delete.component';
 import {SignInComponent} from './components/sign-in/sign-in.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
-
+import { NgProgressModule } from '@ngx-progressbar/core';
+import { NgProgressRouterModule } from '@ngx-progressbar/router';
+import {NgProgressHttpModule} from '@ngx-progressbar/http';
 
 
 @NgModule({
@@ -147,6 +149,13 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
     ReactiveFormsModule,
     AmazingTimePickerModule,
     AngularEditorModule,
+    NgProgressHttpModule,
+    NgProgressModule.withConfig({
+      spinner: false,
+      color: '#673ab7',
+      min: 20
+    }),
+    NgProgressRouterModule,
     StarRatingModule.forRoot(),
     NotifierModule.withConfig({
       position: {

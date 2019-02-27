@@ -7,18 +7,19 @@ import {NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Route
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  constructor(public router: Router) {}
 
-  @ViewChild('spinnerElement') spinnerElement: ElementRef;
+ // @ViewChild('spinnerElement') spinnerElement: ElementRef;
 
-  constructor(public router: Router,
+ /* constructor(public router: Router,
               private ngZone: NgZone,
               private renderer2: Renderer2) {
     router.events.subscribe((event: RouterEvent) => {
       this.navigationInterceptor(event)
     });
   }
-
-  private navigationInterceptor(event: RouterEvent): void {
+*/
+ /* private navigationInterceptor(event: RouterEvent): void {
     if (event instanceof NavigationStart) {
       this.ngZone.runOutsideAngular(() => {
         this.renderer2.setStyle(
@@ -48,7 +49,7 @@ export class AppComponent {
         '0'
       )
     })
-  }
+  }*/
 }
 
 

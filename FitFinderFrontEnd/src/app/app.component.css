@@ -13,3 +13,8 @@
   -webkit-box-shadow: inset 0 0 6px rgb(127, 112, 145);
 }
 
+@media only screen and (min-width: 1030px) {
+  .xl-margin{
+    margin-top: 60px !important;
+  }
+}

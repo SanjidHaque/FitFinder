@@ -1,6 +1,7 @@
 
 
 
+<!--
 
 <div style="
        opacity: 0;
@@ -9,22 +10,25 @@
      #spinnerElement>
   <mat-progress-bar color="primary" mode="indeterminate"></mat-progress-bar>
 </div>
+-->
 
 
 
+<ng-progress></ng-progress>
 
 
 
-
-  <div class="row container-fluid"
+ <!-- <div class="row container-fluid"
        *ngIf="router.url !== '/sign-in' && router.url !== '/forgot-password'">
 
     <div class="col-xl-12">
       <app-header></app-header>
     </div>
 
-  </div>
+  </div>-->
 
+
+<!--
   <div class="row container-fluid"
        style="height: 87vh!important;
        padding-left: 20px;
@@ -36,9 +40,28 @@
       <router-outlet></router-outlet>
     </div>
   </div>
+-->
 
+<!-- <div class="row container-fluid"
+      >
+    <div class="col-xl-12" style="width: 100%;">
 
+    </div>
 
+  </div>-->
+<app-header
+  style="position:fixed;
+      overflow: hidden; background-color: white;
+      top: 0;
+      z-index: 1;
+      width: 100%;"
+  *ngIf="router.url !== '/sign-in' && router.url !== '/forgot-password'"></app-header>
+
+<div class="row container-fluid xl-margin" style="z-index: 4;">
+  <div class="col-xl-12">
+    <router-outlet></router-outlet>
+  </div>
+</div>
 
 
 
