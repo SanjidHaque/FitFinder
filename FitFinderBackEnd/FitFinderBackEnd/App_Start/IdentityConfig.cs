@@ -42,7 +42,7 @@ namespace FitFinderBackEnd
             {
                 manager.UserTokenProvider = new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"))
                 {
-                    TokenLifespan = TimeSpan.FromSeconds(3)
+                    TokenLifespan = TimeSpan.FromHours(3)
                 };
             }
             return manager;

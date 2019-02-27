@@ -17,14 +17,14 @@ namespace FitFinderBackEnd.Services
         {
 
             dynamic MailMessage = new MailMessage();
-            MailMessage.From = new MailAddress("1602gub@gmail.com");
+            MailMessage.From = new MailAddress("apphodoo@gmail.com");
             MailMessage.To.Add(message.Destination);
             MailMessage.Subject = message.Subject;
             MailMessage.IsBodyHtml = true;
             MailMessage.Body = message.Body;
 
             SmtpClient smtpClient = new SmtpClient("smtp.gmail.com", Convert.ToInt32(587));
-            smtpClient.Credentials = new System.Net.NetworkCredential("1602gub@gmail.com", "_-@)!*2018NoDe>jS2018@)!*-_");
+            smtpClient.Credentials = new System.Net.NetworkCredential("apphodoo@gmail.com ", "hodoo123");
 
             try
             {
