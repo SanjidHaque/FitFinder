@@ -9,7 +9,7 @@ using FitFinderBackEnd.Models.Candidate;
 
 namespace FitFinderBackEnd.Controllers
 {
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
+   
     public class CandidateController : ApiController
     {
         private readonly ApplicationDbContext _context;

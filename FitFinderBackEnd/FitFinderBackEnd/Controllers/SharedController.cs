@@ -8,7 +8,7 @@ using FitFinderBackEnd.Models.Settings;
 
 namespace FitFinderBackEnd.Controllers
 {
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
+    
     public class SharedController : ApiController
     {
         private readonly ApplicationDbContext _context;
@@ -51,7 +51,6 @@ namespace FitFinderBackEnd.Controllers
         public void AddNewStageComment(JobAssigned jobAssigned)
         {
             _context.StageComments.AddRange(jobAssigned.StageComment);
-           
         }
 
 
@@ -70,8 +69,6 @@ namespace FitFinderBackEnd.Controllers
         {
             _context.StageScores.AddRange(jobAssigned.StageScore);
             _context.CriteriaScores.AddRange(jobAssigned.CriteriaScore);
-            
-
         }
 
 

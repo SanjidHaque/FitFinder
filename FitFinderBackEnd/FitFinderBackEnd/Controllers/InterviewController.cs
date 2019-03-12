@@ -8,7 +8,6 @@ using FitFinderBackEnd.Models.Interview;
 
 namespace FitFinderBackEnd.Controllers
 {
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class InterviewController : ApiController
     {
         private readonly ApplicationDbContext _context;

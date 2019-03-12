@@ -8,7 +8,7 @@ using FitFinderBackEnd.Models.Job;
 
 namespace FitFinderBackEnd.Controllers
 {
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
+    
     public class JobController : ApiController
     {
         private readonly ApplicationDbContext _context;
