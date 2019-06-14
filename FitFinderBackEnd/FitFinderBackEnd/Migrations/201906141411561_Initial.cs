@@ -3,7 +3,7 @@ namespace FitFinderBackEnd.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class newModelsAddedAgain : DbMigration
+    public partial class Initial : DbMigration
     {
         public override void Up()
         {
@@ -85,6 +85,8 @@ namespace FitFinderBackEnd.Migrations
                         Id = c.Long(nullable: false, identity: true),
                         CandidateId = c.Long(nullable: false),
                         JobId = c.Long(nullable: false),
+                        CurrentStageId = c.Long(nullable: false),
+                        IsActive = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Candidates", t => t.CandidateId, cascadeDelete: true)
@@ -325,6 +327,10 @@ namespace FitFinderBackEnd.Migrations
                 c => new
                     {
                         Id = c.String(nullable: false, maxLength: 128),
+                        FirstName = c.String(),
+                        LastName = c.String(),
+                        CompanyName = c.String(),
+                        CompanyId = c.String(),
                         Email = c.String(maxLength: 256),
                         EmailConfirmed = c.Boolean(nullable: false),
                         PasswordHash = c.String(),

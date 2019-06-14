@@ -243,31 +243,16 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InterviewController.cs" />
     <Compile Include="Controllers\JobController.cs" />
+    <Compile Include="Controllers\MvcController.cs" />
     <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Controllers\SharedController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201902071833201_newModelsAddedAgain.cs" />
-    <Compile Include="Migrations\201902071833201_newModelsAddedAgain.Designer.cs">
-      <DependentUpon>201902071833201_newModelsAddedAgain.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902081333041_jobAssignedModelCnanged.cs" />
-    <Compile Include="Migrations\201902081333041_jobAssignedModelCnanged.Designer.cs">
-      <DependentUpon>201902081333041_jobAssignedModelCnanged.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902081609066_jobAssignedModelCnangedAgain.cs" />
-    <Compile Include="Migrations\201902081609066_jobAssignedModelCnangedAgain.Designer.cs">
-      <DependentUpon>201902081609066_jobAssignedModelCnangedAgain.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902151703582_jobAssignedModelChanged.cs" />
-    <Compile Include="Migrations\201902151703582_jobAssignedModelChanged.Designer.cs">
-      <DependentUpon>201902151703582_jobAssignedModelChanged.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902221451116_register.cs" />
-    <Compile Include="Migrations\201902221451116_register.Designer.cs">
-      <DependentUpon>201902221451116_register.cs</DependentUpon>
+    <Compile Include="Migrations\201906141411561_Initial.cs" />
+    <Compile Include="Migrations\201906141411561_Initial.Designer.cs">
+      <DependentUpon>201906141411561_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -304,10 +289,6 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\FitFinder.mdf" />
-    <Content Include="App_Data\FitFinder_log.ldf">
-      <DependentUpon>FitFinder.mdf</DependentUpon>
-    </Content>
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -369,7 +350,10 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Views\Mvc\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
   </ItemGroup>
@@ -400,20 +384,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201902071833201_newModelsAddedAgain.resx">
-      <DependentUpon>201902071833201_newModelsAddedAgain.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902081333041_jobAssignedModelCnanged.resx">
-      <DependentUpon>201902081333041_jobAssignedModelCnanged.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902081609066_jobAssignedModelCnangedAgain.resx">
-      <DependentUpon>201902081609066_jobAssignedModelCnangedAgain.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902151703582_jobAssignedModelChanged.resx">
-      <DependentUpon>201902151703582_jobAssignedModelChanged.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902221451116_register.resx">
-      <DependentUpon>201902221451116_register.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201906141411561_Initial.resx">
+      <DependentUpon>201906141411561_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

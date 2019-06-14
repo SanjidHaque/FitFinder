@@ -352,8 +352,8 @@ namespace FitFinderBackEnd.Controllers
             var callbackUrl = new Uri(Url.Link("ConfirmEmailRoute", new { userId = user.Id, code = code }));
 
             await UserManager
-                .SendEmailAsync(user.Id, "Confirm your account",
-                    "Please confirm your account by clicking <a href=\""
+                .SendEmailAsync(user.Id, "FitFinder Account Confirmation",
+                    "Please confirm your fitfinder account by clicking <a href=\""
                      + callbackUrl + "\">here</a>");
             return Ok(result);
         }
@@ -381,7 +381,9 @@ namespace FitFinderBackEnd.Controllers
 
             if (result.Succeeded)
             {
-                return Ok(result);
+
+                
+               // return Ok(result);
             }
         
             return GetErrorResult(result);

@@ -35,7 +35,7 @@ export class AddNewCandidateComponent implements OnInit {
   sources: Source[] = [];
 
   filesToUpload: Array<File>;
-  @ViewChild('fileUpload') fileUploadVar: any;
+  @ViewChild('fileUpload', {static: false}) fileUploadVar: any;
   isDisabled = false;
 
   addNewCandidateForm: FormGroup;

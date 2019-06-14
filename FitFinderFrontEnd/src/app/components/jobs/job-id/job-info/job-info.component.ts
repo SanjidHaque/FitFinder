@@ -24,7 +24,7 @@ export class JobInfoComponent implements OnInit, DoCheck {
   candidateDefaultImage = 'assets/images/candidateDefaultImage.png';
   job: Job;
   filesToUpload: Array<File>;
-  @ViewChild('fileUpload') fileUploadVar: any;
+  @ViewChild('fileUpload', {static: false}) fileUploadVar: any;
 
 
   departments: Department[] = [];

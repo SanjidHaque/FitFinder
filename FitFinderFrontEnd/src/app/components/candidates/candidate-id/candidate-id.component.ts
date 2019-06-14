@@ -21,7 +21,6 @@ import {CriteriaScore} from '../../../models/criteria-score.model';
 import {DataStorageService} from '../../../services/data-storage.service';
 import {StageComment} from '../../../models/stage-comment.model';
 import {NotifierService} from 'angular-notifier';
-import {forEach} from '@angular/router/src/utils/collection';
 import {ConfirmationComponent} from '../../../dialogs/confirmation/confirmation.component';
 import {DeleteComponent} from '../../../dialogs/delete/delete.component';
 

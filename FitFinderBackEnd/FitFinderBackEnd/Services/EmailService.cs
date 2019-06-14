@@ -16,21 +16,21 @@ namespace FitFinderBackEnd.Services
         private async Task configSendGridasync(IdentityMessage message)
         {
 
-            dynamic MailMessage = new MailMessage();
-            MailMessage.From = new MailAddress("apphodoo@gmail.com");
-            MailMessage.To.Add(message.Destination);
-            MailMessage.Subject = message.Subject;
-            MailMessage.IsBodyHtml = true;
-            MailMessage.Body = message.Body;
+            dynamic mailMessage = new MailMessage();
+            mailMessage.From = new MailAddress("info.fitfinder@gmail.com");
+            mailMessage.To.Add(message.Destination);
+            mailMessage.Subject = message.Subject;
+            mailMessage.IsBodyHtml = true;
+            mailMessage.Body = message.Body;
 
             SmtpClient smtpClient = new SmtpClient("smtp.gmail.com", Convert.ToInt32(587));
-            smtpClient.Credentials = new System.Net.NetworkCredential("apphodoo@gmail.com ", "hodoo123");
+            smtpClient.Credentials = new System.Net.NetworkCredential("info.fitfinder@gmail.com", "fitfinder123");
 
             try
             {
                 try
                 {
-                    smtpClient.Send(MailMessage);
+                    smtpClient.Send(mailMessage);
 
                 }
                 catch (Exception ex)
@@ -46,7 +46,7 @@ namespace FitFinderBackEnd.Services
                     if ((status == SmtpStatusCode.MailboxBusy) | (status == SmtpStatusCode.MailboxUnavailable))
                     {
                         System.Threading.Thread.Sleep(5000);
-                        smtpClient.Send(MailMessage);
+                        smtpClient.Send(mailMessage);
                     }
                 }
             }

@@ -68,7 +68,7 @@ export class AddNewJobComponent implements OnInit {
 
   jobAttachments: JobAttachment[] = [];
   filesToUpload: Array<File>;
-  @ViewChild('fileUpload') fileUploadVar: any;
+  @ViewChild('fileUpload', {static: false}) fileUploadVar: any;
   isDisabled = false;
 
   constructor(private departmentDialog: MatDialog,
