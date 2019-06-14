@@ -1,5 +1,5 @@
 	import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {Candidate} from '../models/candidate.model';
 import {Interview} from '../models/interview.model';
 import {Job} from '../models/job.model';
@@ -33,8 +33,6 @@ export class DataStorageService {
   private getAllTagApi = 'http://localhost:55586/api/GetAllTag';
   private getAllRejectedReasonApi = 'http://localhost:55586/api/GetAllRejectedReason';
   private getAllWithdrawnReasonApi = 'http://localhost:55586/api/GetAllWithdrawnReason';
-
-
 
 
 
