@@ -1,0 +1,174 @@
+<br>
+<br>
+
+<div class="row">
+  <div class="col-xl-8">
+    <h6>COMPANY INFO</h6>
+    <hr>
+  </div>
+</div>
+
+
+
+
+<form [formGroup]="addNewCompanyForm"
+      (ngSubmit)="addNewCompany()"
+      #form="ngForm">
+
+<div class="row">
+
+  <div class="col-xl-8">
+    <mat-form-field style="width: 100%;" appearance="outline">
+      <mat-label>Company Name</mat-label>
+      <input
+        formControlName="companyName"
+        required
+        matInput>
+      <mat-error>You must enter a name!</mat-error>
+    </mat-form-field>
+  </div>
+
+</div>
+
+
+
+<div class="row">
+
+  <div class="col-xl-5">
+    <mat-form-field style="width: 100%;" appearance="outline">
+      <mat-label>Company Email</mat-label>
+      <input
+        formControlName="companyEmail"
+        required
+        matInput>
+      <mat-error *ngIf="addNewCompanyForm.controls['companyEmail'].invalid">
+        {{getEmailErrorMessage('companyEmail')}}
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="col-xl-3">
+    <mat-form-field style="width: 100%;" appearance="outline">
+      <mat-label>Company Phone</mat-label>
+      <input
+        formControlName="companyPhone"
+        required
+        matInput>
+      <mat-error>You must enter a phone number!</mat-error>
+    </mat-form-field>
+  </div>
+
+</div>
+
+
+<div class="row">
+
+  <div class="col-xl-8">
+    <mat-form-field style="width: 100%;" appearance="outline">
+      <mat-label>Address</mat-label>
+      <textarea
+        formControlName="companyAddress"
+        matInput>
+      </textarea>
+    </mat-form-field>
+  </div>
+
+</div>
+
+  <br>
+
+  <div class="row">
+    <div class="col-xl-8">
+      <h6>OWNER INFO</h6>
+      <hr>
+    </div>
+  </div>
+
+
+
+  <div class="row">
+
+    <div class="col-xl-3">
+      <mat-form-field style="width: 100%;" appearance="outline">
+        <mat-label>User Name</mat-label>
+        <input
+          required
+          formControlName="ownerUserName"
+          matInput>
+        <mat-error>You must enter an user name!</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="col-xl-5">
+      <mat-form-field style="width: 100%;" appearance="outline">
+        <mat-label>Full Name</mat-label>
+        <input
+          formControlName="ownerFullName"
+          matInput>
+      </mat-form-field>
+    </div>
+
+  </div>
+
+
+
+  <div class="row">
+
+  <div class="col-xl-5">
+    <mat-form-field style="width: 100%;" appearance="outline">
+      <mat-label>Owner Email</mat-label>
+      <input
+        formControlName="ownerEmail"
+        required
+        matInput>
+      <mat-error *ngIf="addNewCompanyForm.controls['ownerEmail'].invalid">
+        {{getEmailErrorMessage('ownerEmail')}}
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="col-xl-3">
+    <mat-form-field style="width: 100%;" appearance="outline">
+      <mat-label>Phone</mat-label>
+      <input
+        formControlName="ownerPhone"
+        required
+        matInput>
+      <mat-error>You must enter a phone number!</mat-error>
+    </mat-form-field>
+  </div>
+
+  </div>
+
+
+  <div class="row">
+    <div class="col-xl-8">
+      <hr>
+    </div>
+  </div>
+
+  <div class="row">
+
+
+    <div class="col-xl-12">
+      <button
+        type="submit"
+        [disabled]="form.invalid || isDisabled"
+        style="outline: 0;"
+        color="primary"
+        mat-flat-button>Save</button> &nbsp;
+
+      <button
+        type="button"
+        style="outline: 0;"
+        routerLink="/settings/manage-companies"
+        mat-stroked-button>Cancel</button>
+
+    </div>
+
+
+  </div>
+
+
+
+</form>

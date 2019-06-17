@@ -49,13 +49,18 @@
     </div>
 
   </div>-->
+
 <app-header
   style="position:fixed;
       overflow: hidden; background-color: white;
       top: 0;
       z-index: 1;
       width: 100%;"
-  *ngIf="router.url !== '/sign-in' && router.url !== '/forgot-password'"></app-header>
+  *ngIf="
+  router.url !== '/sign-in' &&
+  router.url !== '/email-confirmed' &&
+  router.url !== '/email-confirmation-link-expired' &&
+  router.url !== '/forgot-password'"></app-header>
 
 <div class="row container-fluid xl-margin" style="z-index: 4;">
   <div class="col-xl-12">

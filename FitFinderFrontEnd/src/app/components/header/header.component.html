@@ -25,7 +25,7 @@
         <h3><i [class] = "[navigationBarLink.iconClass]"></i></h3>
       </a>
 
-      <a [matMenuTriggerFor]="menu" (click)="onLogout()"
+      <a [matMenuTriggerFor]="menu" 
          style="cursor: pointer;"
          class = "nav-link nav-item"
          matTooltip = Options>
@@ -44,7 +44,7 @@
           </button>
           <button
             style="outline: 0;"
-            (click)="onLogout()" mat-menu-item>
+            (click)="signOut()" mat-menu-item>
             <i class="fas fa-power-off"></i> Sign Out
           </button>
         </mat-menu>

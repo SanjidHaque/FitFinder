@@ -1,0 +1,44 @@
+
+
+<div class="row">
+  <div class="col-xl-12">
+    <h4>Manage Account</h4>
+  </div>
+</div>
+
+<br>
+
+<div class="row">
+
+  <div class="col-xl-2">
+    <button
+      style="outline: 0;width: 100%;"
+      mat-flat-button
+      routerLinkActive="active"
+      routerLink="/settings/manage-companies"><strong>COMPANIES</strong></button>
+  </div>
+
+</div>
+
+<br>
+
+<div class="row" style="font-size: 14px;  color: #656c8a">
+  <div class="col-xl-12">
+    Manage organizations from here
+  </div>
+</div>
+
+
+<br>
+
+<div class="row">
+  <div class="col-xl-12 text-xl-left">
+    <button routerLink="/settings/manage-companies/add-new-company"
+            mat-stroked-button color="primary" style="outline: 0;">
+      Add New Company
+    </button>
+  </div>
+</div>
+
+
+<router-outlet></router-outlet>

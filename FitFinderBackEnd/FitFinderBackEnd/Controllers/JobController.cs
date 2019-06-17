@@ -8,7 +8,7 @@ using FitFinderBackEnd.Models.Job;
 
 namespace FitFinderBackEnd.Controllers
 {
-    
+    [Authorize]
     public class JobController : ApiController
     {
         private readonly ApplicationDbContext _context;
@@ -16,6 +16,7 @@ namespace FitFinderBackEnd.Controllers
         {
             _context = new ApplicationDbContext();
         }
+
         [HttpPost]
         [Route("api/AddNewJob")]
         public IHttpActionResult AddNewJob(Job job)

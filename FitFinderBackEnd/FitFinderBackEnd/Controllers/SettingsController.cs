@@ -8,7 +8,7 @@ using FitFinderBackEnd.Models.Settings;
 
 namespace FitFinderBackEnd.Controllers
 {
-   
+    [Authorize]
     public class SettingsController : ApiController
     {
         private readonly ApplicationDbContext _context;

@@ -2,12 +2,12 @@
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Http;
-using System.Web.Http.Cors;
 using FitFinderBackEnd.Models;
 using FitFinderBackEnd.Models.Interview;
 
 namespace FitFinderBackEnd.Controllers
 {
+    [Authorize]
     public class InterviewController : ApiController
     {
         private readonly ApplicationDbContext _context;

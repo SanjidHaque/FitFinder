@@ -4,12 +4,12 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using FitFinderBackEnd.Models.Settings;
 
 namespace FitFinderBackEnd.Models.Candidate
 {
     public class Candidate
     {
-
         public long Id { get; set; }
         public string FirstName { get; set; }
         public string LastName  { get; set; }

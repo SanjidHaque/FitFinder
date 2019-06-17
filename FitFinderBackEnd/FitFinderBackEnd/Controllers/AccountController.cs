@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -7,6 +8,8 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using System.Web.Http.Results;
+using System.Web.Security;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -26,9 +29,11 @@ namespace FitFinderBackEnd.Controllers
     {
         private const string LocalLoginProvider = "Local";
         private ApplicationUserManager _userManager;
+        private ApplicationDbContext _context;
 
         public AccountController()
         {
+            _context = new ApplicationDbContext();
         }
 
         public AccountController(ApplicationUserManager userManager,
@@ -319,74 +324,105 @@ namespace FitFinderBackEnd.Controllers
             return logins;
         }
 
-        // POST api/Account/Register
+
         [HttpPost]
         [AllowAnonymous]
-        [Route("api/Register")]
-        public async Task<IHttpActionResult> Register(User model)
+        [Route("api/AddNewCompany")]
+        public IHttpActionResult AddNewCompany(Company company)
         {
-            if (model == null)
+            if (company == null)
+            {
+                return Ok(new { statusText = "Error", companyId = -1 });
+            }
+
+            _context.Companies.Add(company);
+            _context.SaveChanges();
+            return Ok(new { statusText = "Success", companyId = company.Id });
+        }
+
+
+       
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("api/AddNewUserAccount")]
+        public async Task<IHttpActionResult> Register(UserAccount userAccount)
+        {
+            if (userAccount == null)
             {
                 return BadRequest(ModelState);
             }
 
-            var user = new ApplicationUser()
+            var applicationUser = new ApplicationUser()
             {
-                UserName = model.UserName,
-                Email = model.Email,
-                PhoneNumber = model.PhoneNumber
+                UserName = userAccount.UserName,
+                Email = userAccount.Email,
+                PhoneNumber = userAccount.PhoneNumber
             };
-            user.FirstName = model.FirstName;
-            user.LastName = model.LastName;
-            user.CompanyId = model.CompanyId;
-            user.CompanyName = model.CompanyName;
+            applicationUser.FullName = userAccount.FullName;
+            applicationUser.CompanyId = userAccount.CompanyId;
+            applicationUser.JoiningDateTime = userAccount.JoiningDateTime;
+            applicationUser.IsOwner = userAccount.IsOwner;
 
-            IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+            string customPassword  = Membership.GeneratePassword(8, 4);
+            IdentityResult result = await UserManager.CreateAsync(applicationUser, customPassword);
 
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);
             }
 
-            string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-            var callbackUrl = new Uri(Url.Link("ConfirmEmailRoute", new { userId = user.Id, code = code }));
+
+            UserManager.AddToRole(applicationUser.Id, userAccount.RoleName);
+
+            string code = await UserManager.GenerateEmailConfirmationTokenAsync(applicationUser.Id);
+            
+            var callbackUrl = new Uri(Url.Link("ConfirmEmailRoute", new { userId = applicationUser.Id, code = code }));
 
             await UserManager
-                .SendEmailAsync(user.Id, "FitFinder Account Confirmation",
+                .SendEmailAsync(applicationUser.Id, "FitFinder Account Confirmation",
                     "Please confirm your fitfinder account by clicking <a href=\""
-                     + callbackUrl + "\">here</a>");
+                     + callbackUrl + "\">here</a>" + "\n" + "Username: " + applicationUser.UserName
+                    + "\n" + "Password: " + customPassword);
             return Ok(result);
         }
 
 
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("api/GetAllRole")]
+        public IHttpActionResult GetAllRole()
+        {
+            RoleStore<IdentityRole> roleStore = new RoleStore<IdentityRole>(_context);
+            RoleManager<IdentityRole> roleManager = new RoleManager<IdentityRole>(roleStore);
 
+            var roles = roleManager.Roles.Select(x => new { x.Id, x.Name }).ToList();
+            return Ok(roles);
+        }
 
         [HttpGet]
         [Route("ConfirmEmail", Name = "ConfirmEmailRoute")]
-        public async Task<IHttpActionResult> ConfirmEmail(string userId, string code)
+        public async Task<RedirectResult> ConfirmEmail(string userId, string code)
         {
             if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(code))
             {
-                ModelState.AddModelError("", "User Id and Code are required");
-                return BadRequest(ModelState);
+                return Redirect("http://localhost:4200/email-confirmation-link-expired");
             }
 
             ApplicationUser user = await UserManager.FindByIdAsync(userId);
             if (user == null)
             {
-                return NotFound();
+                return  Redirect("http://localhost:4200/email-confirmation-link-expired");
             }
 
             IdentityResult result = await UserManager.ConfirmEmailAsync(userId, code);
 
             if (result.Succeeded)
             {
-
+                return Redirect("http://localhost:4200/email-confirmed");
                 
-               // return Ok(result);
             }
-        
-            return GetErrorResult(result);
+
+            return Redirect("http://localhost:4200/email-confirmation-link-expired");
         }
 
 

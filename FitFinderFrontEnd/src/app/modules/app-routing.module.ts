@@ -17,7 +17,7 @@ import {CandidateResolverService} from '../route-resolvers/candidate-resolver.se
 import {
   InterviewResolverService} from '../route-resolvers/interview-resolver.service';
 import {JobResolverService} from '../route-resolvers/job-resolver.service';
-import {ManageAccountComponent} from '../components/settings/manage-account/manage-account.component';
+import {ManageCompaniesComponent} from '../components/settings/manage-companies/manage-companies.component';
 import {ManageUsersComponent} from '../components/settings/manage-users/manage-users.component';
 import {DisqualifyReasonsComponent} from '../components/settings/disqualify-reasons/disqualify-reasons.component';
 import {WorkflowComponent} from '../components/settings/workflow/workflow.component';
@@ -51,11 +51,17 @@ import {WithdrawnReasonResolverService} from '../route-resolvers/withdrawn-reaso
 import {CandidateScoreCardComponent} from '../components/candidates/candidate-id/candidate-score-card/candidate-score-card.component';
 import {SignInComponent} from '../components/sign-in/sign-in.component';
 import {ForgotPasswordComponent} from '../components/forgot-password/forgot-password.component';
+import {EmailConfirmedComponent} from '../components/email-confirmed/email-confirmed.component';
+import {EmailConfirmationLinkExpiredComponent} from '../components/email-confirmation-link-expired/email-confirmation-link-expired.component';
+import {AddNewCompanyComponent} from '../components/settings/manage-companies/add-new-company/add-new-company.component';
+import {AuthGuard} from '../auth/auth.guard';
+import {ForbiddenComponent} from '../components/forbidden/forbidden.component';
 
 const appRoutes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,
+    canActivate: [AuthGuard],
     resolve:
       {
         candidates: CandidateResolverService,
@@ -68,6 +74,7 @@ const appRoutes: Routes = [
   {
     path: 'jobs',
     component: JobsComponent,
+    canActivate: [AuthGuard],
     resolve:
       {
         jobs: JobResolverService,
@@ -119,6 +126,7 @@ const appRoutes: Routes = [
   {
     path: 'candidates',
     component: CandidatesComponent,
+    canActivate: [AuthGuard],
     resolve:
       {
         candidates: CandidateResolverService,
@@ -179,6 +187,7 @@ const appRoutes: Routes = [
 
   {
     path: 'interviews',
+    canActivate: [AuthGuard],
     component: InterviewsComponent,
     resolve: {
       interviews: InterviewResolverService,
@@ -214,6 +223,7 @@ const appRoutes: Routes = [
   {
     path: 'settings',
     component: SettingsComponent,
+    canActivate: [AuthGuard],
     children: [
       {
         path: '',
@@ -221,8 +231,15 @@ const appRoutes: Routes = [
         pathMatch: 'full'
       },
       {
-        path: 'manage-account',
-        component: ManageAccountComponent
+        path: 'manage-companies',
+        component: ManageCompaniesComponent,
+        children:
+        [
+          {
+            path: 'add-new-company',
+            component: AddNewCompanyComponent
+          }
+        ]
       },
       {
         path: 'manage-users',
@@ -318,16 +335,31 @@ const appRoutes: Routes = [
     component: SignInComponent
   },
   {
+    path: 'email-confirmed',
+    component: EmailConfirmedComponent
+  },
+  {
+    path: 'email-confirmation-link-expired',
+    component: EmailConfirmationLinkExpiredComponent
+  },
+  {
     path: 'forgot-password',
     component: ForgotPasswordComponent
   },
   {
     path : '',
-    redirectTo: '/sign-in',
+    redirectTo: '/dashboard',
     pathMatch : 'full'
   },
-  { path: 'not-found',
+  {
+    path: 'not-found',
     component: PageNotFoundComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'forbidden',
+    component: ForbiddenComponent,
+    canActivate: [AuthGuard],
   },
   { path: '**',
     redirectTo: '/not-found'

@@ -31,7 +31,7 @@ import {CandidateService} from './services/candidate.service';
 import {InterviewService} from './services/interview.service';
 import {InterviewResolverService} from './route-resolvers/interview-resolver.service';
 import {JobResolverService} from './route-resolvers/job-resolver.service';
-import { ManageAccountComponent } from './components/settings/manage-account/manage-account.component';
+import { ManageCompaniesComponent } from './components/settings/manage-companies/manage-companies.component';
 import { ManageUsersComponent } from './components/settings/manage-users/manage-users.component';
 import { CandidatesAndLeadsComponent } from './components/settings/candidates-and-leads/candidates-and-leads.component';
 import { JobOpeningsComponent } from './components/settings/job-openings/job-openings.component';
@@ -81,6 +81,14 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
 import { NgProgressModule } from '@ngx-progressbar/core';
 import { NgProgressRouterModule } from '@ngx-progressbar/router';
 import {NgProgressHttpModule} from '@ngx-progressbar/http';
+import { EmailConfirmedComponent } from './components/email-confirmed/email-confirmed.component';
+import { EmailConfirmationLinkExpiredComponent } from './components/email-confirmation-link-expired/email-confirmation-link-expired.component';
+import {UserAccountDataStorageService} from './services/data-storage/user-account-data-storage.service';
+import { AddNewCompanyComponent } from './components/settings/manage-companies/add-new-company/add-new-company.component';
+import { ForbiddenComponent } from './components/forbidden/forbidden.component';
+import {AuthGuard} from './auth/auth.guard';
+import {HttpErrorInterceptor} from './http-error-interceptor/http-error.interceptor';
+import {AuthInterceptor} from './auth/auth.interceptor';
 
 
 @NgModule({
@@ -99,7 +107,7 @@ import {NgProgressHttpModule} from '@ngx-progressbar/http';
     CandidatePanelComponent,
     InterviewPanelComponent,
     ProfileComponent,
-    ManageAccountComponent,
+    ManageCompaniesComponent,
     ManageUsersComponent,
     CandidatesAndLeadsComponent,
     JobOpeningsComponent,
@@ -134,7 +142,11 @@ import {NgProgressHttpModule} from '@ngx-progressbar/http';
     ConfirmationComponent,
     DeleteComponent,
     SignInComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    EmailConfirmedComponent,
+    EmailConfirmationLinkExpiredComponent,
+    AddNewCompanyComponent,
+    ForbiddenComponent
   ],
   imports: [
     BrowserModule,
@@ -170,7 +182,7 @@ import {NgProgressHttpModule} from '@ngx-progressbar/http';
         }
       },
       behaviour: {
-        autoHide: 5000,
+        autoHide: 1000000000,
         onClick: false,
         onMouseover: 'pauseAutoHide',
         showDismissButton: true,
@@ -192,7 +204,19 @@ import {NgProgressHttpModule} from '@ngx-progressbar/http';
     JobFunctionResolverService,
     DepartmentResolverService,
     JobResolverService,
-    SettingsService
+    SettingsService,
+    UserAccountDataStorageService,
+    AuthGuard,
+    {
+      provide : HTTP_INTERCEPTORS,
+      useClass : AuthInterceptor,
+      multi : true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptor,
+      multi: true
+    }
   ],
   entryComponents: [
     SelectCandidatesForInterviewDialogComponent,

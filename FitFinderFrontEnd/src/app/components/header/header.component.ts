@@ -1,4 +1,5 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -15,12 +16,16 @@ export class HeaderComponent implements OnInit {
     {path: '/interviews', label: 'Interviews', iconClass: 'far fa-calendar-alt'}
   ];
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
   }
 
-  onLogout()  {
+  signOut()  {
+    localStorage.removeItem('userToken');
+    localStorage.removeItem('userNameForSignIn');
+    localStorage.removeItem('userRole');
+    this.router.navigate(['/sign-in']);
   }
 
 }

@@ -14,10 +14,12 @@ namespace FitFinderBackEnd.Models
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit https://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string CompanyName { get; set; }
-        public string CompanyId { get; set; }
+        public Company Company { get; set; }    
+        public long CompanyId { get; set; }
+        public string FullName { get; set; }
+        public string JoiningDateTime { get; set; }
+        public bool IsOwner { get; set; }   
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager, string authenticationType)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
@@ -56,20 +58,14 @@ namespace FitFinderBackEnd.Models
         public DbSet<CriteriaScore> CriteriaScores { get; set; }
         public DbSet<StageComment> StageComments { get; set; }
 
+        public DbSet<Company> Companies { get; set; }
+
        
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
-
-        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        //{
-        //    modelBuilder.Entity<Candidate.Candidate>()
-        //        .HasOptional(a => a.CandidateSource)
-        //        .WithOptionalDependent()
-        //        .WillCascadeOnDelete(true);
-        //}
 
         public static ApplicationDbContext Create()
         {

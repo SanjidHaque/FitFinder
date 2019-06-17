@@ -9,7 +9,7 @@ using FitFinderBackEnd.Models.Candidate;
 
 namespace FitFinderBackEnd.Controllers
 {
-   
+    [Authorize]
     public class CandidateController : ApiController
     {
         private readonly ApplicationDbContext _context;

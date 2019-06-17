@@ -30,11 +30,11 @@ namespace FitFinderBackEnd
             // Configure validation logic for passwords
             manager.PasswordValidator = new PasswordValidator
             {
-                RequiredLength = 6,
+                RequiredLength = 8,
                 RequireNonLetterOrDigit = true,
                 RequireDigit = true,
                 RequireLowercase = true,
-                RequireUppercase = true,
+                RequireUppercase = true
             };
             manager.EmailService = new EmailService();
             var dataProtectionProvider = options.DataProtectionProvider;
@@ -42,7 +42,7 @@ namespace FitFinderBackEnd
             {
                 manager.UserTokenProvider = new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"))
                 {
-                    TokenLifespan = TimeSpan.FromHours(3)
+                    TokenLifespan = TimeSpan.FromDays(30)
                 };
             }
             return manager;

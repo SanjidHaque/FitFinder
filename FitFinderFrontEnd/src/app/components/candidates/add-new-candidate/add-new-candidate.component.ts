@@ -2,7 +2,6 @@ import {Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {DataStorageService} from '../../../services/data-storage.service';
-import {UUID} from 'angular2-uuid';
 import {Candidate} from '../../../models/candidate.model';
 import {CandidateService} from '../../../services/candidate.service';
 import {DateAdapter} from '@angular/material';

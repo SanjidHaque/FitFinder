@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using FitFinderBackEnd.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace FitFinderBackEnd.Providers
 {
@@ -29,25 +28,42 @@ namespace FitFinderBackEnd.Providers
 
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
-            var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
-
-            ApplicationUser user = await userManager.FindAsync(context.UserName, context.Password);
+            UserStore<ApplicationUser> userStore = new UserStore<ApplicationUser>(new ApplicationDbContext());
+            UserManager<ApplicationUser> manager = new UserManager<ApplicationUser>(userStore);
+            var user = await manager.FindAsync(context.UserName, context.Password);
 
             if (user == null)
             {
                 context.SetError("invalid_grant", "The user name or password is incorrect.");
                 return;
             }
+            
+            if (!manager.IsEmailConfirmed(user.Id))
+            {
+                context.SetError("unconfirmed_account", "The user's account has not been activated.");
+                return;
+            }
 
-            ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(userManager,
-               OAuthDefaults.AuthenticationType);
-            ClaimsIdentity cookiesIdentity = await user.GenerateUserIdentityAsync(userManager,
-                CookieAuthenticationDefaults.AuthenticationType);
 
-            AuthenticationProperties properties = CreateProperties(user.UserName);
-            AuthenticationTicket ticket = new AuthenticationTicket(oAuthIdentity, properties);
-            context.Validated(ticket);
-            context.Request.Context.Authentication.SignIn(cookiesIdentity);
+            ClaimsIdentity identity = new ClaimsIdentity(context.Options.AuthenticationType);
+            IList<string> userRoles = manager.GetRoles(user.Id);
+            foreach (string roleName in userRoles)
+            {
+                identity.AddClaim(new Claim(ClaimTypes.Role, roleName));
+            }
+            AuthenticationProperties additionalData = new AuthenticationProperties(new Dictionary<string,string>{
+                {
+                    "role", Newtonsoft.Json.JsonConvert.SerializeObject(userRoles)
+                },
+                {
+                    "userName", user.UserName
+                },
+                {
+                    "companyId", user.CompanyId.ToString()
+                }
+                });
+            AuthenticationTicket token = new AuthenticationTicket(identity, additionalData);
+            context.Validated(token);
         }
 
         public override Task TokenEndpoint(OAuthTokenEndpointContext context)
