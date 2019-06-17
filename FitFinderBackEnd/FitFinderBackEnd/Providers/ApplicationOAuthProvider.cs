@@ -34,13 +34,13 @@ namespace FitFinderBackEnd.Providers
 
             if (user == null)
             {
-                context.SetError("invalid_grant", "The user name or password is incorrect.");
+                context.SetError("invalid_grant", "The user name or password is incorrect");
                 return;
             }
             
             if (!manager.IsEmailConfirmed(user.Id))
             {
-                context.SetError("unconfirmed_account", "The user's account has not been activated.");
+                context.SetError("unconfirmed_account", "The user's account has not been activated");
                 return;
             }
 
