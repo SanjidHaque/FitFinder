@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {MatDialog} from '@angular/material';
-import {DataStorageService} from '../../../../services/data-storage.service';
+import {DataStorageService} from '../../../../services/data-storage/data-storage.service';
 import {NotifierService} from 'angular-notifier';
 import {Department} from '../../../../models/department.model';
-import {SettingsService} from '../../../../services/settings.service';
+import {SettingsDataStorageService} from '../../../../services/data-storage/settings-data-storage.service';
 import {AddUpdateComponent} from '../../../../dialogs/add-update/add-update.component';
+import {ActivatedRoute, Data} from '@angular/router';
 
 @Component({
   selector: 'app-departments',
@@ -16,12 +17,18 @@ export class DepartmentsComponent implements OnInit {
   departments: Department[] = [];
 
   constructor(private departmentDialog: MatDialog,
-              private settingsService: SettingsService,
-              private dataStorageService: DataStorageService,
+              private route: ActivatedRoute,
+              private settingsService: SettingsDataStorageService,
               private notifierService: NotifierService) { }
 
   ngOnInit() {
-    this.departments = this.settingsService.getAllDepartment();
+    this.route.data.
+    subscribe(
+      (data: Data) => {
+
+        this.departments= data['departments'];
+      }
+    )
   }
 
   editDepartment(department: Department) {

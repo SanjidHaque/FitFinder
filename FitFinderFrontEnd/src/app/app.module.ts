@@ -8,7 +8,6 @@ import { StarRatingModule } from 'angular-star-rating';
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './modules/app-routing.module';
 import {RouterModule} from '@angular/router';
-import {DataStorageService} from './services/data-storage.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppMaterialModule} from './modules/app-material.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -27,8 +26,8 @@ import {CandidatePanelComponent} from './components/candidates/candidate-panel/c
 import {InterviewPanelComponent} from './components/interviews/interview-panel/interview-panel.component';
 import {ProfileComponent} from './components/settings/profile/profile.component';
 import {CandidateResolverService} from './route-resolvers/candidate-resolver.service';
-import {CandidateService} from './services/candidate.service';
-import {InterviewService} from './services/interview.service';
+import {CandidateDataStorageService} from './services/data-storage/candidate-data-storage.service';
+import {InterviewDataStorageService} from './services/data-storage/interview-data-storage.service';
 import {InterviewResolverService} from './route-resolvers/interview-resolver.service';
 import {JobResolverService} from './route-resolvers/job-resolver.service';
 import { ManageCompaniesComponent } from './components/settings/manage-companies/manage-companies.component';
@@ -66,7 +65,7 @@ import {TagResolverService} from './route-resolvers/tag-resolver.service';
 import {JobTypeResolverService} from './route-resolvers/job-type-resolver.service';
 import {JobFunctionResolverService} from './route-resolvers/job-function-resolver.service';
 import {DepartmentResolverService} from './route-resolvers/department-resolver.service';
-import {SettingsService} from './services/settings.service';
+import {SettingsDataStorageService} from './services/data-storage/settings-data-storage.service';
 import { AddUpdateComponent } from './dialogs/add-update/add-update.component';
 import { AddUpdatePipelineStageComponent } from './dialogs/add-update-pipeline-stage/add-update-pipeline-stage.component';
 import { ColorPickerModule } from 'ngx-color-picker';
@@ -89,6 +88,8 @@ import { ForbiddenComponent } from './components/forbidden/forbidden.component';
 import {AuthGuard} from './auth/auth.guard';
 import {HttpErrorInterceptor} from './http-error-interceptor/http-error.interceptor';
 import {AuthInterceptor} from './auth/auth.interceptor';
+import {JobDataStorageService} from './services/data-storage/job-data-storage.service';
+import {JobService} from './services/shared/job.service';
 
 
 @NgModule({
@@ -192,9 +193,8 @@ import {AuthInterceptor} from './auth/auth.interceptor';
   ],
 
   providers: [
-    DataStorageService,
-    CandidateService,
-    InterviewService,
+    CandidateDataStorageService,
+    InterviewDataStorageService,
     CandidateResolverService,
     InterviewResolverService,
     PipelineResolverService,
@@ -204,8 +204,10 @@ import {AuthInterceptor} from './auth/auth.interceptor';
     JobFunctionResolverService,
     DepartmentResolverService,
     JobResolverService,
-    SettingsService,
+    SettingsDataStorageService,
     UserAccountDataStorageService,
+    JobDataStorageService,
+    JobService,
     AuthGuard,
     {
       provide : HTTP_INTERCEPTORS,

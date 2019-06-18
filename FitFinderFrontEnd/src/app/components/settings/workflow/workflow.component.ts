@@ -1,27 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import {JobService} from '../../../services/job.service';
+import {JobDataStorageService} from '../../../services/data-storage/job-data-storage.service';
 import {ActivatedRoute, Data} from '@angular/router';
-import {SettingsService} from '../../../services/settings.service';
+import {SettingsDataStorageService} from '../../../services/data-storage/settings-data-storage.service';
 
 @Component({
   selector: 'app-workflow',
   templateUrl: './workflow.component.html',
   styleUrls: ['./workflow.component.css']
 })
-export class WorkflowComponent implements OnInit {
+export class WorkflowComponent  {
 
-
-
-  constructor(private settingsService: SettingsService,
-              private route: ActivatedRoute) { }
-
-  ngOnInit() {
-    this.route.data
-      .subscribe(
-        (data: Data) => {
-          this.settingsService.pipelines = data['pipelines'];
-        }
-      );
-  }
 
 }

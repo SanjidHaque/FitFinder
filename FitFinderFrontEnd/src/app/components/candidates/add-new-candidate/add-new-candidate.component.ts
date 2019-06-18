@@ -1,9 +1,8 @@
 import {Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
-import {DataStorageService} from '../../../services/data-storage.service';
+import {ActivatedRoute, Data, Router} from '@angular/router';
 import {Candidate} from '../../../models/candidate.model';
-import {CandidateService} from '../../../services/candidate.service';
+import {CandidateDataStorageService} from '../../../services/data-storage/candidate-data-storage.service';
 import {DateAdapter} from '@angular/material';
 import {ShortDateAdapter} from '../../../date-adapters/short-date.adapter';
 import {CandidateEducation} from '../../../models/candidate-education.model';
@@ -11,8 +10,8 @@ import {CandidateExperience} from '../../../models/candidate-experience.model';
 import {NotifierService} from 'angular-notifier';
 import {CandidateAttachment} from '../../../models/canidate-attachment.model';
 import {Job} from '../../../models/job.model';
-import {JobService} from '../../../services/job.service';
-import {SettingsService} from '../../../services/settings.service';
+import {JobDataStorageService} from '../../../services/data-storage/job-data-storage.service';
+import {SettingsDataStorageService} from '../../../services/data-storage/settings-data-storage.service';
 import {Source} from '../../../models/source.model';
 
 
@@ -42,18 +41,23 @@ export class AddNewCandidateComponent implements OnInit {
 
 
   constructor(private router: Router,
-              private jobService: JobService,
-              private settingsService: SettingsService,
-              private dataStorageService: DataStorageService,
+              private route: ActivatedRoute,
+              private jobDataStorageService: JobDataStorageService,
+              private settingsDataStorageService: SettingsDataStorageService,
               private notifierService: NotifierService,
-              private candidateService: CandidateService,
+              private candidateDataStorageService: CandidateDataStorageService,
               private formBuilder: FormBuilder) {
     this.filesToUpload = [];
   }
 
   ngOnInit() {
-    this.sources = this.settingsService.getAllSource();
-    this.jobs = this.jobService.getAllJob();
+    this.route.data
+      .subscribe(
+        (data: Data) => {
+          this.jobs = data['jobs'];
+          this.sources = data['sources'];
+        }
+      );
 
     this.addNewCandidateForm = new FormGroup({
       'jobId': new FormControl(''),
@@ -239,19 +243,18 @@ export class AddNewCandidateComponent implements OnInit {
 
 
    this.isDisabled = true;
-   this.dataStorageService.addNewCandidate(candidate)
+   this.candidateDataStorageService.addNewCandidate(candidate)
      .subscribe(
        (data: any) => {
-         this.dataStorageService.uploadAttachments(this.filesToUpload)
+         this.candidateDataStorageService.uploadAttachments(this.filesToUpload)
            .subscribe(
              (response: any) => {
-               this.dataStorageService.getAllCandidate().
+               this.candidateDataStorageService.getAllCandidate().
                  subscribe(
                  (candidates: any) => {
-                   this.candidateService.candidates = candidates;
                    this.clearAllArrays();
                    this.addNewCandidateForm.reset();
-                   const lastCandidate = this.candidateService.candidates[this.candidateService.candidates.length - 1];
+                   const lastCandidate = this.candidateDataStorageService.candidates[this.candidateDataStorageService.candidates.length - 1];
                    this.router.navigate(['/candidates/', lastCandidate.Id]);
                    this.notifierService.notify('default', 'New candidate added');
                  }

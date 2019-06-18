@@ -3,8 +3,8 @@ import * as moment from 'moment';
 import {Job} from '../../models/job.model';
 import {SelectionModel} from '@angular/cdk/collections';
 import {Department} from '../../models/department.model';
-import {JobService} from '../../services/job.service';
-import {SettingsService} from '../../services/settings.service';
+import {JobDataStorageService} from '../../services/data-storage/job-data-storage.service';
+import {SettingsDataStorageService} from '../../services/data-storage/settings-data-storage.service';
 import {MatSelectionList} from '@angular/material';
 
 @Component({
@@ -24,8 +24,8 @@ export class AssignJobToCandidateComponent implements OnInit {
   selection = new SelectionModel<Job>(false, []);
   departments: Department[] = [];
 
-  constructor(private jobService: JobService,
-              private settingsService: SettingsService) { }
+  constructor(private jobService: JobDataStorageService,
+              private settingsService: SettingsDataStorageService) { }
 
   ngOnInit() {
     this.jobs = this.jobService.getAllJob().filter(x => x.IsArchived === false);

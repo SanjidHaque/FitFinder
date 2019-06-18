@@ -9,13 +9,13 @@ import {
 import {CandidatesForInterview} from '../../../models/candidates-for-interview.model';
 import {InterviewersForInterview} from '../../../models/interviewers-for-interview.model';
 import {Interview} from '../../../models/interview.model';
-import {InterviewService} from '../../../services/interview.service';
-import {Router} from '@angular/router';
-import {DataStorageService} from '../../../services/data-storage.service';
+import {InterviewDataStorageService} from '../../../services/data-storage/interview-data-storage.service';
+import {ActivatedRoute, Data, Router} from '@angular/router';
+import {DataStorageService} from '../../../services/data-storage/data-storage.service';
 import {NotifierService} from 'angular-notifier';
 import {Job} from '../../../models/job.model';
-import {JobService} from '../../../services/job.service';
-import {CandidateService} from '../../../services/candidate.service';
+import {JobDataStorageService} from '../../../services/data-storage/job-data-storage.service';
+import {CandidateDataStorageService} from '../../../services/data-storage/candidate-data-storage.service';
 
 @Component({
   selector: 'app-add-new-interview',
@@ -53,17 +53,23 @@ export class AddNewInterviewComponent implements OnInit {
   ];
 
   constructor(private dialog: MatDialog,
-              private interviewService: InterviewService,
-              private candidateService: CandidateService,
-              private jobService: JobService,
+              private interviewService: InterviewDataStorageService,
+              private candidateService: CandidateDataStorageService,
+              private jobService: JobDataStorageService,
               private router: Router,
-              private dataStorageService: DataStorageService,
+              private route: ActivatedRoute,
               private notifierService: NotifierService) {
   }
 
 
   ngOnInit() {
-    this.jobs = this.jobService.getAllJob();
+    this.route.data
+      .subscribe(
+        (data: Data) => {
+          this.jobs = data['jobs'];
+        }
+      );
+
 
     this.addNewInterviewForm = new FormGroup({
       'interviewDate': new FormControl('', Validators.required),

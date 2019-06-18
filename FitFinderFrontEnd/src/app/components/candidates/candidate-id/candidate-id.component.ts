@@ -1,24 +1,24 @@
 import {Component, DoCheck, OnInit, ViewEncapsulation} from '@angular/core';
-import {ActivatedRoute, Params, Router} from '@angular/router';
+import {ActivatedRoute, Data, Params, Router} from '@angular/router';
 import {Candidate} from '../../../models/candidate.model';
-import {CandidateService} from '../../../services/candidate.service';
+import {CandidateDataStorageService} from '../../../services/data-storage/candidate-data-storage.service';
 import * as moment from 'moment';
 import {CandidateAttachment} from '../../../models/canidate-attachment.model';
 import {CandidateEducation} from '../../../models/candidate-education.model';
 import {CandidateExperience} from '../../../models/candidate-experience.model';
 import {Source} from '../../../models/source.model';
-import {SettingsService} from '../../../services/settings.service';
+import {SettingsDataStorageService} from '../../../services/data-storage/settings-data-storage.service';
 import {MatDialog} from '@angular/material';
 import {AssignJobToCandidateComponent} from '../../../dialogs/assign-job-to-candidate/assign-job-to-candidate.component';
 import {JobAssigned} from '../../../models/job-assigned.model';
 import {Job} from '../../../models/job.model';
-import {JobService} from '../../../services/job.service';
+import {JobDataStorageService} from '../../../services/data-storage/job-data-storage.service';
 import {Pipeline} from '../../../models/pipeline.model';
 import {ChangeStatusComponent} from '../../../dialogs/change-status/change-status.component';
 import {PipelineStage} from '../../../models/pipeline-stage.model';
 import {StageScore} from '../../../models/stage-score.model';
 import {CriteriaScore} from '../../../models/criteria-score.model';
-import {DataStorageService} from '../../../services/data-storage.service';
+import {DataStorageService} from '../../../services/data-storage/data-storage.service';
 import {StageComment} from '../../../models/stage-comment.model';
 import {NotifierService} from 'angular-notifier';
 import {ConfirmationComponent} from '../../../dialogs/confirmation/confirmation.component';
@@ -52,10 +52,10 @@ export class CandidateIdComponent implements OnInit, DoCheck {
               private router: Router,
               private dialog: MatDialog,
               private notifierService: NotifierService,
-              private jobService: JobService,
+              private jobService: JobDataStorageService,
               private dataStorageService: DataStorageService,
-              private candidateService: CandidateService,
-              private settingsService: SettingsService) {
+              private candidateService: CandidateDataStorageService,
+              private settingsService: SettingsDataStorageService) {
     this.route.params
       .subscribe(
         (params: Params) => {
@@ -66,12 +66,18 @@ export class CandidateIdComponent implements OnInit, DoCheck {
   }
 
   ngOnInit() {
-    this.candidates = this.candidateService.getAllCandidate();
-    this.pipelines = this.settingsService.getAllPipeline();
-    this.jobs = this.jobService.getAllJob();
+    this.route.data
+      .subscribe(
+        (data: Data) => {
+          this.jobs = data['jobs'];
+          this.sources = data['sources'];
+          this.pipelines = data['pipelines'];
+          this.candidates = data['candidates'];
+        }
+      );
+
     this.candidate = this.candidates.find(x => x.Id === this.candidateId);
     this.candidateService.candidate = this.candidate;
-    this.sources = this.settingsService.getAllSource();
     this.getCurrentStageNameAndColor();
   }
 

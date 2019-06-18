@@ -1,17 +1,17 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, Params, Router} from '@angular/router';
+import {ActivatedRoute, Data, Params, Router} from '@angular/router';
 import {MatDialog} from '@angular/material';
 import {NotifierService} from 'angular-notifier';
-import {JobService} from '../../../services/job.service';
-import {CandidateService} from '../../../services/candidate.service';
-import {InterviewService} from '../../../services/interview.service';
+import {JobDataStorageService} from '../../../services/data-storage/job-data-storage.service';
+import {CandidateDataStorageService} from '../../../services/data-storage/candidate-data-storage.service';
+import {InterviewDataStorageService} from '../../../services/data-storage/interview-data-storage.service';
 import {Job} from '../../../models/job.model';
 import * as moment from 'moment';
 import {Department} from '../../../models/department.model';
-import {SettingsService} from '../../../services/settings.service';
+import {SettingsDataStorageService} from '../../../services/data-storage/settings-data-storage.service';
 import {Candidate} from '../../../models/candidate.model';
 import {ConfirmationComponent} from '../../../dialogs/confirmation/confirmation.component';
-import {DataStorageService} from '../../../services/data-storage.service';
+import {DataStorageService} from '../../../services/data-storage/data-storage.service';
 
 @Component({
   selector: 'app-job-id',
@@ -27,11 +27,10 @@ export class JobIdComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private dialog: MatDialog,
-              private dataStorageService: DataStorageService,
               private notifierService: NotifierService,
-              private jobService: JobService,
+              private jobService: JobDataStorageService,
               private router: Router,
-              private settingsService: SettingsService) {
+              private settingsService: SettingsDataStorageService) {
     this.route.params
       .subscribe(
         (params: Params) => {
@@ -41,10 +40,16 @@ export class JobIdComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.jobs = this.jobService.getAllJob();
+    this.route.data
+      .subscribe(
+        (data: Data) => {
+          this.jobs = data['jobs'];
+          this.departments = data['departments'];
+        }
+      );
+
     this.job = this.jobs.find( x => x.Id === this.jobId);
     this.jobService.job = this.job;
-    this.departments = this.settingsService.getAllDepartment();
   }
 
 

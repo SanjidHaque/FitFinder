@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
@@ -20,11 +21,12 @@ using FitFinderBackEnd.Models;
 using FitFinderBackEnd.Models.Settings;
 using FitFinderBackEnd.Providers;
 using FitFinderBackEnd.Results;
+using FitFinderBackEnd.Services;
 
 namespace FitFinderBackEnd.Controllers
 {
-   
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
+    
+    [Authorize]
     public class AccountController : ApiController
     {
         private const string LocalLoginProvider = "Local";
@@ -326,7 +328,6 @@ namespace FitFinderBackEnd.Controllers
 
 
         [HttpPost]
-        [AllowAnonymous]
         [Route("api/AddNewCompany")]
         public IHttpActionResult AddNewCompany(Company company)
         {
@@ -343,7 +344,6 @@ namespace FitFinderBackEnd.Controllers
 
        
         [HttpPost]
-        [AllowAnonymous]
         [Route("api/AddNewUserAccount")]
         public async Task<IHttpActionResult> Register(UserAccount userAccount)
         {
@@ -363,12 +363,14 @@ namespace FitFinderBackEnd.Controllers
             applicationUser.JoiningDateTime = userAccount.JoiningDateTime;
             applicationUser.IsOwner = userAccount.IsOwner;
 
-            string customPassword  = Membership.GeneratePassword(8, 4);
+            PasswordGeneratorService passwordGeneratorService = new PasswordGeneratorService();
+
+            string customPassword = passwordGeneratorService.Generate(8,10);
             IdentityResult result = await UserManager.CreateAsync(applicationUser, customPassword);
 
             if (!result.Succeeded)
-            {
-                return GetErrorResult(result);
+            {   
+                return Ok(result);
             }
 
 
@@ -381,14 +383,54 @@ namespace FitFinderBackEnd.Controllers
             await UserManager
                 .SendEmailAsync(applicationUser.Id, "FitFinder Account Confirmation",
                     "Please confirm your fitfinder account by clicking <a href=\""
-                     + callbackUrl + "\">here</a>" + "\n" + "Username: " + applicationUser.UserName
-                    + "\n" + "Password: " + customPassword);
+                     + callbackUrl + "\">here.</a>" + " Username is " + applicationUser.UserName
+                     + " and password is " + customPassword);
             return Ok(result);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("api/GetAllUserAccount")]
+        public IHttpActionResult GetAllUserAccount()
+        {
+            UserStore<ApplicationUser> userStore = new UserStore<ApplicationUser>(new ApplicationDbContext());
+            List<UserAccount> userAccounts = new List<UserAccount>();
+            List<ApplicationUser> applicationUsers = _context.Users.Include(x => x.Company).ToList();
+
+            foreach (var applicationUser in applicationUsers)
+            {
+                foreach (var role in applicationUser.Roles)
+                {
+                    string roleName;
+                    if (role.RoleId == "ef5f5c44-251a-43c3-a9f7-7daa20049845")
+                    {
+                        roleName = "Admin";
+                    }
+                    else
+                    {
+                        roleName = "Worker";
+                    }
+                    UserAccount userAccount = new UserAccount()
+                    {
+                        Id = applicationUser.Id,
+                        UserName = applicationUser.UserName,
+                        FullName = applicationUser.FullName,
+                        Email = applicationUser.Email,
+                        PhoneNumber = applicationUser.PhoneNumber,
+                        Password = "",
+                        JoiningDateTime = applicationUser.JoiningDateTime,
+                        RoleName = roleName,
+                        Company = applicationUser.Company
+                    };
+                    userAccounts.Add(userAccount);
+                }
+            }
+
+            return Ok(userAccounts);
         }
 
 
         [HttpGet]
-        [AllowAnonymous]
         [Route("api/GetAllRole")]
         public IHttpActionResult GetAllRole()
         {
@@ -401,6 +443,7 @@ namespace FitFinderBackEnd.Controllers
 
         [HttpGet]
         [Route("ConfirmEmail", Name = "ConfirmEmailRoute")]
+        [AllowAnonymous]
         public async Task<RedirectResult> ConfirmEmail(string userId, string code)
         {
             if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(code))

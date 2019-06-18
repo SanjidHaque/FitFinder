@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {AddUpdateComponent} from '../../../dialogs/add-update/add-update.component';
 import {Source} from '../../../models/source.model';
 import {MatDialog} from '@angular/material';
-import {DataStorageService} from '../../../services/data-storage.service';
-import {SettingsService} from '../../../services/settings.service';
+import {DataStorageService} from '../../../services/data-storage/data-storage.service';
+import {SettingsDataStorageService} from '../../../services/data-storage/settings-data-storage.service';
 import {NotifierService} from 'angular-notifier';
 import {RejectedReason} from '../../../models/rejected-reason.model';
 import {WithdrawnReason} from '../../../models/withdrawn-reason.model';
@@ -22,7 +22,7 @@ export class DisqualifyReasonsComponent implements OnInit {
   constructor(private commonDialog: MatDialog,
               private route: ActivatedRoute,
               private dataStorageService: DataStorageService,
-              private settingsService: SettingsService,
+              private settingsService: SettingsDataStorageService,
               private notifierService: NotifierService) { }
 
   ngOnInit() {

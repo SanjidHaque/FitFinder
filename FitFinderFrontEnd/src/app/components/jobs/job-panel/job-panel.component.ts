@@ -1,16 +1,17 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Job} from '../../../models/job.model';
 import {Subscription} from 'rxjs/index';
-import {JobService} from '../../../services/job.service';
+import {JobDataStorageService} from '../../../services/data-storage/job-data-storage.service';
 import {SelectionModel} from '@angular/cdk/collections';
 import {MatDialog, MatTreeFlatDataSource} from '@angular/material';
 import * as moment from 'moment';
 import {Department} from '../../../models/department.model';
-import {SettingsService} from '../../../services/settings.service';
+import {SettingsDataStorageService} from '../../../services/data-storage/settings-data-storage.service';
 import {Candidate} from '../../../models/candidate.model';
 import {ConfirmationComponent} from '../../../dialogs/confirmation/confirmation.component';
 import {NotifierService} from 'angular-notifier';
-import {DataStorageService} from '../../../services/data-storage.service';
+import {DataStorageService} from '../../../services/data-storage/data-storage.service';
+import {ActivatedRoute, Data} from '@angular/router';
 
 @Component({
   selector: 'app-job-panel',
@@ -28,15 +29,22 @@ export class JobPanelComponent implements OnInit {
   selection = new SelectionModel<Job>(true, []);
   departments: Department[] = [];
 
-  constructor(private jobService: JobService,
+  constructor(private jobService: JobDataStorageService,
               private notifierService: NotifierService,
+              private route: ActivatedRoute,
               private dialog: MatDialog,
-              private dataStorageService: DataStorageService,
-              private settingsService: SettingsService) { }
+              private settingsService: SettingsDataStorageService) { }
 
   ngOnInit() {
-    this.jobs = this.jobService.getAllJob().filter(x => x.IsArchived === false);
-    this.departments = this.settingsService.getAllDepartment();
+    this.route.data
+      .subscribe(
+        (data: Data) => {
+          this.jobs = data['jobs'];
+          this.departments = data['departments'];
+        }
+      );
+ //   this.jobs = this.jobService.getAllJob().filter(x => x.IsArchived === false);
+
   }
 
 

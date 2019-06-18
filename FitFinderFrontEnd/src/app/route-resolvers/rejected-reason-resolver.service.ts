@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
-import {DataStorageService} from '../services/data-storage.service';
 import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
 import {RejectedReason} from '../models/rejected-reason.model';
 import {Observable} from 'rxjs';
+import {SettingsDataStorageService} from '../services/data-storage/settings-data-storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RejectedReasonResolverService implements Resolve<RejectedReason[]>{
 
-  constructor(private dataStorageService: DataStorageService) {}
+  constructor(private settingsDataStorageService: SettingsDataStorageService) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):
     Observable<RejectedReason[]> | Promise<RejectedReason[]> | RejectedReason[] {
-    return this.dataStorageService.getAllRejectedReason();
+    return this.settingsDataStorageService.getAllRejectedReason();
   }
 }

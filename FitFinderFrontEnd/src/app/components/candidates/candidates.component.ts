@@ -1,8 +1,8 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {CandidateService} from '../../services/candidate.service';
+import {CandidateDataStorageService} from '../../services/data-storage/candidate-data-storage.service';
 import {ActivatedRoute, Data} from '@angular/router';
-import {JobService} from '../../services/job.service';
-import {SettingsService} from '../../services/settings.service';
+import {JobDataStorageService} from '../../services/data-storage/job-data-storage.service';
+import {SettingsDataStorageService} from '../../services/data-storage/settings-data-storage.service';
 
 @Component({
   selector: 'app-candidates',
@@ -11,22 +11,10 @@ import {SettingsService} from '../../services/settings.service';
 })
 export class CandidatesComponent implements OnInit {
 
-  constructor(private candidateService: CandidateService,
-              private jobService: JobService,
-              private settingsService: SettingsService,
-              private route: ActivatedRoute) { }
+  constructor() { }
 
   ngOnInit() {
-    this.route.data
-      .subscribe(
-        (data: Data) => {
-          this.candidateService.candidates = data['candidates'];
-          this.jobService.jobs = data['jobs'];
-          this.settingsService.sources = data['sources'];
-          this.settingsService.departments = data['departments'];
-          this.settingsService.pipelines = data['pipelines'];
-        }
-    );
+
   }
 
 }

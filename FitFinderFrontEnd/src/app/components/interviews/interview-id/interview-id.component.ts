@@ -1,21 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, Params, Router} from '@angular/router';
-import {CandidateService} from '../../../services/candidate.service';
-import {InterviewService} from '../../../services/interview.service';
+import {ActivatedRoute, Data, Params, Router} from '@angular/router';
+import {CandidateDataStorageService} from '../../../services/data-storage/candidate-data-storage.service';
+import {InterviewDataStorageService} from '../../../services/data-storage/interview-data-storage.service';
 import {Interview} from '../../../models/interview.model';
 import * as moment from 'moment';
 import {NotifierService} from 'angular-notifier';
 import {Candidate} from '../../../models/candidate.model';
 import {Job} from '../../../models/job.model';
-import {JobService} from '../../../services/job.service';
+import {JobDataStorageService} from '../../../services/data-storage/job-data-storage.service';
 import {SelectCandidatesForInterviewDialogComponent} from '../../../dialogs/select-candidates-for-interview-dialog/select-candidates-for-interview-dialog.component';
 import {MatDialog} from '@angular/material';
 import {UUID} from 'angular2-uuid';
 import {CandidatesForInterview} from '../../../models/candidates-for-interview.model';
 import {Source} from '../../../models/source.model';
-import {SettingsService} from '../../../services/settings.service';
+import {SettingsDataStorageService} from '../../../services/data-storage/settings-data-storage.service';
 import {ConfirmationComponent} from '../../../dialogs/confirmation/confirmation.component';
-import {DataStorageService} from '../../../services/data-storage.service';
+import {DataStorageService} from '../../../services/data-storage/data-storage.service';
 
 @Component({
   selector: 'app-interview-id',
@@ -59,14 +59,13 @@ export class InterviewIdComponent implements OnInit {
   ];
 
   constructor(private route: ActivatedRoute,
-              private jobService: JobService,
-              private settingsService: SettingsService,
+              private jobService: JobDataStorageService,
+              private settingsService: SettingsDataStorageService,
               private router: Router,
               private notifierService: NotifierService,
-              private dataStorageService: DataStorageService,
               private dialog: MatDialog,
-              private candidateService: CandidateService,
-              private interviewService: InterviewService) {
+              private candidateService: CandidateDataStorageService,
+              private interviewService: InterviewDataStorageService) {
     this.route.params
       .subscribe(
         (params: Params) => {
@@ -76,11 +75,18 @@ export class InterviewIdComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.jobs = this.jobService.getAllJob();
-    this.candidates = this.candidateService.getAllCandidate();
-    this.interviews = this.interviewService.getAllInterview();
+    this.route.data
+      .subscribe(
+        (data: Data) => {
+          this.jobs = data['jobs'];
+          this.sources = data['sources'];
+          this.interviews = data['interviews'];
+          this.candidates = data['candidates'];
+        }
+      );
+
     this.interview = this.interviews.find(x => x.Id === this.interviewId);
-    this.sources = this.settingsService.getAllSource();
+
   }
 
 

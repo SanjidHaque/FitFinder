@@ -1,13 +1,13 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Candidate} from '../../models/candidate.model';
-import {CandidateService} from '../../services/candidate.service';
+import {CandidateDataStorageService} from '../../services/data-storage/candidate-data-storage.service';
 import {SelectionModel} from '@angular/cdk/collections';
-import {InterviewService} from '../../services/interview.service';
+import {InterviewDataStorageService} from '../../services/data-storage/interview-data-storage.service';
 import {Source} from '../../models/source.model';
-import {SettingsService} from '../../services/settings.service';
+import {SettingsDataStorageService} from '../../services/data-storage/settings-data-storage.service';
 import * as moment from 'moment';
 import {Job} from '../../models/job.model';
-import {JobService} from '../../services/job.service';
+import {JobDataStorageService} from '../../services/data-storage/job-data-storage.service';
 
 @Component({
   selector: 'app-select-candidates-for-interview',
@@ -27,10 +27,10 @@ export class SelectCandidatesForInterviewDialogComponent implements OnInit {
   jobs: Job[] = [];
 
 
-  constructor(private interviewService: InterviewService,
-              private jobService: JobService,
-              private candidateService: CandidateService,
-              private settingsService: SettingsService) {}
+  constructor(private interviewService: InterviewDataStorageService,
+              private jobService: JobDataStorageService,
+              private candidateService: CandidateDataStorageService,
+              private settingsService: SettingsDataStorageService) {}
 
   ngOnInit() {
     this.candidates = this.candidateService.getAllCandidate();

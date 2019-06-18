@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import {Interview} from '../models/interview.model';
 import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
-import {DataStorageService} from '../services/data-storage.service';
 import {Observable} from 'rxjs/index';
+import {InterviewDataStorageService} from '../services/data-storage/interview-data-storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InterviewResolverService implements Resolve<Interview[]> {
-  constructor(private dataStorageService: DataStorageService) {}
+  constructor(private interviewDataStorageService: InterviewDataStorageService) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Interview[]> | Promise<Interview[]> | Interview[] {
-    return this.dataStorageService.getAllInterview();
+    return this.interviewDataStorageService.getAllInterview();
   }
 }

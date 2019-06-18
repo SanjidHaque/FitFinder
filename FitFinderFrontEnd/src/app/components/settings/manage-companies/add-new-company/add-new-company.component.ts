@@ -66,7 +66,8 @@ export class AddNewCompanyComponent implements OnInit {
               this.addNewCompanyForm.controls['ownerPhone'].value,
               moment().format('h:mm:ss A, Do MMMM YYYY'),
               'HR',
-              true
+              true,
+              null
             )
           ).subscribe( (response: any) => {
             if (response.Succeeded) {
@@ -76,7 +77,7 @@ export class AddNewCompanyComponent implements OnInit {
               this.router.navigate(['/settings/manage-companies']);
             } else {
               this.notifierService.notify( 'default', response.Errors[0]);
-              this.isDisabled = false;
+               this.isDisabled = false;
             }
           })
         }

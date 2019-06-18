@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {MatDialog} from '@angular/material';
-import {DataStorageService} from '../../../../services/data-storage.service';
+import {DataStorageService} from '../../../../services/data-storage/data-storage.service';
 import {NotifierService} from 'angular-notifier';
 import {JobType} from '../../../../models/job-type.model';
-import {SettingsService} from '../../../../services/settings.service';
+import {SettingsDataStorageService} from '../../../../services/data-storage/settings-data-storage.service';
 import {AddUpdateComponent} from '../../../../dialogs/add-update/add-update.component';
+import {ActivatedRoute, Data} from '@angular/router';
 
 @Component({
   selector: 'app-types',
@@ -16,12 +17,18 @@ export class TypesComponent implements OnInit {
   jobTypes: JobType[] = [];
 
   constructor(private jobTypeDialog: MatDialog,
-              private dataStorageService: DataStorageService,
-              private settingsService: SettingsService,
+              private route: ActivatedRoute,
+              private settingsService: SettingsDataStorageService,
               private notifierService: NotifierService) { }
 
   ngOnInit() {
-    this.jobTypes = this.settingsService.getAllJobType();
+    this.route.data.
+    subscribe(
+      (data: Data) => {
+
+        this.jobTypes= data['jobTypes'];
+      }
+    )
   }
 
 

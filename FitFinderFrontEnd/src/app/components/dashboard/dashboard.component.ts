@@ -1,12 +1,12 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {ActivatedRoute, Data} from '@angular/router';
-import {JobService} from '../../services/job.service';
-import {CandidateService} from '../../services/candidate.service';
-import {InterviewService} from '../../services/interview.service';
+import {JobDataStorageService} from '../../services/data-storage/job-data-storage.service';
+import {CandidateDataStorageService} from '../../services/data-storage/candidate-data-storage.service';
+import {InterviewDataStorageService} from '../../services/data-storage/interview-data-storage.service';
 import {Job} from '../../models/job.model';
 import {Interview} from '../../models/interview.model';
 import {Candidate} from '../../models/candidate.model';
-import {SettingsService} from '../../services/settings.service';
+import {SettingsDataStorageService} from '../../services/data-storage/settings-data-storage.service';
 import {Source} from '../../models/source.model';
 import {Department} from '../../models/department.model';
 
@@ -30,7 +30,7 @@ export class DashboardComponent implements OnInit {
   departments: Department[] = [];
 
   constructor(private route: ActivatedRoute,
-              private settingsService: SettingsService
+              private settingsService: SettingsDataStorageService
               ) { }
 
   ngOnInit() {

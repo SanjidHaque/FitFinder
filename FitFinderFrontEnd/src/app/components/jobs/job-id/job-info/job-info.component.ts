@@ -1,5 +1,5 @@
 import {Component, DoCheck, OnInit, ViewChild} from '@angular/core';
-import {JobService} from '../../../../services/job.service';
+import {JobDataStorageService} from '../../../../services/data-storage/job-data-storage.service';
 import {Job} from '../../../../models/job.model';
 import * as moment from 'moment';
 import {CandidateAttachment} from '../../../../models/canidate-attachment.model';
@@ -9,10 +9,10 @@ import {UUID} from 'angular2-uuid';
 import {Department} from '../../../../models/department.model';
 import {JobFunction} from '../../../../models/job-function.model';
 import {JobType} from '../../../../models/job-type.model';
-import {SettingsService} from '../../../../services/settings.service';
+import {SettingsDataStorageService} from '../../../../services/data-storage/settings-data-storage.service';
 import {ConfirmationComponent} from '../../../../dialogs/confirmation/confirmation.component';
 import {MatDialog} from '@angular/material';
-import {DataStorageService} from '../../../../services/data-storage.service';
+import {DataStorageService} from '../../../../services/data-storage/data-storage.service';
 
 @Component({
   selector: 'app-job-info',
@@ -31,8 +31,8 @@ export class JobInfoComponent implements OnInit, DoCheck {
   jobFunctionalities: JobFunction[] = [];
   employmentTypes: JobType[] = [];
 
-  constructor(private jobService: JobService,
-              private settingsService: SettingsService,
+  constructor(private jobService: JobDataStorageService,
+              private settingsService: SettingsDataStorageService,
               private dialog: MatDialog,
               private dataStorageService: DataStorageService,
               private notifierService: NotifierService) {

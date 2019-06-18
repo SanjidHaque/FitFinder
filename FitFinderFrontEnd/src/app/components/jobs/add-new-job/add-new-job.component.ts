@@ -6,14 +6,14 @@ import * as moment from 'moment';
 import {JobAttachment} from '../../../models/job-attachment.model';
 import {NotifierService} from 'angular-notifier';
 import {Job} from '../../../models/job.model';
-import {JobService} from '../../../services/job.service';
-import {Router} from '@angular/router';
-import {DataStorageService} from '../../../services/data-storage.service';
+import {JobDataStorageService} from '../../../services/data-storage/job-data-storage.service';
+import {ActivatedRoute, Data, Router} from '@angular/router';
+import {DataStorageService} from '../../../services/data-storage/data-storage.service';
 import {AddUpdateComponent} from '../../../dialogs/add-update/add-update.component';
 import {Department} from '../../../models/department.model';
 import {JobFunction} from '../../../models/job-function.model';
 import {JobType} from '../../../models/job-type.model';
-import {SettingsService} from '../../../services/settings.service';
+import {SettingsDataStorageService} from '../../../services/data-storage/settings-data-storage.service';
 
 @Component({
   selector: 'app-add-new-job',
@@ -72,20 +72,27 @@ export class AddNewJobComponent implements OnInit {
   isDisabled = false;
 
   constructor(private departmentDialog: MatDialog,
-              private settingsService: SettingsService,
+              private settingsService: SettingsDataStorageService,
               private jobFunctionalityDialog: MatDialog,
               private notifierService: NotifierService,
-              private jobService: JobService,
-              private dataStorageService: DataStorageService,
+              private jobService: JobDataStorageService,
+              private route: ActivatedRoute,
               private router: Router,
               private jobType: MatDialog) {
     this.filesToUpload = [];
   }
 
   ngOnInit() {
-    this.employmentTypes = this.settingsService.getAllJobType();
-    this.jobFunctionalities = this.settingsService.getAllJobFunction();
-    this.departments = this.settingsService.getAllDepartment();
+    this.route.data
+      .subscribe(
+        (data: Data) => {
+          this.employmentTypes = data['employmentTypes'];
+          this.jobFunctionalities = data['jobFunctionalities'];
+          this.departments = data['departments'];
+        }
+      );
+
+
 
     this.minDate = this.getTomorrowsDate();
     this.addNewJobForm = new FormGroup({

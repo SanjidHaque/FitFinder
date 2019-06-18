@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
-import {DataStorageService} from '../services/data-storage.service';
 import {Observable} from 'rxjs';
 import {WithdrawnReason} from '../models/withdrawn-reason.model';
+import {SettingsDataStorageService} from '../services/data-storage/settings-data-storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WithdrawnReasonResolverService implements Resolve<WithdrawnReason[]> {
 
-  constructor(private dataStorageService: DataStorageService) {}
+  constructor(private settingsDataStorageService: SettingsDataStorageService) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):
     Observable<WithdrawnReason[]> | Promise<WithdrawnReason[]> | WithdrawnReason[] {
-    return this.dataStorageService.getAllWithdrawnReason();
+    return this.settingsDataStorageService.getAllWithdrawnReason();
   }
 }

@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
 import {Interview} from '../models/interview.model';
-import {DataStorageService} from '../services/data-storage.service';
 import {Observable} from 'rxjs';
 import {JobFunction} from '../models/job-function.model';
+import {SettingsDataStorageService} from '../services/data-storage/settings-data-storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class JobFunctionResolverService implements Resolve<JobFunction[]> {
-  constructor(private dataStorageService: DataStorageService) {}
+  constructor(private settingsDataStorageService: SettingsDataStorageService) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<JobFunction[]>
     | Promise<JobFunction[]> | JobFunction[] {
-    return this.dataStorageService.getAllJobFunction();
+    return this.settingsDataStorageService.getAllJobFunction();
   }
 }

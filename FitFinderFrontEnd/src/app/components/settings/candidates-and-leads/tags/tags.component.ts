@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {MatDialog} from '@angular/material';
-import {DataStorageService} from '../../../../services/data-storage.service';
+import {DataStorageService} from '../../../../services/data-storage/data-storage.service';
 import {NotifierService} from 'angular-notifier';
 import {Tag} from '../../../../models/tag.model';
-import {SettingsService} from '../../../../services/settings.service';
+import {SettingsDataStorageService} from '../../../../services/data-storage/settings-data-storage.service';
 import {AddUpdateComponent} from '../../../../dialogs/add-update/add-update.component';
+import {ActivatedRoute, Data} from '@angular/router';
 
 @Component({
   selector: 'app-tags',
@@ -16,12 +17,17 @@ export class TagsComponent implements OnInit {
   tags: Tag[] = [];
 
   constructor(private tagDialog: MatDialog,
-              private settingsService: SettingsService,
-              private dataStorageService: DataStorageService,
+              private route: ActivatedRoute,
+              private settingsService: SettingsDataStorageService,
               private notifierService: NotifierService) { }
 
   ngOnInit() {
-    this.tags = this.settingsService.getAllTag();
+    this.route.data
+      .subscribe(
+        (data: Data) => {
+          this.tags = data['tags'];
+        }
+      );
   }
 
   editTag(tag: Tag) {

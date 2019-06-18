@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Job} from '../../../../models/job.model';
-import {JobService} from '../../../../services/job.service';
+import {JobDataStorageService} from '../../../../services/data-storage/job-data-storage.service';
 
 @Component({
   selector: 'app-job-candidates',
@@ -11,7 +11,7 @@ export class JobCandidatesComponent implements OnInit {
 
   job: Job;
 
-  constructor(private jobService: JobService) { }
+  constructor(private jobService: JobDataStorageService) { }
 
   ngOnInit() {
     this.job = this.jobService.job;

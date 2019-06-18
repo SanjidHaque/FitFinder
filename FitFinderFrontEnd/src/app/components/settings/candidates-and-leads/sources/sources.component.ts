@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {MatDialog} from '@angular/material';
-import {DataStorageService} from '../../../../services/data-storage.service';
+import {DataStorageService} from '../../../../services/data-storage/data-storage.service';
 import {NotifierService} from 'angular-notifier';
 import {Source} from '../../../../models/source.model';
-import {SettingsService} from '../../../../services/settings.service';
+import {SettingsDataStorageService} from '../../../../services/data-storage/settings-data-storage.service';
 import {AddUpdateComponent} from '../../../../dialogs/add-update/add-update.component';
+import {ActivatedRoute, Data} from '@angular/router';
 
 @Component({
   selector: 'app-sources',
@@ -15,12 +16,17 @@ export class SourcesComponent implements OnInit {
   sources: Source[] = [];
 
   constructor(private sourceDialog: MatDialog,
-              private dataStorageService: DataStorageService,
-              private settingsService: SettingsService,
+              private route: ActivatedRoute,
+              private settingsService: SettingsDataStorageService,
               private notifierService: NotifierService) { }
 
   ngOnInit() {
-    this.sources = this.settingsService.getAllSource();
+    this.route.data
+      .subscribe(
+        (data: Data) => {
+          this.sources = data['sources'];
+        }
+      );
   }
 
   editSource(source: Source) {

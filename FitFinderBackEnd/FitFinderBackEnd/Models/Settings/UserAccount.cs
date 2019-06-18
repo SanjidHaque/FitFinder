@@ -8,6 +8,7 @@ namespace FitFinderBackEnd.Models.Settings
     public class UserAccount
     {
         public string Id { get; set; }
+        public Company Company { get; set; }
         public long CompanyId { get; set; }
         public string UserName { get; set; }
         public string FullName { get; set; }

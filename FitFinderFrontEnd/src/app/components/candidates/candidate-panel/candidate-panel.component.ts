@@ -1,16 +1,17 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Candidate} from '../../../models/candidate.model';
-import {CandidateService} from '../../../services/candidate.service';
+import {CandidateDataStorageService} from '../../../services/data-storage/candidate-data-storage.service';
 import {SelectionModel} from '@angular/cdk/collections';
 import {Job} from '../../../models/job.model';
-import {JobService} from '../../../services/job.service';
+import {JobDataStorageService} from '../../../services/data-storage/job-data-storage.service';
 import * as moment from 'moment';
-import {SettingsService} from '../../../services/settings.service';
+import {SettingsDataStorageService} from '../../../services/data-storage/settings-data-storage.service';
 import {Source} from '../../../models/source.model';
 import {NotifierService} from 'angular-notifier';
-import {DataStorageService} from '../../../services/data-storage.service';
+import {DataStorageService} from '../../../services/data-storage/data-storage.service';
 import {ConfirmationComponent} from '../../../dialogs/confirmation/confirmation.component';
 import {MatDialog} from '@angular/material';
+import {ActivatedRoute, Data} from '@angular/router';
 
 
 @Component({
@@ -33,18 +34,25 @@ export class CandidatePanelComponent implements OnInit {
 
 
 
-  constructor(private candidateService: CandidateService,
+  constructor(private candidateService: CandidateDataStorageService,
               private notifierService: NotifierService,
               private dialog: MatDialog,
-              private dataStorageService: DataStorageService,
-              private settingsService: SettingsService,
-              private jobService: JobService) {}
+              private route: ActivatedRoute,
+              private settingsService: SettingsDataStorageService,
+              private jobService: JobDataStorageService) {}
 
   ngOnInit() {
-    this.sources = this.settingsService.getAllSource();
-    this.candidates = this.candidateService.getAllCandidate();
-    this.jobs = this.jobService.getAllJob();
- }
+    this.route.data
+      .subscribe(
+        (data: Data) => {
+          this.jobs = data['jobs'];
+          this.sources = data['sources'];
+          this.candidates = data['candidates'];
+        }
+      );
+
+
+  }
 
   favouriteCandidates(candidate: Candidate) {
     const candidates: Candidate[] = [];

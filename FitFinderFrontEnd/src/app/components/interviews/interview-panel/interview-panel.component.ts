@@ -1,13 +1,14 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Interview} from '../../../models/interview.model';
-import {InterviewService} from '../../../services/interview.service';
+import {InterviewDataStorageService} from '../../../services/data-storage/interview-data-storage.service';
 import {SelectionModel} from '@angular/cdk/collections';
 import * as moment from 'moment';
 import {ConfirmationComponent} from '../../../dialogs/confirmation/confirmation.component';
 import {Candidate} from '../../../models/candidate.model';
 import {MatDialog} from '@angular/material';
-import {DataStorageService} from '../../../services/data-storage.service';
+import {DataStorageService} from '../../../services/data-storage/data-storage.service';
 import {NotifierService} from 'angular-notifier';
+import {ActivatedRoute, Data} from '@angular/router';
 
 
 
@@ -33,13 +34,19 @@ export class InterviewPanelComponent implements OnInit {
     {id: 5, type: 'Panel'}
   ];
 
-  constructor(private interviewService: InterviewService,
+  constructor(private interviewService: InterviewDataStorageService,
               private notifierService: NotifierService,
-              private dataStorageService: DataStorageService,
+              private route: ActivatedRoute,
               private dialog: MatDialog) {}
 
   ngOnInit() {
-    this.interviews = this.interviewService.getAllInterview();
+    this.route.data
+      .subscribe(
+        (data: Data) => {
+          this.interviews = data['interviews'];
+        }
+      );
+
   }
 
 

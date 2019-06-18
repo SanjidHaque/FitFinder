@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {Pipeline} from '../../../../models/pipeline.model';
-import {SettingsService} from '../../../../services/settings.service';
+import {SettingsDataStorageService} from '../../../../services/data-storage/settings-data-storage.service';
 import {ActivatedRoute, Data} from '@angular/router';
 import {PipelineStage} from '../../../../models/pipeline-stage.model';
-import {DataStorageService} from '../../../../services/data-storage.service';
+import {DataStorageService} from '../../../../services/data-storage/data-storage.service';
 import {MatDialog} from '@angular/material';
 import {NotifierService} from 'angular-notifier';
 import {AddUpdateComponent} from '../../../../dialogs/add-update/add-update.component';
@@ -20,13 +20,19 @@ export class PipelineComponent implements OnInit {
 
   pipelines: Pipeline[] = [];
 
-  constructor(private sharedService: SettingsService,
-              private dataStorageService: DataStorageService,
+  constructor(private sharedService: SettingsDataStorageService,
+              private route: ActivatedRoute,
               private dialog: MatDialog,
               private notifierService: NotifierService) {}
 
   ngOnInit() {
-   this.pipelines = this.sharedService.getAllPipeline();
+    this.route.data.
+    subscribe(
+      (data: Data) => {
+
+        this.pipelines = data['pipelines'];
+      }
+    );
   }
 
   addNewPipelineStage(pipelineId: number) {

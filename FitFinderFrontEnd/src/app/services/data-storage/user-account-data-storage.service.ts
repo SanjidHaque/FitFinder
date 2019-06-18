@@ -47,8 +47,8 @@ export class UserAccountDataStorageService {
     return this.http.post<UserAccount>(this.rootUrl + '/api/AddNewCompany', company);
   }
 
-  getAllCompany() {
-    return this.http.get<Company[]>(this.rootUrl + '/api/GetAllCompany');
+  getAllUserAccount() {
+    return this.http.get<UserAccount[]>(this.rootUrl + '/api/GetAllUserAccount');
   }
 
   getAllRole() {

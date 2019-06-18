@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {MatDialog} from '@angular/material';
-import {DataStorageService} from '../../../../services/data-storage.service';
+import {DataStorageService} from '../../../../services/data-storage/data-storage.service';
 import {NotifierService} from 'angular-notifier';
 import {JobFunction} from '../../../../models/job-function.model';
-import {SettingsService} from '../../../../services/settings.service';
+import {SettingsDataStorageService} from '../../../../services/data-storage/settings-data-storage.service';
 import {AddUpdateComponent} from '../../../../dialogs/add-update/add-update.component';
+import {ActivatedRoute, Data} from '@angular/router';
 
 @Component({
   selector: 'app-functions',
@@ -16,12 +17,18 @@ export class FunctionsComponent implements OnInit {
   jobFunctions: JobFunction[] = [];
 
   constructor(private jobFunctionDialog: MatDialog,
-              private settingsService: SettingsService,
-              private dataStorageService: DataStorageService,
+              private route: ActivatedRoute,
+              private settingsService: SettingsDataStorageService,
               private notifierService: NotifierService) { }
 
   ngOnInit() {
-    this.jobFunctions = this.settingsService.getAllJobFunction();
+    this.route.data.
+    subscribe(
+      (data: Data) => {
+
+        this.jobFunctions= data['jobFunctions'];
+      }
+    )
   }
 
   editJobFunction(jobFunction: JobFunction) {
