@@ -19,7 +19,7 @@ namespace FitFinderBackEnd.Controllers
         }
         [HttpGet]
         [Route("api/GetAllJobType")]
-        public IHttpActionResult GetAllJobType()
+        public IHttpActionResult GetAllJobType(long companyId)
         {
             List<JobType> jobTypes = _context.JobTypes.OrderBy(x => x.Id).ToList();
             return Ok(jobTypes);
@@ -29,7 +29,7 @@ namespace FitFinderBackEnd.Controllers
 
         [HttpGet]
         [Route("api/GetAllSource")]
-        public IHttpActionResult GetAllSource()
+        public IHttpActionResult GetAllSource(long companyId)
         {
             List<Source> sources = _context.Sources.OrderBy(x => x.Id).ToList();
             return Ok(sources);
@@ -37,7 +37,7 @@ namespace FitFinderBackEnd.Controllers
 
         [HttpGet]
         [Route("api/GetAllJobFunction")]
-        public IHttpActionResult GetAllJobFunction()
+        public IHttpActionResult GetAllJobFunction(long companyId)
         {
             List<JobFunction> jobFunctions = _context.JobFunctions.OrderBy(x => x.Id).ToList();
             return Ok(jobFunctions);
@@ -45,7 +45,7 @@ namespace FitFinderBackEnd.Controllers
 
         [HttpGet]
         [Route("api/GetAllDepartment")]
-        public IHttpActionResult GetAllDepartment()
+        public IHttpActionResult GetAllDepartment(long companyId)
         {
             List<Department> departments = _context.Departments.OrderBy(x => x.Id).ToList();
             return Ok(departments);
@@ -222,7 +222,7 @@ namespace FitFinderBackEnd.Controllers
 
         [HttpGet]
         [Route("api/GetAllRejectedReason")]
-        public IHttpActionResult GetAllRejectedReason()
+        public IHttpActionResult GetAllRejectedReason(long companyId)
         {
             List<RejectedReason> rejectedReasons = _context.RejectedReasons.OrderBy(x => x.Id).ToList();
             return Ok(rejectedReasons);
@@ -230,7 +230,7 @@ namespace FitFinderBackEnd.Controllers
 
         [HttpGet]
         [Route("api/GetAllWithdrawnReason")]
-        public IHttpActionResult GetAllWithdrawnReason()
+        public IHttpActionResult GetAllWithdrawnReason(long companyId)
         {
             List<WithdrawnReason> withdrawnReasons = _context.WithdrawnReasons.OrderBy(x => x.Id).ToList();
             return Ok(withdrawnReasons);
@@ -301,7 +301,7 @@ namespace FitFinderBackEnd.Controllers
 
         [HttpGet]
         [Route("api/GetAllPipeline")]
-        public IHttpActionResult GetAllPipeline()
+        public IHttpActionResult GetAllPipeline(long companyId)
         {
             List<Pipeline> pipelines = _context.Pipelines.Include(a => a.PipelineStage.Select(b => b.PipelineStageCriteria))
                 .OrderBy(x => x.Id).ToList();

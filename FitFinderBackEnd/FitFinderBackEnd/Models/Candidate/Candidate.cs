@@ -18,7 +18,7 @@ namespace FitFinderBackEnd.Models.Candidate
         public string Address  { get; set; }
         public string City  { get; set; }
         public string State  { get; set; }
-        public string Country  { get; set; }      
+        public string Country  { get; set; }
         public long SourceId  { get; set; }       
         public List<CandidateEducation> CandidateEducation { get; set; }     
         public List<CandidateExperience> CandidateExperience { get; set; }    
@@ -31,6 +31,7 @@ namespace FitFinderBackEnd.Models.Candidate
         public bool IsClosed  { get; set; }
         public string ApplicationDate { get; set; }
         public bool IsFavourite { get; set; }
+        public long CompanyId { get; set; } 
     
     }
 }

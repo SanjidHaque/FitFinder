@@ -9,12 +9,8 @@ import {SettingsDataStorageService} from '../../services/data-storage/settings-d
   templateUrl: './candidates.component.html',
   styleUrls: ['./candidates.component.css']
 })
-export class CandidatesComponent implements OnInit {
+export class CandidatesComponent  {
 
-  constructor() { }
 
-  ngOnInit() {
-
-  }
 
 }

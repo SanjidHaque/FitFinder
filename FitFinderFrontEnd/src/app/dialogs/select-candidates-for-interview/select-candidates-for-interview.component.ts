@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, Inject, OnInit, ViewEncapsulation} from '@angular/core';
 import {Candidate} from '../../models/candidate.model';
 import {CandidateDataStorageService} from '../../services/data-storage/candidate-data-storage.service';
 import {SelectionModel} from '@angular/cdk/collections';
@@ -8,14 +8,15 @@ import {SettingsDataStorageService} from '../../services/data-storage/settings-d
 import * as moment from 'moment';
 import {Job} from '../../models/job.model';
 import {JobDataStorageService} from '../../services/data-storage/job-data-storage.service';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 
 @Component({
   selector: 'app-select-candidates-for-interview',
-  templateUrl: './select-candidates-for-interview-dialog.component.html',
-  styleUrls: ['./select-candidates-for-interview-dialog.component.css'],
+  templateUrl: './select-candidates-for-interview.component.html',
+  styleUrls: ['./select-candidates-for-interview.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class SelectCandidatesForInterviewDialogComponent implements OnInit {
+export class SelectCandidatesForInterviewComponent implements OnInit {
   archivedChecked = false;
   favouriteChecked = false;
   candidates: Candidate[] = [];
@@ -27,15 +28,17 @@ export class SelectCandidatesForInterviewDialogComponent implements OnInit {
   jobs: Job[] = [];
 
 
-  constructor(private interviewService: InterviewDataStorageService,
+  constructor(public dialogRef: MatDialogRef<SelectCandidatesForInterviewComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: any,
+              private interviewService: InterviewDataStorageService,
               private jobService: JobDataStorageService,
               private candidateService: CandidateDataStorageService,
               private settingsService: SettingsDataStorageService) {}
 
   ngOnInit() {
-    this.candidates = this.candidateService.getAllCandidate();
-    this.sources = this.settingsService.getAllSource();
-    this.jobs = this.jobService.getAllJob();
+    this.candidates = this.data.candidates;
+    this.sources = this.data.sources;
+    this.jobs = this.data.jobs;
   }
   archiveStatus(event: any) {
     this.archivedChecked = event.checked;

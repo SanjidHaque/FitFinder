@@ -8,14 +8,14 @@ import {NotifierService} from 'angular-notifier';
 import {Candidate} from '../../../models/candidate.model';
 import {Job} from '../../../models/job.model';
 import {JobDataStorageService} from '../../../services/data-storage/job-data-storage.service';
-import {SelectCandidatesForInterviewDialogComponent} from '../../../dialogs/select-candidates-for-interview-dialog/select-candidates-for-interview-dialog.component';
+import {SelectCandidatesForInterviewComponent} from '../../../dialogs/select-candidates-for-interview/select-candidates-for-interview.component';
 import {MatDialog} from '@angular/material';
-import {UUID} from 'angular2-uuid';
 import {CandidatesForInterview} from '../../../models/candidates-for-interview.model';
 import {Source} from '../../../models/source.model';
 import {SettingsDataStorageService} from '../../../services/data-storage/settings-data-storage.service';
 import {ConfirmationComponent} from '../../../dialogs/confirmation/confirmation.component';
-import {DataStorageService} from '../../../services/data-storage/data-storage.service';
+import {InterviewService} from '../../../services/shared/interview.service';
+
 
 @Component({
   selector: 'app-interview-id',
@@ -60,12 +60,13 @@ export class InterviewIdComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private jobService: JobDataStorageService,
-              private settingsService: SettingsDataStorageService,
+              private settingsDataStorageService: SettingsDataStorageService,
               private router: Router,
               private notifierService: NotifierService,
               private dialog: MatDialog,
-              private candidateService: CandidateDataStorageService,
-              private interviewService: InterviewDataStorageService) {
+              private interviewService: InterviewService,
+              private candidateDataStorageService: CandidateDataStorageService,
+              private interviewDataStorageService: InterviewDataStorageService) {
     this.route.params
       .subscribe(
         (params: Params) => {
@@ -109,7 +110,7 @@ export class InterviewIdComponent implements OnInit {
         if (result.confirmationStatus) {
           const interviews: Interview[] = [];
           interviews.push(interview);
-          this.dataStorageService.restoreInterviews(interviews)
+          this.interviewDataStorageService.restoreInterviews(interviews)
             .subscribe(
               (response: any) => {
                 this.interview.IsArchived = true;
@@ -140,7 +141,7 @@ export class InterviewIdComponent implements OnInit {
         if (result.confirmationStatus) {
           const interviews: Interview[] = [];
           interviews.push(interview);
-          this.dataStorageService.restoreInterviews(interviews)
+          this.interviewDataStorageService.restoreInterviews(interviews)
             .subscribe(
               (response: any) => {
                 this.interview.IsArchived = false;
@@ -157,11 +158,17 @@ export class InterviewIdComponent implements OnInit {
   }
 
   openSelectCandidatesDialog() {
-    const dialogRef = this.dialog.open(SelectCandidatesForInterviewDialogComponent,
+    const dialogRef = this.dialog.open(SelectCandidatesForInterviewComponent,
       {
         hasBackdrop: true,
         disableClose: true,
-        width: '1000px'
+        width: '1000px',
+        data:
+          {
+            candidates: this.candidates,
+            sources: this.sources,
+            jobs: this.jobs
+          }
       });
 
     dialogRef.afterClosed().subscribe(result => {

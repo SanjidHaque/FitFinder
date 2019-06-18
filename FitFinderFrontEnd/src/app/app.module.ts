@@ -38,7 +38,7 @@ import { WorkflowComponent } from './components/settings/workflow/workflow.compo
 import { DisqualifyReasonsComponent } from './components/settings/disqualify-reasons/disqualify-reasons.component';
 import { AmazingTimePickerModule } from 'amazing-time-picker';
 import {
-  SelectCandidatesForInterviewDialogComponent} from './dialogs/select-candidates-for-interview-dialog/select-candidates-for-interview-dialog.component';
+  SelectCandidatesForInterviewComponent} from './dialogs/select-candidates-for-interview/select-candidates-for-interview.component';
 import { SearchCandidatePipe } from './pipes/search-candidate.pipe';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
@@ -56,8 +56,8 @@ import {InterviewIdComponent} from './components/interviews/interview-id/intervi
 import { TagsComponent } from './components/settings/candidates-and-leads/tags/tags.component';
 import { SourcesComponent } from './components/settings/candidates-and-leads/sources/sources.component';
 import { DepartmentsComponent } from './components/settings/job-openings/departments/departments.component';
-import { TypesComponent } from './components/settings/job-openings/types/types.component';
-import { FunctionsComponent } from './components/settings/job-openings/functions/functions.component';
+import { JobTypesComponent } from './components/settings/job-openings/job-types/job-types.component';
+import { JobFunctionsComponent } from './components/settings/job-openings/job-functions/job-functions.component';
 import { PipelineComponent } from './components/settings/workflow/pipeline/pipeline.component';
 import {PipelineResolverService} from './route-resolvers/pipeline-resolver.service';
 import {SourceResolverService} from './route-resolvers/source-resolver.service';
@@ -114,7 +114,7 @@ import {JobService} from './services/shared/job.service';
     JobOpeningsComponent,
     WorkflowComponent,
     DisqualifyReasonsComponent,
-    SelectCandidatesForInterviewDialogComponent,
+    SelectCandidatesForInterviewComponent,
     SearchCandidatePipe,
     PageNotFoundComponent,
     SearchJobPipe,
@@ -131,8 +131,8 @@ import {JobService} from './services/shared/job.service';
     TagsComponent,
     SourcesComponent,
     DepartmentsComponent,
-    TypesComponent,
-    FunctionsComponent,
+    JobTypesComponent,
+    JobFunctionsComponent,
     PipelineComponent,
     AddUpdateComponent,
     AddUpdatePipelineStageComponent,
@@ -221,7 +221,7 @@ import {JobService} from './services/shared/job.service';
     }
   ],
   entryComponents: [
-    SelectCandidatesForInterviewDialogComponent,
+    SelectCandidatesForInterviewComponent,
     AssignJobToCandidateComponent,
     AddUpdateComponent,
     AddUpdatePipelineStageComponent,

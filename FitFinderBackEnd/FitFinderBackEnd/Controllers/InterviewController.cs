@@ -25,32 +25,35 @@ namespace FitFinderBackEnd.Controllers
             }
             _context.Interviews.Add(interview);
 
-            foreach (var candidatesForInterview in interview.CandidatesForInterview)
-            {
-                candidatesForInterview.Id = interview.Id;
-            }
+//            foreach (var candidatesForInterview in interview.CandidatesForInterview)
+//            {
+//                candidatesForInterview.Id = interview.Id;
+//            }
+//
+//            foreach (var interviewersForInterview in interview.InterviewersForInterview)
+//            {
+//                interviewersForInterview.Id = interview.Id;
+//            }
 
-            foreach (var interviewersForInterview in interview.InterviewersForInterview)
-            {
-                interviewersForInterview.Id = interview.Id;
-            }
-
-            _context.CandidatesForInterviews.AddRange(interview.CandidatesForInterview);
-            _context.InterviewersForInterviews.AddRange(interview.InterviewersForInterview);
+//            _context.CandidatesForInterviews.AddRange(interview.CandidatesForInterview);
+//            _context.InterviewersForInterviews.AddRange(interview.InterviewersForInterview);
 
             _context.SaveChanges();
-            return Ok();
+            return Ok(interview);
         }
 
         [HttpGet]
         [Route("api/GetAllInterview")]
-        public IHttpActionResult GetAllInterview()
+        [AllowAnonymous]
+        public IHttpActionResult GetAllInterview(long companyId)    
         {
             List<Interview> interview = _context.Interviews.
                 Include(c => c.CandidatesForInterview).
                 Include(d => d.InterviewersForInterview).OrderBy(x => x.Id).ToList();
             return Ok(interview);
         }
+
+
 
         [HttpPut]
         [Route("api/ArchiveInterviews")]

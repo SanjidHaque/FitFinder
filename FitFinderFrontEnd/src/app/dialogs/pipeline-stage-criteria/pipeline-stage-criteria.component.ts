@@ -2,10 +2,10 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
 import {AddUpdatePipelineStageComponent} from '../add-update-pipeline-stage/add-update-pipeline-stage.component';
 import {PipelineStage} from '../../models/pipeline-stage.model';
-import {DataStorageService} from '../../services/data-storage/data-storage.service';
 import {NotifierService} from 'angular-notifier';
 import {AddUpdateComponent} from '../add-update/add-update.component';
 import {PipelineStageCriteria} from '../../models/pipeline-stage-criteria.model';
+import {SettingsDataStorageService} from '../../services/data-storage/settings-data-storage.service';
 
 @Component({
   selector: 'app-pipeline-stage-criteria',
@@ -17,7 +17,7 @@ export class PipelineStageCriteriaComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<PipelineStageCriteriaComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private dataStorageService: DataStorageService,
+    private settingsDataStorageService: SettingsDataStorageService,
     private dialog: MatDialog,
     private notifierService: NotifierService) {}
 
@@ -53,7 +53,7 @@ export class PipelineStageCriteriaComponent implements OnInit {
 
 
 
-        this.dataStorageService.addNewPipelineStageCriteria(pipelineStageCriteria)
+        this.settingsDataStorageService.addNewPipelineStageCriteria(pipelineStageCriteria)
           .subscribe(
             (newPipelineStageCriteria: PipelineStageCriteria) => {
               this.data.stage.PipelineStageCriteria.push(newPipelineStageCriteria);
@@ -90,7 +90,7 @@ export class PipelineStageCriteriaComponent implements OnInit {
 
 
 
-        this.dataStorageService.editPipelineStageCriteria(editPipelineStageCriteria)
+        this.settingsDataStorageService.editPipelineStageCriteria(editPipelineStageCriteria)
           .subscribe(
             (data: any) => {
               pipelineStageCriteria.Name = result;

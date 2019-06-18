@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {MatDialog} from '@angular/material';
-import {DataStorageService} from '../../../../services/data-storage/data-storage.service';
 import {NotifierService} from 'angular-notifier';
 import {Tag} from '../../../../models/tag.model';
 import {SettingsDataStorageService} from '../../../../services/data-storage/settings-data-storage.service';
@@ -18,7 +17,7 @@ export class TagsComponent implements OnInit {
 
   constructor(private tagDialog: MatDialog,
               private route: ActivatedRoute,
-              private settingsService: SettingsDataStorageService,
+              private settingsDataStorageService: SettingsDataStorageService,
               private notifierService: NotifierService) { }
 
   ngOnInit() {
@@ -49,11 +48,11 @@ export class TagsComponent implements OnInit {
       if (result !== tag.Name && result !== '') {
 
 
-        this.dataStorageService.editTag(tag)
+        this.settingsDataStorageService.editTag(tag)
           .subscribe(
             (data: any) => {
               tag.Name = result;
-              this.notifierService.notify('default', 'Tag updated!');
+              this.notifierService.notify('default', 'Tag updated.');
             }
           );
 
@@ -85,11 +84,11 @@ export class TagsComponent implements OnInit {
 
 
 
-        this.dataStorageService.addNewTag(tag)
+        this.settingsDataStorageService.addNewTag(tag)
           .subscribe(
             (data: any) => {
               this.tags.push(tag);
-              this.notifierService.notify('default', 'New tag added!');
+              this.notifierService.notify('default', 'New tag added.');
             }
           );
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using FitFinderBackEnd.Models.Settings;
 
 namespace FitFinderBackEnd.Models.Interview
 {
@@ -20,5 +21,6 @@ namespace FitFinderBackEnd.Models.Interview
         public List<InterviewersForInterview> InterviewersForInterview { get; set; }
         public long InterviewStatusId { get; set; }
         public bool IsArchived { get; set; }
+        public long CompanyId { get; set; }
     }
 }

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {MatDialog} from '@angular/material';
-import {DataStorageService} from '../../../../services/data-storage/data-storage.service';
 import {NotifierService} from 'angular-notifier';
 import {Department} from '../../../../models/department.model';
 import {SettingsDataStorageService} from '../../../../services/data-storage/settings-data-storage.service';
@@ -18,7 +17,7 @@ export class DepartmentsComponent implements OnInit {
 
   constructor(private departmentDialog: MatDialog,
               private route: ActivatedRoute,
-              private settingsService: SettingsDataStorageService,
+              private settingsDataStorageService: SettingsDataStorageService,
               private notifierService: NotifierService) { }
 
   ngOnInit() {
@@ -50,11 +49,11 @@ export class DepartmentsComponent implements OnInit {
       if (result !== department.Name && result !== '') {
 
 
-        this.dataStorageService.editDepartment({Id: department.Id, Name: result})
+        this.settingsDataStorageService.editDepartment({Id: department.Id, Name: result})
           .subscribe(
             (data: any) => {
               department.Name = result;
-              this.notifierService.notify('default', 'Department updated!');
+              this.notifierService.notify('default', 'Department updated.');
             }
           );
 
@@ -84,11 +83,11 @@ export class DepartmentsComponent implements OnInit {
           result
         );
 
-        this.dataStorageService.addNewDepartment(department)
+        this.settingsDataStorageService.addNewDepartment(department)
           .subscribe(
             (newDepartment: any) => {
               this.departments.push(newDepartment);
-              this.notifierService.notify('default', 'New department added!');
+              this.notifierService.notify('default', 'New department added.');
             }
           );
       }

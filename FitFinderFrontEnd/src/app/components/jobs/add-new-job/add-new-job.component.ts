@@ -8,12 +8,12 @@ import {NotifierService} from 'angular-notifier';
 import {Job} from '../../../models/job.model';
 import {JobDataStorageService} from '../../../services/data-storage/job-data-storage.service';
 import {ActivatedRoute, Data, Router} from '@angular/router';
-import {DataStorageService} from '../../../services/data-storage/data-storage.service';
 import {AddUpdateComponent} from '../../../dialogs/add-update/add-update.component';
 import {Department} from '../../../models/department.model';
 import {JobFunction} from '../../../models/job-function.model';
 import {JobType} from '../../../models/job-type.model';
 import {SettingsDataStorageService} from '../../../services/data-storage/settings-data-storage.service';
+import {CandidateDataStorageService} from '../../../services/data-storage/candidate-data-storage.service';
 
 @Component({
   selector: 'app-add-new-job',
@@ -60,8 +60,8 @@ export class AddNewJobComponent implements OnInit {
   };
 
   departments: Department[] = [];
-  jobFunctionalities: JobFunction[] = [];
-  employmentTypes: JobType[] = [];
+  jobFunctions: JobFunction[] = [];
+  jobTypes: JobType[] = [];
 
   addNewJobForm: FormGroup;
   minDate = '';
@@ -72,10 +72,11 @@ export class AddNewJobComponent implements OnInit {
   isDisabled = false;
 
   constructor(private departmentDialog: MatDialog,
-              private settingsService: SettingsDataStorageService,
+              private settingsDataStorageService: SettingsDataStorageService,
               private jobFunctionalityDialog: MatDialog,
               private notifierService: NotifierService,
-              private jobService: JobDataStorageService,
+              private jobDataStorageService: JobDataStorageService,
+              private candidateDataStorageService: CandidateDataStorageService,
               private route: ActivatedRoute,
               private router: Router,
               private jobType: MatDialog) {
@@ -86,8 +87,8 @@ export class AddNewJobComponent implements OnInit {
     this.route.data
       .subscribe(
         (data: Data) => {
-          this.employmentTypes = data['employmentTypes'];
-          this.jobFunctionalities = data['jobFunctionalities'];
+          this.jobTypes = data['jobTypes'];
+          this.jobFunctions = data['jobFunctions'];
           this.departments = data['departments'];
         }
       );
@@ -149,23 +150,17 @@ export class AddNewJobComponent implements OnInit {
     );
 
     this.isDisabled = true;
-    this.dataStorageService.addNewJob(job)
+    this.jobDataStorageService.addNewJob(job)
        .subscribe(
          (data: any) => {
-           this.dataStorageService.uploadAttachments(this.filesToUpload)
+           this.candidateDataStorageService.uploadAttachments(this.filesToUpload)
              .subscribe(
                (response: any) => {
-                this.dataStorageService.getAllJob()
-                   .subscribe(
-                     (jobs: any) => {
-                       this.jobService.jobs = jobs;
-                       this.clearAllArrays();
-                       this.addNewJobForm.reset();
-                       const lastJob = this.jobService.jobs[this.jobService.jobs.length - 1];
-                       this.router.navigate(['/jobs/', lastJob.Id ]);
-                       this.notifierService.notify('default', 'New job published');
-                     }
-                   );
+
+                 this.clearAllArrays();
+                 this.addNewJobForm.reset();
+                 this.router.navigate(['/jobs/', response.Id ]);
+                 this.notifierService.notify('default', 'New job published.');
 
 
                }
@@ -189,7 +184,7 @@ export class AddNewJobComponent implements OnInit {
           fileInput.target.files[i].name,
           newFile.name);
         this.jobAttachments.push(jobAttachment);
-        this.notifierService.notify('default', 'File uploaded successfully');
+        this.notifierService.notify('default', 'File uploaded successfully.');
 
       } else {
         this.notifierService.notify('default', 'Unsupported format!');
@@ -254,15 +249,11 @@ export class AddNewJobComponent implements OnInit {
           result
         );
 
-        this.dataStorageService.addNewDepartment(department)
+        this.settingsDataStorageService.addNewDepartment(department)
           .subscribe(
             (data: any) => {
-              this.dataStorageService.getAllDepartment().subscribe(
-                (departments: any) => {
-                  this.departments = departments;
-                }
-              );
-              this.notifierService.notify('default', 'New department added!');
+             this.departments.push(data);
+             this.notifierService.notify('default', 'New department added.');
             }
           );
       }
@@ -281,7 +272,7 @@ export class AddNewJobComponent implements OnInit {
             header: 'New Job Function',
             name: '',
             iconClass: 'fas fa-briefcase',
-            footer: 'Add or update different job functions your organization needs.'
+            footer: 'Add or update different job job-functions your organization needs.'
           }
       });
 
@@ -292,14 +283,10 @@ export class AddNewJobComponent implements OnInit {
           result
         );
 
-        this.dataStorageService.addNewJobFunction(jobFunction)
+        this.settingsDataStorageService.addNewJobFunction(jobFunction)
           .subscribe(
             (data: any) => {
-              this.dataStorageService.getAllJobFunction().subscribe(
-                (jobFunctions: any) => {
-                  this.jobFunctionalities = jobFunctions;
-                }
-              );
+              this.jobFunctions.push(data);
               this.notifierService.notify('default', 'New job function added!');
             }
           );
@@ -320,7 +307,7 @@ export class AddNewJobComponent implements OnInit {
             header: 'New Job Type',
             name: '',
             iconClass: 'fas fa-passport',
-            footer: 'Add or update different job types your organization hires.'
+            footer: 'Add or update different job job-types your organization hires.'
           }
       });
 
@@ -332,14 +319,10 @@ export class AddNewJobComponent implements OnInit {
         );
 
 
-        this.dataStorageService.addNewJobType(jobType)
+        this.settingsDataStorageService.addNewJobType(jobType)
           .subscribe(
             (data: any) => {
-              this.dataStorageService.getAllJobType().subscribe(
-                (jobTypes: any) => {
-                  this.employmentTypes = jobTypes;
-                }
-              );
+              this.jobTypes.push(data);
               this.notifierService.notify('default', 'New job type added!');
             }
           );

@@ -37,8 +37,8 @@ import {InterviewIdComponent} from '../components/interviews/interview-id/interv
 import {SourcesComponent} from '../components/settings/candidates-and-leads/sources/sources.component';
 import {TagsComponent} from '../components/settings/candidates-and-leads/tags/tags.component';
 import {DepartmentsComponent} from '../components/settings/job-openings/departments/departments.component';
-import {TypesComponent} from '../components/settings/job-openings/types/types.component';
-import {FunctionsComponent} from '../components/settings/job-openings/functions/functions.component';
+import {JobTypesComponent} from '../components/settings/job-openings/job-types/job-types.component';
+import {JobFunctionsComponent} from '../components/settings/job-openings/job-functions/job-functions.component';
 import {PipelineComponent} from '../components/settings/workflow/pipeline/pipeline.component';
 import {PipelineResolverService} from '../route-resolvers/pipeline-resolver.service';
 import {JobTypeResolverService} from '../route-resolvers/job-type-resolver.service';
@@ -91,15 +91,31 @@ const appRoutes: Routes = [
       },
       {
         path: 'job-panel',
-        component: JobPanelComponent
+        component: JobPanelComponent,
+        resolve:
+          {
+            jobs: JobResolverService,
+            departments: DepartmentResolverService
+          }
       },
       {
         path: 'add-new-job',
-        component: AddNewJobComponent
+        component: AddNewJobComponent,
+        resolve:
+          {
+            jobTypes: JobTypeResolverService,
+            jobFunctions: JobFunctionResolverService,
+            departments: DepartmentResolverService
+          }
       },
       {
         path: ':job-id',
         component: JobIdComponent,
+        resolve:
+          {
+            jobs: JobResolverService,
+            departments: DepartmentResolverService
+          },
         children:
         [
           {
@@ -127,15 +143,6 @@ const appRoutes: Routes = [
     path: 'candidates',
     component: CandidatesComponent,
     canActivate: [AuthGuard],
-    resolve:
-      {
-        candidates: CandidateResolverService,
-        jobs: JobResolverService,
-        sources: SourceResolverService,
-        interviews: InterviewResolverService,
-        departments: DepartmentResolverService,
-        pipelines: PipelineResolverService
-      },
     children: [
       {
         path: '',
@@ -144,15 +151,33 @@ const appRoutes: Routes = [
       },
       {
         path: 'candidate-panel',
-        component: CandidatePanelComponent
+        component: CandidatePanelComponent,
+        resolve:
+          {
+            jobs: JobResolverService,
+            sources: SourceResolverService,
+            candidates: CandidateResolverService
+          }
       },
       {
         path: 'add-new-candidate',
-        component: AddNewCandidateComponent
+        component: AddNewCandidateComponent,
+        resolve:
+          {
+            jobs: JobResolverService,
+            sources: SourceResolverService
+          }
       },
       {
         path: ':candidate-id',
         component: CandidateIdComponent,
+        resolve:
+          {
+            jobs: JobResolverService,
+            sources: SourceResolverService,
+            candidates: CandidateResolverService,
+            pipelines: PipelineResolverService
+          },
         children:
         [
           {
@@ -189,12 +214,7 @@ const appRoutes: Routes = [
     path: 'interviews',
     canActivate: [AuthGuard],
     component: InterviewsComponent,
-    resolve: {
-      interviews: InterviewResolverService,
-      candidates: CandidateResolverService,
-      jobs: JobResolverService,
-      sources: SourceResolverService
-    },
+
     children: [
       {
         path: '',
@@ -203,20 +223,30 @@ const appRoutes: Routes = [
       },
       {
         path: 'interview-panel',
-        component: InterviewPanelComponent
+        component: InterviewPanelComponent,
+        resolve:
+          {
+            interviews: InterviewResolverService
+          }
       },
       {
         path: 'add-new-interview',
-        component: AddNewInterviewComponent
-      },
-      {
-        path: ':interview-id/interview-info',
-        component: InterviewIdComponent
+        component: AddNewInterviewComponent,
+        resolve:
+          {
+            jobs: JobResolverService
+          }
       },
       {
         path: ':interview-id',
-        redirectTo: ':interview-id/interview-info',
-        pathMatch: 'full'
+        component: InterviewIdComponent,
+        resolve:
+          {
+            interviews: InterviewResolverService,
+            candidates: CandidateResolverService,
+            jobs: JobResolverService,
+            sources: SourceResolverService
+          }
       }
     ]
   },
@@ -252,10 +282,6 @@ const appRoutes: Routes = [
       {
         path: 'candidates-and-leads',
         component: CandidatesAndLeadsComponent,
-        resolve:
-          {
-            sources: SourceResolverService
-          },
         children:
         [
           {
@@ -265,47 +291,53 @@ const appRoutes: Routes = [
           },
           {
             path: 'sources',
-            component: SourcesComponent
+            component: SourcesComponent,
+            resolve:
+              {
+                sources: SourceResolverService
+              }
           }
         ]
       },
       {
         path: 'job-openings',
         component: JobOpeningsComponent,
-        resolve:
-          {
-            jobTypes: JobTypeResolverService,
-            jobFunctions: JobFunctionResolverService,
-            departments: DepartmentResolverService
-          },
         children:
         [
           {
             path: '',
-            redirectTo: 'types',
+            redirectTo: 'job-types',
             pathMatch: 'full'
           },
           {
             path: 'departments',
-            component: DepartmentsComponent
+            component: DepartmentsComponent,
+            resolve:
+              {
+                departments: DepartmentResolverService
+              }
           },
           {
-            path: 'types',
-            component: TypesComponent
+            path: 'job-types',
+            component: JobTypesComponent,
+            resolve:
+              {
+                jobTypes: JobTypeResolverService
+              }
           },
           {
-            path: 'functions',
-            component: FunctionsComponent
+            path: 'job-functions',
+            component: JobFunctionsComponent,
+            resolve:
+              {
+                jobFunctions: JobFunctionResolverService
+              }
           }
         ]
       },
       {
         path: 'workflow',
         component: WorkflowComponent,
-        resolve:
-          {
-            pipelines: PipelineResolverService
-          },
         children:
         [
           {
@@ -315,7 +347,11 @@ const appRoutes: Routes = [
           },
           {
             path: 'pipeline',
-            component: PipelineComponent
+            component: PipelineComponent,
+            resolve:
+              {
+                pipelines: PipelineResolverService
+              }
           }
         ]
       },

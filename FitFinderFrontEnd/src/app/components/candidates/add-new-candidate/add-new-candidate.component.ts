@@ -249,16 +249,10 @@ export class AddNewCandidateComponent implements OnInit {
          this.candidateDataStorageService.uploadAttachments(this.filesToUpload)
            .subscribe(
              (response: any) => {
-               this.candidateDataStorageService.getAllCandidate().
-                 subscribe(
-                 (candidates: any) => {
                    this.clearAllArrays();
                    this.addNewCandidateForm.reset();
-                   const lastCandidate = this.candidateDataStorageService.candidates[this.candidateDataStorageService.candidates.length - 1];
-                   this.router.navigate(['/candidates/', lastCandidate.Id]);
-                   this.notifierService.notify('default', 'New candidate added');
-                 }
-               );
+                   this.router.navigate(['/candidates/', response.Id]);
+                   this.notifierService.notify('default', 'New candidate added.');
              }
            );
        }

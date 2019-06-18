@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {MatDialog} from '@angular/material';
-import {DataStorageService} from '../../../../services/data-storage/data-storage.service';
 import {NotifierService} from 'angular-notifier';
 import {JobType} from '../../../../models/job-type.model';
 import {SettingsDataStorageService} from '../../../../services/data-storage/settings-data-storage.service';
@@ -9,16 +8,16 @@ import {ActivatedRoute, Data} from '@angular/router';
 
 @Component({
   selector: 'app-types',
-  templateUrl: './types.component.html',
-  styleUrls: ['./types.component.css']
+  templateUrl: './job-types.component.html',
+  styleUrls: ['./job-types.component.css']
 })
-export class TypesComponent implements OnInit {
+export class JobTypesComponent implements OnInit {
 
   jobTypes: JobType[] = [];
 
   constructor(private jobTypeDialog: MatDialog,
               private route: ActivatedRoute,
-              private settingsService: SettingsDataStorageService,
+              private settingsDataStorageService: SettingsDataStorageService,
               private notifierService: NotifierService) { }
 
   ngOnInit() {
@@ -43,7 +42,7 @@ export class TypesComponent implements OnInit {
             header: 'Edit Job Type',
             name: jobType.Name,
             iconClass: 'fas fa-passport',
-            footer: 'Add or update different job types your organization hires.'
+            footer: 'Add or update different job job-types your organization hires.'
           }
       });
 
@@ -51,11 +50,11 @@ export class TypesComponent implements OnInit {
       if (result !== jobType.Name && result !== '') {
 
 
-        this.dataStorageService.editJobType({Id: jobType.Id, Name: result})
+        this.settingsDataStorageService.editJobType({Id: jobType.Id, Name: result})
           .subscribe(
             (data: any) => {
               jobType.Name = result;
-              this.notifierService.notify('default', 'Job type updated!');
+              this.notifierService.notify('default', 'Job type updated.');
             }
           );
 
@@ -74,7 +73,7 @@ export class TypesComponent implements OnInit {
             header: 'New Job Type',
             name: '',
             iconClass: 'fas fa-passport',
-            footer: 'Add or update different job types your organization hires.'
+            footer: 'Add or update different job job-types your organization hires.'
           }
       });
 
@@ -86,11 +85,11 @@ export class TypesComponent implements OnInit {
         );
 
 
-        this.dataStorageService.addNewJobType(jobType)
+        this.settingsDataStorageService.addNewJobType(jobType)
           .subscribe(
             (newJobType: any) => {
               this.jobTypes.push(newJobType);
-              this.notifierService.notify('default', 'New job type added!');
+              this.notifierService.notify('default', 'New job type added.');
             }
           );
       }

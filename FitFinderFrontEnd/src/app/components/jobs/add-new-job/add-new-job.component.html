@@ -236,9 +236,11 @@
             <mat-label>Select Job Function</mat-label>
             <mat-select formControlName="jobFunctionalityId">
               <mat-option
-                *ngIf="jobFunctionalities.length == 0">No job function is available</mat-option>
+                *ngIf="jobFunctions.length == 0">No job function is available</mat-option>
               <mat-option
-                *ngFor="let jobFunctionality of jobFunctionalities" [value]="jobFunctionality.Id"> {{ jobFunctionality.Name }} </mat-option>
+                *ngFor="let jobFunction of jobFunctions" [value]="jobFunction.Id">
+                {{ jobFunction.Name }}
+              </mat-option>
             </mat-select>
           </mat-form-field>
 
@@ -267,11 +269,11 @@
             <mat-label>Select Job Type</mat-label>
             <mat-select formControlName="employmentTypeId">
               <mat-option
-                *ngIf="employmentTypes.length == 0">No job type is available</mat-option>
+                *ngIf="jobTypes.length == 0">No job type is available</mat-option>
               <mat-option
                 *ngFor="let
                 employmentType
-                of employmentTypes"
+                of jobTypes"
                 [value]="employmentType.Id">
                 {{ employmentType.Name }} </mat-option>
             </mat-select>

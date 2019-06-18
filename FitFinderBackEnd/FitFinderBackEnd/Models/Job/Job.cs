@@ -30,5 +30,6 @@ namespace FitFinderBackEnd.Models.Job
         public bool IsPublished { get; set; }
         public string JobCreatedDate { get; set; }
         public bool IsFavourite { get; set; }
+        public long CompanyId { get; set; } 
     }
 }

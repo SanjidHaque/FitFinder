@@ -7,13 +7,13 @@ namespace FitFinderBackEnd.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class companyModelAdded : IMigrationMetadata
+    public sealed partial class New2 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(companyModelAdded));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(New2));
         
         string IMigrationMetadata.Id
         {
-            get { return "201906160727042_companyModelAdded"; }
+            get { return "201906181401108_New2"; }
         }
         
         string IMigrationMetadata.Source

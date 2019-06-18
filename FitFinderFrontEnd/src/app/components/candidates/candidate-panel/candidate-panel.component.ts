@@ -8,7 +8,6 @@ import * as moment from 'moment';
 import {SettingsDataStorageService} from '../../../services/data-storage/settings-data-storage.service';
 import {Source} from '../../../models/source.model';
 import {NotifierService} from 'angular-notifier';
-import {DataStorageService} from '../../../services/data-storage/data-storage.service';
 import {ConfirmationComponent} from '../../../dialogs/confirmation/confirmation.component';
 import {MatDialog} from '@angular/material';
 import {ActivatedRoute, Data} from '@angular/router';
@@ -34,12 +33,12 @@ export class CandidatePanelComponent implements OnInit {
 
 
 
-  constructor(private candidateService: CandidateDataStorageService,
+  constructor(private candidateDataStorageService: CandidateDataStorageService,
               private notifierService: NotifierService,
               private dialog: MatDialog,
               private route: ActivatedRoute,
-              private settingsService: SettingsDataStorageService,
-              private jobService: JobDataStorageService) {}
+              private settingsDataStorageService: SettingsDataStorageService,
+              private jobDataStorageService: JobDataStorageService) {}
 
   ngOnInit() {
     this.route.data
@@ -57,7 +56,7 @@ export class CandidatePanelComponent implements OnInit {
   favouriteCandidates(candidate: Candidate) {
     const candidates: Candidate[] = [];
     candidates.push(candidate);
-    this.dataStorageService.favouriteCandidates(candidates)
+    this.candidateDataStorageService.favouriteCandidates(candidates)
       .subscribe(
         (response: any) => {
           for (let i = 0; i < this.candidates.length; i++) {
@@ -73,7 +72,7 @@ export class CandidatePanelComponent implements OnInit {
   unfavouriteCandidates(candidate: Candidate) {
     const candidates: Candidate[] = [];
     candidates.push(candidate);
-    this.dataStorageService.unfavouriteCandidates(candidates)
+    this.candidateDataStorageService.unfavouriteCandidates(candidates)
       .subscribe(
         (response: any) => {
           for (let i = 0; i < this.candidates.length; i++) {
@@ -105,7 +104,7 @@ export class CandidatePanelComponent implements OnInit {
         if (result.confirmationStatus) {
           let candidates: Candidate[] = [];
           candidates = this.selection.selected;
-          this.dataStorageService.archiveCandidates(candidates)
+          this.candidateDataStorageService.archiveCandidates(candidates)
             .subscribe(
               (response: any) => {
                 for (let i = 0; i < this.candidates.length; i++) {
@@ -143,7 +142,7 @@ export class CandidatePanelComponent implements OnInit {
         if (result.confirmationStatus) {
           let candidates: Candidate[] = [];
           candidates = this.selection.selected;
-          this.dataStorageService.restoreCandidates(candidates)
+          this.candidateDataStorageService.restoreCandidates(candidates)
             .subscribe(
               (response: any) => {
                 for (let i = 0; i < this.candidates.length; i++) {

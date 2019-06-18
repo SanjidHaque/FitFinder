@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {AddUpdateComponent} from '../../../dialogs/add-update/add-update.component';
-import {Source} from '../../../models/source.model';
 import {MatDialog} from '@angular/material';
-import {DataStorageService} from '../../../services/data-storage/data-storage.service';
 import {SettingsDataStorageService} from '../../../services/data-storage/settings-data-storage.service';
 import {NotifierService} from 'angular-notifier';
 import {RejectedReason} from '../../../models/rejected-reason.model';
@@ -21,8 +19,7 @@ export class DisqualifyReasonsComponent implements OnInit {
 
   constructor(private commonDialog: MatDialog,
               private route: ActivatedRoute,
-              private dataStorageService: DataStorageService,
-              private settingsService: SettingsDataStorageService,
+              private settingsDataStorageService: SettingsDataStorageService,
               private notifierService: NotifierService) { }
 
   ngOnInit() {
@@ -57,11 +54,11 @@ export class DisqualifyReasonsComponent implements OnInit {
         );
 
 
-        this.dataStorageService.addNewRejectedReason(rejectedReason)
+        this.settingsDataStorageService.addNewRejectedReason(rejectedReason)
           .subscribe(
             (newRejectedReason: RejectedReason) => {
               this.rejectedReasons.push(newRejectedReason);
-              this.notifierService.notify('default', 'New reason added!');
+              this.notifierService.notify('default', 'New reason added.');
             }
           );
 
@@ -93,11 +90,11 @@ export class DisqualifyReasonsComponent implements OnInit {
 
 
 
-        this.dataStorageService.addNewWithdrawnReason(withdrawnReason)
+        this.settingsDataStorageService.addNewWithdrawnReason(withdrawnReason)
           .subscribe(
             (newWithdrawnReason: WithdrawnReason) => {
               this.withdrawnReasons.push(newWithdrawnReason);
-              this.notifierService.notify('default', 'New reason added!');
+              this.notifierService.notify('default', 'New reason added.');
             }
           );
 
@@ -128,11 +125,11 @@ export class DisqualifyReasonsComponent implements OnInit {
         );
 
 
-        this.dataStorageService.editRejectedReason(editRejectedReason )
+        this.settingsDataStorageService.editRejectedReason(editRejectedReason )
           .subscribe(
             (data: any) => {
               rejectedReason.Name = result;
-              this.notifierService.notify('default', 'Reason updated successfully!');
+              this.notifierService.notify('default', 'Reason updated successfully.');
             }
           );
 
@@ -163,11 +160,11 @@ export class DisqualifyReasonsComponent implements OnInit {
         );
 
 
-        this.dataStorageService.editWithdrawnReason(editWithdrawnReason)
+        this.settingsDataStorageService.editWithdrawnReason(editWithdrawnReason)
           .subscribe(
             (data: any) => {
               withdrawnReason.Name = result;
-              this.notifierService.notify('default', 'Reason updated successfully!');
+              this.notifierService.notify('default', 'Reason updated successfully.');
             }
           );
 

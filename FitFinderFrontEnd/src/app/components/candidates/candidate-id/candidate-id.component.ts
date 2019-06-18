@@ -18,11 +18,12 @@ import {ChangeStatusComponent} from '../../../dialogs/change-status/change-statu
 import {PipelineStage} from '../../../models/pipeline-stage.model';
 import {StageScore} from '../../../models/stage-score.model';
 import {CriteriaScore} from '../../../models/criteria-score.model';
-import {DataStorageService} from '../../../services/data-storage/data-storage.service';
 import {StageComment} from '../../../models/stage-comment.model';
 import {NotifierService} from 'angular-notifier';
 import {ConfirmationComponent} from '../../../dialogs/confirmation/confirmation.component';
 import {DeleteComponent} from '../../../dialogs/delete/delete.component';
+import {CandidateService} from '../../../services/shared/candidate.service';
+import {Department} from '../../../models/department.model';
 
 
 
@@ -43,6 +44,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
   pipelines: Pipeline[] = [];
 
   candidates: Candidate[] = [];
+  departments: Department[] = [];
   candidate: Candidate;
   jobs: Job[] = [];
 
@@ -52,10 +54,10 @@ export class CandidateIdComponent implements OnInit, DoCheck {
               private router: Router,
               private dialog: MatDialog,
               private notifierService: NotifierService,
-              private jobService: JobDataStorageService,
-              private dataStorageService: DataStorageService,
-              private candidateService: CandidateDataStorageService,
-              private settingsService: SettingsDataStorageService) {
+              private candidateService: CandidateService,
+              private jobDataStorageService: JobDataStorageService,
+              private candidateDataStorageService: CandidateDataStorageService,
+              private settingsDataStorageService: SettingsDataStorageService) {
     this.route.params
       .subscribe(
         (params: Params) => {
@@ -73,6 +75,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
           this.sources = data['sources'];
           this.pipelines = data['pipelines'];
           this.candidates = data['candidates'];
+          this.departments = data['departments'];
         }
       );
 
@@ -115,7 +118,6 @@ export class CandidateIdComponent implements OnInit, DoCheck {
   }
 
   changeAssignedJob() {
-
   }
 
   removeAssignedJob() {
@@ -131,7 +133,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
         data: {
           header: 'Remove Job',
           iconClass: 'far fa-trash-alt',
-          confirmationText: 'Are you sure you want to remove ' + jobName + ' from Candidate??',
+          confirmationText: 'Are you sure you want to remove ' + jobName + ' from Candidate?',
           buttonText: 'Remove',
           confirmationStatus: false
         }
@@ -139,7 +141,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result.confirmationStatus) {
-        this.dataStorageService.removeAssignedJob(jobAssigned)
+        this.jobDataStorageService.removeAssignedJob(jobAssigned)
           .subscribe(
             (data: any) => {
               const index = this.candidate.JobAssigned
@@ -248,7 +250,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
          true
        );
 
-       this.dataStorageService.jobStatusChanged(jobAssigned)
+       this.jobDataStorageService.jobStatusChanged(jobAssigned)
          .subscribe(
            (data: any) => {
              const activeJobAssignedIndex
@@ -267,7 +269,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
   favouriteCandidates(candidate: Candidate) {
     const candidates: Candidate[] = [];
     candidates.push(candidate);
-    this.dataStorageService.favouriteCandidates(candidates)
+    this.candidateDataStorageService.favouriteCandidates(candidates)
       .subscribe(
         (response: any) => {
           this.candidate.IsFavourite = true;
@@ -279,7 +281,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
   unfavouriteCandidates(candidate: Candidate) {
     const candidates: Candidate[] = [];
     candidates.push(candidate);
-    this.dataStorageService.unfavouriteCandidates(candidates)
+    this.candidateDataStorageService.unfavouriteCandidates(candidates)
       .subscribe(
         (response: any) => {
           this.candidate.IsFavourite = false;
@@ -307,7 +309,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
       if (result.confirmationStatus) {
          const candidates: Candidate[] = [];
          candidates.push(candidate);
-         this.dataStorageService.archiveCandidates(candidates)
+         this.candidateDataStorageService.archiveCandidates(candidates)
              .subscribe(
                 (response: any) => {
                   this.candidate.IsArchived = true;
@@ -337,7 +339,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
         if (result.confirmationStatus) {
           const candidates: Candidate[] = [];
           candidates.push(candidate);
-          this.dataStorageService.restoreCandidates(candidates)
+          this.candidateDataStorageService.restoreCandidates(candidates)
             .subscribe(
               (response: any) => {
                 this.candidate.IsArchived = false;
@@ -348,12 +350,18 @@ export class CandidateIdComponent implements OnInit, DoCheck {
       }
     );
   }
+
   assignJobDialog(candidate: Candidate) {
     const dialogRef = this.dialog.open(AssignJobToCandidateComponent,
       {
         hasBackdrop: true,
         disableClose: true,
-        width: '1000px'
+        width: '1000px',
+        data:
+          {
+            jobs: this.jobs,
+            departments: this.departments
+          }
       });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -415,7 +423,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
           true
         );
 
-        this.dataStorageService.jobAssigned(jobAssigned)
+        this.jobDataStorageService.jobAssigned(jobAssigned)
           .subscribe(
             (getJobAssigned: any) => {
               this.candidate.JobAssigned.push(getJobAssigned);

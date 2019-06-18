@@ -10,8 +10,8 @@ import {SettingsDataStorageService} from '../../../services/data-storage/setting
 import {Candidate} from '../../../models/candidate.model';
 import {ConfirmationComponent} from '../../../dialogs/confirmation/confirmation.component';
 import {NotifierService} from 'angular-notifier';
-import {DataStorageService} from '../../../services/data-storage/data-storage.service';
 import {ActivatedRoute, Data} from '@angular/router';
+import {JobService} from '../../../services/shared/job.service';
 
 @Component({
   selector: 'app-job-panel',
@@ -29,11 +29,12 @@ export class JobPanelComponent implements OnInit {
   selection = new SelectionModel<Job>(true, []);
   departments: Department[] = [];
 
-  constructor(private jobService: JobDataStorageService,
+  constructor(private jobDataStorageService: JobDataStorageService,
               private notifierService: NotifierService,
               private route: ActivatedRoute,
               private dialog: MatDialog,
-              private settingsService: SettingsDataStorageService) { }
+              private jobService: JobService,
+              private settingsDataStorageService: SettingsDataStorageService) { }
 
   ngOnInit() {
     this.route.data
@@ -51,7 +52,7 @@ export class JobPanelComponent implements OnInit {
   favouriteJobs(job: Job) {
     const jobs: Job[] = [];
     jobs.push(job);
-    this.dataStorageService.favouriteJobs(jobs)
+    this.jobDataStorageService.favouriteJobs(jobs)
       .subscribe(
         (response: any) => {
           for (let i = 0; i < this.jobs.length; i++) {
@@ -59,7 +60,7 @@ export class JobPanelComponent implements OnInit {
               this.jobs[i].IsFavourite = true;
             }
           }
-          this.notifierService.notify('default', 'Added to favourites!')
+          this.notifierService.notify('default', 'Added to favourites.');
         }
       );
   }
@@ -67,7 +68,7 @@ export class JobPanelComponent implements OnInit {
   unfavouriteJobs(job: Job) {
     const jobs: Job[] = [];
     jobs.push(job);
-    this.dataStorageService.unfavouriteJobs(jobs)
+    this.jobDataStorageService.unfavouriteJobs(jobs)
       .subscribe(
         (response: any) => {
           for (let i = 0; i < this.jobs.length; i++) {
@@ -75,7 +76,7 @@ export class JobPanelComponent implements OnInit {
               this.jobs[i].IsFavourite = false;
             }
           }
-          this.notifierService.notify('default', 'Removed from favourites!')
+          this.notifierService.notify('default', 'Removed from favourites.');
         }
       );
   }
@@ -99,7 +100,7 @@ export class JobPanelComponent implements OnInit {
         if (result.confirmationStatus) {
           let jobs: Job[] = [];
           jobs = this.selection.selected;
-          this.dataStorageService.archiveJobs(jobs)
+          this.jobDataStorageService.archiveJobs(jobs)
             .subscribe(
               (response: any) => {
                 for (let i = 0; i < this.jobs.length; i++) {
@@ -110,7 +111,7 @@ export class JobPanelComponent implements OnInit {
                   }
                 }
                 this.selection.clear();
-                this.notifierService.notify('default', 'Archived successfully!')
+                this.notifierService.notify('default', 'Archived successfully.');
               }
             );
         }
@@ -137,7 +138,7 @@ export class JobPanelComponent implements OnInit {
         if (result.confirmationStatus) {
           let jobs: Job[] = [];
           jobs = this.selection.selected;
-          this.dataStorageService.restoreJobs(jobs)
+          this.jobDataStorageService.restoreJobs(jobs)
             .subscribe(
               (response: any) => {
                 for (let i = 0; i < this.jobs.length; i++) {
@@ -148,7 +149,7 @@ export class JobPanelComponent implements OnInit {
                   }
                 }
                 this.selection.clear();
-                this.notifierService.notify('default', 'Restored successfully!')
+                this.notifierService.notify('default', 'Restored successfully.')
               }
             );
         }
@@ -158,17 +159,20 @@ export class JobPanelComponent implements OnInit {
 
   onValueChange(value: string) {
     this.selectedValue = value;
-    this.jobs = this.jobService.filterArchivedJob(value, this.archivedChecked, this.favouriteChecked);
+    this.jobs = this.jobService.filterArchivedJob(
+      this.jobs, value, this.archivedChecked, this.favouriteChecked);
   }
 
   archiveStatus(event: any) {
     this.archivedChecked = event.checked;
-    this.jobs = this.jobService.filterArchivedJob(this.selectedValue, this.archivedChecked, this.favouriteChecked);
+    this.jobs = this.jobService.filterArchivedJob(
+      this.jobs, this.selectedValue, this.archivedChecked, this.favouriteChecked);
   }
 
   favouriteStatus(event: any) {
     this.favouriteChecked = event.checked;
-    this.jobs = this.jobService.filterArchivedJob(this.selectedValue, this.archivedChecked, this.favouriteChecked);
+    this.jobs = this.jobService.filterArchivedJob(
+      this.jobs, this.selectedValue, this.archivedChecked, this.favouriteChecked);
   }
 
   getDepartmentName(departmentId: number) {

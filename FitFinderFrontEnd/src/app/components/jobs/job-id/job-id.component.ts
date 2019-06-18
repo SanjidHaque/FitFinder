@@ -3,15 +3,12 @@ import {ActivatedRoute, Data, Params, Router} from '@angular/router';
 import {MatDialog} from '@angular/material';
 import {NotifierService} from 'angular-notifier';
 import {JobDataStorageService} from '../../../services/data-storage/job-data-storage.service';
-import {CandidateDataStorageService} from '../../../services/data-storage/candidate-data-storage.service';
-import {InterviewDataStorageService} from '../../../services/data-storage/interview-data-storage.service';
 import {Job} from '../../../models/job.model';
 import * as moment from 'moment';
 import {Department} from '../../../models/department.model';
 import {SettingsDataStorageService} from '../../../services/data-storage/settings-data-storage.service';
-import {Candidate} from '../../../models/candidate.model';
 import {ConfirmationComponent} from '../../../dialogs/confirmation/confirmation.component';
-import {DataStorageService} from '../../../services/data-storage/data-storage.service';
+import {JobService} from '../../../services/shared/job.service';
 
 @Component({
   selector: 'app-job-id',
@@ -28,9 +25,10 @@ export class JobIdComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private dialog: MatDialog,
               private notifierService: NotifierService,
-              private jobService: JobDataStorageService,
+              private jobDataStorageService: JobDataStorageService,
+              private jobService: JobService,
               private router: Router,
-              private settingsService: SettingsDataStorageService) {
+              private settingsDataStorageService: SettingsDataStorageService) {
     this.route.params
       .subscribe(
         (params: Params) => {
@@ -45,11 +43,11 @@ export class JobIdComponent implements OnInit {
         (data: Data) => {
           this.jobs = data['jobs'];
           this.departments = data['departments'];
+          this.job = this.jobs.find( x => x.Id === this.jobId);
+          this.jobService.job = this.job;
         }
       );
 
-    this.job = this.jobs.find( x => x.Id === this.jobId);
-    this.jobService.job = this.job;
   }
 
 
@@ -73,7 +71,7 @@ export class JobIdComponent implements OnInit {
         if (result.confirmationStatus) {
           const jobs: Job[] = [];
           jobs.push(job);
-          this.dataStorageService.restoreJobs(jobs)
+          this.jobDataStorageService.restoreJobs(jobs)
             .subscribe(
               (response: any) => {
                 this.job.IsArchived = false;

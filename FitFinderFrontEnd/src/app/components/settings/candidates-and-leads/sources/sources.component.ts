@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {MatDialog} from '@angular/material';
-import {DataStorageService} from '../../../../services/data-storage/data-storage.service';
 import {NotifierService} from 'angular-notifier';
 import {Source} from '../../../../models/source.model';
 import {SettingsDataStorageService} from '../../../../services/data-storage/settings-data-storage.service';
@@ -17,7 +16,7 @@ export class SourcesComponent implements OnInit {
 
   constructor(private sourceDialog: MatDialog,
               private route: ActivatedRoute,
-              private settingsService: SettingsDataStorageService,
+              private settingsDataStorageService: SettingsDataStorageService,
               private notifierService: NotifierService) { }
 
   ngOnInit() {
@@ -48,11 +47,11 @@ export class SourcesComponent implements OnInit {
       if (result !== source.Name && result !== '') {
 
 
-        this.dataStorageService.editSource({Id: source.Id, Name: result})
+        this.settingsDataStorageService.editSource({Id: source.Id, Name: result})
           .subscribe(
             (data: any) => {
               source.Name = result;
-              this.notifierService.notify('default', 'Source updated!');
+              this.notifierService.notify('default', 'Source updated.');
             }
           );
 
@@ -83,11 +82,11 @@ export class SourcesComponent implements OnInit {
         );
 
 
-        this.dataStorageService.addNewSource(source)
+        this.settingsDataStorageService.addNewSource(source)
           .subscribe(
             (newSource: Source) => {
               this.sources.push(newSource);
-              this.notifierService.notify('default', 'New source added!');
+              this.notifierService.notify('default', 'New source added.');
             }
           );
 

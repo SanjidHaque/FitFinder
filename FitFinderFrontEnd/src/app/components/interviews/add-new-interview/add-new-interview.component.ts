@@ -4,14 +4,13 @@ import {DateAdapter, MatDialog} from '@angular/material';
 import {LongDateAdapter} from '../../../date-adapters/long-date.adpater';
 import {Candidate} from '../../../models/candidate.model';
 import {
-  SelectCandidatesForInterviewDialogComponent
-} from '../../../dialogs/select-candidates-for-interview-dialog/select-candidates-for-interview-dialog.component';
+  SelectCandidatesForInterviewComponent
+} from '../../../dialogs/select-candidates-for-interview/select-candidates-for-interview.component';
 import {CandidatesForInterview} from '../../../models/candidates-for-interview.model';
 import {InterviewersForInterview} from '../../../models/interviewers-for-interview.model';
 import {Interview} from '../../../models/interview.model';
 import {InterviewDataStorageService} from '../../../services/data-storage/interview-data-storage.service';
 import {ActivatedRoute, Data, Router} from '@angular/router';
-import {DataStorageService} from '../../../services/data-storage/data-storage.service';
 import {NotifierService} from 'angular-notifier';
 import {Job} from '../../../models/job.model';
 import {JobDataStorageService} from '../../../services/data-storage/job-data-storage.service';
@@ -53,9 +52,9 @@ export class AddNewInterviewComponent implements OnInit {
   ];
 
   constructor(private dialog: MatDialog,
-              private interviewService: InterviewDataStorageService,
-              private candidateService: CandidateDataStorageService,
-              private jobService: JobDataStorageService,
+              private interviewDataStorageService: InterviewDataStorageService,
+              private candidateDataStorageService: CandidateDataStorageService,
+              private jobDataStorageService: JobDataStorageService,
               private router: Router,
               private route: ActivatedRoute,
               private notifierService: NotifierService) {
@@ -147,20 +146,16 @@ export class AddNewInterviewComponent implements OnInit {
       isArchived
     );
     this.isDisabled = true;
-    this.dataStorageService.addNewInterview(interview)
+    this.interviewDataStorageService.addNewInterview(interview)
        .subscribe(
          (data: any) => {
-           this.dataStorageService.getAllInterview()
-             .subscribe(
-               (interviews: any) => {
-                 this.interviewService.interviews = interviews;
+
                  this.candidates = [];
                  this.addNewInterviewForm.reset();
-                 const lastInterview = this.interviewService.interviews[this.interviewService.interviews.length - 1];
-                 this.router.navigate(['/interviews/', lastInterview.Id ]);
-                 this.notifierService.notify('default', 'New interview added');
-               }
-             );
+
+                 this.router.navigate(['/interviews/', data.Id ]);
+                 this.notifierService.notify('default', 'New interview added.');
+
 
          }
        );
@@ -186,7 +181,7 @@ export class AddNewInterviewComponent implements OnInit {
   }
 
   openSelectCandidatesDialog() {
-    const dialogRef = this.dialog.open(SelectCandidatesForInterviewDialogComponent,
+    const dialogRef = this.dialog.open(SelectCandidatesForInterviewComponent,
       {
         hasBackdrop: true,
         disableClose: true,

@@ -5,6 +5,7 @@ import {Job} from '../../models/job.model';
   providedIn: 'root'
 })
 export class JobService {
+  job: Job;
 
   filterArchivedJob(jobs: Job[], selectedValue: string, archivedChecked: boolean, favouriteChecked: boolean) {
     if (archivedChecked) {

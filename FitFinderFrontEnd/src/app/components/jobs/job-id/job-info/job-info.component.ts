@@ -5,14 +5,14 @@ import * as moment from 'moment';
 import {CandidateAttachment} from '../../../../models/canidate-attachment.model';
 import {JobAttachment} from '../../../../models/job-attachment.model';
 import {NotifierService} from 'angular-notifier';
-import {UUID} from 'angular2-uuid';
 import {Department} from '../../../../models/department.model';
 import {JobFunction} from '../../../../models/job-function.model';
 import {JobType} from '../../../../models/job-type.model';
 import {SettingsDataStorageService} from '../../../../services/data-storage/settings-data-storage.service';
 import {ConfirmationComponent} from '../../../../dialogs/confirmation/confirmation.component';
 import {MatDialog} from '@angular/material';
-import {DataStorageService} from '../../../../services/data-storage/data-storage.service';
+import {ActivatedRoute, Data} from '@angular/router';
+import {JobService} from '../../../../services/shared/job.service';
 
 @Component({
   selector: 'app-job-info',
@@ -31,19 +31,25 @@ export class JobInfoComponent implements OnInit, DoCheck {
   jobFunctionalities: JobFunction[] = [];
   employmentTypes: JobType[] = [];
 
-  constructor(private jobService: JobDataStorageService,
-              private settingsService: SettingsDataStorageService,
+  constructor(private jobDataStorageService: JobDataStorageService,
+              private settingsDataStorageService: SettingsDataStorageService,
               private dialog: MatDialog,
-              private dataStorageService: DataStorageService,
+              private route: ActivatedRoute,
+              private jobService: JobService,
               private notifierService: NotifierService) {
     this.filesToUpload = [];
   }
 
   ngOnInit() {
-    this.job = this.jobService.job;
-    this.employmentTypes = this.settingsService.getAllJobType();
-    this.jobFunctionalities = this.settingsService.getAllJobFunction();
-    this.departments = this.settingsService.getAllDepartment();
+
+    this.route.data.subscribe(
+      (data: Data) => {
+        this.employmentTypes = data['jobTypes'];
+        this.jobFunctionalities = data['jobFunctionalities'];
+        this.departments = data['departments'];
+      }
+    );
+
   }
 
   ngDoCheck() {
@@ -53,11 +59,11 @@ export class JobInfoComponent implements OnInit, DoCheck {
   favouriteJobs(job: Job) {
     const jobs: Job[] = [];
     jobs.push(job);
-    this.dataStorageService.favouriteJobs(jobs)
+    this.jobDataStorageService.favouriteJobs(jobs)
       .subscribe(
         (response: any) => {
           this.job.IsFavourite = true;
-          this.notifierService.notify('default', 'Added to favourites!')
+          this.notifierService.notify('default', 'Added to favourites.')
         }
       );
   }
@@ -65,11 +71,11 @@ export class JobInfoComponent implements OnInit, DoCheck {
   unfavouriteJobs(job: Job) {
     const jobs: Job[] = [];
     jobs.push(job);
-    this.dataStorageService.unfavouriteJobs(jobs)
+    this.jobDataStorageService.unfavouriteJobs(jobs)
       .subscribe(
         (response: any) => {
           this.job.IsFavourite = false;
-          this.notifierService.notify('default', 'Removed from favourites!')
+          this.notifierService.notify('default', 'Removed from favourites.')
         }
       );
   }
@@ -93,11 +99,11 @@ export class JobInfoComponent implements OnInit, DoCheck {
         if (result.confirmationStatus) {
           const jobs: Job[] = [];
           jobs.push(job);
-          this.dataStorageService.archiveJobs(jobs)
+          this.jobDataStorageService.archiveJobs(jobs)
             .subscribe(
               (response: any) => {
                 this.job.IsArchived = true;
-                this.notifierService.notify('default', 'Archived successfully!')
+                this.notifierService.notify('default', 'Archived successfully.')
               }
             );
         }
@@ -124,11 +130,11 @@ export class JobInfoComponent implements OnInit, DoCheck {
         if (result.confirmationStatus) {
           const jobs: Job[] = [];
           jobs.push(job);
-          this.dataStorageService.restoreJobs(jobs)
+          this.jobDataStorageService.restoreJobs(jobs)
             .subscribe(
               (response: any) => {
                 this.job.IsArchived = false;
-                this.notifierService.notify('default', 'Restored successfully!')
+                this.notifierService.notify('default', 'Restored successfully.')
               }
             );
         }
@@ -181,7 +187,6 @@ export class JobInfoComponent implements OnInit, DoCheck {
 
   downloadFile(jobAttachment: JobAttachment) {
     window.open('http://localhost:55586/Content/Attachments/' + jobAttachment.ModifiedFileName);
-    /*window.open('assets/cseregular3rd.pdf');*/
   }
   getJobFunction() {
     return this.jobFunctionalities.find(

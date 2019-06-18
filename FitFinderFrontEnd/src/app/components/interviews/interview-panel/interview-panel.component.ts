@@ -6,7 +6,6 @@ import * as moment from 'moment';
 import {ConfirmationComponent} from '../../../dialogs/confirmation/confirmation.component';
 import {Candidate} from '../../../models/candidate.model';
 import {MatDialog} from '@angular/material';
-import {DataStorageService} from '../../../services/data-storage/data-storage.service';
 import {NotifierService} from 'angular-notifier';
 import {ActivatedRoute, Data} from '@angular/router';
 
@@ -34,7 +33,7 @@ export class InterviewPanelComponent implements OnInit {
     {id: 5, type: 'Panel'}
   ];
 
-  constructor(private interviewService: InterviewDataStorageService,
+  constructor(private interviewDataStorageService: InterviewDataStorageService,
               private notifierService: NotifierService,
               private route: ActivatedRoute,
               private dialog: MatDialog) {}
@@ -69,7 +68,7 @@ export class InterviewPanelComponent implements OnInit {
         if (result.confirmationStatus) {
           let interviews: Interview[] = [];
           interviews = this.selection.selected;
-          this.dataStorageService.archiveInterviews(interviews)
+          this.interviewDataStorageService.archiveInterviews(interviews)
             .subscribe(
               (response: any) => {
                 for (let i = 0; i < this.interviews.length; i++) {
@@ -107,7 +106,7 @@ export class InterviewPanelComponent implements OnInit {
         if (result.confirmationStatus) {
           let interviews: Interview[] = [];
           interviews = this.selection.selected;
-          this.dataStorageService.restoreInterviews(interviews)
+          this.interviewDataStorageService.restoreInterviews(interviews)
             .subscribe(
               (response: any) => {
                 for (let i = 0; i < this.interviews.length; i++) {

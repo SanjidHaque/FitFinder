@@ -28,33 +28,34 @@ namespace FitFinderBackEnd.Controllers
             }
             _context.Candidates.Add(candidate);
 
-            foreach (var candidateEducation in candidate.CandidateEducation)
-            {
-                candidateEducation.Id = candidate.Id;
-            }
-            foreach (var candidateExperience in candidate.CandidateExperience)
-            {
-                candidateExperience.Id = candidate.Id;
-            }
-
-            foreach (var candidateAttachment in candidate.CandidateAttachment)
-            {
-                candidateAttachment.Id = candidate.Id;
-            }
-
-
-
-            _context.CandidateAttachments.AddRange(candidate.CandidateAttachment);
-            _context.CandidateEducations.AddRange(candidate.CandidateEducation);
-            _context.CandidateExperiences.AddRange(candidate.CandidateExperience);
+//            foreach (var candidateEducation in candidate.CandidateEducation)
+//            {
+//                candidateEducation.Id = candidate.Id;
+//            }
+//            foreach (var candidateExperience in candidate.CandidateExperience)
+//            {
+//                candidateExperience.Id = candidate.Id;
+//            }
+//
+//            foreach (var candidateAttachment in candidate.CandidateAttachment)
+//            {
+//                candidateAttachment.Id = candidate.Id;
+//            }
+//
+//
+//
+//            _context.CandidateAttachments.AddRange(candidate.CandidateAttachment);
+//            _context.CandidateEducations.AddRange(candidate.CandidateEducation);
+//            _context.CandidateExperiences.AddRange(candidate.CandidateExperience);
 
             _context.SaveChanges();
-            return Ok();
+            return Ok(candidate);
         }
 
         [HttpPost]
         [Route("api/UploadAttachments")]
-        public IHttpActionResult UploadAttachments()
+        [AllowAnonymous]
+        public IHttpActionResult UploadAttachments(long companyId)
         {
             var httpRequest = HttpContext.Current.Request;
             for (int i = 0; i < httpRequest.Files.Count; i++)
@@ -67,8 +68,9 @@ namespace FitFinderBackEnd.Controllers
         }
 
         [HttpGet]
-        [Route("api/GetAllCandidate")]
-        public IHttpActionResult GetAllCandidate()
+        [Route("api/GetAllCandidate/{companyId}")]
+        [AllowAnonymous]
+        public IHttpActionResult GetAllCandidate(long companyId)
         {
             List<Candidate> candidate = _context.Candidates.
                 Include(c => c.CandidateEducation).

@@ -252,21 +252,21 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201906141411561_Initial.cs" />
-    <Compile Include="Migrations\201906141411561_Initial.Designer.cs">
-      <DependentUpon>201906141411561_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201906181359237_New.cs" />
+    <Compile Include="Migrations\201906181359237_New.Designer.cs">
+      <DependentUpon>201906181359237_New.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201906160727042_companyModelAdded.cs" />
-    <Compile Include="Migrations\201906160727042_companyModelAdded.Designer.cs">
-      <DependentUpon>201906160727042_companyModelAdded.cs</DependentUpon>
+    <Compile Include="Migrations\201906181401108_New2.cs" />
+    <Compile Include="Migrations\201906181401108_New2.Designer.cs">
+      <DependentUpon>201906181401108_New2.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201906160803192_userModelChanged.cs" />
-    <Compile Include="Migrations\201906160803192_userModelChanged.Designer.cs">
-      <DependentUpon>201906160803192_userModelChanged.cs</DependentUpon>
+    <Compile Include="Migrations\201906181401467_New3.cs" />
+    <Compile Include="Migrations\201906181401467_New3.Designer.cs">
+      <DependentUpon>201906181401467_New3.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201906160829240_userModelChangedAgain.cs" />
-    <Compile Include="Migrations\201906160829240_userModelChangedAgain.Designer.cs">
-      <DependentUpon>201906160829240_userModelChangedAgain.cs</DependentUpon>
+    <Compile Include="Migrations\201906181404206_New4.cs" />
+    <Compile Include="Migrations\201906181404206_New4.Designer.cs">
+      <DependentUpon>201906181404206_New4.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -400,17 +400,17 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201906141411561_Initial.resx">
-      <DependentUpon>201906141411561_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201906181359237_New.resx">
+      <DependentUpon>201906181359237_New.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906160727042_companyModelAdded.resx">
-      <DependentUpon>201906160727042_companyModelAdded.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201906181401108_New2.resx">
+      <DependentUpon>201906181401108_New2.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906160803192_userModelChanged.resx">
-      <DependentUpon>201906160803192_userModelChanged.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201906181401467_New3.resx">
+      <DependentUpon>201906181401467_New3.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906160829240_userModelChangedAgain.resx">
-      <DependentUpon>201906160829240_userModelChangedAgain.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201906181404206_New4.resx">
+      <DependentUpon>201906181404206_New4.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

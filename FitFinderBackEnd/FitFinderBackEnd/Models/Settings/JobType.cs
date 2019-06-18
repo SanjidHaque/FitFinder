@@ -11,5 +11,7 @@ namespace FitFinderBackEnd.Models.Settings
        
         public long Id { get; set; }
         public string Name { get; set; }
+        public Company Company { get; set; }
+        public long CompanyId { get; set; }
     }
 }

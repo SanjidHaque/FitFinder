@@ -118,9 +118,9 @@ namespace FitFinderBackEnd.Controllers
                     _context.JobAssiged.Remove(getJobAssigned);
                     _context.SaveChanges();
                     return Ok();
-            }
-                       
-            return NotFound();
+                }
+
+                return NotFound();
         }
     }
 }

@@ -27,19 +27,20 @@ namespace FitFinderBackEnd.Controllers
             }
 
             _context.Jobs.Add(job);
-            foreach (var jobAttachment in job.JobAttachment)
-            {
-                jobAttachment.JobId = job.Id;
-            }
-            _context.JobAttachments.AddRange(job.JobAttachment);
+//            foreach (var jobAttachment in job.JobAttachment)
+//            {
+//                jobAttachment.JobId = job.Id;
+//            }
+//            _context.JobAttachments.AddRange(job.JobAttachment);
 
             _context.SaveChanges();
-            return Ok();
+            return Ok(job);
         }
 
         [HttpGet]
         [Route("api/GetAllJob")]
-        public IHttpActionResult GetAllJob()
+        [AllowAnonymous]
+        public IHttpActionResult GetAllJob(long companyId)
         {
             List<Job> job = _context.Jobs.
                 Include(e => e.JobAttachment).OrderBy(x => x.Id).ToList();

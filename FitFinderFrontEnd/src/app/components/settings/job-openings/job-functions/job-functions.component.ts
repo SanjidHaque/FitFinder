@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {MatDialog} from '@angular/material';
-import {DataStorageService} from '../../../../services/data-storage/data-storage.service';
 import {NotifierService} from 'angular-notifier';
 import {JobFunction} from '../../../../models/job-function.model';
 import {SettingsDataStorageService} from '../../../../services/data-storage/settings-data-storage.service';
@@ -9,16 +8,16 @@ import {ActivatedRoute, Data} from '@angular/router';
 
 @Component({
   selector: 'app-functions',
-  templateUrl: './functions.component.html',
-  styleUrls: ['./functions.component.css']
+  templateUrl: './job-functions.component.html',
+  styleUrls: ['./job-functions.component.css']
 })
-export class FunctionsComponent implements OnInit {
+export class JobFunctionsComponent implements OnInit {
 
   jobFunctions: JobFunction[] = [];
 
   constructor(private jobFunctionDialog: MatDialog,
               private route: ActivatedRoute,
-              private settingsService: SettingsDataStorageService,
+              private settingsDataStorageService: SettingsDataStorageService,
               private notifierService: NotifierService) { }
 
   ngOnInit() {
@@ -42,7 +41,7 @@ export class FunctionsComponent implements OnInit {
             header: 'Edit Job Function',
             name: jobFunction.Name,
             iconClass: 'fas fa-briefcase',
-            footer: 'Add or update different job functions your organization needs.'
+            footer: 'Add or update different job job-functions your organization needs.'
           }
       });
 
@@ -50,11 +49,12 @@ export class FunctionsComponent implements OnInit {
       if (result !== jobFunction.Name && result !== '') {
 
 
-        this.dataStorageService.editJobFunction({Id: jobFunction.Id, Name: result})
+        this.settingsDataStorageService
+          .editJobFunction({Id: jobFunction.Id, Name: result})
           .subscribe(
             (data: any) => {
               jobFunction.Name = result;
-              this.notifierService.notify('default', 'Job function updated!');
+              this.notifierService.notify('default', 'Job function updated.');
             }
           );
 
@@ -73,7 +73,7 @@ export class FunctionsComponent implements OnInit {
             header: 'New Job Function',
             name: '',
             iconClass: 'fas fa-briefcase',
-            footer: 'Add or update different job functions your organization needs.'
+            footer: 'Add or update different job job-functions your organization needs.'
           }
       });
 
@@ -84,11 +84,11 @@ export class FunctionsComponent implements OnInit {
           result
         );
 
-        this.dataStorageService.addNewJobFunction(jobFunction)
+        this.settingsDataStorageService.addNewJobFunction(jobFunction)
           .subscribe(
             (newJobFunction: JobFunction) => {
               this.jobFunctions.push(newJobFunction);
-              this.notifierService.notify('default', 'New job function added!');
+              this.notifierService.notify('default', 'New job function added.');
             }
           );
       }

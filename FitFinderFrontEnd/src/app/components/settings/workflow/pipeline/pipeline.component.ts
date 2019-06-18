@@ -3,7 +3,6 @@ import {Pipeline} from '../../../../models/pipeline.model';
 import {SettingsDataStorageService} from '../../../../services/data-storage/settings-data-storage.service';
 import {ActivatedRoute, Data} from '@angular/router';
 import {PipelineStage} from '../../../../models/pipeline-stage.model';
-import {DataStorageService} from '../../../../services/data-storage/data-storage.service';
 import {MatDialog} from '@angular/material';
 import {NotifierService} from 'angular-notifier';
 import {AddUpdateComponent} from '../../../../dialogs/add-update/add-update.component';
@@ -20,7 +19,7 @@ export class PipelineComponent implements OnInit {
 
   pipelines: Pipeline[] = [];
 
-  constructor(private sharedService: SettingsDataStorageService,
+  constructor(private settingsDataStorageService: SettingsDataStorageService,
               private route: ActivatedRoute,
               private dialog: MatDialog,
               private notifierService: NotifierService) {}
@@ -64,11 +63,11 @@ export class PipelineComponent implements OnInit {
 
         const getPipeline = this.pipelines.find(x => x.Id === pipelineId);
 
-        this.dataStorageService.addNewPipelineStage(pipelineStage)
+        this.settingsDataStorageService.addNewPipelineStage(pipelineStage)
           .subscribe(
             (newPipelineStage: PipelineStage) => {
               getPipeline.PipelineStage.push(newPipelineStage);
-              this.notifierService.notify('default', 'New stage added!');
+              this.notifierService.notify('default', 'New stage added.');
             }
           );
       }
@@ -103,12 +102,13 @@ export class PipelineComponent implements OnInit {
           );
 
 
-          this.dataStorageService.editPipelineStage(editedPipelineStage)
+          this.settingsDataStorageService.editPipelineStage(editedPipelineStage)
             .subscribe(
               (data: any) => {
                 pipelineStage.Name = result.name;
                 pipelineStage.Color = result.color;
-                this.notifierService.notify('default', 'Stage updated successfully!');
+                this.notifierService.notify('default',
+                  'Stage updated successfully.');
               }
             );
         }
