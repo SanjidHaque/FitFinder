@@ -3,7 +3,7 @@ import {MatDialog} from '@angular/material';
 import {NotifierService} from 'angular-notifier';
 import {JobFunction} from '../../../../models/job-function.model';
 import {SettingsDataStorageService} from '../../../../services/data-storage/settings-data-storage.service';
-import {AddUpdateComponent} from '../../../../dialogs/add-update/add-update.component';
+import {AddUpdateDialogComponent} from '../../../../dialogs/add-update-dialog/add-update-dialog.component';
 import {ActivatedRoute, Data} from '@angular/router';
 
 @Component({
@@ -31,7 +31,7 @@ export class JobFunctionsComponent implements OnInit {
   }
 
   editJobFunction(jobFunction: JobFunction) {
-    const dialogRef = this.jobFunctionDialog.open(AddUpdateComponent,
+    const dialogRef = this.jobFunctionDialog.open(AddUpdateDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,
@@ -63,7 +63,7 @@ export class JobFunctionsComponent implements OnInit {
   }
 
   addNewJobFunction() {
-    const dialogRef = this.jobFunctionDialog.open(AddUpdateComponent,
+    const dialogRef = this.jobFunctionDialog.open(AddUpdateDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,

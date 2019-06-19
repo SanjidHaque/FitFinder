@@ -1,0 +1,30 @@
+<br>
+<br>
+
+<div  *ngFor="let company of companies; let i = index">
+
+  <div class="row">
+    <div class="col-xl-10">
+      {{ company.CompanyName }}
+      <span style="font-size: 13px;" *ngIf="company.CompanyName === 'Headblocks'">
+        <i class="fas fa-shield-alt"></i>
+      </span>
+    </div>
+
+    <div class="col-xl-1" >
+      <i routerLink="/settings/{{ company.Id }}/edit-company"
+         style="cursor: pointer; opacity: .8;
+               color: #345188; font-size: 17px;" class="fas fa-pencil-alt"></i>
+    </div>
+
+    <div class="col-xl-1" *ngIf="company.CompanyName !== 'Headblocks'">
+      <i style="cursor: pointer; opacity: .8;
+               color: #bc0000; font-size: 17px;" class="far fa-trash-alt"></i> &nbsp;
+    </div>
+
+  </div>
+
+  <hr *ngIf="i !== companies.length - 1">
+  <br *ngIf="i === companies.length - 1">
+
+</div>

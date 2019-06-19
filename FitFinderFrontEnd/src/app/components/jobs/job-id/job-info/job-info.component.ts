@@ -9,7 +9,7 @@ import {Department} from '../../../../models/department.model';
 import {JobFunction} from '../../../../models/job-function.model';
 import {JobType} from '../../../../models/job-type.model';
 import {SettingsDataStorageService} from '../../../../services/data-storage/settings-data-storage.service';
-import {ConfirmationComponent} from '../../../../dialogs/confirmation/confirmation.component';
+import {ConfirmationDialogComponent} from '../../../../dialogs/confirmation-dialog/confirmation-dialog.component';
 import {MatDialog} from '@angular/material';
 import {ActivatedRoute, Data} from '@angular/router';
 import {JobService} from '../../../../services/shared/job.service';
@@ -81,7 +81,7 @@ export class JobInfoComponent implements OnInit, DoCheck {
   }
 
   archiveJobs(job: Job) {
-    const dialogRef = this.dialog.open(ConfirmationComponent,
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,
@@ -112,7 +112,7 @@ export class JobInfoComponent implements OnInit, DoCheck {
   }
 
   restoreJobs(job: Job) {
-    const dialogRef = this.dialog.open(ConfirmationComponent,
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,

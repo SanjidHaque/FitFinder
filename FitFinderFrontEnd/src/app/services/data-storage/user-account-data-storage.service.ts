@@ -51,6 +51,11 @@ export class UserAccountDataStorageService {
     return this.http.get<UserAccount[]>(this.rootUrl + '/api/GetAllUserAccount');
   }
 
+  getAllCompany() {
+    return this.http.get<Company[]>(this.rootUrl + '/api/GetAllCompany');
+  }
+
+
   getAllRole() {
     return this.http.get<Role[]>(this.rootUrl + '/api/GetAllRole');
   }

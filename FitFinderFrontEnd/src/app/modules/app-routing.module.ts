@@ -56,6 +56,15 @@ import {EmailConfirmationLinkExpiredComponent} from '../components/email-confirm
 import {AddNewCompanyComponent} from '../components/settings/manage-companies/add-new-company/add-new-company.component';
 import {AuthGuard} from '../auth/auth.guard';
 import {ForbiddenComponent} from '../components/forbidden/forbidden.component';
+import {CompanyPanelComponent} from '../components/settings/manage-companies/company-panel/company-panel.component';
+import {EditCompanyComponent} from '../components/settings/manage-companies/edit-company/edit-company.component';
+import {CompanyResolverService} from '../route-resolvers/company-resolver.service';
+import {AddNewUserAccountComponent} from '../components/settings/manage-users/add-new-user-account/add-new-user-account.component';
+import {UserAccountResolverService} from '../route-resolvers/user-account-resolver.service';
+import {UserAccountPanelComponent} from '../components/settings/manage-users/user-account-panel/user-account-panel.component';
+import {EditUserAccountComponent} from '../components/settings/manage-users/edit-user-account/edit-user-account.component';
+import {CompanyIdComponent} from '../components/settings/manage-companies/company-id/company-id.component';
+import {UserAccountIdComponent} from '../components/settings/manage-users/user-account-id/user-account-id.component';
 
 const appRoutes: Routes = [
   {
@@ -267,14 +276,71 @@ const appRoutes: Routes = [
         children:
         [
           {
+            path: '',
+            redirectTo: 'company-panel',
+            pathMatch: 'full'
+          },
+          {
             path: 'add-new-company',
             component: AddNewCompanyComponent
+          },
+          {
+            path: 'company-panel',
+            component: CompanyPanelComponent,
+            resolve:
+              {
+                companies: CompanyResolverService
+              }
+          },
+          {
+            path: ':id',
+            component: CompanyIdComponent,
+            resolve:
+              {
+                companies: CompanyResolverService
+              }
+          },
+          {
+            path: ':id/edit-company',
+            component: EditCompanyComponent
           }
         ]
       },
       {
         path: 'manage-users',
-        component: ManageUsersComponent
+        component: ManageUsersComponent,
+        children:
+          [
+            {
+              path: '',
+              redirectTo: 'user-account-panel',
+              pathMatch: 'full'
+            },
+            {
+              path: 'add-new-user-account',
+              component: AddNewUserAccountComponent
+            },
+            {
+              path: 'user-account-panel',
+              component: UserAccountPanelComponent,
+              resolve:
+                {
+                  userAccounts: UserAccountResolverService
+                }
+            },
+            {
+              path: ':id',
+              component: UserAccountIdComponent,
+              resolve:
+                {
+                  userAccounts: UserAccountResolverService
+                }
+            },
+            {
+              path: ':id/edit-user-account',
+              component: EditUserAccountComponent
+            }
+          ]
       },
       {
         path: 'profile',
@@ -376,7 +442,7 @@ const appRoutes: Routes = [
     component: EmailConfirmedComponent
   },
   {
-    path: 'email-confirmation-link-expired',
+    path: 'email-confirmation-dialog-link-expired',
     component: EmailConfirmationLinkExpiredComponent
   },
   {

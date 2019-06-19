@@ -8,7 +8,7 @@ import * as moment from 'moment';
 import {Department} from '../../../models/department.model';
 import {SettingsDataStorageService} from '../../../services/data-storage/settings-data-storage.service';
 import {Candidate} from '../../../models/candidate.model';
-import {ConfirmationComponent} from '../../../dialogs/confirmation/confirmation.component';
+import {ConfirmationDialogComponent} from '../../../dialogs/confirmation-dialog/confirmation-dialog.component';
 import {NotifierService} from 'angular-notifier';
 import {ActivatedRoute, Data} from '@angular/router';
 import {JobService} from '../../../services/shared/job.service';
@@ -82,7 +82,7 @@ export class JobPanelComponent implements OnInit {
   }
 
   archiveJobs() {
-    const dialogRef = this.dialog.open(ConfirmationComponent,
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,
@@ -120,7 +120,7 @@ export class JobPanelComponent implements OnInit {
   }
 
   restoreJobs() {
-    const dialogRef = this.dialog.open(ConfirmationComponent,
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,

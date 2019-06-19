@@ -3,7 +3,7 @@ import {MatDialog} from '@angular/material';
 import {NotifierService} from 'angular-notifier';
 import {Source} from '../../../../models/source.model';
 import {SettingsDataStorageService} from '../../../../services/data-storage/settings-data-storage.service';
-import {AddUpdateComponent} from '../../../../dialogs/add-update/add-update.component';
+import {AddUpdateDialogComponent} from '../../../../dialogs/add-update-dialog/add-update-dialog.component';
 import {ActivatedRoute, Data} from '@angular/router';
 
 @Component({
@@ -29,7 +29,7 @@ export class SourcesComponent implements OnInit {
   }
 
   editSource(source: Source) {
-    const dialogRef = this.sourceDialog.open(AddUpdateComponent,
+    const dialogRef = this.sourceDialog.open(AddUpdateDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,
@@ -60,7 +60,7 @@ export class SourcesComponent implements OnInit {
   }
 
   addNewSourceDialog() {
-    const dialogRef = this.sourceDialog.open(AddUpdateComponent,
+    const dialogRef = this.sourceDialog.open(AddUpdateDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,

@@ -10,12 +10,12 @@ import {JobService} from '../../services/shared/job.service';
 
 @Component({
   selector: 'app-assign-job-to-candidate',
-  templateUrl: './assign-job-to-candidate.component.html',
-  styleUrls: ['./assign-job-to-candidate.component.css'],
+  templateUrl: './assign-job-to-candidate-dialog.component.html',
+  styleUrls: ['./assign-job-to-candidate-dialog.component.css'],
   encapsulation: ViewEncapsulation.None
 })
 
-export class AssignJobToCandidateComponent implements OnInit {
+export class AssignJobToCandidateDialogComponent implements OnInit {
 
   archivedChecked = false;
   favouriteChecked = false;
@@ -25,7 +25,7 @@ export class AssignJobToCandidateComponent implements OnInit {
   selection = new SelectionModel<Job>(false, []);
   departments: Department[] = [];
 
-  constructor(public dialogRef: MatDialogRef<AssignJobToCandidateComponent>,
+  constructor(public dialogRef: MatDialogRef<AssignJobToCandidateDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private jobDataStorageService: JobDataStorageService,
               private jobService: JobService,

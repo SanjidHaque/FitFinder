@@ -8,7 +8,7 @@ import * as moment from 'moment';
 import {SettingsDataStorageService} from '../../../services/data-storage/settings-data-storage.service';
 import {Source} from '../../../models/source.model';
 import {NotifierService} from 'angular-notifier';
-import {ConfirmationComponent} from '../../../dialogs/confirmation/confirmation.component';
+import {ConfirmationDialogComponent} from '../../../dialogs/confirmation-dialog/confirmation-dialog.component';
 import {MatDialog} from '@angular/material';
 import {ActivatedRoute, Data} from '@angular/router';
 
@@ -86,7 +86,7 @@ export class CandidatePanelComponent implements OnInit {
   }
 
   archiveCandidates() {
-    const dialogRef = this.dialog.open(ConfirmationComponent,
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,
@@ -124,7 +124,7 @@ export class CandidatePanelComponent implements OnInit {
   }
 
   restoreCandidates() {
-    const dialogRef = this.dialog.open(ConfirmationComponent,
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,

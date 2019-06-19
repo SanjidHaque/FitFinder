@@ -8,12 +8,12 @@ import {NotifierService} from 'angular-notifier';
 import {Candidate} from '../../../models/candidate.model';
 import {Job} from '../../../models/job.model';
 import {JobDataStorageService} from '../../../services/data-storage/job-data-storage.service';
-import {SelectCandidatesForInterviewComponent} from '../../../dialogs/select-candidates-for-interview/select-candidates-for-interview.component';
+import {SelectCandidatesForInterviewDialogComponent} from '../../../dialogs/select-candidates-for-interview-dialog/select-candidates-for-interview-dialog.component';
 import {MatDialog} from '@angular/material';
 import {CandidatesForInterview} from '../../../models/candidates-for-interview.model';
 import {Source} from '../../../models/source.model';
 import {SettingsDataStorageService} from '../../../services/data-storage/settings-data-storage.service';
-import {ConfirmationComponent} from '../../../dialogs/confirmation/confirmation.component';
+import {ConfirmationDialogComponent} from '../../../dialogs/confirmation-dialog/confirmation-dialog.component';
 import {InterviewService} from '../../../services/shared/interview.service';
 
 
@@ -92,7 +92,7 @@ export class InterviewIdComponent implements OnInit {
 
 
   archiveInterviews(interview: Interview) {
-    const dialogRef = this.dialog.open(ConfirmationComponent,
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,
@@ -123,7 +123,7 @@ export class InterviewIdComponent implements OnInit {
   }
 
   restoreInterviews(interview: Interview) {
-    const dialogRef = this.dialog.open(ConfirmationComponent,
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,
@@ -158,7 +158,7 @@ export class InterviewIdComponent implements OnInit {
   }
 
   openSelectCandidatesDialog() {
-    const dialogRef = this.dialog.open(SelectCandidatesForInterviewComponent,
+    const dialogRef = this.dialog.open(SelectCandidatesForInterviewDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,

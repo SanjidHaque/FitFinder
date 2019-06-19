@@ -1,21 +1,21 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
-import {AddUpdatePipelineStageComponent} from '../add-update-pipeline-stage/add-update-pipeline-stage.component';
+import {AddUpdatePipelineStageDialogComponent} from '../add-update-pipeline-stage-dialog/add-update-pipeline-stage-dialog.component';
 import {PipelineStage} from '../../models/pipeline-stage.model';
 import {NotifierService} from 'angular-notifier';
-import {AddUpdateComponent} from '../add-update/add-update.component';
+import {AddUpdateDialogComponent} from '../add-update-dialog/add-update-dialog.component';
 import {PipelineStageCriteria} from '../../models/pipeline-stage-criteria.model';
 import {SettingsDataStorageService} from '../../services/data-storage/settings-data-storage.service';
 
 @Component({
   selector: 'app-pipeline-stage-criteria',
-  templateUrl: './pipeline-stage-criteria.component.html',
-  styleUrls: ['./pipeline-stage-criteria.component.css']
+  templateUrl: './pipeline-stage-criteria-dialog.component.html',
+  styleUrls: ['./pipeline-stage-criteria-dialog.component.css']
 })
-export class PipelineStageCriteriaComponent implements OnInit {
+export class PipelineStageCriteriaDialogComponent implements OnInit {
 
   constructor(
-    public dialogRef: MatDialogRef<PipelineStageCriteriaComponent>,
+    public dialogRef: MatDialogRef<PipelineStageCriteriaDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private settingsDataStorageService: SettingsDataStorageService,
     private dialog: MatDialog,
@@ -27,7 +27,7 @@ export class PipelineStageCriteriaComponent implements OnInit {
 
 
   addNewPipelineStageCriteria() {
-    const dialogRef = this.dialog.open(AddUpdateComponent,
+    const dialogRef = this.dialog.open(AddUpdateDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,
@@ -64,7 +64,7 @@ export class PipelineStageCriteriaComponent implements OnInit {
     });
   }
   editPipelineStageCriteria(pipelineStageCriteria: PipelineStageCriteria) {
-    const dialogRef = this.dialog.open(AddUpdateComponent,
+    const dialogRef = this.dialog.open(AddUpdateDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,

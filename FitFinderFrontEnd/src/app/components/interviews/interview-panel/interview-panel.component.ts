@@ -3,7 +3,7 @@ import {Interview} from '../../../models/interview.model';
 import {InterviewDataStorageService} from '../../../services/data-storage/interview-data-storage.service';
 import {SelectionModel} from '@angular/cdk/collections';
 import * as moment from 'moment';
-import {ConfirmationComponent} from '../../../dialogs/confirmation/confirmation.component';
+import {ConfirmationDialogComponent} from '../../../dialogs/confirmation-dialog/confirmation-dialog.component';
 import {Candidate} from '../../../models/candidate.model';
 import {MatDialog} from '@angular/material';
 import {NotifierService} from 'angular-notifier';
@@ -50,7 +50,7 @@ export class InterviewPanelComponent implements OnInit {
 
 
   archiveInterviews() {
-    const dialogRef = this.dialog.open(ConfirmationComponent,
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,
@@ -88,7 +88,7 @@ export class InterviewPanelComponent implements OnInit {
   }
 
   restoreInterviews() {
-    const dialogRef = this.dialog.open(ConfirmationComponent,
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,

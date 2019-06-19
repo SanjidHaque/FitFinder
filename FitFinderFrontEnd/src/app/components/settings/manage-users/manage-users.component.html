@@ -4,3 +4,41 @@
     <h4>Manage Users</h4>
   </div>
 </div>
+
+
+<br>
+
+<div class="row">
+
+  <div class="col-xl-2">
+    <button
+      style="outline: 0;width: 100%;"
+      mat-flat-button
+      routerLinkActive="active"
+      routerLink="/settings/manage-user-accounts"><strong>USERS</strong></button>
+  </div>
+
+</div>
+
+<br>
+
+<div class="row" style="font-size: 14px;  color: #656c8a">
+  <div class="col-xl-12">
+    Manage user accounts from here
+  </div>
+</div>
+
+
+<br>
+
+<div class="row">
+  <div class="col-xl-12 text-xl-left">
+    <button routerLink="/settings/manage-user-accounts/add-new-user-accounts"
+            mat-stroked-button color="primary" style="outline: 0;">
+      Add New User
+    </button>
+  </div>
+</div>
+
+
+<router-outlet></router-outlet>

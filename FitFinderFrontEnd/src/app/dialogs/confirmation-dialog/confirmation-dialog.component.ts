@@ -3,13 +3,13 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 
 @Component({
   selector: 'app-confirmation',
-  templateUrl: './confirmation.component.html',
-  styleUrls: ['./confirmation.component.css']
+  templateUrl: './confirmation-dialog.component.html',
+  styleUrls: ['./confirmation-dialog.component.css']
 })
-export class ConfirmationComponent implements OnInit {
+export class ConfirmationDialogComponent implements OnInit {
 
   constructor(
-    public dialogRef: MatDialogRef<ConfirmationComponent>,
+    public dialogRef: MatDialogRef<ConfirmationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {}
 
   ngOnInit() {

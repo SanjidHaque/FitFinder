@@ -38,7 +38,7 @@ import { WorkflowComponent } from './components/settings/workflow/workflow.compo
 import { DisqualifyReasonsComponent } from './components/settings/disqualify-reasons/disqualify-reasons.component';
 import { AmazingTimePickerModule } from 'amazing-time-picker';
 import {
-  SelectCandidatesForInterviewComponent} from './dialogs/select-candidates-for-interview/select-candidates-for-interview.component';
+  SelectCandidatesForInterviewDialogComponent} from './dialogs/select-candidates-for-interview-dialog/select-candidates-for-interview-dialog.component';
 import { SearchCandidatePipe } from './pipes/search-candidate.pipe';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
@@ -66,15 +66,15 @@ import {JobTypeResolverService} from './route-resolvers/job-type-resolver.servic
 import {JobFunctionResolverService} from './route-resolvers/job-function-resolver.service';
 import {DepartmentResolverService} from './route-resolvers/department-resolver.service';
 import {SettingsDataStorageService} from './services/data-storage/settings-data-storage.service';
-import { AddUpdateComponent } from './dialogs/add-update/add-update.component';
-import { AddUpdatePipelineStageComponent } from './dialogs/add-update-pipeline-stage/add-update-pipeline-stage.component';
+import { AddUpdateDialogComponent } from './dialogs/add-update-dialog/add-update-dialog.component';
+import { AddUpdatePipelineStageDialogComponent } from './dialogs/add-update-pipeline-stage-dialog/add-update-pipeline-stage-dialog.component';
 import { ColorPickerModule } from 'ngx-color-picker';
-import { PipelineStageCriteriaComponent } from './dialogs/pipeline-stage-criteria/pipeline-stage-criteria.component';
+import { PipelineStageCriteriaDialogComponent } from './dialogs/pipeline-stage-criteria-dialog/pipeline-stage-criteria-dialog.component';
 import { CandidateScoreCardComponent } from './components/candidates/candidate-id/candidate-score-card/candidate-score-card.component';
-import { AssignJobToCandidateComponent } from './dialogs/assign-job-to-candidate/assign-job-to-candidate.component';
-import { ChangeStatusComponent } from './dialogs/change-status/change-status.component';
-import { ConfirmationComponent } from './dialogs/confirmation/confirmation.component';
-import { DeleteComponent } from './dialogs/delete/delete.component';
+import { AssignJobToCandidateDialogComponent } from './dialogs/assign-job-to-candidate-dialog/assign-job-to-candidate-dialog.component';
+import { ChangeStatusDialogComponent } from './dialogs/change-status-dialog/change-status-dialog.component';
+import { ConfirmationDialogComponent } from './dialogs/confirmation-dialog/confirmation-dialog.component';
+import { DeleteDialogComponent } from './dialogs/delete-dialog/delete-dialog.component';
 import {SignInComponent} from './components/sign-in/sign-in.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { NgProgressModule } from '@ngx-progressbar/core';
@@ -90,6 +90,15 @@ import {HttpErrorInterceptor} from './http-error-interceptor/http-error.intercep
 import {AuthInterceptor} from './auth/auth.interceptor';
 import {JobDataStorageService} from './services/data-storage/job-data-storage.service';
 import {JobService} from './services/shared/job.service';
+import { CompanyPanelComponent } from './components/settings/manage-companies/company-panel/company-panel.component';
+import { EditCompanyComponent } from './components/settings/manage-companies/edit-company/edit-company.component';
+import {CompanyResolverService} from './route-resolvers/company-resolver.service';
+import { EditUserAccountComponent } from './components/settings/manage-users/edit-user-account/edit-user-account.component';
+import { AddNewUserAccountComponent } from './components/settings/manage-users/add-new-user-account/add-new-user-account.component';
+import { UserAccountPanelComponent } from './components/settings/manage-users/user-account-panel/user-account-panel.component';
+import { UserAccountIdComponent } from './components/settings/manage-users/user-account-id/user-account-id.component';
+import { CompanyIdComponent } from './components/settings/manage-companies/company-id/company-id.component';
+
 
 
 @NgModule({
@@ -114,7 +123,7 @@ import {JobService} from './services/shared/job.service';
     JobOpeningsComponent,
     WorkflowComponent,
     DisqualifyReasonsComponent,
-    SelectCandidatesForInterviewComponent,
+    SelectCandidatesForInterviewDialogComponent,
     SearchCandidatePipe,
     PageNotFoundComponent,
     SearchJobPipe,
@@ -134,20 +143,27 @@ import {JobService} from './services/shared/job.service';
     JobTypesComponent,
     JobFunctionsComponent,
     PipelineComponent,
-    AddUpdateComponent,
-    AddUpdatePipelineStageComponent,
-    PipelineStageCriteriaComponent,
+    AddUpdateDialogComponent,
+    AddUpdatePipelineStageDialogComponent,
+    PipelineStageCriteriaDialogComponent,
     CandidateScoreCardComponent,
-    AssignJobToCandidateComponent,
-    ChangeStatusComponent,
-    ConfirmationComponent,
-    DeleteComponent,
+    AssignJobToCandidateDialogComponent,
+    ChangeStatusDialogComponent,
+    ConfirmationDialogComponent,
+    DeleteDialogComponent,
     SignInComponent,
     ForgotPasswordComponent,
     EmailConfirmedComponent,
     EmailConfirmationLinkExpiredComponent,
     AddNewCompanyComponent,
-    ForbiddenComponent
+    ForbiddenComponent,
+    CompanyPanelComponent,
+    EditCompanyComponent,
+    EditUserAccountComponent,
+    AddNewUserAccountComponent,
+    UserAccountPanelComponent,
+    UserAccountIdComponent,
+    CompanyIdComponent
   ],
   imports: [
     BrowserModule,
@@ -198,6 +214,7 @@ import {JobService} from './services/shared/job.service';
     CandidateResolverService,
     InterviewResolverService,
     PipelineResolverService,
+    CompanyResolverService,
     SourceResolverService,
     TagResolverService,
     JobTypeResolverService,
@@ -221,14 +238,14 @@ import {JobService} from './services/shared/job.service';
     }
   ],
   entryComponents: [
-    SelectCandidatesForInterviewComponent,
-    AssignJobToCandidateComponent,
-    AddUpdateComponent,
-    AddUpdatePipelineStageComponent,
-    PipelineStageCriteriaComponent,
-    ChangeStatusComponent,
-    ConfirmationComponent,
-    DeleteComponent
+    SelectCandidatesForInterviewDialogComponent,
+    AssignJobToCandidateDialogComponent,
+    AddUpdateDialogComponent,
+    AddUpdatePipelineStageDialogComponent,
+    PipelineStageCriteriaDialogComponent,
+    ChangeStatusDialogComponent,
+    ConfirmationDialogComponent,
+    DeleteDialogComponent
   ],
 
   bootstrap: [

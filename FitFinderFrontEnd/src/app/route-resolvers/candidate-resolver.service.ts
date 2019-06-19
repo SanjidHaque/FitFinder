@@ -10,7 +10,8 @@ import {CandidateDataStorageService} from '../services/data-storage/candidate-da
 export class CandidateResolverService implements Resolve<Candidate[]> {
     constructor(private candidateDataStorageService: CandidateDataStorageService) {}
 
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Candidate[]> | Promise<Candidate[]> | Candidate[] {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Candidate[]>
+      | Promise<Candidate[]> | Candidate[] {
       return this.candidateDataStorageService.getAllCandidate();
     }
   }

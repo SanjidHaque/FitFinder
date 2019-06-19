@@ -6,10 +6,10 @@ import {CriteriaScore} from '../../models/criteria-score.model';
 
 @Component({
   selector: 'app-change-status',
-  templateUrl: './change-status.component.html',
-  styleUrls: ['./change-status.component.css']
+  templateUrl: './change-status-dialog.component.html',
+  styleUrls: ['./change-status-dialog.component.css']
 })
-export class ChangeStatusComponent implements OnInit {
+export class ChangeStatusDialogComponent implements OnInit {
 
   pipelineStages: PipelineStage[] = [];
   currentStageName: string;
@@ -18,7 +18,7 @@ export class ChangeStatusComponent implements OnInit {
 
 
   constructor(
-    public dialogRef: MatDialogRef<ChangeStatusComponent>,
+    public dialogRef: MatDialogRef<ChangeStatusDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {}
 
   ngOnInit() {

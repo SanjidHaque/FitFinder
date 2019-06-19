@@ -1,0 +1,30 @@
+<br>
+<br>
+
+<div  *ngFor="let userAccount of userAccounts; let i = index">
+
+  <div class="row">
+    <div class="col-xl-10">
+      {{ userAccount.UserName }}
+      <span style="font-size: 13px;" *ngIf="userAccount.IsOwner">
+        <i class="fas fa-shield-alt"></i>
+      </span> | <span>{{ userAccount.RoleName }}</span>
+    </div>
+
+    <div class="col-xl-1" >
+      <i routerLink="/settings/{{ userAccount.Id }}/edit-user-account"
+         style="cursor: pointer; opacity: .8;
+               color: #345188; font-size: 17px;" class="fas fa-pencil-alt"></i>
+    </div>
+
+    <div class="col-xl-1" *ngIf="!userAccount.IsOwner">
+      <i style="cursor: pointer; opacity: .8;
+               color: #bc0000; font-size: 17px;" class="far fa-trash-alt"></i> &nbsp;
+    </div>
+
+  </div>
+
+  <hr *ngIf="i !== userAccounts.length - 1">
+  <br *ngIf="i === userAccounts.length - 1">
+
+</div>

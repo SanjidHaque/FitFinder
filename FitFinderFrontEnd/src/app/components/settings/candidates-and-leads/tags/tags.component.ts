@@ -3,7 +3,7 @@ import {MatDialog} from '@angular/material';
 import {NotifierService} from 'angular-notifier';
 import {Tag} from '../../../../models/tag.model';
 import {SettingsDataStorageService} from '../../../../services/data-storage/settings-data-storage.service';
-import {AddUpdateComponent} from '../../../../dialogs/add-update/add-update.component';
+import {AddUpdateDialogComponent} from '../../../../dialogs/add-update-dialog/add-update-dialog.component';
 import {ActivatedRoute, Data} from '@angular/router';
 
 @Component({
@@ -30,7 +30,7 @@ export class TagsComponent implements OnInit {
   }
 
   editTag(tag: Tag) {
-    const dialogRef = this.tagDialog.open(AddUpdateComponent,
+    const dialogRef = this.tagDialog.open(AddUpdateDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,
@@ -61,7 +61,7 @@ export class TagsComponent implements OnInit {
   }
 
   addNewTagDialog() {
-    const dialogRef = this.tagDialog.open(AddUpdateComponent,
+    const dialogRef = this.tagDialog.open(AddUpdateDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,

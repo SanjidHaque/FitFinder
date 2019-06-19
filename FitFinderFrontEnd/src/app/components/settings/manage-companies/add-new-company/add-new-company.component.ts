@@ -24,12 +24,12 @@ export class AddNewCompanyComponent implements OnInit {
     this.addNewCompanyForm = new FormGroup({
       'companyName': new FormControl('', Validators.required),
       'companyEmail': new FormControl('', [Validators.required, Validators.email]),
-      'companyPhone': new FormControl('', Validators.required),
+      'companyPhoneNumber': new FormControl('', Validators.required),
       'companyAddress': new FormControl(''),
-      'ownerUserName': new FormControl('', Validators.required),
-      'ownerFullName': new FormControl(''),
-      'ownerEmail': new FormControl('', [Validators.required, Validators.email]),
-      'ownerPhone': new FormControl('', Validators.required)
+      'adminUserName': new FormControl('', Validators.required),
+      'adminFullName': new FormControl(''),
+      'adminEmail': new FormControl('', [Validators.required, Validators.email]),
+      'adminPhoneNumber': new FormControl('', Validators.required)
     });
   }
 
@@ -43,10 +43,6 @@ export class AddNewCompanyComponent implements OnInit {
 
   addNewCompany() {
     this.isDisabled = true;
-
-
-
-
     this.userAccountDataStorageService.addNewCompany(
       new Company(
         null,

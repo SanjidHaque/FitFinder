@@ -49,17 +49,12 @@ namespace FitFinderBackEnd.Providers
             ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(manager,
                 OAuthDefaults.AuthenticationType);
 
-            oAuthIdentity.AddClaim(new Claim("Id", user.Id));   //<= The UserId add here as claim
-            oAuthIdentity.AddClaim(new Claim("UserName", user.UserName));  //<= The UserName add here as claim
-            
-
             ClaimsIdentity cookiesIdentity = await user.GenerateUserIdentityAsync(manager,
                 CookieAuthenticationDefaults.AuthenticationType);
 
-
-
             IList<string> userRoles = manager.GetRoles(user.Id);
             identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName));
+
             foreach (string roleName in userRoles)
             {
                 identity.AddClaim(new Claim(ClaimTypes.Role, roleName));

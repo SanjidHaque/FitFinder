@@ -4,8 +4,8 @@ import {DateAdapter, MatDialog} from '@angular/material';
 import {LongDateAdapter} from '../../../date-adapters/long-date.adpater';
 import {Candidate} from '../../../models/candidate.model';
 import {
-  SelectCandidatesForInterviewComponent
-} from '../../../dialogs/select-candidates-for-interview/select-candidates-for-interview.component';
+  SelectCandidatesForInterviewDialogComponent
+} from '../../../dialogs/select-candidates-for-interview-dialog/select-candidates-for-interview-dialog.component';
 import {CandidatesForInterview} from '../../../models/candidates-for-interview.model';
 import {InterviewersForInterview} from '../../../models/interviewers-for-interview.model';
 import {Interview} from '../../../models/interview.model';
@@ -184,7 +184,7 @@ export class AddNewInterviewComponent implements OnInit {
   }
 
   openSelectCandidatesDialog() {
-    const dialogRef = this.dialog.open(SelectCandidatesForInterviewComponent,
+    const dialogRef = this.dialog.open(SelectCandidatesForInterviewDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,

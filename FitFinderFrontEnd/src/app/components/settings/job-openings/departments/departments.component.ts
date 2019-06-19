@@ -3,7 +3,7 @@ import {MatDialog} from '@angular/material';
 import {NotifierService} from 'angular-notifier';
 import {Department} from '../../../../models/department.model';
 import {SettingsDataStorageService} from '../../../../services/data-storage/settings-data-storage.service';
-import {AddUpdateComponent} from '../../../../dialogs/add-update/add-update.component';
+import {AddUpdateDialogComponent} from '../../../../dialogs/add-update-dialog/add-update-dialog.component';
 import {ActivatedRoute, Data} from '@angular/router';
 
 @Component({
@@ -31,7 +31,7 @@ export class DepartmentsComponent implements OnInit {
   }
 
   editDepartment(department: Department) {
-    const dialogRef = this.departmentDialog.open(AddUpdateComponent,
+    const dialogRef = this.departmentDialog.open(AddUpdateDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,
@@ -62,7 +62,7 @@ export class DepartmentsComponent implements OnInit {
   }
 
   addNewDepartment() {
-    const dialogRef = this.departmentDialog.open(AddUpdateComponent,
+    const dialogRef = this.departmentDialog.open(AddUpdateDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,

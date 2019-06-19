@@ -7,7 +7,7 @@ import {Job} from '../../../models/job.model';
 import * as moment from 'moment';
 import {Department} from '../../../models/department.model';
 import {SettingsDataStorageService} from '../../../services/data-storage/settings-data-storage.service';
-import {ConfirmationComponent} from '../../../dialogs/confirmation/confirmation.component';
+import {ConfirmationDialogComponent} from '../../../dialogs/confirmation-dialog/confirmation-dialog.component';
 import {JobService} from '../../../services/shared/job.service';
 
 @Component({
@@ -53,7 +53,7 @@ export class JobIdComponent implements OnInit {
 
 
   restoreJobs(job: Job) {
-    const dialogRef = this.dialog.open(ConfirmationComponent,
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,

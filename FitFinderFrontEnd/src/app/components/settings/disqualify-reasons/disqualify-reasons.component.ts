@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {AddUpdateComponent} from '../../../dialogs/add-update/add-update.component';
+import {AddUpdateDialogComponent} from '../../../dialogs/add-update-dialog/add-update-dialog.component';
 import {MatDialog} from '@angular/material';
 import {SettingsDataStorageService} from '../../../services/data-storage/settings-data-storage.service';
 import {NotifierService} from 'angular-notifier';
@@ -32,7 +32,7 @@ export class DisqualifyReasonsComponent implements OnInit {
   }
 
   addNewRejectedReasonDialog() {
-    const dialogRef = this.commonDialog.open(AddUpdateComponent,
+    const dialogRef = this.commonDialog.open(AddUpdateDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,
@@ -67,7 +67,7 @@ export class DisqualifyReasonsComponent implements OnInit {
   }
 
   addNewWithdrawnReasonDialog() {
-    const dialogRef = this.commonDialog.open(AddUpdateComponent,
+    const dialogRef = this.commonDialog.open(AddUpdateDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,
@@ -103,7 +103,7 @@ export class DisqualifyReasonsComponent implements OnInit {
   }
 
   editRejectedReason(rejectedReason: RejectedReason) {
-    const dialogRef = this.commonDialog.open(AddUpdateComponent,
+    const dialogRef = this.commonDialog.open(AddUpdateDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,
@@ -138,7 +138,7 @@ export class DisqualifyReasonsComponent implements OnInit {
   }
 
   editWithdrawnReason(withdrawnReason: WithdrawnReason) {
-    const dialogRef = this.commonDialog.open(AddUpdateComponent,
+    const dialogRef = this.commonDialog.open(AddUpdateDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,

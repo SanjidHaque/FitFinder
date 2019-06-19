@@ -3,13 +3,13 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 
 @Component({
   selector: 'app-delete',
-  templateUrl: './delete.component.html',
-  styleUrls: ['./delete.component.css']
+  templateUrl: './delete-dialog.component.html',
+  styleUrls: ['./delete-dialog.component.css']
 })
-export class DeleteComponent implements OnInit {
+export class DeleteDialogComponent implements OnInit {
 
   constructor(
-    public dialogRef: MatDialogRef<DeleteComponent>,
+    public dialogRef: MatDialogRef<DeleteDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {}
 
   ngOnInit() {

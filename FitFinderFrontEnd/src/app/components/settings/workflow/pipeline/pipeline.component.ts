@@ -5,10 +5,10 @@ import {ActivatedRoute, Data} from '@angular/router';
 import {PipelineStage} from '../../../../models/pipeline-stage.model';
 import {MatDialog} from '@angular/material';
 import {NotifierService} from 'angular-notifier';
-import {AddUpdateComponent} from '../../../../dialogs/add-update/add-update.component';
+import {AddUpdateDialogComponent} from '../../../../dialogs/add-update-dialog/add-update-dialog.component';
 import {JobType} from '../../../../models/job-type.model';
-import {AddUpdatePipelineStageComponent} from '../../../../dialogs/add-update-pipeline-stage/add-update-pipeline-stage.component';
-import {PipelineStageCriteriaComponent} from '../../../../dialogs/pipeline-stage-criteria/pipeline-stage-criteria.component';
+import {AddUpdatePipelineStageDialogComponent} from '../../../../dialogs/add-update-pipeline-stage-dialog/add-update-pipeline-stage-dialog.component';
+import {PipelineStageCriteriaDialogComponent} from '../../../../dialogs/pipeline-stage-criteria-dialog/pipeline-stage-criteria-dialog.component';
 
 @Component({
   selector: 'app-pipeline',
@@ -35,7 +35,7 @@ export class PipelineComponent implements OnInit {
   }
 
   addNewPipelineStage(pipelineId: number) {
-    const dialogRef = this.dialog.open(AddUpdatePipelineStageComponent,
+    const dialogRef = this.dialog.open(AddUpdatePipelineStageDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,
@@ -75,7 +75,7 @@ export class PipelineComponent implements OnInit {
   }
 
   editPipelineStage(pipelineStage: PipelineStage) {
-    const dialogRef = this.dialog.open(AddUpdatePipelineStageComponent,
+    const dialogRef = this.dialog.open(AddUpdatePipelineStageDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,
@@ -119,7 +119,7 @@ export class PipelineComponent implements OnInit {
 
 
   pipelineStageCriteria(pipelineStage: PipelineStage) {
-    const dialogRef = this.dialog.open(PipelineStageCriteriaComponent,
+    const dialogRef = this.dialog.open(PipelineStageCriteriaDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,

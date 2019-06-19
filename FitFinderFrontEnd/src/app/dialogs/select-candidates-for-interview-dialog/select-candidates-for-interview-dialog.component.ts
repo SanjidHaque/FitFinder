@@ -12,11 +12,11 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 
 @Component({
   selector: 'app-select-candidates-for-interview',
-  templateUrl: './select-candidates-for-interview.component.html',
-  styleUrls: ['./select-candidates-for-interview.component.css'],
+  templateUrl: './select-candidates-for-interview-dialog.component.html',
+  styleUrls: ['./select-candidates-for-interview-dialog.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class SelectCandidatesForInterviewComponent implements OnInit {
+export class SelectCandidatesForInterviewDialogComponent implements OnInit {
   archivedChecked = false;
   favouriteChecked = false;
   candidates: Candidate[] = [];
@@ -28,7 +28,7 @@ export class SelectCandidatesForInterviewComponent implements OnInit {
   jobs: Job[] = [];
 
 
-  constructor(public dialogRef: MatDialogRef<SelectCandidatesForInterviewComponent>,
+  constructor(public dialogRef: MatDialogRef<SelectCandidatesForInterviewDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private interviewService: InterviewDataStorageService,
               private jobService: JobDataStorageService,

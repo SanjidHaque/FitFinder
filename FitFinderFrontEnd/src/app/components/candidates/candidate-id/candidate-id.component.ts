@@ -9,19 +9,19 @@ import {CandidateExperience} from '../../../models/candidate-experience.model';
 import {Source} from '../../../models/source.model';
 import {SettingsDataStorageService} from '../../../services/data-storage/settings-data-storage.service';
 import {MatDialog} from '@angular/material';
-import {AssignJobToCandidateComponent} from '../../../dialogs/assign-job-to-candidate/assign-job-to-candidate.component';
+import {AssignJobToCandidateDialogComponent} from '../../../dialogs/assign-job-to-candidate-dialog/assign-job-to-candidate-dialog.component';
 import {JobAssigned} from '../../../models/job-assigned.model';
 import {Job} from '../../../models/job.model';
 import {JobDataStorageService} from '../../../services/data-storage/job-data-storage.service';
 import {Pipeline} from '../../../models/pipeline.model';
-import {ChangeStatusComponent} from '../../../dialogs/change-status/change-status.component';
+import {ChangeStatusDialogComponent} from '../../../dialogs/change-status-dialog/change-status-dialog.component';
 import {PipelineStage} from '../../../models/pipeline-stage.model';
 import {StageScore} from '../../../models/stage-score.model';
 import {CriteriaScore} from '../../../models/criteria-score.model';
 import {StageComment} from '../../../models/stage-comment.model';
 import {NotifierService} from 'angular-notifier';
-import {ConfirmationComponent} from '../../../dialogs/confirmation/confirmation.component';
-import {DeleteComponent} from '../../../dialogs/delete/delete.component';
+import {ConfirmationDialogComponent} from '../../../dialogs/confirmation-dialog/confirmation-dialog.component';
+import {DeleteDialogComponent} from '../../../dialogs/delete-dialog/delete-dialog.component';
 import {CandidateService} from '../../../services/shared/candidate.service';
 import {Department} from '../../../models/department.model';
 
@@ -125,7 +125,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
       .find(x => x.Id === this.getActiveJobAssignedId());
     const jobName = this.jobs.find(x => x.Id === jobAssigned.JobId).JobTitle;
 
-    const dialogRef = this.dialog.open(DeleteComponent,
+    const dialogRef = this.dialog.open(DeleteDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,
@@ -177,7 +177,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
 
 
 
-    const dialogRef = this.dialog.open(ChangeStatusComponent,
+    const dialogRef = this.dialog.open(ChangeStatusDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,
@@ -291,7 +291,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
   }
 
   archiveCandidates(candidate: Candidate) {
-    const dialogRef = this.dialog.open(ConfirmationComponent,
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,
@@ -321,7 +321,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
     );
   }
   restoreCandidates(candidate: Candidate) {
-    const dialogRef = this.dialog.open(ConfirmationComponent,
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,
@@ -352,7 +352,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
   }
 
   assignJobDialog(candidate: Candidate) {
-    const dialogRef = this.dialog.open(AssignJobToCandidateComponent,
+    const dialogRef = this.dialog.open(AssignJobToCandidateDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,

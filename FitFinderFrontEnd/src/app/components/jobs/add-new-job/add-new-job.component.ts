@@ -8,7 +8,7 @@ import {NotifierService} from 'angular-notifier';
 import {Job} from '../../../models/job.model';
 import {JobDataStorageService} from '../../../services/data-storage/job-data-storage.service';
 import {ActivatedRoute, Data, Router} from '@angular/router';
-import {AddUpdateComponent} from '../../../dialogs/add-update/add-update.component';
+import {AddUpdateDialogComponent} from '../../../dialogs/add-update-dialog/add-update-dialog.component';
 import {Department} from '../../../models/department.model';
 import {JobFunction} from '../../../models/job-function.model';
 import {JobType} from '../../../models/job-type.model';
@@ -228,7 +228,7 @@ export class AddNewJobComponent implements OnInit {
 
 
   addNewDepartment() {
-    const dialogRef = this.departmentDialog.open(AddUpdateComponent,
+    const dialogRef = this.departmentDialog.open(AddUpdateDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,
@@ -262,7 +262,7 @@ export class AddNewJobComponent implements OnInit {
 
 
   addNewJobFunction() {
-    const dialogRef = this.jobFunctionalityDialog.open(AddUpdateComponent,
+    const dialogRef = this.jobFunctionalityDialog.open(AddUpdateDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,
@@ -297,7 +297,7 @@ export class AddNewJobComponent implements OnInit {
 
 
   addNewJobType() {
-    const dialogRef = this.jobType.open(AddUpdateComponent,
+    const dialogRef = this.jobType.open(AddUpdateDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,

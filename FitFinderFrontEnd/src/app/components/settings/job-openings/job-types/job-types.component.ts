@@ -3,7 +3,7 @@ import {MatDialog} from '@angular/material';
 import {NotifierService} from 'angular-notifier';
 import {JobType} from '../../../../models/job-type.model';
 import {SettingsDataStorageService} from '../../../../services/data-storage/settings-data-storage.service';
-import {AddUpdateComponent} from '../../../../dialogs/add-update/add-update.component';
+import {AddUpdateDialogComponent} from '../../../../dialogs/add-update-dialog/add-update-dialog.component';
 import {ActivatedRoute, Data} from '@angular/router';
 
 @Component({
@@ -24,15 +24,14 @@ export class JobTypesComponent implements OnInit {
     this.route.data.
     subscribe(
       (data: Data) => {
-
         this.jobTypes= data['jobTypes'];
       }
-    )
+    );
   }
 
 
   editJobType(jobType: JobType) {
-    const dialogRef = this.jobTypeDialog.open(AddUpdateComponent,
+    const dialogRef = this.jobTypeDialog.open(AddUpdateDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,
@@ -63,7 +62,7 @@ export class JobTypesComponent implements OnInit {
   }
 
   addNewJobType() {
-    const dialogRef = this.jobTypeDialog.open(AddUpdateComponent,
+    const dialogRef = this.jobTypeDialog.open(AddUpdateDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,
