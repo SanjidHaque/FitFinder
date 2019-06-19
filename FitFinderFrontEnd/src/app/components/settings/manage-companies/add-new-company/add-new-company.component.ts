@@ -43,13 +43,21 @@ export class AddNewCompanyComponent implements OnInit {
 
   addNewCompany() {
     this.isDisabled = true;
+
+
+
+
     this.userAccountDataStorageService.addNewCompany(
       new Company(
         null,
         this.addNewCompanyForm.controls['companyName'].value,
         this.addNewCompanyForm.controls['companyAddress'].value,
         this.addNewCompanyForm.controls['companyEmail'].value,
-        this.addNewCompanyForm.controls['companyPhone'].value
+        this.addNewCompanyForm.controls['companyPhoneNumber'].value,
+        this.addNewCompanyForm.controls['adminFullName'].value,
+        this.addNewCompanyForm.controls['adminEmail'].value,
+        this.addNewCompanyForm.controls['adminPhoneNumber'].value,
+        moment().format('h:mm:ss A, Do MMMM YYYY')
       )
     ).subscribe((data: any) => {
 
@@ -59,25 +67,31 @@ export class AddNewCompanyComponent implements OnInit {
             new UserAccount(
               null,
               data.companyId,
-              this.addNewCompanyForm.controls['ownerUserName'].value,
-              this.addNewCompanyForm.controls['ownerFullName'].value,
-              this.addNewCompanyForm.controls['ownerEmail'].value,
+              this.addNewCompanyForm.controls['adminUserName'].value,
+              this.addNewCompanyForm.controls['adminFullName'].value,
+              this.addNewCompanyForm.controls['adminEmail'].value,
               '',
-              this.addNewCompanyForm.controls['ownerPhone'].value,
+              this.addNewCompanyForm.controls['adminPhoneNumber'].value,
               moment().format('h:mm:ss A, Do MMMM YYYY'),
               'HR',
-              true,
-              null
+              true
             )
           ).subscribe( (response: any) => {
             if (response.Succeeded) {
-              this.notifierService.notify( 'default', 'New company created.' +
-                ' A confirmation email includes username and password has sent to the registered email.');
+
+              this.notifierService.notify(
+                'default',
+                'New company created.' +
+                ' A confirmation email ' +
+                'includes username and password has sent to the registered email.');
               this.addNewCompanyForm.reset();
               this.router.navigate(['/settings/manage-companies']);
+
             } else {
+
               this.notifierService.notify( 'default', response.Errors[0]);
-               this.isDisabled = false;
+              this.isDisabled = false;
+
             }
           })
         }

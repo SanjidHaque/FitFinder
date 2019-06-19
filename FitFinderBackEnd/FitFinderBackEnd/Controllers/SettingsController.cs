@@ -1,10 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net.Http;
+using System.Security.Claims;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using FitFinderBackEnd.Models;
+using FitFinderBackEnd.Models.Candidate;
 using FitFinderBackEnd.Models.Settings;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
 
 namespace FitFinderBackEnd.Controllers
 {
@@ -12,16 +18,55 @@ namespace FitFinderBackEnd.Controllers
     public class SettingsController : ApiController
     {
         private readonly ApplicationDbContext _context;
+        private ApplicationUserManager _userManager;
 
         public SettingsController()
         {
             _context = new ApplicationDbContext();
         }
+
+        public SettingsController(ApplicationUserManager userManager,
+            ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
+        {
+            UserManager = userManager;
+            AccessTokenFormat = accessTokenFormat;
+        }
+
+
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+
+        public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; private set; }
         [HttpGet]
         [Route("api/GetAllJobType")]
-        public IHttpActionResult GetAllJobType(long companyId)
+        public IHttpActionResult GetAllJobType()
         {
-            List<JobType> jobTypes = _context.JobTypes.OrderBy(x => x.Id).ToList();
+            Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
+
+            if (userNameClaim == null)
+            {
+                return Ok(new List<JobType>());
+            }
+
+            ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
+            if (applicationUser == null)
+            {
+                return Ok(new List<JobType>());
+            }
+
+            List<JobType> jobTypes = _context.JobTypes
+                .Where(x => x.CompanyId == applicationUser.CompanyId)
+                .OrderBy(x => x.Id)
+                .ToList();
             return Ok(jobTypes);
         }
 
@@ -29,25 +74,70 @@ namespace FitFinderBackEnd.Controllers
 
         [HttpGet]
         [Route("api/GetAllSource")]
-        public IHttpActionResult GetAllSource(long companyId)
+        public IHttpActionResult GetAllSource()
         {
-            List<Source> sources = _context.Sources.OrderBy(x => x.Id).ToList();
+            Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
+
+            if (userNameClaim == null)
+            {
+                return Ok(new List<Source>());
+            }
+
+            ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
+            if (applicationUser == null)
+            {
+                return Ok(new List<Source>());
+            }
+
+            List<Source> sources = _context.Sources
+                .Where(x => x.CompanyId == applicationUser.CompanyId)
+                .OrderBy(x => x.Id).ToList();
             return Ok(sources);
         }
 
         [HttpGet]
         [Route("api/GetAllJobFunction")]
-        public IHttpActionResult GetAllJobFunction(long companyId)
+        public IHttpActionResult GetAllJobFunction()
         {
-            List<JobFunction> jobFunctions = _context.JobFunctions.OrderBy(x => x.Id).ToList();
+            Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
+
+            if (userNameClaim == null)
+            {
+                return Ok(new List<JobFunction>());
+            }
+
+            ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
+            if (applicationUser == null)
+            {
+                return Ok(new List<JobFunction>());
+            }
+
+            List<JobFunction> jobFunctions = _context.JobFunctions
+                .Where(x => x.CompanyId == applicationUser.CompanyId)
+                .OrderBy(x => x.Id).ToList();
             return Ok(jobFunctions);
         }
 
         [HttpGet]
         [Route("api/GetAllDepartment")]
-        public IHttpActionResult GetAllDepartment(long companyId)
+        public IHttpActionResult GetAllDepartment()
         {
-            List<Department> departments = _context.Departments.OrderBy(x => x.Id).ToList();
+            Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
+
+            if (userNameClaim == null)
+            {
+                return Ok(new List<Department>());
+            }
+
+            ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
+            if (applicationUser == null)
+            {
+                return Ok(new List<Department>());
+            }
+
+            List<Department> departments = _context.Departments
+                .Where(x => x.CompanyId == applicationUser.CompanyId)
+                .OrderBy(x => x.Id).ToList();
             return Ok(departments);
         }
 
@@ -58,10 +148,21 @@ namespace FitFinderBackEnd.Controllers
         [Route("api/AddNewDepartment")]
         public IHttpActionResult AddNewDepartment(Department department)
         {
-            if (department == null)
+
+            Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
+
+            if (userNameClaim == null)
             {
-                return NotFound();
+                return Ok();
             }
+
+            ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
+            if (applicationUser == null || department == null)
+            {
+                return Ok();
+            }
+
+            department.CompanyId = applicationUser.CompanyId;
             _context.Departments.Add(department);
             _context.SaveChanges();
             return Ok(department);
@@ -73,10 +174,20 @@ namespace FitFinderBackEnd.Controllers
         [Route("api/AddNewSource")]
         public IHttpActionResult AddNewSource(Source source)
         {
-            if (source == null)
+            Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
+
+            if (userNameClaim == null)
             {
-                return NotFound();
+                return Ok();
             }
+
+            ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
+            if (applicationUser == null || source == null)
+            {
+                return Ok();
+            }
+
+            source.CompanyId = applicationUser.CompanyId;
             _context.Sources.Add(source);
             _context.SaveChanges();
             return Ok(source);
@@ -86,10 +197,20 @@ namespace FitFinderBackEnd.Controllers
         [Route("api/AddNewJobFunction")]
         public IHttpActionResult AddNewJobFunction(JobFunction jobFunction)
         {
-            if (jobFunction == null)
+            Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
+
+            if (userNameClaim == null)
             {
-                return NotFound();
+                return Ok();
             }
+
+            ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
+            if (applicationUser == null || jobFunction == null)
+            {
+                return Ok();
+            }
+
+            jobFunction.CompanyId = applicationUser.CompanyId;
             _context.JobFunctions.Add(jobFunction);
             _context.SaveChanges();
             return Ok(jobFunction);
@@ -100,10 +221,20 @@ namespace FitFinderBackEnd.Controllers
         [Route("api/AddNewJobType")]
         public IHttpActionResult AddNewJobType(JobType jobType)
         {
-            if (jobType == null)
+            Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
+
+            if (userNameClaim == null)
             {
-                return NotFound();
+                return Ok();
             }
+
+            ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
+            if (applicationUser == null || jobType == null)
+            {
+                return Ok();
+            }
+
+            jobType.CompanyId = applicationUser.CompanyId;
             _context.JobTypes.Add(jobType);
             _context.SaveChanges();
             return Ok(jobType);
@@ -113,16 +244,25 @@ namespace FitFinderBackEnd.Controllers
         [Route("api/EditJobType")]
         public IHttpActionResult EditJobType(JobType jobType)
         {
-            if (jobType == null)
+            Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
+
+            if (userNameClaim == null)
             {
-                return NotFound();
+                return Ok();
             }
 
-            JobType getJobType = _context.JobTypes.FirstOrDefault(x => x.Id == jobType.Id);
+            ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
+            if (applicationUser == null || jobType == null)
+            {
+                return Ok();
+            }
+
+
+            JobType getJobType = _context.JobTypes.FirstOrDefault(x => x.Id == jobType.Id && x.CompanyId == applicationUser.CompanyId);
 
             if (getJobType == null)
             {
-                return NotFound();
+                return Ok();
             }
             getJobType.Name = jobType.Name;
             _context.SaveChanges();
@@ -134,16 +274,25 @@ namespace FitFinderBackEnd.Controllers
         [Route("api/EditJobFunction")]
         public IHttpActionResult EditJobFunction(JobFunction jobFunction)
         {
-            if (jobFunction == null)
+            Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
+
+            if (userNameClaim == null)
             {
-                return NotFound();
+                return Ok();
             }
 
-            JobFunction getJobFunction = _context.JobFunctions.FirstOrDefault(x => x.Id == jobFunction.Id);
+            ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
+            if (applicationUser == null || jobFunction == null)
+            {
+                return Ok();
+            }
+
+
+            JobFunction getJobFunction = _context.JobFunctions.FirstOrDefault(x => x.Id == jobFunction.Id && x.CompanyId == applicationUser.CompanyId);
 
             if (getJobFunction == null)
             {
-                return NotFound();
+                return Ok();
             }
             getJobFunction.Name = jobFunction.Name;
             _context.SaveChanges();
@@ -155,18 +304,26 @@ namespace FitFinderBackEnd.Controllers
         [Route("api/EditDepartment")]
         public IHttpActionResult EditDepartment(Department department)
         {
-            if (department == null)
+            Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
+
+            if (userNameClaim == null)
             {
-                return NotFound();
+                return Ok();
             }
 
-            Department getDepartment = _context.Departments.FirstOrDefault(x => x.Id == department.Id);
+            ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
+            if (applicationUser == null || department == null)
+            {
+                return Ok();
+            }
+
+
+            Department getDepartment = _context.Departments.FirstOrDefault(x => x.Id == department.Id && x.CompanyId == applicationUser.CompanyId);
 
             if (getDepartment == null)
             {
-                return NotFound();
+                return Ok();
             }
-
             getDepartment.Name = department.Name;
             _context.SaveChanges();
 
@@ -177,16 +334,25 @@ namespace FitFinderBackEnd.Controllers
         [Route("api/EditSource")]
         public IHttpActionResult EditSource(Source source)
         {
-            if (source == null)
+            Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
+
+            if (userNameClaim == null)
             {
-                return NotFound();
+                return Ok();
             }
 
-            Source getSource = _context.Sources.FirstOrDefault(x => x.Id == source.Id);
+            ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
+            if (applicationUser == null || source == null)
+            {
+                return Ok();
+            }
+
+
+            Source getSource = _context.Sources.FirstOrDefault(x => x.Id == source.Id && x.CompanyId == applicationUser.CompanyId);
 
             if (getSource == null)
             {
-                return NotFound();
+                return Ok();
             }
             getSource.Name = source.Name;
             _context.SaveChanges();
@@ -198,10 +364,20 @@ namespace FitFinderBackEnd.Controllers
         [Route("api/AddNewRejectedReason")]
         public IHttpActionResult AddNewRejectedReason(RejectedReason rejectedReason)
         {
-            if (rejectedReason == null)
+            Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
+
+            if (userNameClaim == null)
             {
-                return NotFound();
+                return Ok();
             }
+
+            ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
+            if (applicationUser == null || rejectedReason == null)
+            {
+                return Ok();
+            }
+
+            rejectedReason.CompanyId = applicationUser.CompanyId;
             _context.RejectedReasons.Add(rejectedReason);
             _context.SaveChanges();
             return Ok(rejectedReason);
@@ -211,10 +387,20 @@ namespace FitFinderBackEnd.Controllers
         [Route("api/AddNewWithdrawnReason")]
         public IHttpActionResult AddNewWithdrawnReason(WithdrawnReason withdrawnReason)
         {
-            if (withdrawnReason == null)
+            Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
+
+            if (userNameClaim == null)
             {
-                return NotFound();
+                return Ok();
             }
+
+            ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
+            if (applicationUser == null || withdrawnReason == null)
+            {
+                return Ok();
+            }
+
+            withdrawnReason.CompanyId = applicationUser.CompanyId;
             _context.WithdrawnReasons.Add(withdrawnReason);
             _context.SaveChanges();
             return Ok(withdrawnReason);
@@ -222,17 +408,47 @@ namespace FitFinderBackEnd.Controllers
 
         [HttpGet]
         [Route("api/GetAllRejectedReason")]
-        public IHttpActionResult GetAllRejectedReason(long companyId)
+        public IHttpActionResult GetAllRejectedReason()
         {
-            List<RejectedReason> rejectedReasons = _context.RejectedReasons.OrderBy(x => x.Id).ToList();
+            Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
+
+            if (userNameClaim == null)
+            {
+                return Ok(new List<RejectedReason>());
+            }
+
+            ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
+            if (applicationUser == null)
+            {
+                return Ok(new List<RejectedReason>());
+            }
+
+            List<RejectedReason> rejectedReasons = _context.RejectedReasons
+                .Where(x => x.CompanyId == applicationUser.CompanyId)
+                .OrderBy(x => x.Id).ToList();
             return Ok(rejectedReasons);
         }
 
         [HttpGet]
         [Route("api/GetAllWithdrawnReason")]
-        public IHttpActionResult GetAllWithdrawnReason(long companyId)
+        public IHttpActionResult GetAllWithdrawnReason()
         {
-            List<WithdrawnReason> withdrawnReasons = _context.WithdrawnReasons.OrderBy(x => x.Id).ToList();
+            Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
+
+            if (userNameClaim == null)
+            {
+                return Ok(new List<WithdrawnReason>());
+            }
+
+            ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
+            if (applicationUser == null)
+            {
+                return Ok(new List<WithdrawnReason>());
+            }
+
+            List<WithdrawnReason> withdrawnReasons = _context.WithdrawnReasons
+                .Where(x => x.CompanyId == applicationUser.CompanyId)
+                .OrderBy(x => x.Id).ToList();
             return Ok(withdrawnReasons);
         }
 
@@ -241,16 +457,25 @@ namespace FitFinderBackEnd.Controllers
         [Route("api/EditRejectedReason")]
         public IHttpActionResult EditRejectedReason(RejectedReason rejectedReason)
         {
-            if (rejectedReason == null)
+            Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
+
+            if (userNameClaim == null)
             {
-                return NotFound();
+                return Ok();
             }
 
-            RejectedReason getRejectedReason = _context.RejectedReasons.FirstOrDefault(x => x.Id == rejectedReason.Id);
+            ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
+            if (applicationUser == null || rejectedReason == null)
+            {
+                return Ok();
+            }
+
+
+            RejectedReason getRejectedReason = _context.RejectedReasons.FirstOrDefault(x => x.Id == rejectedReason.Id && x.CompanyId == applicationUser.CompanyId);
 
             if (getRejectedReason == null)
             {
-                return NotFound();
+                return Ok();
             }
 
             getRejectedReason.Name = rejectedReason.Name;
@@ -263,19 +488,28 @@ namespace FitFinderBackEnd.Controllers
         [Route("api/EditWithdrawnReason")]
         public IHttpActionResult EditWithdrawnReason(WithdrawnReason withdrawnReason)
         {
-            if (withdrawnReason == null)
+            Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
+
+            if (userNameClaim == null)
             {
-                return NotFound();
+                return Ok();
             }
 
-            WithdrawnReason getWithdrawnReason = _context.WithdrawnReasons.FirstOrDefault(x => x.Id == withdrawnReason.Id);
+            ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
+            if (applicationUser == null || withdrawnReason == null)
+            {
+                return Ok();
+            }
+
+
+            WithdrawnReason getWithdrawnReason = _context.WithdrawnReasons.FirstOrDefault(x => x.Id == withdrawnReason.Id && x.CompanyId == applicationUser.CompanyId);
 
             if (getWithdrawnReason == null)
             {
-                return NotFound();
+                return Ok();
             }
 
-            getWithdrawnReason.Name = withdrawnReason.Name;
+            withdrawnReason.Name = withdrawnReason.Name;
             _context.SaveChanges();
 
             return Ok();
@@ -301,9 +535,24 @@ namespace FitFinderBackEnd.Controllers
 
         [HttpGet]
         [Route("api/GetAllPipeline")]
-        public IHttpActionResult GetAllPipeline(long companyId)
+        public IHttpActionResult GetAllPipeline()
         {
-            List<Pipeline> pipelines = _context.Pipelines.Include(a => a.PipelineStage.Select(b => b.PipelineStageCriteria))
+            Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
+
+            if (userNameClaim == null)
+            {
+                return Ok(new List<Candidate>());
+            }
+
+            ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
+            if (applicationUser == null)
+            {
+                return Ok(new List<Candidate>());
+            }
+
+            List<Pipeline> pipelines = _context.Pipelines
+                .Where(x => x.CompanyId == applicationUser.CompanyId)
+                .Include(a => a.PipelineStage.Select(b => b.PipelineStageCriteria))
                 .OrderBy(x => x.Id).ToList();
             return Ok(pipelines);
         }

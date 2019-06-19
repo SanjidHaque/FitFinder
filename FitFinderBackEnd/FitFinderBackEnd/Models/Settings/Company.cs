@@ -3,9 +3,13 @@
     public class Company
     {
         public long Id { get; set; }
-        public string Name { get; set; }
-        public string Address { get; set; }
-        public string Email { get; set; }
-        public string PhoneNumber { get; set; }
-    }
+        public string CompanyName { get; set; }
+        public string CompanyAddress { get; set; }
+        public string CompanyEmail { get; set; }
+        public string CompanyPhoneNumber { get; set; }
+        public string AdminFullName { get; set; }
+        public string AdminEmail { get; set; }
+        public string AdminPhoneNumber { get; set; }
+        public string JoiningDateTime { get; set; }
+    }   
 }

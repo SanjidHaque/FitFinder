@@ -1,10 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net.Http;
+using System.Security.Claims;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using FitFinderBackEnd.Models;
 using FitFinderBackEnd.Models.Job;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
 
 namespace FitFinderBackEnd.Controllers
 {
@@ -12,19 +17,55 @@ namespace FitFinderBackEnd.Controllers
     public class JobController : ApiController
     {
         private readonly ApplicationDbContext _context;
+        private ApplicationUserManager _userManager;
+
         public JobController()
         {
             _context = new ApplicationDbContext();
         }
 
+
+        public JobController(ApplicationUserManager userManager,
+            ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
+        {
+            UserManager = userManager;
+            AccessTokenFormat = accessTokenFormat;
+        }
+
+
+
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+
+        public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; private set; }
+
         [HttpPost]
         [Route("api/AddNewJob")]
         public IHttpActionResult AddNewJob(Job job)
         {
-            if (job == null)
+            Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
+
+            if (userNameClaim == null)
             {
-                return NotFound();
+                return Ok();
             }
+
+            ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
+            if (applicationUser == null || job == null)
+            {
+                return Ok();
+            }
+
+            job.CompanyId = applicationUser.CompanyId;
 
             _context.Jobs.Add(job);
 //            foreach (var jobAttachment in job.JobAttachment)
@@ -40,10 +81,25 @@ namespace FitFinderBackEnd.Controllers
         [HttpGet]
         [Route("api/GetAllJob")]
         [AllowAnonymous]
-        public IHttpActionResult GetAllJob(long companyId)
+        public IHttpActionResult GetAllJob()
         {
-            List<Job> job = _context.Jobs.
-                Include(e => e.JobAttachment).OrderBy(x => x.Id).ToList();
+            Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
+
+            if (userNameClaim == null)
+            {
+                return Ok(new List<Job>());
+            }
+
+            ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
+            if (applicationUser == null)
+            {
+                return Ok(new List<Job>());
+            }
+
+
+            List<Job> job = _context.Jobs
+                .Where(x => x.CompanyId == applicationUser.CompanyId)
+                .Include(e => e.JobAttachment).OrderBy(x => x.Id).ToList();
             return Ok(job);
         }
 

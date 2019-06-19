@@ -31,6 +31,8 @@ export class AddNewInterviewComponent implements OnInit {
   candidateDefaultImage = 'assets/images/candidateDefaultImage.png';
   isDisabled = false;
 
+
+
   jobs: Job[] = [];
   users = [
     {id: 1, userName: 'Yaha Juan', role: 'Super user'},
@@ -66,6 +68,7 @@ export class AddNewInterviewComponent implements OnInit {
       .subscribe(
         (data: Data) => {
           this.jobs = data['jobs'];
+          this.candidates = data['candidates'];
         }
       );
 

@@ -51,7 +51,7 @@
     <mat-form-field style="width: 100%;" appearance="outline">
       <mat-label>Company Phone</mat-label>
       <input
-        formControlName="companyPhone"
+        formControlName="companyPhoneNumber"
         required
         matInput>
       <mat-error>You must enter a phone number!</mat-error>
@@ -93,7 +93,7 @@
         <mat-label>User Name</mat-label>
         <input
           required
-          formControlName="ownerUserName"
+          formControlName="adminUserName"
           matInput>
         <mat-error>You must enter an user name!</mat-error>
       </mat-form-field>
@@ -103,7 +103,7 @@
       <mat-form-field style="width: 100%;" appearance="outline">
         <mat-label>Full Name</mat-label>
         <input
-          formControlName="ownerFullName"
+          formControlName="adminFullName"
           matInput>
       </mat-form-field>
     </div>
@@ -118,11 +118,11 @@
     <mat-form-field style="width: 100%;" appearance="outline">
       <mat-label>Owner Email</mat-label>
       <input
-        formControlName="ownerEmail"
+        formControlName="adminEmail"
         required
         matInput>
-      <mat-error *ngIf="addNewCompanyForm.controls['ownerEmail'].invalid">
-        {{getEmailErrorMessage('ownerEmail')}}
+      <mat-error *ngIf="addNewCompanyForm.controls['adminEmail'].invalid">
+        {{getEmailErrorMessage('adminEmail')}}
       </mat-error>
     </mat-form-field>
   </div>
@@ -131,7 +131,7 @@
     <mat-form-field style="width: 100%;" appearance="outline">
       <mat-label>Phone</mat-label>
       <input
-        formControlName="ownerPhone"
+        formControlName="adminPhoneNumber"
         required
         matInput>
       <mat-error>You must enter a phone number!</mat-error>

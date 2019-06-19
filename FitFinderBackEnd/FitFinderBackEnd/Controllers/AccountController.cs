@@ -391,26 +391,50 @@ namespace FitFinderBackEnd.Controllers
 
         [HttpGet]
         [AllowAnonymous]
+        [Route("api/GetAllCompany")]
+        public IHttpActionResult GetAllCompany()
+        {
+            List<Company> companies = _context.Companies.ToList();
+            return Ok(companies);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
         [Route("api/GetAllUserAccount")]
         public IHttpActionResult GetAllUserAccount()
         {
-            UserStore<ApplicationUser> userStore = new UserStore<ApplicationUser>(new ApplicationDbContext());
+        //    ApplicationUser currentlyLoggedInUser = GetCurrentlyLoggedInUser();
+            //if (currentlyLoggedInUser == null)
+            //{
+            //    return Ok(new List<UserAccount>());
+            //}
+
+          
             List<UserAccount> userAccounts = new List<UserAccount>();
-            List<ApplicationUser> applicationUsers = _context.Users.Include(x => x.Company).ToList();
+            List<ApplicationUser> applicationUsers = _context.Users
+                .Where(x => x.CompanyId == 2)
+                .ToList();
 
             foreach (var applicationUser in applicationUsers)
             {
                 foreach (var role in applicationUser.Roles)
                 {
                     string roleName;
-                    if (role.RoleId == "ef5f5c44-251a-43c3-a9f7-7daa20049845")
+
+                    if (role.RoleId == "53a00e8a-cad2-4bcc-8317-20540f1d01c8")
                     {
                         roleName = "Admin";
                     }
+                    else if(role.RoleId == "9c6e5f5a-c5b6-467b-9f65-bd8c006072e0")
+                    {
+                        roleName = "HR";
+                    }
                     else
                     {
-                        roleName = "Worker";
+                        roleName = "Team Member";
                     }
+
+
                     UserAccount userAccount = new UserAccount()
                     {
                         Id = applicationUser.Id,
@@ -431,23 +455,7 @@ namespace FitFinderBackEnd.Controllers
         }
 
        
-        public ApplicationUser GetCurrentlyLoggedInUser()
-        {
-            Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
-
-            if (userNameClaim == null)
-            {
-                return null;
-            }
-
-            ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
-            if (applicationUser == null)
-            {
-                return null;
-            }
-            return applicationUser;
-        }
-
+       
 
 
         [HttpGet]

@@ -234,7 +234,8 @@ const appRoutes: Routes = [
         component: AddNewInterviewComponent,
         resolve:
           {
-            jobs: JobResolverService
+            jobs: JobResolverService,
+            candidates: CandidateResolverService
           }
       },
       {

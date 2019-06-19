@@ -1,6 +1,8 @@
 import {CandidateEducation} from './candidate-education.model';
 import {CandidateExperience} from './candidate-experience.model';
 import {CandidateAttachment} from './canidate-attachment.model';
+import {CriteriaScore} from './criteria-score.model';
+import {StageScore} from './stage-score.model';
 import {JobAssigned} from './job-assigned.model';
 
 export class Candidate {
@@ -26,7 +28,6 @@ export class Candidate {
    IsClosed: boolean;
    ApplicationDate: string;
    IsFavourite: boolean;
-   Cad: number;
 
 
   constructor(

@@ -1,8 +1,6 @@
 import {Company} from './company.model';
 
 export class UserAccount {
-  Company: Company;
-
   constructor(
     public Id: string,
     public CompanyId: number,
@@ -13,9 +11,6 @@ export class UserAccount {
     public PhoneNumber: string,
     public JoiningDateTime: string,
     public RoleName: string,
-    public IsOwner: boolean,
-    company: Company
-  ) {
-    this.Company = company;
-  }
+    public IsOwner: boolean
+  ) {}
 }

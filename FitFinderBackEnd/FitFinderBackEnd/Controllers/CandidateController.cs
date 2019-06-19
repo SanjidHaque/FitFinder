@@ -1,11 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net.Http;
+using System.Security.Claims;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using FitFinderBackEnd.Models;
 using FitFinderBackEnd.Models.Candidate;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
 
 namespace FitFinderBackEnd.Controllers
 {
@@ -13,24 +18,55 @@ namespace FitFinderBackEnd.Controllers
     public class CandidateController : ApiController
     {
         private readonly ApplicationDbContext _context;
-        private readonly  AccountController _accountController;
+        private ApplicationUserManager _userManager;
 
         public CandidateController()
         {
             _context = new ApplicationDbContext();
-            _accountController = new AccountController();
         }
 
-       
+        public CandidateController(ApplicationUserManager userManager,
+            ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
+        {
+            UserManager = userManager;
+            AccessTokenFormat = accessTokenFormat;
+        }
+
+     
+
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+
+        public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; private set; }
+
 
         [HttpPost]
         [Route("api/AddNewCandidate")]
         public IHttpActionResult AddNewCandidate(Candidate candidate)
         {
-            if (candidate == null)
+            Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
+
+            if (userNameClaim == null)
             {
-                return NotFound();
+                return Ok();
             }
+
+            ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
+            if (applicationUser == null || candidate == null)
+            {
+                return Ok();
+            }
+
+            candidate.CompanyId = applicationUser.CompanyId;
             _context.Candidates.Add(candidate);
 
 //            foreach (var candidateEducation in candidate.CandidateEducation)
@@ -60,7 +96,7 @@ namespace FitFinderBackEnd.Controllers
         [HttpPost]
         [Route("api/UploadAttachments")]
         [AllowAnonymous]
-        public IHttpActionResult UploadAttachments(long companyId)
+        public IHttpActionResult UploadAttachments()
         {
             var httpRequest = HttpContext.Current.Request;
             for (int i = 0; i < httpRequest.Files.Count; i++)
@@ -77,13 +113,22 @@ namespace FitFinderBackEnd.Controllers
         [AllowAnonymous]
         public IHttpActionResult GetAllCandidate()
         {
-            ApplicationUser applicationUser = _accountController.GetCurrentlyLoggedInUser();
+            Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
+
+            if (userNameClaim == null)
+            {
+                return Ok(new List<Candidate>());
+            }
+
+            ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
             if (applicationUser == null)
             {
                 return Ok(new List<Candidate>());
             }
 
-            List<Candidate> candidate = _context.Candidates.
+
+            List<Candidate> candidate = _context.Candidates
+                .Where(x => x.CompanyId == applicationUser.CompanyId).
                 Include(c => c.CandidateEducation).
                 Include(d => d.CandidateExperience).
                 Include(e => e.CandidateAttachment).
@@ -91,7 +136,6 @@ namespace FitFinderBackEnd.Controllers
                 Include(f => f.JobAssigned.Select(g => g.CriteriaScore.Select(a => a.JobAssigned))).
                 Include(f => f.JobAssigned.Select(g => g.StageComment.Select(a => a.JobAssigned)))
                 .OrderBy(x => x.Id).ToList();
-
 
             return Ok(candidate);
         }
