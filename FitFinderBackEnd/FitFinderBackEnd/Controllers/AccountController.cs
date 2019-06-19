@@ -344,6 +344,7 @@ namespace FitFinderBackEnd.Controllers
 
        
         [HttpPost]
+        [AllowAnonymous]
         [Route("api/AddNewUserAccount")]
         public async Task<IHttpActionResult> Register(UserAccount userAccount)
         {
@@ -429,14 +430,33 @@ namespace FitFinderBackEnd.Controllers
             return Ok(userAccounts);
         }
 
+       
+        public ApplicationUser GetCurrentlyLoggedInUser()
+        {
+            Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
+
+            if (userNameClaim == null)
+            {
+                return null;
+            }
+
+            ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
+            if (applicationUser == null)
+            {
+                return null;
+            }
+            return applicationUser;
+        }
+
+
 
         [HttpGet]
         [Route("api/GetAllRole")]
+        [AllowAnonymous]
         public IHttpActionResult GetAllRole()
         {
             RoleStore<IdentityRole> roleStore = new RoleStore<IdentityRole>(_context);
             RoleManager<IdentityRole> roleManager = new RoleManager<IdentityRole>(roleStore);
-
             var roles = roleManager.Roles.Select(x => new { x.Id, x.Name }).ToList();
             return Ok(roles);
         }

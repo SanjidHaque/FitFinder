@@ -38,15 +38,28 @@ namespace FitFinderBackEnd.Providers
                 return;
             }
             
-            if (!manager.IsEmailConfirmed(user.Id))
-            {
-                context.SetError("unconfirmed_account", "The user's account has not been activated");
-                return;
-            }
+//            if (!manager.IsEmailConfirmed(user.Id))
+//            {
+//                context.SetError("unconfirmed_account", "The user's account has not been activated");
+//                return;
+//            }
 
 
             ClaimsIdentity identity = new ClaimsIdentity(context.Options.AuthenticationType);
+            ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(manager,
+                OAuthDefaults.AuthenticationType);
+
+            oAuthIdentity.AddClaim(new Claim("Id", user.Id));   //<= The UserId add here as claim
+            oAuthIdentity.AddClaim(new Claim("UserName", user.UserName));  //<= The UserName add here as claim
+            
+
+            ClaimsIdentity cookiesIdentity = await user.GenerateUserIdentityAsync(manager,
+                CookieAuthenticationDefaults.AuthenticationType);
+
+
+
             IList<string> userRoles = manager.GetRoles(user.Id);
+            identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName));
             foreach (string roleName in userRoles)
             {
                 identity.AddClaim(new Claim(ClaimTypes.Role, roleName));

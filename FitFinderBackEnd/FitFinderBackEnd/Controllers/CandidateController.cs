@@ -13,10 +13,15 @@ namespace FitFinderBackEnd.Controllers
     public class CandidateController : ApiController
     {
         private readonly ApplicationDbContext _context;
+        private readonly  AccountController _accountController;
+
         public CandidateController()
         {
-             _context = new ApplicationDbContext();
+            _context = new ApplicationDbContext();
+            _accountController = new AccountController();
         }
+
+       
 
         [HttpPost]
         [Route("api/AddNewCandidate")]
@@ -68,10 +73,16 @@ namespace FitFinderBackEnd.Controllers
         }
 
         [HttpGet]
-        [Route("api/GetAllCandidate/{companyId}")]
+        [Route("api/GetAllCandidate")]
         [AllowAnonymous]
-        public IHttpActionResult GetAllCandidate(long companyId)
+        public IHttpActionResult GetAllCandidate()
         {
+            ApplicationUser applicationUser = _accountController.GetCurrentlyLoggedInUser();
+            if (applicationUser == null)
+            {
+                return Ok(new List<Candidate>());
+            }
+
             List<Candidate> candidate = _context.Candidates.
                 Include(c => c.CandidateEducation).
                 Include(d => d.CandidateExperience).

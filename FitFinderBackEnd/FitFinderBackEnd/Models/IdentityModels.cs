@@ -32,19 +32,11 @@ namespace FitFinderBackEnd.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Candidate.Candidate> Candidates { get; set; }
-//        public DbSet<CandidateAttachment> CandidateAttachments { get; set; }
-//        public DbSet<CandidateEducation> CandidateEducations { get; set; }
-//        public DbSet<CandidateExperience> CandidateExperiences { get; set; }
-
         public DbSet<Source> Sources { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<JobFunction> JobFunctions { get; set; }
         public DbSet<JobType> JobTypes { get; set; }
-
-//        public DbSet<CandidatesForInterview> CandidatesForInterviews { get; set; }
-//        public DbSet<InterviewersForInterview> InterviewersForInterviews { get; set; }
-        public DbSet<Interview.Interview> Interviews { get; set; }
-      //  public DbSet<JobAttachment> JobAttachments { get; set; }
+        public DbSet<Interview.Interview> Interviews { get; set; }S
         public DbSet<Job.Job> Jobs { get; set; }
 
         public DbSet<RejectedReason> RejectedReasons { get; set; }
