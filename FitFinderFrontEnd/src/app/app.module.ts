@@ -31,7 +31,6 @@ import {InterviewDataStorageService} from './services/data-storage/interview-dat
 import {InterviewResolverService} from './route-resolvers/interview-resolver.service';
 import {JobResolverService} from './route-resolvers/job-resolver.service';
 import { ManageCompaniesComponent } from './components/settings/manage-companies/manage-companies.component';
-import { ManageUsersComponent } from './components/settings/manage-users/manage-users.component';
 import { CandidatesAndLeadsComponent } from './components/settings/candidates-and-leads/candidates-and-leads.component';
 import { JobOpeningsComponent } from './components/settings/job-openings/job-openings.component';
 import { WorkflowComponent } from './components/settings/workflow/workflow.component';
@@ -93,11 +92,17 @@ import {JobService} from './services/shared/job.service';
 import { CompanyPanelComponent } from './components/settings/manage-companies/company-panel/company-panel.component';
 import { EditCompanyComponent } from './components/settings/manage-companies/edit-company/edit-company.component';
 import {CompanyResolverService} from './route-resolvers/company-resolver.service';
-import { EditUserAccountComponent } from './components/settings/manage-users/edit-user-account/edit-user-account.component';
-import { AddNewUserAccountComponent } from './components/settings/manage-users/add-new-user-account/add-new-user-account.component';
-import { UserAccountPanelComponent } from './components/settings/manage-users/user-account-panel/user-account-panel.component';
-import { UserAccountIdComponent } from './components/settings/manage-users/user-account-id/user-account-id.component';
 import { CompanyIdComponent } from './components/settings/manage-companies/company-id/company-id.component';
+import {ManageUserAccountsComponent} from './components/settings/manage-user-accounts/manage-user-accounts.component';
+import {UserAccountIdComponent} from './components/settings/manage-user-accounts/user-account-id/user-account-id.component';
+import {UserAccountPanelComponent} from './components/settings/manage-user-accounts/user-account-panel/user-account-panel.component';
+import {AddNewUserAccountComponent} from './components/settings/manage-user-accounts/add-new-user-account/add-new-user-account.component';
+import {EditUserAccountComponent} from './components/settings/manage-user-accounts/edit-user-account/edit-user-account.component';
+import {RoleResolverService} from './route-resolvers/role-resolver.service';
+import { EditProfileComponent } from './components/settings/profile/edit-profile/edit-profile.component';
+import { ChangeProfilePasswordComponent } from './components/settings/profile/change-profile-password/change-profile-password.component';
+import {ProfileDetailComponent} from './components/settings/profile/profile-detail/profile-detail.component';
+import {SingleCompanyResolverService} from './route-resolvers/single-company-resolver.service';
 
 
 
@@ -118,7 +123,7 @@ import { CompanyIdComponent } from './components/settings/manage-companies/compa
     InterviewPanelComponent,
     ProfileComponent,
     ManageCompaniesComponent,
-    ManageUsersComponent,
+    ManageUserAccountsComponent,
     CandidatesAndLeadsComponent,
     JobOpeningsComponent,
     WorkflowComponent,
@@ -163,7 +168,10 @@ import { CompanyIdComponent } from './components/settings/manage-companies/compa
     AddNewUserAccountComponent,
     UserAccountPanelComponent,
     UserAccountIdComponent,
-    CompanyIdComponent
+    CompanyIdComponent,
+    ProfileDetailComponent,
+    EditProfileComponent,
+    ChangeProfilePasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -221,6 +229,8 @@ import { CompanyIdComponent } from './components/settings/manage-companies/compa
     JobFunctionResolverService,
     DepartmentResolverService,
     JobResolverService,
+    SingleCompanyResolverService,
+    RoleResolverService,
     SettingsDataStorageService,
     UserAccountDataStorageService,
     JobDataStorageService,

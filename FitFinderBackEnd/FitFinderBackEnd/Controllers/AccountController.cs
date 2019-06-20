@@ -331,6 +331,7 @@ namespace FitFinderBackEnd.Controllers
         [Route("api/AddNewCompany")]
         public IHttpActionResult AddNewCompany(Company company)
         {
+
             if (company == null)
             {
                 return Ok(new { statusText = "Error", companyId = -1 });
@@ -338,6 +339,11 @@ namespace FitFinderBackEnd.Controllers
 
             _context.Companies.Add(company);
             _context.SaveChanges();
+
+            PipelineService pipelineService = new PipelineService();
+            pipelineService.GenerateDefaultPipelines(company.Id);
+            _context.SaveChanges();
+
             return Ok(new { statusText = "Success", companyId = company.Id });
         }
 
@@ -348,6 +354,8 @@ namespace FitFinderBackEnd.Controllers
         [Route("api/AddNewUserAccount")]
         public async Task<IHttpActionResult> Register(UserAccount userAccount)
         {
+
+
             if (userAccount == null)
             {
                 return BadRequest(ModelState);
@@ -375,6 +383,7 @@ namespace FitFinderBackEnd.Controllers
             }
 
 
+
             UserManager.AddToRole(applicationUser.Id, userAccount.RoleName);
 
             string code = await UserManager.GenerateEmailConfirmationTokenAsync(applicationUser.Id);
@@ -389,6 +398,39 @@ namespace FitFinderBackEnd.Controllers
             return Ok(result);
         }
 
+
+
+        [Route("api/EditUserAccount")]
+        [HttpPut]
+        [AllowAnonymous]
+        public async Task<IHttpActionResult> EditUserAccount(UserAccount editUserAccount)
+        {
+           
+
+            ApplicationUser applicationUser = UserManager.FindByName(editUserAccount.UserName);
+            if (applicationUser == null)
+            {
+                return Ok("Error");
+            }
+
+            string roleId = applicationUser.Roles.SingleOrDefault()?.RoleId;
+            string roleName = _context.Roles.SingleOrDefault(r => r.Id == roleId)?.Name;
+
+            if (roleName != editUserAccount.RoleName)
+            {
+                UserManager.RemoveFromRole(applicationUser.Id, roleName);
+                UserManager.AddToRole(applicationUser.Id, editUserAccount.RoleName);
+            }
+
+            applicationUser.FullName = editUserAccount.FullName;
+            applicationUser.Email = editUserAccount.Email;
+            applicationUser.PhoneNumber = editUserAccount.PhoneNumber;
+            IdentityResult result = await UserManager.UpdateAsync(applicationUser);
+
+            return Ok(result);
+        }
+
+
         [HttpGet]
         [AllowAnonymous]
         [Route("api/GetAllCompany")]
@@ -398,21 +440,91 @@ namespace FitFinderBackEnd.Controllers
             return Ok(companies);
         }
 
+
+        [HttpPut]
+        [AllowAnonymous]
+        [Route("api/EditCompany")]
+        public IHttpActionResult EditCompany(Company company)
+        {
+
+            Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
+
+            if (userNameClaim == null)
+            {
+                return Ok(new { statusText = "Error" });
+            }
+
+            ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
+            if (applicationUser == null)
+            {
+                return Ok(new { statusText = "Error" });
+            }
+
+            Company getCompany = _context.Companies.FirstOrDefault(x => x.Id == applicationUser.CompanyId);
+            if (getCompany == null)
+            {
+                return Ok(new { statusText = "Error" });
+            }
+
+            getCompany.AdminEmail = company.AdminEmail;
+            getCompany.AdminFullName = company.AdminFullName;
+            getCompany.AdminPhoneNumber = company.AdminPhoneNumber;
+            getCompany.CompanyAddress = company.CompanyAddress;
+            getCompany.CompanyName = company.CompanyName;
+            getCompany.CompanyEmail = company.CompanyEmail;
+            getCompany.CompanyPhoneNumber = company.CompanyPhoneNumber;
+            _context.SaveChanges();
+            return Ok(new { statusText = "Success" });
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("api/GetCompany")]
+        public IHttpActionResult GetCompany()
+        {
+            Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
+
+            if (userNameClaim == null)
+            {
+                return Ok();
+            }
+
+            ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
+            if (applicationUser == null)
+            {
+                return Ok();
+            }
+
+            Company company = _context.Companies.FirstOrDefault(x => x.Id == applicationUser.CompanyId);
+            return Ok(company);
+        }
+
+
+
+
+
         [HttpGet]
         [AllowAnonymous]
         [Route("api/GetAllUserAccount")]
         public IHttpActionResult GetAllUserAccount()
         {
-        //    ApplicationUser currentlyLoggedInUser = GetCurrentlyLoggedInUser();
-            //if (currentlyLoggedInUser == null)
-            //{
-            //    return Ok(new List<UserAccount>());
-            //}
+            Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
 
-          
+            if (userNameClaim == null)
+            {
+                return Ok(new List<UserAccount>());
+            }
+
+            ApplicationUser user = UserManager.FindByName(userNameClaim.Value);
+            if (user == null)
+            {
+                return Ok(new List<UserAccount>());
+            }
+
+
             List<UserAccount> userAccounts = new List<UserAccount>();
             List<ApplicationUser> applicationUsers = _context.Users
-                .Where(x => x.CompanyId == 2)
+                .Where(x => x.CompanyId == user.CompanyId)
                 .ToList();
 
             foreach (var applicationUser in applicationUsers)
@@ -445,17 +557,25 @@ namespace FitFinderBackEnd.Controllers
                         Password = "",
                         JoiningDateTime = applicationUser.JoiningDateTime,
                         RoleName = roleName,
-                        Company = applicationUser.Company
+                        CompanyId = applicationUser.CompanyId,
+                        IsOwner = applicationUser.IsOwner
                     };
                     userAccounts.Add(userAccount);
                 }
             }
 
-            return Ok(userAccounts);
+            return Ok(userAccounts.OrderBy(x => x.UserName));
         }
 
-       
-       
+
+//        [HttpPost]
+//        [Route("api/DeleteUserAccount")]
+//        [AllowAnonymous]
+//        public IHttpActionResult DeleteUserAccount()
+//        {   
+//          
+//        }
+
 
 
         [HttpGet]
@@ -466,6 +586,7 @@ namespace FitFinderBackEnd.Controllers
             RoleStore<IdentityRole> roleStore = new RoleStore<IdentityRole>(_context);
             RoleManager<IdentityRole> roleManager = new RoleManager<IdentityRole>(roleStore);
             var roles = roleManager.Roles.Select(x => new { x.Id, x.Name }).ToList();
+            roles.RemoveAt(0);
             return Ok(roles);
         }
 

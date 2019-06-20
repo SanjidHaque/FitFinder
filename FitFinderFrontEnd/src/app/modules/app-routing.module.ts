@@ -18,7 +18,6 @@ import {
   InterviewResolverService} from '../route-resolvers/interview-resolver.service';
 import {JobResolverService} from '../route-resolvers/job-resolver.service';
 import {ManageCompaniesComponent} from '../components/settings/manage-companies/manage-companies.component';
-import {ManageUsersComponent} from '../components/settings/manage-users/manage-users.component';
 import {DisqualifyReasonsComponent} from '../components/settings/disqualify-reasons/disqualify-reasons.component';
 import {WorkflowComponent} from '../components/settings/workflow/workflow.component';
 import {JobOpeningsComponent} from '../components/settings/job-openings/job-openings.component';
@@ -59,12 +58,18 @@ import {ForbiddenComponent} from '../components/forbidden/forbidden.component';
 import {CompanyPanelComponent} from '../components/settings/manage-companies/company-panel/company-panel.component';
 import {EditCompanyComponent} from '../components/settings/manage-companies/edit-company/edit-company.component';
 import {CompanyResolverService} from '../route-resolvers/company-resolver.service';
-import {AddNewUserAccountComponent} from '../components/settings/manage-users/add-new-user-account/add-new-user-account.component';
 import {UserAccountResolverService} from '../route-resolvers/user-account-resolver.service';
-import {UserAccountPanelComponent} from '../components/settings/manage-users/user-account-panel/user-account-panel.component';
-import {EditUserAccountComponent} from '../components/settings/manage-users/edit-user-account/edit-user-account.component';
 import {CompanyIdComponent} from '../components/settings/manage-companies/company-id/company-id.component';
-import {UserAccountIdComponent} from '../components/settings/manage-users/user-account-id/user-account-id.component';
+import {ManageUserAccountsComponent} from '../components/settings/manage-user-accounts/manage-user-accounts.component';
+import {AddNewUserAccountComponent} from '../components/settings/manage-user-accounts/add-new-user-account/add-new-user-account.component';
+import {UserAccountPanelComponent} from '../components/settings/manage-user-accounts/user-account-panel/user-account-panel.component';
+import {UserAccountIdComponent} from '../components/settings/manage-user-accounts/user-account-id/user-account-id.component';
+import {EditUserAccountComponent} from '../components/settings/manage-user-accounts/edit-user-account/edit-user-account.component';
+import {RoleResolverService} from '../route-resolvers/role-resolver.service';
+import {ProfileDetailComponent} from '../components/settings/profile/profile-detail/profile-detail.component';
+import {EditProfileComponent} from '../components/settings/profile/edit-profile/edit-profile.component';
+import {ChangeProfilePasswordComponent} from '../components/settings/profile/change-profile-password/change-profile-password.component';
+import {SingleCompanyResolverService} from '../route-resolvers/single-company-resolver.service';
 
 const appRoutes: Routes = [
   {
@@ -302,13 +307,17 @@ const appRoutes: Routes = [
           },
           {
             path: ':id/edit-company',
-            component: EditCompanyComponent
+            component: EditCompanyComponent,
+            resolve:
+              {
+                companies: CompanyResolverService
+              }
           }
         ]
       },
       {
-        path: 'manage-users',
-        component: ManageUsersComponent,
+        path: 'manage-user-accounts',
+        component: ManageUserAccountsComponent,
         children:
           [
             {
@@ -318,7 +327,12 @@ const appRoutes: Routes = [
             },
             {
               path: 'add-new-user-account',
-              component: AddNewUserAccountComponent
+              component: AddNewUserAccountComponent,
+              resolve:
+                {
+                  userAccounts: UserAccountResolverService,
+                  roles: RoleResolverService
+                }
             },
             {
               path: 'user-account-panel',
@@ -338,13 +352,52 @@ const appRoutes: Routes = [
             },
             {
               path: ':id/edit-user-account',
-              component: EditUserAccountComponent
+              component: EditUserAccountComponent,
+              resolve:
+                {
+                  userAccounts: UserAccountResolverService,
+                  roles: RoleResolverService
+                }
             }
           ]
       },
       {
         path: 'profile',
-        component: ProfileComponent
+        component: ProfileComponent,
+        children:
+        [
+          {
+            path: '',
+            redirectTo: 'profile-detail',
+            pathMatch: 'full'
+          },
+          {
+            path: 'profile-detail',
+            component: ProfileDetailComponent,
+            resolve:
+              {
+                userAccounts: UserAccountResolverService,
+                company: SingleCompanyResolverService
+              }
+          },
+          {
+            path: 'edit-profile',
+            component: EditProfileComponent,
+            resolve:
+              {
+                userAccounts: UserAccountResolverService,
+                company: SingleCompanyResolverService
+              }
+          },
+          {
+            path: 'change-profile-password',
+            component: ChangeProfilePasswordComponent,
+            resolve:
+              {
+                userAccounts: UserAccountResolverService
+              }
+          }
+        ]
       },
       {
         path: 'candidates-and-leads',

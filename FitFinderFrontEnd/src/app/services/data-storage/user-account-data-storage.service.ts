@@ -43,6 +43,12 @@ export class UserAccountDataStorageService {
     return this.http.post<UserAccount[]>(this.rootUrl + '/api/AddNewUserAccount', userAccount);
   }
 
+  editUserAccount(userAccount: UserAccount) {
+    return this.http.put<UserAccount[]>(this.rootUrl + '/api/EditUserAccount', userAccount);
+  }
+
+
+
   addNewCompany(company: Company) {
     return this.http.post<UserAccount>(this.rootUrl + '/api/AddNewCompany', company);
   }
@@ -55,6 +61,13 @@ export class UserAccountDataStorageService {
     return this.http.get<Company[]>(this.rootUrl + '/api/GetAllCompany');
   }
 
+  getCompany() {
+    return this.http.get<Company>(this.rootUrl + '/api/GetCompany');
+  }
+
+  editCompany(company: Company) {
+    return this.http.put<Company>(this.rootUrl + '/api/EditCompany', company);
+  }
 
   getAllRole() {
     return this.http.get<Role[]>(this.rootUrl + '/api/GetAllRole');

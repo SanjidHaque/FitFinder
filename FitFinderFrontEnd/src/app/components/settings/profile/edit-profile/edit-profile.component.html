@@ -3,7 +3,7 @@
 
 <div class="row">
   <div class="col-xl-8">
-    <h6>COMPANY INFO</h6>
+    <h6>EDIT YOUR INFO</h6>
     <hr>
   </div>
 </div>
@@ -11,9 +11,66 @@
 
 
 
-<form [formGroup]="editCompanyForm"
-      (ngSubmit)="editCompany()"
+<form [formGroup]="editProfileForm"
+      (ngSubmit)="editUserAccount()"
       #form="ngForm">
+
+  <div class="row">
+
+    <div class="col-xl-3">
+      <mat-form-field style="width: 100%;" appearance="outline">
+        <mat-label>User Name</mat-label>
+        <input
+          formControlName="userName"
+          required
+          matInput>
+        <mat-error>You must enter an user name!</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="col-xl-5">
+      <mat-form-field style="width: 100%;" appearance="outline">
+        <mat-label>Full Name</mat-label>
+        <input
+          formControlName="fullName"
+          matInput>
+      </mat-form-field>
+    </div>
+
+  </div>
+
+
+
+  <div class="row">
+
+    <div class="col-xl-5">
+      <mat-form-field style="width: 100%;" appearance="outline">
+        <mat-label>Email</mat-label>
+        <input
+          formControlName="email"
+          required
+          matInput>
+        <mat-error *ngIf="editProfileForm.controls['email'].invalid">
+          {{getEmailErrorMessage('email')}}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="col-xl-3">
+      <mat-form-field style="width: 100%;" appearance="outline">
+        <mat-label>Phone</mat-label>
+        <input
+          formControlName="phoneNumber"
+          required
+          matInput>
+        <mat-error>You must enter a phone number!</mat-error>
+      </mat-form-field>
+    </div>
+
+  </div>
+
+
+<div *ngIf="userAccount.IsOwner">
 
   <div class="row">
 
@@ -41,7 +98,7 @@
           formControlName="companyEmail"
           required
           matInput>
-        <mat-error *ngIf="editCompanyForm.controls['companyEmail'].invalid">
+        <mat-error *ngIf="editProfileForm.controls['companyEmail'].invalid">
           {{getEmailErrorMessage('companyEmail')}}
         </mat-error>
       </mat-form-field>
@@ -75,70 +132,9 @@
 
   </div>
 
-  <br>
-
-  <div class="row">
-    <div class="col-xl-8">
-      <h6>OWNER INFO</h6>
-      <hr>
-    </div>
-  </div>
+</div>
 
 
-
-  <div class="row">
-
-    <div class="col-xl-3">
-      <mat-form-field style="width: 100%;" appearance="outline">
-        <mat-label>User Name</mat-label>
-        <input
-          required
-          formControlName="adminUserName"
-          matInput>
-        <mat-error>You must enter an user name!</mat-error>
-      </mat-form-field>
-    </div>
-
-    <div class="col-xl-5">
-      <mat-form-field style="width: 100%;" appearance="outline">
-        <mat-label>Full Name</mat-label>
-        <input
-          formControlName="adminFullName"
-          matInput>
-      </mat-form-field>
-    </div>
-
-  </div>
-
-
-
-  <div class="row">
-
-    <div class="col-xl-5">
-      <mat-form-field style="width: 100%;" appearance="outline">
-        <mat-label>Owner Email</mat-label>
-        <input
-          formControlName="adminEmail"
-          required
-          matInput>
-        <mat-error *ngIf="editCompanyForm.controls['adminEmail'].invalid">
-          {{getEmailErrorMessage('adminEmail')}}
-        </mat-error>
-      </mat-form-field>
-    </div>
-
-    <div class="col-xl-3">
-      <mat-form-field style="width: 100%;" appearance="outline">
-        <mat-label>Phone</mat-label>
-        <input
-          formControlName="adminPhoneNumber"
-          required
-          matInput>
-        <mat-error>You must enter a phone number!</mat-error>
-      </mat-form-field>
-    </div>
-
-  </div>
 
 
   <div class="row">
@@ -161,7 +157,7 @@
       <button
         type="button"
         style="outline: 0;"
-        routerLink="/settings/manage-companies"
+        routerLink="/settings/profile"
         mat-stroked-button>Cancel</button>
 
     </div>

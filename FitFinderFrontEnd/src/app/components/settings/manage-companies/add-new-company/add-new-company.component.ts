@@ -50,6 +50,7 @@ export class AddNewCompanyComponent implements OnInit {
         this.addNewCompanyForm.controls['companyAddress'].value,
         this.addNewCompanyForm.controls['companyEmail'].value,
         this.addNewCompanyForm.controls['companyPhoneNumber'].value,
+        this.addNewCompanyForm.controls['adminUserName'].value,
         this.addNewCompanyForm.controls['adminFullName'].value,
         this.addNewCompanyForm.controls['adminEmail'].value,
         this.addNewCompanyForm.controls['adminPhoneNumber'].value,

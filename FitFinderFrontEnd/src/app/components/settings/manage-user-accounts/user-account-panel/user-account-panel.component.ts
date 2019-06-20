@@ -18,7 +18,7 @@ export class UserAccountPanelComponent implements OnInit {
     this.route.data.
     subscribe(
       (data: Data) => {
-        this.userAccounts= data['userAccounts'];
+        this.userAccounts = data['userAccounts'];
       }
     );
   }

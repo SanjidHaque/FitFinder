@@ -5,15 +5,24 @@
 
   <div class="row">
     <div class="col-xl-10">
-      {{ userAccount.UserName }}
-      <span style="font-size: 13px;" *ngIf="userAccount.IsOwner">
+      <span style="outline: 0; cursor: pointer;"
+            routerLink="/settings/manage-user-accounts/{{ userAccount.Id }}">
+
+        {{ userAccount.UserName }}
+        <span style="font-size: 13px;" *ngIf="userAccount.IsOwner">
         <i class="fas fa-shield-alt"></i>
-      </span> | <span>{{ userAccount.RoleName }}</span>
+        </span>
+      <span style="font-size: 11px"> &nbsp;
+        {{ userAccount.RoleName }}
+      </span>
+
+      </span>
+
     </div>
 
-    <div class="col-xl-1" >
-      <i routerLink="/settings/{{ userAccount.Id }}/edit-user-account"
-         style="cursor: pointer; opacity: .8;
+    <div class="col-xl-1">
+      <i routerLink="/settings/manage-user-accounts/{{userAccount.Id}}/edit-user-account"
+         style="cursor: pointer; opacity: .8; outline: 0;
                color: #345188; font-size: 17px;" class="fas fa-pencil-alt"></i>
     </div>
 
@@ -21,8 +30,9 @@
       <i style="cursor: pointer; opacity: .8;
                color: #bc0000; font-size: 17px;" class="far fa-trash-alt"></i> &nbsp;
     </div>
-
   </div>
+
+
 
   <hr *ngIf="i !== userAccounts.length - 1">
   <br *ngIf="i === userAccounts.length - 1">

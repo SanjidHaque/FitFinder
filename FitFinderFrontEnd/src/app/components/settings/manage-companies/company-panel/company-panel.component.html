@@ -5,15 +5,25 @@
 
   <div class="row">
     <div class="col-xl-10">
-      {{ company.CompanyName }}
-      <span style="font-size: 13px;" *ngIf="company.CompanyName === 'Headblocks'">
+
+      <span
+        routerLink = "/settings/manage-companies/{{ company.Id }}"
+        style="cursor: pointer; outline: 0;">
+        {{ company.CompanyName }}
+        <span
+          style="font-size: 13px;"
+          *ngIf="company.CompanyName === 'Headblocks'">
         <i class="fas fa-shield-alt"></i>
       </span>
+
+      </span>
+
+
     </div>
 
-    <div class="col-xl-1" >
-      <i routerLink="/settings/{{ company.Id }}/edit-company"
-         style="cursor: pointer; opacity: .8;
+    <div class="col-xl-1">
+      <i routerLink="/settings/manage-companies/{{ company.Id }}/edit-company"
+         style="cursor: pointer; opacity: .8; outline: 0;
                color: #345188; font-size: 17px;" class="fas fa-pencil-alt"></i>
     </div>
 

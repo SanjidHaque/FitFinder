@@ -7,6 +7,7 @@
         public string CompanyAddress { get; set; }
         public string CompanyEmail { get; set; }
         public string CompanyPhoneNumber { get; set; }
+        public string AdminUserName { get; set; }
         public string AdminFullName { get; set; }
         public string AdminEmail { get; set; }
         public string AdminPhoneNumber { get; set; }

@@ -1,0 +1,154 @@
+<br>
+<br>
+
+<div class="row">
+  <div class="col-xl-8">
+    <h6>USER INFO</h6>
+    <hr>
+  </div>
+</div>
+
+
+<div class="row" style="padding-bottom: 5px;padding-top: 5px;">
+  <div class="col-xl-8">
+
+    <span title="User name">
+    <i class="fas fa-signature"></i> &nbsp; {{ userAccount.UserName }}
+      <span style="font-size: 13px;" *ngIf="userAccount.IsOwner">
+        <i class="fas fa-shield-alt"></i>
+        </span>
+    </span>
+
+  </div>
+</div>
+
+<div
+  *ngIf="userAccount.FullName !== null"
+  class="row" style="padding-bottom: 5px;padding-top: 5px;">
+  <div class="col-xl-8">
+
+    <span title="Full name">
+      <i class="fas fa-file-signature"></i> &nbsp; {{ userAccount.FullName }}
+    </span>
+
+  </div>
+</div>
+
+<div class="row" style="padding-bottom: 5px;padding-top: 5px;">
+  <div class="col-xl-8">
+
+    <span title="Email">
+       <i class="far fa-envelope"></i> &nbsp; {{ userAccount.Email }}
+    </span>
+
+  </div>
+</div>
+
+<div class="row" style="padding-bottom: 5px;padding-top: 5px;">
+  <div class="col-xl-8">
+
+    <span title="Phone">
+    <i class="fas fa-phone"></i> &nbsp; {{ userAccount.PhoneNumber }}
+    </span>
+
+  </div>
+</div>
+
+<div class="row" style="padding-top: 15px; padding-bottom: 5px;">
+  <div class="col-xl-8">
+
+    <span title="Role">
+    <i class="far fa-dot-circle"></i> &nbsp; {{ userAccount.RoleName }}
+    </span>
+
+  </div>
+</div>
+
+<div class="row" style="padding-bottom: 5px;padding-top: 5px;">
+  <div class="col-xl-8">
+
+    <span title="Joining date"><i class="far fa-calendar-alt"></i>
+      &nbsp; {{ userAccount.JoiningDateTime }}
+    </span>
+
+  </div>
+</div>
+
+
+
+
+  <br>
+  <div class="row">
+    <div class="col-xl-8">
+      <h6>COMPANY INFO</h6>
+      <hr>
+    </div>
+  </div>
+
+
+  <div class="row" style="padding-bottom: 5px;padding-top: 5px;">
+    <div class="col-xl-8">
+
+    <span title="Name">
+    <i class="fas fa-store-alt"></i> &nbsp; {{ company.CompanyName }}
+    </span>
+
+    </div>
+  </div>
+
+  <div
+    *ngIf="company.CompanyAddress !== null"
+    class="row" style="padding-bottom: 5px;padding-top: 5px;">
+    <div class="col-xl-8">
+
+    <span title="Address">
+      <i class="fas fa-map-marked"></i>
+      &nbsp; {{ company.CompanyAddress }}
+    </span>
+
+    </div>
+  </div>
+
+  <div class="row" style="padding-bottom: 5px;padding-top: 5px;">
+    <div class="col-xl-8">
+
+    <span title="Email">
+       <i class="far fa-envelope"></i> &nbsp; {{ company.CompanyEmail }}
+    </span>
+
+    </div>
+  </div>
+
+  <div class="row" style="padding-bottom: 5px;padding-top: 5px;">
+    <div class="col-xl-8">
+
+    <span title="Phone">
+    <i class="fas fa-phone"></i> &nbsp; {{ company.CompanyPhoneNumber }}
+    </span>
+
+    </div>
+  </div>
+
+
+
+
+<br>
+<br>
+
+
+<div class="row">
+  <div class="col-xl-8">
+
+    <button
+      routerLink="/settings/profile/edit-profile"
+      style="outline: 0;"
+      mat-stroked-button color="primary">Edit</button> &nbsp;
+    <button
+      style="outline: 0;"
+      mat-stroked-button color="primary">Change Password</button>
+
+  </div>
+</div>
+
+<br>
+<br>
