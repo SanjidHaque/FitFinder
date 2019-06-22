@@ -28,7 +28,10 @@
     </div>
 
     <div class="col-xl-1" *ngIf="company.CompanyName !== 'Headblocks'">
-      <i style="cursor: pointer; opacity: .8;
+      <i
+        [attr.disabled] = "isDisabled"
+        (click)="deleteCompany(company, i)"
+        style="cursor: pointer; opacity: .8;
                color: #bc0000; font-size: 17px;" class="far fa-trash-alt"></i> &nbsp;
     </div>
 

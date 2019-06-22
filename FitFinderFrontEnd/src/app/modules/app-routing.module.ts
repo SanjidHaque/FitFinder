@@ -272,12 +272,16 @@ const appRoutes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'workflow',
+        redirectTo: 'profile',
         pathMatch: 'full'
       },
       {
         path: 'manage-companies',
         component: ManageCompaniesComponent,
+        data:
+          {
+            roles: ['Admin']
+          },
         children:
         [
           {
@@ -318,6 +322,10 @@ const appRoutes: Routes = [
       {
         path: 'manage-user-accounts',
         component: ManageUserAccountsComponent,
+        data:
+          {
+            roles: ['HR', 'Admin']
+          },
         children:
           [
             {

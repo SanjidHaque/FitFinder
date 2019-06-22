@@ -18,7 +18,9 @@
       </div>
     </div>
 
-    <div class="row" style="padding-top: 8px; padding-bottom: 8px;">
+    <div
+      *ngIf="userAccountDataStorageService.roleMatch(['Admin'])"
+      class="row" style="padding-top: 8px; padding-bottom: 8px;">
       <div class="col-xl-12">
         <button
           mat-raised-button
@@ -28,7 +30,9 @@
       </div>
     </div>
 
-    <div class="row" style="padding-top: 8px; padding-bottom: 8px;">
+    <div
+      *ngIf="userAccountDataStorageService.roleMatch(['Admin','HR'])"
+      class="row" style="padding-top: 8px; padding-bottom: 8px;">
       <div class="col-xl-12">
         <button
           routerLink="/settings/manage-user-accounts"

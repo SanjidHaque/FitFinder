@@ -59,7 +59,7 @@
             <div class="col-xl-10" style="padding-top: 3px;">
 
            <h6
-             *ngIf="pipeline.Id !== 6 && pipeline.Id !== 7; else notHiredOrDisqualified "
+             *ngIf="pipeline.Name !== 'HIRED' && pipeline.Name !== 'REJECTED'; else notHiredOrDisqualified "
              title="Click To See Pipeline Stage Criteria"
              style="cursor: pointer;"
              (click)="pipelineStageCriteria(pipelineStage)"> &nbsp; {{ pipelineStage.Name }}
@@ -100,9 +100,9 @@
       </div>
 
       <div class="col-xl-4"
-           *ngIf="pipeline.Id === 2 ||
-pipeline.Id === 3 ||
- pipeline.Id === 4"
+           *ngIf="pipeline.Name === 'INREVIEW' ||
+pipeline.Name === 'INTERVIEW' ||
+ pipeline.Name === 'OFFERED'"
            style="
            padding: 5px;">
         <div
@@ -130,8 +130,8 @@ pipeline.Id === 3 ||
 
 
       <div class="offset-xl-4 col-xl-4"
-           *ngIf="pipeline.Id === 1 ||
-pipeline.Id === 6 "
+           *ngIf="pipeline.Name === 'NEW' ||
+pipeline.Name === 'HIRED' "
            style="
            padding: 5px;">
         <div
@@ -141,7 +141,7 @@ pipeline.Id === 6 "
              padding: 14px;
              border-radius: 3px;">
 
-          <div *ngIf="pipeline.Id === 1">
+          <div *ngIf="pipeline.Name === 'NEW'">
             <div class="row" >
               <div class="col-xl-12">
                 <h6>Active stages</h6>
@@ -154,7 +154,7 @@ pipeline.Id === 6 "
             </div>
           </div>
 
-          <div *ngIf="pipeline.Id === 6">
+          <div *ngIf="pipeline.Name === 'HIRED'">
             <div class="row" >
               <div class="col-xl-12">
                 <h6>Closed stages</h6>

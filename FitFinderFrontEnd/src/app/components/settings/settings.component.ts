@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {UserAccountDataStorageService} from '../../services/data-storage/user-account-data-storage.service';
 
 @Component({
   selector: 'app-settings',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SettingsComponent implements OnInit {
 
-  constructor() { }
+  constructor(public userAccountDataStorageService: UserAccountDataStorageService) { }
 
   ngOnInit() {
   }

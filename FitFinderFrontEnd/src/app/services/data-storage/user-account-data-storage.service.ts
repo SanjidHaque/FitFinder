@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {UserAccount} from '../../models/user-account.model';
 import {Company} from '../../models/company.model';
 import {Role} from '../../models/role.model';
+import {ChangePassword} from '../../models/change-password.model';
 
 @Injectable({
   providedIn: 'root'
@@ -71,6 +72,18 @@ export class UserAccountDataStorageService {
 
   getAllRole() {
     return this.http.get<Role[]>(this.rootUrl + '/api/GetAllRole');
+  }
+
+  changeProfilePassword(changePassword: ChangePassword) {
+    return this.http.post<Company>(this.rootUrl + '/api/ChangeProfilePassword', changePassword);
+  }
+
+  deleteCompany(company: Company) {
+    return this.http.post<Company>(this.rootUrl + '/api/DeleteCompany', company);
+  }
+
+  deleteUserAccount(userAccount: UserAccount) {
+    return this.http.post<Company>(this.rootUrl + '/api/DeleteUserAccount', userAccount);
   }
 
 }

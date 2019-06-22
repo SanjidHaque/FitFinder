@@ -3,6 +3,9 @@ import {UserAccount} from '../../../../models/user-account.model';
 import {ActivatedRoute, Data, Params, Router} from '@angular/router';
 import {NotifierService} from 'angular-notifier';
 import {Company} from '../../../../models/company.model';
+import {UserAccountDataStorageService} from '../../../../services/data-storage/user-account-data-storage.service';
+import {DeleteDialogComponent} from '../../../../dialogs/delete-dialog/delete-dialog.component';
+import {MatDialog} from '@angular/material';
 
 @Component({
   selector: 'app-company-id',
@@ -10,6 +13,7 @@ import {Company} from '../../../../models/company.model';
   styleUrls: ['./company-id.component.css']
 })
 export class CompanyIdComponent implements OnInit {
+  isDisabled = false;
 
   companyId: number;
 
@@ -19,7 +23,10 @@ export class CompanyIdComponent implements OnInit {
 
   constructor(private router: Router,
               private notifierService: NotifierService,
+              private dialog: MatDialog,
+              private userAccountDataStorageService: UserAccountDataStorageService,
               private route: ActivatedRoute) {
+
     this.route.params
       .subscribe(
         (params: Params) => {
@@ -40,5 +47,47 @@ export class CompanyIdComponent implements OnInit {
         }
       }
     );
+  }
+
+
+  deleteCompany() {
+
+
+    const dialogRef = this.dialog.open(DeleteDialogComponent,
+      {
+        hasBackdrop: true,
+        disableClose: true,
+        width: '400px',
+        data: {
+          header: 'Delete Company',
+          iconClass: 'far fa-trash-alt',
+          confirmationText: 'Are you sure?',
+          buttonText: 'Delete',
+          confirmationStatus: false
+        }
+      });
+
+
+    dialogRef.afterClosed().subscribe( result => {
+      if (result.confirmationStatus) {
+
+
+        this.isDisabled = true;
+        this.userAccountDataStorageService.deleteCompany(this.company).subscribe(
+          (data: any) => {
+            if (data.statusText === 'Success') {
+              
+              this.notifierService.notify('default', 'Company deleted successfully.');
+              this.router.navigate(['/settings/manage-companies']);
+
+            } else {
+              this.isDisabled = false;
+              this.notifierService.notify('default', 'Error! Something went wrong!');
+            }
+          }
+        );
+
+      }
+    });
   }
 }

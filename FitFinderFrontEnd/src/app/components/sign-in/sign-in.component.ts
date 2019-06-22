@@ -30,7 +30,7 @@ export class SignInComponent implements OnInit {
       .subscribe(
         (data : any) => {
           localStorage.setItem('userToken', data.access_token);
-          localStorage.setItem('userRole', data.role);
+          localStorage.setItem('userRoles', data.role);
           localStorage.setItem('userNameForSignIn', data.userName);
           this.router.navigate(['/dashboard']);
         },

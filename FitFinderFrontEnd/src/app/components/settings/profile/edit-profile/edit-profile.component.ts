@@ -82,9 +82,6 @@ export class EditProfileComponent implements OnInit {
     ).subscribe( (data: any) => {
       if (data.Succeeded) {
 
-
-
-
         this.userAccountDataStorageService.editCompany(
           new Company(
             null,

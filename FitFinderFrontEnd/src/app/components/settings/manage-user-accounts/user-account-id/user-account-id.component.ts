@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Data, Params, Router} from '@angular/router';
 import {UserAccount} from '../../../../models/user-account.model';
 import {NotifierService} from 'angular-notifier';
+import {UserAccountDataStorageService} from '../../../../services/data-storage/user-account-data-storage.service';
 
 @Component({
   selector: 'app-user-account-id',
@@ -10,6 +11,7 @@ import {NotifierService} from 'angular-notifier';
 })
 export class UserAccountIdComponent implements OnInit {
   userAccountId: string;
+  isDisabled = false;
 
   userAccounts: UserAccount[] = [];
   userAccount: UserAccount;
@@ -17,6 +19,7 @@ export class UserAccountIdComponent implements OnInit {
 
   constructor(private router: Router,
               private notifierService: NotifierService,
+              private userAccountDataStorageService: UserAccountDataStorageService,
               private route: ActivatedRoute) {
     this.route.params
       .subscribe(
@@ -38,6 +41,19 @@ export class UserAccountIdComponent implements OnInit {
         }
       }
     );
+  }
+
+  deleteUserAccount() {
+    this.isDisabled = true;
+    this.userAccountDataStorageService.deleteUserAccount(this.userAccount).subscribe(
+      (data: any) => {
+        if (data.statusText === 'Success') {
+          this.notifierService.notify('default',  'User deleted successfully.');
+        } else {
+          this.notifierService.notify('default',  'Error! Something went wrong!');
+        }
+      }
+    )
   }
 
 }

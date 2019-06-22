@@ -290,6 +290,7 @@
     <Compile Include="Models\Interview\InterviewersForInterview.cs" />
     <Compile Include="Models\Job\Job.cs" />
     <Compile Include="Models\Job\JobAttachment.cs" />
+    <Compile Include="Models\Settings\ChangePassword.cs" />
     <Compile Include="Models\Settings\CriteriaScore.cs" />
     <Compile Include="Models\Settings\Department.cs" />
     <Compile Include="Models\Settings\JobFunction.cs" />

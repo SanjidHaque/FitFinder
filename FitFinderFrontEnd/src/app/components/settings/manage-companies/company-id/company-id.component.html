@@ -23,7 +23,7 @@
 </div>
 
 <div
-  *ngIf="company.CompanyAddress !== null"
+  *ngIf="company.CompanyAddress !== ''"
   class="row" style="padding-bottom: 5px;padding-top: 5px;">
   <div class="col-xl-8">
 
@@ -90,7 +90,7 @@
 </div>
 
 <div
-  *ngIf="company.AdminFullName !== null"
+  *ngIf="company.AdminFullName !== ''"
   class="row" style="padding-bottom: 5px;padding-top: 5px;">
   <div class="col-xl-8">
 
@@ -133,6 +133,8 @@
       style="outline: 0;"
       mat-stroked-button color="primary">Edit</button> &nbsp;
     <button
+      [disabled]="isDisabled"
+      (click)="deleteCompany()"
       style="outline: 0;"
       mat-stroked-button color="primary">Delete</button> &nbsp;
 

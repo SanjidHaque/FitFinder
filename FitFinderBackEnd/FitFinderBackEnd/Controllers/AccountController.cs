@@ -342,7 +342,6 @@ namespace FitFinderBackEnd.Controllers
 
             PipelineService pipelineService = new PipelineService();
             pipelineService.GenerateDefaultPipelines(company.Id);
-            _context.SaveChanges();
 
             return Ok(new { statusText = "Success", companyId = company.Id });
         }
@@ -503,6 +502,8 @@ namespace FitFinderBackEnd.Controllers
 
 
 
+
+
         [HttpGet]
         [AllowAnonymous]
         [Route("api/GetAllUserAccount")]
@@ -533,11 +534,11 @@ namespace FitFinderBackEnd.Controllers
                 {
                     string roleName;
 
-                    if (role.RoleId == "53a00e8a-cad2-4bcc-8317-20540f1d01c8")
+                    if (role.RoleId == "9e024189-563d-4e68-8c0d-7d34a9981f00")
                     {
                         roleName = "Admin";
                     }
-                    else if(role.RoleId == "9c6e5f5a-c5b6-467b-9f65-bd8c006072e0")
+                    else if(role.RoleId == "db8afd11-64a3-41e3-9005-0cd72ab76d9b")
                     {
                         roleName = "HR";
                     }
@@ -568,15 +569,70 @@ namespace FitFinderBackEnd.Controllers
         }
 
 
-//        [HttpPost]
-//        [Route("api/DeleteUserAccount")]
-//        [AllowAnonymous]
-//        public IHttpActionResult DeleteUserAccount()
-//        {   
-//          
-//        }
+        [HttpPost]
+        [Route("api/DeleteUserAccount")]
+        [AllowAnonymous]
+        public IHttpActionResult DeleteUserAccount(UserAccount userAccount)
+        {
+            ApplicationUser applicationUser = _context.Users.FirstOrDefault(p => p.Id == userAccount.UserName);
 
+            if (applicationUser == null)
+            {
+                return Ok(new { statusText = "Error" });
+            }
 
+            _context.Users.Remove(applicationUser);
+            _context.SaveChanges();
+
+            return Ok(new { statusText = "Success" });
+        }
+
+        [HttpPost]
+        [Route("api/DeleteCompany")]
+        [AllowAnonymous]
+        public IHttpActionResult DeleteCompany(Company company)
+        {
+            Company getCompany = _context.Companies.FirstOrDefault(x => x.Id == company.Id);
+            if (getCompany == null)
+            {
+                return Ok(new {statusText = "Error"});
+            }
+
+            _context.Companies.Remove(getCompany);
+            _context.SaveChanges();
+
+            return Ok(new { statusText = "Success" });
+        }
+
+        [Route("api/ChangeProfilePassword")]
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IHttpActionResult> ChangeProfilePassword(ChangePassword changePassword)
+        {
+
+            Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
+
+            if (userNameClaim == null)
+            {
+                return Ok();
+            }
+
+            ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
+            if (applicationUser == null)
+            {
+                return Ok();
+            }
+
+         
+            IdentityResult result = await UserManager.ChangePasswordAsync(applicationUser.Id, changePassword.OldPassword, changePassword.NewPassword);
+
+            if (!result.Succeeded)
+            {
+                return Ok(result);
+            }
+
+            return Ok(result);
+        }
 
         [HttpGet]
         [Route("api/GetAllRole")]
