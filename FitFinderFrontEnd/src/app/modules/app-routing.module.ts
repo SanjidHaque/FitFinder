@@ -89,14 +89,6 @@ const appRoutes: Routes = [
     path: 'jobs',
     component: JobsComponent,
     canActivate: [AuthGuard],
-    resolve:
-      {
-        jobs: JobResolverService,
-        jobTypes: JobTypeResolverService,
-        jobFunctions: JobFunctionResolverService,
-        departments: DepartmentResolverService,
-        sources: SourceResolverService
-      },
     children: [
       {
         path: '',
@@ -139,7 +131,13 @@ const appRoutes: Routes = [
           },
           {
             path: 'job-info',
-            component: JobInfoComponent
+            component: JobInfoComponent,
+            resolve:
+              {
+                jobs: JobResolverService,
+                departments: DepartmentResolverService,
+                jobFunctions: JobFunctionResolverService
+              }
           },
           {
             path: 'job-candidates',
@@ -190,7 +188,8 @@ const appRoutes: Routes = [
             jobs: JobResolverService,
             sources: SourceResolverService,
             candidates: CandidateResolverService,
-            pipelines: PipelineResolverService
+            pipelines: PipelineResolverService,
+            departments: DepartmentResolverService
           },
         children:
         [

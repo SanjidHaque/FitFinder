@@ -32,6 +32,11 @@ namespace FitFinderBackEnd.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Candidate.Candidate> Candidates { get; set; }
+        public DbSet<CandidateEducation> CandidateEducations { get; set; }
+        public DbSet<CandidateExperience> CandidateExperiences { get; set; }
+        public DbSet<CandidateAttachment> CandidateAttachments { get; set; }
+
+
         public DbSet<Source> Sources { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<JobFunction> JobFunctions { get; set; }
@@ -45,7 +50,7 @@ namespace FitFinderBackEnd.Models
         public DbSet<PipelineStage> PipelineStages { get; set; }
         public DbSet<PipelineStageCriteria> PipelineStageCriterias { get; set; }
 
-        public DbSet<JobAssigned> JobAssiged { get; set; }
+        public DbSet<JobAssigned> JobAssigneds { get; set; }
         public DbSet<StageScore> StageScores { get; set; }
         public DbSet<CriteriaScore> CriteriaScores { get; set; }
         public DbSet<StageComment> StageComments { get; set; }

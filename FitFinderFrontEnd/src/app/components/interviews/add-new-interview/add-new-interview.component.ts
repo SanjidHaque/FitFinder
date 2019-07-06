@@ -87,11 +87,11 @@ export class AddNewInterviewComponent implements OnInit {
 
   getJobTitle(candidateJobId: number) {
 
-    const jobTitle = this.jobs.find(x => x.Id === candidateJobId).JobTitle;
-    if (!jobTitle) {
-      return;
+    const job = this.jobs.find(x => x.Id === candidateJobId);
+    if (job === undefined) {
+      return '';
     }
-    return jobTitle;
+    return job.JobTitle;
   }
 
   getCandidatesForInterview(interviewId: number) {

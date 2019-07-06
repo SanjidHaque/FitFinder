@@ -27,7 +27,7 @@ namespace FitFinderBackEnd.Controllers
                 return NotFound();
             }
 
-            JobAssigned getAssignedJob = _context.JobAssiged.FirstOrDefault(x => x.Id == jobAssigned.Id);
+            JobAssigned getAssignedJob = _context.JobAssigneds.FirstOrDefault(x => x.Id == jobAssigned.Id);
             if (getAssignedJob != null) getAssignedJob.CurrentStageId = jobAssigned.CurrentStageId;
             _context.SaveChanges();
 
@@ -44,7 +44,7 @@ namespace FitFinderBackEnd.Controllers
 
         public JobAssigned GetNewScores(JobAssigned jobAssigned)
         {
-            return _context.JobAssiged.FirstOrDefault(x => x.Id == jobAssigned.Id);
+            return _context.JobAssigneds.FirstOrDefault(x => x.Id == jobAssigned.Id);
         }
 
 
@@ -83,7 +83,7 @@ namespace FitFinderBackEnd.Controllers
                 return NotFound();
             }
 
-            _context.JobAssiged.Add(jobAssigned);
+            _context.JobAssigneds.Add(jobAssigned);
             
             foreach (var stageScore in jobAssigned.StageScore)
             {
@@ -112,10 +112,10 @@ namespace FitFinderBackEnd.Controllers
         [Route("api/RemoveAssignedJob")]
         public IHttpActionResult RemoveAssignedJob(JobAssigned jobAssigned)
         {
-                JobAssigned getJobAssigned = _context.JobAssiged.FirstOrDefault(x => x.Id == jobAssigned.Id);
+                JobAssigned getJobAssigned = _context.JobAssigneds.FirstOrDefault(x => x.Id == jobAssigned.Id);
                 if (getJobAssigned != null)
                 {
-                    _context.JobAssiged.Remove(getJobAssigned);
+                    _context.JobAssigneds.Remove(getJobAssigned);
                     _context.SaveChanges();
                     return Ok();
                 }

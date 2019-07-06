@@ -153,12 +153,13 @@
 
               <div class="row">
                 <div class="col-xl-12"
-                     style="padding-top: 25px;"
+                     style="padding-top: 25px; text-align: center; padding-right: 1px;"
                 >
-                  <mat-checkbox (click)="$event.stopPropagation()"
-                                color="primary"
-                                (change)="$event ? selection.toggle(job) : null"
-                                [checked]="selection.isSelected(job)">
+                  <mat-checkbox
+                    (click)="$event.stopPropagation()"
+                    color="primary"
+                    (change)="$event ? selection.toggle(job) : null"
+                    [checked]="selection.isSelected(job)">
                   </mat-checkbox>
                 </div>
               </div>
@@ -195,6 +196,7 @@
                   </strong>
 
                   <strong
+                    *ngIf="getDepartmentName(job.DepartmentId) !== ''"
                     title="Department"
                   ><i class="far fa-building"></i> {{ getDepartmentName(job.DepartmentId) }} &nbsp;
                   </strong>

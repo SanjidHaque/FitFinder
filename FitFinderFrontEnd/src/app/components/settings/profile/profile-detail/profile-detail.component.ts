@@ -40,4 +40,8 @@ export class ProfileDetailComponent implements OnInit {
       }
     );
   }
+
+  connectToDrive() {
+
+  }
 }

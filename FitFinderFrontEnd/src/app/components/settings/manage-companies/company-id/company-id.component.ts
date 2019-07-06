@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {UserAccount} from '../../../../models/user-account.model';
 import {ActivatedRoute, Data, Params, Router} from '@angular/router';
 import {NotifierService} from 'angular-notifier';
 import {Company} from '../../../../models/company.model';
@@ -76,7 +75,7 @@ export class CompanyIdComponent implements OnInit {
         this.userAccountDataStorageService.deleteCompany(this.company).subscribe(
           (data: any) => {
             if (data.statusText === 'Success') {
-              
+
               this.notifierService.notify('default', 'Company deleted successfully.');
               this.router.navigate(['/settings/manage-companies']);
 

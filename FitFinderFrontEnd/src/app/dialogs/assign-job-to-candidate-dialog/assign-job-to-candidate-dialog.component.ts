@@ -38,15 +38,21 @@ export class AssignJobToCandidateDialogComponent implements OnInit {
 
   archiveStatus(event: any) {
     this.archivedChecked = event.checked;
-  //  this.jobs = this.jobService.filterArchivedJob(this.selectedValue, this.archivedChecked, this.favouriteChecked);
+    this.jobs = this.jobService.
+    filterArchivedJob(this.jobs, this.selectedValue, this.archivedChecked, this.favouriteChecked);
   }
 
   favouriteStatus(event: any) {
     this.favouriteChecked = event.checked;
-  //  this.jobs = this.jobService.filterArchivedJob(this.selectedValue, this.archivedChecked, this.favouriteChecked);
+    this.jobs = this.jobService.
+    filterArchivedJob(this.jobs, this.selectedValue, this.archivedChecked, this.favouriteChecked);
   }
 
   getDepartmentName(departmentId: number) {
+    if (this.departments === undefined) {
+      return '';
+    }
+
     const departmentName = this.departments.find(x => x.Id === departmentId ).Name;
     if (departmentName === '' || departmentName === undefined) {
       return '';

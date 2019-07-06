@@ -54,13 +54,13 @@ namespace FitFinderBackEnd.Controllers
 
             if (userNameClaim == null)
             {
-                return Ok();
+                return Ok(new { statusText = "Error" });
             }
 
             ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
             if (applicationUser == null || interview == null)
             {
-                return Ok();
+                return Ok(new { statusText = "Error" });
             }
 
             interview.CompanyId = applicationUser.CompanyId;
@@ -80,7 +80,7 @@ namespace FitFinderBackEnd.Controllers
 //            _context.InterviewersForInterviews.AddRange(interview.InterviewersForInterview);
 
             _context.SaveChanges();
-            return Ok(interview);
+            return Ok(new { statusText = "Success", interview });
         }
 
         [HttpGet]

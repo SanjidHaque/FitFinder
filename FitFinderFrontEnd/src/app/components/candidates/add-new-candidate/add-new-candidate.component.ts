@@ -182,7 +182,7 @@ export class AddNewCandidateComponent implements OnInit {
         '';
   }
 
-  onSubmitNewCandidate() {
+  addNewCandidate() {
    const jobId = this.addNewCandidateForm.controls['jobId'].value;
    const firstName = this.addNewCandidateForm.controls['firstName'].value;
    const lastName = this.addNewCandidateForm.controls['lastName'].value;
@@ -246,15 +246,19 @@ export class AddNewCandidateComponent implements OnInit {
    this.candidateDataStorageService.addNewCandidate(candidate)
      .subscribe(
        (data: any) => {
-         this.candidateDataStorageService.uploadAttachments(this.filesToUpload)
-           .subscribe(
-             (response: any) => {
-                   this.clearAllArrays();
-                   this.addNewCandidateForm.reset();
-                   this.router.navigate(['/candidates/', response.Id]);
-                   this.notifierService.notify('default', 'New candidate added.');
-             }
-           );
+         if (data.statusText === 'Success') {
+
+           this.candidateDataStorageService.uploadAttachments(this.filesToUpload)
+             .subscribe(
+               (response: any) => {
+                 this.router.navigate(['/candidates/', data.candidate
+                   .Id]);
+                 this.notifierService.notify('default', 'New candidate added.');
+               });
+         } else {
+           this.isDisabled = false;
+           this.notifierService.notify('default', 'Error! Something went wrong!');
+         }
        }
      );
 

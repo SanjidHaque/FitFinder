@@ -8,6 +8,7 @@ using System.Web.Http;
 using System.Web.Http.Cors;
 using FitFinderBackEnd.Models;
 using FitFinderBackEnd.Models.Candidate;
+using FitFinderBackEnd.Models.Settings;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -57,13 +58,13 @@ namespace FitFinderBackEnd.Controllers
 
             if (userNameClaim == null)
             {
-                return Ok();
+                return Ok(new {  statusText =  "Error"});
             }
 
             ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
             if (applicationUser == null || candidate == null)
             {
-                return Ok();
+                return Ok(new { statusText = "Error" });
             }
 
             candidate.CompanyId = applicationUser.CompanyId;
@@ -90,7 +91,7 @@ namespace FitFinderBackEnd.Controllers
 //            _context.CandidateExperiences.AddRange(candidate.CandidateExperience);
 
             _context.SaveChanges();
-            return Ok(candidate);
+            return Ok(new { statusText = "Success", candidate });
         }
 
         [HttpPost]
@@ -127,18 +128,74 @@ namespace FitFinderBackEnd.Controllers
             }
 
 
-            List<Candidate> candidate = _context.Candidates
-                .Where(x => x.CompanyId == applicationUser.CompanyId).
-                Include(c => c.CandidateEducation).
-                Include(d => d.CandidateExperience).
-                Include(e => e.CandidateAttachment).
-                Include(f => f.JobAssigned.Select(g => g.StageScore.Select(a => a.JobAssigned))).
-                Include(f => f.JobAssigned.Select(g => g.CriteriaScore.Select(a => a.JobAssigned))).
-                Include(f => f.JobAssigned.Select(g => g.StageComment.Select(a => a.JobAssigned)))
-                .OrderBy(x => x.Id).ToList();
+            List<Candidate> candidates = _context.Candidates
+                .Where(x => x.CompanyId == applicationUser.CompanyId)
+                .OrderByDescending(x => x.Id)
+                .ToList();
+
+            List<JobAssigned> jobAssigneds = _context.JobAssigneds
+                .Include(x => x.Candidate)
+                .ToList();
+
+            return Ok(candidates);
+        }
+
+
+        [HttpGet]
+        [Route("api/GetCandidate/{candidateId}")]
+        [AllowAnonymous]
+        public IHttpActionResult GetAllCandidate(long candidateId)
+        {
+            Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
+
+            if (userNameClaim == null)
+            {
+                return Ok(new { statusText = "Error" });
+            }
+
+            ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
+            if (applicationUser == null)
+            {
+                return Ok(new { statusText = "Error" });
+            }
+
+
+            Candidate candidate = _context.Candidates
+                .FirstOrDefault(x => x.CompanyId == applicationUser.CompanyId && x.Id == candidateId);
+
+            List<JobAssigned> jobAssigneds = _context.JobAssigneds
+                .Where(x => x.CandidateId == candidateId)
+                .ToList();
+
+            List<CriteriaScore> criteriaScores = _context.CriteriaScores
+                .Include(x => x.JobAssigned)
+                .ToList();
+
+            List<StageScore> stageScores = _context.StageScores
+                .Include(x => x.JobAssigned)
+                .ToList();
+
+            List<StageComment> stageComments = _context.StageComments
+                .Include(x => x.JobAssigned)
+                .ToList();
+
+
+            List<CandidateEducation> candidateEducations = _context.CandidateEducations
+                .Where(x => x.CandidateId == candidateId)
+                .ToList();
+
+            List<CandidateExperience> candidateExperiences = _context.CandidateExperiences
+                .Where(x => x.CandidateId == candidateId)
+                .ToList();
+
+            List<CandidateAttachment> candidateAttachments = _context.CandidateAttachments
+                .Where(x => x.CandidateId == candidateId)
+                .ToList();
+
 
             return Ok(candidate);
         }
+
 
         [HttpPut]
         [Route("api/ArchiveCandidates")]

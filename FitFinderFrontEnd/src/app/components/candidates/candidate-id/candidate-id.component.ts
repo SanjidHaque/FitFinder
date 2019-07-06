@@ -373,7 +373,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
         const stageComment = new StageComment(
           null,
           null,
-          1,
+          this.pipelines[0].PipelineStage[0].Id,
           this.candidateId,
           jobId,
           'Created from '
@@ -409,7 +409,6 @@ export class CandidateIdComponent implements OnInit, DoCheck {
               criteriaScores.push(criteriaScore);
 
             }
-
           }
         }
         const jobAssigned = new JobAssigned(
@@ -419,7 +418,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
           stageScores,
           criteriaScores,
           stageComments,
-          1,
+          this.pipelines[0].PipelineStage[0].Id,
           true
         );
 
@@ -427,7 +426,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
           .subscribe(
             (getJobAssigned: any) => {
               this.candidate.JobAssigned.push(getJobAssigned);
-              this.changeStatus(1);
+              this.changeStatus(this.pipelines[0].PipelineStage[0].Id);
             }
           );
       }

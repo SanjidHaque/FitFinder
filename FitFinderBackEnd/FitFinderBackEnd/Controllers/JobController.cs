@@ -56,13 +56,13 @@ namespace FitFinderBackEnd.Controllers
 
             if (userNameClaim == null)
             {
-                return Ok();
+                return Ok(new { statusText = "Error" });
             }
 
             ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
             if (applicationUser == null || job == null)
             {
-                return Ok();
+                return Ok(new { statusText = "Error" });
             }
 
             job.CompanyId = applicationUser.CompanyId;
@@ -75,7 +75,7 @@ namespace FitFinderBackEnd.Controllers
 //            _context.JobAttachments.AddRange(job.JobAttachment);
 
             _context.SaveChanges();
-            return Ok(job);
+            return Ok(new { statusText = "Success", job });
         }
 
         [HttpGet]
