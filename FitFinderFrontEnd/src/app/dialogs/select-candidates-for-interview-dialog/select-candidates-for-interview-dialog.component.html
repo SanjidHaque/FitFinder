@@ -176,7 +176,7 @@
 
           <strong
             title="Job Application"
-            *ngIf="candidate.JobAssigned.length !== 0"
+            *ngIf="candidate.JobAssigned !== null"
           ><i class="fas fa-briefcase"></i> {{ getJobName(candidate) }} &nbsp;
           </strong>
 

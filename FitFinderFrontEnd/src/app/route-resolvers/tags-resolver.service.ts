@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
-import {Observable} from 'rxjs';
 import {Department} from '../models/department.model';
+import {Observable} from 'rxjs';
+import {Tag} from '../models/tag.model';
 import {SettingsDataStorageService} from '../services/data-storage/settings-data-storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class DepartmentResolverService implements Resolve<Department[]> {
+export class TagsResolverService implements Resolve<Tag[]> {
   constructor(private settingsDataStorageService: SettingsDataStorageService) {}
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Department[]>
-    | Promise<Department[]> | Department[] {
-    return this.settingsDataStorageService.getAllDepartment();
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Tag[]>
+    | Promise<Tag[]> | Tag[] {
+    return this.settingsDataStorageService.getAllTag();
   }
 }

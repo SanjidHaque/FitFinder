@@ -20,6 +20,11 @@ export class CandidateDataStorageService {
     return this.httpClient.get<Candidate[]>(this.rootUrl + '/api/GetAllCandidate');
   }
 
+  getCandidate(candidateId: number) {
+    return this.httpClient.get(`${this.rootUrl + '/api/GetCandidate'}/${candidateId}` );
+  }
+
+
   addNewCandidate(candidate: Candidate) {
     return this.httpClient.post(this.rootUrl + '/api/AddNewCandidate', candidate);
   }
@@ -31,9 +36,13 @@ export class CandidateDataStorageService {
     }
     return this.httpClient.post(this.rootUrl + '/api/UploadAttachments', formData);
   }
+
+
   archiveCandidates(candidates: Candidate[]) {
     return this.httpClient.put(this.rootUrl + '/api/ArchiveCandidates', candidates);
   }
+
+
 
   restoreCandidates(candidates: Candidate[]) {
     return this.httpClient.put(this.rootUrl + '/api/RestoreCandidates', candidates);

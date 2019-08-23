@@ -240,13 +240,14 @@
 
                       <strong
                         title="Job Application"
-                        *ngIf="candidate.JobAssigned.length !== 0"
+                        *ngIf="candidate.JobAssigned !== null && getJobName(candidate) !== ''"
                       ><i class="fas fa-briefcase"></i> {{ getJobName(candidate) }} &nbsp;
                       </strong>
 
                      <strong
+                       *ngIf="getCandidateSourceName(candidate) !== ''"
                        title="Candidate Source"
-                     ><i class="fab fa-osi"></i> {{ getCandidateSource(candidate) }} &nbsp;
+                     ><i class="fab fa-osi"></i> {{ getCandidateSourceName(candidate) }} &nbsp;
                      </strong>
 
                       <strong

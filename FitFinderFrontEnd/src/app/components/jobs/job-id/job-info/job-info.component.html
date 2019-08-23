@@ -289,7 +289,7 @@
     </div>
     <hr>
 
-    <div class="row" *ngIf="job.JobAttachment.length !== 0; else noAttachments">
+    <div class="row" *ngIf="job.JobAttachment !== null; else noAttachments">
       <div class="col-xl-12" *ngFor="let jobAttachment of job.JobAttachment">
 
         <div class="row">

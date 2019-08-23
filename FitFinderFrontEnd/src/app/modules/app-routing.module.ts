@@ -13,10 +13,10 @@ import {CandidatePanelComponent} from '../components/candidates/candidate-panel/
 import {InterviewPanelComponent} from '../components/interviews/interview-panel/interview-panel.component';
 import {SettingsComponent} from '../components/settings/settings.component';
 import {ProfileComponent} from '../components/settings/profile/profile.component';
-import {CandidateResolverService} from '../route-resolvers/candidate-resolver.service';
+import {CandidatesResolverService} from '../route-resolvers/candidates-resolver.service';
 import {
-  InterviewResolverService} from '../route-resolvers/interview-resolver.service';
-import {JobResolverService} from '../route-resolvers/job-resolver.service';
+  InterviewsResolverService} from '../route-resolvers/interviews-resolver.service';
+import {JobsResolverService} from '../route-resolvers/jobs-resolver.service';
 import {ManageCompaniesComponent} from '../components/settings/manage-companies/manage-companies.component';
 import {DisqualifyReasonsComponent} from '../components/settings/disqualify-reasons/disqualify-reasons.component';
 import {WorkflowComponent} from '../components/settings/workflow/workflow.component';
@@ -39,14 +39,14 @@ import {DepartmentsComponent} from '../components/settings/job-openings/departme
 import {JobTypesComponent} from '../components/settings/job-openings/job-types/job-types.component';
 import {JobFunctionsComponent} from '../components/settings/job-openings/job-functions/job-functions.component';
 import {PipelineComponent} from '../components/settings/workflow/pipeline/pipeline.component';
-import {PipelineResolverService} from '../route-resolvers/pipeline-resolver.service';
-import {JobTypeResolverService} from '../route-resolvers/job-type-resolver.service';
-import {JobFunctionResolverService} from '../route-resolvers/job-function-resolver.service';
-import {DepartmentResolverService} from '../route-resolvers/department-resolver.service';
-import {SourceResolverService} from '../route-resolvers/source-resolver.service';
-import {TagResolverService} from '../route-resolvers/tag-resolver.service';
-import {RejectedReasonResolverService} from '../route-resolvers/rejected-reason-resolver.service';
-import {WithdrawnReasonResolverService} from '../route-resolvers/withdrawn-reason-resolver.service';
+import {PipelinesResolverService} from '../route-resolvers/pipelines-resolver.service';
+import {JobTypesResolverService} from '../route-resolvers/job-types-resolver.service';
+import {JobFunctionsResolverService} from '../route-resolvers/job-functions-resolver.service';
+import {DepartmentsResolverService} from '../route-resolvers/departments-resolver.service';
+import {SourcesResolverService} from '../route-resolvers/sources-resolver.service';
+import {TagsResolverService} from '../route-resolvers/tags-resolver.service';
+import {RejectedReasonsResolverService} from '../route-resolvers/rejected-reasons-resolver.service';
+import {WithdrawnReasonsResolverService} from '../route-resolvers/withdrawn-reasons-resolver.service';
 import {CandidateScoreCardComponent} from '../components/candidates/candidate-id/candidate-score-card/candidate-score-card.component';
 import {SignInComponent} from '../components/sign-in/sign-in.component';
 import {ForgotPasswordComponent} from '../components/forgot-password/forgot-password.component';
@@ -57,19 +57,20 @@ import {AuthGuard} from '../auth/auth.guard';
 import {ForbiddenComponent} from '../components/forbidden/forbidden.component';
 import {CompanyPanelComponent} from '../components/settings/manage-companies/company-panel/company-panel.component';
 import {EditCompanyComponent} from '../components/settings/manage-companies/edit-company/edit-company.component';
-import {CompanyResolverService} from '../route-resolvers/company-resolver.service';
-import {UserAccountResolverService} from '../route-resolvers/user-account-resolver.service';
+import {CompaniesResolverService} from '../route-resolvers/companies-resolver.service';
+import {UserAccountsResolverService} from '../route-resolvers/user-accounts-resolver.service';
 import {CompanyIdComponent} from '../components/settings/manage-companies/company-id/company-id.component';
 import {ManageUserAccountsComponent} from '../components/settings/manage-user-accounts/manage-user-accounts.component';
 import {AddNewUserAccountComponent} from '../components/settings/manage-user-accounts/add-new-user-account/add-new-user-account.component';
 import {UserAccountPanelComponent} from '../components/settings/manage-user-accounts/user-account-panel/user-account-panel.component';
 import {UserAccountIdComponent} from '../components/settings/manage-user-accounts/user-account-id/user-account-id.component';
 import {EditUserAccountComponent} from '../components/settings/manage-user-accounts/edit-user-account/edit-user-account.component';
-import {RoleResolverService} from '../route-resolvers/role-resolver.service';
+import {RolesResolverService} from '../route-resolvers/roles-resolver.service';
 import {ProfileDetailComponent} from '../components/settings/profile/profile-detail/profile-detail.component';
 import {EditProfileComponent} from '../components/settings/profile/edit-profile/edit-profile.component';
 import {ChangeProfilePasswordComponent} from '../components/settings/profile/change-profile-password/change-profile-password.component';
-import {SingleCompanyResolverService} from '../route-resolvers/single-company-resolver.service';
+import {CompanyResolverService} from '../route-resolvers/company-resolver.service';
+import {CandidateResolverService} from '../route-resolvers/candidate-resolver.service';
 
 const appRoutes: Routes = [
   {
@@ -78,11 +79,11 @@ const appRoutes: Routes = [
     canActivate: [AuthGuard],
     resolve:
       {
-        candidates: CandidateResolverService,
-        interviews: InterviewResolverService,
-        jobs: JobResolverService,
-        departments: DepartmentResolverService,
-        sources: SourceResolverService
+        candidates: CandidatesResolverService,
+        interviews: InterviewsResolverService,
+        jobs: JobsResolverService,
+        departments: DepartmentsResolverService,
+        sources: SourcesResolverService
       }
   },
   {
@@ -100,8 +101,8 @@ const appRoutes: Routes = [
         component: JobPanelComponent,
         resolve:
           {
-            jobs: JobResolverService,
-            departments: DepartmentResolverService
+            jobs: JobsResolverService,
+            departments: DepartmentsResolverService
           }
       },
       {
@@ -109,9 +110,9 @@ const appRoutes: Routes = [
         component: AddNewJobComponent,
         resolve:
           {
-            jobTypes: JobTypeResolverService,
-            jobFunctions: JobFunctionResolverService,
-            departments: DepartmentResolverService
+            jobTypes: JobTypesResolverService,
+            jobFunctions: JobFunctionsResolverService,
+            departments: DepartmentsResolverService
           }
       },
       {
@@ -119,8 +120,8 @@ const appRoutes: Routes = [
         component: JobIdComponent,
         resolve:
           {
-            jobs: JobResolverService,
-            departments: DepartmentResolverService
+            jobs: JobsResolverService,
+            departments: DepartmentsResolverService
           },
         children:
         [
@@ -134,9 +135,9 @@ const appRoutes: Routes = [
             component: JobInfoComponent,
             resolve:
               {
-                jobs: JobResolverService,
-                departments: DepartmentResolverService,
-                jobFunctions: JobFunctionResolverService
+                jobs: JobsResolverService,
+                departments: DepartmentsResolverService,
+                jobFunctions: JobFunctionsResolverService
               }
           },
           {
@@ -166,9 +167,9 @@ const appRoutes: Routes = [
         component: CandidatePanelComponent,
         resolve:
           {
-            jobs: JobResolverService,
-            sources: SourceResolverService,
-            candidates: CandidateResolverService
+            jobs: JobsResolverService,
+            sources: SourcesResolverService,
+            candidates: CandidatesResolverService
           }
       },
       {
@@ -176,8 +177,8 @@ const appRoutes: Routes = [
         component: AddNewCandidateComponent,
         resolve:
           {
-            jobs: JobResolverService,
-            sources: SourceResolverService
+            jobs: JobsResolverService,
+            sources: SourcesResolverService
           }
       },
       {
@@ -185,11 +186,11 @@ const appRoutes: Routes = [
         component: CandidateIdComponent,
         resolve:
           {
-            jobs: JobResolverService,
-            sources: SourceResolverService,
-            candidates: CandidateResolverService,
-            pipelines: PipelineResolverService,
-            departments: DepartmentResolverService
+            jobs: JobsResolverService,
+            sources: SourcesResolverService,
+            candidate: CandidateResolverService,
+            pipelines: PipelinesResolverService,
+            departments: DepartmentsResolverService
           },
         children:
         [
@@ -239,7 +240,7 @@ const appRoutes: Routes = [
         component: InterviewPanelComponent,
         resolve:
           {
-            interviews: InterviewResolverService
+            interviews: InterviewsResolverService
           }
       },
       {
@@ -247,8 +248,8 @@ const appRoutes: Routes = [
         component: AddNewInterviewComponent,
         resolve:
           {
-            jobs: JobResolverService,
-            candidates: CandidateResolverService
+            jobs: JobsResolverService,
+            candidates: CandidatesResolverService
           }
       },
       {
@@ -256,10 +257,10 @@ const appRoutes: Routes = [
         component: InterviewIdComponent,
         resolve:
           {
-            interviews: InterviewResolverService,
-            candidates: CandidateResolverService,
-            jobs: JobResolverService,
-            sources: SourceResolverService
+            interviews: InterviewsResolverService,
+            candidates: CandidatesResolverService,
+            jobs: JobsResolverService,
+            sources: SourcesResolverService
           }
       }
     ]
@@ -297,7 +298,7 @@ const appRoutes: Routes = [
             component: CompanyPanelComponent,
             resolve:
               {
-                companies: CompanyResolverService
+                companies: CompaniesResolverService
               }
           },
           {
@@ -305,7 +306,7 @@ const appRoutes: Routes = [
             component: CompanyIdComponent,
             resolve:
               {
-                companies: CompanyResolverService
+                companies: CompaniesResolverService
               }
           },
           {
@@ -313,7 +314,7 @@ const appRoutes: Routes = [
             component: EditCompanyComponent,
             resolve:
               {
-                companies: CompanyResolverService
+                companies: CompaniesResolverService
               }
           }
         ]
@@ -337,8 +338,8 @@ const appRoutes: Routes = [
               component: AddNewUserAccountComponent,
               resolve:
                 {
-                  userAccounts: UserAccountResolverService,
-                  roles: RoleResolverService
+                  userAccounts: UserAccountsResolverService,
+                  roles: RolesResolverService
                 }
             },
             {
@@ -346,7 +347,7 @@ const appRoutes: Routes = [
               component: UserAccountPanelComponent,
               resolve:
                 {
-                  userAccounts: UserAccountResolverService
+                  userAccounts: UserAccountsResolverService
                 }
             },
             {
@@ -354,7 +355,7 @@ const appRoutes: Routes = [
               component: UserAccountIdComponent,
               resolve:
                 {
-                  userAccounts: UserAccountResolverService
+                  userAccounts: UserAccountsResolverService
                 }
             },
             {
@@ -362,8 +363,8 @@ const appRoutes: Routes = [
               component: EditUserAccountComponent,
               resolve:
                 {
-                  userAccounts: UserAccountResolverService,
-                  roles: RoleResolverService
+                  userAccounts: UserAccountsResolverService,
+                  roles: RolesResolverService
                 }
             }
           ]
@@ -383,8 +384,8 @@ const appRoutes: Routes = [
             component: ProfileDetailComponent,
             resolve:
               {
-                userAccounts: UserAccountResolverService,
-                company: SingleCompanyResolverService
+                userAccounts: UserAccountsResolverService,
+                company: CompanyResolverService
               }
           },
           {
@@ -392,8 +393,8 @@ const appRoutes: Routes = [
             component: EditProfileComponent,
             resolve:
               {
-                userAccounts: UserAccountResolverService,
-                company: SingleCompanyResolverService
+                userAccounts: UserAccountsResolverService,
+                company: CompanyResolverService
               }
           },
           {
@@ -401,7 +402,7 @@ const appRoutes: Routes = [
             component: ChangeProfilePasswordComponent,
             resolve:
               {
-                userAccounts: UserAccountResolverService
+                userAccounts: UserAccountsResolverService
               }
           }
         ]
@@ -421,7 +422,7 @@ const appRoutes: Routes = [
             component: SourcesComponent,
             resolve:
               {
-                sources: SourceResolverService
+                sources: SourcesResolverService
               }
           }
         ]
@@ -441,7 +442,7 @@ const appRoutes: Routes = [
             component: DepartmentsComponent,
             resolve:
               {
-                departments: DepartmentResolverService
+                departments: DepartmentsResolverService
               }
           },
           {
@@ -449,7 +450,7 @@ const appRoutes: Routes = [
             component: JobTypesComponent,
             resolve:
               {
-                jobTypes: JobTypeResolverService
+                jobTypes: JobTypesResolverService
               }
           },
           {
@@ -457,7 +458,7 @@ const appRoutes: Routes = [
             component: JobFunctionsComponent,
             resolve:
               {
-                jobFunctions: JobFunctionResolverService
+                jobFunctions: JobFunctionsResolverService
               }
           }
         ]
@@ -477,7 +478,7 @@ const appRoutes: Routes = [
             component: PipelineComponent,
             resolve:
               {
-                pipelines: PipelineResolverService
+                pipelines: PipelinesResolverService
               }
           }
         ]
@@ -487,8 +488,8 @@ const appRoutes: Routes = [
         component: DisqualifyReasonsComponent,
         resolve:
           {
-            withdrawnReasons: WithdrawnReasonResolverService,
-            rejectedReasons: RejectedReasonResolverService
+            withdrawnReasons: WithdrawnReasonsResolverService,
+            rejectedReasons: RejectedReasonsResolverService
           }
       }
     ]

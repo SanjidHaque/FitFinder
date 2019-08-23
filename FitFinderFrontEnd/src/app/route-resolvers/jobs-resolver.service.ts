@@ -7,7 +7,7 @@ import {JobDataStorageService} from '../services/data-storage/job-data-storage.s
 @Injectable({
   providedIn: 'root'
 })
-export class JobResolverService implements Resolve<Job[]> {
+export class JobsResolverService implements Resolve<Job[]> {
   constructor(private jobDataStorageService: JobDataStorageService) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):

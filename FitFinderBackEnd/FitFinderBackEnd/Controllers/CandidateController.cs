@@ -150,18 +150,23 @@ namespace FitFinderBackEnd.Controllers
 
             if (userNameClaim == null)
             {
-                return Ok(new { statusText = "Error" });
+                return Ok();
             }
 
             ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
             if (applicationUser == null)
             {
-                return Ok(new { statusText = "Error" });
+                return Ok();
             }
 
 
             Candidate candidate = _context.Candidates
                 .FirstOrDefault(x => x.CompanyId == applicationUser.CompanyId && x.Id == candidateId);
+
+            if (candidate == null)
+            {
+                return Ok();
+            }
 
             List<JobAssigned> jobAssigneds = _context.JobAssigneds
                 .Where(x => x.CandidateId == candidateId)

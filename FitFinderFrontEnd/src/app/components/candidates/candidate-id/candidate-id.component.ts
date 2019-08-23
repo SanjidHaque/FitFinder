@@ -34,7 +34,6 @@ import {Department} from '../../../models/department.model';
 })
 export class CandidateIdComponent implements OnInit, DoCheck {
 
-  candidateId: number;
   selectTabIndex = 0;
   candidateDefaultImage = 'assets/images/candidateDefaultImage.png';
   rating: 0;
@@ -58,12 +57,6 @@ export class CandidateIdComponent implements OnInit, DoCheck {
               private jobDataStorageService: JobDataStorageService,
               private candidateDataStorageService: CandidateDataStorageService,
               private settingsDataStorageService: SettingsDataStorageService) {
-    this.route.params
-      .subscribe(
-        (params: Params) => {
-          this.candidateId = +params['candidate-id'];
-        }
-      );
 
   }
 
@@ -74,12 +67,11 @@ export class CandidateIdComponent implements OnInit, DoCheck {
           this.jobs = data['jobs'];
           this.sources = data['sources'];
           this.pipelines = data['pipelines'];
-          this.candidates = data['candidates'];
+          this.candidate = data['candidate'];
           this.departments = data['departments'];
         }
       );
 
-    this.candidate = this.candidates.find(x => x.Id === this.candidateId);
     this.candidateService.candidate = this.candidate;
     this.getCurrentStageNameAndColor();
   }
@@ -91,7 +83,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
 
 
   getCurrentStageNameAndColor() {
-    if (this.candidate.JobAssigned.length !== 0) {
+    if (this.candidate.JobAssigned !== null) {
       this.currentStageId =
         this.candidate.JobAssigned.find( x => x.IsActive === true).CurrentStageId;
       this.name = this.detectStageChange(this.currentStageId).stageName;
@@ -218,7 +210,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
            null,
            this.getActiveJobAssignedId(),
            currentStageId,
-           this.candidateId,
+           this.candidate.Id,
            this.candidate.JobAssigned
              .find(x => x.Id === this.getActiveJobAssignedId())
              .JobId,
@@ -239,7 +231,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
 
        const jobAssigned = new JobAssigned(
          this.getActiveJobAssignedId(),
-         this.candidateId,
+         this.candidate.Id,
          this.candidate.JobAssigned
            .find(x => x.Id === this.getActiveJobAssignedId())
            .JobId,
@@ -374,7 +366,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
           null,
           null,
           this.pipelines[0].PipelineStage[0].Id,
-          this.candidateId,
+          this.candidate.Id,
           jobId,
           'Created from '
         );
@@ -389,7 +381,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
               null,
               0,
               this.pipelines[i].PipelineStage[j].Id,
-              this.candidateId,
+              this.candidate.Id,
               jobId
             );
             stageScores.push(stageScore);
@@ -403,7 +395,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
                 null,
                 0,
                 this.pipelines[i].PipelineStage[j].PipelineStageCriteria[l].Id,
-                this.candidateId,
+                this.candidate.Id,
                 jobId
               );
               criteriaScores.push(criteriaScore);
@@ -413,7 +405,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
         }
         const jobAssigned = new JobAssigned(
           null,
-          this.candidateId,
+          this.candidate.Id,
           result[0].Id,
           stageScores,
           criteriaScores,
@@ -485,7 +477,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
   }
 
   previousCandidate() {
-    const currentIndex = this.candidates.findIndex(x => x.Id === this.candidateId);
+    const currentIndex = this.candidates.findIndex(x => x.Id === this.candidate.Id);
     let nextIndex = currentIndex - 1;
     if ( nextIndex === -1 ) {
        nextIndex = this.candidates.length - 1;
@@ -494,12 +486,12 @@ export class CandidateIdComponent implements OnInit, DoCheck {
     }
     this.candidate = this.candidates[nextIndex];
     this.candidateService.candidate = this.candidates[nextIndex];
-    this.candidateId = this.candidates[nextIndex].Id;
-    this.router.navigate(['/candidates/' + this.candidateId]);
+    this.candidate.Id = this.candidates[nextIndex].Id;
+    this.router.navigate(['/candidates/' + this.candidate.Id]);
   }
 
   nextCandidate() {
-    const currentIndex = this.candidates.findIndex(x => x.Id === this.candidateId);
+    const currentIndex = this.candidates.findIndex(x => x.Id === this.candidate.Id);
     let nextIndex = currentIndex + 1;
     if ( nextIndex === this.candidates.length ) {
       nextIndex = 0;
@@ -508,8 +500,8 @@ export class CandidateIdComponent implements OnInit, DoCheck {
     }
     this.candidate = this.candidates[nextIndex];
     this.candidateService.candidate = this.candidates[nextIndex];
-    this.candidateId = this.candidates[nextIndex].Id;
-    this.router.navigate(['/candidates/' + this.candidateId]);
+    this.candidate.Id = this.candidates[nextIndex].Id;
+    this.router.navigate(['/candidates/' + this.candidate.Id]);
   }
 
   getApplicationDate() {

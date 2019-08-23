@@ -8,7 +8,7 @@ import {SettingsDataStorageService} from '../services/data-storage/settings-data
 @Injectable({
   providedIn: 'root'
 })
-export class SourceResolverService implements Resolve<Source[]> {
+export class SourcesResolverService implements Resolve<Source[]> {
   constructor(private settingsDataStorageService: SettingsDataStorageService) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Source[]>

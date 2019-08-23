@@ -277,7 +277,7 @@
 
 
     <div class="row"
-         *ngIf="interview.CandidatesForInterview.length === 0; else candidateIsSelected">
+         *ngIf="interview.CandidatesForInterview === null; else candidateIsSelected">
       <div class="col-xl-12">
         <br>
 
@@ -310,10 +310,11 @@
 
 
 
-        <div class="offset-xl-7 col-xl-4 text-xl-right" *ngIf="interview.CandidatesForInterview.length !== 0">
+        <div class="offset-xl-7 col-xl-4 text-xl-right"
+             *ngIf="interview.CandidatesForInterview !== null">
 
           <button
-            [disabled]="interview.IsArchived || candidateService.candidates.length === 0"
+            [disabled]="interview.IsArchived || candidates.length === 0"
             type="button"
             (click)="openSelectCandidatesDialog()"
             mat-flat-button style="outline: 0; background-color: transparent;">

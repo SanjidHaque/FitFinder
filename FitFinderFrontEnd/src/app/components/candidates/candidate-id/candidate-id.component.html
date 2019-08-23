@@ -47,7 +47,7 @@
        font-weight: bold;
        opacity: .7;
        text-align: center;"
-       *ngIf="candidate.JobAssigned.length === 0; else jobNotAssigned">
+       *ngIf="candidate.JobAssigned === 0; else jobNotAssigned">
     Assign Job to Change Candidate Status
   </div>
 
@@ -59,7 +59,7 @@
 
   <div class="col-xl-2 text-xl-right">
     <button
-      [disabled]="candidate.JobAssigned.length !== 0"
+      [disabled]="candidate.JobAssigned !== null"
       (click)="assignJobDialog(candidate)"
       style="
       outline: 0;"
@@ -174,7 +174,7 @@
           mat-flat-button><i class="far fa-window-restore"></i> Restore</button>
       </div>
 
-      <div *ngIf="!candidate.IsArchived || candidate.JobAssigned.length !== 0" class="col-xl-3 text-xl-center">
+      <div *ngIf="!candidate.IsArchived || candidate.JobAssigned !== null" class="col-xl-3 text-xl-center">
         <button
           style="background-color: transparent; outline: 0;"
           mat-flat-button><i class="far fa-edit"></i> Edit</button>
@@ -211,14 +211,14 @@
 
     </div>
 
-    <div class="row">
-      <div class="col-xl-12">
+    <!--<div class="row">-->
+      <!--<div class="col-xl-12">-->
 
-        <i title="Tag" style="font-size: 14px;" class="fas fa-tag"></i>
-        <button mat-flat-button style="background-color: transparent; outline: 0;">New <i class="fas fa-plus"></i></button>
+        <!--<i title="Tag" style="font-size: 14px;" class="fas fa-tag"></i>-->
+        <!--<button mat-flat-button style="background-color: transparent; outline: 0;">New <i class="fas fa-plus"></i></button>-->
 
-      </div>
-    </div>
+      <!--</div>-->
+    <!--</div>-->
     <hr>
 
     <div class="row">
@@ -255,7 +255,7 @@
     </div>
     <hr>
 
-    <div class="row" *ngIf="candidate.CandidateAttachment.length !== 0; else noAttachments">
+    <div class="row" *ngIf="candidate.CandidateAttachment !== null; else noAttachments">
       <div class="col-xl-12" *ngFor="let candidateAttachment of candidate.CandidateAttachment">
 
         <div class="row">
@@ -322,16 +322,16 @@
     </ng-template>
 
 
-    <div class="row" *ngIf="candidate.CandidateEducation.length !== 0">
+    <div class="row" *ngIf="candidate.CandidateEducation !== null">
       <div class="col-xl-12" style="
       padding-top: 18px;
       font-weight: bold;">
         EDUCATION
       </div>
     </div>
-    <hr *ngIf="candidate.CandidateEducation.length !== 0">
+    <hr *ngIf="candidate.CandidateEducation !== null">
 
-    <div *ngIf="candidate.CandidateEducation.length !== 0">
+    <div *ngIf="candidate.CandidateEducation !== null">
 
       <div class="row"
            style="padding-bottom: 7px;
@@ -426,16 +426,16 @@
     </div>
 
 
-    <div class="row" *ngIf="candidate.CandidateExperience.length !== 0">
+    <div class="row" *ngIf="candidate.CandidateExperience !== null">
       <div class="col-xl-12" style="
       padding-top: 18px;
       font-weight: bold;">
         EXPERIENCE
       </div>
     </div>
-    <hr *ngIf="candidate.CandidateEducation.length !== 0">
+    <hr *ngIf="candidate.CandidateEducation !== null">
 
-    <div *ngIf="candidate.CandidateExperience.length !== 0">
+    <div *ngIf="candidate.CandidateExperience !== null">
 
       <div class="row"
            style="padding-bottom: 7px;
@@ -544,7 +544,7 @@
 
   <div class="col-xl-6">
 
-    <div *ngIf="candidate.JobAssigned.length!==0 ">
+    <div *ngIf="candidate.JobAssigned!== null ">
 
       <div class="row"
            [ngStyle]="{'opacity': candidate.IsArchived ? .8 : 1 }"

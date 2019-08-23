@@ -502,7 +502,9 @@ namespace FitFinderBackEnd.Controllers
             }
 
 
-            WithdrawnReason getWithdrawnReason = _context.WithdrawnReasons.FirstOrDefault(x => x.Id == withdrawnReason.Id && x.CompanyId == applicationUser.CompanyId);
+            WithdrawnReason getWithdrawnReason = _context.WithdrawnReasons
+                .FirstOrDefault(x => x.Id == withdrawnReason.Id 
+                                  && x.CompanyId == applicationUser.CompanyId);
 
             if (getWithdrawnReason == null)
             {
@@ -541,19 +543,27 @@ namespace FitFinderBackEnd.Controllers
 
             if (userNameClaim == null)
             {
-                return Ok(new List<Candidate>());
+                return Ok(new List<Pipeline>());
             }
 
             ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
             if (applicationUser == null)
             {
-                return Ok(new List<Candidate>());
+                return Ok(new List<Pipeline>());
             }
 
             List<Pipeline> pipelines = _context.Pipelines
                 .Where(x => x.CompanyId == applicationUser.CompanyId)
-                .Include(a => a.PipelineStage.Select(b => b.PipelineStageCriteria))
-                .OrderBy(x => x.Id).ToList();
+                .ToList();
+
+            List<PipelineStage> pipelineStages = _context.PipelineStages
+                .Include(x => x.Pipeline)
+                .ToList();
+
+            List<PipelineStageCriteria> pipelineStageCriterias = _context.PipelineStageCriterias
+                .Include(x => x.PipelineStage)
+                .ToList();
+
             return Ok(pipelines);
         }
 

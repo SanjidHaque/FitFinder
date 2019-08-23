@@ -41,8 +41,13 @@ namespace FitFinderBackEnd.Models
         public DbSet<Department> Departments { get; set; }
         public DbSet<JobFunction> JobFunctions { get; set; }
         public DbSet<JobType> JobTypes { get; set; }
+
         public DbSet<Interview.Interview> Interviews { get; set; }
+        public DbSet<CandidatesForInterview> CandidatesForInterviews { get; set; }
+        public DbSet<InterviewersForInterview> InterviewersForInterviews { get; set; }
+
         public DbSet<Job.Job> Jobs { get; set; }
+        public DbSet<JobAttachment> JobAttachments { get; set; }
 
         public DbSet<RejectedReason> RejectedReasons { get; set; }
         public DbSet<WithdrawnReason> WithdrawnReasons { get; set; }

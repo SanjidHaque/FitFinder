@@ -4,7 +4,6 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { StarRatingModule } from 'angular-star-rating';
 
-
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './modules/app-routing.module';
 import {RouterModule} from '@angular/router';
@@ -25,11 +24,11 @@ import {JobPanelComponent} from './components/jobs/job-panel/job-panel.component
 import {CandidatePanelComponent} from './components/candidates/candidate-panel/candidate-panel.component';
 import {InterviewPanelComponent} from './components/interviews/interview-panel/interview-panel.component';
 import {ProfileComponent} from './components/settings/profile/profile.component';
-import {CandidateResolverService} from './route-resolvers/candidate-resolver.service';
+import {CandidatesResolverService} from './route-resolvers/candidates-resolver.service';
 import {CandidateDataStorageService} from './services/data-storage/candidate-data-storage.service';
 import {InterviewDataStorageService} from './services/data-storage/interview-data-storage.service';
-import {InterviewResolverService} from './route-resolvers/interview-resolver.service';
-import {JobResolverService} from './route-resolvers/job-resolver.service';
+import {InterviewsResolverService} from './route-resolvers/interviews-resolver.service';
+import {JobsResolverService} from './route-resolvers/jobs-resolver.service';
 import { ManageCompaniesComponent } from './components/settings/manage-companies/manage-companies.component';
 import { CandidatesAndLeadsComponent } from './components/settings/candidates-and-leads/candidates-and-leads.component';
 import { JobOpeningsComponent } from './components/settings/job-openings/job-openings.component';
@@ -58,12 +57,12 @@ import { DepartmentsComponent } from './components/settings/job-openings/departm
 import { JobTypesComponent } from './components/settings/job-openings/job-types/job-types.component';
 import { JobFunctionsComponent } from './components/settings/job-openings/job-functions/job-functions.component';
 import { PipelineComponent } from './components/settings/workflow/pipeline/pipeline.component';
-import {PipelineResolverService} from './route-resolvers/pipeline-resolver.service';
-import {SourceResolverService} from './route-resolvers/source-resolver.service';
-import {TagResolverService} from './route-resolvers/tag-resolver.service';
-import {JobTypeResolverService} from './route-resolvers/job-type-resolver.service';
-import {JobFunctionResolverService} from './route-resolvers/job-function-resolver.service';
-import {DepartmentResolverService} from './route-resolvers/department-resolver.service';
+import {PipelinesResolverService} from './route-resolvers/pipelines-resolver.service';
+import {SourcesResolverService} from './route-resolvers/sources-resolver.service';
+import {TagsResolverService} from './route-resolvers/tags-resolver.service';
+import {JobTypesResolverService} from './route-resolvers/job-types-resolver.service';
+import {JobFunctionsResolverService} from './route-resolvers/job-functions-resolver.service';
+import {DepartmentsResolverService} from './route-resolvers/departments-resolver.service';
 import {SettingsDataStorageService} from './services/data-storage/settings-data-storage.service';
 import { AddUpdateDialogComponent } from './dialogs/add-update-dialog/add-update-dialog.component';
 import { AddUpdatePipelineStageDialogComponent } from './dialogs/add-update-pipeline-stage-dialog/add-update-pipeline-stage-dialog.component';
@@ -91,18 +90,21 @@ import {JobDataStorageService} from './services/data-storage/job-data-storage.se
 import {JobService} from './services/shared/job.service';
 import { CompanyPanelComponent } from './components/settings/manage-companies/company-panel/company-panel.component';
 import { EditCompanyComponent } from './components/settings/manage-companies/edit-company/edit-company.component';
-import {CompanyResolverService} from './route-resolvers/company-resolver.service';
+import {CompaniesResolverService} from './route-resolvers/companies-resolver.service';
 import { CompanyIdComponent } from './components/settings/manage-companies/company-id/company-id.component';
 import {ManageUserAccountsComponent} from './components/settings/manage-user-accounts/manage-user-accounts.component';
 import {UserAccountIdComponent} from './components/settings/manage-user-accounts/user-account-id/user-account-id.component';
 import {UserAccountPanelComponent} from './components/settings/manage-user-accounts/user-account-panel/user-account-panel.component';
 import {AddNewUserAccountComponent} from './components/settings/manage-user-accounts/add-new-user-account/add-new-user-account.component';
 import {EditUserAccountComponent} from './components/settings/manage-user-accounts/edit-user-account/edit-user-account.component';
-import {RoleResolverService} from './route-resolvers/role-resolver.service';
+import {RolesResolverService} from './route-resolvers/roles-resolver.service';
 import { EditProfileComponent } from './components/settings/profile/edit-profile/edit-profile.component';
 import { ChangeProfilePasswordComponent } from './components/settings/profile/change-profile-password/change-profile-password.component';
 import {ProfileDetailComponent} from './components/settings/profile/profile-detail/profile-detail.component';
-import {SingleCompanyResolverService} from './route-resolvers/single-company-resolver.service';
+import {CompanyResolverService} from './route-resolvers/company-resolver.service';
+import {CandidateResolverService} from './route-resolvers/candidate-resolver.service';
+import {JobResolverService} from './route-resolvers/job-resolver.service';
+import {InterviewResolverService} from './route-resolvers/interview-resolver.service';
 
 
 
@@ -219,22 +221,25 @@ import {SingleCompanyResolverService} from './route-resolvers/single-company-res
   providers: [
     CandidateDataStorageService,
     InterviewDataStorageService,
-    CandidateResolverService,
-    InterviewResolverService,
-    PipelineResolverService,
+    CandidatesResolverService,
+    InterviewsResolverService,
+    PipelinesResolverService,
+    CompaniesResolverService,
+    SourcesResolverService,
+    TagsResolverService,
+    JobTypesResolverService,
+    JobFunctionsResolverService,
+    DepartmentsResolverService,
+    JobsResolverService,
     CompanyResolverService,
-    SourceResolverService,
-    TagResolverService,
-    JobTypeResolverService,
-    JobFunctionResolverService,
-    DepartmentResolverService,
-    JobResolverService,
-    SingleCompanyResolverService,
-    RoleResolverService,
+    RolesResolverService,
     SettingsDataStorageService,
     UserAccountDataStorageService,
     JobDataStorageService,
     JobService,
+    CandidateResolverService,
+    JobResolverService,
+    InterviewResolverService,
     AuthGuard,
     {
       provide : HTTP_INTERCEPTORS,

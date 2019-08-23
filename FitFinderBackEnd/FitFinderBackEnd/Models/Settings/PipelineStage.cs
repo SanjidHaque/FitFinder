@@ -10,6 +10,7 @@ namespace FitFinderBackEnd.Models.Settings
         public long Id { get; set; }
         public string Name { get; set; }
         public string Color { get; set; }
+        public Pipeline Pipeline { get; set; }
         public long PipelineId { get; set; }
         public List<PipelineStageCriteria> PipelineStageCriteria { get; set; }
     }

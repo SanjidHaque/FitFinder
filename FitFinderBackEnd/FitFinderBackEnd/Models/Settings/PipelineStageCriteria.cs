@@ -9,6 +9,7 @@ namespace FitFinderBackEnd.Models.Settings
     {
         public long Id { get; set; }
         public string Name { get; set; }
+        public PipelineStage PipelineStage { get; set; }
         public long PipelineStageId { get; set; }
     }
 }

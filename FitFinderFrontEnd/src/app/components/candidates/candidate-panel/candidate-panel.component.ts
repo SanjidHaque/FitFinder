@@ -176,9 +176,14 @@ export class CandidatePanelComponent implements OnInit {
   getJobName(candidate: Candidate) {
     const lastIndex = candidate.JobAssigned.length - 1;
 
-    return this.jobs.find(
-      x => x.Id === candidate.JobAssigned[lastIndex].JobId)
-      .JobTitle;
+    const job = this.jobs.find(
+      x => x.Id === candidate.JobAssigned[lastIndex].JobId);
+
+    if (job === undefined) {
+      return '';
+    }
+
+    return job.JobTitle;
   }
 
   getApplicationDate(candidate: Candidate) {
@@ -198,8 +203,13 @@ export class CandidatePanelComponent implements OnInit {
   }
 
 
-  getCandidateSource(candidate: Candidate) {
-    return this.sources.find(x => x.Id === candidate.SourceId).Name;
+  getCandidateSourceName(candidate: Candidate) {
+    const source = this.sources.find(x => x.Id === candidate.SourceId);
+
+    if (source === undefined) {
+      return '';
+    }
+    return source.Name;
   }
 
   getInterviewDate() {

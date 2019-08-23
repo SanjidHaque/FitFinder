@@ -104,11 +104,49 @@ namespace FitFinderBackEnd.Controllers
 
             List<Interview> interview = _context.Interviews
                 .Where(x => x.CompanyId == applicationUser.CompanyId)
-                .Include(c => c.CandidatesForInterview)
-                .Include(d => d.InterviewersForInterview)
                 .OrderByDescending(x => x.Id)
                 .ToList();
+
             return Ok(interview);
+        }
+
+
+        [HttpGet]
+        [Route("api/GetInterview/{interviewId}")]
+        [AllowAnonymous]
+        public IHttpActionResult GetInterview(long interviewId)
+        {
+            Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
+
+            if (userNameClaim == null)
+            {
+                return Ok(new { statusText = "Error" });
+            }
+
+            ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
+            if (applicationUser == null)
+            {
+                return Ok(new { statusText = "Error" });
+            }
+
+
+            Interview interview = _context.Interviews
+                .FirstOrDefault(x => x.CompanyId == applicationUser.CompanyId && x.Id == interviewId);
+
+            if (interview == null)
+            {
+                return Ok(new { statusText = "Error" });
+            }
+
+            List<CandidatesForInterview> candidatesForInterviews = _context.CandidatesForInterviews
+                .Where(x => x.InterviewId == interviewId)
+                .ToList();
+
+            List<InterviewersForInterview> interviewersForInterviews = _context.InterviewersForInterviews
+                .Where(x => x.InterviewId == interviewId)
+                .ToList();
+
+            return Ok(new { statusText = "Success", interview });
         }
 
 
