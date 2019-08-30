@@ -46,8 +46,25 @@ export class SelectCandidatesForInterviewDialogComponent implements OnInit {
   }
 
   getJobName(candidate: Candidate) {
-    const assignedJobId = candidate.JobAssigned.find(x => x.IsActive === true).JobId;
-    return this.jobs.find(x => x.Id === assignedJobId).JobTitle;
+
+    if (candidate.JobAssigned === null) {
+      return '';
+    }
+
+    const assignedJob = candidate.JobAssigned
+      .find(x => x.IsActive === true);
+
+    if (assignedJob === undefined) {
+      return '';
+    }
+
+    const job = this.jobs.find(x => x.Id === assignedJob.JobId);
+
+    if (job === undefined) {
+      return '';
+    }
+
+    return job.JobTitle;
   }
 
   getApplicationDate(candidate: Candidate) {
@@ -55,7 +72,15 @@ export class SelectCandidatesForInterviewDialogComponent implements OnInit {
   }
 
   getCandidateSource(candidate: Candidate) {
-    return this.sources.find(x => x.Id === candidate.SourceId).Name;
+
+    const source = this.sources.find(x => x.Id === candidate.SourceId);
+
+    if (source === undefined) {
+      return '';
+    }
+
+    return source.Name;
+
   }
 
   favouriteStatus(event: any) {

@@ -56,6 +56,11 @@ export class PipelineStageCriteriaDialogComponent implements OnInit {
         this.settingsDataStorageService.addNewPipelineStageCriteria(pipelineStageCriteria)
           .subscribe(
             (newPipelineStageCriteria: PipelineStageCriteria) => {
+
+              if (this.data.stage.PipelineStageCriteria === null) {
+                this.data.stage.PipelineStageCriteria = [];
+              }
+
               this.data.stage.PipelineStageCriteria.push(newPipelineStageCriteria);
               this.notifierService.notify('default', 'New criteria added!');
             }

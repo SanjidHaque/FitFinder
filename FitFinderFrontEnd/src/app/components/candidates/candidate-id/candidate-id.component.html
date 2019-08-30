@@ -544,7 +544,7 @@
 
   <div class="col-xl-6">
 
-    <div *ngIf="candidate.JobAssigned!== null ">
+    <div *ngIf="candidate.JobAssigned !== null ">
 
       <div class="row"
            [ngStyle]="{'opacity': candidate.IsArchived ? .8 : 1 }"

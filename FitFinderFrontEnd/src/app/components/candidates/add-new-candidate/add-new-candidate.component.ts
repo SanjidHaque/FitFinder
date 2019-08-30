@@ -29,6 +29,8 @@ export class AddNewCandidateComponent implements OnInit {
   candidateEducation: CandidateEducation[] = [];
   candidateAttachments: CandidateAttachment[] = [];
 
+  defaultSource = 'BdJobs';
+
   jobs: Job[] = [];
   sources: Source[] = [];
 
@@ -69,7 +71,7 @@ export class AddNewCandidateComponent implements OnInit {
       'city': new FormControl('', Validators.required),
       'state': new FormControl(''),
       'country': new FormControl('', Validators.required),
-      'candidateSourceId': new FormControl('', Validators.required),
+      'candidateSourceId': new FormControl(this.defaultSource, Validators.required),
       'education': new FormArray([]),
       'experience': new FormArray([]),
       'facebookUrl': new FormControl(''),

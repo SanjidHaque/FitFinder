@@ -25,7 +25,7 @@
 
   <hr>
 
-  <div class="row" *ngIf="data.stage.PipelineStageCriteria.length === 0; else criteriaExist">
+  <div class="row" *ngIf="data.stage.PipelineStageCriteria === null; else criteriaExist">
     <div class="col-xl-12 text-xl-center"
          style="font-size: 14px; padding-top: 10px;">
       No criteria exist. It's easy to create one.
