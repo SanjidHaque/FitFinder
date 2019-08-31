@@ -76,8 +76,9 @@ export class EditProfileComponent implements OnInit {
         '',
         this.editProfileForm.controls['phoneNumber'].value,
         this.userAccount.JoiningDateTime,
-       this.userAccount.RoleName,
-        this.userAccount.IsOwner
+        this.userAccount.RoleName,
+        null,
+        this.userAccount.IsOwner,
       )
     ).subscribe( (data: any) => {
       if (data.Succeeded) {

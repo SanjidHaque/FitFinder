@@ -69,8 +69,12 @@ export class CandidateIdComponent implements OnInit, DoCheck {
           this.pipelines = data['pipelines'];
           this.candidate = data['candidate'];
           this.departments = data['departments'];
+
+
+
         }
       );
+
 
     this.candidateService.candidate = this.candidate;
     this.getCurrentStageNameAndColor();
@@ -94,6 +98,11 @@ export class CandidateIdComponent implements OnInit, DoCheck {
   pipelineStageChanged(pipelineStageId: number) {
     this.changeStatus(pipelineStageId);
   }
+
+  openCurrentPipelineStage() {
+    this.changeStatus(this.currentStageId);
+  }
+
 
   detectStageChange(pipelineStageId: number) {
     for (let i = 0; i < this.pipelines.length; i++) {
@@ -475,16 +484,17 @@ export class CandidateIdComponent implements OnInit, DoCheck {
   }
 
   moveToRejected() {
-    this.changeStatus(8);
+    const pipeline = this.pipelines.find(x => x.Name === 'REJECTED');
+    this.changeStatus(pipeline.PipelineStage[0].Id);
   }
 
   moveToNextStage() {
     const pipelineStages: PipelineStage[] = [];
     let currentStageId;
-    if (this.candidate.JobAssigned.length !== 0) {
-       currentStageId = this
-        .candidate.JobAssigned
-        .find( x => x.IsActive === true).CurrentStageId;
+
+    if (this.candidate.JobAssigned !== null) {
+       currentStageId = this.candidate.JobAssigned
+         .find( x => x.IsActive === true).CurrentStageId;
     }
 
     for (let i = 0; i < this.pipelines.length; i++) {
@@ -505,18 +515,22 @@ export class CandidateIdComponent implements OnInit, DoCheck {
   }
 
   previousCandidate() {
-    const currentIndex = this.candidates.findIndex(x => x.Id === this.candidate.Id);
-    let nextIndex = currentIndex - 1;
-    if ( nextIndex === -1 ) {
-       nextIndex = this.candidates.length - 1;
-    } else {
-       nextIndex = currentIndex - 1;
-    }
-    this.candidate = this.candidates[nextIndex];
-    this.candidateService.candidate = this.candidates[nextIndex];
-    this.candidate.Id = this.candidates[nextIndex].Id;
-    this.router.navigate(['/candidates/' + this.candidate.Id]);
+    // const currentIndex = this.candidates.findIndex(x => x.Id === this.candidate.Id);
+    // let previousIndex = currentIndex - 1;
+    // if ( previousIndex === -1 ) {
+    //   previousIndex = this.candidates.length - 1;
+    // } else {
+    //   previousIndex = currentIndex - 1;
+    // }
+    // // this.candidate = this.candidates[nextIndex];
+    // // this.candidateService.candidate = this.candidates[nextIndex];
+    // this.candidate.Id = this.candidates[previousIndex].Id;
+    //
+    this.router.navigate(['/candidates/' + 10]);
   }
+
+
+
 
   nextCandidate() {
     const currentIndex = this.candidates.findIndex(x => x.Id === this.candidate.Id);

@@ -13,7 +13,7 @@
 
 <form [formGroup]="editUserAccountForm"
       (ngSubmit)="editUserAccount()"
-      #form="ngForm">
+      #form = "ngForm">
 
   <div class="row">
 
@@ -50,7 +50,7 @@
           formControlName="email"
           required
           matInput>
-        <mat-error *ngIf="editUserAccountForm.controls['email'].invalid">
+        <mat-error *ngIf="editUserAccountForm.get('email').invalid">
           {{getEmailErrorMessage('email')}}
         </mat-error>
       </mat-form-field>
@@ -124,3 +124,29 @@
 
 </form>
 
+<!--<div class="col-xl-8">-->
+
+  <!--<mat-form-field style="width: 100%;" appearance="outline">-->
+    <!--<mat-label>Select Role</mat-label>-->
+    <!--<mat-select-->
+
+      <!--[(value)]="HR"-->
+    <!--&gt;-->
+
+      <!--<mat-option *ngIf="roles.length == 0">No role is available</mat-option>-->
+      <!--<mat-option *ngFor="let role of roles"-->
+                  <!--[value]="role.Name"> {{ role.Name }} </mat-option>-->
+
+    <!--</mat-select>-->
+    <!--<mat-error>You must select a user role!</mat-error>-->
+  <!--</mat-form-field>-->
+
+<!--</div>-->
+
+
+<!--<mat-form-field>-->
+  <!--<mat-select [(value)]="selected" placeholder="Mode">-->
+    <!--<mat-option value="domain">Domain</mat-option>-->
+    <!--<mat-option value="exact">Exact</mat-option>-->
+  <!--</mat-select>-->
+<!--</mat-form-field>-->

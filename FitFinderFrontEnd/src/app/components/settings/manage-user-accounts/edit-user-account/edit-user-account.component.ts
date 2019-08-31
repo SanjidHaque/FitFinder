@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {UserAccount} from '../../../../models/user-account.model';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Data, Params, Router} from '@angular/router';
 import {UserAccountDataStorageService} from '../../../../services/data-storage/user-account-data-storage.service';
 import {NotifierService} from 'angular-notifier';
@@ -22,6 +22,7 @@ export class EditUserAccountComponent implements OnInit {
   editUserAccountForm: FormGroup;
 
   constructor(private router: Router,
+              private fb: FormBuilder,
               private userAccountDataStorageService: UserAccountDataStorageService,
               private notifierService: NotifierService,
               private route: ActivatedRoute) {
@@ -47,16 +48,19 @@ export class EditUserAccountComponent implements OnInit {
           this.notifierService.notify('default', 'User not found.')
         }
 
-        this.editUserAccountForm = new FormGroup({
-          'userName': new FormControl(this.userAccount.UserName, Validators.required),
-          'fullName': new FormControl(this.userAccount.FullName),
-          'email': new FormControl(this.userAccount.Email,
+        this.Def = this.userAccount.RoleName;
+
+        this.editUserAccountForm = this.fb.group({
+          userName: new FormControl(this.userAccount.UserName, Validators.required),
+          fullName: new FormControl(this.userAccount.FullName),
+          email: new FormControl(this.userAccount.Email,
             [Validators.required, Validators.email]),
-          'phoneNumber': new FormControl(this.userAccount.PhoneNumber, Validators.required),
-          'roleName': new FormControl('', Validators.required)
+          phoneNumber: new FormControl(this.userAccount.PhoneNumber, Validators.required),
+          roleName: new FormControl(this.userAccount.RoleName, Validators.required),
+          departmentId: new FormControl('', Validators.required)
         });
 
-        this.editUserAccountForm.controls['userName'].disable();
+        this.editUserAccountForm.get('userName').disable();
       }
     );
 
@@ -76,6 +80,7 @@ export class EditUserAccountComponent implements OnInit {
         this.editUserAccountForm.controls['phoneNumber'].value,
         this.userAccount.JoiningDateTime,
         this.editUserAccountForm.controls['roleName'].value,
+        this.editUserAccountForm.controls['departmentId'].value,
         this.userAccount.IsOwner
       )
     ).subscribe( (response: any) => {

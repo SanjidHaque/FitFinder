@@ -1,5 +1,3 @@
-import {Company} from './company.model';
-
 export class UserAccount {
   constructor(
     public Id: string,
@@ -11,6 +9,7 @@ export class UserAccount {
     public PhoneNumber: string,
     public JoiningDateTime: string,
     public RoleName: string,
+    public DepartmentId: number,
     public IsOwner: boolean
   ) {}
 }

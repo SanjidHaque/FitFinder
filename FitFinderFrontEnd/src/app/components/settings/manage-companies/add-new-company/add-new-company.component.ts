@@ -71,6 +71,7 @@ export class AddNewCompanyComponent implements OnInit {
               this.addNewCompanyForm.controls['adminPhoneNumber'].value,
               moment().format('h:mm:ss A, Do MMMM YYYY'),
               'HR',
+              data.departmentId,
               true
             )
           ).subscribe( (response: any) => {

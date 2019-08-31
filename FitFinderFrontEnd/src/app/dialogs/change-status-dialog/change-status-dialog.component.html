@@ -70,7 +70,7 @@
       <ng-template matTabContent>
 
         <div
-          *ngIf="pipelineStage.PipelineStageCriteria.length !== 0; else criteriaExist"
+          *ngIf="pipelineStage.PipelineStageCriteria !== null; else criteriaExist"
           style="height: 30vh;
          overflow-y: scroll;
          padding-top: 20px;

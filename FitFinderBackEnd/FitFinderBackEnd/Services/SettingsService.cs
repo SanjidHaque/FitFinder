@@ -8,10 +8,10 @@ using FitFinderBackEnd.Models.Settings;
 
 namespace FitFinderBackEnd.Services
 {
-    public class PipelineService
+    public class SettingsService
     {
         private readonly ApplicationDbContext _context;
-        public PipelineService()
+        public SettingsService()
         {
             _context = new ApplicationDbContext();
         }
@@ -144,8 +144,19 @@ namespace FitFinderBackEnd.Services
             pipelines.Add(rejectedPipeline);
 
             _context.Pipelines.AddRange(pipelines);
-            _context.SaveChanges();
+           //  _context.SaveChanges();
+        }
 
+        public long GenerateDefaultDepartment(long companyId)
+        {
+            Department department = new Department
+            {
+               CompanyId = companyId,
+               Name = "Development"
+            };
+            _context.Departments.Add(department);
+            _context.SaveChanges();
+            return department.Id;
         }
     }
 }

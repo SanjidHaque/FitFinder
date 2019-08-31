@@ -82,6 +82,7 @@ export class EditCompanyComponent implements OnInit {
         this.editCompanyForm.controls['adminPhoneNumber'].value,
         '',
         'HR',
+        1,
         true
       )
     ).subscribe((data: any) => {

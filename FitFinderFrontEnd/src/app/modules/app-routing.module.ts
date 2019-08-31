@@ -339,7 +339,8 @@ const appRoutes: Routes = [
               resolve:
                 {
                   userAccounts: UserAccountsResolverService,
-                  roles: RolesResolverService
+                  roles: RolesResolverService,
+                  departments: DepartmentsResolverService
                 }
             },
             {

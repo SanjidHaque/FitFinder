@@ -6,6 +6,7 @@ import {ActivatedRoute, Data, Route, Router} from '@angular/router';
 import {Role} from '../../../../models/role.model';
 import {UserAccount} from '../../../../models/user-account.model';
 import * as moment from 'moment';
+import {Department} from '../../../../models/department.model';
 
 @Component({
   selector: 'app-add-new-user-account',
@@ -14,7 +15,9 @@ import * as moment from 'moment';
 })
 export class AddNewUserAccountComponent implements OnInit {
   isDisabled = false;
+
   roles: Role[] = [];
+  departments: Department[] = [];
   userAccounts: UserAccount[] = [];
 
   addNewUserAccountForm: FormGroup;
@@ -29,6 +32,7 @@ export class AddNewUserAccountComponent implements OnInit {
       (data: Data) => {
         this.userAccounts = data['userAccounts'];
         this.roles = data['roles'];
+        this.departments = data['departments'];
       }
     );
 
@@ -38,8 +42,11 @@ export class AddNewUserAccountComponent implements OnInit {
       'fullName': new FormControl(''),
       'email': new FormControl('', [Validators.required, Validators.email]),
       'phoneNumber': new FormControl('', Validators.required),
-      'roleName': new FormControl('', Validators.required)
+      'roleName': new FormControl('', Validators.required),
+      'departmentId': new FormControl('', Validators.required)
     });
+
+
   }
 
 
@@ -58,6 +65,7 @@ export class AddNewUserAccountComponent implements OnInit {
         this.addNewUserAccountForm.controls['phoneNumber'].value,
         moment().format('h:mm:ss A, Do MMMM YYYY'),
         this.addNewUserAccountForm.controls['roleName'].value,
+        this.addNewUserAccountForm.controls['departmentId'].value,
         false
       )
     ).subscribe( (response: any) => {

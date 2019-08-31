@@ -276,6 +276,10 @@
     <Compile Include="Migrations\201906200536259_companyModelChanged1.Designer.cs">
       <DependentUpon>201906200536259_companyModelChanged1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201908301804152_changedA.cs" />
+    <Compile Include="Migrations\201908301804152_changedA.Designer.cs">
+      <DependentUpon>201908301804152_changedA.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -311,7 +315,7 @@
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Services\EmailService.cs" />
     <Compile Include="Services\PasswordGeneratorService.cs" />
-    <Compile Include="Services\PipelineService.cs" />
+    <Compile Include="Services\SettingsService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -427,6 +431,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906200536259_companyModelChanged1.resx">
       <DependentUpon>201906200536259_companyModelChanged1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908301804152_changedA.resx">
+      <DependentUpon>201908301804152_changedA.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

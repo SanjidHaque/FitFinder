@@ -1,4 +1,6 @@
-﻿using System.Data.Entity;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using FitFinderBackEnd.Models.Candidate;
@@ -14,11 +16,16 @@ namespace FitFinderBackEnd.Models
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit https://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
     {
-        public Company Company { get; set; }    
+        [ForeignKey("CompanyId")]
+        public virtual Company Company { get; set; }    
         public long CompanyId { get; set; }
         public string FullName { get; set; }
         public string JoiningDateTime { get; set; }
-        public bool IsOwner { get; set; }   
+        public bool IsOwner { get; set; }
+        public long? DepartmentId { get; set; }
+        [ForeignKey("DepartmentId")]
+        public virtual Department Department { get; set; }
+        
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager, string authenticationType)
         {
@@ -31,6 +38,13 @@ namespace FitFinderBackEnd.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+
+       /* protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+        }*/
+
         public DbSet<Candidate.Candidate> Candidates { get; set; }
         public DbSet<CandidateEducation> CandidateEducations { get; set; }
         public DbSet<CandidateExperience> CandidateExperiences { get; set; }
@@ -68,6 +82,8 @@ namespace FitFinderBackEnd.Models
             : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
+
+
 
         public static ApplicationDbContext Create()
         {
