@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Data, Params, Router} from '@angular/router';
 import {CandidateDataStorageService} from '../../../services/data-storage/candidate-data-storage.service';
 import {InterviewDataStorageService} from '../../../services/data-storage/interview-data-storage.service';
@@ -81,12 +81,12 @@ export class InterviewIdComponent implements OnInit {
         (data: Data) => {
           this.jobs = data['jobs'];
           this.sources = data['sources'];
-          this.interviews = data['interviews'];
+          this.interview = data['interview'];
           this.candidates = data['candidates'];
         }
       );
 
-    this.interview = this.interviews.find(x => x.Id === this.interviewId);
+   // this.interview = this.interviews.find(x => x.Id === this.interviewId);
 
   }
 
@@ -155,6 +155,11 @@ export class InterviewIdComponent implements OnInit {
 
   removeCandidate(index: number) {
     this.interview.CandidatesForInterview.splice(index, 1);
+
+    if (this.interview.CandidatesForInterview.length === 0) {
+      this.interview.CandidatesForInterview = null;
+    }
+
   }
 
   openSelectCandidatesDialog() {
@@ -185,7 +190,7 @@ export class InterviewIdComponent implements OnInit {
           candidatesForInterview.push(candidateForInterview);
         }
 
-        if (this.interview.CandidatesForInterview.length !== 0 ) {
+        if (this.interview.CandidatesForInterview !== null ) {
           for (let k = 0; k < candidatesForInterview.length; k++) {
             for (let j = 0; j < this.interview.CandidatesForInterview.length; j++) {
               if (candidatesForInterview[k].CandidateId === this.interview.CandidatesForInterview[j].CandidateId ) {
@@ -207,13 +212,8 @@ export class InterviewIdComponent implements OnInit {
 
 
   getCandidateAttachment(candidateId: number) {
-    const attachments = this.candidates
+    return this.candidates
       .find(x => x.Id === candidateId).CandidateAttachment;
-    if (attachments === []) {
-      return [];
-    } else {
-      return attachments;
-    }
   }
 
   downloadFile(modifiedFileName: string) {
@@ -245,15 +245,19 @@ export class InterviewIdComponent implements OnInit {
 
   getCandidateFullAddress(candidateId: number) {
     const candidate = this.candidates.find(x => x.Id === candidateId);
-    if (candidate.Address === '') {
+    if (candidate.Address === '' && candidate.State !== '') {
       return candidate.City + ', ' + candidate.State + ', ' + candidate.Country;
-    } else if (candidate.State === '') {
+
+    } else if (candidate.Address !== '' && candidate.State === '') {
       return candidate.Address + ', ' + candidate.City + ', ' + candidate.Country;
-    } else if (candidate.State === '' || candidate.Address === '') {
+
+    } else if (candidate.State === '' && candidate.Address === '') {
       return candidate.City + ', ' + candidate.Country;
+
     } else {
       return candidate.Address + ', ' + candidate.State + ', '
         + candidate.City + ', ' + candidate.Country;
+
     }
   }
 
@@ -288,10 +292,25 @@ export class InterviewIdComponent implements OnInit {
   }
 
   getJobTitle(candidateId: number) {
-    const jobId = this.candidates.find(x => x.Id === candidateId).JobAssigned;
-    if (jobId.length === 0 ) {
+    const jobAssigned = this.candidates.find(x => x.Id === candidateId).JobAssigned;
+
+    if (jobAssigned === null ) {
       return '';
     }
+
+    const activeJob = jobAssigned.find(x => x.IsActive === true);
+
+    if (activeJob === undefined) {
+      return '';
+    }
+
+    const job = this.jobs.find(x => x.Id === activeJob.JobId);
+
+    if (job === undefined) {
+      return '';
+    }
+
+    return job.JobTitle;
   }
 
 

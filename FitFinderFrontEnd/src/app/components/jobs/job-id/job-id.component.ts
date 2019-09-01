@@ -41,13 +41,12 @@ export class JobIdComponent implements OnInit {
     this.route.data
       .subscribe(
         (data: Data) => {
-          this.jobs = data['jobs'];
+          this.job = data['job'];
           this.departments = data['departments'];
-          this.job = this.jobs.find( x => x.Id === this.jobId);
-          this.jobService.job = this.job;
+          // this.job = this.jobs.find( x => x.Id === this.jobId);
+           this.jobService.job = this.job;
         }
       );
-
   }
 
 
@@ -104,7 +103,7 @@ export class JobIdComponent implements OnInit {
     this.job = this.jobs[nextIndex];
     this.jobService.job = this.job;
     this.jobId = this.jobs[nextIndex].Id;
-    this.router.navigate(['/jobs/' + this.jobId]);
+    this.router.navigate(['/jobs/' + 4]);
   }
 
   nextJob() {

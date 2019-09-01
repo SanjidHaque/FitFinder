@@ -40,6 +40,8 @@ export class UserAccountDataStorageService {
     return isMatch;
   }
 
+
+
   addNewUserAccount(userAccount: UserAccount) {
     return this.http.post<UserAccount[]>(this.rootUrl + '/api/AddNewUserAccount', userAccount);
   }
@@ -51,12 +53,19 @@ export class UserAccountDataStorageService {
 
 
   addNewCompany(company: Company) {
-    return this.http.post<UserAccount>(this.rootUrl + '/api/AddNewCompany', company);
+    return this.http.post<Company>(this.rootUrl + '/api/AddNewCompany', company);
   }
 
   getAllUserAccount() {
     return this.http.get<UserAccount[]>(this.rootUrl + '/api/GetAllUserAccount');
   }
+
+
+  getUserAccount(userAccountId: string) {
+    return this.http.get<UserAccount>(`${this.rootUrl + '/api/GetAllUserAccount'}
+    /${userAccountId}`);
+  }
+
 
   getAllCompany() {
     return this.http.get<Company[]>(this.rootUrl + '/api/GetAllCompany');
@@ -75,7 +84,7 @@ export class UserAccountDataStorageService {
   }
 
   changeProfilePassword(changePassword: ChangePassword) {
-    return this.http.post<Company>(this.rootUrl + '/api/ChangeProfilePassword', changePassword);
+    return this.http.post<ChangePassword>(this.rootUrl + '/api/ChangeProfilePassword', changePassword);
   }
 
   deleteCompany(company: Company) {
@@ -83,7 +92,7 @@ export class UserAccountDataStorageService {
   }
 
   deleteUserAccount(userAccount: UserAccount) {
-    return this.http.post<Company>(this.rootUrl + '/api/DeleteUserAccount', userAccount);
+    return this.http.post<UserAccount>(this.rootUrl + '/api/DeleteUserAccount', userAccount);
   }
 
 }

@@ -104,36 +104,20 @@ namespace FitFinderBackEnd.Controllers
         }
 
         [HttpGet]
-        [Route("api/GetJob")]
+        [Route("api/GetJob/{jobId}")]
         [AllowAnonymous]
         public IHttpActionResult GetJob(long jobId)
         {
-            Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
+            
 
-            if (userNameClaim == null)
-            {
-                return Ok(new { statusText = "Error" });
-            }
+            Job job = _context.Jobs.FirstOrDefault(x => x.Id == jobId);
 
-            ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
-            if (applicationUser == null)
-            {
-                return Ok(new { statusText = "Error" });
-            }
-
-            Job job = _context.Jobs
-                .FirstOrDefault(x => x.CompanyId == applicationUser.CompanyId && x.Id == jobId);
-
-            if (job == null)
-            {
-                return Ok(new { statusText = "Error" });
-            }
 
             List<JobAttachment> jobAttachments = _context.JobAttachments
                 .Where(x => x.JobId == jobId)
                 .ToList();
 
-            return Ok(new { statusText = "Success", job });
+            return Ok(job);
         }
 
 

@@ -21,12 +21,12 @@ export class CandidateDataStorageService {
   }
 
   getCandidate(candidateId: number) {
-    return this.httpClient.get(`${this.rootUrl + '/api/GetCandidate'}/${candidateId}` );
+    return this.httpClient.get<Candidate>(`${this.rootUrl + '/api/GetCandidate'}/${candidateId}` );
   }
 
 
   addNewCandidate(candidate: Candidate) {
-    return this.httpClient.post(this.rootUrl + '/api/AddNewCandidate', candidate);
+    return this.httpClient.post<Candidate>(this.rootUrl + '/api/AddNewCandidate', candidate);
   }
 
   uploadAttachments(attachments: Array<File>) {
@@ -39,21 +39,25 @@ export class CandidateDataStorageService {
 
 
   archiveCandidates(candidates: Candidate[]) {
-    return this.httpClient.put(this.rootUrl + '/api/ArchiveCandidates', candidates);
+    return this.httpClient.put<Candidate[]>(this.rootUrl + '/api/ArchiveCandidates',
+      candidates);
   }
 
 
 
   restoreCandidates(candidates: Candidate[]) {
-    return this.httpClient.put(this.rootUrl + '/api/RestoreCandidates', candidates);
+    return this.httpClient.put<Candidate[]>(this.rootUrl + '/api/RestoreCandidates',
+      candidates);
   }
 
   favouriteCandidates(candidates: Candidate[]) {
-    return this.httpClient.put(this.rootUrl + '/api/FavouriteCandidates', candidates);
+    return this.httpClient.put<Candidate[]>(this.rootUrl + '/api/FavouriteCandidates',
+      candidates);
   }
 
   unfavouriteCandidates(candidates: Candidate[]) {
-    return this.httpClient.put(this.rootUrl + '/api/UnfavouriteCandidates', candidates);
+    return this.httpClient.put<Candidate[]>(this.rootUrl + '/api/UnfavouriteCandidates',
+      candidates);
   }
 
 }

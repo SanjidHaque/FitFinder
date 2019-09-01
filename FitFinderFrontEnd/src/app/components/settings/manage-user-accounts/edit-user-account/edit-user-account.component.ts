@@ -48,7 +48,7 @@ export class EditUserAccountComponent implements OnInit {
           this.notifierService.notify('default', 'User not found.')
         }
 
-        this.Def = this.userAccount.RoleName;
+
 
         this.editUserAccountForm = this.fb.group({
           userName: new FormControl(this.userAccount.UserName, Validators.required),

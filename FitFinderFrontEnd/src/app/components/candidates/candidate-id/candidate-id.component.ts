@@ -526,7 +526,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
     // // this.candidateService.candidate = this.candidates[nextIndex];
     // this.candidate.Id = this.candidates[previousIndex].Id;
     //
-    this.router.navigate(['/candidates/' + 10]);
+   // this.router.navigate(['/candidates/' + 10]);
   }
 
 

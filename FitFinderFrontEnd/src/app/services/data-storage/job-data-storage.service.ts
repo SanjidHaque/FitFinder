@@ -20,38 +20,46 @@ export class JobDataStorageService {
     return this.httpClient.get<Job[]>(this.rootUrl + '/api/GetAllJob');
   }
 
+
+  getJob(jobId: number) {
+    return this.httpClient.get<Job>(`${this.rootUrl + '/api/GetJob'}/${jobId}`);
+  }
+
   addNewJob(job: Job) {
-    return this.httpClient.post(this.rootUrl + '/api/AddNewJob', job);
+    return this.httpClient.post<Job>(this.rootUrl + '/api/AddNewJob', job);
   }
 
 
   jobAssigned(jobAssigned: JobAssigned) {
-    return this.httpClient.post(this.rootUrl + '/api/JobAssigned', jobAssigned);
+    return this.httpClient.post<JobAssigned>(this.rootUrl + '/api/JobAssigned',
+      jobAssigned);
   }
 
   jobStatusChanged(jobAssigned: JobAssigned) {
-    return this.httpClient.post(this.rootUrl + '/api/JobStatusChanged', jobAssigned);
+    return this.httpClient.post<JobAssigned>(this.rootUrl + '/api/JobStatusChanged',
+      jobAssigned);
   }
 
   archiveJobs(jobs: Job[]) {
-    return this.httpClient.put(this.rootUrl  + '/api/ArchiveJobs', jobs);
+    return this.httpClient.put<Job[]>(this.rootUrl  + '/api/ArchiveJobs', jobs);
   }
 
   restoreJobs(jobs: Job[]) {
-    return this.httpClient.put(this.rootUrl + '/api/RestoreJobs', jobs);
+    return this.httpClient.put<Job[]>(this.rootUrl + '/api/RestoreJobs', jobs);
   }
 
 
   favouriteJobs(jobs: Job[]) {
-    return this.httpClient.put(this.rootUrl + '/api/FavouriteJobs', jobs);
+    return this.httpClient.put<Job[]>(this.rootUrl + '/api/FavouriteJobs', jobs);
   }
 
   unfavouriteJobs(jobs: Job[]) {
-    return this.httpClient.put(this.rootUrl + '/api/UnfavouriteJobs', jobs);
+    return this.httpClient.put<Job[]>(this.rootUrl + '/api/UnfavouriteJobs', jobs);
   }
 
   removeAssignedJob (jobAssigned: JobAssigned) {
-    return this.httpClient.post( this.rootUrl + '/api/RemoveAssignedJob', jobAssigned);
+    return this.httpClient.post<JobAssigned>(this.rootUrl + '/api/RemoveAssignedJob',
+      jobAssigned);
   }
 
 

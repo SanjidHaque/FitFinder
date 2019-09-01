@@ -9,35 +9,32 @@
         class="col-xl-4">
         <button
           routerLink="/interviews"
-          matTooltip="Interview Panel"
-          matTooltipPosition="above"
           style="outline: 0;"
-          mat-flat-button><i
-          style="font-size: 30px;"
-          class="far fa-arrow-alt-circle-left"></i></button>
+          mat-raised-button color="primary"><i
+          class="far fa-arrow-alt-circle-left"></i> Interview Panel</button>
       </div>
 
-      <div class="col-xl-4">
-        <button
-          (click)="previousInterview()"
-          matTooltip="Previous Interview"
-          matTooltipPosition="above"
-          style="background-color: transparent; outline: 0;"
-          mat-flat-button><i
-          style="font-size: 30px;"
-          class="fas fa-angle-double-left"></i></button>
-      </div>
+      <!--<div class="col-xl-4">-->
+        <!--<button-->
+          <!--(click)="previousInterview()"-->
+          <!--matTooltip="Previous Interview"-->
+          <!--matTooltipPosition="above"-->
+          <!--style="background-color: transparent; outline: 0;"-->
+          <!--mat-flat-button><i-->
+          <!--style="font-size: 30px;"-->
+          <!--class="fas fa-angle-double-left"></i></button>-->
+      <!--</div>-->
 
-      <div class="col-xl-4">
-        <button
-          (click)="nextInterview()"
-          matTooltip="Next Interview"
-          matTooltipPosition="above"
-          style="background-color: transparent; outline: 0;"
-          mat-flat-button><i
-          style="font-size: 30px;"
-          class="fas fa-angle-double-right"></i></button>
-      </div>
+      <!--<div class="col-xl-4">-->
+        <!--<button-->
+          <!--(click)="nextInterview()"-->
+          <!--matTooltip="Next Interview"-->
+          <!--matTooltipPosition="above"-->
+          <!--style="background-color: transparent; outline: 0;"-->
+          <!--mat-flat-button><i-->
+          <!--style="font-size: 30px;"-->
+          <!--class="fas fa-angle-double-right"></i></button>-->
+      <!--</div>-->
 
     </div>
   </div>
@@ -513,7 +510,7 @@
           <hr>
 
           <div class="row"
-               *ngIf="getCandidateAttachment(candidatesForInterview.CandidateId).length !== 0;
+               *ngIf="getCandidateAttachment(candidatesForInterview.CandidateId) !== null;
                else noAttachments">
             <div class="col-xl-12">
 

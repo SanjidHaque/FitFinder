@@ -116,27 +116,7 @@ namespace FitFinderBackEnd.Controllers
         [AllowAnonymous]
         public IHttpActionResult GetInterview(long interviewId)
         {
-            Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
-
-            if (userNameClaim == null)
-            {
-                return Ok(new { statusText = "Error" });
-            }
-
-            ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
-            if (applicationUser == null)
-            {
-                return Ok(new { statusText = "Error" });
-            }
-
-
-            Interview interview = _context.Interviews
-                .FirstOrDefault(x => x.CompanyId == applicationUser.CompanyId && x.Id == interviewId);
-
-            if (interview == null)
-            {
-                return Ok(new { statusText = "Error" });
-            }
+            Interview interview = _context.Interviews.FirstOrDefault(x =>  x.Id == interviewId);
 
             List<CandidatesForInterview> candidatesForInterviews = _context.CandidatesForInterviews
                 .Where(x => x.InterviewId == interviewId)
@@ -146,7 +126,7 @@ namespace FitFinderBackEnd.Controllers
                 .Where(x => x.InterviewId == interviewId)
                 .ToList();
 
-            return Ok(new { statusText = "Success", interview });
+            return Ok(interview);
         }
 
 

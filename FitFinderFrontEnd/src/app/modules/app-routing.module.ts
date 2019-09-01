@@ -71,6 +71,8 @@ import {EditProfileComponent} from '../components/settings/profile/edit-profile/
 import {ChangeProfilePasswordComponent} from '../components/settings/profile/change-profile-password/change-profile-password.component';
 import {CompanyResolverService} from '../route-resolvers/company-resolver.service';
 import {CandidateResolverService} from '../route-resolvers/candidate-resolver.service';
+import {InterviewResolverService} from '../route-resolvers/interview-resolver.service';
+import {JobResolverService} from '../route-resolvers/job-resolver.service';
 
 const appRoutes: Routes = [
   {
@@ -120,7 +122,7 @@ const appRoutes: Routes = [
         component: JobIdComponent,
         resolve:
           {
-            jobs: JobsResolverService,
+            job: JobResolverService,
             departments: DepartmentsResolverService
           },
         children:
@@ -135,7 +137,7 @@ const appRoutes: Routes = [
             component: JobInfoComponent,
             resolve:
               {
-                jobs: JobsResolverService,
+                job: JobResolverService,
                 departments: DepartmentsResolverService,
                 jobFunctions: JobFunctionsResolverService
               }
@@ -257,7 +259,7 @@ const appRoutes: Routes = [
         component: InterviewIdComponent,
         resolve:
           {
-            interviews: InterviewsResolverService,
+            interview: InterviewResolverService,
             candidates: CandidatesResolverService,
             jobs: JobsResolverService,
             sources: SourcesResolverService
@@ -352,7 +354,7 @@ const appRoutes: Routes = [
                 }
             },
             {
-              path: ':id',
+              path: ':user-account-id',
               component: UserAccountIdComponent,
               resolve:
                 {
@@ -360,7 +362,7 @@ const appRoutes: Routes = [
                 }
             },
             {
-              path: ':id/edit-user-account',
+              path: ':user-account-id/edit-user-account',
               component: EditUserAccountComponent,
               resolve:
                 {

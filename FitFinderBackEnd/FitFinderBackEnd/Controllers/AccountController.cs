@@ -510,7 +510,7 @@ namespace FitFinderBackEnd.Controllers
             ApplicationUser applicationUser = UserManager.FindById(userAccountId);
             if (applicationUser == null)
             {
-                return Ok(new List<UserAccount>());
+                return Ok(new UserAccount());
             }
 
             string roleName = "";

@@ -144,29 +144,13 @@ namespace FitFinderBackEnd.Controllers
         [HttpGet]
         [Route("api/GetCandidate/{candidateId}")]
         [AllowAnonymous]
-        public IHttpActionResult GetAllCandidate(long candidateId)
+        public IHttpActionResult GetCandidate(long candidateId)
         {
-            Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
-
-            if (userNameClaim == null)
-            {
-                return Ok();
-            }
-
-            ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
-            if (applicationUser == null)
-            {
-                return Ok();
-            }
-
-
+           
             Candidate candidate = _context.Candidates
-                .FirstOrDefault(x => x.CompanyId == applicationUser.CompanyId && x.Id == candidateId);
+                .FirstOrDefault(x => x.Id == candidateId);
 
-            if (candidate == null)
-            {
-                return Ok();
-            }
+           
 
             List<JobAssigned> jobAssigneds = _context.JobAssigneds
                 .Where(x => x.CandidateId == candidateId)

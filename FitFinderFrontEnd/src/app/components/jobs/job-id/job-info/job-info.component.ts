@@ -28,8 +28,8 @@ export class JobInfoComponent implements OnInit, DoCheck {
 
 
   departments: Department[] = [];
-  jobFunctionalities: JobFunction[] = [];
-  employmentTypes: JobType[] = [];
+  jobFunctions: JobFunction[] = [];
+  jobTypes: JobType[] = [];
 
   constructor(private jobDataStorageService: JobDataStorageService,
               private settingsDataStorageService: SettingsDataStorageService,
@@ -44,16 +44,17 @@ export class JobInfoComponent implements OnInit, DoCheck {
 
     this.route.data.subscribe(
       (data: Data) => {
-        this.employmentTypes = data['jobTypes'];
-        this.jobFunctionalities = data['jobFunctionalities'];
+        this.jobTypes = data['jobTypes'];
+        this.jobFunctions = data['jobFunctions'];
         this.departments = data['departments'];
+        this.job = this.jobService.job;
       }
     );
 
   }
 
   ngDoCheck() {
-   this.job = this.jobService.job;
+ //  this.job = this.jobService.job;
   }
 
   favouriteJobs(job: Job) {
@@ -188,14 +189,41 @@ export class JobInfoComponent implements OnInit, DoCheck {
   downloadFile(jobAttachment: JobAttachment) {
     window.open('http://localhost:55586/Content/Attachments/' + jobAttachment.ModifiedFileName);
   }
+
   getJobFunction() {
-    return this.jobFunctionalities.find(
-      x => x.Id === this.job.JobFunctionalityId).Name;
+
+    if (this.job.JobFunctionalityId === null) {
+      return '';
+    }
+
+    const jobFunction =  this.jobFunctions
+      .find(x => x.Id === this.job.JobFunctionalityId);
+
+    if (jobFunction === undefined) {
+      return '';
+    }
+    return jobFunction.Name;
   }
+
+
   getJobType() {
-    return this.employmentTypes.find(
-      x => x.Id === this.job.EmploymentTypeId).Name;
+
+    if (this.job.EmploymentTypeId === null) {
+      return '';
+    }
+
+    const jobType =  this.jobTypes
+      .find(x => x.Id === this.job.EmploymentTypeId);
+
+    if (jobType === undefined) {
+      return '';
+    }
+    return jobType.Name;
+
+
   }
+
+
   getClosingDays() {
     const today = new Date();
     const closingDate = moment(new Date(this.job.JobClosingDate));

@@ -50,60 +50,60 @@ export class SettingsDataStorageService {
 
 
   addNewDepartment(department: Department) {
-    return this.httpClient.post(this.rootUrl + '/api/AddNewDepartment', department);
+    return this.httpClient.post<Department>(this.rootUrl + '/api/AddNewDepartment', department);
   }
 
   addNewTag(tag: Tag) {
-    return this.httpClient.post(this.rootUrl + '/api/AddNewTag', tag);
+    return this.httpClient.post<Tag>(this.rootUrl + '/api/AddNewTag', tag);
   }
 
   addNewSource(source: Source) {
-    return this.httpClient.post(this.rootUrl + '/api/AddNewSource', source);
+    return this.httpClient.post<Source>(this.rootUrl + '/api/AddNewSource', source);
   }
 
   addNewJobType(jobType: JobType) {
-    return this.httpClient.post(this.rootUrl + '/api/AddNewJobType', jobType);
+    return this.httpClient.post<JobType>(this.rootUrl + '/api/AddNewJobType', jobType);
   }
 
   addNewJobFunction(jobFunction: JobFunction) {
-    return this.httpClient.post(this.rootUrl + '/api/AddNewJobFunction', jobFunction);
+    return this.httpClient.post<JobFunction>(this.rootUrl + '/api/AddNewJobFunction', jobFunction);
   }
 
   editTag(tag: Tag) {
-    return this.httpClient.put(this.rootUrl + '/api/EditTag', tag);
+    return this.httpClient.put<Tag>(this.rootUrl + '/api/EditTag', tag);
   }
 
   editJobType(jobType: JobType) {
-    return this.httpClient.put(this.rootUrl + '/api/EditJobType', jobType);
+    return this.httpClient.put<JobType>(this.rootUrl + '/api/EditJobType', jobType);
   }
 
   editJobFunction(jobFunction: JobFunction) {
-    return this.httpClient.put(this.rootUrl + '/api/EditJobFunction', jobFunction);
+    return this.httpClient.put<JobFunction>(this.rootUrl + '/api/EditJobFunction', jobFunction);
   }
 
   editSource(source: Source) {
-    return this.httpClient.put(this.rootUrl + '/api/EditSource', source);
+    return this.httpClient.put<Source>(this.rootUrl + '/api/EditSource', source);
   }
 
   editDepartment(department: Department) {
-    return this.httpClient.put(this.rootUrl + '/api/EditDepartment', department);
+    return this.httpClient.put<Department>(this.rootUrl + '/api/EditDepartment', department);
   }
 
 
   addNewRejectedReason(rejectedReason: RejectedReason) {
-    return this.httpClient.post(this.rootUrl + '/api/AddNewRejectedReason', rejectedReason);
+    return this.httpClient.post<RejectedReason>(this.rootUrl + '/api/AddNewRejectedReason', rejectedReason);
   }
 
   addNewWithdrawnReason(withdrawnReason: WithdrawnReason) {
-    return this.httpClient.post(this.rootUrl + '/api/AddNewWithdrawnReason', withdrawnReason);
+    return this.httpClient.post<WithdrawnReason>(this.rootUrl + '/api/AddNewWithdrawnReason', withdrawnReason);
   }
 
   editRejectedReason(rejectedReason: RejectedReason) {
-    return this.httpClient.put(this.rootUrl + '/api/EditRejectedReason', rejectedReason);
+    return this.httpClient.put<RejectedReason>(this.rootUrl + '/api/EditRejectedReason', rejectedReason);
   }
 
   editWithdrawnReason(withdrawnReason: WithdrawnReason) {
-    return this.httpClient.put(this.rootUrl + '/api/EditWithdrawnReason', withdrawnReason);
+    return this.httpClient.put<WithdrawnReason>(this.rootUrl + '/api/EditWithdrawnReason', withdrawnReason);
   }
 
   getAllRejectedReason() {
@@ -115,19 +115,19 @@ export class SettingsDataStorageService {
   }
 
   addNewPipelineStage(pipelineStage: PipelineStage) {
-    return this.httpClient.post(this.rootUrl + '/api/AddNewPipelineStage', pipelineStage);
+    return this.httpClient.post<PipelineStage>(this.rootUrl + '/api/AddNewPipelineStage', pipelineStage);
   }
 
   editPipelineStage(pipelineStage: PipelineStage) {
-    return this.httpClient.put(this.rootUrl + '/api/EditPipelineStage', pipelineStage);
+    return this.httpClient.put<PipelineStage>(this.rootUrl + '/api/EditPipelineStage', pipelineStage);
   }
 
   addNewPipelineStageCriteria(pipelineStageCriteria: PipelineStageCriteria) {
-    return this.httpClient.post(this.rootUrl + '/api/AddNewPipelineStageCriteria', pipelineStageCriteria);
+    return this.httpClient.post<PipelineStageCriteria>(this.rootUrl + '/api/AddNewPipelineStageCriteria', pipelineStageCriteria);
   }
 
   editPipelineStageCriteria(pipelineStageCriteria: PipelineStageCriteria) {
-    return this.httpClient.put(this.rootUrl + '/api/EditPipelineStageCriteria', pipelineStageCriteria);
+    return this.httpClient.put<PipelineStageCriteria>(this.rootUrl + '/api/EditPipelineStageCriteria', pipelineStageCriteria);
   }
 
 }

@@ -132,14 +132,14 @@
 
     <hr>
 
-    <div class="row" *ngIf="job.JobFunctionalityId !== null">
+    <div class="row" *ngIf="getJobFunction() !== ''">
       <div class="col-xl-12">
         <strong style="font-size: 13px;">Function : </strong>
         <span style="font-size: 14px;">{{ getJobFunction() }}</span>
       </div>
     </div>
 
-    <div class="row" *ngIf="job.EmploymentTypeId !== null">
+    <div class="row" *ngIf="getJobType() !== ''">
       <div class="col-xl-12">
         <strong style="font-size: 13px;">Type : </strong>
         <span style="font-size: 14px;">{{ getJobType() }}</span>
