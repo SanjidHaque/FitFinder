@@ -33,9 +33,10 @@ export class UserAccountIdComponent implements OnInit {
     this.route.data.
     subscribe(
       (data: Data) => {
-        this.userAccounts = data['userAccounts'];
-        this.userAccount = this.userAccounts.find(x => x.Id === this.userAccountId);
-        if (this.userAccount === undefined) {
+        this.userAccount = data['userAccount'];
+       // this.userAccount = this.userAccounts.find(x => x.Id === this.userAccountId);
+
+        if (this.userAccount === null) {
           this.router.navigate(['/settings/manage-user-accounts']);
           this.notifierService.notify('default',  'User not found.')
         }
@@ -45,15 +46,15 @@ export class UserAccountIdComponent implements OnInit {
 
   deleteUserAccount() {
     this.isDisabled = true;
-    this.userAccountDataStorageService.deleteUserAccount(this.userAccount).subscribe(
+    this.userAccountDataStorageService.deleteUserAccount(this.userAccount.Id).subscribe(
       (data: any) => {
         if (data.statusText === 'Success') {
           this.notifierService.notify('default',  'User deleted successfully.');
+          this.router.navigate(['/settings/manage-user-accounts']);
         } else {
-          this.notifierService.notify('default',  'Error! Something went wrong!');
+          this.notifierService.notify('default', 'Error! Something went wrong!');
         }
-      }
-    )
+      });
   }
 
 }

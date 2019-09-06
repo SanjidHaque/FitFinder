@@ -38,8 +38,9 @@ export class CompanyIdComponent implements OnInit {
     this.route.data.
     subscribe(
       (data: Data) => {
-        this.companies = data['companies'];
-        this.company = this.companies.find(x => x.Id === this.companyId);
+       // this.companies = data['companies'];
+        this.company = data['company'];
+
         if (this.company === undefined) {
           this.router.navigate(['/settings/manage-companies']);
           this.notifierService.notify('default',  'Company not found.')

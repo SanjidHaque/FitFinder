@@ -4,6 +4,7 @@ import {UserAccount} from '../../models/user-account.model';
 import {Company} from '../../models/company.model';
 import {Role} from '../../models/role.model';
 import {ChangePassword} from '../../models/change-password.model';
+import {Job} from '../../models/job.model';
 
 @Injectable({
   providedIn: 'root'
@@ -16,11 +17,12 @@ export class UserAccountDataStorageService {
 
   login(userName, password) {
     const data = 'username=' + userName + '&password=' + password + '&grant_type=password';
-    const reqHeader = new HttpHeaders({
-      'Content-Type': 'application/x-www-urlencoded',
-      'No-Auth': 'True'
-    });
-    return this.http.post(this.rootUrl + '/token', data, { headers: reqHeader });
+    let reqHeader = new HttpHeaders();
+
+    reqHeader = reqHeader.append('Content-Type', 'application/x-www-form-urlencoded');
+    reqHeader = reqHeader.append('No-Auth', 'True');
+
+    return this.http.post(this.rootUrl + '/token', data, {headers: reqHeader});
   }
 
 
@@ -62,8 +64,7 @@ export class UserAccountDataStorageService {
 
 
   getUserAccount(userAccountId: string) {
-    return this.http.get<UserAccount>(`${this.rootUrl + '/api/GetAllUserAccount'}
-    /${userAccountId}`);
+    return this.http.get<UserAccount>(`${this.rootUrl + '/api/GetUserAccount'}/${userAccountId}`);
   }
 
 
@@ -91,8 +92,8 @@ export class UserAccountDataStorageService {
     return this.http.post<Company>(this.rootUrl + '/api/DeleteCompany', company);
   }
 
-  deleteUserAccount(userAccount: UserAccount) {
-    return this.http.post<UserAccount>(this.rootUrl + '/api/DeleteUserAccount', userAccount);
+  deleteUserAccount(userAccountId: string) {
+    return this.http.delete(`${this.rootUrl + '/api/DeleteUserAccount'}/${userAccountId}`);
   }
 
 }

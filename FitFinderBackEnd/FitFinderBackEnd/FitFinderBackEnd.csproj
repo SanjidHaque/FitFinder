@@ -320,6 +320,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
+    <Content Include="Content\Attachments\BestPoemOfTagore1543511219158.txt" />
+    <Content Include="Content\Attachments\BestPoemOfTagore1543511278770.txt" />
+    <Content Include="Content\Attachments\BestPoemOfTagore1543511681443.txt" />
+    <Content Include="Content\Attachments\BestPoemOfTagore1543511879448.txt" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -351,6 +355,26 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\Attachments\162002038SkSanjidulHaqueEEE1011546963114415.pptx" />
+    <Content Include="Content\Attachments\ass cover1543511219154.docx" />
+    <Content Include="Content\Attachments\ass cover1543511278768.docx" />
+    <Content Include="Content\Attachments\cseregular1st1543511278772.pdf" />
+    <Content Include="Content\Attachments\cseregular1st1543511681445.pdf" />
+    <Content Include="Content\Attachments\cseregular2nd1543511954957.pdf" />
+    <Content Include="Content\Attachments\cseregular2nd1546963543661.pdf" />
+    <Content Include="Content\Attachments\Database %282%291543511681446.pptx" />
+    <Content Include="Content\Attachments\Database1620020381543511681448.docx" />
+    <Content Include="Content\Attachments\DataComLabReportNo11543511970291.docx" />
+    <Content Include="Content\Attachments\DDDDDDDDDD1561185696563.docx" />
+    <Content Include="Content\Attachments\Degree Completion Checklist for BSc in CSE %28131-153%291549211705288.docx" />
+    <Content Include="Content\Attachments\Degree Completion Checklist for BSc in CSE %28171-173%291549303103233.docx" />
+    <Content Include="Content\Attachments\EAP102Macbeth1543511896678.pptx" />
+    <Content Include="Content\Attachments\NearestUCashAgent1546962604046.pdf" />
+    <Content Include="Content\Attachments\reg1558597001173.docx" />
+    <Content Include="Content\Attachments\reg1558597197750.docx" />
+    <Content Include="Content\Attachments\SanjidHaqueJava2011546962604047.pptx" />
+    <Content Include="Content\Attachments\sasass1561185144362.docx" />
+    <Content Include="Content\Attachments\sasass1561185249778.docx" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />

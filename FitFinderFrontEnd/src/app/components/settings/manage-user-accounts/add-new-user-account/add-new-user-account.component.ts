@@ -18,7 +18,6 @@ export class AddNewUserAccountComponent implements OnInit {
 
   roles: Role[] = [];
   departments: Department[] = [];
-  userAccounts: UserAccount[] = [];
 
   addNewUserAccountForm: FormGroup;
   constructor(private userAccountDataStorageService: UserAccountDataStorageService,
@@ -30,7 +29,6 @@ export class AddNewUserAccountComponent implements OnInit {
     this.route.data.
     subscribe(
       (data: Data) => {
-        this.userAccounts = data['userAccounts'];
         this.roles = data['roles'];
         this.departments = data['departments'];
       }
@@ -57,7 +55,7 @@ export class AddNewUserAccountComponent implements OnInit {
     this.userAccountDataStorageService.addNewUserAccount(
       new UserAccount(
         null,
-        this.userAccounts[0].CompanyId,
+        null,
         this.addNewUserAccountForm.controls['userName'].value,
         this.addNewUserAccountForm.controls['fullName'].value,
         this.addNewUserAccountForm.controls['email'].value,

@@ -353,11 +353,35 @@ namespace FitFinderBackEnd.Controllers
         public async Task<IHttpActionResult> Register(UserAccount userAccount)
         {
 
-
             if (userAccount == null)
             {
                 return BadRequest(ModelState);
             }
+
+            if (userAccount.CompanyId == null)
+            {
+                Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
+
+                if (userNameClaim == null)
+                {
+                    return Ok();
+                }
+
+                ApplicationUser getActiveApplicationUser = UserManager.FindByName(userNameClaim.Value);
+                if (getActiveApplicationUser == null)
+                {
+                    return Ok();
+                }
+
+                userAccount.CompanyId = getActiveApplicationUser.CompanyId;
+            }
+
+            
+
+            
+
+
+           
 
             var applicationUser = new ApplicationUser()
             {
@@ -365,14 +389,19 @@ namespace FitFinderBackEnd.Controllers
                 Email = userAccount.Email,
                 PhoneNumber = userAccount.PhoneNumber
             };
+
             applicationUser.FullName = userAccount.FullName;
             applicationUser.CompanyId = userAccount.CompanyId;
+            applicationUser.DepartmentId = userAccount.DepartmentId;
             applicationUser.JoiningDateTime = userAccount.JoiningDateTime;
             applicationUser.IsOwner = userAccount.IsOwner;
 
             PasswordGeneratorService passwordGeneratorService = new PasswordGeneratorService();
 
-            string customPassword = passwordGeneratorService.Generate(8,10);
+            string customPassword = passwordGeneratorService.Generate(6,6);
+
+
+
             IdentityResult result = await UserManager.CreateAsync(applicationUser, customPassword);
 
             if (!result.Succeeded)
@@ -510,7 +539,7 @@ namespace FitFinderBackEnd.Controllers
             ApplicationUser applicationUser = UserManager.FindById(userAccountId);
             if (applicationUser == null)
             {
-                return Ok(new UserAccount());
+                return Ok(applicationUser);
             }
 
             string roleName = "";
@@ -543,6 +572,7 @@ namespace FitFinderBackEnd.Controllers
                 JoiningDateTime = applicationUser.JoiningDateTime,
                 RoleName = roleName,
                 CompanyId = applicationUser.CompanyId,
+                DepartmentId = applicationUser.DepartmentId,
                 IsOwner = applicationUser.IsOwner
             };
 
@@ -615,12 +645,12 @@ namespace FitFinderBackEnd.Controllers
         }
 
 
-        [HttpPost]
-        [Route("api/DeleteUserAccount")]
+        [HttpDelete]
+        [Route("api/DeleteUserAccount/{userAccountId}")]
         [AllowAnonymous]
-        public IHttpActionResult DeleteUserAccount(UserAccount userAccount)
+        public IHttpActionResult DeleteUserAccount(string userAccountId)
         {
-            ApplicationUser applicationUser = _context.Users.FirstOrDefault(p => p.Id == userAccount.UserName);
+            ApplicationUser applicationUser = _context.Users.FirstOrDefault(p => p.Id == userAccountId);
 
             if (applicationUser == null)
             {

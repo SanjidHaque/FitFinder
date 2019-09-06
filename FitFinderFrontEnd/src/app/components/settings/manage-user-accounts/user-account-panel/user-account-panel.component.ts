@@ -28,9 +28,9 @@ export class UserAccountPanelComponent implements OnInit {
     );
   }
 
-  deleteUserAccount(userAccount: UserAccount, index: number) {
+  deleteUserAccount(userAccountId: string, index: number) {
     this.isDisabled = true;
-    this.userAccountDataStorageService.deleteUserAccount(userAccount).subscribe(
+    this.userAccountDataStorageService.deleteUserAccount(userAccountId).subscribe(
       (data: any) => {
         if (data.statusText === 'Success') {
           this.userAccounts.splice(index, 1);

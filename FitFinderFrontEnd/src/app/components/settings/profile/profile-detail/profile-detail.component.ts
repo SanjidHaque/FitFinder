@@ -18,10 +18,7 @@ export class ProfileDetailComponent implements OnInit {
 
   constructor(private router: Router,
               private notifierService: NotifierService,
-              private route: ActivatedRoute) {
-
-
-  }
+              private route: ActivatedRoute) {}
 
   ngOnInit() {
     const userName = JSON.parse(JSON.stringify(localStorage.getItem('userNameForSignIn')));

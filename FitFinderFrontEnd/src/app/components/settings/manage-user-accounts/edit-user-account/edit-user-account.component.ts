@@ -5,6 +5,7 @@ import {ActivatedRoute, Data, Params, Router} from '@angular/router';
 import {UserAccountDataStorageService} from '../../../../services/data-storage/user-account-data-storage.service';
 import {NotifierService} from 'angular-notifier';
 import {Role} from '../../../../models/role.model';
+import {Department} from '../../../../models/department.model';
 
 @Component({
   selector: 'app-edit-user-account',
@@ -16,8 +17,9 @@ export class EditUserAccountComponent implements OnInit {
   isDisabled = false;
   roles: Role[] = [];
 
-  userAccounts: UserAccount[] = [];
+  departments: Department[] = [];
   userAccount: UserAccount;
+
 
   editUserAccountForm: FormGroup;
 
@@ -39,10 +41,11 @@ export class EditUserAccountComponent implements OnInit {
 
     this.route.data.subscribe(
       (data: Data) => {
-        this.userAccounts = data['userAccounts'];
+        this.userAccount = data['userAccount'];
+        this.departments = data['departments'];
         this.roles = data['roles'];
 
-        this.userAccount = this.userAccounts.find(x => x.Id === this.userAccountId);
+        // this.userAccount = this.userAccounts.find(x => x.Id === this.userAccountId);
         if (this.userAccount === undefined) {
           this.router.navigate(['/settings/manage-user-accounts']);
           this.notifierService.notify('default', 'User not found.')
@@ -57,7 +60,7 @@ export class EditUserAccountComponent implements OnInit {
             [Validators.required, Validators.email]),
           phoneNumber: new FormControl(this.userAccount.PhoneNumber, Validators.required),
           roleName: new FormControl(this.userAccount.RoleName, Validators.required),
-          departmentId: new FormControl('', Validators.required)
+          departmentName: new FormControl(this.userAccount.DepartmentId, Validators.required)
         });
 
         this.editUserAccountForm.get('userName').disable();
@@ -65,6 +68,7 @@ export class EditUserAccountComponent implements OnInit {
     );
 
   }
+
 
 
   editUserAccount() {

@@ -30,7 +30,7 @@
       class="col-xl-1" *ngIf="!userAccount.IsOwner">
       <i
         [attr.disabled] = "isDisabled"
-        (click)="deleteUserAccount(userAccount, i)"
+        (click)="deleteUserAccount(userAccount.Id, i)"
         style="cursor: pointer; opacity: .8;
                color: #bc0000; font-size: 17px;" class="far fa-trash-alt"></i> &nbsp;
     </div>

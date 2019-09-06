@@ -18,7 +18,7 @@ namespace FitFinderBackEnd.Models.Settings
         public string JoiningDateTime { get; set; }
         public string RoleName { get; set; }
         public Department Department { get; set; }
-        public long DepartmentId { get; set; }
+        public long? DepartmentId { get; set; }
         public bool IsOwner { get; set; }
 
     }

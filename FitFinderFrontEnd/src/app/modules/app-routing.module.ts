@@ -73,6 +73,7 @@ import {CompanyResolverService} from '../route-resolvers/company-resolver.servic
 import {CandidateResolverService} from '../route-resolvers/candidate-resolver.service';
 import {InterviewResolverService} from '../route-resolvers/interview-resolver.service';
 import {JobResolverService} from '../route-resolvers/job-resolver.service';
+import {UserAccountResolverService} from '../route-resolvers/user-account-resolver.service';
 
 const appRoutes: Routes = [
   {
@@ -308,7 +309,7 @@ const appRoutes: Routes = [
             component: CompanyIdComponent,
             resolve:
               {
-                companies: CompaniesResolverService
+                company: CompanyResolverService
               }
           },
           {
@@ -316,7 +317,7 @@ const appRoutes: Routes = [
             component: EditCompanyComponent,
             resolve:
               {
-                companies: CompaniesResolverService
+                company: CompanyResolverService
               }
           }
         ]
@@ -340,7 +341,6 @@ const appRoutes: Routes = [
               component: AddNewUserAccountComponent,
               resolve:
                 {
-                  userAccounts: UserAccountsResolverService,
                   roles: RolesResolverService,
                   departments: DepartmentsResolverService
                 }
@@ -358,7 +358,7 @@ const appRoutes: Routes = [
               component: UserAccountIdComponent,
               resolve:
                 {
-                  userAccounts: UserAccountsResolverService
+                  userAccount: UserAccountResolverService
                 }
             },
             {
@@ -366,7 +366,8 @@ const appRoutes: Routes = [
               component: EditUserAccountComponent,
               resolve:
                 {
-                  userAccounts: UserAccountsResolverService,
+                  userAccount: UserAccountResolverService,
+                  departments: DepartmentsResolverService,
                   roles: RolesResolverService
                 }
             }

@@ -106,6 +106,7 @@ import {CandidateResolverService} from './route-resolvers/candidate-resolver.ser
 import {JobResolverService} from './route-resolvers/job-resolver.service';
 import {InterviewResolverService} from './route-resolvers/interview-resolver.service';
 import {UserAccountsResolverService} from './route-resolvers/user-accounts-resolver.service';
+import {UserAccountResolverService} from './route-resolvers/user-account-resolver.service';
 
 
 
@@ -241,6 +242,7 @@ import {UserAccountsResolverService} from './route-resolvers/user-accounts-resol
     CandidateResolverService,
     JobResolverService,
     UserAccountsResolverService,
+    UserAccountResolverService,
     AuthGuard,
     {
       provide : HTTP_INTERCEPTORS,
