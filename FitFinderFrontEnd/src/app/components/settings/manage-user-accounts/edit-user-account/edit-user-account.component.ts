@@ -60,7 +60,7 @@ export class EditUserAccountComponent implements OnInit {
             [Validators.required, Validators.email]),
           phoneNumber: new FormControl(this.userAccount.PhoneNumber, Validators.required),
           roleName: new FormControl(this.userAccount.RoleName, Validators.required),
-          departmentName: new FormControl(this.userAccount.DepartmentId, Validators.required)
+          departmentId: new FormControl(this.userAccount.DepartmentId, Validators.required)
         });
 
         this.editUserAccountForm.get('userName').disable();

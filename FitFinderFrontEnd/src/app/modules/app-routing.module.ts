@@ -359,7 +359,8 @@ const appRoutes: Routes = [
               component: UserAccountIdComponent,
               resolve:
                 {
-                  userAccount: UserAccountResolverService
+                  userAccount: UserAccountResolverService,
+                  departments: DepartmentsResolverService
                 }
             },
             {
@@ -390,7 +391,8 @@ const appRoutes: Routes = [
             resolve:
               {
                 currentUserAccount: CurrentUserAccountResolverService,
-                company: CompanyResolverService
+                company: CompanyResolverService,
+                departments: DepartmentsResolverService
               }
           },
           {
@@ -399,7 +401,8 @@ const appRoutes: Routes = [
             resolve:
               {
                 currentUserAccount: CurrentUserAccountResolverService,
-                company: CompanyResolverService
+                company: CompanyResolverService,
+                departments: DepartmentsResolverService
               }
           },
           {

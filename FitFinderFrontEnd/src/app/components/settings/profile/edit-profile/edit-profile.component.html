@@ -70,6 +70,33 @@
   </div>
 
 
+
+  <div class="row">
+
+    <div class="col-xl-8">
+
+      <mat-form-field style="width: 100%;" appearance="outline">
+        <mat-label>Select Department</mat-label>
+        <mat-select
+          required
+          formControlName="departmentId">
+          <mat-option *ngIf="departments.length == 0">
+            No department is available
+          </mat-option>
+          <mat-option
+            *ngFor="let department of departments"
+            [value]="department.Id">
+            {{ department.Name }}
+          </mat-option>
+        </mat-select>
+        <mat-error>You must select a department!</mat-error>
+      </mat-form-field>
+
+    </div>
+
+  </div>
+
+
 <div *ngIf="currentUserAccount.IsOwner">
 
   <div class="row">

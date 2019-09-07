@@ -108,6 +108,7 @@ import {InterviewResolverService} from './route-resolvers/interview-resolver.ser
 import {UserAccountsResolverService} from './route-resolvers/user-accounts-resolver.service';
 import {UserAccountResolverService} from './route-resolvers/user-account-resolver.service';
 import {CurrentUserAccountResolverService} from './route-resolvers/current-user-account-resolver.service';
+import {SettingsService} from './services/shared/settings.service';
 
 
 
@@ -245,6 +246,7 @@ import {CurrentUserAccountResolverService} from './route-resolvers/current-user-
     UserAccountsResolverService,
     UserAccountResolverService,
     CurrentUserAccountResolverService,
+    SettingsService,
     AuthGuard,
     {
       provide : HTTP_INTERCEPTORS,

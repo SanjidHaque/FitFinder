@@ -5,6 +5,7 @@ import {NotifierService} from 'angular-notifier';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserAccountDataStorageService} from '../../../../services/data-storage/user-account-data-storage.service';
 import {Company} from '../../../../models/company.model';
+import {Department} from '../../../../models/department.model';
 
 @Component({
   selector: 'app-edit-profile',
@@ -13,7 +14,7 @@ import {Company} from '../../../../models/company.model';
 })
 export class EditProfileComponent implements OnInit {
   isDisabled = false;
-
+  departments: Department[] = [];
   currentUserAccount: UserAccount;
   company: Company;
   editProfileForm: FormGroup;
@@ -33,7 +34,7 @@ export class EditProfileComponent implements OnInit {
         this.currentUserAccount = data['currentUserAccount'];
 
         this.company = data['company'];
-
+        this.departments = data['departments'];
 
 
         if (this.currentUserAccount === undefined) {
@@ -50,6 +51,7 @@ export class EditProfileComponent implements OnInit {
           'email': new FormControl(this.currentUserAccount.Email,
             [Validators.required, Validators.email]),
           'phoneNumber': new FormControl(this.currentUserAccount.PhoneNumber, Validators.required),
+          'departmentId': new FormControl(this.currentUserAccount.DepartmentId, Validators.required),
           'companyName': new FormControl(this.company.CompanyName, Validators.required),
           'companyPhoneNumber': new FormControl(this.company.CompanyPhoneNumber, Validators.required),
           'companyEmail': new FormControl(this.company.CompanyEmail, Validators.required),

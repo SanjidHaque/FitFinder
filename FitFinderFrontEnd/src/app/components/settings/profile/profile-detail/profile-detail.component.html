@@ -64,6 +64,17 @@
   </div>
 </div>
 
+
+<div class="row" *ngIf="getDepartmentName() !== ''" style="padding-top: 5px; padding-bottom: 5px;">
+  <div class="col-xl-8">
+
+    <span title="Department">
+    <i class="far fa-building"></i> &nbsp; {{ getDepartmentName() }}
+    </span>
+
+  </div>
+</div>
+
 <div class="row" style="padding-bottom: 5px;padding-top: 5px;">
   <div class="col-xl-8">
 

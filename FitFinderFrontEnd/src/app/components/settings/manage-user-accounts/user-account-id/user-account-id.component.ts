@@ -3,6 +3,8 @@ import {ActivatedRoute, Data, Params, Router} from '@angular/router';
 import {UserAccount} from '../../../../models/user-account.model';
 import {NotifierService} from 'angular-notifier';
 import {UserAccountDataStorageService} from '../../../../services/data-storage/user-account-data-storage.service';
+import {Department} from '../../../../models/department.model';
+import {SettingsService} from '../../../../services/shared/settings.service';
 
 @Component({
   selector: 'app-user-account-id',
@@ -16,9 +18,12 @@ export class UserAccountIdComponent implements OnInit {
   userAccounts: UserAccount[] = [];
   userAccount: UserAccount;
 
+  departments: Department[] = [];
+
 
   constructor(private router: Router,
               private notifierService: NotifierService,
+              private settingsService: SettingsService,
               private userAccountDataStorageService: UserAccountDataStorageService,
               private route: ActivatedRoute) {
     this.route.params
@@ -34,6 +39,7 @@ export class UserAccountIdComponent implements OnInit {
     subscribe(
       (data: Data) => {
         this.userAccount = data['userAccount'];
+        this.departments = data['departments'];
        // this.userAccount = this.userAccounts.find(x => x.Id === this.userAccountId);
 
         if (this.userAccount === null) {
@@ -42,6 +48,11 @@ export class UserAccountIdComponent implements OnInit {
         }
       }
     );
+  }
+
+
+  getDepartmentName() {
+    return this.settingsService.getDepartmentName(this.userAccount.DepartmentId, this.departments);
   }
 
   deleteUserAccount() {
