@@ -13,8 +13,8 @@
   <div class="col-xl-8">
 
     <span title="User name">
-    <i class="fas fa-signature"></i> &nbsp; {{ userAccount.UserName }}
-      <span style="font-size: 13px;" *ngIf="userAccount.IsOwner">
+    <i class="fas fa-signature"></i> &nbsp; {{ currentUserAccount.UserName }}
+      <span style="font-size: 13px;" *ngIf="currentUserAccount.IsOwner">
         <i class="fas fa-shield-alt"></i>
         </span>
     </span>
@@ -23,12 +23,12 @@
 </div>
 
 <div
-  *ngIf="userAccount.FullName !== ''"
+  *ngIf="currentUserAccount.FullName !== ''"
   class="row" style="padding-bottom: 5px;padding-top: 5px;">
   <div class="col-xl-8">
 
     <span title="Full name">
-      <i class="fas fa-file-signature"></i> &nbsp; {{ userAccount.FullName }}
+      <i class="fas fa-file-signature"></i> &nbsp; {{ currentUserAccount.FullName }}
     </span>
 
   </div>
@@ -38,7 +38,7 @@
   <div class="col-xl-8">
 
     <span title="Email">
-       <i class="far fa-envelope"></i> &nbsp; {{ userAccount.Email }}
+       <i class="far fa-envelope"></i> &nbsp; {{ currentUserAccount.Email }}
     </span>
 
   </div>
@@ -48,7 +48,7 @@
   <div class="col-xl-8">
 
     <span title="Phone">
-    <i class="fas fa-phone"></i> &nbsp; {{ userAccount.PhoneNumber }}
+    <i class="fas fa-phone"></i> &nbsp; {{ currentUserAccount.PhoneNumber }}
     </span>
 
   </div>
@@ -58,7 +58,7 @@
   <div class="col-xl-8">
 
     <span title="Role">
-    <i class="far fa-dot-circle"></i> &nbsp; {{ userAccount.RoleName }}
+    <i class="far fa-dot-circle"></i> &nbsp; {{ currentUserAccount.RoleName }}
     </span>
 
   </div>
@@ -68,7 +68,7 @@
   <div class="col-xl-8">
 
     <span title="Joining date"><i class="far fa-calendar-alt"></i>
-      &nbsp; {{ userAccount.JoiningDateTime }}
+      &nbsp; {{ currentUserAccount.JoiningDateTime }}
     </span>
 
   </div>

@@ -62,14 +62,9 @@ namespace FitFinderBackEnd.Providers
             AuthenticationProperties additionalData = new AuthenticationProperties(new Dictionary<string,string>{
                 {
                     "role", Newtonsoft.Json.JsonConvert.SerializeObject(userRoles)
-                },
-                {
-                    "userName", user.UserName
-                },
-                {
-                    "companyId", user.CompanyId.ToString()
                 }
-                });
+
+            });
             AuthenticationTicket token = new AuthenticationTicket(identity, additionalData);
             context.Validated(token);
         }

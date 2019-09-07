@@ -528,6 +528,64 @@ namespace FitFinderBackEnd.Controllers
 
 
 
+        [HttpGet]
+        [Route("api/GetCurrentUserAccount")]
+        public IHttpActionResult GetCurrentUserAccount()
+        {
+
+
+            Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
+
+            if (userNameClaim == null)
+            {
+                return Ok();
+            }
+
+            ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
+            if (applicationUser == null)
+            {
+                return Ok();
+            }
+
+
+
+            string roleName = "";
+
+            foreach (var role in applicationUser.Roles)
+            {
+                if (role.RoleId == "9e024189-563d-4e68-8c0d-7d34a9981f00")
+                {
+                    roleName = "Admin";
+                }
+                else if (role.RoleId == "db8afd11-64a3-41e3-9005-0cd72ab76d9b")
+                {
+                    roleName = "HR";
+                }
+                else
+                {
+                    roleName = "Teammate";
+                }
+            }
+
+
+            UserAccount userAccount = new UserAccount
+            {
+                Id = applicationUser.Id,
+                UserName = applicationUser.UserName,
+                FullName = applicationUser.FullName,
+                Email = applicationUser.Email,
+                PhoneNumber = applicationUser.PhoneNumber,
+                Password = "",
+                JoiningDateTime = applicationUser.JoiningDateTime,
+                RoleName = roleName,
+                CompanyId = applicationUser.CompanyId,
+                DepartmentId = applicationUser.DepartmentId,
+                IsOwner = applicationUser.IsOwner
+            };
+
+            return Ok(userAccount);
+        }
+
 
         [HttpGet]
         [AllowAnonymous]

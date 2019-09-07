@@ -74,6 +74,7 @@ import {CandidateResolverService} from '../route-resolvers/candidate-resolver.se
 import {InterviewResolverService} from '../route-resolvers/interview-resolver.service';
 import {JobResolverService} from '../route-resolvers/job-resolver.service';
 import {UserAccountResolverService} from '../route-resolvers/user-account-resolver.service';
+import {CurrentUserAccountResolverService} from '../route-resolvers/current-user-account-resolver.service';
 
 const appRoutes: Routes = [
   {
@@ -388,7 +389,7 @@ const appRoutes: Routes = [
             component: ProfileDetailComponent,
             resolve:
               {
-                userAccounts: UserAccountsResolverService,
+                currentUserAccount: CurrentUserAccountResolverService,
                 company: CompanyResolverService
               }
           },
@@ -397,7 +398,7 @@ const appRoutes: Routes = [
             component: EditProfileComponent,
             resolve:
               {
-                userAccounts: UserAccountsResolverService,
+                currentUserAccount: CurrentUserAccountResolverService,
                 company: CompanyResolverService
               }
           },

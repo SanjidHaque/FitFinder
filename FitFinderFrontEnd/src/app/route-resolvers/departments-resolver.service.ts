@@ -10,8 +10,7 @@ import {SettingsDataStorageService} from '../services/data-storage/settings-data
 export class DepartmentsResolverService implements Resolve<Department[]> {
   constructor(private settingsDataStorageService: SettingsDataStorageService) {}
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Department[]>
-    | Promise<Department[]> | Department[] {
+  resolve(): Observable<Department[]> | Promise<Department[]> | Department[] {
     return this.settingsDataStorageService.getAllDepartment();
   }
 }

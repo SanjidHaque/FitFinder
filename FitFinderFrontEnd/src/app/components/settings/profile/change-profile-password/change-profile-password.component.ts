@@ -64,7 +64,6 @@ export class ChangeProfilePasswordComponent implements OnInit {
 
       if (data.Succeeded) {
         localStorage.removeItem('userToken');
-        localStorage.removeItem('userNameForSignIn');
         localStorage.removeItem('userRole');
         this.router.navigate(['sign-in']);
         this.notifierService.notify('default',  'Password changed successfully! Sign in again.');

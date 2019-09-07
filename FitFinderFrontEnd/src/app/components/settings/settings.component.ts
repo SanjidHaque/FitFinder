@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {UserAccountDataStorageService} from '../../services/data-storage/user-account-data-storage.service';
 
 @Component({
@@ -6,11 +6,13 @@ import {UserAccountDataStorageService} from '../../services/data-storage/user-ac
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.css']
 })
-export class SettingsComponent implements OnInit {
+export class SettingsComponent {
 
-  constructor(public userAccountDataStorageService: UserAccountDataStorageService) { }
+  constructor(public userAccountDataStorageService: UserAccountDataStorageService) {
 
-  ngOnInit() {
+
   }
+
+
 
 }
