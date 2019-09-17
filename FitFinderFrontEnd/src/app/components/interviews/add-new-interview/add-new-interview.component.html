@@ -199,7 +199,7 @@
       </div>
       <hr>
 
-      <div class="row" *ngIf="candidates.length == 0; else candidateIsSelected">
+      <div class="row" *ngIf="selectedCandidatesForInterview.length == 0; else candidateIsSelected">
         <div class="offset-xl-1 col-xl-10">
           <br>
 
@@ -234,7 +234,7 @@
                margin-top: 10px;
                border-radius: 8px;
                border: 1px solid #1a237e; padding-bottom: 10px;"
-               *ngFor="let candidate of candidates; let i = index">
+               *ngFor="let candidate of selectedCandidatesForInterview; let i = index">
 
             <div class="row">
               <div class="col-xl-12" style="
@@ -300,7 +300,7 @@
                    padding-bottom: 3px;">
 
               <i title="Job Application" class="fas fa-briefcase"></i>
-                {{ getJobTitle(candidate.JobAssigned[0]) }}
+                {{ getJobTitle(candidate.JobAssigned[0].JobId) }}
 
               </div>
 
@@ -330,7 +330,7 @@
                    style="font-size: 14px; padding-top: 3px; padding-bottom: 3px;">
 
                 <i  title="Address" class="fas fa-map-marker-alt"></i>
-                {{ candidate.Address }}, {{ candidate.City }}, {{ candidate.State }}, {{ candidate.Country }}
+                {{ candidate.Address }} {{ candidate.City }} {{ candidate.State }} {{ candidate.Country }}
 
               </div>
             </div>

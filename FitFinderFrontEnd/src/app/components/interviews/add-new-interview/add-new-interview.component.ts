@@ -15,6 +15,7 @@ import {NotifierService} from 'angular-notifier';
 import {Job} from '../../../models/job.model';
 import {JobDataStorageService} from '../../../services/data-storage/job-data-storage.service';
 import {CandidateDataStorageService} from '../../../services/data-storage/candidate-data-storage.service';
+import {Source} from '../../../models/source.model';
 
 @Component({
   selector: 'app-add-new-interview',
@@ -31,6 +32,10 @@ export class AddNewInterviewComponent implements OnInit {
   candidateDefaultImage = 'assets/images/candidateDefaultImage.png';
   isDisabled = false;
 
+
+  selectedCandidatesForInterview: Candidate[]= [];
+
+  sources: Source[] = [];
 
 
   jobs: Job[] = [];
@@ -69,6 +74,7 @@ export class AddNewInterviewComponent implements OnInit {
         (data: Data) => {
           this.jobs = data['jobs'];
           this.candidates = data['candidates'];
+          this.sources = data['sources'];
         }
       );
 
@@ -97,9 +103,10 @@ export class AddNewInterviewComponent implements OnInit {
   getCandidatesForInterview(interviewId: number) {
     const candidatesForInterview: CandidatesForInterview[] = [];
 
-    for (let i = 0; i < this.candidates.length; i++) {
+    for (let i = 0; i < this.selectedCandidatesForInterview.length; i++) {
       const candidateForInterview =
-        new CandidatesForInterview(null, interviewId, this.candidates[i].Id);
+        new CandidatesForInterview(
+          null, interviewId, this.selectedCandidatesForInterview[i].Id);
       candidatesForInterview.push(candidateForInterview);
     }
     return candidatesForInterview;
@@ -188,23 +195,29 @@ export class AddNewInterviewComponent implements OnInit {
       {
         hasBackdrop: true,
         disableClose: true,
-        width: '1000px'
+        width: '1000px',
+        data:
+          {
+            candidates: this.candidates,
+            jobs: this.jobs,
+            sources: this.sources
+          }
       });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result !== '' ) {
-        if (this.candidates.length !== 0 ) {
-            this.candidates =
-              Array.from(new Set(this.candidates.concat(result)));
+        if (this.selectedCandidatesForInterview.length !== 0 ) {
+            this.selectedCandidatesForInterview =
+              Array.from(new Set(this.selectedCandidatesForInterview.concat(result)));
         } else {
-          this.candidates = result;
+          this.selectedCandidatesForInterview = result;
         }
       }
     });
   }
 
   removeCandidate(index: number) {
-    this.candidates.splice(index, 1);
+    this.selectedCandidatesForInterview.splice(index, 1);
   }
 
 

@@ -257,7 +257,8 @@ const appRoutes: Routes = [
         resolve:
           {
             jobs: JobsResolverService,
-            candidates: CandidatesResolverService
+            candidates: CandidatesResolverService,
+            sources: SourcesResolverService
           }
       },
       {
