@@ -338,7 +338,7 @@ namespace FitFinderBackEnd.Controllers
             _context.SaveChanges();
 
             SettingsService settingsService = new SettingsService();
-            settingsService.GenerateDefaultPipelines(company.Id);
+            settingsService.GenerateDefaultWorkflow(company.Id);
             long departmentId = settingsService.GenerateDefaultDepartment(company.Id);
 
             return Ok(new { statusText = "Success", companyId = company.Id, departmentId });
@@ -376,12 +376,6 @@ namespace FitFinderBackEnd.Controllers
                 userAccount.CompanyId = getActiveApplicationUser.CompanyId;
             }
 
-            
-
-            
-
-
-           
 
             var applicationUser = new ApplicationUser()
             {

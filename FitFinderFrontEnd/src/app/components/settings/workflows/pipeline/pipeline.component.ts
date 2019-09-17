@@ -9,6 +9,7 @@ import {AddUpdateDialogComponent} from '../../../../dialogs/add-update-dialog/ad
 import {JobType} from '../../../../models/job-type.model';
 import {AddUpdatePipelineStageDialogComponent} from '../../../../dialogs/add-update-pipeline-stage-dialog/add-update-pipeline-stage-dialog.component';
 import {PipelineStageCriteriaDialogComponent} from '../../../../dialogs/pipeline-stage-criteria-dialog/pipeline-stage-criteria-dialog.component';
+import {Workflow} from '../../../../models/workflow.model';
 
 @Component({
   selector: 'app-pipeline',
@@ -18,6 +19,7 @@ import {PipelineStageCriteriaDialogComponent} from '../../../../dialogs/pipeline
 export class PipelineComponent implements OnInit {
 
   pipelines: Pipeline[] = [];
+  workflow: Workflow;
 
   constructor(private settingsDataStorageService: SettingsDataStorageService,
               private route: ActivatedRoute,
@@ -29,7 +31,7 @@ export class PipelineComponent implements OnInit {
     subscribe(
       (data: Data) => {
 
-        this.pipelines = data['pipelines'];
+        this.workflow = data['workflow'];
       }
     );
   }
@@ -61,7 +63,7 @@ export class PipelineComponent implements OnInit {
           []
         );
 
-        const getPipeline = this.pipelines.find(x => x.Id === pipelineId);
+        const getPipeline = this.workflow.Pipelines.find(x => x.Id === pipelineId);
 
         this.settingsDataStorageService.addNewPipelineStage(pipelineStage)
           .subscribe(
@@ -127,7 +129,8 @@ export class PipelineComponent implements OnInit {
         data:
           {
             iconClass: 'fas fa-flag-checkered',
-            stage: pipelineStage
+            stage: pipelineStage,
+            editMode: true
           }
       });
   }

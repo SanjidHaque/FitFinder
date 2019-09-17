@@ -11,6 +11,7 @@ import {RejectedReason} from '../../models/rejected-reason.model';
 import {WithdrawnReason} from '../../models/withdrawn-reason.model';
 import {PipelineStage} from '../../models/pipeline-stage.model';
 import {PipelineStageCriteria} from '../../models/pipeline-stage-criteria.model';
+import {Workflow} from '../../models/workflow.model';
 
 @Injectable({
   providedIn: 'root'
@@ -44,8 +45,16 @@ export class SettingsDataStorageService {
     return this.httpClient.get<Tag[]>(this.rootUrl + '/api/GetAllTag');
   }
 
-  getAllPipeline() {
-    return this.httpClient.get<Pipeline[]>(this.rootUrl + '/api/GetAllPipeline');
+  getAllWorkflow() {
+    return this.httpClient.get<Workflow[]>(this.rootUrl + '/api/GetAllWorkflow');
+  }
+
+  getDefaultWorkflow() {
+    return this.httpClient.get(this.rootUrl + '/api/GetDefaultWorkflow');
+  }
+
+  getWorkflow(workflowId: number) {
+    return this.httpClient.get<Workflow>(`${this.rootUrl + '/api/GetWorkflow'}/${workflowId}`);
   }
 
 
@@ -128,6 +137,10 @@ export class SettingsDataStorageService {
 
   editPipelineStageCriteria(pipelineStageCriteria: PipelineStageCriteria) {
     return this.httpClient.put<PipelineStageCriteria>(this.rootUrl + '/api/EditPipelineStageCriteria', pipelineStageCriteria);
+  }
+
+  addNewWorkflow(workflow: Workflow) {
+    return this.httpClient.post<Workflow>(this.rootUrl + '/api/AddNewWorkflow', workflow);
   }
 
 }

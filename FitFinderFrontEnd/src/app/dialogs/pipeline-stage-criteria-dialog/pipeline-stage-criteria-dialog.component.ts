@@ -52,19 +52,30 @@ export class PipelineStageCriteriaDialogComponent implements OnInit {
         );
 
 
+        if (this.data.editMode) {
 
-        this.settingsDataStorageService.addNewPipelineStageCriteria(pipelineStageCriteria)
-          .subscribe(
-            (newPipelineStageCriteria: PipelineStageCriteria) => {
+          this.settingsDataStorageService.addNewPipelineStageCriteria(pipelineStageCriteria)
+            .subscribe(
+              (newPipelineStageCriteria: PipelineStageCriteria) => {
 
-              if (this.data.stage.PipelineStageCriteria === null) {
-                this.data.stage.PipelineStageCriteria = [];
+                if (this.data.stage.PipelineStageCriteria === null) {
+                  this.data.stage.PipelineStageCriteria = [];
+                }
+
+                this.data.stage.PipelineStageCriteria.push(newPipelineStageCriteria);
+                this.notifierService.notify('default', 'New criteria added!');
               }
+            );
+        } else {
+          if (this.data.stage.PipelineStageCriteria === null) {
+            this.data.stage.PipelineStageCriteria = [];
+          }
 
-              this.data.stage.PipelineStageCriteria.push(newPipelineStageCriteria);
-              this.notifierService.notify('default', 'New criteria added!');
-            }
-          );
+          this.data.stage.PipelineStageCriteria.push(pipelineStageCriteria);
+          this.notifierService.notify('default', 'New criteria added!');
+        }
+
+
       }
     });
   }
@@ -94,14 +105,23 @@ export class PipelineStageCriteriaDialogComponent implements OnInit {
         );
 
 
+        if (this.data.editMode) {
 
-        this.settingsDataStorageService.editPipelineStageCriteria(editPipelineStageCriteria)
-          .subscribe(
-            (data: any) => {
-              pipelineStageCriteria.Name = result;
-              this.notifierService.notify('default', 'Criteria updated successfully!');
-            }
-          );
+          this.settingsDataStorageService.editPipelineStageCriteria(editPipelineStageCriteria)
+            .subscribe(
+              (data: any) => {
+                pipelineStageCriteria.Name = result;
+                this.notifierService.notify('default', 'Criteria updated successfully!');
+              }
+            );
+
+        } else {
+
+          pipelineStageCriteria.Name = result;
+          this.notifierService.notify('default', 'Criteria updated successfully!');
+
+        }
+
       }
     });
   }

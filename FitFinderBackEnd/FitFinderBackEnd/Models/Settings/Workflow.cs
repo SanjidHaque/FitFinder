@@ -5,12 +5,12 @@ using System.Web;
 
 namespace FitFinderBackEnd.Models.Settings
 {
-    public class Pipeline
+    public class Workflow
     {
         public long Id { get; set; }
         public string Name { get; set; }
-        public Workflow Workflow { get; set; }
-        public long? WorkflowId { get; set; }        
-        public List<PipelineStage> PipelineStage { get; set; }
+        public Company Company { get; set; }
+        public long? CompanyId { get; set; }
+        public List<Pipeline> Pipelines { get; set; }
     }
 }

@@ -21,7 +21,7 @@ export class CandidateDataStorageService {
   }
 
   getCandidate(candidateId: number) {
-    return this.httpClient.get<Candidate>(`${this.rootUrl + '/api/GetCandidate'}/${candidateId}` );
+    return this.httpClient.get<Candidate>(`${this.rootUrl + '/api/GetCandidate'}/${candidateId}`);
   }
 
 

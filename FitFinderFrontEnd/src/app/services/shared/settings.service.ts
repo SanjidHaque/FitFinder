@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Department} from '../../models/department.model';
+import {Workflow} from '../../models/workflow.model';
 
 @Injectable({
   providedIn: 'root'
@@ -7,6 +8,13 @@ import {Department} from '../../models/department.model';
 export class SettingsService {
 
   constructor() { }
+
+  defaultWorkflow: Workflow;
+
+  getDefaultPipelines() {
+    return this.defaultWorkflow.Pipelines.slice();
+  }
+
 
   getDepartmentName(departmentId: number, departments: Department[]) {
     if (departmentId === null) {

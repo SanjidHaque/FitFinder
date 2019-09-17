@@ -16,135 +16,113 @@ namespace FitFinderBackEnd.Services
             _context = new ApplicationDbContext();
         }
 
-        public void GenerateDefaultPipelines(long companyId)
+        public void GenerateDefaultWorkflow(long companyId)
         {
 
-            List<Pipeline> pipelines = new List<Pipeline>();
-
-            Pipeline newPipeline = new Pipeline
+            Workflow workflow = new Workflow
             {
-                Name = "NEW",
                 CompanyId = companyId,
-                PipelineStage = new List<PipelineStage>()
-                {
-                    new PipelineStage
+                Name = "Default",
+                Pipelines = new List<Pipeline>()
                     {
-                        Name = "New",
-                        Color = "#ff6600",
-                        PipelineStageCriteria = new List<PipelineStageCriteria>()
-                    }
-                }
+                        new Pipeline
+                        {
+                            Name = "NEW",
+                            PipelineStage = new List<PipelineStage>() {
+                                new PipelineStage
+                                {
+                                    Name = "New",
+                                    Color = "#ff6600",
+                                    PipelineStageCriteria = new List<PipelineStageCriteria>()
+                                } }
+                        },
+                        new Pipeline
+                        {
+                            Name = "INREVIEW",
+                            PipelineStage = new List<PipelineStage>() {
+                                    new PipelineStage
+                                    {
+                                        Name = "In Review",
+                                        Color = "#498BC5",
+                                        PipelineStageCriteria = new List<PipelineStageCriteria>()
+                                    } }
+                        },
+                        new Pipeline
+                        {
+                            Name = "INTERVIEW",
+                            PipelineStage = new List<PipelineStage>() {
+                                    new PipelineStage
+                                    {
+                                        Name = "Interview",
+                                        Color = "#00ccff",
+                                        PipelineStageCriteria = new List<PipelineStageCriteria>()
+                                    },
+                                    new PipelineStage
+                                    {
+                                        Name = "Viva",
+                                        Color = "#66cc99",
+                                        PipelineStageCriteria = new List<PipelineStageCriteria>()
+                                    } }
+                        },
+                        new Pipeline
+                        {
+                            Name = "OFFERED",
+                            PipelineStage = new List<PipelineStage>() {
+                                    new PipelineStage
+                                    {
+                                        Name = "Offered",
+                                        Color = "#6666ff",
+                                        PipelineStageCriteria = new List<PipelineStageCriteria>()
+                                    } }
+                        },
+                        new Pipeline
+                        {
+                            Name = "ONHOLD",
+                            PipelineStage = new List<PipelineStage>() {
+                                    new PipelineStage
+                                    {
+                                        Name = "On Hold",
+                                        Color = "#663300",
+                                        PipelineStageCriteria = new List<PipelineStageCriteria>()
+                                    } }
+                        },
+                        new Pipeline
+                        {
+                            Name = "HIRED",
+                            PipelineStage = new List<PipelineStage>() {
+                                    new PipelineStage
+                                    {
+                                        Name = "Hired",
+                                        Color = "#58CCB7",
+                                        PipelineStageCriteria = new List<PipelineStageCriteria>()
+                                    } }
+                        },
+                        new Pipeline
+                        {
+                            Name = "REJECTED",
+                            PipelineStage = new List<PipelineStage>() {
+                                    new PipelineStage
+                                    {
+                                        Name = "Rejected",
+                                        Color = "#ff0000",
+                                        PipelineStageCriteria = new List<PipelineStageCriteria>()
+                                    },
+                                    new PipelineStage
+                                    {
+                                        Name = "Withdrawn",
+                                        Color = "#AAA",
+                                        PipelineStageCriteria = new List<PipelineStageCriteria>()
+                                    } }
+                        } }
             };
 
-            Pipeline inReviewPipeline = new Pipeline
-            {
-                Name = "INREVIEW",
-                CompanyId = companyId,
-                PipelineStage = new List<PipelineStage>() {
-                    new PipelineStage
-                    {
-                        Name = "In Review",
-                        Color = "#498BC5",
-                        PipelineStageCriteria = new List<PipelineStageCriteria>()
-                    } }
-            };
 
 
-            Pipeline interviewPipeline = new Pipeline
-            {
-                Name = "INTERVIEW",
-                CompanyId = companyId,
-                PipelineStage = new List<PipelineStage>() {
-                    new PipelineStage
-                    {
-                        Name = "Interview",
-                        Color = "#00ccff",
-                        PipelineStageCriteria = new List<PipelineStageCriteria>()
-                    },
-                    new PipelineStage
-                    {
-                        Name = "Viva",
-                        Color = "#66cc99",
-                        PipelineStageCriteria = new List<PipelineStageCriteria>()
-                    }
-
-                }
-            };
+            _context.Workflows.Add(workflow);
 
 
-            Pipeline offeredPipeline = new Pipeline
-            {
-                Name = "OFFERED",
-                CompanyId = companyId,
-                PipelineStage = new List<PipelineStage>() {
-                    new PipelineStage
-                    {
-                        Name = "Offered",
-                        Color = "#6666ff",
-                        PipelineStageCriteria = new List<PipelineStageCriteria>()
-                    } }
-            };
 
-
-            Pipeline onHoldPipeline = new Pipeline
-            {
-                Name = "ONHOLD",
-                CompanyId = companyId,
-                PipelineStage = new List<PipelineStage>() {
-                    new PipelineStage
-                    {
-                        Name = "On Hold",
-                        Color = "#663300",
-                        PipelineStageCriteria = new List<PipelineStageCriteria>()
-                    } }
-            };
-
-
-            Pipeline hiredPipeline = new Pipeline
-            {
-                Name = "HIRED",
-                CompanyId = companyId,
-                PipelineStage = new List<PipelineStage>() {
-                    new PipelineStage
-                    {
-                        Name = "Hired",
-                        Color = "#58CCB7",
-                        PipelineStageCriteria = new List<PipelineStageCriteria>()
-                    } }
-            };
-
-
-            Pipeline rejectedPipeline = new Pipeline
-            {
-                Name = "REJECTED",
-                CompanyId = companyId,
-                PipelineStage = new List<PipelineStage>() {
-                    new PipelineStage
-                    {
-                        Name = "Rejected",
-                        Color = "#ff0000",
-                        PipelineStageCriteria = new List<PipelineStageCriteria>()
-                    },
-                    new PipelineStage
-                    {
-                        Name = "Withdrawn",
-                        Color = "#AAA",
-                        PipelineStageCriteria = new List<PipelineStageCriteria>()
-                    }
-
-                }
-            };
-
-            pipelines.Add(newPipeline);
-            pipelines.Add(inReviewPipeline);
-            pipelines.Add(interviewPipeline);
-            pipelines.Add(offeredPipeline);
-            pipelines.Add(onHoldPipeline);
-            pipelines.Add(hiredPipeline);
-            pipelines.Add(rejectedPipeline);
-
-            _context.Pipelines.AddRange(pipelines);
-           //  _context.SaveChanges();
+            //  _context.SaveChanges();
         }
 
         public long GenerateDefaultDepartment(long companyId)

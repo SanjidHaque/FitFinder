@@ -32,7 +32,7 @@ import {JobsResolverService} from './route-resolvers/jobs-resolver.service';
 import { ManageCompaniesComponent } from './components/settings/manage-companies/manage-companies.component';
 import { CandidatesAndLeadsComponent } from './components/settings/candidates-and-leads/candidates-and-leads.component';
 import { JobOpeningsComponent } from './components/settings/job-openings/job-openings.component';
-import { WorkflowComponent } from './components/settings/workflow/workflow.component';
+import { WorkflowsComponent } from './components/settings/workflows/workflows.component';
 import { DisqualifyReasonsComponent } from './components/settings/disqualify-reasons/disqualify-reasons.component';
 import { AmazingTimePickerModule } from 'amazing-time-picker';
 import {
@@ -56,8 +56,8 @@ import { SourcesComponent } from './components/settings/candidates-and-leads/sou
 import { DepartmentsComponent } from './components/settings/job-openings/departments/departments.component';
 import { JobTypesComponent } from './components/settings/job-openings/job-types/job-types.component';
 import { JobFunctionsComponent } from './components/settings/job-openings/job-functions/job-functions.component';
-import { PipelineComponent } from './components/settings/workflow/pipeline/pipeline.component';
-import {PipelinesResolverService} from './route-resolvers/pipelines-resolver.service';
+import { PipelineComponent } from './components/settings/workflows/pipeline/pipeline.component';
+import {WorkflowsResolverService} from './route-resolvers/workflows-resolver.service';
 import {SourcesResolverService} from './route-resolvers/sources-resolver.service';
 import {TagsResolverService} from './route-resolvers/tags-resolver.service';
 import {JobTypesResolverService} from './route-resolvers/job-types-resolver.service';
@@ -109,6 +109,9 @@ import {UserAccountsResolverService} from './route-resolvers/user-accounts-resol
 import {UserAccountResolverService} from './route-resolvers/user-account-resolver.service';
 import {CurrentUserAccountResolverService} from './route-resolvers/current-user-account-resolver.service';
 import {SettingsService} from './services/shared/settings.service';
+import { WorkflowListComponent } from './components/settings/workflows/workflow-list/workflow-list.component';
+import { AddNewWorkflowDialogComponent } from './dialogs/add-new-workflow-dialog/add-new-workflow-dialog.component';
+import { AddNewWorkflowComponent } from './components/settings/workflows/add-new-workflow/add-new-workflow.component';
 
 
 
@@ -132,7 +135,7 @@ import {SettingsService} from './services/shared/settings.service';
     ManageUserAccountsComponent,
     CandidatesAndLeadsComponent,
     JobOpeningsComponent,
-    WorkflowComponent,
+    WorkflowsComponent,
     DisqualifyReasonsComponent,
     SelectCandidatesForInterviewDialogComponent,
     SearchCandidatePipe,
@@ -177,7 +180,10 @@ import {SettingsService} from './services/shared/settings.service';
     CompanyIdComponent,
     ProfileDetailComponent,
     EditProfileComponent,
-    ChangeProfilePasswordComponent
+    ChangeProfilePasswordComponent,
+    WorkflowListComponent,
+    AddNewWorkflowDialogComponent,
+    AddNewWorkflowComponent
   ],
   imports: [
     BrowserModule,
@@ -227,7 +233,7 @@ import {SettingsService} from './services/shared/settings.service';
     InterviewDataStorageService,
     CandidatesResolverService,
     InterviewsResolverService,
-    PipelinesResolverService,
+    WorkflowsResolverService,
     CompaniesResolverService,
     SourcesResolverService,
     TagsResolverService,
@@ -246,6 +252,7 @@ import {SettingsService} from './services/shared/settings.service';
     UserAccountsResolverService,
     UserAccountResolverService,
     CurrentUserAccountResolverService,
+    InterviewResolverService,
     SettingsService,
     AuthGuard,
     {
@@ -267,7 +274,8 @@ import {SettingsService} from './services/shared/settings.service';
     PipelineStageCriteriaDialogComponent,
     ChangeStatusDialogComponent,
     ConfirmationDialogComponent,
-    DeleteDialogComponent
+    DeleteDialogComponent,
+    AddNewWorkflowDialogComponent
   ],
 
   bootstrap: [

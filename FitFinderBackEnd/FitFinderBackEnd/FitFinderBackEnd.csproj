@@ -280,6 +280,10 @@
     <Compile Include="Migrations\201908301804152_changedA.Designer.cs">
       <DependentUpon>201908301804152_changedA.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201909151334400_workflowModelAdded.cs" />
+    <Compile Include="Migrations\201909151334400_workflowModelAdded.Designer.cs">
+      <DependentUpon>201909151334400_workflowModelAdded.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -310,6 +314,7 @@
     <Compile Include="Models\Settings\Company.cs" />
     <Compile Include="Models\Settings\UserAccount.cs" />
     <Compile Include="Models\Settings\WithdrawnReason.cs" />
+    <Compile Include="Models\Settings\Workflow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
@@ -458,6 +463,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201908301804152_changedA.resx">
       <DependentUpon>201908301804152_changedA.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909151334400_workflowModelAdded.resx">
+      <DependentUpon>201909151334400_workflowModelAdded.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

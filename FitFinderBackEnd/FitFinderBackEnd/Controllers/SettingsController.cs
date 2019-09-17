@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net.Http;
@@ -519,6 +520,36 @@ namespace FitFinderBackEnd.Controllers
 
 
         [HttpPost]
+        [Route("api/AddNewWorkflow")]
+        public IHttpActionResult AddNewWorkflow(Workflow workflow)
+        {
+
+            Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
+
+            if (userNameClaim == null)
+            {
+                return Ok();
+            }
+
+            ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
+            if (applicationUser == null)
+            {
+                return Ok();
+            }
+
+
+            workflow.CompanyId = applicationUser.CompanyId;
+
+            _context.Workflows.Add(workflow);
+
+          
+
+            _context.SaveChanges();
+            return Ok();
+        }
+
+
+        [HttpPost]
         [Route("api/AddNewPipeline")]
         public IHttpActionResult AddNewPipeline(Pipeline pipeline)
         {
@@ -536,25 +567,30 @@ namespace FitFinderBackEnd.Controllers
         }
 
         [HttpGet]
-        [Route("api/GetAllPipeline")]
-        public IHttpActionResult GetAllPipeline()
+        [Route("api/GetAllWorkflow")]
+        public IHttpActionResult GetAllWorkflow()
         {
             Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
 
             if (userNameClaim == null)
             {
-                return Ok(new List<Pipeline>());
+                return Ok(new List<Workflow>());
             }
 
             ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
             if (applicationUser == null)
             {
-                return Ok(new List<Pipeline>());
+                return Ok(new List<Workflow>());
             }
 
-            List<Pipeline> pipelines = _context.Pipelines
+            List<Workflow> workflows = _context.Workflows
                 .Where(x => x.CompanyId == applicationUser.CompanyId)
                 .ToList();
+
+            List<Pipeline> pipelines = _context.Pipelines
+                .Include(x => x.Workflow)
+                .ToList();
+
 
             List<PipelineStage> pipelineStages = _context.PipelineStages
                 .Include(x => x.Pipeline)
@@ -564,8 +600,64 @@ namespace FitFinderBackEnd.Controllers
                 .Include(x => x.PipelineStage)
                 .ToList();
 
-            return Ok(pipelines);
+            return Ok(workflows);
         }
+
+
+        [HttpGet]
+        [Route("api/GetDefaultWorkflow")]
+        [AllowAnonymous]
+        public IHttpActionResult GetDefaultWorkflow()
+        {
+           
+
+            Workflow workflow = _context.Workflows
+                .FirstOrDefault(x => x.CompanyId == null);
+
+            List<Pipeline> pipelines = _context.Pipelines
+                .Where(x => x.WorkflowId == workflow.Id)
+                .ToList();
+
+
+            List<PipelineStage> pipelineStages = _context.PipelineStages
+                .Where(x => x.Pipeline.WorkflowId == workflow.Id)
+                .ToList();
+
+            List<PipelineStageCriteria> pipelineStageCriterias = _context.PipelineStageCriterias
+                .Where(x => x.PipelineStage.Pipeline.WorkflowId == workflow.Id)
+                .ToList();
+
+            return Ok(workflow);
+        }
+
+
+        [HttpGet]
+        [Route("api/GetWorkflow/{workflowId}")]
+        [AllowAnonymous]
+        public IHttpActionResult GetDefaultWorkflow(long workflowId)
+        {
+
+
+            Workflow workflow = _context.Workflows
+                .FirstOrDefault(x => x.Id == workflowId);
+
+            List<Pipeline> pipelines = _context.Pipelines
+                .Where(x => x.WorkflowId == workflowId)
+                .ToList();
+
+
+            List<PipelineStage> pipelineStages = _context.PipelineStages
+                .Where(x => x.Pipeline.WorkflowId == workflowId)
+                .ToList();
+
+            List<PipelineStageCriteria> pipelineStageCriterias = _context.PipelineStageCriterias
+                .Where(x => x.PipelineStage.Pipeline.WorkflowId == workflowId)
+                .ToList();
+
+            return Ok(workflow);
+        }
+
+
 
         [HttpPost]
         [Route("api/AddNewPipelineStage")]

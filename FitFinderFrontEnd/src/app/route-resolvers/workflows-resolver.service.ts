@@ -3,15 +3,16 @@ import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/rou
 import {Observable} from 'rxjs/index';
 import {Pipeline} from '../models/pipeline.model';
 import {SettingsDataStorageService} from '../services/data-storage/settings-data-storage.service';
+import {Workflow} from '../models/workflow.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PipelinesResolverService implements Resolve<Pipeline[]> {
+export class WorkflowsResolverService implements Resolve<Workflow[]> {
   constructor(private settingsDataStorageService: SettingsDataStorageService) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):
-    Observable<Pipeline[]> | Promise<Pipeline[]> | Pipeline[] {
-    return this.settingsDataStorageService.getAllPipeline();
+    Observable<Workflow[]> | Promise<Workflow[]> | Workflow[] {
+    return this.settingsDataStorageService.getAllWorkflow();
   }
 }

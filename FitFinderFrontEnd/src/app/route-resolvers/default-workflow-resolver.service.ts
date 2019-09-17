@@ -5,15 +5,17 @@ import {CandidateDataStorageService} from '../services/data-storage/candidate-da
 import {Candidate} from '../models/candidate.model';
 import {Observable} from 'rxjs';
 import {UserAccount} from '../models/user-account.model';
+import {Workflow} from '../models/workflow.model';
+import {SettingsDataStorageService} from '../services/data-storage/settings-data-storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CandidateResolverService implements Resolve<any> {
-  constructor(private candidateDataStorageService: CandidateDataStorageService) {}
+export class DefaultWorkflowResolverService implements Resolve<any> {
+  constructor(private settingsDataStorageService: SettingsDataStorageService) {}
 
   resolve(route: ActivatedRouteSnapshot) {
-    return this.candidateDataStorageService.getCandidate(+route.paramMap.get('candidate-id'));
+    return this.settingsDataStorageService.getDefaultWorkflow();
   }
 }
 

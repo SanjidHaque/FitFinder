@@ -20,8 +20,8 @@ export class UserAccountPanelComponent implements OnInit {
               private userAccountDataStorageService: UserAccountDataStorageService) { }
 
   ngOnInit() {
-    this.route.data.
-    subscribe(
+    this.route.data
+      .subscribe(
       (data: Data) => {
         this.userAccounts = data['userAccounts'];
       }

@@ -19,7 +19,7 @@ import {
 import {JobsResolverService} from '../route-resolvers/jobs-resolver.service';
 import {ManageCompaniesComponent} from '../components/settings/manage-companies/manage-companies.component';
 import {DisqualifyReasonsComponent} from '../components/settings/disqualify-reasons/disqualify-reasons.component';
-import {WorkflowComponent} from '../components/settings/workflow/workflow.component';
+import {WorkflowsComponent} from '../components/settings/workflows/workflows.component';
 import {JobOpeningsComponent} from '../components/settings/job-openings/job-openings.component';
 import {CandidatesAndLeadsComponent} from '../components/settings/candidates-and-leads/candidates-and-leads.component';
 import {PageNotFoundComponent} from '../components/page-not-found/page-not-found.component';
@@ -38,8 +38,8 @@ import {TagsComponent} from '../components/settings/candidates-and-leads/tags/ta
 import {DepartmentsComponent} from '../components/settings/job-openings/departments/departments.component';
 import {JobTypesComponent} from '../components/settings/job-openings/job-types/job-types.component';
 import {JobFunctionsComponent} from '../components/settings/job-openings/job-functions/job-functions.component';
-import {PipelineComponent} from '../components/settings/workflow/pipeline/pipeline.component';
-import {PipelinesResolverService} from '../route-resolvers/pipelines-resolver.service';
+import {PipelineComponent} from '../components/settings/workflows/pipeline/pipeline.component';
+import {WorkflowsResolverService} from '../route-resolvers/workflows-resolver.service';
 import {JobTypesResolverService} from '../route-resolvers/job-types-resolver.service';
 import {JobFunctionsResolverService} from '../route-resolvers/job-functions-resolver.service';
 import {DepartmentsResolverService} from '../route-resolvers/departments-resolver.service';
@@ -75,6 +75,10 @@ import {InterviewResolverService} from '../route-resolvers/interview-resolver.se
 import {JobResolverService} from '../route-resolvers/job-resolver.service';
 import {UserAccountResolverService} from '../route-resolvers/user-account-resolver.service';
 import {CurrentUserAccountResolverService} from '../route-resolvers/current-user-account-resolver.service';
+import {WorkflowListComponent} from '../components/settings/workflows/workflow-list/workflow-list.component';
+import {DefaultWorkflowResolverService} from '../route-resolvers/default-workflow-resolver.service';
+import {WorkflowResolverService} from '../route-resolvers/workflow-resolver.service';
+import {AddNewWorkflowComponent} from '../components/settings/workflows/add-new-workflow/add-new-workflow.component';
 
 const appRoutes: Routes = [
   {
@@ -193,7 +197,7 @@ const appRoutes: Routes = [
             jobs: JobsResolverService,
             sources: SourcesResolverService,
             candidate: CandidateResolverService,
-            pipelines: PipelinesResolverService,
+            pipelines: WorkflowsResolverService,
             departments: DepartmentsResolverService
           },
         children:
@@ -273,6 +277,10 @@ const appRoutes: Routes = [
     path: 'settings',
     component: SettingsComponent,
     canActivate: [AuthGuard],
+    resolve:
+      {
+        defaultWorkflow: DefaultWorkflowResolverService
+      },
     children: [
       {
         path: '',
@@ -472,23 +480,39 @@ const appRoutes: Routes = [
         ]
       },
       {
-        path: 'workflow',
-        component: WorkflowComponent,
+        path: 'workflows',
+        component: WorkflowsComponent,
         children:
         [
           {
             path: '',
-            redirectTo: 'pipeline',
+            redirectTo: 'workflow-list',
             pathMatch: 'full'
           },
           {
-            path: 'pipeline',
+            path: 'workflow-list',
+            component: WorkflowListComponent,
+            resolve:
+              {
+                workflows: WorkflowsResolverService
+              }
+          },
+          {
+            path: 'add-new-workflow',
+            component: AddNewWorkflowComponent,
+            resolve:
+              {
+                defaultWorkflow: DefaultWorkflowResolverService
+              }
+          },
+          {
+            path: ':workflow-id',
             component: PipelineComponent,
             resolve:
               {
-                pipelines: PipelinesResolverService
+                workflow: WorkflowResolverService
               }
-          }
+          },
         ]
       },
       {

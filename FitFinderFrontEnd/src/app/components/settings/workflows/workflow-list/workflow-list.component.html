@@ -1,0 +1,27 @@
+
+<div  *ngFor="let workflow of workflows; let i = index">
+
+  <div class="row">
+    <div class="col-xl-11">
+      <span
+        style="cursor: pointer; outline: 0;"
+      routerLink="/settings/workflows/{{workflow.Id}}"
+      >
+
+        {{ workflow.Name }}
+
+      </span>
+    </div>
+
+
+    <div class="col-xl-1" *ngIf="i > 0">
+      <i style="cursor: pointer; opacity: .8;
+               color: #bc0000; font-size: 17px;" class="far fa-trash-alt"></i> &nbsp;
+    </div>
+
+  </div>
+
+  <hr *ngIf="i !== workflows.length - 1">
+  <br *ngIf="i === workflows.length - 1">
+
+</div>

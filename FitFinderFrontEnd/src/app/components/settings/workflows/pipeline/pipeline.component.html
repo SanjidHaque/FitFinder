@@ -1,26 +1,20 @@
 <div class="row">
-  <div class="col-xl-12" style="font-size: 14px;  color: #656c8a;">
-    Define your recruitment workflow by creating different stages to match the actual recruitment procedure followed in your organization. <!--You can trigger emails to candidates at different stages, to increase candidate engagement.-->
-  </div>
-</div>
-
-<br>
-
-<div class="row">
   <div class="col-xl-12">
-    <h4>Candidate Pipeline</h4>
+    <h4>Candidate Pipeline of {{ workflow.Name }}</h4>
   </div>
 </div>
 
 <div class="row" style="margin-top: 5px; font-size: 14px;  color: #656c8a;">
   <div class="col-xl-12">
-    Manage and track your candidates through out their recruitment process by moving them across various stages. Create stages according to your requirements and simplify your hiring.
+    Manage and track your candidates through out their recruitment process by moving
+    them across various stages. Create stages according to your requirements and
+    simplify your hiring.
   </div>
 </div>
 
 <br>
 
-<div class="row" *ngFor="let pipeline of pipelines">
+<div class="row" *ngFor="let pipeline of workflow.Pipelines">
   <div class="col-xl-12">
 
     <div class="row">

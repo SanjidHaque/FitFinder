@@ -65,6 +65,8 @@ namespace FitFinderBackEnd.Models
 
         public DbSet<RejectedReason> RejectedReasons { get; set; }
         public DbSet<WithdrawnReason> WithdrawnReasons { get; set; }
+
+        public DbSet<Workflow> Workflows { get; set; }
         public DbSet<Pipeline> Pipelines { get; set; }
         public DbSet<PipelineStage> PipelineStages { get; set; }
         public DbSet<PipelineStageCriteria> PipelineStageCriterias { get; set; }
