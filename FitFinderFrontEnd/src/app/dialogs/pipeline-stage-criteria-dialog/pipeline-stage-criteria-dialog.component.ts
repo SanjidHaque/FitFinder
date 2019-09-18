@@ -48,7 +48,8 @@ export class PipelineStageCriteriaDialogComponent implements OnInit {
         const pipelineStageCriteria = new PipelineStageCriteria(
           null,
           result,
-          this.data.stage.Id
+          this.data.stage.Id,
+          null
         );
 
 
@@ -101,7 +102,8 @@ export class PipelineStageCriteriaDialogComponent implements OnInit {
         const editPipelineStageCriteria = new PipelineStageCriteria(
           pipelineStageCriteria.Id,
           result,
-          pipelineStageCriteria.PipelineStageId
+          pipelineStageCriteria.PipelineStageId,
+          null
         );
 
 

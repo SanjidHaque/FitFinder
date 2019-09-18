@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using FitFinderBackEnd.Models.Settings;
 
 namespace FitFinderBackEnd.Models.Job
 {
@@ -30,6 +31,8 @@ namespace FitFinderBackEnd.Models.Job
         public bool IsPublished { get; set; }
         public string JobCreatedDate { get; set; }
         public bool IsFavourite { get; set; }
-        public long CompanyId { get; set; } 
+        public long CompanyId { get; set; }
+        public Workflow Workflow { get; set; }
+        public long? WorkflowId { get; set; }    
     }
 }

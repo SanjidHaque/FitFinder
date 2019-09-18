@@ -120,7 +120,8 @@ const appRoutes: Routes = [
           {
             jobTypes: JobTypesResolverService,
             jobFunctions: JobFunctionsResolverService,
-            departments: DepartmentsResolverService
+            departments: DepartmentsResolverService,
+            workflows: WorkflowsResolverService
           }
       },
       {
@@ -145,7 +146,8 @@ const appRoutes: Routes = [
               {
                 job: JobResolverService,
                 departments: DepartmentsResolverService,
-                jobFunctions: JobFunctionsResolverService
+                jobFunctions: JobFunctionsResolverService,
+                jobTypes: JobTypesResolverService
               }
           },
           {

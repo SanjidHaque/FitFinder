@@ -14,6 +14,7 @@ import {JobFunction} from '../../../models/job-function.model';
 import {JobType} from '../../../models/job-type.model';
 import {SettingsDataStorageService} from '../../../services/data-storage/settings-data-storage.service';
 import {CandidateDataStorageService} from '../../../services/data-storage/candidate-data-storage.service';
+import {Workflow} from '../../../models/workflow.model';
 
 @Component({
   selector: 'app-add-new-job',
@@ -66,10 +67,14 @@ export class AddNewJobComponent implements OnInit {
   addNewJobForm: FormGroup;
   minDate = '';
 
+  workflows: Workflow[] = [];
+
   jobAttachments: JobAttachment[] = [];
   filesToUpload: Array<File>;
   @ViewChild('fileUpload', {static: false}) fileUploadVar: any;
   isDisabled = false;
+
+
 
   constructor(private departmentDialog: MatDialog,
               private settingsDataStorageService: SettingsDataStorageService,
@@ -90,6 +95,7 @@ export class AddNewJobComponent implements OnInit {
           this.jobTypes = data['jobTypes'];
           this.jobFunctions = data['jobFunctions'];
           this.departments = data['departments'];
+          this.workflows = data['workflows'];
         }
       );
 
@@ -112,9 +118,11 @@ export class AddNewJobComponent implements OnInit {
       'jobExperienceStarts': new FormControl('', Validators.min(0)),
       'jobExperienceEnds': new FormControl('', Validators.min(0)),
       'jobSalaryStarts': new FormControl('', Validators.min(0)),
-      'jobSalaryEnds': new FormControl('', Validators.min(0))
+      'jobSalaryEnds': new FormControl('', Validators.min(0)),
+      'workflowId': new FormControl(this.workflows[0].Id, Validators.required)
     });
   }
+
 
   onSubmitNewJob() {
     const jobId = null;
@@ -146,7 +154,8 @@ export class AddNewJobComponent implements OnInit {
       false,
       true,
       new Date().toString(),
-      false
+      false,
+      this.addNewJobForm.controls['workflowId'].value,
     );
 
     this.isDisabled = true;
@@ -167,6 +176,14 @@ export class AddNewJobComponent implements OnInit {
          }
        );
   }
+
+  getSelectedWorkflowPipelines() {
+
+    const workflowId = this.addNewJobForm.controls['workflowId'].value;
+
+    return this.workflows.find(x => x.Id === workflowId).Pipelines;
+  }
+
 
   fileChangeEvent(fileInput: any) {
     for (let i = 0; i < fileInput.target.files.length; i++) {

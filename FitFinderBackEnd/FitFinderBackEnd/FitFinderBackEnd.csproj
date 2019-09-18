@@ -284,6 +284,10 @@
     <Compile Include="Migrations\201909151334400_workflowModelAdded.Designer.cs">
       <DependentUpon>201909151334400_workflowModelAdded.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201909172144138_jobAndPipelineStageCriteriaModelChanged.cs" />
+    <Compile Include="Migrations\201909172144138_jobAndPipelineStageCriteriaModelChanged.Designer.cs">
+      <DependentUpon>201909172144138_jobAndPipelineStageCriteriaModelChanged.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -466,6 +470,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201909151334400_workflowModelAdded.resx">
       <DependentUpon>201909151334400_workflowModelAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909172144138_jobAndPipelineStageCriteriaModelChanged.resx">
+      <DependentUpon>201909172144138_jobAndPipelineStageCriteriaModelChanged.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

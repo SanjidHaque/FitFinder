@@ -733,5 +733,29 @@ namespace FitFinderBackEnd.Controllers
 
             return Ok();
         }
+
+        [HttpPut]
+        [Route("api/EditWorkflowName")]
+        public IHttpActionResult EditWorkflowName(Workflow workflow)
+        {
+            if (workflow == null)
+            {
+                return NotFound();
+            }
+
+            Workflow getWorkflow = _context.Workflows.FirstOrDefault(x => x.Id == workflow.Id);
+
+            if (getWorkflow == null)
+            {
+                return NotFound();
+            }
+            getWorkflow.Name = workflow.Name;
+         
+
+            _context.SaveChanges();
+
+
+            return Ok();
+        }
     }
 }

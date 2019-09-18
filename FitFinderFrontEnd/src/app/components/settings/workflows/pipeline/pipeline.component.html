@@ -1,6 +1,9 @@
 <div class="row">
   <div class="col-xl-12">
-    <h4>Candidate Pipeline of {{ workflow.Name }}</h4>
+    <h4>Candidate Pipeline of {{ workflow.Name }}  &nbsp;
+      <i (click)="editWorkflowName()" style="cursor: pointer; opacity: .8;
+               color: #345188; font-size: 18px;" class="fas fa-pencil-alt"></i>
+    </h4>
   </div>
 </div>
 

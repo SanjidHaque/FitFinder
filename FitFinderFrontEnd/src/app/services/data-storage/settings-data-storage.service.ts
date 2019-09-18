@@ -143,4 +143,8 @@ export class SettingsDataStorageService {
     return this.httpClient.post<Workflow>(this.rootUrl + '/api/AddNewWorkflow', workflow);
   }
 
+  editWorkflowName(workflow: Workflow) {
+    return this.httpClient.put<Workflow>(this.rootUrl + '/api/EditWorkflowName', workflow);
+  }
+
 }

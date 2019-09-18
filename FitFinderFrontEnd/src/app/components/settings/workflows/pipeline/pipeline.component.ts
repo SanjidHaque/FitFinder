@@ -24,6 +24,7 @@ export class PipelineComponent implements OnInit {
   constructor(private settingsDataStorageService: SettingsDataStorageService,
               private route: ActivatedRoute,
               private dialog: MatDialog,
+              private adialog: MatDialog,
               private notifierService: NotifierService) {}
 
   ngOnInit() {
@@ -133,5 +134,43 @@ export class PipelineComponent implements OnInit {
             editMode: true
           }
       });
+  }
+
+
+  editWorkflowName() {
+    const dialogRef = this.adialog.open(AddUpdateDialogComponent,
+      {
+        hasBackdrop: true,
+        disableClose: true,
+        width: '400px',
+        data:
+          {
+            header: 'Edit Workflow Name',
+            name: this.workflow.Name,
+            iconClass: 'fas fa-flag-checkered',
+            footer: 'Add or update different workflows your organization needs.'
+          }
+      });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result !== this.workflow.Name && result !== '') {
+
+        const editedWorkflow = new Workflow(
+          this.workflow.Id,
+          result,
+          null,
+          []
+        );
+
+        this.settingsDataStorageService.editWorkflowName(editedWorkflow)
+          .subscribe(
+            (data: any) => {
+              this.workflow.Name = result;
+              this.notifierService.notify('default', 'Workflow name updated.');
+            }
+          );
+
+      }
+    });
   }
 }

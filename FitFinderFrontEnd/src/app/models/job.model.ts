@@ -23,6 +23,7 @@ export class Job {
   IsPublished: boolean;
   JobCreatedDate: string;
   IsFavourite: boolean;
+  WorkflowId: number;
 
   constructor(
      id: number,
@@ -46,7 +47,8 @@ export class Job {
      isArchived: boolean,
      isPublished: boolean,
      jobCreatedDate: string,
-     isFavourite: boolean
+     isFavourite: boolean,
+     workflowId: number
   ) {
 
     this.Id = id;
@@ -71,5 +73,6 @@ export class Job {
     this.IsPublished = isPublished;
     this.JobCreatedDate = jobCreatedDate;
     this.IsFavourite = isFavourite;
+    this.WorkflowId = workflowId;
   }
 }

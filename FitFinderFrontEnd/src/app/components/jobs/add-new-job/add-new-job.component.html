@@ -497,7 +497,99 @@
         </div>
       </div>
 
+      <br>
 
+      <div class="row">
+        <div class="col-xl-12">
+
+          <h6>Candidate Pipeline</h6>
+
+        </div>
+      </div>
+      <hr>
+
+      <div class="row">
+        <div class="col-xl-12">
+
+          <mat-form-field style="width: 100%;" appearance="outline">
+            <mat-label>Select Workflow</mat-label>
+            <mat-select required formControlName="workflowId">
+              <mat-option
+                *ngIf="jobFunctions.length == 0">No workflow is available</mat-option>
+              <mat-option
+                *ngFor="let workflow of workflows" [value]="workflow.Id">
+                {{ workflow.Name }}
+              </mat-option>
+            </mat-select>
+            <mat-error>You must select a workflow!</mat-error>
+          </mat-form-field>
+
+        </div>
+      </div>
+
+      <div
+        style="
+        border: 1px solid #ebebeb;
+        padding: 15px;
+        border-radius: 5px;">
+
+        <div class="row"
+
+             *ngFor="let pipeline of getSelectedWorkflowPipelines()">
+          <div class="col-xl-12">
+
+          <span style="font-size: 17px">
+
+            <i class="fas fa-flag-checkered"></i> {{ pipeline.Name }}
+
+          </span>
+
+            <div class="row"
+                 style="padding-left: 30px; padding-top: 5px; padding-bottom: 5px;"
+                 *ngFor="let pipelineStage of pipeline.PipelineStage">
+
+              <div class="col-xl-1">
+                <input
+                  readonly
+                  style="outline: 0;
+                border: 1px solid white;
+                border-radius: 3px;
+                cursor: pointer;
+                height: 15px; width: 15px;"
+                  [style.background]="pipelineStage.Color"/>
+              </div>
+
+              <div class="col-xl-11" style="padding-left: 5px;">
+
+              <span style="font-size: 16px;">
+
+                {{ pipelineStage.Name }}
+
+              </span>
+
+                <div class="row"
+                     style="padding-left: 30px;"
+                     *ngFor="let pipelineStageCriteria of pipelineStage.PipelineStageCriteria">
+                  <div class="col-xl-12">
+
+                  <span style="font-size: 14px;">
+
+                     <i class="far fa-check-circle"></i> {{ pipelineStageCriteria.Name }}
+
+                  </span>
+
+
+
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
 
 
 
