@@ -7,6 +7,7 @@ using System.Web.Http;
 using System.Web.Http.Cors;
 using FitFinderBackEnd.Models;
 using FitFinderBackEnd.Models.Job;
+using FitFinderBackEnd.Models.Settings;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -109,12 +110,35 @@ namespace FitFinderBackEnd.Controllers
         public IHttpActionResult GetJob(long jobId)
         {
             
-
             Job job = _context.Jobs.FirstOrDefault(x => x.Id == jobId);
 
+            if (job == null)
+            {
+                return NotFound();
+            }
 
             List<JobAttachment> jobAttachments = _context.JobAttachments
                 .Where(x => x.JobId == jobId)
+                .ToList();
+
+            Workflow workflow = _context.Workflows.FirstOrDefault(x => x.Id == job.WorkflowId);
+
+            if (workflow == null)
+            {
+                return NotFound();
+            }
+
+            List<Pipeline> pipelines = _context.Pipelines
+                .Where(x => x.WorkflowId == workflow.Id)
+                .ToList();
+
+            List<PipelineStage> pipelineStages = _context.PipelineStages
+                .Where(x => x.Pipeline.WorkflowId == workflow.Id)
+                .ToList();
+
+            List<PipelineStageCriteria> pipelineStageCriterias = _context.PipelineStageCriterias
+                .Where(x => x.PipelineStage.Pipeline.WorkflowId == workflow.Id 
+                            && (x.JobId == job.Id || x.JobId == null))
                 .ToList();
 
             return Ok(job);

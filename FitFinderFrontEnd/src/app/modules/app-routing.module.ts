@@ -144,7 +144,6 @@ const appRoutes: Routes = [
             component: JobInfoComponent,
             resolve:
               {
-                job: JobResolverService,
                 departments: DepartmentsResolverService,
                 jobFunctions: JobFunctionsResolverService,
                 jobTypes: JobTypesResolverService

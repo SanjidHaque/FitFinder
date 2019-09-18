@@ -1,4 +1,5 @@
 import {JobAttachment} from './job-attachment.model';
+import {Workflow} from './workflow.model';
 
 export class Job {
   Id: number;
@@ -23,6 +24,7 @@ export class Job {
   IsPublished: boolean;
   JobCreatedDate: string;
   IsFavourite: boolean;
+  Workflow: Workflow;
   WorkflowId: number;
 
   constructor(
@@ -48,6 +50,7 @@ export class Job {
      isPublished: boolean,
      jobCreatedDate: string,
      isFavourite: boolean,
+     workflow: Workflow,
      workflowId: number
   ) {
 
@@ -73,6 +76,7 @@ export class Job {
     this.IsPublished = isPublished;
     this.JobCreatedDate = jobCreatedDate;
     this.IsFavourite = isFavourite;
+    this.Workflow = workflow;
     this.WorkflowId = workflowId;
   }
 }

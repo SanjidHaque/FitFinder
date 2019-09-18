@@ -634,7 +634,7 @@ namespace FitFinderBackEnd.Controllers
         [HttpGet]
         [Route("api/GetWorkflow/{workflowId}")]
         [AllowAnonymous]
-        public IHttpActionResult GetDefaultWorkflow(long workflowId)
+        public IHttpActionResult GetWorkflow(long workflowId)
         {
 
 
@@ -651,7 +651,7 @@ namespace FitFinderBackEnd.Controllers
                 .ToList();
 
             List<PipelineStageCriteria> pipelineStageCriterias = _context.PipelineStageCriterias
-                .Where(x => x.PipelineStage.Pipeline.WorkflowId == workflowId)
+                .Where(x => x.PipelineStage.Pipeline.WorkflowId == workflowId && x.JobId == null)
                 .ToList();
 
             return Ok(workflow);
@@ -757,5 +757,18 @@ namespace FitFinderBackEnd.Controllers
 
             return Ok();
         }
+
+        [HttpPost]
+        [Route("api/AddNewPipelineStageCriteriasForNewJob")]
+        public IHttpActionResult AddNewPipelineStageCriteriasForNewJob(List<PipelineStageCriteria> pipelineStageCriterias)
+        {
+
+            _context.PipelineStageCriterias.AddRange(pipelineStageCriterias);
+
+            _context.SaveChanges();
+
+            return Ok();
+        }
+
     }
 }

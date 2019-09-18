@@ -15,6 +15,8 @@ import {JobType} from '../../../models/job-type.model';
 import {SettingsDataStorageService} from '../../../services/data-storage/settings-data-storage.service';
 import {CandidateDataStorageService} from '../../../services/data-storage/candidate-data-storage.service';
 import {Workflow} from '../../../models/workflow.model';
+import {PipelineStageCriteria} from '../../../models/pipeline-stage-criteria.model';
+import {PipelineStage} from '../../../models/pipeline-stage.model';
 
 @Component({
   selector: 'app-add-new-job',
@@ -84,6 +86,7 @@ export class AddNewJobComponent implements OnInit {
               private candidateDataStorageService: CandidateDataStorageService,
               private route: ActivatedRoute,
               private router: Router,
+              private dialog: MatDialog,
               private jobType: MatDialog) {
     this.filesToUpload = [];
   }
@@ -155,6 +158,7 @@ export class AddNewJobComponent implements OnInit {
       true,
       new Date().toString(),
       false,
+      null,
       this.addNewJobForm.controls['workflowId'].value,
     );
 
@@ -166,22 +170,128 @@ export class AddNewJobComponent implements OnInit {
              .subscribe(
                (response: any) => {
 
-                 this.clearAllArrays();
-                 this.addNewJobForm.reset();
-                 this.router.navigate(['/jobs/', data.job.Id ]);
-                 this.notifierService.notify('default', 'New job published.');
 
-               }
-             );
-         }
-       );
+
+                 this.settingsDataStorageService
+                   .addNewPipelineStageCriteriasForNewJob(this.getNewPipelineStageCriterias(data.job.Id))
+                   .subscribe((reply: any) => {
+
+                     this.router.navigate(['/jobs/', data.job.Id ]);
+                     this.notifierService.notify('default', 'New job published.');
+
+                   });
+
+
+
+
+               });
+         });
   }
 
-  getSelectedWorkflowPipelines() {
+  getNewPipelineStageCriterias(jobId: number) {
+    const workflowId = this.addNewJobForm.controls['workflowId'].value;
+
+    const workflow = this.workflows.find(x => x.Id === workflowId);
+
+    const pipelineStageCriterias: PipelineStageCriteria [] = [];
+
+    workflow.Pipelines.forEach((pipeline) => {
+      pipeline.PipelineStage.forEach((pipelineStage) => {
+
+        if (pipelineStage.PipelineStageCriteria === null) {
+          pipelineStage.PipelineStageCriteria = [];
+        }
+
+        pipelineStage.PipelineStageCriteria.forEach((pipelineStageCriteria) => {
+          if (pipelineStageCriteria.Id === null) {
+            pipelineStageCriteria.JobId = jobId;
+            pipelineStageCriterias.push(pipelineStageCriteria);
+          }
+        });
+      });
+    });
+
+    return pipelineStageCriterias;
+  }
+
+  getSelectedWorkflow() {
 
     const workflowId = this.addNewJobForm.controls['workflowId'].value;
 
-    return this.workflows.find(x => x.Id === workflowId).Pipelines;
+    return this.workflows.find(x => x.Id === workflowId);
+  }
+
+
+  addNewPipelineStageCriteria(pipelineStage: PipelineStage) {
+
+    const dialogRef = this.dialog.open(AddUpdateDialogComponent,
+      {
+        hasBackdrop: true,
+        disableClose: true,
+        width: '450px',
+        data:
+          {
+            header: 'New Pipeline Criteria',
+            name: '',
+            iconClass: 'fas fa-flag-checkered',
+            footer: 'Add or update different pipeline criteria your candidate needs.'
+          }
+      });
+
+    dialogRef.afterClosed().subscribe(result => {
+
+        if (result !== '') {
+
+          const pipelineStageCriteria = new PipelineStageCriteria(
+            null,
+            result,
+            pipelineStage.Id,
+            null
+          );
+
+          if (pipelineStage.PipelineStageCriteria === null) {
+            pipelineStage.PipelineStageCriteria= [];
+          }
+
+          pipelineStage.PipelineStageCriteria.push(pipelineStageCriteria);
+
+        }
+
+      });
+  }
+
+
+  editPipelineStageCriteria(pipelineStageCriteria: PipelineStageCriteria) {
+    const dialogRef = this.dialog.open(AddUpdateDialogComponent,
+      {
+        hasBackdrop: true,
+        disableClose: true,
+        width: '450px',
+        data:
+          {
+            header: 'Edit Pipeline Criteria',
+            name: pipelineStageCriteria.Name,
+            iconClass: 'fas fa-flag-checkered',
+            footer: 'Add or update different pipeline criteria your candidate needs.'
+          }
+      });
+
+    dialogRef.afterClosed().subscribe(result => {
+
+      if (result !== '' && result !== pipelineStageCriteria.Name) {
+        pipelineStageCriteria.Name = result;
+      }
+
+    });
+
+
+
+
+
+  }
+
+  deletePipelineStageCriteria(pipelineStage: PipelineStage, index: number) {
+    pipelineStage.PipelineStageCriteria.splice(index, 1);
   }
 
 

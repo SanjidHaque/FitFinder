@@ -147,4 +147,9 @@ export class SettingsDataStorageService {
     return this.httpClient.put<Workflow>(this.rootUrl + '/api/EditWorkflowName', workflow);
   }
 
+  addNewPipelineStageCriteriasForNewJob(pipelineStageCriterias: PipelineStageCriteria[]) {
+    return this.httpClient.post<PipelineStageCriteria[]>(
+      this.rootUrl + '/api/addNewPipelineStageCriteriasForNewJob', pipelineStageCriterias);
+  }
+
 }

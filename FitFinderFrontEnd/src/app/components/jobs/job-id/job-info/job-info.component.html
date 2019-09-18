@@ -362,11 +362,127 @@
               [src]="candidateDefaultImage">
           </div>
 
-          <div class="col-xl-11" style=" text-align: left; padding-top: 3px; font-size: 20px;">
+          <div class="col-xl-11"
+               style=" text-align: left; padding-top: 3px; font-size: 20px;">
             Sanjid Haque
           </div>
         </div>
       </div>
+    </div>
+
+    <br>
+
+    <div class="row">
+      <div class="col-xl-12">
+
+        <h6>CANDIDATE PIPELINE</h6>
+
+      </div>
+    </div>
+    <br>
+
+    <div
+      style="
+        border: 1px solid #ebebeb;
+        padding: 15px;
+        border-radius: 5px;">
+
+      <div class="row"
+           style="
+             text-align: center;
+             padding-bottom: 5px;
+             padding-top: 5px;">
+        <div class="col-xl-12">
+
+          <h6>{{ job.Workflow.Name }}</h6>
+
+        </div>
+      </div>
+
+      <div class="row"
+           style="padding-top: 5px; padding-bottom: 5px;"
+           *ngFor="let pipeline of job.Workflow.Pipelines">
+        <div class="col-xl-12">
+
+          <span style="font-size: 17px">
+
+            <i class="fas fa-flag-checkered"></i> {{ pipeline.Name }}
+
+          </span>
+
+          <div class="row"
+               style="padding-left: 30px; padding-top: 5px; padding-bottom: 5px;"
+               *ngFor="let pipelineStage of pipeline.PipelineStage">
+
+            <div class="col-xl-1">
+              <input
+                readonly
+                style="outline: 0;
+                border: 1px solid white;
+                border-radius: 3px;
+                cursor: pointer;
+                height: 15px; width: 15px;"
+                [style.background]="pipelineStage.Color"/>
+            </div>
+
+            <div class="col-xl-11" style="padding-left: 0px;">
+
+              <span style="font-size: 16px;">
+
+                {{ pipelineStage.Name }}
+
+                <!--<i-->
+                  <!--*ngIf="pipeline.Name !== 'HIRED' && pipeline.Name !== 'REJECTED'"-->
+                  <!--(click)="addNewPipelineStageCriteria(pipelineStage)"-->
+                  <!--matTooltip="Add a new criteria"-->
+                  <!--matTooltipPosition="right"-->
+                  <!--style="cursor: pointer; font-size: 13px;"-->
+                  <!--class="fas fa-plus-circle"></i>-->
+
+              </span>
+
+              <div class="row"
+                   style="padding-left: 30px; padding-top: 5px; padding-bottom: 5px;"
+                   *ngFor="let pipelineStageCriteria of pipelineStage.PipelineStageCriteria; let i = index">
+                <div class="col-xl-12">
+
+                  <span style="font-size: 14px;">
+
+                     <i class="far fa-check-circle"></i>
+                    {{ pipelineStageCriteria.Name }} &nbsp;
+
+                    <!--<i-->
+                      <!--(click)="editPipelineStageCriteria(pipelineStageCriteria)"-->
+                      <!--*ngIf="pipelineStageCriteria.Id === null"-->
+                      <!--style="-->
+                      <!--cursor: pointer;-->
+                      <!--opacity: .8;-->
+                      <!--color: #345188;-->
+                      <!--font-size: 14px;"-->
+                      <!--class="fas fa-pencil-alt"></i>&nbsp;-->
+
+                    <!--<i-->
+                      <!--(click)="deletePipelineStageCriteria(pipelineStage, i)"-->
+                      <!--*ngIf="pipelineStageCriteria.Id === null"-->
+                      <!--style="cursor: pointer;-->
+                      <!--opacity: .8;-->
+                      <!--color: #bc0000;-->
+                      <!--font-size: 14px;"-->
+                      <!--class="far fa-trash-alt"></i>-->
+
+                  </span>
+
+
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
     </div>
 
 
