@@ -99,9 +99,11 @@ export class AddNewJobComponent implements OnInit {
           this.jobFunctions = data['jobFunctions'];
           this.departments = data['departments'];
           this.workflows = data['workflows'];
+
         }
       );
 
+    this.filterDefaultPipelineStages();
 
 
     this.minDate = this.getTomorrowsDate();
@@ -123,6 +125,27 @@ export class AddNewJobComponent implements OnInit {
       'jobSalaryStarts': new FormControl('', Validators.min(0)),
       'jobSalaryEnds': new FormControl('', Validators.min(0)),
       'workflowId': new FormControl(this.workflows[0].Id, Validators.required)
+    });
+  }
+
+
+  filterDefaultPipelineStages() {
+    this.workflows.forEach((workflow) => {
+      workflow.Pipelines.forEach((pipeline) => {
+        pipeline.PipelineStage.forEach((pipelineStage) => {
+
+          if (pipelineStage.PipelineStageCriteria === null) {
+            pipelineStage.PipelineStageCriteria = [];
+          }
+
+          pipelineStage.PipelineStageCriteria.forEach((pipelineStageCriteria, index) => {
+            if (pipelineStageCriteria.JobId !== null) {
+             // const index = pipelineStage.PipelineStageCriteria.indexOf(pipelineStageCriteria.Id);
+              pipelineStage.PipelineStageCriteria.splice(index);
+            }
+          });
+        });
+      });
     });
   }
 
@@ -169,8 +192,6 @@ export class AddNewJobComponent implements OnInit {
            this.candidateDataStorageService.uploadAttachments(this.filesToUpload)
              .subscribe(
                (response: any) => {
-
-
 
                  this.settingsDataStorageService
                    .addNewPipelineStageCriteriasForNewJob(this.getNewPipelineStageCriterias(data.job.Id))
