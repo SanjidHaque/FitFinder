@@ -46,6 +46,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
   departments: Department[] = [];
   candidate: Candidate;
   jobs: Job[] = [];
+  job: Job;
 
   sources: Source[] = [];
 
@@ -66,14 +67,22 @@ export class CandidateIdComponent implements OnInit, DoCheck {
         (data: Data) => {
           this.jobs = data['jobs'];
           this.sources = data['sources'];
-          this.pipelines = data['pipelines'];
           this.candidate = data['candidate'];
           this.departments = data['departments'];
-
-
-
         }
       );
+
+   // if (this.job.JobAssigned[])
+
+
+    // if (this.candidate.JobAssigned !== null) {
+    //   this.job = this.candidate.JobAssigned[0].Job;
+    //   this.changeStatus(this.candidate.JobAssigned[0].CurrentStageId);
+    // }
+
+
+
+
 
 
     this.candidateService.candidate = this.candidate;
@@ -105,13 +114,13 @@ export class CandidateIdComponent implements OnInit, DoCheck {
 
 
   detectStageChange(pipelineStageId: number) {
-    for (let i = 0; i < this.pipelines.length; i++) {
-      for (let j = 0; j < this.pipelines[i].PipelineStage.length; j++) {
-        if (this.pipelines[i].PipelineStage[j].Id === pipelineStageId) {
+    for (let i = 0; i < this.job.Workflow.Pipelines.length; i++) {
+      for (let j = 0; j < this.job.Workflow.Pipelines[i].PipelineStage.length; j++) {
+        if (this.job.Workflow.Pipelines[i].PipelineStage[j].Id === pipelineStageId) {
           return ({
-            stageId: this.pipelines[i].PipelineStage[j].Id,
-            stageName: this.pipelines[i].PipelineStage[j].Name,
-            stageColor: this.pipelines[i].PipelineStage[j].Color
+            stageId: this.job.Workflow.Pipelines[i].PipelineStage[j].Id,
+            stageName: this.job.Workflow.Pipelines[i].PipelineStage[j].Name,
+            stageColor: this.job.Workflow.Pipelines[i].PipelineStage[j].Color
           });
         }
       }
@@ -168,9 +177,9 @@ export class CandidateIdComponent implements OnInit, DoCheck {
   changeStatus(pipelineStageId: number) {
    const pipelineStages: PipelineStage[] = [];
 
-    for (let i = 0; i < this.pipelines.length; i++) {
-      for (let j = 0; j < this.pipelines[i].PipelineStage.length; j++) {
-        pipelineStages.push(this.pipelines[i].PipelineStage[j]);
+    for (let i = 0; i < this.job.Workflow.Pipelines.length; i++) {
+      for (let j = 0; j < this.job.Workflow.Pipelines[i].PipelineStage.length; j++) {
+        pipelineStages.push(this.job.Workflow.Pipelines[i].PipelineStage[j]);
       }
     }
 
@@ -193,7 +202,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
         disableClose: true,
         width: '700px',
         data: {
-          pipelines: this.pipelines,
+          pipelines: this.job.Workflow.Pipelines,
           selectTab: this.selectTabIndex,
           candidate: this.candidate,
           pipelineStageId: pipelineStageId,
@@ -215,9 +224,9 @@ export class CandidateIdComponent implements OnInit, DoCheck {
 
        let currentStageId = 1;
        const allPipelineStages: PipelineStage[] = [];
-       for (let i = 0; i < this.pipelines.length; i++) {
-         for (let j = 0; j < this.pipelines[i].PipelineStage.length; j++) {
-           allPipelineStages.push(this.pipelines[i].PipelineStage[j]);
+       for (let i = 0; i < this.job.Workflow.Pipelines.length; i++) {
+         for (let j = 0; j < this.job.Workflow.Pipelines[i].PipelineStage.length; j++) {
+           allPipelineStages.push(this.job.Workflow.Pipelines[i].PipelineStage[j]);
          }
        }
 
@@ -250,6 +259,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
        const jobAssigned = new JobAssigned(
          this.getActiveJobAssignedId(),
          this.candidate.Id,
+         null,
          this.candidate.JobAssigned
            .find(x => x.Id === this.getActiveJobAssignedId())
            .JobId,
@@ -380,45 +390,52 @@ export class CandidateIdComponent implements OnInit, DoCheck {
         const stageScores: StageScore[] = [];
         const criteriaScores: CriteriaScore[] = [];
         const stageComments: StageComment[] = [];
-        const stageComment = new StageComment(
-          null,
-          null,
-          this.pipelines[0].PipelineStage[0].Id,
-          this.candidate.Id,
-          jobId,
-          'Created from '
-        );
-
-        stageComments.push(stageComment);
-
-        for (let i = 0; i < this.pipelines.length; i++) {
-
-          for (let j = 0; j < this.pipelines[i].PipelineStage.length; j++) {
-
-            const stageScore = new StageScore(
-              null,
-              null,
-              0,
-              this.pipelines[i].PipelineStage[j].Id,
-              this.candidate.Id,
-              jobId
-            );
-            stageScores.push(stageScore);
 
 
+        this.jobDataStorageService.getJob(jobId).subscribe((job: Job) => {
 
-            this.pipelines[i].PipelineStage.forEach((x) => {
-
-              if (x.PipelineStageCriteria === null) {
-                x.PipelineStageCriteria = [];
-              }
-
-            });
+          this.job = job;
 
 
-            for (let l = 0;
-                 l < this.pipelines[i].PipelineStage[j].PipelineStageCriteria.length;
-                 l++) {
+          const stageComment = new StageComment(
+            null,
+            null,
+            this.job.Workflow.Pipelines[0].PipelineStage[0].Id,
+            this.candidate.Id,
+            jobId,
+            'Created from '
+          );
+
+          stageComments.push(stageComment);
+
+          for (let i = 0; i < this.job.Workflow.Pipelines.length; i++) {
+
+            for (let j = 0; j < this.job.Workflow.Pipelines[i].PipelineStage.length; j++) {
+
+              const stageScore = new StageScore(
+                null,
+                null,
+                0,
+                this.job.Workflow.Pipelines[i].PipelineStage[j].Id,
+                this.candidate.Id,
+                jobId
+              );
+              stageScores.push(stageScore);
+
+
+
+              this.job.Workflow.Pipelines[i].PipelineStage.forEach((x) => {
+
+                if (x.PipelineStageCriteria === null) {
+                  x.PipelineStageCriteria = [];
+                }
+
+              });
+
+
+              for (let l = 0;
+                   l < this.job.Workflow.Pipelines[i].PipelineStage[j].PipelineStageCriteria.length;
+                   l++) {
 
 
 
@@ -426,41 +443,48 @@ export class CandidateIdComponent implements OnInit, DoCheck {
                   null,
                   null,
                   0,
-                  this.pipelines[i].PipelineStage[j].PipelineStageCriteria[l].Id,
+                  this.job.Workflow.Pipelines[i].PipelineStage[j].PipelineStageCriteria[l].Id,
                   this.candidate.Id,
                   jobId
                 );
                 criteriaScores.push(criteriaScore);
 
 
-            }
-
-
-
-          }
-        }
-        const jobAssigned = new JobAssigned(
-          null,
-          this.candidate.Id,
-          result[0].Id,
-          stageScores,
-          criteriaScores,
-          stageComments,
-          this.pipelines[0].PipelineStage[0].Id,
-          true
-        );
-
-        this.jobDataStorageService.jobAssigned(jobAssigned)
-          .subscribe(
-            (getJobAssigned: any) => {
-              if (this.candidate.JobAssigned === null) {
-                this.candidate.JobAssigned = [];
               }
 
-              this.candidate.JobAssigned.push(getJobAssigned);
-              this.changeStatus(this.pipelines[0].PipelineStage[0].Id);
+
+
             }
+          }
+          const jobAssigned = new JobAssigned(
+            null,
+            this.candidate.Id,
+            null,
+            result[0].Id,
+            stageScores,
+            criteriaScores,
+            stageComments,
+            this.job.Workflow.Pipelines[0].PipelineStage[0].Id,
+            true
           );
+
+          this.jobDataStorageService.jobAssigned(jobAssigned)
+            .subscribe(
+              (getJobAssigned: any) => {
+                if (this.candidate.JobAssigned === null) {
+                  this.candidate.JobAssigned = [];
+                }
+
+                this.candidate.JobAssigned.push(getJobAssigned);
+                this.changeStatus(this.job.Workflow.Pipelines[0].PipelineStage[0].Id);
+              });
+
+
+
+
+        });
+
+
       }
     });
   }
@@ -484,7 +508,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
   }
 
   moveToRejected() {
-    const pipeline = this.pipelines.find(x => x.Name === 'REJECTED');
+    const pipeline = this.job.Workflow.Pipelines.find(x => x.Name === 'REJECTED');
     this.changeStatus(pipeline.PipelineStage[0].Id);
   }
 
@@ -497,9 +521,9 @@ export class CandidateIdComponent implements OnInit, DoCheck {
          .find( x => x.IsActive === true).CurrentStageId;
     }
 
-    for (let i = 0; i < this.pipelines.length; i++) {
-      for (let j = 0; j < this.pipelines[i].PipelineStage.length; j++) {
-        pipelineStages.push(this.pipelines[i].PipelineStage[j]);
+    for (let i = 0; i < this.job.Workflow.Pipelines.length; i++) {
+      for (let j = 0; j < this.job.Workflow.Pipelines[i].PipelineStage.length; j++) {
+        pipelineStages.push(this.job.Workflow.Pipelines[i].PipelineStage[j]);
       }
     }
 

@@ -13,6 +13,10 @@ import {Job} from '../../../models/job.model';
 import {JobDataStorageService} from '../../../services/data-storage/job-data-storage.service';
 import {SettingsDataStorageService} from '../../../services/data-storage/settings-data-storage.service';
 import {Source} from '../../../models/source.model';
+import {JobAssigned} from '../../../models/job-assigned.model';
+import {StageScore} from '../../../models/stage-score.model';
+import {CriteriaScore} from '../../../models/criteria-score.model';
+import {StageComment} from '../../../models/stage-comment.model';
 
 
 @Component({
@@ -217,6 +221,9 @@ export class AddNewCandidateComponent implements OnInit {
      this.candidateExperience[i].Id = null;
    }
 
+   const jobAssigneds: JobAssigned[] = [];
+
+
    const candidate = new Candidate(
      null,
      jobId,
@@ -232,7 +239,7 @@ export class AddNewCandidateComponent implements OnInit {
      this.candidateEducation,
      this.candidateExperience,
      this.candidateAttachments,
-     [],
+     jobAssigneds,
      facebookUrl,
      linkedInUrl,
      isArchived,
@@ -253,9 +260,112 @@ export class AddNewCandidateComponent implements OnInit {
            this.candidateDataStorageService.uploadAttachments(this.filesToUpload)
              .subscribe(
                (response: any) => {
-                 this.router.navigate(['/candidates/', data.candidate
-                   .Id]);
-                 this.notifierService.notify('default', 'New candidate added.');
+
+
+                 if (jobId !== '') {
+
+                   this.jobDataStorageService.getJob(jobId)
+                     .subscribe((job: Job) => {
+
+
+                       const stageScores: StageScore[] = [];
+                       const criteriaScores: CriteriaScore[] = [];
+                       const stageComments: StageComment[] = [];
+                       const stageComment = new StageComment(
+                         null,
+                         null,
+                         job.Workflow.Pipelines[0].PipelineStage[0].Id,
+                         data.candidate.Id,
+                         jobId,
+                         'Created from '
+                       );
+
+                       stageComments.push(stageComment);
+
+                       for (let i = 0; i < job.Workflow.Pipelines.length; i++) {
+
+                         for (let j = 0; j < job.Workflow.Pipelines[i].PipelineStage.length; j++) {
+
+                           const stageScore = new StageScore(
+                             null,
+                             null,
+                             0,
+                             job.Workflow.Pipelines[i].PipelineStage[j].Id,
+                             data.candidate.Id,
+                             jobId
+                           );
+                           stageScores.push(stageScore);
+
+
+
+                           job.Workflow.Pipelines[i].PipelineStage.forEach((x) => {
+
+                             if (x.PipelineStageCriteria === null) {
+                               x.PipelineStageCriteria = [];
+                             }
+
+                           });
+
+
+                           for (let l = 0;
+                                l < job.Workflow.Pipelines[i].
+                                  PipelineStage[j].PipelineStageCriteria.length;
+                                l++) {
+
+
+
+                             const criteriaScore = new CriteriaScore(
+                               null,
+                               null,
+                               0,
+                               job.Workflow.Pipelines[i].PipelineStage[j].PipelineStageCriteria[l].Id,
+                               data.candidate.Id,
+                               jobId
+                             );
+                             criteriaScores.push(criteriaScore);
+
+
+                           }
+
+
+
+                         }
+                       }
+                       const jobAssigned = new JobAssigned(
+                         null,
+                         data.candidate.Id,
+                         null,
+                         jobId,
+                         stageScores,
+                         criteriaScores,
+                         stageComments,
+                         job.Workflow.Pipelines[0].PipelineStage[0].Id,
+                         true
+                       );
+
+                       jobAssigneds.push(jobAssigned);
+
+
+                       this.jobDataStorageService.jobAssigned(jobAssigned)
+                         .subscribe(
+                           (getJobAssigned: JobAssigned) => {
+
+
+
+                             this.router.navigate(['/candidates/', data.candidate
+                               .Id]);
+                             this.notifierService.notify('default',
+                               'New candidate added.');
+                           });
+
+
+                     });
+
+                 }
+
+
+
+
                });
          } else {
            this.isDisabled = false;
@@ -266,3 +376,4 @@ export class AddNewCandidateComponent implements OnInit {
 
   }
 }
+

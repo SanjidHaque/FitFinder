@@ -8,6 +8,7 @@ using System.Web.Http;
 using System.Web.Http.Cors;
 using FitFinderBackEnd.Models;
 using FitFinderBackEnd.Models.Candidate;
+using FitFinderBackEnd.Models.Job;
 using FitFinderBackEnd.Models.Settings;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -70,6 +71,21 @@ namespace FitFinderBackEnd.Controllers
             candidate.CompanyId = applicationUser.CompanyId;
             _context.Candidates.Add(candidate);
 
+            _context.SaveChanges();
+
+
+            //if (candidate.JobAssigned.Count > 0)
+            //{
+            //    candidate.JobAssigned[0].CandidateId = candidate.Id;
+
+
+
+            //    _context.SaveChanges();
+            //}
+
+            
+
+
 //            foreach (var candidateEducation in candidate.CandidateEducation)
 //            {
 //                candidateEducation.Id = candidate.Id;
@@ -90,7 +106,7 @@ namespace FitFinderBackEnd.Controllers
 //            _context.CandidateEducations.AddRange(candidate.CandidateEducation);
 //            _context.CandidateExperiences.AddRange(candidate.CandidateExperience);
 
-            _context.SaveChanges();
+           
             return Ok(new { statusText = "Success", candidate });
         }
 
@@ -155,6 +171,34 @@ namespace FitFinderBackEnd.Controllers
             List<JobAssigned> jobAssigneds = _context.JobAssigneds
                 .Where(x => x.CandidateId == candidateId)
                 .ToList();
+
+
+         //   Job job = _context.Jobs.FirstOrDefault(x => x. == job)
+                
+                
+            jobAssigneds.ForEach(jobAssigned =>
+            {
+                Job job = _context.Jobs.FirstOrDefault(x => x.Id == jobAssigned.JobId);
+
+                Workflow workflow = _context.Workflows.FirstOrDefault(x => x.Id == job.WorkflowId);
+
+                List<Pipeline> pipelines = _context.Pipelines
+                    .Where(x => x.WorkflowId == workflow.Id)
+                    .ToList();
+
+                List<PipelineStage> pipelineStages = _context.PipelineStages
+                    .Where(x => x.Pipeline.WorkflowId == workflow.Id)
+                    .ToList();
+
+                List<PipelineStageCriteria> pipelineStageCriterias = _context.PipelineStageCriterias
+                    .Where(x => x.PipelineStage.Pipeline.WorkflowId == workflow.Id
+                                && (x.JobId == job.Id || x.JobId == null))
+                    .ToList();
+
+                jobAssigned.Job = job;
+
+            });
+         
 
             List<CriteriaScore> criteriaScores = _context.CriteriaScores
                 .Include(x => x.JobAssigned)
