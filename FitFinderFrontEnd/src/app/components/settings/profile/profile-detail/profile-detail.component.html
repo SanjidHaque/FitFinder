@@ -88,17 +88,65 @@
 
 <div class="row"
      style="
-     color: #00bfff;
-     font-weight: 500;
      padding-top: 30px;">
   <div class="col-xl-8">
 
-    <span
-      style="cursor: pointer; outline: 0;"
-      (click)="connectToDrive()">
-      <img src="https://img.icons8.com/color/28/000000/google-drive.png">
-      &nbsp; Connect Google Drive
+    <button
+      (click)="connectToGoogleDrive()"
+      mat-button
+      style="outline: 0; color: #00bfff;">
+      <img
+        style="height: 25px;"
+        src="https://img.icons8.com/color/28/000000/google-drive.png">
+      Connect Google Drive
+
+    </button>
+
+    <button
+      *ngIf = "currentGoogleAccountEmail !== ''"
+      (click)="disconnectFormGoogleDrive()"
+      mat-button style="outline: 0;">
+
+      <i
+        style="color: red;"
+        class="fas fa-power-off"></i>
+
+      <span style="color: #ec3b3b;"> Disconnect</span>
+
+    </button>
+
+  </div>
+</div>
+
+<div class="row"
+     style="
+     padding-top: 10px;
+     padding-left: 20px;
+     font-size: 14px;
+     opacity: 0.9;
+     font-weight: 500;">
+  <div class="col-xl-8">
+
+    <span *ngIf="currentGoogleAccountEmail !==''; else noAccountConnected">
+
+      <i class="fas fa-check-circle"></i>
+     Connected as {{ currentGoogleAccountEmail }}
+
     </span>
+
+
+    <ng-template #noAccountConnected>
+
+      <span>
+
+        <i class="fas fa-times-circle"></i>
+        Not connected to google account
+
+      </span>
+
+    </ng-template>
+
+
 
   </div>
 </div>

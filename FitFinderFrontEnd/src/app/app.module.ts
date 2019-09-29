@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {APP_INITIALIZER, NgModule} from '@angular/core';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { StarRatingModule } from 'angular-star-rating';
@@ -112,8 +112,11 @@ import {SettingsService} from './services/shared/settings.service';
 import { WorkflowListComponent } from './components/settings/workflows/workflow-list/workflow-list.component';
 import { AddNewWorkflowDialogComponent } from './dialogs/add-new-workflow-dialog/add-new-workflow-dialog.component';
 import { AddNewWorkflowComponent } from './components/settings/workflows/add-new-workflow/add-new-workflow.component';
+import {GapiService} from './services/google-api/gapi.service';
 
-
+export function initGapi(gapiService: GapiService) {
+  return () => gapiService.initClient();
+}
 
 @NgModule({
   declarations: [
@@ -254,6 +257,7 @@ import { AddNewWorkflowComponent } from './components/settings/workflows/add-new
     CurrentUserAccountResolverService,
     InterviewResolverService,
     SettingsService,
+    GapiService,
     AuthGuard,
     {
       provide : HTTP_INTERCEPTORS,
@@ -264,8 +268,15 @@ import { AddNewWorkflowComponent } from './components/settings/workflows/add-new
       provide: HTTP_INTERCEPTORS,
       useClass: HttpErrorInterceptor,
       multi: true
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initGapi,
+      deps: [GapiService],
+      multi: true
     }
-  ],
+
+],
   entryComponents: [
     SelectCandidatesForInterviewDialogComponent,
     AssignJobToCandidateDialogComponent,

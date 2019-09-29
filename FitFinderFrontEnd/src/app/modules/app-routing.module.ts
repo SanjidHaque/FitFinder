@@ -402,7 +402,8 @@ const appRoutes: Routes = [
               {
                 currentUserAccount: CurrentUserAccountResolverService,
                 company: CompanyResolverService,
-                departments: DepartmentsResolverService
+                departments: DepartmentsResolverService,
+                jobs: JobsResolverService
               }
           },
           {
