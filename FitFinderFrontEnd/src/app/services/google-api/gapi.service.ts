@@ -69,43 +69,52 @@ export class GapiService {
 
 
 
-  createNewFolder(newFolderName: string, parentFolderId: string) {
+  createNewFolder(parentFolderId: string, newFolderName: string) {
     if (!this.isSignedIn()) {
       console.log('Sign in first!');
       return;
     }
-    
+
     const newFolder = {
       name: newFolderName,
       mimeType: 'application/vnd.google-apps.folder',
       parents: [parentFolderId]
     };
 
-    gapi.client.drive.files.create({
+    return gapi.client.drive.files.create({
       resource: newFolder,
       fields: 'id, name'
-    }).then((folderInfo) => {
-      console.log(folderInfo);
     });
   }
 
 
-  searchFolder(queryFolderName: string, parentFolderId: string) {
+  searchFolder(parentFolderId?: string, queryFolderName?: string) {
     const pageToken = null;
 
-    gapi.client.drive.files.list({
-      q: `name = '${queryFolderName}' and ` +
-        `mimeType = 'application/vnd.google-apps.folder' and ` +
-        `'${parentFolderId}' in parents and ` +
-        `trashed = false`,
-      fields: 'nextPageToken, files(id, name, mimeType)',
-      spaces: 'drive',
-      corpora: 'user',
-      pageToken
-    })
-      .then((files) => {
-        console.log(files);
+    if (queryFolderName === '') {
+      return gapi.client.drive.files.list({
+        q: `mimeType = 'application/vnd.google-apps.folder' and ` +
+          `'${parentFolderId}' in parents and ` +
+          `trashed = false`,
+        fields: 'nextPageToken, files(id, name, mimeType)',
+        spaces: 'drive',
+        corpora: 'user',
+        pageToken
       });
+    } else {
+      return gapi.client.drive.files.list({
+        q: `name = '${queryFolderName}' and ` +
+          `mimeType = 'application/vnd.google-apps.folder' and ` +
+          `'${parentFolderId}' in parents and ` +
+          `trashed = false`,
+        fields: 'nextPageToken, files(id, name, mimeType)',
+        spaces: 'drive',
+        corpora: 'user',
+        pageToken
+      });
+    }
+
+
   }
 
 
