@@ -88,33 +88,19 @@ export class GapiService {
   }
 
 
-  searchFolder(parentFolderId?: string, queryFolderName?: string) {
+  searchFolder(parentFolderId: string, queryFolderName: string) {
     const pageToken = null;
 
-    if (queryFolderName === '') {
-      return gapi.client.drive.files.list({
-        q: `mimeType = 'application/vnd.google-apps.folder' and ` +
-          `'${parentFolderId}' in parents and ` +
-          `trashed = false`,
-        fields: 'nextPageToken, files(id, name, mimeType)',
-        spaces: 'drive',
-        corpora: 'user',
-        pageToken
-      });
-    } else {
       return gapi.client.drive.files.list({
         q: `name = '${queryFolderName}' and ` +
           `mimeType = 'application/vnd.google-apps.folder' and ` +
           `'${parentFolderId}' in parents and ` +
           `trashed = false`,
-        fields: 'nextPageToken, files(id, name, mimeType)',
+        fields: 'nextPageToken, files(id, parents, name, mimeType)',
         spaces: 'drive',
         corpora: 'user',
         pageToken
       });
-    }
-
-
   }
 
 

@@ -117,14 +117,12 @@ export class ProfileDetailComponent implements OnInit {
     });
 
 
+    const newDepartmentFoldersPromises = [];
 
-    Promise.all(departmentPromises).then((driveDepartmentFolders) => {
+    await Promise.all(departmentPromises).then((driveDepartmentFolders) => {
 
 
-
-      const newDepartmentFoldersPromises = [];
-
-      driveDepartmentFolders.forEach((driveDepartmentFolder, index) => {
+      driveDepartmentFolders.forEach((driveDepartmentFolder) => {
 
         if (driveDepartmentFolder.result.files.length === 0) {
           driveDepartmentFolder.result.files.push({id: -1, name: 'undefined'});
@@ -146,386 +144,96 @@ export class ProfileDetailComponent implements OnInit {
       });
 
 
-      Promise.all(newDepartmentFoldersPromises)
-        .then((newDepartmentFolderInfo) => {});
-
-
     });
 
+
+   await Promise.all(newDepartmentFoldersPromises)
+      .then((newDepartmentFolderInfo) => {});
+
+    const departmentPromisesForJobs = [];
+
+    const departmentNames = [];
 
     this.jobs.forEach((job) => {
 
       const departmentName = this.settingsService.getDepartmentName(job.DepartmentId, this.departments);
 
-      if (departmentName !== undefined) {
+      if (departmentName !== '') {
 
+        const ifExists = departmentNames.find(x => x === departmentName);
+
+        if (ifExists === undefined) {
+          departmentNames.push(departmentName);
+        }
       }
 
-      this.gapiService.searchFolder(rootFolderId, departmentName)
-        .then((res) => {
 
-          if (res.result.files.length === 0) {
-            // this.gapiService.createNewFolder()
-          } else {
-            this.gapiService.createNewFolder(res.result.files[0].id, job.JobTitle)
-              .then();
-          }
-
-        });
-
-});
-
-
-
-
-    // const newDepartmentFoldersPromises = [];
-    //
-    // this.departments.forEach((department) => {
-    //
-    //   driveDepartmentFolders.forEach((driveDepartmentFolder) => {
-    //
-    //     if (department.Name !== driveDepartmentFolder.result.files[0].Name) {
-    //       newDepartmentFoldersPromises
-    //         .push(this.gapiService.createNewFolder(department.Name, rootFolderId));
-    //     }
-    //
-    //   });
-    //
-    // });
-    //
-    // Promise.all(newDepartmentFoldersPromises).then((newDepartmentFolderInfo) => {
-    //
-    //
-    // });
-
-
-
-    // for (const department of this.departments) {
-    //
-    //   await this.gapiService.searchFolder(department.Name, rootFolderId)
-    //     .then((departmentFolderInfo) => {
-    //
-    //       if (departmentFolderInfo.result.files.length === 0) {
-    //
-    //         this.gapiService.createNewFolder(department.Name, rootFolderId)
-    //           .then(() => { });
-    //
-    //       }
-    //
-    //     });
-    // }
-
-     // await this.departments.forEach((department) => {
-     //
-     //   this.gapiService.searchFolder(department.Name, rootFolderId)
-     //    .then((departmentFolderInfo) => {
-     //
-     //      if (departmentFolderInfo.result.files.length === 0) {
-     //
-     //        this.gapiService.createNewFolder(department.Name, rootFolderId)
-     //          .then(() => { });
-     //
-     //      }
-     //
-     //    });
-     // });
-
-
-
-
-
-  }
-
-
-  // connectToGoogleDrive() {
-  //
-  //   this.gapiService
-  //       .signIn()
-  //       .then(() => {
-  //
-  //         this.zone.run(() => {
-  //
-  //           this.currentGoogleAccountEmail = this.gapiService.currentGoogleAccountEmail;
-  //           this.notifierService.notify('default', 'Connected to drive.');
-  //
-  //
-  //           let rootFolderId = '';
-  //
-  //           this.gapiService.searchFolder(
-  //             'root',
-  //             'FitFinder-' + this.company.CompanyName)
-  //             .then((rootFolder) => {
-  //
-  //
-  //
-  //               if (rootFolder.result.files.length === 0) {
-  //
-  //                 this.gapiService.createNewFolder(
-  //                   'root',
-  //                   'FitFinder-' + this.company.CompanyName)
-  //                   .then((newRootFolderInfo) => {
-  //                     rootFolderId = newRootFolderInfo.result.id;
-  //
-  //
-  //                     this.gapiService.searchFolder(rootFolderId, '')
-  //                       .then((departmentFolders) => {
-  //
-  //
-  //                         const filteredDepartmentNames = this.getFilteredDepartmentNames(departmentFolders.result.files);
-  //
-  //                         filteredDepartmentNames.forEach((filteredDepartmentName) => {
-  //                           this.gapiService.createNewFolder(rootFolderId, filteredDepartmentName)
-  //                             .then(() => {
-  //
-  //
-  //
-  //                             });
-  //                         });
-  //
-  //
-  //                         this.jobs.forEach((job) => {
-  //
-  //                           const departmentName = this.settingsService.getDepartmentName(job.DepartmentId, this.departments);
-  //
-  //                           this.gapiService.searchFolder(rootFolderId, departmentName)
-  //                             .then((res) => {
-  //
-  //                               if (res.result.files.length === 0) {
-  //                                 // this.gapiService.createNewFolder()
-  //                               } else {
-  //                                 this.gapiService.createNewFolder(res.result.files[0].id, job.JobTitle)
-  //                                   .then();
-  //                               }
-  //
-  //                             });
-  //
-  //
-  //                         });
-  //
-  //
-  //
-  //
-  //
-  //
-  //                       });
-  //
-  //
-  //                   });
-  //
-  //               } else {
-  //                 rootFolderId = rootFolder.result.files[0].id;
-  //
-  //                 this.gapiService.searchFolder(rootFolderId, '')
-  //                   .then((departmentFolders) => {
-  //
-  //                     const filteredDepartmentNames = this.getFilteredDepartmentNames(departmentFolders.result.files);
-  //
-  //                     filteredDepartmentNames.forEach((filteredDepartmentName) => {
-  //                       this.gapiService.createNewFolder(rootFolderId, filteredDepartmentName)
-  //                         .then(() => {
-  //
-  //
-  //
-  //
-  //                         });
-  //                     });
-  //
-  //
-  //                     this.jobs.forEach((job) => {
-  //
-  //                       const departmentName = this.settingsService.getDepartmentName(job.DepartmentId, this.departments);
-  //
-  //                       this.gapiService.searchFolder(rootFolderId, departmentName)
-  //                         .execute((res) => {
-  //
-  //                           if (res.result.files.length === 0) {
-  //                             // this.gapiService.createNewFolder()
-  //                           } else {
-  //                             this.gapiService.createNewFolder(res.result.files[0].id, job.JobTitle)
-  //                               .then();
-  //                           }
-  //
-  //                         });
-  //
-  //
-  //                     });
-  //
-  //                   });
-  //
-  //               }
-  //
-  //
-  //
-  //             })
-  //
-  //
-  //         });
-  //       })
-  //     .catch((err) => {});
-  // }
-
-
-
-
-  getFilteredDepartmentNames(driveDepartmentFolders) {
-
-    const departmentNames = [];
-    const driveDepartmentFolderNames = [];
-
-    this.departments.forEach((department) => {
-      departmentNames.push(department.Name);
     });
 
-    driveDepartmentFolders.forEach((departmentFolder) => {
-      driveDepartmentFolderNames.push(departmentFolder.name);
+
+    departmentNames.forEach((departmentName) => {
+
+      departmentPromisesForJobs.push(this.gapiService.searchFolder(rootFolderId, departmentName));
+
     });
 
-    let filteredDepartmentNames = [];
 
-    filteredDepartmentNames =
-      departmentNames.filter(x => !driveDepartmentFolderNames.includes(x));
+    const departments = [];
+    await Promise.all(departmentPromisesForJobs)
+      .then((departmentFoldersInfo) => {
 
 
-    return filteredDepartmentNames;
+      departmentFoldersInfo.forEach((departmentFolderInfo) => {
+
+        if (departmentFolderInfo.result.files.length !== 0) {
+
+
+          const department = {
+            Id: departmentFolderInfo.result.files[0].id,
+            Name: departmentFolderInfo.result.files[0].name
+          };
+
+          departments.push(department);
+
+        }
+
+      });
+
+
+    });
+
+
+    const jobPromises = [];
+
+    for (const job of this.jobs) {
+
+      const getDepartmentName = this.settingsService
+        .getDepartmentName(job.DepartmentId, this.departments);
+
+      if (getDepartmentName !== '') {
+        const findDepartment = departments
+          .find(x => x.Name === getDepartmentName);
+
+        if (findDepartment !== undefined) {
+
+         await this.gapiService
+            .searchFolder(findDepartment.Id, job.JobTitle).then((jobFolderInfo) => {
+
+
+             if (jobFolderInfo.result.files.length === 0) {
+
+                   this.gapiService.createNewFolder(findDepartment.Id, job.JobTitle)
+                     .then();
+
+                 }
+
+           });
+
+        }
+      }
+    }
 
   }
-
-
-
-  getFilteredJobNames(driveJobFolders) {
-
-
-
-
-  }
-  //  connectToGoogleDrive() {
-  //   this.gapiService
-  //     .signIn()
-  //     .then(() => {
-  //
-  //       this.zone.run(() => {
-  //
-  //         this.currentGoogleAccountEmail = this.gapiService.currentGoogleAccountEmail;
-  //         this.notifierService.notify('default', 'Connected to drive.');
-  //
-  //         this.gapiService
-  //           .searchFolder(
-  //             'FitFinder-' + this.company.CompanyName,
-  //             'root')
-  //           .then((folder) => {
-  //
-  //               let rootFolderId = '';
-  //
-  //               if (folder.result.files.length === 0) {
-  //
-  //                 this.gapiService.createNewFolder(
-  //                   'FitFinder-' +
-  //                   this.company.CompanyName, 'root')
-  //                   .then((folderInfo) => {
-  //                     rootFolderId = folderInfo.result.id;
-  //
-  //
-  //
-  //
-  //
-  //                   }).then(() => {
-  //
-  //
-  //
-  //
-  //                 });
-  //
-  //
-  //               } else {
-  //                 rootFolderId = folder.result.files[0].id;
-  //               }
-  //
-  //
-  //               // this.departments.forEach((department) => {
-  //               //
-  //               //   this.gapiService.searchFolder(department.Name, rootFolderId)
-  //               //     .then((departmentFolderInfo) => {
-  //               //
-  //               //       if (departmentFolderInfo.result.files.length === 0) {
-  //               //
-  //               //         this.gapiService.createNewFolder(department.Name, rootFolderId)
-  //               //           .then(() => { });
-  //               //
-  //               //       }
-  //               //
-  //               //     });
-  //               //
-  //               // });
-  //               //
-  //               //
-  //               //
-  //               // this.jobs.forEach((job) => {
-  //               //
-  //               //   const departmentName = this.settingsService.getDepartmentName(job.DepartmentId, this.departments);
-  //               //
-  //               //
-  //               //   if (departmentName !== '') {
-  //               //
-  //               //
-  //               //     this.gapiService.searchFolder(departmentName, rootFolderId)
-  //               //       .then((departmentFolderInfo) => {
-  //               //
-  //               //         let departmentFolderId = '';
-  //               //
-  //               //         if (departmentFolderInfo.result.files.length === 0) {
-  //               //
-  //               //           this.gapiService.createNewFolder(department.Name, rootFolderId)
-  //               //             .then((newDepartmentFolderInfo) => {
-  //               //
-  //               //               departmentFolderId = newDepartmentFolderInfo.result.id;
-  //               //
-  //               //             });
-  //               //         } else {
-  //               //
-  //               //
-  //               //           departmentFolderId = departmentFolderInfo.result.files[0].id;
-  //               //
-  //               //         }
-  //               //
-  //               //
-  //               //         this.gapiService.searchFolder(job.JobTitle, departmentFolderId)
-  //               //           .then((jobFolderInfo) => {
-  //               //
-  //               //             if (jobFolderInfo.result.files.length === 0) {
-  //               //               this.gapiService.createNewFolder(job.JobTitle, departmentFolderId)
-  //               //                 .then(() => { });
-  //               //             }
-  //               //
-  //               //           });
-  //               //
-  //               //       });
-  //               //
-  //               //
-  //               //   }
-  //               //
-  //               //
-  //               // });
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //         }).then(() => {
-  //           console.log('Okay1');
-  //         }).then(() => {
-  //           console.log('Okay2');
-  //         });
-  //
-  //
-  //       });
-  //
-  //
-  //
-  //   })
-  //     .catch(() => {});
-  // }
 
 
 
@@ -537,9 +245,6 @@ export class ProfileDetailComponent implements OnInit {
     this.notifierService.notify('default', 'Disconnected from drive.');
 
   }
-
-
-
 
 
 }
