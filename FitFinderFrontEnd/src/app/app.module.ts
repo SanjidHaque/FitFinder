@@ -251,6 +251,7 @@ export function initGapi(gapiService: GapiService) {
     JobDataStorageService,
     JobService,
     CandidateResolverService,
+    ProfileDetailComponent,
     JobResolverService,
     UserAccountsResolverService,
     UserAccountResolverService,

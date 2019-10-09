@@ -13,6 +13,8 @@ import {Job} from '../../../../models/job.model';
   templateUrl: './profile-detail.component.html',
   styleUrls: ['./profile-detail.component.css']
 })
+
+
 export class ProfileDetailComponent implements OnInit {
 
   currentUserAccount: UserAccount;
@@ -66,6 +68,9 @@ export class ProfileDetailComponent implements OnInit {
       .getDepartmentName(this.currentUserAccount.DepartmentId, this.departments);
   }
 
+  get s() {
+    this.syncToDrive();
+  }
 
 
   async connectToGoogleDrive() {
@@ -77,161 +82,12 @@ export class ProfileDetailComponent implements OnInit {
 
           this.currentGoogleAccountEmail = this.gapiService.currentGoogleAccountEmail;
           this.notifierService.notify('default', 'Connected to drive.');
+          this.gapiService.syncToDrive(this.departments, this.jobs);
 
 
         });
       })
       .catch();
-
-
-    let rootFolderId = '';
-
-
-    await this.gapiService.searchFolder(
-      'root',
-      'FitFinder-' + this.company.CompanyName)
-      .then((rootFolder) => {
-
-        if (rootFolder.result.files.length !== 0) {
-          rootFolderId =  rootFolder.result.files[0].id;
-        }
-
-      });
-
-    if (rootFolderId === '') {
-      await this.gapiService.createNewFolder(
-        'root',
-        'FitFinder-' + this.company.CompanyName)
-        .then((newRootFolderInfo) => {
-
-          rootFolderId = newRootFolderInfo.result.id;
-
-        });
-    }
-
-
-    const departmentPromises = [];
-    this.departments.forEach((department) => {
-      departmentPromises
-        .push(this.gapiService.searchFolder(rootFolderId, department.Name));
-    });
-
-
-    const newDepartmentFoldersPromises = [];
-
-    await Promise.all(departmentPromises).then((driveDepartmentFolders) => {
-
-
-      driveDepartmentFolders.forEach((driveDepartmentFolder) => {
-
-        if (driveDepartmentFolder.result.files.length === 0) {
-          driveDepartmentFolder.result.files.push({id: -1, name: 'undefined'});
-        }
-      });
-
-      this.departments.forEach((department) => {
-
-
-        const folderExist = driveDepartmentFolders
-          .find(x => x.result.files[0].name === department.Name)
-;
-        if (folderExist === undefined) {
-
-          newDepartmentFoldersPromises
-            .push(this.gapiService.createNewFolder(rootFolderId, department.Name));
-        }
-
-      });
-
-
-    });
-
-
-   await Promise.all(newDepartmentFoldersPromises)
-      .then((newDepartmentFolderInfo) => {});
-
-    const departmentPromisesForJobs = [];
-
-    const departmentNames = [];
-
-    this.jobs.forEach((job) => {
-
-      const departmentName = this.settingsService.getDepartmentName(job.DepartmentId, this.departments);
-
-      if (departmentName !== '') {
-
-        const ifExists = departmentNames.find(x => x === departmentName);
-
-        if (ifExists === undefined) {
-          departmentNames.push(departmentName);
-        }
-      }
-
-
-    });
-
-
-    departmentNames.forEach((departmentName) => {
-
-      departmentPromisesForJobs.push(this.gapiService.searchFolder(rootFolderId, departmentName));
-
-    });
-
-
-    const departments = [];
-    await Promise.all(departmentPromisesForJobs)
-      .then((departmentFoldersInfo) => {
-
-
-      departmentFoldersInfo.forEach((departmentFolderInfo) => {
-
-        if (departmentFolderInfo.result.files.length !== 0) {
-
-
-          const department = {
-            Id: departmentFolderInfo.result.files[0].id,
-            Name: departmentFolderInfo.result.files[0].name
-          };
-
-          departments.push(department);
-
-        }
-
-      });
-
-
-    });
-
-
-    const jobPromises = [];
-
-    for (const job of this.jobs) {
-
-      const getDepartmentName = this.settingsService
-        .getDepartmentName(job.DepartmentId, this.departments);
-
-      if (getDepartmentName !== '') {
-        const findDepartment = departments
-          .find(x => x.Name === getDepartmentName);
-
-        if (findDepartment !== undefined) {
-
-         await this.gapiService
-            .searchFolder(findDepartment.Id, job.JobTitle).then((jobFolderInfo) => {
-
-
-             if (jobFolderInfo.result.files.length === 0) {
-
-                   this.gapiService.createNewFolder(findDepartment.Id, job.JobTitle)
-                     .then();
-
-                 }
-
-           });
-
-        }
-      }
-    }
 
   }
 

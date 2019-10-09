@@ -17,6 +17,7 @@ import {CandidateDataStorageService} from '../../../services/data-storage/candid
 import {Workflow} from '../../../models/workflow.model';
 import {PipelineStageCriteria} from '../../../models/pipeline-stage-criteria.model';
 import {PipelineStage} from '../../../models/pipeline-stage.model';
+import {GapiService} from '../../../services/google-api/gapi.service';
 
 @Component({
   selector: 'app-add-new-job',
@@ -85,6 +86,7 @@ export class AddNewJobComponent implements OnInit {
               private jobDataStorageService: JobDataStorageService,
               private candidateDataStorageService: CandidateDataStorageService,
               private route: ActivatedRoute,
+              private gapiService: GapiService,
               private router: Router,
               private dialog: MatDialog,
               private jobType: MatDialog) {
@@ -199,6 +201,10 @@ export class AddNewJobComponent implements OnInit {
 
                      this.router.navigate(['/jobs/', data.job.Id ]);
                      this.notifierService.notify('default', 'New job published.');
+
+                     const jobs: Job[] = [];
+                     jobs.push(data.job);
+                     this.gapiService.syncToDrive(this.departments, jobs);
 
                    });
 

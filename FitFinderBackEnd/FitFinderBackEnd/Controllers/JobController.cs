@@ -144,6 +144,12 @@ namespace FitFinderBackEnd.Controllers
             return Ok(job);
         }
 
+        [HttpPut]
+        [Route("api/Gapi")]
+        public IHttpActionResult Gapi()
+        {
+           return Ok();
+        }
 
 
         [HttpPut]

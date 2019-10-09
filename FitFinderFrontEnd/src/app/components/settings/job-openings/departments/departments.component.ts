@@ -5,6 +5,8 @@ import {Department} from '../../../../models/department.model';
 import {SettingsDataStorageService} from '../../../../services/data-storage/settings-data-storage.service';
 import {AddUpdateDialogComponent} from '../../../../dialogs/add-update-dialog/add-update-dialog.component';
 import {ActivatedRoute, Data} from '@angular/router';
+import {GapiService} from '../../../../services/google-api/gapi.service';
+import {ProfileDetailComponent} from '../../profile/profile-detail/profile-detail.component';
 
 @Component({
   selector: 'app-departments',
@@ -17,6 +19,7 @@ export class DepartmentsComponent implements OnInit {
 
   constructor(private departmentDialog: MatDialog,
               private route: ActivatedRoute,
+              private gapiService: GapiService,
               private settingsDataStorageService: SettingsDataStorageService,
               private notifierService: NotifierService) { }
 
@@ -24,7 +27,6 @@ export class DepartmentsComponent implements OnInit {
     this.route.data.
     subscribe(
       (data: Data) => {
-
         this.departments= data['departments'];
       }
     )
@@ -88,6 +90,7 @@ export class DepartmentsComponent implements OnInit {
             (newDepartment: any) => {
               this.departments.push(newDepartment);
               this.notifierService.notify('default', 'New department added.');
+              this.gapiService.syncToDrive(this.departments, []);
             }
           );
       }
