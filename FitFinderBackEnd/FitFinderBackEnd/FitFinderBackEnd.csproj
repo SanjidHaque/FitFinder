@@ -384,6 +384,7 @@
     <Content Include="Content\Attachments\SanjidHaqueJava2011546962604047.pptx" />
     <Content Include="Content\Attachments\sasass1561185144362.docx" />
     <Content Include="Content\Attachments\sasass1561185249778.docx" />
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />

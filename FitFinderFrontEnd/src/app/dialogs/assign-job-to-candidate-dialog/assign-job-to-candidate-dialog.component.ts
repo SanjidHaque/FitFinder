@@ -20,6 +20,8 @@ export class AssignJobToCandidateDialogComponent implements OnInit {
   archivedChecked = false;
   favouriteChecked = false;
 
+  term: string;
+
   selectedValue = 'all';
   jobs: Job[] = [];
   selection = new SelectionModel<Job>(false, []);

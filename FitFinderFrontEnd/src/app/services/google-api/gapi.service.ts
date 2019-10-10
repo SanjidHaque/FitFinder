@@ -55,7 +55,8 @@ export class GapiService {
   async syncToDrive(departments: Department[], jobs: Job[]) {
 
     if (!this.isSignedIn()) {
-      this.notifierService('default', 'Connect to google account!');
+      this.notifierService.notify('default',
+        'Connect to google account!');
       return;
     }
 

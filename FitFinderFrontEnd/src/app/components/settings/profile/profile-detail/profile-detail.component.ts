@@ -55,7 +55,8 @@ export class ProfileDetailComponent implements OnInit {
 
         if (this.currentUserAccount === undefined) {
           this.router.navigate(['/sign-in']);
-          this.notifierService.notify('default',  'User not found, sign-in again')
+          this.notifierService.notify('default',
+            'User not found, sign-in again');
         }
 
       });
@@ -68,9 +69,7 @@ export class ProfileDetailComponent implements OnInit {
       .getDepartmentName(this.currentUserAccount.DepartmentId, this.departments);
   }
 
-  get s() {
-    this.syncToDrive();
-  }
+
 
 
   async connectToGoogleDrive() {

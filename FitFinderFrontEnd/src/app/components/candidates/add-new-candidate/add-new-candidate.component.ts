@@ -153,7 +153,12 @@ export class AddNewCandidateComponent implements OnInit {
   }
 
   addEducationFields() {
-    (this.addNewCandidateForm.controls['education'] as FormArray).push(this.populateEducationFields());
+
+    // (this.addNewCandidateForm.get('education')['controls'] as FormArray)
+    //   .push(this.populateEducationFields());
+
+    (this.addNewCandidateForm.controls['education'] as FormArray)
+      .push(this.populateEducationFields());
   }
 
   removeEducationFields(index: number) {
@@ -175,7 +180,13 @@ export class AddNewCandidateComponent implements OnInit {
 
 
   addExperienceFields() {
-    (this.addNewCandidateForm.controls['experience'] as FormArray).push(this.populateExperienceFields());
+
+
+    // (this.addNewCandidateForm.get('experience')['controls'] as FormArray)
+    //   .push(this.populateExperienceFields());
+
+    (this.addNewCandidateForm.controls['experience'] as FormArray)
+      .push(this.populateExperienceFields());
   }
 
   removeExperienceFields(index: number) {
@@ -361,6 +372,11 @@ export class AddNewCandidateComponent implements OnInit {
 
                      });
 
+                 } else {
+                   this.router.navigate(['/candidates/', data.candidate
+                     .Id]);
+                   this.notifierService.notify('default',
+                     'New candidate added.');
                  }
 
 

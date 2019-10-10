@@ -259,6 +259,7 @@ namespace FitFinderBackEnd.Controllers
         }
 
         [HttpPut]
+        [AllowAnonymous]
         [Route("api/FavouriteCandidates")]
         public IHttpActionResult FavouriteCandidates(List<Candidate> candidates)
         {
@@ -273,6 +274,7 @@ namespace FitFinderBackEnd.Controllers
         }
 
         [HttpPut]
+        [AllowAnonymous]
         [Route("api/UnfavouriteCandidates")]
         public IHttpActionResult UnfavouriteCandidates(List<Candidate> candidates)
         {

@@ -44,7 +44,7 @@
        font-weight: bold;
        opacity: .7;
        text-align: center;"
-       *ngIf="candidate.JobAssigned === 0; else jobNotAssigned">
+       *ngIf="candidate.JobAssigned === null; else jobNotAssigned">
     Assign Job to Change Candidate Status
   </div>
 

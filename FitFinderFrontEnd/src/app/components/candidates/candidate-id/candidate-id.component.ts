@@ -69,16 +69,17 @@ export class CandidateIdComponent implements OnInit, DoCheck {
           this.sources = data['sources'];
           this.candidate = data['candidate'];
           this.departments = data['departments'];
+
         }
       );
 
-   // if (this.job.JobAssigned[])
 
 
-    // if (this.candidate.JobAssigned !== null) {
-    //   this.job = this.candidate.JobAssigned[0].Job;
-    //   this.changeStatus(this.candidate.JobAssigned[0].CurrentStageId);
-    // }
+
+    if (this.candidate.JobAssigned !== null) {
+      this.job = this.candidate.JobAssigned[0].Job;
+    //  this.changeStatus(this.candidate.JobAssigned[0].CurrentStageId);
+    }
 
 
 
@@ -114,6 +115,11 @@ export class CandidateIdComponent implements OnInit, DoCheck {
 
 
   detectStageChange(pipelineStageId: number) {
+
+
+
+
+
     for (let i = 0; i < this.job.Workflow.Pipelines.length; i++) {
       for (let j = 0; j < this.job.Workflow.Pipelines[i].PipelineStage.length; j++) {
         if (this.job.Workflow.Pipelines[i].PipelineStage[j].Id === pipelineStageId) {

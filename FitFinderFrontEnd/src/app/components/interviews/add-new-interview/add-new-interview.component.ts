@@ -159,11 +159,7 @@ export class AddNewInterviewComponent implements OnInit {
     this.interviewDataStorageService.addNewInterview(interview)
        .subscribe(
          (data: any) => {
-
-                 this.candidates = [];
-                 this.addNewInterviewForm.reset();
-
-                 this.router.navigate(['/interviews/', data.Id ]);
+                 this.router.navigate(['/interviews/', data.interview.Id ]);
                  this.notifierService.notify('default', 'New interview added.');
 
 

@@ -24,6 +24,8 @@ export class SelectCandidatesForInterviewDialogComponent implements OnInit {
   selection = new SelectionModel<Candidate>(true, []);
   candidateDefaultImage = 'assets/images/candidateDefaultImage.png';
 
+  term: string;
+
   sources: Source[] = [];
   jobs: Job[] = [];
 
