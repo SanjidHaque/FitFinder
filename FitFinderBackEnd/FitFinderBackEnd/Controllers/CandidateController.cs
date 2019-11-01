@@ -69,6 +69,7 @@ namespace FitFinderBackEnd.Controllers
             }
 
             candidate.CompanyId = applicationUser.CompanyId;
+            
             _context.Candidates.Add(candidate);
 
             _context.SaveChanges();

@@ -5,7 +5,7 @@ import {NotifierService} from 'angular-notifier';
 import * as moment from 'moment';
 import {UserAccount} from '../../../../models/user-account.model';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {UserAccountDataStorageService} from '../../../../services/data-storage/user-account-data-storage.service';
+import {UserAccountDataStorageService} from '../../../../services/data-storage-services/user-account-data-storage.service';
 
 @Component({
   selector: 'app-edit-company',

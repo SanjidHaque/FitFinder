@@ -3,7 +3,7 @@ import {UserAccount} from '../../../../models/user-account.model';
 import {ActivatedRoute, Data, Router} from '@angular/router';
 import {NotifierService} from 'angular-notifier';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {UserAccountDataStorageService} from '../../../../services/data-storage/user-account-data-storage.service';
+import {UserAccountDataStorageService} from '../../../../services/data-storage-services/user-account-data-storage.service';
 import {Company} from '../../../../models/company.model';
 import {Department} from '../../../../models/department.model';
 

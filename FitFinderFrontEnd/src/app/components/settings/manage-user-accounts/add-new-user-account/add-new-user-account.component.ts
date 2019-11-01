@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {UserAccountDataStorageService} from '../../../../services/data-storage/user-account-data-storage.service';
+import {UserAccountDataStorageService} from '../../../../services/data-storage-services/user-account-data-storage.service';
 import {NotifierService} from 'angular-notifier';
 import {ActivatedRoute, Data, Route, Router} from '@angular/router';
 import {Role} from '../../../../models/role.model';

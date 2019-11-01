@@ -9,12 +9,12 @@ import {
 import {CandidatesForInterview} from '../../../models/candidates-for-interview.model';
 import {InterviewersForInterview} from '../../../models/interviewers-for-interview.model';
 import {Interview} from '../../../models/interview.model';
-import {InterviewDataStorageService} from '../../../services/data-storage/interview-data-storage.service';
+import {InterviewDataStorageService} from '../../../services/data-storage-services/interview-data-storage.service';
 import {ActivatedRoute, Data, Router} from '@angular/router';
 import {NotifierService} from 'angular-notifier';
 import {Job} from '../../../models/job.model';
-import {JobDataStorageService} from '../../../services/data-storage/job-data-storage.service';
-import {CandidateDataStorageService} from '../../../services/data-storage/candidate-data-storage.service';
+import {JobDataStorageService} from '../../../services/data-storage-services/job-data-storage.service';
+import {CandidateDataStorageService} from '../../../services/data-storage-services/candidate-data-storage.service';
 import {Source} from '../../../models/source.model';
 
 @Component({

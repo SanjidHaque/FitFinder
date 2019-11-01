@@ -3,7 +3,7 @@ import {Company} from '../../../../models/company.model';
 import {ActivatedRoute, Data, Router} from '@angular/router';
 import {UserAccount} from '../../../../models/user-account.model';
 import {NotifierService} from 'angular-notifier';
-import {UserAccountDataStorageService} from '../../../../services/data-storage/user-account-data-storage.service';
+import {UserAccountDataStorageService} from '../../../../services/data-storage-services/user-account-data-storage.service';
 import {MatDialog} from '@angular/material';
 import {ConfirmationDialogComponent} from '../../../../dialogs/confirmation-dialog/confirmation-dialog.component';
 import {DeleteDialogComponent} from '../../../../dialogs/delete-dialog/delete-dialog.component';

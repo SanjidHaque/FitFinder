@@ -19,7 +19,7 @@ var input_1 = require("@angular/material/input");
 var tooltip_1 = require("@angular/material/tooltip");
 var dialog_1 = require("@angular/material/dialog");
 var snack_bar_1 = require("@angular/material/snack-bar");
-var AppMaterialModule = /** @class */ (function () {
+var AngularMaterialModule = /** @class */ (function () {
     function AppMaterialModule() {
     }
     AppMaterialModule = __decorate([
@@ -58,4 +58,4 @@ var AppMaterialModule = /** @class */ (function () {
     ], AppMaterialModule);
     return AppMaterialModule;
 }());
-exports.AppMaterialModule = AppMaterialModule;
+exports.AppMaterialModule = AngularMaterialModule;

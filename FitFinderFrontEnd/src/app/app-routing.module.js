@@ -9,7 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var router_1 = require("@angular/router");
 var core_1 = require("@angular/core");
 var company_component_1 = require("../components/company/company.component");
-var company_resolver_service_1 = require("../route-resolvers/candidate-resolver.service");
+var company_resolver_service_1 = require("./route-resolvers/candidate-resolver.service");
 var company_details_component_1 = require("../components/company/company-details/company-details.component");
 var department_details_component_1 = require("../components/company/company-details/department-details/department-details.component");
 var applicants_component_1 = require("../components/applicants/applicants.component");

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AddUpdateDialogComponent} from '../../../dialogs/add-update-dialog/add-update-dialog.component';
 import {MatDialog} from '@angular/material';
-import {SettingsDataStorageService} from '../../../services/data-storage/settings-data-storage.service';
+import {SettingsDataStorageService} from '../../../services/data-storage-services/settings-data-storage.service';
 import {NotifierService} from 'angular-notifier';
 import {RejectedReason} from '../../../models/rejected-reason.model';
 import {WithdrawnReason} from '../../../models/withdrawn-reason.model';

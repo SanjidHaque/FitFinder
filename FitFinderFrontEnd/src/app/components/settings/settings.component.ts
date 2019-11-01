@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {UserAccountDataStorageService} from '../../services/data-storage/user-account-data-storage.service';
+import {UserAccountDataStorageService} from '../../services/data-storage-services/user-account-data-storage.service';
 
 @Component({
   selector: 'app-settings',

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Data, Params, Router} from '@angular/router';
 import {NotifierService} from 'angular-notifier';
 import {Company} from '../../../../models/company.model';
-import {UserAccountDataStorageService} from '../../../../services/data-storage/user-account-data-storage.service';
+import {UserAccountDataStorageService} from '../../../../services/data-storage-services/user-account-data-storage.service';
 import {DeleteDialogComponent} from '../../../../dialogs/delete-dialog/delete-dialog.component';
 import {MatDialog} from '@angular/material';
 

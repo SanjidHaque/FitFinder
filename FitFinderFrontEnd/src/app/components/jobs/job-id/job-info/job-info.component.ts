@@ -1,5 +1,5 @@
 import {Component, DoCheck, OnInit, ViewChild} from '@angular/core';
-import {JobDataStorageService} from '../../../../services/data-storage/job-data-storage.service';
+import {JobDataStorageService} from '../../../../services/data-storage-services/job-data-storage.service';
 import {Job} from '../../../../models/job.model';
 import * as moment from 'moment';
 import {CandidateAttachment} from '../../../../models/canidate-attachment.model';
@@ -8,11 +8,11 @@ import {NotifierService} from 'angular-notifier';
 import {Department} from '../../../../models/department.model';
 import {JobFunction} from '../../../../models/job-function.model';
 import {JobType} from '../../../../models/job-type.model';
-import {SettingsDataStorageService} from '../../../../services/data-storage/settings-data-storage.service';
+import {SettingsDataStorageService} from '../../../../services/data-storage-services/settings-data-storage.service';
 import {ConfirmationDialogComponent} from '../../../../dialogs/confirmation-dialog/confirmation-dialog.component';
 import {MatDialog} from '@angular/material';
 import {ActivatedRoute, Data} from '@angular/router';
-import {JobService} from '../../../../services/shared/job.service';
+import {JobService} from '../../../../services/shared-services/job.service';
 
 @Component({
   selector: 'app-job-info',

@@ -1,20 +1,20 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Data, Params, Router} from '@angular/router';
-import {CandidateDataStorageService} from '../../../services/data-storage/candidate-data-storage.service';
-import {InterviewDataStorageService} from '../../../services/data-storage/interview-data-storage.service';
+import {CandidateDataStorageService} from '../../../services/data-storage-services/candidate-data-storage.service';
+import {InterviewDataStorageService} from '../../../services/data-storage-services/interview-data-storage.service';
 import {Interview} from '../../../models/interview.model';
 import * as moment from 'moment';
 import {NotifierService} from 'angular-notifier';
 import {Candidate} from '../../../models/candidate.model';
 import {Job} from '../../../models/job.model';
-import {JobDataStorageService} from '../../../services/data-storage/job-data-storage.service';
+import {JobDataStorageService} from '../../../services/data-storage-services/job-data-storage.service';
 import {SelectCandidatesForInterviewDialogComponent} from '../../../dialogs/select-candidates-for-interview-dialog/select-candidates-for-interview-dialog.component';
 import {MatDialog} from '@angular/material';
 import {CandidatesForInterview} from '../../../models/candidates-for-interview.model';
 import {Source} from '../../../models/source.model';
-import {SettingsDataStorageService} from '../../../services/data-storage/settings-data-storage.service';
+import {SettingsDataStorageService} from '../../../services/data-storage-services/settings-data-storage.service';
 import {ConfirmationDialogComponent} from '../../../dialogs/confirmation-dialog/confirmation-dialog.component';
-import {InterviewService} from '../../../services/shared/interview.service';
+import {InterviewService} from '../../../services/shared-services/interview.service';
 
 
 @Component({

@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Data, Params, Router} from '@angular/router';
 import {UserAccount} from '../../../../models/user-account.model';
 import {NotifierService} from 'angular-notifier';
-import {UserAccountDataStorageService} from '../../../../services/data-storage/user-account-data-storage.service';
+import {UserAccountDataStorageService} from '../../../../services/data-storage-services/user-account-data-storage.service';
 import {Department} from '../../../../models/department.model';
-import {SettingsService} from '../../../../services/shared/settings.service';
+import {SettingsService} from '../../../../services/shared-services/settings.service';
 
 @Component({
   selector: 'app-user-account-id',

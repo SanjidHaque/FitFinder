@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve} from '@angular/router';
 
-import {InterviewDataStorageService} from '../services/data-storage/interview-data-storage.service';
+import {InterviewDataStorageService} from '../services/data-storage-services/interview-data-storage.service';
 
 @Injectable({
   providedIn: 'root'

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {Interview} from '../models/interview.model';
 import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
 import {Observable} from 'rxjs/index';
-import {InterviewDataStorageService} from '../services/data-storage/interview-data-storage.service';
+import {InterviewDataStorageService} from '../services/data-storage-services/interview-data-storage.service';
 
 @Injectable({
   providedIn: 'root'

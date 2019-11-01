@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
 import {RejectedReason} from '../models/rejected-reason.model';
 import {Observable} from 'rxjs';
-import {SettingsDataStorageService} from '../services/data-storage/settings-data-storage.service';
+import {SettingsDataStorageService} from '../services/data-storage-services/settings-data-storage.service';
 
 @Injectable({
   providedIn: 'root'

@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import {JobDataStorageService} from '../../../services/data-storage/job-data-storage.service';
+import {JobDataStorageService} from '../../../services/data-storage-services/job-data-storage.service';
 import {ActivatedRoute, Data} from '@angular/router';
-import {SettingsDataStorageService} from '../../../services/data-storage/settings-data-storage.service';
+import {SettingsDataStorageService} from '../../../services/data-storage-services/settings-data-storage.service';
 import {Workflow} from '../../../models/workflow.model';
 import {AddUpdateDialogComponent} from '../../../dialogs/add-update-dialog/add-update-dialog.component';
 import {MatDialog} from '@angular/material';
 import {AddNewWorkflowDialogComponent} from '../../../dialogs/add-new-workflow-dialog/add-new-workflow-dialog.component';
 import {FormGroup} from '@angular/forms';
-import {SettingsService} from '../../../services/shared/settings.service';
+import {SettingsService} from '../../../services/shared-services/settings.service';
 
 @Component({
   selector: 'app-workflows',

@@ -6,7 +6,7 @@ import {PipelineStage} from '../../../../models/pipeline-stage.model';
 import {PipelineStageCriteriaDialogComponent} from '../../../../dialogs/pipeline-stage-criteria-dialog/pipeline-stage-criteria-dialog.component';
 import {MatDialog} from '@angular/material';
 import {NotifierService} from 'angular-notifier';
-import {SettingsDataStorageService} from '../../../../services/data-storage/settings-data-storage.service';
+import {SettingsDataStorageService} from '../../../../services/data-storage-services/settings-data-storage.service';
 
 @Component({
   selector: 'app-add-new-workflow',

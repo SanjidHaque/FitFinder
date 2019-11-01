@@ -1,13 +1,13 @@
 import {Component, Inject, OnInit, ViewEncapsulation} from '@angular/core';
 import {Candidate} from '../../models/candidate.model';
-import {CandidateDataStorageService} from '../../services/data-storage/candidate-data-storage.service';
+import {CandidateDataStorageService} from '../../services/data-storage-services/candidate-data-storage.service';
 import {SelectionModel} from '@angular/cdk/collections';
-import {InterviewDataStorageService} from '../../services/data-storage/interview-data-storage.service';
+import {InterviewDataStorageService} from '../../services/data-storage-services/interview-data-storage.service';
 import {Source} from '../../models/source.model';
-import {SettingsDataStorageService} from '../../services/data-storage/settings-data-storage.service';
+import {SettingsDataStorageService} from '../../services/data-storage-services/settings-data-storage.service';
 import * as moment from 'moment';
 import {Job} from '../../models/job.model';
-import {JobDataStorageService} from '../../services/data-storage/job-data-storage.service';
+import {JobDataStorageService} from '../../services/data-storage-services/job-data-storage.service';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 
 @Component({

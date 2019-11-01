@@ -5,7 +5,7 @@ import {PipelineStage} from '../../models/pipeline-stage.model';
 import {NotifierService} from 'angular-notifier';
 import {AddUpdateDialogComponent} from '../add-update-dialog/add-update-dialog.component';
 import {PipelineStageCriteria} from '../../models/pipeline-stage-criteria.model';
-import {SettingsDataStorageService} from '../../services/data-storage/settings-data-storage.service';
+import {SettingsDataStorageService} from '../../services/data-storage-services/settings-data-storage.service';
 
 @Component({
   selector: 'app-pipeline-stage-criteria',

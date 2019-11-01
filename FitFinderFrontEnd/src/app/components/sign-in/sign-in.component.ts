@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import {NgForm} from '@angular/forms';
-import {UserAccountDataStorageService} from '../../services/data-storage/user-account-data-storage.service';
+import {UserAccountDataStorageService} from '../../services/data-storage-services/user-account-data-storage.service';
 import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({

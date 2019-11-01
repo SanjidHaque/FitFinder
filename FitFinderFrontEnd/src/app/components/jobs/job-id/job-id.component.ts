@@ -2,13 +2,13 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Data, Params, Router} from '@angular/router';
 import {MatDialog} from '@angular/material';
 import {NotifierService} from 'angular-notifier';
-import {JobDataStorageService} from '../../../services/data-storage/job-data-storage.service';
+import {JobDataStorageService} from '../../../services/data-storage-services/job-data-storage.service';
 import {Job} from '../../../models/job.model';
 import * as moment from 'moment';
 import {Department} from '../../../models/department.model';
-import {SettingsDataStorageService} from '../../../services/data-storage/settings-data-storage.service';
+import {SettingsDataStorageService} from '../../../services/data-storage-services/settings-data-storage.service';
 import {ConfirmationDialogComponent} from '../../../dialogs/confirmation-dialog/confirmation-dialog.component';
-import {JobService} from '../../../services/shared/job.service';
+import {JobService} from '../../../services/shared-services/job.service';
 
 @Component({
   selector: 'app-job-id',

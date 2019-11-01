@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import {MatDialog} from '@angular/material';
 import {NotifierService} from 'angular-notifier';
 import {Department} from '../../../../models/department.model';
-import {SettingsDataStorageService} from '../../../../services/data-storage/settings-data-storage.service';
+import {SettingsDataStorageService} from '../../../../services/data-storage-services/settings-data-storage.service';
 import {AddUpdateDialogComponent} from '../../../../dialogs/add-update-dialog/add-update-dialog.component';
 import {ActivatedRoute, Data} from '@angular/router';
-import {GapiService} from '../../../../services/google-api/gapi.service';
+import {GapiService} from '../../../../services/google-api-services/gapi.service';
 import {ProfileDetailComponent} from '../../profile/profile-detail/profile-detail.component';
 
 @Component({

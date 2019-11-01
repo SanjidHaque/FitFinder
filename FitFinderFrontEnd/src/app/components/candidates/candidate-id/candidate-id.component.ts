@@ -1,18 +1,18 @@
 import {Component, DoCheck, OnInit, ViewEncapsulation} from '@angular/core';
 import {ActivatedRoute, Data, Params, Router} from '@angular/router';
 import {Candidate} from '../../../models/candidate.model';
-import {CandidateDataStorageService} from '../../../services/data-storage/candidate-data-storage.service';
+import {CandidateDataStorageService} from '../../../services/data-storage-services/candidate-data-storage.service';
 import * as moment from 'moment';
 import {CandidateAttachment} from '../../../models/canidate-attachment.model';
 import {CandidateEducation} from '../../../models/candidate-education.model';
 import {CandidateExperience} from '../../../models/candidate-experience.model';
 import {Source} from '../../../models/source.model';
-import {SettingsDataStorageService} from '../../../services/data-storage/settings-data-storage.service';
+import {SettingsDataStorageService} from '../../../services/data-storage-services/settings-data-storage.service';
 import {MatDialog} from '@angular/material';
 import {AssignJobToCandidateDialogComponent} from '../../../dialogs/assign-job-to-candidate-dialog/assign-job-to-candidate-dialog.component';
 import {JobAssigned} from '../../../models/job-assigned.model';
 import {Job} from '../../../models/job.model';
-import {JobDataStorageService} from '../../../services/data-storage/job-data-storage.service';
+import {JobDataStorageService} from '../../../services/data-storage-services/job-data-storage.service';
 import {Pipeline} from '../../../models/pipeline.model';
 import {ChangeStatusDialogComponent} from '../../../dialogs/change-status-dialog/change-status-dialog.component';
 import {PipelineStage} from '../../../models/pipeline-stage.model';
@@ -22,7 +22,7 @@ import {StageComment} from '../../../models/stage-comment.model';
 import {NotifierService} from 'angular-notifier';
 import {ConfirmationDialogComponent} from '../../../dialogs/confirmation-dialog/confirmation-dialog.component';
 import {DeleteDialogComponent} from '../../../dialogs/delete-dialog/delete-dialog.component';
-import {CandidateService} from '../../../services/shared/candidate.service';
+import {CandidateService} from '../../../services/shared-services/candidate.service';
 import {Department} from '../../../models/department.model';
 
 

@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Data, Router} from '@angular/router';
 import {Candidate} from '../../../models/candidate.model';
-import {CandidateDataStorageService} from '../../../services/data-storage/candidate-data-storage.service';
+import {CandidateDataStorageService} from '../../../services/data-storage-services/candidate-data-storage.service';
 import {DateAdapter} from '@angular/material';
 import {ShortDateAdapter} from '../../../date-adapters/short-date.adapter';
 import {CandidateEducation} from '../../../models/candidate-education.model';
@@ -10,8 +10,8 @@ import {CandidateExperience} from '../../../models/candidate-experience.model';
 import {NotifierService} from 'angular-notifier';
 import {CandidateAttachment} from '../../../models/canidate-attachment.model';
 import {Job} from '../../../models/job.model';
-import {JobDataStorageService} from '../../../services/data-storage/job-data-storage.service';
-import {SettingsDataStorageService} from '../../../services/data-storage/settings-data-storage.service';
+import {JobDataStorageService} from '../../../services/data-storage-services/job-data-storage.service';
+import {SettingsDataStorageService} from '../../../services/data-storage-services/settings-data-storage.service';
 import {Source} from '../../../models/source.model';
 import {JobAssigned} from '../../../models/job-assigned.model';
 import {StageScore} from '../../../models/stage-score.model';
@@ -180,7 +180,6 @@ export class AddNewCandidateComponent implements OnInit {
 
 
   addExperienceFields() {
-
 
     // (this.addNewCandidateForm.get('experience')['controls'] as FormArray)
     //   .push(this.populateExperienceFields());

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {SettingsService} from '../shared/settings.service';
+import {SettingsService} from '../shared-services/settings.service';
 import {NotifierService} from 'angular-notifier';
 import {Company} from '../../models/company.model';
 import {Department} from '../../models/department.model';
@@ -177,6 +177,8 @@ export class GapiService {
         });
 
 
+      }).catch((error) => {
+        console.log(error);
       });
 
 
@@ -194,7 +196,8 @@ export class GapiService {
         if (findDepartment !== undefined) {
 
           await this
-            .searchFolder(findDepartment.Id, job.JobTitle).then((jobFolderInfo) => {
+            .searchFolder(findDepartment.Id, job.JobTitle)
+            .then((jobFolderInfo) => {
 
 
               if (jobFolderInfo.result.files.length === 0) {

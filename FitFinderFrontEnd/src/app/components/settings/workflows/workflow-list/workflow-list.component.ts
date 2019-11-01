@@ -4,7 +4,7 @@ import {ActivatedRoute, Data, Route} from '@angular/router';
 import {Department} from '../../../../models/department.model';
 import {AddUpdateDialogComponent} from '../../../../dialogs/add-update-dialog/add-update-dialog.component';
 import {MatDialog} from '@angular/material';
-import {SettingsDataStorageService} from '../../../../services/data-storage/settings-data-storage.service';
+import {SettingsDataStorageService} from '../../../../services/data-storage-services/settings-data-storage.service';
 import {NotifierService} from 'angular-notifier';
 
 @Component({

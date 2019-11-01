@@ -1,17 +1,17 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Job} from '../../../models/job.model';
 import {Subscription} from 'rxjs/index';
-import {JobDataStorageService} from '../../../services/data-storage/job-data-storage.service';
+import {JobDataStorageService} from '../../../services/data-storage-services/job-data-storage.service';
 import {SelectionModel} from '@angular/cdk/collections';
 import {MatDialog, MatTreeFlatDataSource} from '@angular/material';
 import * as moment from 'moment';
 import {Department} from '../../../models/department.model';
-import {SettingsDataStorageService} from '../../../services/data-storage/settings-data-storage.service';
+import {SettingsDataStorageService} from '../../../services/data-storage-services/settings-data-storage.service';
 import {Candidate} from '../../../models/candidate.model';
 import {ConfirmationDialogComponent} from '../../../dialogs/confirmation-dialog/confirmation-dialog.component';
 import {NotifierService} from 'angular-notifier';
 import {ActivatedRoute, Data} from '@angular/router';
-import {JobService} from '../../../services/shared/job.service';
+import {JobService} from '../../../services/shared-services/job.service';
 
 @Component({
   selector: 'app-job-panel',

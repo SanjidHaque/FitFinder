@@ -3,7 +3,7 @@ import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/rou
 import {Department} from '../models/department.model';
 import {Observable} from 'rxjs';
 import {Tag} from '../models/tag.model';
-import {SettingsDataStorageService} from '../services/data-storage/settings-data-storage.service';
+import {SettingsDataStorageService} from '../services/data-storage-services/settings-data-storage.service';
 
 @Injectable({
   providedIn: 'root'

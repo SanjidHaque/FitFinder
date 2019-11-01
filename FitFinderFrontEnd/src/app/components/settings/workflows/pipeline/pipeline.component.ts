@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Pipeline} from '../../../../models/pipeline.model';
-import {SettingsDataStorageService} from '../../../../services/data-storage/settings-data-storage.service';
+import {SettingsDataStorageService} from '../../../../services/data-storage-services/settings-data-storage.service';
 import {ActivatedRoute, Data} from '@angular/router';
 import {PipelineStage} from '../../../../models/pipeline-stage.model';
 import {MatDialog} from '@angular/material';

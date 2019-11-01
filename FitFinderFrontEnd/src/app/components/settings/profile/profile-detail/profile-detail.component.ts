@@ -4,8 +4,8 @@ import {ActivatedRoute, Data, Router} from '@angular/router';
 import {NotifierService} from 'angular-notifier';
 import {Company} from '../../../../models/company.model';
 import {Department} from '../../../../models/department.model';
-import {SettingsService} from '../../../../services/shared/settings.service';
-import {GapiService} from '../../../../services/google-api/gapi.service';
+import {SettingsService} from '../../../../services/shared-services/settings.service';
+import {GapiService} from '../../../../services/google-api-services/gapi.service';
 import {Job} from '../../../../models/job.model';
 
 @Component({
@@ -83,10 +83,11 @@ export class ProfileDetailComponent implements OnInit {
           this.notifierService.notify('default', 'Connected to drive.');
           this.gapiService.syncToDrive(this.departments, this.jobs);
 
-
         });
       })
-      .catch();
+      .catch((error) => {
+        console.log(error);
+      });
 
   }
 

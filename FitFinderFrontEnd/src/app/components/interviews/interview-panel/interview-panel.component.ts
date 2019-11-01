@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Interview} from '../../../models/interview.model';
-import {InterviewDataStorageService} from '../../../services/data-storage/interview-data-storage.service';
+import {InterviewDataStorageService} from '../../../services/data-storage-services/interview-data-storage.service';
 import {SelectionModel} from '@angular/cdk/collections';
 import * as moment from 'moment';
 import {ConfirmationDialogComponent} from '../../../dialogs/confirmation-dialog/confirmation-dialog.component';

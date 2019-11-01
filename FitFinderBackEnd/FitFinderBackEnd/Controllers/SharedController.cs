@@ -82,29 +82,31 @@ namespace FitFinderBackEnd.Controllers
             {
                 return NotFound();
             }
-
+            jobAssigned .CriteriaScore =  new List<CriteriaScore>();
+            jobAssigned.StageScore= new List<StageScore>();
+            jobAssigned.StageComment = new List<StageComment>();
             _context.JobAssigneds.Add(jobAssigned);
             
-            foreach (var stageScore in jobAssigned.StageScore)
-            {
-                stageScore.JobAssignedId = jobAssigned.Id;
-            }
+            //foreach (var stageScore in jobAssigned.StageScore)
+            //{
+            //    stageScore.JobAssignedId = jobAssigned.Id;
+            //}
 
-            foreach (var criteriaScore in jobAssigned.CriteriaScore)
-            {
-                criteriaScore.JobAssignedId = jobAssigned.Id;
-            }
+            //foreach (var criteriaScore in jobAssigned.CriteriaScore)
+            //{
+            //    criteriaScore.JobAssignedId = jobAssigned.Id;
+            //}
 
-            foreach (var stageComment in jobAssigned.StageComment)
-            {
-                stageComment.JobAssignedId = jobAssigned.Id;
-            }
+            //foreach (var stageComment in jobAssigned.StageComment)
+            //{
+            //    stageComment.JobAssignedId = jobAssigned.Id;
+            //}
 
-            _context.StageScores.AddRange(jobAssigned.StageScore);
-            _context.CriteriaScores.AddRange(jobAssigned.CriteriaScore);
-            _context.StageComments.AddRange(jobAssigned.StageComment);
+            //_context.StageScores.AddRange(jobAssigned.StageScore);
+            //_context.CriteriaScores.AddRange(jobAssigned.CriteriaScore);
+            //_context.StageComments.AddRange(jobAssigned.StageComment);
 
-            _context.SaveChanges();
+            //_context.SaveChanges();
             return Ok(jobAssigned);
         }
 

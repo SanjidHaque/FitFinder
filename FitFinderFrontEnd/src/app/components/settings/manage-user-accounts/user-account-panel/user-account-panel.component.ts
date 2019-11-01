@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Company} from '../../../../models/company.model';
 import {ActivatedRoute, Data} from '@angular/router';
 import {UserAccount} from '../../../../models/user-account.model';
-import {UserAccountDataStorageService} from '../../../../services/data-storage/user-account-data-storage.service';
+import {UserAccountDataStorageService} from '../../../../services/data-storage-services/user-account-data-storage.service';
 import {NotifierService} from 'angular-notifier';
 
 @Component({

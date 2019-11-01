@@ -95,13 +95,8 @@ import {MatSidenavModule} from '@angular/material/sidenav';
     MatSidenavModule
   ],
 
-  entryComponents: [
-  ],
-
   providers: [
     {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}
-  ],
-
-  declarations: []
+  ]
 })
-export class AppMaterialModule { }
+export class AngularMaterialModule { }
