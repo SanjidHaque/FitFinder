@@ -11,12 +11,8 @@ import {NotifierModule} from 'angular-notifier';
 import {NgProgressModule} from '@ngx-progressbar/core';
 import {NgProgressRouterModule} from '@ngx-progressbar/router';
 import {NgProgressHttpModule} from '@ngx-progressbar/http';
-import {CandidateModule} from './modules/feature-modules/candidate.module';
 import {PipeModule} from './modules/shared-modules/pipe.module';
-import {JobModule} from './modules/feature-modules/job.module';
 import {CoreModule} from './modules/core-module/core.module';
-import {InterviewModule} from './modules/feature-modules/interview.module';
-import {SettingsModule} from './modules/feature-modules/settings.module';
 import {DialogModule} from './modules/shared-modules/dialog.module';
 import {AuthModule} from './modules/auth/auth.module';
 
@@ -28,12 +24,8 @@ import {AuthModule} from './modules/auth/auth.module';
   ],
   imports: [
     BrowserModule,
-    InterviewModule,
-    SettingsModule,
     RouterModule,
     HttpClientModule,
-    CandidateModule,
-    JobModule,
     AuthModule,
     PipeModule,
     DialogModule,

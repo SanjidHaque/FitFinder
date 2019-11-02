@@ -12,7 +12,6 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AngularMaterialModule} from '../shared-modules/angular-material.module';
 import {PipeModule} from '../shared-modules/pipe.module';
 import {AngularEditorModule} from '@kolkov/angular-editor';
-import {StarRating, StarRatingModule} from 'angular-star-rating';
 import {DialogModule} from '../shared-modules/dialog.module';
 
 

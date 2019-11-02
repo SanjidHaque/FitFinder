@@ -35,6 +35,7 @@ import {AuthGuard} from '../../auth/auth.guard';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {AuthInterceptor} from '../../auth/auth.interceptor';
 import {HttpErrorInterceptor} from '../../http-error-interceptor/http-error.interceptor';
+import {StarRatingConfigService} from 'angular-star-rating';
 
 export function initGapi(gapiService: GapiService) {
   return () => gapiService.initClient();
@@ -82,6 +83,7 @@ export function initGapi(gapiService: GapiService) {
     InterviewResolverService,
     SettingsService,
     GapiService,
+    StarRatingConfigService,
     AuthGuard,
     {
       provide : HTTP_INTERCEPTORS,

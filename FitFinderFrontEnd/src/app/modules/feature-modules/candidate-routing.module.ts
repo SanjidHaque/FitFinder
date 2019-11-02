@@ -19,7 +19,7 @@ import {CandidateTaskComponent} from '../../components/candidates/candidate-id/c
 
 const candidateRoutes: Routes = [
   {
-    path: 'candidates',
+    path: '',
     component: CandidatesComponent,
     canActivate: [AuthGuard],
     children: [

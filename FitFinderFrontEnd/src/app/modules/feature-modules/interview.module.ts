@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 import {InterviewsComponent} from '../../components/interviews/interviews.component';
 import {AddNewInterviewComponent} from '../../components/interviews/add-new-interview/add-new-interview.component';
 import {InterviewPanelComponent} from '../../components/interviews/interview-panel/interview-panel.component';
-import {SelectCandidatesForInterviewDialogComponent} from '../../dialogs/select-candidates-for-interview-dialog/select-candidates-for-interview-dialog.component';
 import {InterviewIdComponent} from '../../components/interviews/interview-id/interview-id.component';
 import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';

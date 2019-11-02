@@ -1,4 +1,4 @@
-import {RouterModule, Routes} from '@angular/router';
+import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
 import {NgModule} from '@angular/core';
 
 import {DashboardComponent} from './components/dashboard/dashboard.component';
@@ -8,12 +8,7 @@ import {JobsResolverService} from './route-resolvers/jobs-resolver.service';
 import {PageNotFoundComponent} from './components/page-not-found/page-not-found.component';
 import {DepartmentsResolverService} from './route-resolvers/departments-resolver.service';
 import {SourcesResolverService} from './route-resolvers/sources-resolver.service';
-import {SignInComponent} from './components/sign-in/sign-in.component';
-import {ForgotPasswordComponent} from './components/forgot-password/forgot-password.component';
-import {EmailConfirmedComponent} from './components/email-confirmed/email-confirmed.component';
-import {EmailConfirmationLinkExpiredComponent} from './components/email-confirmation-link-expired/email-confirmation-link-expired.component';
 import {AuthGuard} from './auth/auth.guard';
-import {ForbiddenComponent} from './components/forbidden/forbidden.component';
 
 const appRoutes: Routes = [
   {
@@ -28,6 +23,22 @@ const appRoutes: Routes = [
         departments: DepartmentsResolverService,
         sources: SourcesResolverService
       }
+  },
+  {
+    path: 'candidates',
+    loadChildren: './modules/feature-modules/candidate.module#CandidateModule'
+  },
+  {
+    path: 'interviews',
+    loadChildren: './modules/feature-modules/interview.module#InterviewModule'
+  },
+  {
+    path: 'jobs',
+    loadChildren: './modules/feature-modules/job.module#JobModule'
+  },
+  {
+    path: 'settings',
+    loadChildren: './modules/feature-modules/settings.module#SettingsModule'
   },
   {
     path : '',
@@ -46,7 +57,9 @@ const appRoutes: Routes = [
 
 
 @NgModule({
-  imports: [RouterModule.forRoot(appRoutes)],
+  imports: [RouterModule.forRoot(appRoutes,
+    { preloadingStrategy: PreloadAllModules })
+  ],
   exports: [RouterModule]
 })
 

@@ -1,4 +1,5 @@
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import '~font-awesome/css/font-awesome.css';
 @import "~angular-notifier/styles/core.css";
 @import "~angular-notifier/styles/themes/theme-material.css";
 @import "~angular-notifier/styles/types/type-info.css";
@@ -6,7 +7,6 @@
 @import "~angular-notifier/styles/types/type-default.css";
 @import "~angular-notifier/styles/types/type-warning.css";
 @import "~angular-notifier/styles/types/type-error.css";
-@import '~font-awesome/css/font-awesome.css';
 @import '~css-star-rating/css/star-rating.css';
 
 
