@@ -663,6 +663,11 @@ namespace FitFinderBackEnd.Controllers
             Workflow workflow = _context.Workflows
                 .FirstOrDefault(x => x.Id == workflowId);
 
+            if (workflow == null)
+            {
+                return Ok(new { StatusText = _statusTextService.ResourceNotFound });
+            }
+
             List<Pipeline> pipelines = _context.Pipelines
                 .Where(x => x.WorkflowId == workflowId)
                 .ToList();
@@ -676,6 +681,7 @@ namespace FitFinderBackEnd.Controllers
                 .Where(x => x.PipelineStage.Pipeline.WorkflowId == workflowId && x.JobId == null)
                 .ToList();
 
+           
             return Ok(new { workflow, StatusText = _statusTextService.Success });
         }
 

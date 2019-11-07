@@ -60,13 +60,13 @@ namespace FitFinderBackEnd.Controllers
 
             if (userNameClaim == null)
             {
-                return Ok(new { statusText = "Error" });
+                return Ok(new { StatusText = _statusTextService.UserClaimError });
             }
 
             ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
-            if (applicationUser == null || job == null)
+            if (applicationUser == null)
             {
-                return Ok(new { statusText = "Error" });
+                return Ok(new { StatusText = _statusTextService.UserClaimError });
             }
 
             job.CompanyId = applicationUser.CompanyId;
@@ -79,7 +79,7 @@ namespace FitFinderBackEnd.Controllers
 //            _context.JobAttachments.AddRange(job.JobAttachment);
 
             _context.SaveChanges();
-            return Ok(new { statusText = "Success", job });
+            return Ok(new { job,  StatusText = _statusTextService.Success });
         }
 
 
@@ -112,7 +112,8 @@ namespace FitFinderBackEnd.Controllers
             List<Job> job = _context.Jobs
                 .Where(x => x.CompanyId == applicationUser.CompanyId)
                 .ToList();
-            return Ok(job);
+
+            return Ok(new { job, StatusText = _statusTextService.Success });
         }
 
         [HttpGet]
@@ -179,7 +180,7 @@ namespace FitFinderBackEnd.Controllers
             }
 
             _context.SaveChanges();
-            return Ok();
+            return Ok(new { StatusText = _statusTextService.Success });
         }
 
         [HttpPut]
@@ -193,7 +194,7 @@ namespace FitFinderBackEnd.Controllers
             }
 
             _context.SaveChanges();
-            return Ok();
+            return Ok(new { StatusText = _statusTextService.Success });
         }
 
         [HttpPut]
@@ -207,7 +208,7 @@ namespace FitFinderBackEnd.Controllers
             }
 
             _context.SaveChanges();
-            return Ok();
+             return Ok(new { StatusText = _statusTextService.Success });
         }
 
         [HttpPut]
@@ -221,7 +222,7 @@ namespace FitFinderBackEnd.Controllers
             }
 
             _context.SaveChanges();
-            return Ok();
+            return Ok(new { StatusText = _statusTextService.Success });
         }
     }
 }

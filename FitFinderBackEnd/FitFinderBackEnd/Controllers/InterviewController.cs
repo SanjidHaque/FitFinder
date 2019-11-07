@@ -123,7 +123,7 @@ namespace FitFinderBackEnd.Controllers
                 .OrderByDescending(x => x.Id)
                 .ToList();
 
-            return Ok(interviews);
+            return Ok( new { interviews, StatusText = _statusTextService.Success });
         }
 
 
