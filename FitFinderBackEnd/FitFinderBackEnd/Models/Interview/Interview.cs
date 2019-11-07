@@ -16,10 +16,10 @@ namespace FitFinderBackEnd.Models.Interview
         public string InterviewLocation { get; set; }
         public string InterviewStartTime { get; set; }
         public string InterviewEndTime { get; set; }
-        public long InterviewTypeId { get; set; }
+        public long InterviewType { get; set; }
         public List<CandidatesForInterview> CandidatesForInterview { get; set; }
         public List<InterviewersForInterview> InterviewersForInterview { get; set; }
-        public long InterviewStatusId { get; set; }
+        public long InterviewStatus { get; set; }
         public bool IsArchived { get; set; }
         public long CompanyId { get; set; }
     }

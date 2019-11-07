@@ -288,6 +288,18 @@
     <Compile Include="Migrations\201909172144138_jobAndPipelineStageCriteriaModelChanged.Designer.cs">
       <DependentUpon>201909172144138_jobAndPipelineStageCriteriaModelChanged.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201911031231205_variousModelChangedQueryOptimization.cs" />
+    <Compile Include="Migrations\201911031231205_variousModelChangedQueryOptimization.Designer.cs">
+      <DependentUpon>201911031231205_variousModelChangedQueryOptimization.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911031233221_sourceObjectAddedInCandidateModel.cs" />
+    <Compile Include="Migrations\201911031233221_sourceObjectAddedInCandidateModel.Designer.cs">
+      <DependentUpon>201911031233221_sourceObjectAddedInCandidateModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911031306284_interviewModelChanged.cs" />
+    <Compile Include="Migrations\201911031306284_interviewModelChanged.Designer.cs">
+      <DependentUpon>201911031306284_interviewModelChanged.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -325,6 +337,7 @@
     <Compile Include="Services\EmailService.cs" />
     <Compile Include="Services\PasswordGeneratorService.cs" />
     <Compile Include="Services\SettingsService.cs" />
+    <Compile Include="Services\StatusTextService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -474,6 +487,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201909172144138_jobAndPipelineStageCriteriaModelChanged.resx">
       <DependentUpon>201909172144138_jobAndPipelineStageCriteriaModelChanged.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911031231205_variousModelChangedQueryOptimization.resx">
+      <DependentUpon>201911031231205_variousModelChangedQueryOptimization.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911031233221_sourceObjectAddedInCandidateModel.resx">
+      <DependentUpon>201911031233221_sourceObjectAddedInCandidateModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911031306284_interviewModelChanged.resx">
+      <DependentUpon>201911031306284_interviewModelChanged.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -19,7 +19,8 @@ namespace FitFinderBackEnd.Models.Candidate
         public string City  { get; set; }
         public string State  { get; set; }
         public string Country  { get; set; }
-        public long SourceId  { get; set; }       
+        public Source Source { get; set; }  
+        public long? SourceId  { get; set; }       
         public List<CandidateEducation> CandidateEducation { get; set; }     
         public List<CandidateExperience> CandidateExperience { get; set; }    
         public List<CandidateAttachment> CandidateAttachment { get; set; }

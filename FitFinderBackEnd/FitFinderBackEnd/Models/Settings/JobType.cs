@@ -8,7 +8,6 @@ namespace FitFinderBackEnd.Models.Settings
 {
     public class JobType
     {
-       
         public long Id { get; set; }
         public string Name { get; set; }
         public Company Company { get; set; }

@@ -10,6 +10,7 @@ using FitFinderBackEnd.Models;
 using FitFinderBackEnd.Models.Candidate;
 using FitFinderBackEnd.Models.Job;
 using FitFinderBackEnd.Models.Settings;
+using FitFinderBackEnd.Services;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -21,10 +22,12 @@ namespace FitFinderBackEnd.Controllers
     {
         private readonly ApplicationDbContext _context;
         private ApplicationUserManager _userManager;
+        private StatusTextService _statusTextService;
 
         public CandidateController()
         {
             _context = new ApplicationDbContext();
+            _statusTextService = new StatusTextService();
         }
 
         public CandidateController(ApplicationUserManager userManager,
@@ -111,6 +114,17 @@ namespace FitFinderBackEnd.Controllers
             return Ok(new { statusText = "Success", candidate });
         }
 
+
+        [HttpPut]
+        [Route("api/EditCandidate")]
+        public IHttpActionResult EditCandidate(Candidate candidate)
+        {
+                
+
+
+            return Ok(new { StatusText = _statusTextService.Success });
+        }
+
         [HttpPost]
         [Route("api/UploadAttachments")]
         [AllowAnonymous]
@@ -135,13 +149,13 @@ namespace FitFinderBackEnd.Controllers
 
             if (userNameClaim == null)
             {
-                return Ok(new List<Candidate>());
+                return Ok(new { StatusText = _statusTextService.UserClaimError });
             }
 
             ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
             if (applicationUser == null)
             {
-                return Ok(new List<Candidate>());
+                return Ok(new { StatusText = _statusTextService.UserClaimError });
             }
 
 
@@ -174,9 +188,10 @@ namespace FitFinderBackEnd.Controllers
                 .ToList();
 
 
-         //   Job job = _context.Jobs.FirstOrDefault(x => x. == job)
-                
-                
+            Source source = _context.Sources
+                .FirstOrDefault(x => x.Id == candidate.SourceId);
+
+
             jobAssigneds.ForEach(jobAssigned =>
             {
                 Job job = _context.Jobs.FirstOrDefault(x => x.Id == jobAssigned.JobId);
@@ -227,7 +242,7 @@ namespace FitFinderBackEnd.Controllers
                 .ToList();
 
 
-            return Ok(candidate);
+            return Ok(new { candidate, StatusText = _statusTextService.Success });
         }
 
 

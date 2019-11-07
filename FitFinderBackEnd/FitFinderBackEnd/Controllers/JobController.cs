@@ -8,6 +8,7 @@ using System.Web.Http.Cors;
 using FitFinderBackEnd.Models;
 using FitFinderBackEnd.Models.Job;
 using FitFinderBackEnd.Models.Settings;
+using FitFinderBackEnd.Services;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -19,10 +20,12 @@ namespace FitFinderBackEnd.Controllers
     {
         private readonly ApplicationDbContext _context;
         private ApplicationUserManager _userManager;
+        private StatusTextService _statusTextService;
 
         public JobController()
         {
             _context = new ApplicationDbContext();
+            _statusTextService = new StatusTextService();
         }
 
 
@@ -79,6 +82,14 @@ namespace FitFinderBackEnd.Controllers
             return Ok(new { statusText = "Success", job });
         }
 
+
+        [HttpPut]
+        [Route("api/EditJob")]
+        public IHttpActionResult EditJob(Job job)
+        {
+            return Ok(new { StatusText = _statusTextService.Success });
+        }
+
         [HttpGet]
         [Route("api/GetAllJob")]
         [AllowAnonymous]
@@ -88,13 +99,13 @@ namespace FitFinderBackEnd.Controllers
 
             if (userNameClaim == null)
             {
-                return Ok(new List<Job>());
+                return Ok(new { StatusText = _statusTextService.UserClaimError });
             }
 
             ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
             if (applicationUser == null)
             {
-                return Ok(new List<Job>());
+                return Ok(new { StatusText = _statusTextService.UserClaimError });
             }
 
 
@@ -114,7 +125,7 @@ namespace FitFinderBackEnd.Controllers
 
             if (job == null)
             {
-                return NotFound();
+                return Ok(new { StatusText = _statusTextService.ResourceNotFound});
             }
 
             List<JobAttachment> jobAttachments = _context.JobAttachments
@@ -125,7 +136,7 @@ namespace FitFinderBackEnd.Controllers
 
             if (workflow == null)
             {
-                return NotFound();
+                return Ok(new { StatusText = _statusTextService.ResourceNotFound });
             }
 
             List<Pipeline> pipelines = _context.Pipelines
@@ -141,16 +152,21 @@ namespace FitFinderBackEnd.Controllers
                             && (x.JobId == job.Id || x.JobId == null))
                 .ToList();
 
-            return Ok(job);
+
+            Department department = _context.Departments
+                .FirstOrDefault(x => x.Id == job.DepartmentId);
+
+            JobFunction jobFunction = _context.JobFunctions
+                .FirstOrDefault(x => x.Id == job.JobFunctionId);
+
+            JobType jobType = _context.JobTypes
+                .FirstOrDefault(x => x.Id == job.JobTypeId);
+
+            return Ok(new {job, StatusText = _statusTextService.Success });
         }
 
-        [HttpPut]
-        [Route("api/Gapi")]
-        public IHttpActionResult Gapi()
-        {
-           return Ok();
-        }
-
+       
+    
 
         [HttpPut]
         [Route("api/ArchiveJobs")]

@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Web.Http;
 using FitFinderBackEnd.Models;
 using FitFinderBackEnd.Models.Interview;
+using FitFinderBackEnd.Services;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -17,10 +20,12 @@ namespace FitFinderBackEnd.Controllers
     {
         private readonly ApplicationDbContext _context;
         private ApplicationUserManager _userManager;
+        private StatusTextService _statusTextService;
 
         public InterviewController()
         {
             _context = new ApplicationDbContext();
+            _statusTextService = new StatusTextService();
         }
 
         public InterviewController(ApplicationUserManager userManager,
@@ -83,6 +88,17 @@ namespace FitFinderBackEnd.Controllers
             return Ok(new { statusText = "Success", interview });
         }
 
+
+
+        [HttpPut]
+        [Route("api/EditInterview")]
+        public IHttpActionResult EditInterview(Interview interview)
+        {
+            return Ok(new { StatusText = _statusTextService.Success });
+        }
+
+
+
         [HttpGet]
         [Route("api/GetAllInterview")]
         [AllowAnonymous]
@@ -92,22 +108,22 @@ namespace FitFinderBackEnd.Controllers
 
             if (userNameClaim == null)
             {
-                return Ok(new List<Interview>());
+                return Ok(new { StatusText = _statusTextService.UserClaimError });
             }
 
             ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
             if (applicationUser == null)
             {
-                return Ok(new List<Interview>());
+                return Ok(new { StatusText = _statusTextService.UserClaimError });
             }
 
 
-            List<Interview> interview = _context.Interviews
+            List<Interview> interviews = _context.Interviews
                 .Where(x => x.CompanyId == applicationUser.CompanyId)
                 .OrderByDescending(x => x.Id)
                 .ToList();
 
-            return Ok(interview);
+            return Ok(interviews);
         }
 
 
