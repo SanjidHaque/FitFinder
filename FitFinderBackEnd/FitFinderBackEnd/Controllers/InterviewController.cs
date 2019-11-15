@@ -56,13 +56,13 @@ namespace FitFinderBackEnd.Controllers
 
             if (userNameClaim == null)
             {
-                return Ok(new {  StatusText = _statusTextService.UserClaimError });
+                return Ok(new {  statusText = _statusTextService.UserClaimError });
             }
 
             ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
             if (applicationUser == null)
             {
-                return Ok(new { StatusText = _statusTextService.UserClaimError });
+                return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
             interview.CompanyId = applicationUser.CompanyId;
@@ -82,7 +82,7 @@ namespace FitFinderBackEnd.Controllers
 //            _context.InterviewersForInterviews.AddRange(interview.InterviewersForInterview);
 
             _context.SaveChanges();
-            return Ok(new { interview, StatusText = _statusTextService.Success });
+            return Ok(new { interview, statusText = _statusTextService.Success });
         }
 
 
@@ -91,7 +91,7 @@ namespace FitFinderBackEnd.Controllers
         [Route("api/EditInterview")]
         public IHttpActionResult EditInterview(Interview interview)
         {
-            return Ok(new { StatusText = _statusTextService.Success });
+            return Ok(new { statusText = _statusTextService.Success });
         }
 
 
@@ -105,13 +105,13 @@ namespace FitFinderBackEnd.Controllers
 
             if (userNameClaim == null)
             {
-                return Ok(new { StatusText = _statusTextService.UserClaimError });
+                return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
             ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
             if (applicationUser == null)
             {
-                return Ok(new { StatusText = _statusTextService.UserClaimError });
+                return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
 
@@ -120,7 +120,7 @@ namespace FitFinderBackEnd.Controllers
                 .OrderByDescending(x => x.Id)
                 .ToList();
 
-            return Ok( new { interviews, StatusText = _statusTextService.Success });
+            return Ok( new { interviews, statusText = _statusTextService.Success });
         }
 
 
@@ -134,7 +134,7 @@ namespace FitFinderBackEnd.Controllers
 
             if (interview == null)
             {
-                return Ok(new { StatusText = _statusTextService.ResourceNotFound });
+                return Ok(new { statusText = _statusTextService.ResourceNotFound });
             }
 
             List<CandidatesForInterview> candidatesForInterviews = _context.CandidatesForInterviews
@@ -145,7 +145,7 @@ namespace FitFinderBackEnd.Controllers
                 .Where(x => x.InterviewId == interviewId)
                 .ToList();
 
-            return Ok(new { interview, StatusText = _statusTextService.Success });
+            return Ok(new { interview, statusText = _statusTextService.Success });
             
         }
 
@@ -162,7 +162,7 @@ namespace FitFinderBackEnd.Controllers
             }
 
             _context.SaveChanges();
-            return Ok(new {  StatusText = _statusTextService.Success });
+            return Ok(new {  statusText = _statusTextService.Success });
         }
 
         [HttpPut]
@@ -176,7 +176,7 @@ namespace FitFinderBackEnd.Controllers
             }
 
             _context.SaveChanges();
-            return Ok(new { StatusText = _statusTextService.Success });
+            return Ok(new { statusText = _statusTextService.Success });
         }
     }
 }

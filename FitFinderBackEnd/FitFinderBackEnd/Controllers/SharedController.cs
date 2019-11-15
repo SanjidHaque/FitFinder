@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
-using System.Web.Http.Cors;
 using FitFinderBackEnd.Models;
 using FitFinderBackEnd.Models.Candidate;
 using FitFinderBackEnd.Models.Settings;
+using FitFinderBackEnd.Services;
 
 namespace FitFinderBackEnd.Controllers
 {
@@ -12,9 +12,12 @@ namespace FitFinderBackEnd.Controllers
     public class SharedController : ApiController
     {
         private readonly ApplicationDbContext _context;
+        private StatusTextService _statusTextService;
+
         public SharedController()
         {
             _context = new ApplicationDbContext();
+            _statusTextService = new StatusTextService();
         }
 
 
@@ -24,33 +27,46 @@ namespace FitFinderBackEnd.Controllers
         {
             if (jobAssigned == null)
             {
-                return NotFound();
+                return Ok(new { statusText = _statusTextService.ResourceNotFound });
             }
 
             JobAssigned getAssignedJob = _context.JobAssigneds.FirstOrDefault(x => x.Id == jobAssigned.Id);
-            if (getAssignedJob != null) getAssignedJob.CurrentStageId = jobAssigned.CurrentStageId;
-            _context.SaveChanges();
+            if (getAssignedJob == null)
+            {
+                return Ok(new { statusText = _statusTextService.ResourceNotFound });
+
+            }
+
+            getAssignedJob.CurrentStageId = jobAssigned.CurrentStageId;
+            //  _context.SaveChanges();
 
             RemoveOldScores(jobAssigned);
             AddNewScores(jobAssigned);
+
             _context.SaveChanges();
+
             if (jobAssigned.StageComment.Count != 0)
             {
-                AddNewStageComment(jobAssigned);
+                AddNewStageComments(jobAssigned.StageComment);
             }
-            return Ok(GetNewScores(jobAssigned));
+
+            JobAssigned getUpdatedJobAssignment = GetUpdatedJobAssignment(jobAssigned);
+
+            return Ok(new { getUpdatedJobAssignment, statusText = _statusTextService.Success });
+
+           
         }
 
 
-        public JobAssigned GetNewScores(JobAssigned jobAssigned)
+        public JobAssigned GetUpdatedJobAssignment(JobAssigned jobAssigned)
         {
             return _context.JobAssigneds.FirstOrDefault(x => x.Id == jobAssigned.Id);
         }
 
 
-        public void AddNewStageComment(JobAssigned jobAssigned)
+        public void AddNewStageComments(List<StageComment> stageComments)
         {
-            _context.StageComments.AddRange(jobAssigned.StageComment);
+            _context.StageComments.AddRange(stageComments);
         }
 
 
@@ -78,13 +94,10 @@ namespace FitFinderBackEnd.Controllers
         [Route("api/JobAssigned")]
         public IHttpActionResult JobAssigned(JobAssigned jobAssigned)
         {
-            if (jobAssigned == null)
-            {
-                return NotFound();
-            }
-            jobAssigned .CriteriaScore =  new List<CriteriaScore>();
-            jobAssigned.StageScore= new List<StageScore>();
-            jobAssigned.StageComment = new List<StageComment>();
+           
+            //jobAssigned .CriteriaScore =  new List<CriteriaScore>();
+            //jobAssigned.StageScore= new List<StageScore>();
+            //jobAssigned.StageComment = new List<StageComment>();
             _context.JobAssigneds.Add(jobAssigned);
             
             //foreach (var stageScore in jobAssigned.StageScore)
@@ -106,8 +119,10 @@ namespace FitFinderBackEnd.Controllers
             //_context.CriteriaScores.AddRange(jobAssigned.CriteriaScore);
             //_context.StageComments.AddRange(jobAssigned.StageComment);
 
-            //_context.SaveChanges();
-            return Ok(jobAssigned);
+            _context.SaveChanges();
+            return Ok(new { jobAssigned, statusText = _statusTextService.Success });
+
+            
         }
 
         [HttpPost]
@@ -115,14 +130,17 @@ namespace FitFinderBackEnd.Controllers
         public IHttpActionResult RemoveAssignedJob(JobAssigned jobAssigned)
         {
                 JobAssigned getJobAssigned = _context.JobAssigneds.FirstOrDefault(x => x.Id == jobAssigned.Id);
-                if (getJobAssigned != null)
+                if (getJobAssigned == null)
                 {
-                    _context.JobAssigneds.Remove(getJobAssigned);
-                    _context.SaveChanges();
-                    return Ok();
-                }
+                    return Ok(new { statusText = _statusTextService.ResourceNotFound });
+            }
 
-                return NotFound();
+            _context.JobAssigneds.Remove(getJobAssigned);
+            _context.SaveChanges();
+            return Ok(new { statusText = _statusTextService.Success });
+
+
+
         }
     }
 }

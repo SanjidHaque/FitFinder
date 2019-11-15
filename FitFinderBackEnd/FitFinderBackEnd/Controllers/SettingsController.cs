@@ -55,20 +55,20 @@ namespace FitFinderBackEnd.Controllers
 
             if (userNameClaim == null)
             {
-                return Ok(new { StatusText = _statusTextService.UserClaimError });
+                return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
             ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
             if (applicationUser == null)
             {
-                return Ok(new { StatusText = _statusTextService.UserClaimError });
+                return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
             List<JobType> jobTypes = _context.JobTypes
                 .Where(x => x.CompanyId == applicationUser.CompanyId)
                 .ToList();
 
-            return Ok(new { jobTypes, StatusText = _statusTextService.Success });
+            return Ok(new { jobTypes, statusText = _statusTextService.Success });
         }
 
 
@@ -81,20 +81,20 @@ namespace FitFinderBackEnd.Controllers
 
             if (userNameClaim == null)
             {
-                return Ok(new { StatusText = _statusTextService.UserClaimError });
+                return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
             ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
             if (applicationUser == null)
             {
-                return Ok(new { StatusText = _statusTextService.UserClaimError });
+                return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
             List<Source> sources = _context.Sources
                 .Where(x => x.CompanyId == applicationUser.CompanyId)
                 .ToList();
 
-            return Ok(new { sources, StatusText = _statusTextService.Success });
+            return Ok(new { sources, statusText = _statusTextService.Success });
         }
 
         [HttpGet]
@@ -105,20 +105,20 @@ namespace FitFinderBackEnd.Controllers
 
             if (userNameClaim == null)
             {
-                return Ok(new { StatusText = _statusTextService.UserClaimError });
+                return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
             ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
             if (applicationUser == null)
             {
-                return Ok(new { StatusText = _statusTextService.UserClaimError });
+                return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
             List<JobFunction> jobFunctions = _context.JobFunctions
                 .Where(x => x.CompanyId == applicationUser.CompanyId)
                 .ToList();
 
-            return Ok(new { jobFunctions  , StatusText = _statusTextService.Success });
+            return Ok(new { jobFunctions  , statusText = _statusTextService.Success });
         }
 
         [HttpGet]
@@ -129,20 +129,20 @@ namespace FitFinderBackEnd.Controllers
 
             if (userNameClaim == null)
             {
-                return Ok(new { StatusText = _statusTextService.UserClaimError });
+                return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
             ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
             if (applicationUser == null)
             {
-                return Ok(new { StatusText = _statusTextService.UserClaimError });
+                return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
             List<Department> departments = _context.Departments
                 .Where(x => x.CompanyId == applicationUser.CompanyId)
                 .ToList();
 
-            return Ok(new { departments, StatusText = _statusTextService.Success });
+            return Ok(new { departments, statusText = _statusTextService.Success });
         }
 
 
@@ -157,20 +157,20 @@ namespace FitFinderBackEnd.Controllers
 
             if (userNameClaim == null)
             {
-                return Ok(new { StatusText = _statusTextService.UserClaimError });
+                return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
             ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
             if (applicationUser == null)
             {
-                return Ok(new { StatusText = _statusTextService.UserClaimError });
+                return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
             department.CompanyId = applicationUser.CompanyId;
             _context.Departments.Add(department);
             _context.SaveChanges();
 
-            return Ok(new { department, StatusText = _statusTextService.Success });
+            return Ok(new { department, statusText = _statusTextService.Success });
         }
 
 
@@ -183,20 +183,20 @@ namespace FitFinderBackEnd.Controllers
 
             if (userNameClaim == null)
             {
-                return Ok(new { StatusText = _statusTextService.UserClaimError });
+                return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
             ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
             if (applicationUser == null)
             {
-                return Ok(new { StatusText = _statusTextService.UserClaimError });
+                return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
             source.CompanyId = applicationUser.CompanyId;
             _context.Sources.Add(source);
             _context.SaveChanges();
 
-            return Ok(new { source, StatusText = _statusTextService.Success });
+            return Ok(new { source, statusText = _statusTextService.Success });
         }
 
         [HttpPost]
@@ -207,20 +207,20 @@ namespace FitFinderBackEnd.Controllers
 
             if (userNameClaim == null)
             {
-                return Ok(new { StatusText = _statusTextService.UserClaimError });
+                return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
             ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
             if (applicationUser == null)
             {
-                return Ok(new { StatusText = _statusTextService.UserClaimError });
+                return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
             jobFunction.CompanyId = applicationUser.CompanyId;
             _context.JobFunctions.Add(jobFunction);
             _context.SaveChanges();
 
-            return Ok(new { jobFunction, StatusText = _statusTextService.Success });
+            return Ok(new { jobFunction, statusText = _statusTextService.Success });
         }
 
 
@@ -232,20 +232,20 @@ namespace FitFinderBackEnd.Controllers
 
             if (userNameClaim == null)
             {
-                return Ok(new { StatusText = _statusTextService.UserClaimError });
+                return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
             ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
             if (applicationUser == null)
             {
-                return Ok(new { StatusText = _statusTextService.UserClaimError });
+                return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
             jobType.CompanyId = applicationUser.CompanyId;
             _context.JobTypes.Add(jobType);
             _context.SaveChanges();
 
-            return Ok(new { jobType, StatusText = _statusTextService.Success });
+            return Ok(new { jobType, statusText = _statusTextService.Success });
         }
 
         [HttpPut]
@@ -256,14 +256,14 @@ namespace FitFinderBackEnd.Controllers
 
             if (userNameClaim == null)
             {
-                return Ok(new { StatusText = _statusTextService.UserClaimError });
+                return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
             ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
 
             if (applicationUser == null)
             {
-                return Ok(new { StatusText = _statusTextService.UserClaimError });
+                return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
 
@@ -271,14 +271,14 @@ namespace FitFinderBackEnd.Controllers
 
             if (getJobType == null)
             {
-                return Ok(new {StatusText = _statusTextService.ResourceNotFound });
+                return Ok(new {statusText = _statusTextService.ResourceNotFound });
             }
 
             getJobType.Name = jobType.Name;
             _context.Entry(getJobType).State = EntityState.Modified;
             _context.SaveChanges();
         
-            return Ok(new {StatusText = _statusTextService.Success });
+            return Ok(new {statusText = _statusTextService.Success });
         }
 
         [HttpPut]
@@ -289,13 +289,13 @@ namespace FitFinderBackEnd.Controllers
 
             if (userNameClaim == null)
             {
-                return Ok(new { StatusText = _statusTextService.UserClaimError });
+                return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
             ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
             if (applicationUser == null)
             {
-                return Ok(new { StatusText = _statusTextService.UserClaimError });
+                return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
 
@@ -304,14 +304,14 @@ namespace FitFinderBackEnd.Controllers
 
             if (getJobFunction == null)
             {
-                return Ok(new { StatusText = _statusTextService.ResourceNotFound });
+                return Ok(new { statusText = _statusTextService.ResourceNotFound });
             }
 
             getJobFunction.Name = jobFunction.Name;
             _context.Entry(getJobFunction).State = EntityState.Modified;
             _context.SaveChanges();
 
-            return Ok(new { StatusText = _statusTextService.Success });
+            return Ok(new { statusText = _statusTextService.Success });
         }
 
         [HttpPut]
@@ -322,13 +322,13 @@ namespace FitFinderBackEnd.Controllers
 
             if (userNameClaim == null)
             {
-                return Ok(new { StatusText = _statusTextService.UserClaimError });
+                return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
             ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
             if (applicationUser == null)
             {
-                return Ok(new { StatusText = _statusTextService.UserClaimError });
+                return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
 
@@ -336,13 +336,13 @@ namespace FitFinderBackEnd.Controllers
 
             if (getDepartment == null)
             {
-                return Ok(new {StatusText = _statusTextService.ResourceNotFound });
+                return Ok(new {statusText = _statusTextService.ResourceNotFound });
             }
             getDepartment.Name = department.Name;
             _context.Entry(getDepartment).State = EntityState.Modified;
             _context.SaveChanges();
 
-            return Ok(new { StatusText = _statusTextService.Success });
+            return Ok(new { statusText = _statusTextService.Success });
         }
 
         [HttpPut]
@@ -353,13 +353,13 @@ namespace FitFinderBackEnd.Controllers
 
             if (userNameClaim == null)
             {
-                return Ok(new { StatusText = _statusTextService.UserClaimError });
+                return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
             ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
             if (applicationUser == null)
             {
-                return Ok(new { StatusText = _statusTextService.UserClaimError });
+                return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
 
@@ -367,14 +367,14 @@ namespace FitFinderBackEnd.Controllers
 
             if (getSource == null)
             {
-                return Ok(new { StatusText = _statusTextService.ResourceNotFound });
+                return Ok(new { statusText = _statusTextService.ResourceNotFound });
             }
 
             getSource.Name = source.Name;
             _context.Entry(getSource).State = EntityState.Modified;
             _context.SaveChanges();
 
-            return Ok(new {StatusText = _statusTextService.Success });
+            return Ok(new {statusText = _statusTextService.Success });
         }
 
         [HttpPost]
@@ -385,20 +385,20 @@ namespace FitFinderBackEnd.Controllers
 
             if (userNameClaim == null)
             {
-                return Ok(new { StatusText = _statusTextService.UserClaimError });
+                return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
             ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
             if (applicationUser == null)
             {
-                return Ok(new { StatusText = _statusTextService.UserClaimError });
+                return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
             rejectedReason.CompanyId = applicationUser.CompanyId;
             _context.RejectedReasons.Add(rejectedReason);
             _context.SaveChanges();
 
-            return Ok(new { rejectedReason, StatusText = _statusTextService.Success });
+            return Ok(new { rejectedReason, statusText = _statusTextService.Success });
         }
 
         [HttpPost]
@@ -409,20 +409,20 @@ namespace FitFinderBackEnd.Controllers
 
             if (userNameClaim == null)
             {
-                return Ok(new { StatusText = _statusTextService.UserClaimError });
+                return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
             ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
             if (applicationUser == null)
             {
-                return Ok(new { StatusText = _statusTextService.UserClaimError });
+                return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
             withdrawnReason.CompanyId = applicationUser.CompanyId;
             _context.WithdrawnReasons.Add(withdrawnReason);
             _context.SaveChanges();
 
-            return Ok(new { withdrawnReason, StatusText = _statusTextService.Success });
+            return Ok(new { withdrawnReason, statusText = _statusTextService.Success });
         }
 
         [HttpGet]
@@ -433,20 +433,20 @@ namespace FitFinderBackEnd.Controllers
 
             if (userNameClaim == null)
             {
-                return Ok(new { StatusText = _statusTextService.UserClaimError });
+                return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
             ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
             if (applicationUser == null)
             {
-                return Ok(new { StatusText = _statusTextService.UserClaimError });
+                return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
             List<RejectedReason> rejectedReasons = _context.RejectedReasons
                 .Where(x => x.CompanyId == applicationUser.CompanyId)
                 .ToList();
 
-            return Ok(new { rejectedReasons, StatusText = _statusTextService.Success });
+            return Ok(new { rejectedReasons, statusText = _statusTextService.Success });
         }
 
         [HttpGet]
@@ -457,20 +457,20 @@ namespace FitFinderBackEnd.Controllers
 
             if (userNameClaim == null)
             {
-                return Ok(new { StatusText = _statusTextService.UserClaimError });
+                return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
             ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
             if (applicationUser == null)
             {
-                return Ok(new { StatusText = _statusTextService.UserClaimError });
+                return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
             List<WithdrawnReason> withdrawnReasons = _context.WithdrawnReasons
                 .Where(x => x.CompanyId == applicationUser.CompanyId)
                 .ToList();
 
-            return Ok(new { withdrawnReasons, StatusText = _statusTextService.Success });
+            return Ok(new { withdrawnReasons, statusText = _statusTextService.Success });
         }
 
 
@@ -482,13 +482,13 @@ namespace FitFinderBackEnd.Controllers
 
             if (userNameClaim == null)
             {
-                return Ok(new { StatusText = _statusTextService.UserClaimError });
+                return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
             ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
             if (applicationUser == null)
             {
-                return Ok(new { StatusText = _statusTextService.UserClaimError });
+                return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
 
@@ -497,14 +497,14 @@ namespace FitFinderBackEnd.Controllers
 
             if (getRejectedReason == null)
             {
-                return Ok(new { StatusText = _statusTextService.ResourceNotFound });
+                return Ok(new { statusText = _statusTextService.ResourceNotFound });
             }
 
             getRejectedReason.Name = rejectedReason.Name;
             _context.Entry(getRejectedReason).State = EntityState.Modified;
             _context.SaveChanges();
 
-            return Ok(new { StatusText = _statusTextService.Success });
+            return Ok(new { statusText = _statusTextService.Success });
         }
 
         [HttpPut]
@@ -515,13 +515,13 @@ namespace FitFinderBackEnd.Controllers
 
             if (userNameClaim == null)
             {
-                return Ok(new { StatusText = _statusTextService.UserClaimError });
+                return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
             ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
             if (applicationUser == null)
             {
-                return Ok(new { StatusText = _statusTextService.UserClaimError });
+                return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
 
@@ -530,14 +530,14 @@ namespace FitFinderBackEnd.Controllers
 
             if (getWithdrawnReason == null)
             {
-                return Ok(new { StatusText = _statusTextService.ResourceNotFound });
+                return Ok(new { statusText = _statusTextService.ResourceNotFound });
             }
 
             withdrawnReason.Name = withdrawnReason.Name;
             _context.Entry(getWithdrawnReason).State = EntityState.Modified;
             _context.SaveChanges();
 
-            return Ok(new { StatusText = _statusTextService.Success });
+            return Ok(new { statusText = _statusTextService.Success });
         }
 
 
@@ -550,13 +550,13 @@ namespace FitFinderBackEnd.Controllers
 
             if (userNameClaim == null)
             {
-                return Ok(new { StatusText = _statusTextService.UserClaimError });
+                return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
             ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
             if (applicationUser == null)
             {
-                return Ok(new { StatusText = _statusTextService.UserClaimError });
+                return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
 
@@ -567,7 +567,7 @@ namespace FitFinderBackEnd.Controllers
         
 
             _context.SaveChanges();
-            return Ok(new { StatusText = _statusTextService.Success });
+            return Ok(new { statusText = _statusTextService.Success });
 
         }
 
@@ -586,7 +586,7 @@ namespace FitFinderBackEnd.Controllers
             //_context.PipelineStages.AddRange(pipeline.PipelineStage);
 
             _context.SaveChanges();
-            return Ok(new { StatusText = _statusTextService.Success });
+            return Ok(new { statusText = _statusTextService.Success });
 
         }
 
@@ -598,13 +598,13 @@ namespace FitFinderBackEnd.Controllers
 
             if (userNameClaim == null)
             {
-                return Ok(new { StatusText = _statusTextService.UserClaimError });
+                return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
             ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
             if (applicationUser == null)
             {
-                return Ok(new { StatusText = _statusTextService.UserClaimError });
+                return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
             List<Workflow> workflows = _context.Workflows
@@ -624,7 +624,7 @@ namespace FitFinderBackEnd.Controllers
                 .Include(x => x.PipelineStage)
                 .ToList();
 
-            return Ok(new { workflows, StatusText = _statusTextService.Success });
+            return Ok(new { workflows, statusText = _statusTextService.Success });
         }
 
 
@@ -651,7 +651,7 @@ namespace FitFinderBackEnd.Controllers
                 .ToList();
 
 
-            return Ok(new { workflow, StatusText = _statusTextService.Success });
+            return Ok(new { workflow, statusText = _statusTextService.Success });
         }
 
 
@@ -665,7 +665,7 @@ namespace FitFinderBackEnd.Controllers
 
             if (workflow == null)
             {
-                return Ok(new { StatusText = _statusTextService.ResourceNotFound });
+                return Ok(new { statusText = _statusTextService.ResourceNotFound });
             }
 
             List<Pipeline> pipelines = _context.Pipelines
@@ -682,7 +682,7 @@ namespace FitFinderBackEnd.Controllers
                 .ToList();
 
            
-            return Ok(new { workflow, StatusText = _statusTextService.Success });
+            return Ok(new { workflow, statusText = _statusTextService.Success });
         }
 
 
@@ -694,7 +694,7 @@ namespace FitFinderBackEnd.Controllers
             _context.PipelineStages.Add(pipelineStage);
             _context.SaveChanges();
 
-            return Ok(new { pipelineStage , StatusText = _statusTextService.Success });
+            return Ok(new { pipelineStage , statusText = _statusTextService.Success });
         }
 
         [HttpPost]
@@ -704,7 +704,7 @@ namespace FitFinderBackEnd.Controllers
             _context.PipelineStageCriterias.Add(pipelineStageCriteria);
             _context.SaveChanges();
 
-            return Ok(new { pipelineStageCriteria, StatusText = _statusTextService.Success });
+            return Ok(new { pipelineStageCriteria, statusText = _statusTextService.Success });
         }
 
         [HttpPut]
@@ -716,14 +716,14 @@ namespace FitFinderBackEnd.Controllers
 
             if (getPipelineStageCriteria == null)
             {
-                return Ok(new { StatusText = _statusTextService.ResourceNotFound });
+                return Ok(new { statusText = _statusTextService.ResourceNotFound });
             }
 
             getPipelineStageCriteria.Name = pipelineStageCriteria.Name;
             _context.Entry(getPipelineStageCriteria).State = EntityState.Modified;
             _context.SaveChanges();
 
-            return Ok(new { StatusText = _statusTextService.Success });
+            return Ok(new { statusText = _statusTextService.Success });
         }
 
         [HttpPut]
@@ -734,7 +734,7 @@ namespace FitFinderBackEnd.Controllers
 
             if (getPipelineStage == null)
             {
-                return Ok(new { StatusText = _statusTextService.ResourceNotFound });
+                return Ok(new { statusText = _statusTextService.ResourceNotFound });
             }
 
             getPipelineStage.Name = pipelineStage.Name;
@@ -743,7 +743,7 @@ namespace FitFinderBackEnd.Controllers
 
             _context.SaveChanges();
 
-            return Ok(new { StatusText = _statusTextService.Success });
+            return Ok(new { statusText = _statusTextService.Success });
         }
 
         [HttpPut]
@@ -755,7 +755,7 @@ namespace FitFinderBackEnd.Controllers
 
             if (getWorkflow == null)
             {
-                return Ok(new { StatusText = _statusTextService.ResourceNotFound });
+                return Ok(new { statusText = _statusTextService.ResourceNotFound });
             }
 
             getWorkflow.Name = workflow.Name;
@@ -763,7 +763,7 @@ namespace FitFinderBackEnd.Controllers
             _context.Entry(getWorkflow).State = EntityState.Modified;
             _context.SaveChanges();
 
-            return Ok( new { StatusText = _statusTextService.Success });
+            return Ok( new { statusText = _statusTextService.Success });
         }
 
         [HttpPost]
@@ -772,7 +772,7 @@ namespace FitFinderBackEnd.Controllers
         {
             _context.PipelineStageCriterias.AddRange(pipelineStageCriterias);
             _context.SaveChanges();
-            return Ok( new { StatusText = _statusTextService.Success });
+            return Ok( new { statusText = _statusTextService.Success });
         }
 
     }
