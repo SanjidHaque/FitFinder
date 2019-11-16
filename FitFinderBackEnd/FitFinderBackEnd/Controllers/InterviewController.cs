@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
@@ -177,6 +178,33 @@ namespace FitFinderBackEnd.Controllers
 
             _context.SaveChanges();
             return Ok(new { statusText = _statusTextService.Success });
+        }
+
+
+
+        [HttpDelete]
+        [Route("api/DeleteInterview/{interviewId}")]
+        [AllowAnonymous]
+        public IHttpActionResult DeleteInterview(long interviewId)
+        {
+            Interview interview = _context.Interviews.FirstOrDefault(x => x.Id == interviewId);
+
+            if (interview == null)
+            {
+                return Ok(new { statusText = _statusTextService.ResourceNotFound });
+            }
+
+            try
+            {
+                _context.Interviews.Remove(interview);
+                _context.SaveChanges();
+
+                return Ok(new { statusText = _statusTextService.Success });
+            }
+            catch (DbUpdateException)
+            {
+                return Ok(new { statusText = _statusTextService.ReportingPurposeIssue });
+            }
         }
     }
 }

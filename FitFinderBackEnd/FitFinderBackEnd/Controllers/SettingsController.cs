@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
@@ -773,6 +776,240 @@ namespace FitFinderBackEnd.Controllers
             _context.PipelineStageCriterias.AddRange(pipelineStageCriterias);
             _context.SaveChanges();
             return Ok( new { statusText = _statusTextService.Success });
+        }
+
+      
+
+
+        [HttpDelete]
+        [Route("api/DeleteDepartment/{departmentId}")]
+        [AllowAnonymous]
+        public IHttpActionResult DeleteDepartment(long departmentId)
+        {
+            Department department = _context.Departments.FirstOrDefault(x => x.Id == departmentId);
+
+            if (department == null)
+            {
+                return Ok(new {statusText = _statusTextService.ResourceNotFound});
+            }
+
+            try
+            {
+                _context.Departments.Remove(department);
+                _context.SaveChanges();
+
+                return Ok(new {statusText = _statusTextService.Success});
+            }
+            catch (DbUpdateException)
+            {
+                return Ok(new {statusText = _statusTextService.ReportingPurposeIssue});              
+            }
+        }
+
+        [HttpDelete]
+        [Route("api/DeleteSource/{sourceId}")]
+        [AllowAnonymous]
+        public IHttpActionResult DeleteSource(long sourceId)
+        {
+            Source source = _context.Sources.FirstOrDefault(x => x.Id == sourceId);
+
+            if (source == null)
+            {
+                return Ok(new { statusText = _statusTextService.ResourceNotFound });
+            }
+
+            try
+            {
+                _context.Sources.Remove(source);
+                _context.SaveChanges();
+
+                return Ok(new { statusText = _statusTextService.Success });
+            }
+            catch (DbUpdateException)
+            {
+                return Ok(new { statusText = _statusTextService.ReportingPurposeIssue });
+            }
+        }
+
+
+        [HttpDelete]
+        [Route("api/DeleteJobFunction/{jobfunctonId}")]
+        [AllowAnonymous]
+        public IHttpActionResult DeleteJobFunction(long jobfunctonId)
+        {
+            JobFunction jobFunction = _context.JobFunctions.FirstOrDefault(x => x.Id == jobfunctonId);
+
+            if (jobFunction == null)
+            {
+                return Ok(new { statusText = _statusTextService.ResourceNotFound });
+            }
+
+            try
+            {
+                _context.JobFunctions.Remove(jobFunction);
+                _context.SaveChanges();
+
+                return Ok(new { statusText = _statusTextService.Success });
+            }
+            catch (DbUpdateException)
+            {
+                return Ok(new { statusText = _statusTextService.ReportingPurposeIssue });
+            }
+        }
+
+        [HttpDelete]
+        [Route("api/DeleteJobType/{jobTypeId}")]
+        [AllowAnonymous]
+        public IHttpActionResult DeleteJobType(long jobTypeId)
+        {
+            JobType jobType = _context.JobTypes.FirstOrDefault(x => x.Id == jobTypeId);
+
+            if (jobType == null)
+            {
+                return Ok(new { statusText = _statusTextService.ResourceNotFound });
+            }
+
+            try
+            {
+                _context.JobTypes.Remove(jobType);
+                _context.SaveChanges();
+
+                return Ok(new { statusText = _statusTextService.Success });
+            }
+            catch (DbUpdateException)
+            {
+                return Ok(new { statusText = _statusTextService.ReportingPurposeIssue });
+            }
+        }
+
+        [HttpDelete]
+        [Route("api/DeleteRejectedReason/{rejectedReasonId}")]
+        [AllowAnonymous]
+        public IHttpActionResult DeleteRejectedReason(long rejectedReasonId)
+        {
+            RejectedReason rejectedReason = _context.RejectedReasons.FirstOrDefault(x => x.Id == rejectedReasonId);
+
+            if (rejectedReason == null)
+            {
+                return Ok(new { statusText = _statusTextService.ResourceNotFound });
+            }
+
+            try
+            {
+                _context.RejectedReasons.Remove(rejectedReason);
+                _context.SaveChanges();
+
+                return Ok(new { statusText = _statusTextService.Success });
+            }
+            catch (DbUpdateException)
+            {
+                return Ok(new { statusText = _statusTextService.ReportingPurposeIssue });
+            }
+        }
+
+
+
+        [HttpDelete]
+        [Route("api/DeleteWithdrawnReason/{withdrawnReasonId}")]
+        [AllowAnonymous]
+        public IHttpActionResult DeleteWithdrawnReason(long withdrawnReasonId)
+        {
+            WithdrawnReason withdrawnReason = _context.WithdrawnReasons.FirstOrDefault(x => x.Id == withdrawnReasonId);
+
+            if (withdrawnReason == null)
+            {
+                return Ok(new { statusText = _statusTextService.ResourceNotFound });
+            }
+
+            try
+            {
+                _context.WithdrawnReasons.Remove(withdrawnReason);
+                _context.SaveChanges();
+
+                return Ok(new { statusText = _statusTextService.Success });
+            }
+            catch (DbUpdateException)
+            {
+                return Ok(new { statusText = _statusTextService.ReportingPurposeIssue });
+            }
+        }
+
+        [HttpDelete]
+        [Route("api/DeleteWorkflow/{workflowId}")]
+        [AllowAnonymous]
+        public IHttpActionResult DeleteWorkflow(long workflowId)
+        {
+            Workflow workflow = _context.Workflows.FirstOrDefault(x => x.Id == workflowId);
+
+            if (workflow == null)
+            {
+                return Ok(new { statusText = _statusTextService.ResourceNotFound });
+            }
+
+            try
+            {
+                _context.Workflows.Remove(workflow);
+                _context.SaveChanges();
+
+                return Ok(new { statusText = _statusTextService.Success });
+            }
+            catch (DbUpdateException)
+            {
+                return Ok(new { statusText = _statusTextService.ReportingPurposeIssue });
+            }
+        }
+
+
+
+        [HttpDelete]
+        [Route("api/DeletePipelineStage/{pipelineStageId}")]
+        [AllowAnonymous]
+        public IHttpActionResult DeletePipelineStage(long pipelineStageId)
+        {
+            PipelineStage pipelineStage = _context.PipelineStages.FirstOrDefault(x => x.Id == pipelineStageId);
+
+            if (pipelineStage == null)
+            {
+                return Ok(new { statusText = _statusTextService.ResourceNotFound });
+            }
+
+            try
+            {
+                _context.PipelineStages.Remove(pipelineStage);
+                _context.SaveChanges();
+
+                return Ok(new { statusText = _statusTextService.Success });
+            }
+            catch (DbUpdateException)
+            {
+                return Ok(new { statusText = _statusTextService.ReportingPurposeIssue });
+            }
+        }
+
+
+        [HttpDelete]
+        [Route("api/DeletePipelineStageCriteria/{pipelineStageCriteriaId}")]
+        [AllowAnonymous]
+        public IHttpActionResult DeletePipelineStageCriteria(long pipelineStageCriteriaId)
+        {
+            PipelineStageCriteria pipelineStageCriteria = _context.PipelineStageCriterias.FirstOrDefault(x => x.Id == pipelineStageCriteriaId);
+
+            if (pipelineStageCriteria == null)
+            {
+                return Ok(new { statusText = _statusTextService.ResourceNotFound });
+            }
+
+            try
+            {
+                _context.PipelineStageCriterias.Remove(pipelineStageCriteria);
+                _context.SaveChanges();
+
+                return Ok(new { statusText = _statusTextService.Success });
+            }
+            catch (DbUpdateException)
+            {
+                return Ok(new { statusText = _statusTextService.ReportingPurposeIssue });
+            }
         }
 
     }

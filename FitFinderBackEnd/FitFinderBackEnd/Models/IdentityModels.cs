@@ -39,11 +39,12 @@ namespace FitFinderBackEnd.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
 
-       /* protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
-        }*/
+            modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
+        }
 
         public DbSet<Candidate.Candidate> Candidates { get; set; }
         public DbSet<CandidateEducation> CandidateEducations { get; set; }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
@@ -218,11 +219,42 @@ namespace FitFinderBackEnd.Controllers
             foreach (var job in jobs)
             {
                 Job getJob = _context.Jobs.FirstOrDefault(x => x.Id == job.Id);
-                if (getJob != null) getJob.IsFavourite = false;
+                if (getJob != null)
+                {
+                    getJob.IsFavourite = false;
+                }
             }
 
             _context.SaveChanges();
             return Ok(new { statusText = _statusTextService.Success });
         }
+
+
+        [HttpDelete]
+        [Route("api/DeleteJob/{jobId}")]
+        [AllowAnonymous]
+        public IHttpActionResult DeleteJob(long jobId)
+        {
+            Job job = _context.Jobs.FirstOrDefault(x => x.Id == jobId);
+
+            if (job == null)
+            {
+                return Ok(new { statusText = _statusTextService.ResourceNotFound });
+            }
+
+            try
+            {
+                _context.Jobs.Remove(job);
+                _context.SaveChanges();
+
+                return Ok(new { statusText = _statusTextService.Success });
+            }
+            catch (DbUpdateException)
+            {
+                return Ok(new { statusText = _statusTextService.ReportingPurposeIssue });
+            }
+        }
+
+
     }
 }
