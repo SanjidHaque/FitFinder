@@ -77,9 +77,9 @@ namespace FitFinderBackEnd.Controllers
             _context.SaveChanges();
 
 
-            //if (candidate.JobAssigned.Count > 0)
+            //if (candidate.JobAssignment.Count > 0)
             //{
-            //    candidate.JobAssigned[0].CandidateId = candidate.Id;
+            //    candidate.JobAssignment[0].CandidateId = candidate.Id;
 
 
 
@@ -118,11 +118,53 @@ namespace FitFinderBackEnd.Controllers
         [Route("api/EditCandidate")]
         public IHttpActionResult EditCandidate(Candidate candidate)
         {
-                
+            Candidate getCandidate = _context.Candidates.FirstOrDefault(x => x.Id == candidate.Id);
+            if (getCandidate == null)
+            {
+                return Ok(new { statusText = _statusTextService.ResourceNotFound });
+            }
 
+            getCandidate.FirstName = candidate.FirstName;
+            getCandidate.LastName = candidate.LastName;
+            getCandidate.Address = candidate.Address;
+            getCandidate.Email = candidate.Email;
+            getCandidate.Mobile = candidate.Mobile;
+            getCandidate.City = candidate.City;
+            getCandidate.State = candidate.State;
+            getCandidate.SourceId = candidate.SourceId;
+            getCandidate.FacebookUrl = candidate.FacebookUrl;
+            getCandidate.LinkedInUrl = candidate.LinkedInUrl;
+            getCandidate.Country = candidate.Country;
+
+            UpdateCandidateEducations(getCandidate);
+            UpdateCandidateExperiences(getCandidate);
+
+            _context.Entry(getCandidate).State = EntityState.Modified;
+            _context.SaveChanges();
 
             return Ok(new { statusText = _statusTextService.Success });
         }
+
+        private void UpdateCandidateEducations(Candidate candidate)
+        {
+            List<CandidateEducation> candidateEducations = _context.CandidateEducations
+                .Where(x => x.CandidateId == candidate.Id)
+                .ToList();
+
+            _context.CandidateEducations.RemoveRange(candidateEducations);
+            _context.CandidateEducations.AddRange(candidate.CandidateEducation);
+        }
+
+        private void UpdateCandidateExperiences(Candidate candidate)
+        {
+            List<CandidateExperience> candidateExperiences = _context.CandidateExperiences
+                .Where(x => x.CandidateId == candidate.Id)
+                .ToList();
+
+            _context.CandidateExperiences.RemoveRange(candidateExperiences);
+            _context.CandidateExperiences.AddRange(candidate.CandidateExperience);
+        }
+
 
         [HttpPost]
         [Route("api/UploadAttachments")]
@@ -163,7 +205,7 @@ namespace FitFinderBackEnd.Controllers
                 .OrderByDescending(x => x.Id)
                 .ToList();
 
-            List<JobAssigned> jobAssigneds = _context.JobAssigneds
+            List<JobAssignment> jobAssignments = _context.JobAssignments
                 .Include(x => x.Candidate)
                 .ToList();
 
@@ -186,7 +228,7 @@ namespace FitFinderBackEnd.Controllers
             }
 
 
-            List<JobAssigned> jobAssigneds = _context.JobAssigneds
+            List<JobAssignment> jobAssigneds = _context.JobAssignments
                 .Where(x => x.CandidateId == candidateId)
                 .ToList();
 
@@ -220,15 +262,15 @@ namespace FitFinderBackEnd.Controllers
          
 
             List<CriteriaScore> criteriaScores = _context.CriteriaScores
-                .Include(x => x.JobAssigned)
+                .Include(x => x.JobAssignment)
                 .ToList();
 
             List<StageScore> stageScores = _context.StageScores
-                .Include(x => x.JobAssigned)
+                .Include(x => x.JobAssignment)
                 .ToList();
 
             List<StageComment> stageComments = _context.StageComments
-                .Include(x => x.JobAssigned)
+                .Include(x => x.JobAssignment)
                 .ToList();
 
 
@@ -256,7 +298,10 @@ namespace FitFinderBackEnd.Controllers
             foreach (var candidate in candidates)
             {
                 Candidate getCandidate = _context.Candidates.FirstOrDefault(x => x.Id == candidate.Id);
-                if (getCandidate != null) getCandidate.IsArchived = true;
+                if (getCandidate != null)
+                {
+                    getCandidate.IsArchived = true;
+                }
             }
 
             _context.SaveChanges();
@@ -270,7 +315,10 @@ namespace FitFinderBackEnd.Controllers
             foreach (var candidate in candidates)
             {
                 Candidate getCandidate = _context.Candidates.FirstOrDefault(x => x.Id == candidate.Id);
-                if (getCandidate != null) getCandidate.IsArchived = false;
+                if (getCandidate != null)
+                {
+                    getCandidate.IsArchived = false;
+                }
             }
 
             _context.SaveChanges();
@@ -285,7 +333,10 @@ namespace FitFinderBackEnd.Controllers
             foreach (var candidate in candidates)
             {
                 Candidate getCandidate = _context.Candidates.FirstOrDefault(x => x.Id == candidate.Id);
-                if (getCandidate != null) getCandidate.IsFavourite = true;
+                if (getCandidate != null)
+                {
+                    getCandidate.IsFavourite = true;
+                }
             }
 
             _context.SaveChanges();
@@ -300,7 +351,10 @@ namespace FitFinderBackEnd.Controllers
             foreach (var candidate in candidates)
             {
                 Candidate getCandidate = _context.Candidates.FirstOrDefault(x => x.Id == candidate.Id);
-                if (getCandidate != null) getCandidate.IsFavourite = false;
+                if (getCandidate != null)
+                {
+                    getCandidate.IsFavourite = false;
+                }
             }
 
             _context.SaveChanges();
@@ -319,17 +373,19 @@ namespace FitFinderBackEnd.Controllers
                 return Ok(new { statusText = _statusTextService.ResourceNotFound });
             }
 
-            try
-            {
-                _context.Candidates.Remove(candidate);
-                _context.SaveChanges();
 
-                return Ok(new { statusText = _statusTextService.Success });
-            }
-            catch (DbUpdateException)
+            bool hasRelation = _context.CandidatesForInterviews.Any(o => o.InterviewId == candidateId);
+
+            if (hasRelation)
             {
-                return Ok(new { statusText = _statusTextService.ReportingPurposeIssue });
+                return Ok(new { StatusText = _statusTextService.ReportingPurposeIssue });
             }
+
+            _context.Candidates.Remove(candidate);
+            _context.SaveChanges();
+
+            return Ok(new { statusText = _statusTextService.Success });
+
         }
 
     }

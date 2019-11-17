@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity;
+using System.Data.Entity.Core.Objects.DataClasses;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net.Http;
@@ -92,6 +94,23 @@ namespace FitFinderBackEnd.Controllers
         [Route("api/EditInterview")]
         public IHttpActionResult EditInterview(Interview interview)
         {
+            Interview getInterview = _context.Interviews.FirstOrDefault(x => x.Id == interview.Id);
+            if (getInterview == null)
+            {
+                return Ok(new { statusText = _statusTextService.ResourceNotFound });
+            }
+
+            getInterview.InterviewName = interview.InterviewName;
+            getInterview.InterviewDate = interview.InterviewDate;
+            getInterview.InterviewStartTime = interview.InterviewStartTime;
+            getInterview.InterviewEndTime = interview.InterviewEndTime;
+            getInterview.InterviewLocation = interview.InterviewLocation;
+            getInterview.InterviewStatus = interview.InterviewStatus;
+            getInterview.InterviewType = interview.InterviewType;
+
+            _context.Entry(getInterview).State = EntityState.Modified;
+            _context.SaveChanges();
+
             return Ok(new { statusText = _statusTextService.Success });
         }
 
@@ -159,7 +178,10 @@ namespace FitFinderBackEnd.Controllers
             foreach (var interview in interviews)
             {
                 Interview getInterview = _context.Interviews.FirstOrDefault(x => x.Id == interview.Id);
-                if (getInterview != null) getInterview.IsArchived = true;
+                if (getInterview != null)
+                {
+                    getInterview.IsArchived = true;
+                }
             }
 
             _context.SaveChanges();
@@ -173,7 +195,10 @@ namespace FitFinderBackEnd.Controllers
             foreach (var interview in interviews)
             {
                 Interview getInterview = _context.Interviews.FirstOrDefault(x => x.Id == interview.Id);
-                if (getInterview != null) getInterview.IsArchived = false;
+                if (getInterview != null)
+                {
+                    getInterview.IsArchived = false;
+                }
             }
 
             _context.SaveChanges();
@@ -194,17 +219,22 @@ namespace FitFinderBackEnd.Controllers
                 return Ok(new { statusText = _statusTextService.ResourceNotFound });
             }
 
-            try
-            {
-                _context.Interviews.Remove(interview);
-                _context.SaveChanges();
+            bool hasRelation = (_context.InterviewersForInterviews.Any(o => o.InterviewId == interviewId)
+                               && _context.CandidatesForInterviews.Any(o => o.InterviewId == interviewId));
 
-                return Ok(new { statusText = _statusTextService.Success });
-            }
-            catch (DbUpdateException)
+            if (hasRelation)
             {
-                return Ok(new { statusText = _statusTextService.ReportingPurposeIssue });
+                return Ok(new { StatusText = _statusTextService.ReportingPurposeIssue });
             }
+
+
+            _context.Interviews.Remove(interview);
+            _context.SaveChanges();
+
+            return Ok(new { statusText = _statusTextService.Success });
+            
+          //  return Ok(new { statusText = _statusTextService.ReportingPurposeIssue });
+          
         }
     }
 }

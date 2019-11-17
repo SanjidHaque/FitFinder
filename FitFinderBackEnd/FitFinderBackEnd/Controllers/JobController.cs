@@ -88,6 +88,35 @@ namespace FitFinderBackEnd.Controllers
         [Route("api/EditJob")]
         public IHttpActionResult EditJob(Job job)
         {
+            Job getJob = _context.Jobs.FirstOrDefault(x => x.Id == job.Id);
+            if (getJob == null)
+            {
+                return Ok(new { statusText = _statusTextService.ResourceNotFound });
+            }
+
+
+            getJob.DepartmentId = job.DepartmentId;
+            getJob.JobCode = job.JobCode;
+            getJob.JobDescription = job.JobDescription;
+            getJob.JobImmediate = job.JobImmediate;
+            getJob.JobIntermediate = job.JobIntermediate;
+            getJob.JobGoodToHave = job.JobGoodToHave;
+            getJob.JobFunctionId = job.JobFunctionId;
+            getJob.JobTitle = job.JobTitle;
+            getJob.JobTypeId = job.JobTypeId;
+            getJob.JobLocation = job.JobLocation;
+            getJob.JobExperienceStarts = job.JobExperienceStarts;
+            getJob.JobExperienceEnds = job.JobExperienceEnds;
+            getJob.JobSalaryStarts = job.JobSalaryStarts;
+            getJob.JobSalaryEnds = job.JobSalaryEnds;
+            getJob.JobClosingDate = job.JobClosingDate;
+            getJob.JobPositions = job.JobPositions;
+            
+
+
+            _context.Entry(getJob).State = EntityState.Modified;
+            _context.SaveChanges();
+
             return Ok(new { statusText = _statusTextService.Success });
         }
 
@@ -177,7 +206,10 @@ namespace FitFinderBackEnd.Controllers
             foreach (var job in jobs)
             {
                 Job getJob = _context.Jobs.FirstOrDefault(x => x.Id == job.Id);
-                if (getJob != null) getJob.IsArchived = true;
+                if (getJob != null)
+                {
+                    getJob.IsArchived = true;
+                }
             }
 
             _context.SaveChanges();
@@ -191,7 +223,10 @@ namespace FitFinderBackEnd.Controllers
             foreach (var job in jobs)
             {
                 Job getJob = _context.Jobs.FirstOrDefault(x => x.Id == job.Id);
-                if (getJob != null) getJob.IsArchived = false;
+                if (getJob != null)
+                {
+                    getJob.IsArchived = false;
+                }
             }
 
             _context.SaveChanges();
@@ -205,7 +240,10 @@ namespace FitFinderBackEnd.Controllers
             foreach (var job in jobs)
             {
                 Job getJob = _context.Jobs.FirstOrDefault(x => x.Id == job.Id);
-                if (getJob != null) getJob.IsFavourite = true;
+                if (getJob != null)
+                {
+                    getJob.IsFavourite = true;
+                }
             }
 
             _context.SaveChanges();
@@ -242,17 +280,21 @@ namespace FitFinderBackEnd.Controllers
                 return Ok(new { statusText = _statusTextService.ResourceNotFound });
             }
 
-            try
-            {
-                _context.Jobs.Remove(job);
-                _context.SaveChanges();
 
-                return Ok(new { statusText = _statusTextService.Success });
-            }
-            catch (DbUpdateException)
+            bool hasRelation = (_context.JobAssignments.Any(o => o.JobId == jobId)
+                                && _context.PipelineStageCriterias.Any(o => o.JobId == jobId));
+
+            if (hasRelation)
             {
-                return Ok(new { statusText = _statusTextService.ReportingPurposeIssue });
+                return Ok(new { StatusText = _statusTextService.ReportingPurposeIssue });
             }
+
+
+            _context.Jobs.Remove(job);
+            _context.SaveChanges();
+
+            return Ok(new { statusText = _statusTextService.Success });
+            
         }
 
 

@@ -304,6 +304,18 @@
     <Compile Include="Migrations\201911151702243_turningOffCascadeDelete.Designer.cs">
       <DependentUpon>201911151702243_turningOffCascadeDelete.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201911161607274_jobAssignedModelRenamed.cs" />
+    <Compile Include="Migrations\201911161607274_jobAssignedModelRenamed.Designer.cs">
+      <DependentUpon>201911161607274_jobAssignedModelRenamed.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911161619584_turningOnCascadeDelete.cs" />
+    <Compile Include="Migrations\201911161619584_turningOnCascadeDelete.Designer.cs">
+      <DependentUpon>201911161619584_turningOnCascadeDelete.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911161816271_JobIdIsRemovedFromSomeClasses.cs" />
+    <Compile Include="Migrations\201911161816271_JobIdIsRemovedFromSomeClasses.Designer.cs">
+      <DependentUpon>201911161816271_JobIdIsRemovedFromSomeClasses.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -311,7 +323,7 @@
     <Compile Include="Models\Candidate\CandidateAttachment.cs" />
     <Compile Include="Models\Candidate\CandidateEducation.cs" />
     <Compile Include="Models\Candidate\CandidateExperience.cs" />
-    <Compile Include="Models\Candidate\JobAssigned.cs" />
+    <Compile Include="Models\Candidate\JobAssignment.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Interview\CandidatesForInterview.cs" />
     <Compile Include="Models\Interview\Interview.cs" />
@@ -503,6 +515,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201911151702243_turningOffCascadeDelete.resx">
       <DependentUpon>201911151702243_turningOffCascadeDelete.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911161607274_jobAssignedModelRenamed.resx">
+      <DependentUpon>201911161607274_jobAssignedModelRenamed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911161619584_turningOnCascadeDelete.resx">
+      <DependentUpon>201911161619584_turningOnCascadeDelete.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911161816271_JobIdIsRemovedFromSomeClasses.resx">
+      <DependentUpon>201911161816271_JobIdIsRemovedFromSomeClasses.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

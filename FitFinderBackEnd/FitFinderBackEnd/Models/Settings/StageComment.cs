@@ -9,11 +9,10 @@ namespace FitFinderBackEnd.Models.Settings
     public class StageComment
     {
         public long Id { get; set; }
-        public JobAssigned  JobAssigned { get; set; }
-        public long JobAssignedId { get; set; }
+        public JobAssignment JobAssignment { get; set; }
+        public long JobAssignmentId { get; set; }
         public long PipelineStageId { get; set; }
         public long CandidateId { get; set; }
-        public long JobId { get; set; }
         public string Comment { get; set; }
     }
 }

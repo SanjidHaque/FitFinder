@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
@@ -713,15 +714,21 @@ namespace FitFinderBackEnd.Controllers
             ApplicationUser applicationUser = _context.Users.FirstOrDefault(p => p.Id == userAccountId);
             if (applicationUser == null)
             {
-                return Ok(new { statusText = _statusTextService.UserClaimError });
+                return Ok(new { statusText = _statusTextService.ResourceNotFound });
             }
 
+            try
+            {
+                _context.Users.Remove(applicationUser);
+                _context.SaveChanges();
 
-
-            _context.Users.Remove(applicationUser);
-            _context.SaveChanges();
-
-             return Ok(new { statusText = _statusTextService.Success });
+                return Ok(new { statusText = _statusTextService.Success });
+            }
+            catch (DbUpdateException)
+            {
+                return Ok(new { statusText = _statusTextService.ReportingPurposeIssue });
+            }
+            
         }
 
         [HttpPost]

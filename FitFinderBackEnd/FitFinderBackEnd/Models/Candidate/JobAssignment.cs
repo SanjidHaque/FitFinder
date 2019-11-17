@@ -6,7 +6,7 @@ using FitFinderBackEnd.Models.Settings;
 
 namespace FitFinderBackEnd.Models.Candidate
 {
-    public class JobAssigned
+    public class JobAssignment
     {
         public long Id { get; set; }
         public Candidate Candidate { get; set; }

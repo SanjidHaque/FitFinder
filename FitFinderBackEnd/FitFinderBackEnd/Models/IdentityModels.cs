@@ -42,8 +42,10 @@ namespace FitFinderBackEnd.Models
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
-            modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
+            modelBuilder.Conventions.Add<OneToManyCascadeDeleteConvention>();
+            modelBuilder.Conventions.Add<ManyToManyCascadeDeleteConvention>();
+
+
         }
 
         public DbSet<Candidate.Candidate> Candidates { get; set; }
@@ -72,7 +74,7 @@ namespace FitFinderBackEnd.Models
         public DbSet<PipelineStage> PipelineStages { get; set; }
         public DbSet<PipelineStageCriteria> PipelineStageCriterias { get; set; }
 
-        public DbSet<JobAssigned> JobAssigneds { get; set; }
+        public DbSet<JobAssignment> JobAssignments { get; set; }
         public DbSet<StageScore> StageScores { get; set; }
         public DbSet<CriteriaScore> CriteriaScores { get; set; }
         public DbSet<StageComment> StageComments { get; set; }

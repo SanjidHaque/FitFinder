@@ -711,7 +711,7 @@ namespace FitFinderBackEnd.Controllers
         }
 
         [HttpPut]
-        [Route("api/EditPipelineStageCriteria")]
+        [Route("api/EditPiEditPipelineStageCriteria")]
         public IHttpActionResult EditPipelineStageCriteria(PipelineStageCriteria pipelineStageCriteria)
         {
 
@@ -778,7 +778,7 @@ namespace FitFinderBackEnd.Controllers
             return Ok( new { statusText = _statusTextService.Success });
         }
 
-      
+
 
 
         [HttpDelete]
@@ -793,17 +793,21 @@ namespace FitFinderBackEnd.Controllers
                 return Ok(new {statusText = _statusTextService.ResourceNotFound});
             }
 
-            try
-            {
-                _context.Departments.Remove(department);
-                _context.SaveChanges();
+            bool hasRelation = (_context.Jobs.Any(o => o.DepartmentId == departmentId)
+                                && _context.Users.Any(o => o.DepartmentId == departmentId));
 
-                return Ok(new {statusText = _statusTextService.Success});
-            }
-            catch (DbUpdateException)
+            if (hasRelation)
             {
-                return Ok(new {statusText = _statusTextService.ReportingPurposeIssue});              
+                return Ok(new {StatusText = _statusTextService.ReportingPurposeIssue});
             }
+
+
+            _context.Departments.Remove(department);
+            _context.SaveChanges();
+
+            return Ok(new { statusText = _statusTextService.Success });
+
+
         }
 
         [HttpDelete]
@@ -818,17 +822,20 @@ namespace FitFinderBackEnd.Controllers
                 return Ok(new { statusText = _statusTextService.ResourceNotFound });
             }
 
-            try
-            {
-                _context.Sources.Remove(source);
-                _context.SaveChanges();
 
-                return Ok(new { statusText = _statusTextService.Success });
-            }
-            catch (DbUpdateException)
+            bool hasRelation = _context.Candidates.Any(o => o.SourceId == sourceId);
+
+            if (hasRelation)
             {
-                return Ok(new { statusText = _statusTextService.ReportingPurposeIssue });
+                return Ok(new { StatusText = _statusTextService.ReportingPurposeIssue });
             }
+
+
+            _context.Sources.Remove(source);
+            _context.SaveChanges();
+
+            return Ok(new { statusText = _statusTextService.Success });
+
         }
 
 
@@ -844,17 +851,21 @@ namespace FitFinderBackEnd.Controllers
                 return Ok(new { statusText = _statusTextService.ResourceNotFound });
             }
 
-            try
-            {
-                _context.JobFunctions.Remove(jobFunction);
-                _context.SaveChanges();
 
-                return Ok(new { statusText = _statusTextService.Success });
-            }
-            catch (DbUpdateException)
+            bool hasRelation = _context.Jobs.Any(o => o.JobFunctionId == jobfunctonId);
+
+            if (hasRelation)
             {
-                return Ok(new { statusText = _statusTextService.ReportingPurposeIssue });
+                return Ok(new { StatusText = _statusTextService.ReportingPurposeIssue });
             }
+
+
+
+            _context.JobFunctions.Remove(jobFunction);
+            _context.SaveChanges();
+
+            return Ok(new { statusText = _statusTextService.Success });
+
         }
 
         [HttpDelete]
@@ -869,17 +880,18 @@ namespace FitFinderBackEnd.Controllers
                 return Ok(new { statusText = _statusTextService.ResourceNotFound });
             }
 
-            try
-            {
-                _context.JobTypes.Remove(jobType);
-                _context.SaveChanges();
+            bool hasRelation = _context.Jobs.Any(o => o.JobTypeId == jobTypeId);
 
-                return Ok(new { statusText = _statusTextService.Success });
-            }
-            catch (DbUpdateException)
+            if (hasRelation)
             {
-                return Ok(new { statusText = _statusTextService.ReportingPurposeIssue });
+                return Ok(new { StatusText = _statusTextService.ReportingPurposeIssue });
             }
+
+            _context.JobTypes.Remove(jobType);
+            _context.SaveChanges();
+
+            return Ok(new { statusText = _statusTextService.Success });
+
         }
 
         [HttpDelete]
@@ -894,17 +906,19 @@ namespace FitFinderBackEnd.Controllers
                 return Ok(new { statusText = _statusTextService.ResourceNotFound });
             }
 
-            try
-            {
-                _context.RejectedReasons.Remove(rejectedReason);
-                _context.SaveChanges();
+            bool hasRelation = false;
 
-                return Ok(new { statusText = _statusTextService.Success });
-            }
-            catch (DbUpdateException)
+            if (hasRelation)
             {
-                return Ok(new { statusText = _statusTextService.ReportingPurposeIssue });
+                return Ok(new { StatusText = _statusTextService.ReportingPurposeIssue });
             }
+
+
+            _context.RejectedReasons.Remove(rejectedReason);
+            _context.SaveChanges();
+
+            return Ok(new { statusText = _statusTextService.Success });
+
         }
 
 
@@ -921,17 +935,19 @@ namespace FitFinderBackEnd.Controllers
                 return Ok(new { statusText = _statusTextService.ResourceNotFound });
             }
 
-            try
-            {
-                _context.WithdrawnReasons.Remove(withdrawnReason);
-                _context.SaveChanges();
+            bool hasRelation = false;
 
-                return Ok(new { statusText = _statusTextService.Success });
-            }
-            catch (DbUpdateException)
+            if (hasRelation)
             {
-                return Ok(new { statusText = _statusTextService.ReportingPurposeIssue });
+                return Ok(new { StatusText = _statusTextService.ReportingPurposeIssue });
             }
+
+
+            _context.WithdrawnReasons.Remove(withdrawnReason);
+            _context.SaveChanges();
+
+            return Ok(new { statusText = _statusTextService.Success });
+
         }
 
         [HttpDelete]
@@ -946,17 +962,20 @@ namespace FitFinderBackEnd.Controllers
                 return Ok(new { statusText = _statusTextService.ResourceNotFound });
             }
 
-            try
-            {
-                _context.Workflows.Remove(workflow);
-                _context.SaveChanges();
 
-                return Ok(new { statusText = _statusTextService.Success });
-            }
-            catch (DbUpdateException)
+            bool hasRelation = _context.Jobs.Any(o => o.WorkflowId == workflowId);
+
+            if (hasRelation)
             {
-                return Ok(new { statusText = _statusTextService.ReportingPurposeIssue });
+                return Ok(new { StatusText = _statusTextService.ReportingPurposeIssue });
             }
+
+
+            _context.Workflows.Remove(workflow);
+            _context.SaveChanges();
+
+            return Ok(new { statusText = _statusTextService.Success });
+
         }
 
 
@@ -973,17 +992,20 @@ namespace FitFinderBackEnd.Controllers
                 return Ok(new { statusText = _statusTextService.ResourceNotFound });
             }
 
-            try
-            {
-                _context.PipelineStages.Remove(pipelineStage);
-                _context.SaveChanges();
 
-                return Ok(new { statusText = _statusTextService.Success });
-            }
-            catch (DbUpdateException)
+            bool hasRelation = (_context.StageComments.Any(o => o.PipelineStageId == pipelineStageId) 
+                                && _context.StageScores.Any(o => o.PipelineStageId == pipelineStageId));
+
+            if (hasRelation)
             {
-                return Ok(new { statusText = _statusTextService.ReportingPurposeIssue });
+                return Ok(new { StatusText = _statusTextService.ReportingPurposeIssue });
             }
+
+
+            _context.PipelineStages.Remove(pipelineStage);
+            _context.SaveChanges();
+
+
         }
 
 
@@ -999,17 +1021,20 @@ namespace FitFinderBackEnd.Controllers
                 return Ok(new { statusText = _statusTextService.ResourceNotFound });
             }
 
-            try
-            {
-                _context.PipelineStageCriterias.Remove(pipelineStageCriteria);
-                _context.SaveChanges();
 
-                return Ok(new { statusText = _statusTextService.Success });
-            }
-            catch (DbUpdateException)
+            bool hasRelation = _context.CriteriaScores.Any(o => o.PipelineStageCriteriaId == pipelineStageCriteriaId);
+
+            if (hasRelation)
             {
-                return Ok(new { statusText = _statusTextService.ReportingPurposeIssue });
+                return Ok(new { StatusText = _statusTextService.ReportingPurposeIssue });
             }
+
+
+            _context.PipelineStageCriterias.Remove(pipelineStageCriteria);
+            _context.SaveChanges();
+
+            return Ok(new { statusText = _statusTextService.Success });
+
         }
 
     }
