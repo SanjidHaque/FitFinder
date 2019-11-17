@@ -731,7 +731,7 @@ namespace FitFinderBackEnd.Controllers
             
         }
 
-        [HttpPost]
+        [HttpDelete]
         [Route("api/DeleteCompany")]
         [AllowAnonymous]
         public IHttpActionResult DeleteCompany(Company company)

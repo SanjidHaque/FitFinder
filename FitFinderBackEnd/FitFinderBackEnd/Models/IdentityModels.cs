@@ -72,7 +72,7 @@ namespace FitFinderBackEnd.Models
         public DbSet<Workflow> Workflows { get; set; }
         public DbSet<Pipeline> Pipelines { get; set; }
         public DbSet<PipelineStage> PipelineStages { get; set; }
-        public DbSet<PipelineStageCriteria> PipelineStageCriterias { get; set; }
+        public DbSet<PipelineStageCriterion> PipelineStageCriteria { get; set; }
 
         public DbSet<JobAssignment> JobAssignments { get; set; }
         public DbSet<StageScore> StageScores { get; set; }

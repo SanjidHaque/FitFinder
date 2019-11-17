@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace FitFinderBackEnd.Models.Settings
+﻿namespace FitFinderBackEnd.Models.Settings
 {
-    public class PipelineStageCriteria
+    public class PipelineStageCriterion
     {
         public long Id { get; set; }
         public string Name { get; set; }

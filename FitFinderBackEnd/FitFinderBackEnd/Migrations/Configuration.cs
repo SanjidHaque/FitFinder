@@ -20,106 +20,106 @@ namespace FitFinderBackEnd.Migrations
 
         protected override void Seed(ApplicationDbContext context)
         {
-            /*context.Workflows.AddOrUpdate(x => x.Id, 
-                new Workflow
-                {
-                    CompanyId = null,
-                    Name = "Default",
-                    Pipelines = new List<Pipeline>()
-                    {
-                        new Pipeline
-                        {
-                            Name = "NEW",
-                            PipelineStage = new List<PipelineStage>() {
-                                new PipelineStage
-                                {
-                                    Name = "New",
-                                    Color = "#ff6600",
-                                    PipelineStageCriteria = new List<PipelineStageCriteria>()
-                                } }
-                        },
-                        new Pipeline
-                        {
-                            Name = "INREVIEW",
-                            PipelineStage = new List<PipelineStage>() {
-                                    new PipelineStage
-                                    {
-                                        Name = "In Review",
-                                        Color = "#498BC5",
-                                        PipelineStageCriteria = new List<PipelineStageCriteria>()
-                                    } }
-                        },
-                        new Pipeline
-                        {
-                            Name = "INTERVIEW",
-                            PipelineStage = new List<PipelineStage>() {
-                                    new PipelineStage
-                                    {
-                                        Name = "Interview",
-                                        Color = "#00ccff",
-                                        PipelineStageCriteria = new List<PipelineStageCriteria>()
-                                    },
-                                    new PipelineStage
-                                    {
-                                        Name = "Viva",
-                                        Color = "#66cc99",
-                                        PipelineStageCriteria = new List<PipelineStageCriteria>()
-                                    } }
-                        },
-                        new Pipeline
-                        {
-                            Name = "OFFERED",                    
-                            PipelineStage = new List<PipelineStage>() {
-                                    new PipelineStage
-                                    {
-                                        Name = "Offered",
-                                        Color = "#6666ff",
-                                        PipelineStageCriteria = new List<PipelineStageCriteria>()
-                                    } }
-                        },
-                        new Pipeline
-                        {
-                            Name = "ONHOLD",                 
-                            PipelineStage = new List<PipelineStage>() {
-                                    new PipelineStage
-                                    {
-                                        Name = "On Hold",
-                                        Color = "#663300",
-                                        PipelineStageCriteria = new List<PipelineStageCriteria>()
-                                    } }
-                        },
-                        new Pipeline
-                        {
-                            Name = "HIRED",
-                            PipelineStage = new List<PipelineStage>() {
-                                    new PipelineStage
-                                    {
-                                        Name = "Hired",
-                                        Color = "#58CCB7",
-                                        PipelineStageCriteria = new List<PipelineStageCriteria>()
-                                    } }
-                        },
-                        new Pipeline
-                    {
-                            Name = "REJECTED",                  
-                            PipelineStage = new List<PipelineStage>() {
-                                    new PipelineStage
-                                    {
-                                        Name = "Rejected",
-                                        Color = "#ff0000",
-                                        PipelineStageCriteria = new List<PipelineStageCriteria>()
-                                    },
-                                    new PipelineStage
-                                    {
-                                        Name = "Withdrawn",
-                                        Color = "#AAA",
-                                        PipelineStageCriteria = new List<PipelineStageCriteria>()
-                                    } }
-                    } }
+            //context.Workflows.AddOrUpdate(x => x.Id,
+            //    new Workflow
+            //    {
+            //        CompanyId = null,
+            //        Name = "Default",
+            //        Pipelines = new List<Pipeline>()
+            //        {
+            //            new Pipeline
+            //            {
+            //                Name = "NEW",
+            //                PipelineStage = new List<PipelineStage>() {
+            //                    new PipelineStage
+            //                    {
+            //                        Name = "New",
+            //                        Color = "#ff6600",
+            //                        PipelineStageCriteria = new List<PipelineStageCriterion>()
+            //                    } }
+            //            },
+            //            new Pipeline
+            //            {
+            //                Name = "INREVIEW",
+            //                PipelineStage = new List<PipelineStage>() {
+            //                        new PipelineStage
+            //                        {
+            //                            Name = "In Review",
+            //                            Color = "#498BC5",
+            //                            PipelineStageCriteria = new List<PipelineStageCriterion>()
+            //                        } }
+            //            },
+            //            new Pipeline
+            //            {
+            //                Name = "INTERVIEW",
+            //                PipelineStage = new List<PipelineStage>() {
+            //                        new PipelineStage
+            //                        {
+            //                            Name = "Interview",
+            //                            Color = "#00ccff",
+            //                            PipelineStageCriteria = new List<PipelineStageCriterion>()
+            //                        },
+            //                        new PipelineStage
+            //                        {
+            //                            Name = "Viva",
+            //                            Color = "#66cc99",
+            //                            PipelineStageCriteria = new List<PipelineStageCriterion>()
+            //                        } }
+            //            },
+            //            new Pipeline
+            //            {
+            //                Name = "OFFERED",
+            //                PipelineStage = new List<PipelineStage>() {
+            //                        new PipelineStage
+            //                        {
+            //                            Name = "Offered",
+            //                            Color = "#6666ff",
+            //                            PipelineStageCriteria = new List<PipelineStageCriterion>()
+            //                        } }
+            //            },
+            //            new Pipeline
+            //            {
+            //                Name = "ONHOLD",
+            //                PipelineStage = new List<PipelineStage>() {
+            //                        new PipelineStage
+            //                        {
+            //                            Name = "On Hold",
+            //                            Color = "#663300",
+            //                            PipelineStageCriteria = new List<PipelineStageCriterion>()
+            //                        } }
+            //            },
+            //            new Pipeline
+            //            {
+            //                Name = "HIRED",
+            //                PipelineStage = new List<PipelineStage>() {
+            //                        new PipelineStage
+            //                        {
+            //                            Name = "Hired",
+            //                            Color = "#58CCB7",
+            //                            PipelineStageCriteria = new List<PipelineStageCriterion>()
+            //                        } }
+            //            },
+            //            new Pipeline
+            //        {
+            //                Name = "REJECTED",
+            //                PipelineStage = new List<PipelineStage>() {
+            //                        new PipelineStage
+            //                        {
+            //                            Name = "Rejected",
+            //                            Color = "#ff0000",
+            //                            PipelineStageCriteria = new List<PipelineStageCriterion>()
+            //                        },
+            //                        new PipelineStage
+            //                        {
+            //                            Name = "Withdrawn",
+            //                            Color = "#AAA",
+            //                            PipelineStageCriteria = new List<PipelineStageCriterion>()
+            //                        } }
+            //        } }
 
-                });*/
+            //    });
 
-           
+
 
             //context.Roles.AddOrUpdate( x => x.Id,
             //     new IdentityRole { Name = "Admin" },

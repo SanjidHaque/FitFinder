@@ -13,7 +13,7 @@ namespace FitFinderBackEnd.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201911161816271_JobIdIsRemovedFromSomeClasses"; }
+            get { return "201911171306499_JobIdIsRemovedFromSomeClasses"; }
         }
         
         string IMigrationMetadata.Source

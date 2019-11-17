@@ -178,7 +178,7 @@ namespace FitFinderBackEnd.Controllers
                 .Where(x => x.Pipeline.WorkflowId == workflow.Id)
                 .ToList();
 
-            List<PipelineStageCriteria> pipelineStageCriterias = _context.PipelineStageCriterias
+            List<PipelineStageCriterion> pipelineStageCriteria = _context.PipelineStageCriteria
                 .Where(x => x.PipelineStage.Pipeline.WorkflowId == workflow.Id 
                             && (x.JobId == job.Id || x.JobId == null))
                 .ToList();
@@ -282,7 +282,7 @@ namespace FitFinderBackEnd.Controllers
 
 
             bool hasRelation = (_context.JobAssignments.Any(o => o.JobId == jobId)
-                                && _context.PipelineStageCriterias.Any(o => o.JobId == jobId));
+                                && _context.PipelineStageCriteria.Any(o => o.JobId == jobId));
 
             if (hasRelation)
             {

@@ -33,7 +33,7 @@ namespace FitFinderBackEnd.Services
                                 {
                                     Name = "New",
                                     Color = "#ff6600",
-                                    PipelineStageCriteria = new List<PipelineStageCriteria>()
+                                    PipelineStageCriteria = new List<PipelineStageCriterion>()
                                 } }
                         },
                         new Pipeline
@@ -44,7 +44,7 @@ namespace FitFinderBackEnd.Services
                                     {
                                         Name = "In Review",
                                         Color = "#498BC5",
-                                        PipelineStageCriteria = new List<PipelineStageCriteria>()
+                                        PipelineStageCriteria = new List<PipelineStageCriterion>()
                                     } }
                         },
                         new Pipeline
@@ -55,13 +55,13 @@ namespace FitFinderBackEnd.Services
                                     {
                                         Name = "Interview",
                                         Color = "#00ccff",
-                                        PipelineStageCriteria = new List<PipelineStageCriteria>()
+                                        PipelineStageCriteria = new List<PipelineStageCriterion>()
                                     },
                                     new PipelineStage
                                     {
                                         Name = "Viva",
                                         Color = "#66cc99",
-                                        PipelineStageCriteria = new List<PipelineStageCriteria>()
+                                        PipelineStageCriteria = new List<PipelineStageCriterion>()
                                     } }
                         },
                         new Pipeline
@@ -72,7 +72,7 @@ namespace FitFinderBackEnd.Services
                                     {
                                         Name = "Offered",
                                         Color = "#6666ff",
-                                        PipelineStageCriteria = new List<PipelineStageCriteria>()
+                                        PipelineStageCriteria = new List<PipelineStageCriterion>()
                                     } }
                         },
                         new Pipeline
@@ -83,7 +83,7 @@ namespace FitFinderBackEnd.Services
                                     {
                                         Name = "On Hold",
                                         Color = "#663300",
-                                        PipelineStageCriteria = new List<PipelineStageCriteria>()
+                                        PipelineStageCriteria = new List<PipelineStageCriterion>()
                                     } }
                         },
                         new Pipeline
@@ -94,7 +94,7 @@ namespace FitFinderBackEnd.Services
                                     {
                                         Name = "Hired",
                                         Color = "#58CCB7",
-                                        PipelineStageCriteria = new List<PipelineStageCriteria>()
+                                        PipelineStageCriteria = new List<PipelineStageCriterion>()
                                     } }
                         },
                         new Pipeline
@@ -105,13 +105,13 @@ namespace FitFinderBackEnd.Services
                                     {
                                         Name = "Rejected",
                                         Color = "#ff0000",
-                                        PipelineStageCriteria = new List<PipelineStageCriteria>()
+                                        PipelineStageCriteria = new List<PipelineStageCriterion>()
                                     },
                                     new PipelineStage
                                     {
                                         Name = "Withdrawn",
                                         Color = "#AAA",
-                                        PipelineStageCriteria = new List<PipelineStageCriteria>()
+                                        PipelineStageCriteria = new List<PipelineStageCriterion>()
                                     } }
                         } }
             };

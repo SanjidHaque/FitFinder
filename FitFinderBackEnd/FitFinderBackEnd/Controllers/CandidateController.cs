@@ -251,10 +251,11 @@ namespace FitFinderBackEnd.Controllers
                     .Where(x => x.Pipeline.WorkflowId == workflow.Id)
                     .ToList();
 
-                List<PipelineStageCriteria> pipelineStageCriterias = _context.PipelineStageCriterias
+                List<PipelineStageCriterion> pipelineStageCriteria = _context.PipelineStageCriteria
                     .Where(x => x.PipelineStage.Pipeline.WorkflowId == workflow.Id
                                 && (x.JobId == job.Id || x.JobId == null))
                     .ToList();
+               
 
                 jobAssigned.Job = job;
 

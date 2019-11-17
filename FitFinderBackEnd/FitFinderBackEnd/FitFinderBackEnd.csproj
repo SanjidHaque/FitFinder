@@ -312,9 +312,13 @@
     <Compile Include="Migrations\201911161619584_turningOnCascadeDelete.Designer.cs">
       <DependentUpon>201911161619584_turningOnCascadeDelete.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201911161816271_JobIdIsRemovedFromSomeClasses.cs" />
-    <Compile Include="Migrations\201911161816271_JobIdIsRemovedFromSomeClasses.Designer.cs">
-      <DependentUpon>201911161816271_JobIdIsRemovedFromSomeClasses.cs</DependentUpon>
+    <Compile Include="Migrations\201911171306499_JobIdIsRemovedFromSomeClasses.cs" />
+    <Compile Include="Migrations\201911171306499_JobIdIsRemovedFromSomeClasses.Designer.cs">
+      <DependentUpon>201911171306499_JobIdIsRemovedFromSomeClasses.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911171805502_rejectedReasonAndWithdrawnReasonModelAddedAgain.cs" />
+    <Compile Include="Migrations\201911171805502_rejectedReasonAndWithdrawnReasonModelAddedAgain.Designer.cs">
+      <DependentUpon>201911171805502_rejectedReasonAndWithdrawnReasonModelAddedAgain.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -337,7 +341,7 @@
     <Compile Include="Models\Settings\JobType.cs" />
     <Compile Include="Models\Settings\Pipeline.cs" />
     <Compile Include="Models\Settings\PipelineStage.cs" />
-    <Compile Include="Models\Settings\PipelineStageCriteria.cs" />
+    <Compile Include="Models\Settings\PipelineStageCriterion.cs" />
     <Compile Include="Models\Settings\RejectedReason.cs" />
     <Compile Include="Models\Settings\Source.cs" />
     <Compile Include="Models\Settings\StageComment.cs" />
@@ -522,8 +526,11 @@
     <EmbeddedResource Include="Migrations\201911161619584_turningOnCascadeDelete.resx">
       <DependentUpon>201911161619584_turningOnCascadeDelete.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201911161816271_JobIdIsRemovedFromSomeClasses.resx">
-      <DependentUpon>201911161816271_JobIdIsRemovedFromSomeClasses.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201911171306499_JobIdIsRemovedFromSomeClasses.resx">
+      <DependentUpon>201911171306499_JobIdIsRemovedFromSomeClasses.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911171805502_rejectedReasonAndWithdrawnReasonModelAddedAgain.resx">
+      <DependentUpon>201911171805502_rejectedReasonAndWithdrawnReasonModelAddedAgain.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

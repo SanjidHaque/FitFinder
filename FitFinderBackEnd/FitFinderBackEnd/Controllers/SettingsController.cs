@@ -623,7 +623,7 @@ namespace FitFinderBackEnd.Controllers
                 .Include(x => x.Pipeline)
                 .ToList();
 
-            List<PipelineStageCriteria> pipelineStageCriterias = _context.PipelineStageCriterias
+            List<PipelineStageCriterion> pipelineStageCriteria = _context.PipelineStageCriteria
                 .Include(x => x.PipelineStage)
                 .ToList();
 
@@ -649,7 +649,7 @@ namespace FitFinderBackEnd.Controllers
                 .Where(x => x.Pipeline.WorkflowId == workflow.Id)
                 .ToList();
 
-            List<PipelineStageCriteria> pipelineStageCriterias = _context.PipelineStageCriterias
+            List<PipelineStageCriterion> pipelineStageCriteria = _context.PipelineStageCriteria
                 .Where(x => x.PipelineStage.Pipeline.WorkflowId == workflow.Id)
                 .ToList();
 
@@ -680,7 +680,7 @@ namespace FitFinderBackEnd.Controllers
                 .Where(x => x.Pipeline.WorkflowId == workflowId)
                 .ToList();
 
-            List<PipelineStageCriteria> pipelineStageCriterias = _context.PipelineStageCriterias
+            List<PipelineStageCriterion> pipelineStageCriteria = _context.PipelineStageCriteria
                 .Where(x => x.PipelineStage.Pipeline.WorkflowId == workflowId && x.JobId == null)
                 .ToList();
 
@@ -701,29 +701,29 @@ namespace FitFinderBackEnd.Controllers
         }
 
         [HttpPost]
-        [Route("api/AddNewPipelineStageCriteria")]
-        public IHttpActionResult AddNewPipelineStageCriteria(PipelineStageCriteria pipelineStageCriteria)
+        [Route("api/AddNewPipelineStageCriterion")]
+        public IHttpActionResult AddNewPipelineStageCriterion(PipelineStageCriterion pipelineStageCriterion)
         {
-            _context.PipelineStageCriterias.Add(pipelineStageCriteria);
+            _context.PipelineStageCriteria.Add(pipelineStageCriterion);
             _context.SaveChanges();
 
-            return Ok(new { pipelineStageCriteria, statusText = _statusTextService.Success });
+            return Ok(new { pipelineStageCriterion, statusText = _statusTextService.Success });
         }
 
         [HttpPut]
-        [Route("api/EditPiEditPipelineStageCriteria")]
-        public IHttpActionResult EditPipelineStageCriteria(PipelineStageCriteria pipelineStageCriteria)
+        [Route("api/EditPipelineStageCriterion")]
+        public IHttpActionResult EditPipelineStageCriterion(PipelineStageCriterion pipelineStageCriterion)
         {
 
-            PipelineStageCriteria getPipelineStageCriteria = _context.PipelineStageCriterias.FirstOrDefault(x => x.Id == pipelineStageCriteria.Id);
+            PipelineStageCriterion getPipelineStageCriterion = _context.PipelineStageCriteria.FirstOrDefault(x => x.Id == pipelineStageCriterion.Id);
 
-            if (getPipelineStageCriteria == null)
+            if (getPipelineStageCriterion == null)
             {
                 return Ok(new { statusText = _statusTextService.ResourceNotFound });
             }
 
-            getPipelineStageCriteria.Name = pipelineStageCriteria.Name;
-            _context.Entry(getPipelineStageCriteria).State = EntityState.Modified;
+            getPipelineStageCriterion.Name = pipelineStageCriterion.Name;
+            _context.Entry(getPipelineStageCriterion).State = EntityState.Modified;
             _context.SaveChanges();
 
             return Ok(new { statusText = _statusTextService.Success });
@@ -770,10 +770,10 @@ namespace FitFinderBackEnd.Controllers
         }
 
         [HttpPost]
-        [Route("api/AddNewPipelineStageCriteriasForNewJob")]
-        public IHttpActionResult AddNewPipelineStageCriteriasForNewJob(List<PipelineStageCriteria> pipelineStageCriterias)
+        [Route("api/AddNewPipelineStageCriterionForNewJob")]
+        public IHttpActionResult AddNewPipelineStageCriterionForNewJob(List<PipelineStageCriterion> pipelineStageCriteria)
         {
-            _context.PipelineStageCriterias.AddRange(pipelineStageCriterias);
+            _context.PipelineStageCriteria.AddRange(pipelineStageCriteria);
             _context.SaveChanges();
             return Ok( new { statusText = _statusTextService.Success });
         }
@@ -1005,24 +1005,25 @@ namespace FitFinderBackEnd.Controllers
             _context.PipelineStages.Remove(pipelineStage);
             _context.SaveChanges();
 
-
+            return Ok(new { statusText = _statusTextService.Success });
         }
 
 
         [HttpDelete]
-        [Route("api/DeletePipelineStageCriteria/{pipelineStageCriteriaId}")]
+        [Route("api/DeletePipelineStageCriterion/{pipelineStageCriterionId}")]
         [AllowAnonymous]
-        public IHttpActionResult DeletePipelineStageCriteria(long pipelineStageCriteriaId)
+        public IHttpActionResult DeletePipelineStageCriterion(long pipelineStageCriterionId)
         {
-            PipelineStageCriteria pipelineStageCriteria = _context.PipelineStageCriterias.FirstOrDefault(x => x.Id == pipelineStageCriteriaId);
+            PipelineStageCriterion pipelineStageCriterion = _context.PipelineStageCriteria
+                .FirstOrDefault(x => x.Id == pipelineStageCriterionId);
 
-            if (pipelineStageCriteria == null)
+            if (pipelineStageCriterion == null)
             {
                 return Ok(new { statusText = _statusTextService.ResourceNotFound });
             }
 
 
-            bool hasRelation = _context.CriteriaScores.Any(o => o.PipelineStageCriteriaId == pipelineStageCriteriaId);
+            bool hasRelation = _context.CriteriaScores.Any(o => o.PipelineStageCriterionId == pipelineStageCriterionId);
 
             if (hasRelation)
             {
@@ -1030,7 +1031,7 @@ namespace FitFinderBackEnd.Controllers
             }
 
 
-            _context.PipelineStageCriterias.Remove(pipelineStageCriteria);
+            _context.PipelineStageCriteria.Remove(pipelineStageCriterion);
             _context.SaveChanges();
 
             return Ok(new { statusText = _statusTextService.Success });

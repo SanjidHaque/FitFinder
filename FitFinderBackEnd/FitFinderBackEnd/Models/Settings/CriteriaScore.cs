@@ -10,9 +10,11 @@ namespace FitFinderBackEnd.Models.Settings
     {
         public long Id { get; set; }
         public JobAssignment JobAssignment { get; set; }
-        public long JobAssignmentId { get; set; }
+        public long? JobAssignmentId { get; set; }
         public long Rating { get; set; }
-        public long PipelineStageCriteriaId { get; set; }
+        public PipelineStageCriterion PipelineStageCriterion { get; set; }
+        public long PipelineStageCriterionId { get; set; }
+        public Candidate.Candidate Candidate { get; set; }
         public long CandidateId { get; set; }
     }
 }
