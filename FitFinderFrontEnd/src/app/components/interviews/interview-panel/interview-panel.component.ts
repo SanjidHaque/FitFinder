@@ -1,10 +1,10 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {Interview} from '../../../models/interview.model';
+import {Interview} from '../../../models/interview/interview.model';
 import {InterviewDataStorageService} from '../../../services/data-storage-services/interview-data-storage.service';
 import {SelectionModel} from '@angular/cdk/collections';
 import * as moment from 'moment';
 import {ConfirmationDialogComponent} from '../../../dialogs/confirmation-dialog/confirmation-dialog.component';
-import {Candidate} from '../../../models/candidate.model';
+import {Candidate} from '../../../models/candidate/candidate.model';
 import {MatDialog} from '@angular/material';
 import {NotifierService} from 'angular-notifier';
 import {ActivatedRoute, Data} from '@angular/router';

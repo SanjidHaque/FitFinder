@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {JobDataStorageService} from '../../../services/data-storage-services/job-data-storage.service';
 import {ActivatedRoute, Data} from '@angular/router';
 import {SettingsDataStorageService} from '../../../services/data-storage-services/settings-data-storage.service';
-import {Workflow} from '../../../models/workflow.model';
+import {Workflow} from '../../../models/settings/workflow.model';
 import {AddUpdateDialogComponent} from '../../../dialogs/add-update-dialog/add-update-dialog.component';
 import {MatDialog} from '@angular/material';
 import {AddNewWorkflowDialogComponent} from '../../../dialogs/add-new-workflow-dialog/add-new-workflow-dialog.component';

@@ -1,8 +1,8 @@
 import {Component, Inject, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import * as moment from 'moment';
-import {Job} from '../../models/job.model';
+import {Job} from '../../models/job/job.model';
 import {SelectionModel} from '@angular/cdk/collections';
-import {Department} from '../../models/department.model';
+import {Department} from '../../models/settings/department.model';
 import {JobDataStorageService} from '../../services/data-storage-services/job-data-storage.service';
 import {SettingsDataStorageService} from '../../services/data-storage-services/settings-data-storage.service';
 import {MAT_DIALOG_DATA, MatDialogRef, MatSelectionList} from '@angular/material';

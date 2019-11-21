@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
 import {Observable} from 'rxjs/index';
-import {Pipeline} from '../models/pipeline.model';
+import {Pipeline} from '../models/settings/pipeline.model';
 import {SettingsDataStorageService} from '../services/data-storage-services/settings-data-storage.service';
-import {Workflow} from '../models/workflow.model';
+import {Workflow} from '../models/settings/workflow.model';
 
 @Injectable({
   providedIn: 'root'

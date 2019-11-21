@@ -3,14 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using FitFinderBackEnd.Models.Shared;
 
 namespace FitFinderBackEnd.Models.Settings
 {
-    public class JobFunction
-    {
-        public long Id { get; set; }
-        public string Name { get; set; }
-        public Company Company { get; set; }
-        public long CompanyId { get; set; }
-    }
+    public class JobFunction:Resource {}
 }

@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import {Job} from '../../models/job.model';
+import {Job} from '../../models/job/job.model';
 import {Subject} from 'rxjs/index';
 import {HttpClient} from '@angular/common/http';
 import {UserAccountDataStorageService} from './user-account-data-storage.service';
-import {JobAssigned} from '../../models/job-assigned.model';
+import {JobAssignment} from '../../models/candidate/job-assignment.model';
+import {Interview} from '../../models/interview/interview.model';
+import {Candidate} from '../../models/candidate/candidate.model';
 
 @Injectable({
   providedIn: 'root'
@@ -30,13 +32,13 @@ export class JobDataStorageService {
   }
 
 
-  jobAssigned(jobAssigned: JobAssigned) {
-    return this.httpClient.post<JobAssigned>(this.rootUrl + '/api/JobAssigned',
+  jobAssigned(jobAssigned: JobAssignment) {
+    return this.httpClient.post<JobAssignment>(this.rootUrl + '/api/JobAssignment',
       jobAssigned);
   }
 
-  jobStatusChanged(jobAssigned: JobAssigned) {
-    return this.httpClient.post<JobAssigned>(this.rootUrl + '/api/JobStatusChanged',
+  jobStatusChanged(jobAssigned: JobAssignment) {
+    return this.httpClient.post<JobAssignment>(this.rootUrl + '/api/JobStatusChanged',
       jobAssigned);
   }
 
@@ -57,16 +59,18 @@ export class JobDataStorageService {
     return this.httpClient.put<Job[]>(this.rootUrl + '/api/UnfavouriteJobs', jobs);
   }
 
-  removeAssignedJob (jobAssigned: JobAssigned) {
-    return this.httpClient.post<JobAssigned>(this.rootUrl + '/api/RemoveAssignedJob',
+  removeAssignedJob (jobAssigned: JobAssignment) {
+    return this.httpClient.post<JobAssignment>(this.rootUrl + '/api/RemoveAssignedJob',
       jobAssigned);
   }
 
 
+  editJob(job: Job) {
+    return this.httpClient.put<Job>(this.rootUrl + '/api/EditJob', job);
+  }
 
-
-
-
-
+  deleteJob(jobId: number) {
+    return this.httpClient.delete(`${this.rootUrl + 'api/DeleteJob'}/${jobId}`);
+  }
 
 }

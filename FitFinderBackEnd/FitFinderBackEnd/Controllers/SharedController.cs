@@ -45,9 +45,9 @@ namespace FitFinderBackEnd.Controllers
 
             _context.SaveChanges();
 
-            if (jobAssignment.StageComment.Count != 0)
+            if (jobAssignment.StageComments.Count != 0)
             {
-                AddNewStageComments(jobAssignment.StageComment);
+                AddNewStageComments(jobAssignment.StageComments);
             }
 
             JobAssignment getUpdatedJobAssignment = GetUpdatedJobAssignment(jobAssignment);
@@ -89,8 +89,8 @@ namespace FitFinderBackEnd.Controllers
 
         public void AddNewScores(JobAssignment jobAssignment)
         {
-            _context.StageScores.AddRange(jobAssignment.StageScore);
-            _context.CriteriaScores.AddRange(jobAssignment.CriteriaScore);
+            _context.StageScores.AddRange(jobAssignment.StageScores);
+            _context.CriteriaScores.AddRange(jobAssignment.CriteriaScores);
         }
 
 
@@ -101,29 +101,29 @@ namespace FitFinderBackEnd.Controllers
         public IHttpActionResult AddJobAssignment(JobAssignment jobAssignment)
         {
            
-            //jobAssigned .CriteriaScore =  new List<CriteriaScore>();
-            //jobAssigned.StageScore= new List<StageScore>();
-            //jobAssigned.StageComment = new List<StageComment>();
+            //jobAssigned .CriteriaScores =  new List<CriteriaScores>();
+            //jobAssigned.StageScores= new List<StageScores>();
+            //jobAssigned.StageComments = new List<StageComments>();
             _context.JobAssignments.Add(jobAssignment);
             
-            //foreach (var stageScore in jobAssigned.StageScore)
+            //foreach (var stageScore in jobAssigned.StageScores)
             //{
             //    stageScore.JobAssignmentId = jobAssigned.Id;
             //}
 
-            //foreach (var criteriaScore in jobAssigned.CriteriaScore)
+            //foreach (var criteriaScore in jobAssigned.CriteriaScores)
             //{
             //    criteriaScore.JobAssignmentId = jobAssigned.Id;
             //}
 
-            //foreach (var stageComment in jobAssigned.StageComment)
+            //foreach (var stageComment in jobAssigned.StageComments)
             //{
             //    stageComment.JobAssignmentId = jobAssigned.Id;
             //}
 
-            //_context.StageScores.AddRange(jobAssigned.StageScore);
-            //_context.CriteriaScores.AddRange(jobAssigned.CriteriaScore);
-            //_context.StageComments.AddRange(jobAssigned.StageComment);
+            //_context.StageScores.AddRange(jobAssigned.StageScores);
+            //_context.CriteriaScores.AddRange(jobAssigned.CriteriaScores);
+            //_context.StageComments.AddRange(jobAssigned.StageComments);
 
             _context.SaveChanges();
             return Ok(new { jobAssigned = jobAssignment, statusText = _statusTextService.Success });

@@ -71,7 +71,7 @@ namespace FitFinderBackEnd.Controllers
             interview.CompanyId = applicationUser.CompanyId;
             _context.Interviews.Add(interview);
 
-//            foreach (var candidatesForInterview in interview.CandidatesForInterview)
+//            foreach (var candidatesForInterview in interview.Candidates)
 //            {
 //                candidatesForInterview.Id = interview.Id;
 //            }
@@ -81,7 +81,7 @@ namespace FitFinderBackEnd.Controllers
 //                interviewersForInterview.Id = interview.Id;
 //            }
 
-//            _context.CandidatesForInterviews.AddRange(interview.CandidatesForInterview);
+//            _context.CandidatesForInterviews.AddRange(interview.Candidates);
 //            _context.InterviewersForInterviews.AddRange(interview.InterviewersForInterview);
 
             _context.SaveChanges();
@@ -100,11 +100,11 @@ namespace FitFinderBackEnd.Controllers
                 return Ok(new { statusText = _statusTextService.ResourceNotFound });
             }
 
-            getInterview.InterviewName = interview.InterviewName;
-            getInterview.InterviewDate = interview.InterviewDate;
-            getInterview.InterviewStartTime = interview.InterviewStartTime;
-            getInterview.InterviewEndTime = interview.InterviewEndTime;
-            getInterview.InterviewLocation = interview.InterviewLocation;
+            getInterview.Name = interview.Name;
+            getInterview.Date = interview.Date;
+            getInterview.StartTime = interview.StartTime;
+            getInterview.EndTime = interview.EndTime;
+            getInterview.Location = interview.Location;
             getInterview.InterviewStatus = interview.InterviewStatus;
             getInterview.InterviewType = interview.InterviewType;
 

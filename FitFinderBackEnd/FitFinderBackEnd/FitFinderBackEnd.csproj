@@ -252,73 +252,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201906181359237_New.cs" />
-    <Compile Include="Migrations\201906181359237_New.Designer.cs">
-      <DependentUpon>201906181359237_New.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906181401108_New2.cs" />
-    <Compile Include="Migrations\201906181401108_New2.Designer.cs">
-      <DependentUpon>201906181401108_New2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906181401467_New3.cs" />
-    <Compile Include="Migrations\201906181401467_New3.Designer.cs">
-      <DependentUpon>201906181401467_New3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906181404206_New4.cs" />
-    <Compile Include="Migrations\201906181404206_New4.Designer.cs">
-      <DependentUpon>201906181404206_New4.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906190403104_companyModelChanged.cs" />
-    <Compile Include="Migrations\201906190403104_companyModelChanged.Designer.cs">
-      <DependentUpon>201906190403104_companyModelChanged.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906200536259_companyModelChanged1.cs" />
-    <Compile Include="Migrations\201906200536259_companyModelChanged1.Designer.cs">
-      <DependentUpon>201906200536259_companyModelChanged1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908301804152_changedA.cs" />
-    <Compile Include="Migrations\201908301804152_changedA.Designer.cs">
-      <DependentUpon>201908301804152_changedA.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201909151334400_workflowModelAdded.cs" />
-    <Compile Include="Migrations\201909151334400_workflowModelAdded.Designer.cs">
-      <DependentUpon>201909151334400_workflowModelAdded.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201909172144138_jobAndPipelineStageCriteriaModelChanged.cs" />
-    <Compile Include="Migrations\201909172144138_jobAndPipelineStageCriteriaModelChanged.Designer.cs">
-      <DependentUpon>201909172144138_jobAndPipelineStageCriteriaModelChanged.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201911031231205_variousModelChangedQueryOptimization.cs" />
-    <Compile Include="Migrations\201911031231205_variousModelChangedQueryOptimization.Designer.cs">
-      <DependentUpon>201911031231205_variousModelChangedQueryOptimization.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201911031233221_sourceObjectAddedInCandidateModel.cs" />
-    <Compile Include="Migrations\201911031233221_sourceObjectAddedInCandidateModel.Designer.cs">
-      <DependentUpon>201911031233221_sourceObjectAddedInCandidateModel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201911031306284_interviewModelChanged.cs" />
-    <Compile Include="Migrations\201911031306284_interviewModelChanged.Designer.cs">
-      <DependentUpon>201911031306284_interviewModelChanged.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201911151702243_turningOffCascadeDelete.cs" />
-    <Compile Include="Migrations\201911151702243_turningOffCascadeDelete.Designer.cs">
-      <DependentUpon>201911151702243_turningOffCascadeDelete.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201911161607274_jobAssignedModelRenamed.cs" />
-    <Compile Include="Migrations\201911161607274_jobAssignedModelRenamed.Designer.cs">
-      <DependentUpon>201911161607274_jobAssignedModelRenamed.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201911161619584_turningOnCascadeDelete.cs" />
-    <Compile Include="Migrations\201911161619584_turningOnCascadeDelete.Designer.cs">
-      <DependentUpon>201911161619584_turningOnCascadeDelete.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201911171306499_JobIdIsRemovedFromSomeClasses.cs" />
-    <Compile Include="Migrations\201911171306499_JobIdIsRemovedFromSomeClasses.Designer.cs">
-      <DependentUpon>201911171306499_JobIdIsRemovedFromSomeClasses.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201911171805502_rejectedReasonAndWithdrawnReasonModelAddedAgain.cs" />
-    <Compile Include="Migrations\201911171805502_rejectedReasonAndWithdrawnReasonModelAddedAgain.Designer.cs">
-      <DependentUpon>201911171805502_rejectedReasonAndWithdrawnReasonModelAddedAgain.cs</DependentUpon>
+    <Compile Include="Migrations\201911211749041_InitialMigration.cs" />
+    <Compile Include="Migrations\201911211749041_InitialMigration.Designer.cs">
+      <DependentUpon>201911211749041_InitialMigration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -334,6 +270,7 @@
     <Compile Include="Models\Interview\InterviewersForInterview.cs" />
     <Compile Include="Models\Job\Job.cs" />
     <Compile Include="Models\Job\JobAttachment.cs" />
+    <Compile Include="Models\Shared\Attachment.cs" />
     <Compile Include="Models\Settings\ChangePassword.cs" />
     <Compile Include="Models\Settings\CriteriaScore.cs" />
     <Compile Include="Models\Settings\Department.cs" />
@@ -351,6 +288,8 @@
     <Compile Include="Models\Settings\UserAccount.cs" />
     <Compile Include="Models\Settings\WithdrawnReason.cs" />
     <Compile Include="Models\Settings\Workflow.cs" />
+    <Compile Include="Models\Shared\Resource.cs" />
+    <Compile Include="Models\Shared\Stage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
@@ -481,56 +420,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201906181359237_New.resx">
-      <DependentUpon>201906181359237_New.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906181401108_New2.resx">
-      <DependentUpon>201906181401108_New2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906181401467_New3.resx">
-      <DependentUpon>201906181401467_New3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906181404206_New4.resx">
-      <DependentUpon>201906181404206_New4.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906190403104_companyModelChanged.resx">
-      <DependentUpon>201906190403104_companyModelChanged.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906200536259_companyModelChanged1.resx">
-      <DependentUpon>201906200536259_companyModelChanged1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908301804152_changedA.resx">
-      <DependentUpon>201908301804152_changedA.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201909151334400_workflowModelAdded.resx">
-      <DependentUpon>201909151334400_workflowModelAdded.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201909172144138_jobAndPipelineStageCriteriaModelChanged.resx">
-      <DependentUpon>201909172144138_jobAndPipelineStageCriteriaModelChanged.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201911031231205_variousModelChangedQueryOptimization.resx">
-      <DependentUpon>201911031231205_variousModelChangedQueryOptimization.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201911031233221_sourceObjectAddedInCandidateModel.resx">
-      <DependentUpon>201911031233221_sourceObjectAddedInCandidateModel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201911031306284_interviewModelChanged.resx">
-      <DependentUpon>201911031306284_interviewModelChanged.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201911151702243_turningOffCascadeDelete.resx">
-      <DependentUpon>201911151702243_turningOffCascadeDelete.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201911161607274_jobAssignedModelRenamed.resx">
-      <DependentUpon>201911161607274_jobAssignedModelRenamed.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201911161619584_turningOnCascadeDelete.resx">
-      <DependentUpon>201911161619584_turningOnCascadeDelete.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201911171306499_JobIdIsRemovedFromSomeClasses.resx">
-      <DependentUpon>201911171306499_JobIdIsRemovedFromSomeClasses.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201911171805502_rejectedReasonAndWithdrawnReasonModelAddedAgain.resx">
-      <DependentUpon>201911171805502_rejectedReasonAndWithdrawnReasonModelAddedAgain.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201911211749041_InitialMigration.resx">
+      <DependentUpon>201911211749041_InitialMigration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

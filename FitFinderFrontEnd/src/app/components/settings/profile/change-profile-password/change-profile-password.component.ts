@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserAccountDataStorageService} from '../../../../services/data-storage-services/user-account-data-storage.service';
 import {Router} from '@angular/router';
-import {ChangePassword} from '../../../../models/change-password.model';
+import {ChangePassword} from '../../../../models/settings/change-password.model';
 import {NotifierService} from 'angular-notifier';
 
 @Component({

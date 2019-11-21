@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Interview} from '../models/interview.model';
+import {Interview} from '../models/interview/interview.model';
 import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
 import {Observable} from 'rxjs/index';
 import {InterviewDataStorageService} from '../services/data-storage-services/interview-data-storage.service';

@@ -1,29 +1,29 @@
 import {Component, DoCheck, OnInit, ViewEncapsulation} from '@angular/core';
 import {ActivatedRoute, Data, Params, Router} from '@angular/router';
-import {Candidate} from '../../../models/candidate.model';
+import {Candidate} from '../../../models/candidate/candidate.model';
 import {CandidateDataStorageService} from '../../../services/data-storage-services/candidate-data-storage.service';
 import * as moment from 'moment';
-import {CandidateAttachment} from '../../../models/canidate-attachment.model';
-import {CandidateEducation} from '../../../models/candidate-education.model';
-import {CandidateExperience} from '../../../models/candidate-experience.model';
-import {Source} from '../../../models/source.model';
+import {CandidateAttachment} from '../../../models/candidate/canidate-attachment.model';
+import {CandidateEducation} from '../../../models/candidate/candidate-education.model';
+import {CandidateExperience} from '../../../models/candidate/candidate-experience.model';
+import {Source} from '../../../models/settings/source.model';
 import {SettingsDataStorageService} from '../../../services/data-storage-services/settings-data-storage.service';
 import {MatDialog} from '@angular/material';
 import {AssignJobToCandidateDialogComponent} from '../../../dialogs/assign-job-to-candidate-dialog/assign-job-to-candidate-dialog.component';
-import {JobAssigned} from '../../../models/job-assigned.model';
-import {Job} from '../../../models/job.model';
+import {JobAssignment} from '../../../models/candidate/job-assignment.model';
+import {Job} from '../../../models/job/job.model';
 import {JobDataStorageService} from '../../../services/data-storage-services/job-data-storage.service';
-import {Pipeline} from '../../../models/pipeline.model';
+import {Pipeline} from '../../../models/settings/pipeline.model';
 import {ChangeStatusDialogComponent} from '../../../dialogs/change-status-dialog/change-status-dialog.component';
-import {PipelineStage} from '../../../models/pipeline-stage.model';
-import {StageScore} from '../../../models/stage-score.model';
-import {CriteriaScore} from '../../../models/criteria-score.model';
-import {StageComment} from '../../../models/stage-comment.model';
+import {PipelineStage} from '../../../models/settings/pipeline-stage.model';
+import {StageScore} from '../../../models/settings/stage-score.model';
+import {CriteriaScore} from '../../../models/settings/criteria-score.model';
+import {StageComment} from '../../../models/settings/stage-comment.model';
 import {NotifierService} from 'angular-notifier';
 import {ConfirmationDialogComponent} from '../../../dialogs/confirmation-dialog/confirmation-dialog.component';
 import {DeleteDialogComponent} from '../../../dialogs/delete-dialog/delete-dialog.component';
 import {CandidateService} from '../../../services/shared-services/candidate.service';
-import {Department} from '../../../models/department.model';
+import {Department} from '../../../models/settings/department.model';
 
 
 
@@ -78,7 +78,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
 
     if (this.candidate.JobAssigned !== null) {
       this.job = this.candidate.JobAssigned[0].Job;
-    //  this.changeStatus(this.candidate.JobAssigned[0].CurrentStageId);
+    //  this.changeStatus(this.candidate.JobAssignment[0].CurrentStageId);
     }
 
 
@@ -169,7 +169,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
               this.candidate.JobAssigned.splice(index, 1);
 
               if (this.candidate.JobAssigned.length === 0) {
-                this.candidate.JobAssigned = null;
+                this.candidate.JobAssignment = null;
               }
 
               this.notifierService.notify('default', 'Job removed.')
@@ -262,7 +262,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
          result.criteriaScore[i].Id = null;
        }
 
-       const jobAssigned = new JobAssigned(
+       const jobAssigned = new JobAssignment(
          this.getActiveJobAssignedId(),
          this.candidate.Id,
          null,
@@ -462,7 +462,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
 
             }
           }
-          const jobAssigned = new JobAssigned(
+          const jobAssigned = new JobAssignment(
             null,
             this.candidate.Id,
             null,
@@ -478,7 +478,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
             .subscribe(
               (getJobAssigned: any) => {
                 if (this.candidate.JobAssigned === null) {
-                  this.candidate.JobAssigned = [];
+                  this.candidate.JobAssignment = [];
                 }
 
                 this.candidate.JobAssigned.push(getJobAssigned);

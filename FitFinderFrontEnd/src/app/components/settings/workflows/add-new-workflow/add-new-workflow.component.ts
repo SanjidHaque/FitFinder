@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Data, Router} from '@angular/router';
-import {Workflow} from '../../../../models/workflow.model';
+import {Workflow} from '../../../../models/settings/workflow.model';
 import {AddUpdatePipelineStageDialogComponent} from '../../../../dialogs/add-update-pipeline-stage-dialog/add-update-pipeline-stage-dialog.component';
-import {PipelineStage} from '../../../../models/pipeline-stage.model';
+import {PipelineStage} from '../../../../models/settings/pipeline-stage.model';
 import {PipelineStageCriteriaDialogComponent} from '../../../../dialogs/pipeline-stage-criteria-dialog/pipeline-stage-criteria-dialog.component';
 import {MatDialog} from '@angular/material';
 import {NotifierService} from 'angular-notifier';

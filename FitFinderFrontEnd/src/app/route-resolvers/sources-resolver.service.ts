@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
-import {Department} from '../models/department.model';
+import {Department} from '../models/settings/department.model';
 import {Observable} from 'rxjs';
-import {Source} from '../models/source.model';
+import {Source} from '../models/settings/source.model';
 import {SettingsDataStorageService} from '../services/data-storage-services/settings-data-storage.service';
 
 @Injectable({

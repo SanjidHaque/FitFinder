@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {Company} from '../../../../models/company.model';
+import {Company} from '../../../../models/settings/company.model';
 import {ActivatedRoute, Data, Params, Router} from '@angular/router';
 import {NotifierService} from 'angular-notifier';
 import * as moment from 'moment';
-import {UserAccount} from '../../../../models/user-account.model';
+import {UserAccount} from '../../../../models/settings/user-account.model';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserAccountDataStorageService} from '../../../../services/data-storage-services/user-account-data-storage.service';
 

@@ -1,8 +1,8 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {PipelineStage} from '../../models/pipeline-stage.model';
-import {StageScore} from '../../models/stage-score.model';
-import {CriteriaScore} from '../../models/criteria-score.model';
+import {PipelineStage} from '../../models/settings/pipeline-stage.model';
+import {StageScore} from '../../models/settings/stage-score.model';
+import {CriteriaScore} from '../../models/settings/criteria-score.model';
 
 @Component({
   selector: 'app-change-status',

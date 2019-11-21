@@ -89,25 +89,25 @@ namespace FitFinderBackEnd.Controllers
 
 
 
-            //            foreach (var candidateEducation in candidate.CandidateEducation)
+            //            foreach (var candidateEducation in candidate.CandidateEducations)
             //            {
             //                candidateEducation.Id = candidate.Id;
             //            }
-            //            foreach (var candidateExperience in candidate.CandidateExperience)
+            //            foreach (var candidateExperience in candidate.CandidateExperiences)
             //            {
             //                candidateExperience.Id = candidate.Id;
             //            }
             //
-            //            foreach (var candidateAttachment in candidate.CandidateAttachment)
+            //            foreach (var candidateAttachment in candidate.CandidateAttachments)
             //            {
             //                candidateAttachment.Id = candidate.Id;
             //            }
             //
             //
             //
-            //            _context.CandidateAttachments.AddRange(candidate.CandidateAttachment);
-            //            _context.CandidateEducations.AddRange(candidate.CandidateEducation);
-            //            _context.CandidateExperiences.AddRange(candidate.CandidateExperience);
+            //            _context.CandidateAttachments.AddRange(candidate.CandidateAttachments);
+            //            _context.CandidateEducations.AddRange(candidate.CandidateEducations);
+            //            _context.CandidateExperiences.AddRange(candidate.CandidateExperiences);
 
 
             return Ok(new { candidate, statusText = _statusTextService.Success });
@@ -152,7 +152,7 @@ namespace FitFinderBackEnd.Controllers
                 .ToList();
 
             _context.CandidateEducations.RemoveRange(candidateEducations);
-            _context.CandidateEducations.AddRange(candidate.CandidateEducation);
+            _context.CandidateEducations.AddRange(candidate.CandidateEducations);
         }
 
         private void UpdateCandidateExperiences(Candidate candidate)
@@ -162,7 +162,7 @@ namespace FitFinderBackEnd.Controllers
                 .ToList();
 
             _context.CandidateExperiences.RemoveRange(candidateExperiences);
-            _context.CandidateExperiences.AddRange(candidate.CandidateExperience);
+            _context.CandidateExperiences.AddRange(candidate.CandidateExperiences);
         }
 
 

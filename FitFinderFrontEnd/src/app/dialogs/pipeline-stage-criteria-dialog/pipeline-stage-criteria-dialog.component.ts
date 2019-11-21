@@ -1,10 +1,10 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
 import {AddUpdatePipelineStageDialogComponent} from '../add-update-pipeline-stage-dialog/add-update-pipeline-stage-dialog.component';
-import {PipelineStage} from '../../models/pipeline-stage.model';
+import {PipelineStage} from '../../models/settings/pipeline-stage.model';
 import {NotifierService} from 'angular-notifier';
 import {AddUpdateDialogComponent} from '../add-update-dialog/add-update-dialog.component';
-import {PipelineStageCriteria} from '../../models/pipeline-stage-criteria.model';
+import {PipelineStageCriteria} from '../../models/settings/pipeline-stage-criterion.model';
 import {SettingsDataStorageService} from '../../services/data-storage-services/settings-data-storage.service';
 
 @Component({

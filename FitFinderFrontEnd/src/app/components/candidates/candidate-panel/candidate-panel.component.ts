@@ -1,12 +1,12 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {Candidate} from '../../../models/candidate.model';
+import {Candidate} from '../../../models/candidate/candidate.model';
 import {CandidateDataStorageService} from '../../../services/data-storage-services/candidate-data-storage.service';
 import {SelectionModel} from '@angular/cdk/collections';
-import {Job} from '../../../models/job.model';
+import {Job} from '../../../models/job/job.model';
 import {JobDataStorageService} from '../../../services/data-storage-services/job-data-storage.service';
 import * as moment from 'moment';
 import {SettingsDataStorageService} from '../../../services/data-storage-services/settings-data-storage.service';
-import {Source} from '../../../models/source.model';
+import {Source} from '../../../models/settings/source.model';
 import {NotifierService} from 'angular-notifier';
 import {ConfirmationDialogComponent} from '../../../dialogs/confirmation-dialog/confirmation-dialog.component';
 import {MatDialog} from '@angular/material';

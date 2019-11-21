@@ -35,7 +35,7 @@ import {AuthModule} from './modules/auth/auth.module';
     NgProgressModule.withConfig({
       spinner: false,
       color: '#673ab7',
-      min: 20
+      min: .2
     }),
     NgProgressRouterModule,
     AppRoutingModule,

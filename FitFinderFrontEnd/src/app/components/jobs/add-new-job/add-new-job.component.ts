@@ -3,20 +3,20 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import {MatDialog} from '@angular/material';
 import * as moment from 'moment';
-import {JobAttachment} from '../../../models/job-attachment.model';
+import {JobAttachment} from '../../../models/job/job-attachment.model';
 import {NotifierService} from 'angular-notifier';
-import {Job} from '../../../models/job.model';
+import {Job} from '../../../models/job/job.model';
 import {JobDataStorageService} from '../../../services/data-storage-services/job-data-storage.service';
 import {ActivatedRoute, Data, Router} from '@angular/router';
 import {AddUpdateDialogComponent} from '../../../dialogs/add-update-dialog/add-update-dialog.component';
-import {Department} from '../../../models/department.model';
-import {JobFunction} from '../../../models/job-function.model';
-import {JobType} from '../../../models/job-type.model';
+import {Department} from '../../../models/settings/department.model';
+import {JobFunction} from '../../../models/settings/job-function.model';
+import {JobType} from '../../../models/settings/job-type.model';
 import {SettingsDataStorageService} from '../../../services/data-storage-services/settings-data-storage.service';
 import {CandidateDataStorageService} from '../../../services/data-storage-services/candidate-data-storage.service';
-import {Workflow} from '../../../models/workflow.model';
-import {PipelineStageCriteria} from '../../../models/pipeline-stage-criteria.model';
-import {PipelineStage} from '../../../models/pipeline-stage.model';
+import {Workflow} from '../../../models/settings/workflow.model';
+import {PipelineStageCriteria} from '../../../models/settings/pipeline-stage-criterion.model';
+import {PipelineStage} from '../../../models/settings/pipeline-stage.model';
 import {GapiService} from '../../../services/google-api-services/gapi.service';
 
 @Component({
@@ -196,7 +196,7 @@ export class AddNewJobComponent implements OnInit {
                (response: any) => {
 
                  this.settingsDataStorageService
-                   .addNewPipelineStageCriteriasForNewJob(this.getNewPipelineStageCriterias(data.job.Id))
+                   .addNewPipelineStageCriteriaForNewJob(this.getNewPipelineStageCriterias(data.job.Id))
                    .subscribe((reply: any) => {
 
                      this.router.navigate(['/jobs/', data.job.Id ]);

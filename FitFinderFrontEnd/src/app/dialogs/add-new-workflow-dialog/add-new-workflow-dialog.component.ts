@@ -1,9 +1,9 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
-import {Pipeline} from '../../models/pipeline.model';
+import {Pipeline} from '../../models/settings/pipeline.model';
 import {FormGroup} from '@angular/forms';
 import {AddUpdatePipelineStageDialogComponent} from '../add-update-pipeline-stage-dialog/add-update-pipeline-stage-dialog.component';
-import {PipelineStage} from '../../models/pipeline-stage.model';
+import {PipelineStage} from '../../models/settings/pipeline-stage.model';
 import {NotifierService} from 'angular-notifier';
 import {PipelineStageCriteriaDialogComponent} from '../pipeline-stage-criteria-dialog/pipeline-stage-criteria-dialog.component';
 

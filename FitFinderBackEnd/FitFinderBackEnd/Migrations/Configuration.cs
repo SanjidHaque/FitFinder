@@ -18,19 +18,19 @@ namespace FitFinderBackEnd.Migrations
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(ApplicationDbContext context)
+        protected override void Seed(FitFinderBackEnd.Models.ApplicationDbContext context)
         {
             //context.Workflows.AddOrUpdate(x => x.Id,
             //    new Workflow
             //    {
-            //        CompanyId = null,
+            //        CompanyId = 1,
             //        Name = "Default",
             //        Pipelines = new List<Pipeline>()
             //        {
             //            new Pipeline
             //            {
             //                Name = "NEW",
-            //                PipelineStage = new List<PipelineStage>() {
+            //                PipelineStages = new List<PipelineStage>() {
             //                    new PipelineStage
             //                    {
             //                        Name = "New",
@@ -41,7 +41,7 @@ namespace FitFinderBackEnd.Migrations
             //            new Pipeline
             //            {
             //                Name = "INREVIEW",
-            //                PipelineStage = new List<PipelineStage>() {
+            //                PipelineStages = new List<PipelineStage>() {
             //                        new PipelineStage
             //                        {
             //                            Name = "In Review",
@@ -52,7 +52,7 @@ namespace FitFinderBackEnd.Migrations
             //            new Pipeline
             //            {
             //                Name = "INTERVIEW",
-            //                PipelineStage = new List<PipelineStage>() {
+            //                PipelineStages = new List<PipelineStage>() {
             //                        new PipelineStage
             //                        {
             //                            Name = "Interview",
@@ -69,7 +69,7 @@ namespace FitFinderBackEnd.Migrations
             //            new Pipeline
             //            {
             //                Name = "OFFERED",
-            //                PipelineStage = new List<PipelineStage>() {
+            //                PipelineStages = new List<PipelineStage>() {
             //                        new PipelineStage
             //                        {
             //                            Name = "Offered",
@@ -80,7 +80,7 @@ namespace FitFinderBackEnd.Migrations
             //            new Pipeline
             //            {
             //                Name = "ONHOLD",
-            //                PipelineStage = new List<PipelineStage>() {
+            //                PipelineStages = new List<PipelineStage>() {
             //                        new PipelineStage
             //                        {
             //                            Name = "On Hold",
@@ -91,7 +91,7 @@ namespace FitFinderBackEnd.Migrations
             //            new Pipeline
             //            {
             //                Name = "HIRED",
-            //                PipelineStage = new List<PipelineStage>() {
+            //                PipelineStages = new List<PipelineStage>() {
             //                        new PipelineStage
             //                        {
             //                            Name = "Hired",
@@ -102,7 +102,7 @@ namespace FitFinderBackEnd.Migrations
             //            new Pipeline
             //        {
             //                Name = "REJECTED",
-            //                PipelineStage = new List<PipelineStage>() {
+            //                PipelineStages = new List<PipelineStage>() {
             //                        new PipelineStage
             //                        {
             //                            Name = "Rejected",
@@ -121,7 +121,7 @@ namespace FitFinderBackEnd.Migrations
 
 
 
-            //context.Roles.AddOrUpdate( x => x.Id,
+            //context.Roles.AddOrUpdate(x => x.Id,
             //     new IdentityRole { Name = "Admin" },
             //     new IdentityRole { Name = "HR" },
             //     new IdentityRole { Name = "Team member" }
@@ -147,21 +147,20 @@ namespace FitFinderBackEnd.Migrations
             //UserStore<ApplicationUser> userStore = new UserStore<ApplicationUser>(context);
             //UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(userStore);
             //ApplicationUser applicationUser = new ApplicationUser
-            // {
-            //     UserName = "Foobar",
-            //     FullName = "Md. Asif Atick",
-            //     Email = "sanjidulhauq@gmail.com",
-            //     PhoneNumber = "01966168250",
-            //     JoiningDateTime = "03:03:52 AM, 14-Jun-2019",
-            //     IsOwner = true,
-            //     CompanyId = companyId
+            //{
+            //    UserName = "Foobar",
+            //    FullName = "Md. Asif Atick",
+            //    Email = "sanjidulhauq@gmail.com",
+            //    PhoneNumber = "01966168250",
+            //    JoiningDateTime = "03:03:52 AM, 14-Jun-2019",
+            //    IsOwner = true,
+            //    CompanyId = companyId
             //};
 
             //userManager.Create(applicationUser, "123456");
 
             //string applicationUserId = userManager.FindByName("Foobar").Id;
             //userManager.AddToRole(applicationUserId, "Admin");
-
         }
     }
 }

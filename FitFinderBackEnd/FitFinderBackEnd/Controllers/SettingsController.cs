@@ -76,29 +76,29 @@ namespace FitFinderBackEnd.Controllers
 
 
 
-        [HttpGet]
-        [Route("api/GetAllSource")]
-        public IHttpActionResult GetAllSource()
-        {
-            Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
+        //[HttpGet]
+        //[Route("api/GetAllSource")]
+        //public IHttpActionResult GetAllSource()
+        //{
+        //    Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
 
-            if (userNameClaim == null)
-            {
-                return Ok(new { statusText = _statusTextService.UserClaimError });
-            }
+        //    if (userNameClaim == null)
+        //    {
+        //        return Ok(new { statusText = _statusTextService.UserClaimError });
+        //    }
 
-            ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
-            if (applicationUser == null)
-            {
-                return Ok(new { statusText = _statusTextService.UserClaimError });
-            }
+        //    ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
+        //    if (applicationUser == null)
+        //    {
+        //        return Ok(new { statusText = _statusTextService.UserClaimError });
+        //    }
 
-            List<Source> sources = _context.Sources
-                .Where(x => x.CompanyId == applicationUser.CompanyId)
-                .ToList();
+        //    List<Source> sources = _context.Sources
+        //        .Where(x => x.CompanyId == applicationUser.CompanyId)
+        //        .ToList();
 
-            return Ok(new { sources, statusText = _statusTextService.Success });
-        }
+        //    return Ok(new { sources, statusText = _statusTextService.Success });
+        //}
 
         [HttpGet]
         [Route("api/GetAllJobFunction")]
@@ -178,29 +178,29 @@ namespace FitFinderBackEnd.Controllers
 
 
 
-        [HttpPost]
-        [Route("api/AddNewSource")]
-        public IHttpActionResult AddNewSource(Source source)
-        {
-            Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
+        //[HttpPost]
+        //[Route("api/AddNewSource")]
+        //public IHttpActionResult AddNewSource(Source source)
+        //{
+        //    Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
 
-            if (userNameClaim == null)
-            {
-                return Ok(new { statusText = _statusTextService.UserClaimError });
-            }
+        //    if (userNameClaim == null)
+        //    {
+        //        return Ok(new { statusText = _statusTextService.UserClaimError });
+        //    }
 
-            ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
-            if (applicationUser == null)
-            {
-                return Ok(new { statusText = _statusTextService.UserClaimError });
-            }
+        //    ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
+        //    if (applicationUser == null)
+        //    {
+        //        return Ok(new { statusText = _statusTextService.UserClaimError });
+        //    }
 
-            source.CompanyId = applicationUser.CompanyId;
-            _context.Sources.Add(source);
-            _context.SaveChanges();
+        //    source.CompanyId = applicationUser.CompanyId;
+        //    _context.Sources.Add(source);
+        //    _context.SaveChanges();
 
-            return Ok(new { source, statusText = _statusTextService.Success });
-        }
+        //    return Ok(new { source, statusText = _statusTextService.Success });
+        //}
 
         [HttpPost]
         [Route("api/AddNewJobFunction")]
@@ -581,12 +581,12 @@ namespace FitFinderBackEnd.Controllers
         {
             _context.Pipelines.Add(pipeline);
 
-            //foreach (var pipelineStage in pipeline.PipelineStage)
+            //foreach (var pipelineStage in pipeline.PipelineStages)
             //{
             //    pipelineStage.PipelineId = pipeline.Id;
             //}
 
-            //_context.PipelineStages.AddRange(pipeline.PipelineStage);
+            //_context.PipelineStages.AddRange(pipeline.PipelineStages);
 
             _context.SaveChanges();
             return Ok(new { statusText = _statusTextService.Success });

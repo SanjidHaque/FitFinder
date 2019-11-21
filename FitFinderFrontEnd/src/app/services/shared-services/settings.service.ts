@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import {Department} from '../../models/department.model';
-import {Workflow} from '../../models/workflow.model';
+import {Department} from '../../models/settings/department.model';
+import {Workflow} from '../../models/settings/workflow.model';
 
 @Injectable({
   providedIn: 'root'

@@ -2,20 +2,20 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {DateAdapter, MatDialog} from '@angular/material';
 import {LongDateAdapter} from '../../../date-adapters/long-date.adpater';
-import {Candidate} from '../../../models/candidate.model';
+import {Candidate} from '../../../models/candidate/candidate.model';
 import {
   SelectCandidatesForInterviewDialogComponent
 } from '../../../dialogs/select-candidates-for-interview-dialog/select-candidates-for-interview-dialog.component';
-import {CandidatesForInterview} from '../../../models/candidates-for-interview.model';
-import {InterviewersForInterview} from '../../../models/interviewers-for-interview.model';
-import {Interview} from '../../../models/interview.model';
+import {CandidatesForInterview} from '../../../models/interview/candidates-for-interview.model';
+import {InterviewersForInterview} from '../../../models/interview/interviewers-for-interview.model';
+import {Interview} from '../../../models/interview/interview.model';
 import {InterviewDataStorageService} from '../../../services/data-storage-services/interview-data-storage.service';
 import {ActivatedRoute, Data, Router} from '@angular/router';
 import {NotifierService} from 'angular-notifier';
-import {Job} from '../../../models/job.model';
+import {Job} from '../../../models/job/job.model';
 import {JobDataStorageService} from '../../../services/data-storage-services/job-data-storage.service';
 import {CandidateDataStorageService} from '../../../services/data-storage-services/candidate-data-storage.service';
-import {Source} from '../../../models/source.model';
+import {Source} from '../../../models/settings/source.model';
 
 @Component({
   selector: 'app-add-new-interview',

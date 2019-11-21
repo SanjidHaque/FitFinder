@@ -1,22 +1,22 @@
 import {Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Data, Router} from '@angular/router';
-import {Candidate} from '../../../models/candidate.model';
+import {Candidate} from '../../../models/candidate/candidate.model';
 import {CandidateDataStorageService} from '../../../services/data-storage-services/candidate-data-storage.service';
 import {DateAdapter} from '@angular/material';
 import {ShortDateAdapter} from '../../../date-adapters/short-date.adapter';
-import {CandidateEducation} from '../../../models/candidate-education.model';
-import {CandidateExperience} from '../../../models/candidate-experience.model';
+import {CandidateEducation} from '../../../models/candidate/candidate-education.model';
+import {CandidateExperience} from '../../../models/candidate/candidate-experience.model';
 import {NotifierService} from 'angular-notifier';
-import {CandidateAttachment} from '../../../models/canidate-attachment.model';
-import {Job} from '../../../models/job.model';
+import {CandidateAttachment} from '../../../models/candidate/canidate-attachment.model';
+import {Job} from '../../../models/job/job.model';
 import {JobDataStorageService} from '../../../services/data-storage-services/job-data-storage.service';
 import {SettingsDataStorageService} from '../../../services/data-storage-services/settings-data-storage.service';
-import {Source} from '../../../models/source.model';
-import {JobAssigned} from '../../../models/job-assigned.model';
-import {StageScore} from '../../../models/stage-score.model';
-import {CriteriaScore} from '../../../models/criteria-score.model';
-import {StageComment} from '../../../models/stage-comment.model';
+import {Source} from '../../../models/settings/source.model';
+import {JobAssignment} from '../../../models/candidate/job-assignment.model';
+import {StageScore} from '../../../models/settings/stage-score.model';
+import {CriteriaScore} from '../../../models/settings/criteria-score.model';
+import {StageComment} from '../../../models/settings/stage-comment.model';
 
 
 @Component({
@@ -231,12 +231,11 @@ export class AddNewCandidateComponent implements OnInit {
      this.candidateExperience[i].Id = null;
    }
 
-   const jobAssigneds: JobAssigned[] = [];
+   const jobAssigneds: JobAssignment[] = [];
 
 
    const candidate = new Candidate(
      null,
-     jobId,
      firstName,
      lastName,
      email,
@@ -341,7 +340,7 @@ export class AddNewCandidateComponent implements OnInit {
 
                          }
                        }
-                       const jobAssigned = new JobAssigned(
+                       const jobAssigned = new JobAssignment(
                          null,
                          data.candidate.Id,
                          null,
@@ -358,7 +357,7 @@ export class AddNewCandidateComponent implements OnInit {
 
                        this.jobDataStorageService.jobAssigned(jobAssigned)
                          .subscribe(
-                           (getJobAssigned: JobAssigned) => {
+                           (getJobAssigned: JobAssignment) => {
 
 
 

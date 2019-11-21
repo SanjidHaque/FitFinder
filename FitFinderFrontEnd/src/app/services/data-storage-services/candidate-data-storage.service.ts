@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Candidate} from '../../models/candidate.model';
+import {Candidate} from '../../models/candidate/candidate.model';
 import {Subject} from 'rxjs/index';
 import {HttpClient} from '@angular/common/http';
 import {UserAccountDataStorageService} from './user-account-data-storage.service';
@@ -60,4 +60,12 @@ export class CandidateDataStorageService {
       candidates);
   }
 
+  editCandidate(candidate: Candidate) {
+    return this.httpClient.put<Candidate>(this.rootUrl + '/api/EditCandidate',
+      candidate);
+  }
+
+  deleteCandidate(candidateId: number) {
+    return this.httpClient.delete(`${this.rootUrl + 'api/DeleteCandidate'}/${candidateId}`);
+  }
 }

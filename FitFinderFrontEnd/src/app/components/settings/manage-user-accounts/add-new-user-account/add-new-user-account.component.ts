@@ -3,10 +3,10 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserAccountDataStorageService} from '../../../../services/data-storage-services/user-account-data-storage.service';
 import {NotifierService} from 'angular-notifier';
 import {ActivatedRoute, Data, Route, Router} from '@angular/router';
-import {Role} from '../../../../models/role.model';
-import {UserAccount} from '../../../../models/user-account.model';
+import {Role} from '../../../../models/settings/role.model';
+import {UserAccount} from '../../../../models/settings/user-account.model';
 import * as moment from 'moment';
-import {Department} from '../../../../models/department.model';
+import {Department} from '../../../../models/settings/department.model';
 
 @Component({
   selector: 'app-add-new-user-account',

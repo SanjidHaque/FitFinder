@@ -731,7 +731,7 @@ namespace FitFinderBackEnd.Controllers
             
         }
 
-        [HttpDelete]
+        [HttpPost]
         [Route("api/DeleteCompany")]
         [AllowAnonymous]
         public IHttpActionResult DeleteCompany(Company company)
@@ -739,11 +739,20 @@ namespace FitFinderBackEnd.Controllers
             Company getCompany = _context.Companies.FirstOrDefault(x => x.Id == company.Id);
             if (getCompany == null)
             {
-                return Ok(new { statusText = _statusTextService.UserClaimError });
+                return Ok(new { statusText = _statusTextService.ResourceNotFound });
             }
 
             _context.Companies.Remove(getCompany);
-            _context.SaveChanges();
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (DbUpdateException)
+            {
+                return Ok(new { StatusText = _statusTextService.SomethingWentWrong });
+            }
+
+            
 
             return Ok(new { statusText = _statusTextService.Success });
         }

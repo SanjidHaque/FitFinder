@@ -10,7 +10,7 @@ namespace FitFinderBackEnd.Models.Settings
         public long Id { get; set; }
         public string Name { get; set; }
         public Workflow Workflow { get; set; }
-        public long? WorkflowId { get; set; }        
-        public List<PipelineStage> PipelineStage { get; set; }
+        public long WorkflowId { get; set; }        
+        public List<PipelineStage> PipelineStages { get; set; }
     }
 }

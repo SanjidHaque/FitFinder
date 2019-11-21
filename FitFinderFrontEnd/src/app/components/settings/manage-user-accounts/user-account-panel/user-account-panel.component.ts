@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {Company} from '../../../../models/company.model';
+import {Company} from '../../../../models/settings/company.model';
 import {ActivatedRoute, Data} from '@angular/router';
-import {UserAccount} from '../../../../models/user-account.model';
+import {UserAccount} from '../../../../models/settings/user-account.model';
 import {UserAccountDataStorageService} from '../../../../services/data-storage-services/user-account-data-storage.service';
 import {NotifierService} from 'angular-notifier';
 

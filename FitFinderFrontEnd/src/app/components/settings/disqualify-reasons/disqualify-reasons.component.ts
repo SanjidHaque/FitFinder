@@ -3,8 +3,8 @@ import {AddUpdateDialogComponent} from '../../../dialogs/add-update-dialog/add-u
 import {MatDialog} from '@angular/material';
 import {SettingsDataStorageService} from '../../../services/data-storage-services/settings-data-storage.service';
 import {NotifierService} from 'angular-notifier';
-import {RejectedReason} from '../../../models/rejected-reason.model';
-import {WithdrawnReason} from '../../../models/withdrawn-reason.model';
+import {RejectedReason} from '../../../models/settings/rejected-reason.model';
+import {WithdrawnReason} from '../../../models/settings/withdrawn-reason.model';
 import {ActivatedRoute, Data} from '@angular/router';
 
 @Component({

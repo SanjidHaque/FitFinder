@@ -28,7 +28,7 @@ namespace FitFinderBackEnd.Services
                         new Pipeline
                         {
                             Name = "NEW",
-                            PipelineStage = new List<PipelineStage>() {
+                            PipelineStages = new List<PipelineStage>() {
                                 new PipelineStage
                                 {
                                     Name = "New",
@@ -39,7 +39,7 @@ namespace FitFinderBackEnd.Services
                         new Pipeline
                         {
                             Name = "INREVIEW",
-                            PipelineStage = new List<PipelineStage>() {
+                            PipelineStages = new List<PipelineStage>() {
                                     new PipelineStage
                                     {
                                         Name = "In Review",
@@ -50,7 +50,7 @@ namespace FitFinderBackEnd.Services
                         new Pipeline
                         {
                             Name = "INTERVIEW",
-                            PipelineStage = new List<PipelineStage>() {
+                            PipelineStages = new List<PipelineStage>() {
                                     new PipelineStage
                                     {
                                         Name = "Interview",
@@ -67,7 +67,7 @@ namespace FitFinderBackEnd.Services
                         new Pipeline
                         {
                             Name = "OFFERED",
-                            PipelineStage = new List<PipelineStage>() {
+                            PipelineStages = new List<PipelineStage>() {
                                     new PipelineStage
                                     {
                                         Name = "Offered",
@@ -78,7 +78,7 @@ namespace FitFinderBackEnd.Services
                         new Pipeline
                         {
                             Name = "ONHOLD",
-                            PipelineStage = new List<PipelineStage>() {
+                            PipelineStages = new List<PipelineStage>() {
                                     new PipelineStage
                                     {
                                         Name = "On Hold",
@@ -89,7 +89,7 @@ namespace FitFinderBackEnd.Services
                         new Pipeline
                         {
                             Name = "HIRED",
-                            PipelineStage = new List<PipelineStage>() {
+                            PipelineStages = new List<PipelineStage>() {
                                     new PipelineStage
                                     {
                                         Name = "Hired",
@@ -100,7 +100,7 @@ namespace FitFinderBackEnd.Services
                         new Pipeline
                         {
                             Name = "REJECTED",
-                            PipelineStage = new List<PipelineStage>() {
+                            PipelineStages = new List<PipelineStage>() {
                                     new PipelineStage
                                     {
                                         Name = "Rejected",

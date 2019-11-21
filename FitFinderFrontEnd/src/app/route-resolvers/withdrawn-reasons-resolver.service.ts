@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
 import {Observable} from 'rxjs';
-import {WithdrawnReason} from '../models/withdrawn-reason.model';
+import {WithdrawnReason} from '../models/settings/withdrawn-reason.model';
 import {SettingsDataStorageService} from '../services/data-storage-services/settings-data-storage.service';
 
 @Injectable({

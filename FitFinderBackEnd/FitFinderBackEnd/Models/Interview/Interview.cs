@@ -1,26 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
-using FitFinderBackEnd.Models.Settings;
+﻿using System.Collections.Generic;
+using FitFinderBackEnd.Models.Shared;
 
 namespace FitFinderBackEnd.Models.Interview
 {
-    public class Interview
+    public class Interview : Resource
     {
-        [Key]
-        public long Id { get; set; }
-        public string InterviewDate { get; set; }
-        public string InterviewName { get; set; }
-        public string InterviewLocation { get; set; }
-        public string InterviewStartTime { get; set; }
-        public string InterviewEndTime { get; set; }
-        public long InterviewType { get; set; }
+        public string Date { get; set; }
+        public string Location { get; set; }
+        public string StartTime { get; set; }
+        public string EndTime { get; set; }
+        public string InterviewType { get; set; }
         public List<CandidatesForInterview> CandidatesForInterview { get; set; }
         public List<InterviewersForInterview> InterviewersForInterview { get; set; }
-        public long InterviewStatus { get; set; }
+        public string InterviewStatus { get; set; }
         public bool IsArchived { get; set; }
-        public long CompanyId { get; set; }
     }
 }

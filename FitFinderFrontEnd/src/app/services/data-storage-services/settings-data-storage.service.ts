@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
-import {Pipeline} from '../../models/pipeline.model';
-import {JobType} from '../../models/job-type.model';
-import {Department} from '../../models/department.model';
-import {JobFunction} from '../../models/job-function.model';
-import {Source} from '../../models/source.model';
-import {Tag} from '../../models/tag.model';
+import {Pipeline} from '../../models/settings/pipeline.model';
+import {JobType} from '../../models/settings/job-type.model';
+import {Department} from '../../models/settings/department.model';
+import {JobFunction} from '../../models/settings/job-function.model';
+import {Source} from '../../models/settings/source.model';
+import {Tag} from '../../models/settings/tag.model';
 import {HttpClient} from '@angular/common/http';
 import {UserAccountDataStorageService} from './user-account-data-storage.service';
-import {RejectedReason} from '../../models/rejected-reason.model';
-import {WithdrawnReason} from '../../models/withdrawn-reason.model';
-import {PipelineStage} from '../../models/pipeline-stage.model';
-import {PipelineStageCriteria} from '../../models/pipeline-stage-criteria.model';
-import {Workflow} from '../../models/workflow.model';
+import {RejectedReason} from '../../models/settings/rejected-reason.model';
+import {WithdrawnReason} from '../../models/settings/withdrawn-reason.model';
+import {PipelineStage} from '../../models/settings/pipeline-stage.model';
+import {PipelineStageCriteria} from '../../models/settings/pipeline-stage-criterion.model';
+import {Workflow} from '../../models/settings/workflow.model';
+import {Candidate} from '../../models/candidate/candidate.model';
 
 @Injectable({
   providedIn: 'root'
@@ -147,9 +148,46 @@ export class SettingsDataStorageService {
     return this.httpClient.put<Workflow>(this.rootUrl + '/api/EditWorkflowName', workflow);
   }
 
-  addNewPipelineStageCriteriasForNewJob(pipelineStageCriterias: PipelineStageCriteria[]) {
+  addNewPipelineStageCriteriaForNewJob(pipelineStageCriteria: PipelineStageCriteria[]) {
     return this.httpClient.post<PipelineStageCriteria[]>(
-      this.rootUrl + '/api/addNewPipelineStageCriteriasForNewJob', pipelineStageCriterias);
+      this.rootUrl + '/api/AddNewPipelineStageCriteriaForNewJob', pipelineStageCriteria);
   }
+
+  deleteRejectedReason(rejectedReasonId: number) {
+    return this.httpClient.delete(`${this.rootUrl + 'api/DeleteRejectedReason'}/${rejectedReasonId}`);
+  }
+
+  deleteWithdrawnReason(withdrawnReasonId: number) {
+    return this.httpClient.delete(`${this.rootUrl + 'api/DeleteWithdrawnReason'}/${withdrawnReasonId}`);
+  }
+
+  deleteSource(sourceId: number) {
+    return this.httpClient.delete(`${this.rootUrl + 'api/DeleteSource'}/${sourceId}`);
+  }
+
+  deleteDepartment(departmentId: number) {
+    return this.httpClient.delete(`${this.rootUrl + 'api/DeleteDepartment'}/${departmentId}`);
+  }
+
+  deleteJobType(jobTypeId: number) {
+    return this.httpClient.delete(`${this.rootUrl + 'api/DeleteJobType'}/${jobTypeId}`);
+  }
+
+  deleteJobFunction(jobFunctionId: number) {
+    return this.httpClient.delete(`${this.rootUrl + 'api/DeleteJobFunction'}/${jobFunctionId}`);
+  }
+
+  deleteWorkflow(workflowId: number) {
+    return this.httpClient.delete(`${this.rootUrl + 'api/DeleteWorkflow'}/${workflowId}`);
+  }
+
+  deletePipelineStage(pipelineStageId: number) {
+    return this.httpClient.delete(`${this.rootUrl + 'api/DeletePipelineStage'}/${pipelineStageId}`);
+  }
+
+  deletePipelineStageCriteria(pipelineStageCriteriaId: number) {
+    return this.httpClient.delete(`${this.rootUrl + 'api/DeletePipelineStageCriteria'}/${pipelineStageCriteriaId}`);
+  }
+  
 
 }

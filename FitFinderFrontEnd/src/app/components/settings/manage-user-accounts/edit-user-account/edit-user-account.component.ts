@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {UserAccount} from '../../../../models/user-account.model';
+import {UserAccount} from '../../../../models/settings/user-account.model';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Data, Params, Router} from '@angular/router';
 import {UserAccountDataStorageService} from '../../../../services/data-storage-services/user-account-data-storage.service';
 import {NotifierService} from 'angular-notifier';
-import {Role} from '../../../../models/role.model';
-import {Department} from '../../../../models/department.model';
+import {Role} from '../../../../models/settings/role.model';
+import {Department} from '../../../../models/settings/department.model';
 
 @Component({
   selector: 'app-edit-user-account',

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import {Interview} from '../../models/interview.model';
+import {Interview} from '../../models/interview/interview.model';
 import {Subject} from 'rxjs/index';
-import {Candidate} from '../../models/candidate.model';
+import {Candidate} from '../../models/candidate/candidate.model';
 import {HttpClient} from '@angular/common/http';
 import {UserAccountDataStorageService} from './user-account-data-storage.service';
 
@@ -40,6 +40,14 @@ export class InterviewDataStorageService {
   restoreInterviews(interviews: Interview[]) {
     return this.httpClient.put<Interview>(this.rootUrl + '/api/RestoreInterviews',
       interviews);
+  }
+
+  editInterview(interview: Interview) {
+    return this.httpClient.put<Interview>(this.rootUrl + '/api/EditInterview', interview);
+  }
+
+  deleteInterview(interviewId: number) {
+    return this.httpClient.delete(`${this.rootUrl + 'api/DeleteInterview'}/${interviewId}`);
   }
 
 }

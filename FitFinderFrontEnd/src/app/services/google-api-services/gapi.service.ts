@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {SettingsService} from '../shared-services/settings.service';
 import {NotifierService} from 'angular-notifier';
-import {Company} from '../../models/company.model';
-import {Department} from '../../models/department.model';
-import {Job} from '../../models/job.model';
+import {Company} from '../../models/settings/company.model';
+import {Department} from '../../models/settings/department.model';
+import {Job} from '../../models/job/job.model';
 
 const CLIENT_ID = '702778738746-7a3e9tc282csr0e8fnekj1cdd5c4kbd5.apps.googleusercontent.com';
 const API_KEY = 'AIzaSyB41UTFYHcZcdEr947h6GCQyd9ESUUYRzk';

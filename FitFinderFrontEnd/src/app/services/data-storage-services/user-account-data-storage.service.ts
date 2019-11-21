@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {UserAccount} from '../../models/user-account.model';
-import {Company} from '../../models/company.model';
-import {Role} from '../../models/role.model';
-import {ChangePassword} from '../../models/change-password.model';
-import {Job} from '../../models/job.model';
+import {UserAccount} from '../../models/settings/user-account.model';
+import {Company} from '../../models/settings/company.model';
+import {Role} from '../../models/settings/role.model';
+import {ChangePassword} from '../../models/settings/change-password.model';
+import {Job} from '../../models/job/job.model';
 
 @Injectable({
   providedIn: 'root'

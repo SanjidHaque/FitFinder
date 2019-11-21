@@ -1,12 +1,12 @@
 import {ChangeDetectorRef, Component, DoCheck, NgZone, OnInit} from '@angular/core';
-import {UserAccount} from '../../../../models/user-account.model';
+import {UserAccount} from '../../../../models/settings/user-account.model';
 import {ActivatedRoute, Data, Router} from '@angular/router';
 import {NotifierService} from 'angular-notifier';
-import {Company} from '../../../../models/company.model';
-import {Department} from '../../../../models/department.model';
+import {Company} from '../../../../models/settings/company.model';
+import {Department} from '../../../../models/settings/department.model';
 import {SettingsService} from '../../../../services/shared-services/settings.service';
 import {GapiService} from '../../../../services/google-api-services/gapi.service';
-import {Job} from '../../../../models/job.model';
+import {Job} from '../../../../models/job/job.model';
 
 @Component({
   selector: 'app-profile-id',

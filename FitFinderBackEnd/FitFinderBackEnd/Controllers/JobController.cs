@@ -9,6 +9,7 @@ using System.Web.Http.Cors;
 using FitFinderBackEnd.Models;
 using FitFinderBackEnd.Models.Job;
 using FitFinderBackEnd.Models.Settings;
+using FitFinderBackEnd.Models.Shared;
 using FitFinderBackEnd.Services;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -73,11 +74,11 @@ namespace FitFinderBackEnd.Controllers
             job.CompanyId = applicationUser.CompanyId;
 
             _context.Jobs.Add(job);
-//            foreach (var jobAttachment in job.JobAttachment)
+//            foreach (var jobAttachment in job.JobAttachments)
 //            {
 //                jobAttachment.JobId = job.Id;
 //            }
-//            _context.JobAttachments.AddRange(job.JobAttachment);
+//            _context.JobAttachments.AddRange(job.JobAttachments);
 
             _context.SaveChanges();
             return Ok(new { job,  statusText = _statusTextService.Success });
@@ -96,21 +97,21 @@ namespace FitFinderBackEnd.Controllers
 
 
             getJob.DepartmentId = job.DepartmentId;
-            getJob.JobCode = job.JobCode;
-            getJob.JobDescription = job.JobDescription;
-            getJob.JobImmediate = job.JobImmediate;
-            getJob.JobIntermediate = job.JobIntermediate;
-            getJob.JobGoodToHave = job.JobGoodToHave;
+            getJob.Code = job.Code;
+            getJob.Description = job.Description;
+            getJob.ImmediateSkills = job.ImmediateSkills;
+            getJob.IntermediateSkills = job.IntermediateSkills;
+            getJob.GoodToHaveSkills = job.GoodToHaveSkills;
             getJob.JobFunctionId = job.JobFunctionId;
-            getJob.JobTitle = job.JobTitle;
+            getJob.Title = job.Title;
             getJob.JobTypeId = job.JobTypeId;
-            getJob.JobLocation = job.JobLocation;
-            getJob.JobExperienceStarts = job.JobExperienceStarts;
-            getJob.JobExperienceEnds = job.JobExperienceEnds;
-            getJob.JobSalaryStarts = job.JobSalaryStarts;
-            getJob.JobSalaryEnds = job.JobSalaryEnds;
-            getJob.JobClosingDate = job.JobClosingDate;
-            getJob.JobPositions = job.JobPositions;
+            getJob.Location = job.Location;
+            getJob.ExperienceStarts = job.ExperienceStarts;
+            getJob.ExperienceEnds = job.ExperienceEnds;
+            getJob.SalaryStarts = job.SalaryStarts;
+            getJob.SalaryEnds = job.SalaryEnds;
+            getJob.ClosingDate = job.ClosingDate;
+            getJob.Positions = job.Positions;
             
 
 

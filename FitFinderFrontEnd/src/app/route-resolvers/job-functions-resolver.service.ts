@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
-import {Interview} from '../models/interview.model';
+import {Interview} from '../models/interview/interview.model';
 import {Observable} from 'rxjs';
-import {JobFunction} from '../models/job-function.model';
+import {JobFunction} from '../models/settings/job-function.model';
 import {SettingsDataStorageService} from '../services/data-storage-services/settings-data-storage.service';
 
 @Injectable({

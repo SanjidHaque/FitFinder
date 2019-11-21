@@ -3,12 +3,12 @@ import {ActivatedRoute, Data} from '@angular/router';
 import {JobDataStorageService} from '../../services/data-storage-services/job-data-storage.service';
 import {CandidateDataStorageService} from '../../services/data-storage-services/candidate-data-storage.service';
 import {InterviewDataStorageService} from '../../services/data-storage-services/interview-data-storage.service';
-import {Job} from '../../models/job.model';
-import {Interview} from '../../models/interview.model';
-import {Candidate} from '../../models/candidate.model';
+import {Job} from '../../models/job/job.model';
+import {Interview} from '../../models/interview/interview.model';
+import {Candidate} from '../../models/candidate/candidate.model';
 import {SettingsDataStorageService} from '../../services/data-storage-services/settings-data-storage.service';
-import {Source} from '../../models/source.model';
-import {Department} from '../../models/department.model';
+import {Source} from '../../models/settings/source.model';
+import {Department} from '../../models/settings/department.model';
 
 @Component({
   selector: 'app-dashboard',
