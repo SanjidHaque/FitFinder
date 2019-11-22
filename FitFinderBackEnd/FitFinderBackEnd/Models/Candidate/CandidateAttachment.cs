@@ -7,7 +7,7 @@ using FitFinderBackEnd.Models.Shared;
 
 namespace FitFinderBackEnd.Models.Candidate
 {
-    public class CandidateAttachment:Attachment
+    public class CandidateAttachment : Attachment
     {
         public Candidate Candidate { get; set; }
         public long CandidateId { get; set; }

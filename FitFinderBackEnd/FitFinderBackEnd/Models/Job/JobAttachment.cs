@@ -6,7 +6,7 @@ using FitFinderBackEnd.Models.Shared;
 
 namespace FitFinderBackEnd.Models.Job
 {
-    public class JobAttachment:Attachment
+    public class JobAttachment : Attachment
     {
         public Job Job { get; set; }
         public long JobId { get; set; } 

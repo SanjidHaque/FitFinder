@@ -176,13 +176,13 @@
         <h6>Education</h6>
       </div>
     </div>
-    <hr *ngIf="addNewCandidateForm.get('education')['controls'].length === 0">
+    <hr *ngIf="addNewCandidateForm.get('educations')['controls'].length === 0">
     <br>
 
 
     <div class="row"
          formArrayName="education"
-         *ngFor="let formFields of addNewCandidateForm.get('education')['controls']; let i = index">
+         *ngFor="let formFields of addNewCandidateForm.get('educations')['controls']; let i = index">
       <div class="col-xl-12" [formGroupName]="i">
         <hr>
         <div class="row">
@@ -304,12 +304,12 @@
         <h6>Experience</h6>
       </div>
     </div>
-    <hr *ngIf="addNewCandidateForm.get('experience')['controls'].length == 0">
+    <hr *ngIf="addNewCandidateForm.get('experiences')['controls'].length == 0">
     <br>
 
     <div class="row"
          formArrayName="experience"
-         *ngFor="let formFields of addNewCandidateForm.get('experience')['controls']; let i = index">
+         *ngFor="let formFields of addNewCandidateForm.get('experiences')['controls']; let i = index">
       <div class="col-xl-12" [formGroupName]="i">
         <hr>
         <div class="row">

@@ -7,6 +7,6 @@
         public PipelineStage PipelineStage { get; set; }
         public long? PipelineStageId { get; set; }
         public Job.Job Job { get; set; }
-        public long JobId { get; set; }    
+        public long? JobId { get; set; }    
     }
 }

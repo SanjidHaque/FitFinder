@@ -17,6 +17,7 @@ using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using FitFinderBackEnd.Models;
+using FitFinderBackEnd.Models.Candidate;
 using FitFinderBackEnd.Models.Settings;
 using FitFinderBackEnd.Providers;
 using FitFinderBackEnd.Results;

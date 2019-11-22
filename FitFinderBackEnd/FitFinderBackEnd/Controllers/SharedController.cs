@@ -1,150 +1,115 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Security.Claims;
+using System.Web;
 using System.Web.Http;
 using FitFinderBackEnd.Models;
-using FitFinderBackEnd.Models.Candidate;
-using FitFinderBackEnd.Models.Settings;
 using FitFinderBackEnd.Services;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
 
 namespace FitFinderBackEnd.Controllers
 {
     [Authorize]
     public class SharedController : ApiController
     {
-        private readonly ApplicationDbContext _context;
-        private StatusTextService _statusTextService;
+        
+       private ApplicationUserManager _userManager;
+       private StatusTextService _statusTextService;
 
         public SharedController()
         {
-            _context = new ApplicationDbContext();
             _statusTextService = new StatusTextService();
         }
 
+        public SharedController(ApplicationUserManager userManager,
+            ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
+        {
+            UserManager = userManager;
+            AccessTokenFormat = accessTokenFormat;
+        }
+
+
+
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+
+        public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; private set; }
 
         [HttpPost]
-        [Route("api/UpdateJobAssignment")]
-        public  IHttpActionResult UpdateJobAssignment(JobAssignment jobAssignment)
+        [Route("api/UploadAttachments")]
+        [AllowAnonymous]
+        public IHttpActionResult UploadAttachments()
         {
-            if (jobAssignment == null)
+            Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
+
+            if (userNameClaim == null)
             {
-                return Ok(new { statusText = _statusTextService.ResourceNotFound });
+                return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
-            JobAssignment getJobAssignment = _context.JobAssignments.FirstOrDefault(x => x.Id == jobAssignment.Id);
-            if (getJobAssignment == null)
+            ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
+            if (applicationUser == null)
             {
-                return Ok(new { statusText = _statusTextService.ResourceNotFound });
-
+                return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
-            getJobAssignment.CurrentStageId = jobAssignment.CurrentStageId;
-            //  _context.SaveChanges();
-
-            RemoveOldScores(jobAssignment);
-            AddNewScores(jobAssignment);
-
-            _context.SaveChanges();
-
-            if (jobAssignment.StageComments.Count != 0)
+            var httpRequest = HttpContext.Current.Request;
+            for (int i = 0; i < httpRequest.Files.Count; i++)
             {
-                AddNewStageComments(jobAssignment.StageComments);
+                try
+                {
+                    var postedFile = httpRequest.Files[i];
+                    var filePath = HttpContext.Current.Server.MapPath("~/Content/Attachments/" + postedFile.FileName);
+                    postedFile.SaveAs(filePath);
+                }
+                catch (Exception e)
+                {
+                    return Ok(new {statusText = _statusTextService.SomethingWentWrong});
+                }
+               
             }
 
-            JobAssignment getUpdatedJobAssignment = GetUpdatedJobAssignment(jobAssignment);
-
-            return Ok(new { getUpdatedJobAssignment, statusText = _statusTextService.Success });
-
-           
-        }
-
-
-        public JobAssignment GetUpdatedJobAssignment(JobAssignment jobAssignment)
-        {
-            return _context.JobAssignments.FirstOrDefault(x => x.Id == jobAssignment.Id);
-        }
-
-
-        public void AddNewStageComments(List<StageComment> stageComments)
-        {
-            _context.StageComments.AddRange(stageComments);
-        }
-
-
-
-        public void  RemoveOldScores(JobAssignment jobAssignment)
-        {
-            List<StageScore> stageScore = _context.StageScores
-                .Where(x => x.JobAssignmentId == jobAssignment.Id)
-                .ToList();
-
-            List<CriteriaScore> criteriaScore = _context.CriteriaScores
-                .Where(x => x.JobAssignmentId == jobAssignment.Id)
-                .ToList();
-
-            _context.StageScores.RemoveRange(stageScore);
-            _context.CriteriaScores.RemoveRange(criteriaScore);
-        
-
-        }
-
-        public void AddNewScores(JobAssignment jobAssignment)
-        {
-            _context.StageScores.AddRange(jobAssignment.StageScores);
-            _context.CriteriaScores.AddRange(jobAssignment.CriteriaScores);
-        }
-
-
-
-
-        [HttpPost]
-        [Route("api/AddJobAssignment")]
-        public IHttpActionResult AddJobAssignment(JobAssignment jobAssignment)
-        {
-           
-            //jobAssigned .CriteriaScores =  new List<CriteriaScores>();
-            //jobAssigned.StageScores= new List<StageScores>();
-            //jobAssigned.StageComments = new List<StageComments>();
-            _context.JobAssignments.Add(jobAssignment);
-            
-            //foreach (var stageScore in jobAssigned.StageScores)
-            //{
-            //    stageScore.JobAssignmentId = jobAssigned.Id;
-            //}
-
-            //foreach (var criteriaScore in jobAssigned.CriteriaScores)
-            //{
-            //    criteriaScore.JobAssignmentId = jobAssigned.Id;
-            //}
-
-            //foreach (var stageComment in jobAssigned.StageComments)
-            //{
-            //    stageComment.JobAssignmentId = jobAssigned.Id;
-            //}
-
-            //_context.StageScores.AddRange(jobAssigned.StageScores);
-            //_context.CriteriaScores.AddRange(jobAssigned.CriteriaScores);
-            //_context.StageComments.AddRange(jobAssigned.StageComments);
-
-            _context.SaveChanges();
-            return Ok(new { jobAssigned = jobAssignment, statusText = _statusTextService.Success });
-
-            
-        }
-
-        [HttpPost]
-        [Route("api/RemoveJobAssignment")]
-        public IHttpActionResult RemoveJobAssignment(JobAssignment jobAssignment)
-        {
-            JobAssignment getJobAssignment = _context.JobAssignments.FirstOrDefault(x => x.Id == jobAssignment.Id);
-            if (getJobAssignment == null)
-            {
-                return Ok(new { statusText = _statusTextService.ResourceNotFound });
-            }
-
-            _context.JobAssignments.Remove(getJobAssignment);
-            _context.SaveChanges();
             return Ok(new { statusText = _statusTextService.Success });
-
         }
+
+
+        [HttpPost]
+        [Route("api/DeleteAttachments")]
+        [AllowAnonymous]
+        public IHttpActionResult DeleteAttachments(List<string> fileNames)
+        {
+            Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
+
+            if (userNameClaim == null)
+            {
+                return Ok(new { statusText = _statusTextService.UserClaimError });
+            }
+
+            ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
+            if (applicationUser == null)
+            {
+                return Ok(new { statusText = _statusTextService.UserClaimError });
+            }
+
+            SharedService sharedService = new SharedService();
+            sharedService.OnDeleteAttachment(fileNames);
+
+            return Ok(new { statusText = _statusTextService.Success });
+        }
+
     }
 }

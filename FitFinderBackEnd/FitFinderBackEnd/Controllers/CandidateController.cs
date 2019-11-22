@@ -71,43 +71,42 @@ namespace FitFinderBackEnd.Controllers
             }
 
             candidate.CompanyId = applicationUser.CompanyId;
-            
             _context.Candidates.Add(candidate);
-
             _context.SaveChanges();
 
+           
 
-            //if (candidate.JobAssignment.Count > 0)
-            //{
-            //    candidate.JobAssignment[0].CandidateId = candidate.Id;
+           
+            if (candidate.JobAssignments[0].JobId != null)
+            {
+                candidate.JobAssignments[0].CandidateId = candidate.Id;
 
-
-
-            //    _context.SaveChanges();
-            //}
-
-
+                SharedService sharedService = new SharedService();
+                JobAssignment getJobAssignment = sharedService.OnAddJobAssignment(candidate.JobAssignments[0]);
 
 
-            //            foreach (var candidateEducation in candidate.CandidateEducations)
-            //            {
-            //                candidateEducation.Id = candidate.Id;
-            //            }
-            //            foreach (var candidateExperience in candidate.CandidateExperiences)
-            //            {
-            //                candidateExperience.Id = candidate.Id;
-            //            }
-            //
-            //            foreach (var candidateAttachment in candidate.CandidateAttachments)
-            //            {
-            //                candidateAttachment.Id = candidate.Id;
-            //            }
-            //
-            //
-            //
-            //            _context.CandidateAttachments.AddRange(candidate.CandidateAttachments);
-            //            _context.CandidateEducations.AddRange(candidate.CandidateEducations);
-            //            _context.CandidateExperiences.AddRange(candidate.CandidateExperiences);
+                if (getJobAssignment == null)
+                {
+
+                    if (candidate.CandidateAttachments != null)
+                    {
+                        List<string> fileNames = new List<string>();
+                        candidate.CandidateAttachments.ForEach(fileName =>
+                        {
+                            fileNames.Add(fileName.ModifiedFileName);
+                        });
+                        sharedService.OnDeleteAttachment(fileNames);
+                    }
+
+                    _context.Candidates.Remove(candidate);
+                    _context.SaveChanges();
+
+                    return Ok(new { statusText = _statusTextService.SomethingWentWrong });
+                }
+
+            }
+
+
 
 
             return Ok(new { candidate, statusText = _statusTextService.Success });
@@ -166,21 +165,7 @@ namespace FitFinderBackEnd.Controllers
         }
 
 
-        [HttpPost]
-        [Route("api/UploadAttachments")]
-        [AllowAnonymous]
-        public IHttpActionResult UploadAttachments()
-        {
-            var httpRequest = HttpContext.Current.Request;
-            for (int i = 0; i < httpRequest.Files.Count; i++)
-            {
-                var postedFile = httpRequest.Files[i];
-                var filePath = HttpContext.Current.Server.MapPath("~/Content/Attachments/" + postedFile.FileName);
-                postedFile.SaveAs(filePath);
-            }
-            return Ok(new { statusText = _statusTextService.Success });
-        }
-
+        
         [HttpGet]
         [Route("api/GetAllCandidate")]
         [AllowAnonymous]

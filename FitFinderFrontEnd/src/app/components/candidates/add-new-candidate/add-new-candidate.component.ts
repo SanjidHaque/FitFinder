@@ -29,13 +29,10 @@ export class AddNewCandidateComponent implements OnInit {
 
   startDateOfEducation = [];
   startDateOfExperience = [];
-  candidateExperience: CandidateExperience[] = [];
-  candidateEducation: CandidateEducation[] = [];
   candidateAttachments: CandidateAttachment[] = [];
 
   defaultSource = 'BdJobs';
 
-  jobs: Job[] = [];
   sources: Source[] = [];
 
   filesToUpload: Array<File>;
@@ -43,8 +40,6 @@ export class AddNewCandidateComponent implements OnInit {
   isDisabled = false;
 
   addNewCandidateForm: FormGroup;
-  email = new FormControl('', [Validators.required, Validators.email]);
-
 
   constructor(private router: Router,
               private route: ActivatedRoute,
@@ -60,7 +55,6 @@ export class AddNewCandidateComponent implements OnInit {
     this.route.data
       .subscribe(
         (data: Data) => {
-          this.jobs = data['jobs'];
           this.sources = data['sources'];
         }
       );
@@ -75,22 +69,15 @@ export class AddNewCandidateComponent implements OnInit {
       'city': new FormControl('', Validators.required),
       'state': new FormControl(''),
       'country': new FormControl('', Validators.required),
-      'candidateSourceId': new FormControl(this.defaultSource, Validators.required),
-      'education': new FormArray([]),
-      'experience': new FormArray([]),
+      'sourceId': new FormControl(this.defaultSource, Validators.required),
+      'educations': new FormArray([]),
+      'experiences': new FormArray([]),
       'facebookUrl': new FormControl(''),
       'linkedInUrl': new FormControl('')
     });
   }
 
-  clearAllArrays() {
-    this.candidateAttachments = [];
-    this.candidateExperience = [];
-    this.candidateEducation = [];
-    this.startDateOfEducation = [];
-    this.startDateOfExperience = [];
-    this.filesToUpload = [];
-  }
+
 
   fileChangeEvent(fileInput: any) {
     for (let i = 0; i < fileInput.target.files.length; i++) {
@@ -101,25 +88,17 @@ export class AddNewCandidateComponent implements OnInit {
         const newFileName = fileName + Date.now() + '.' + fileExtension;
         const newFile = new File([fileInput.target.files[i]], newFileName, {type: fileInput.target.files[i].type});
         this.filesToUpload.push(newFile);
-        // const candidateAttachment = new CandidateAttachment(
-        //   null,
-        //   null,
-        //   fileInput.target.files[i].name,
-        //   newFile.name,
-        //   false
-        // );
-
         const candidateAttachment = new CandidateAttachment(
-          1,
-          1,
-          1,
-          1,
-          1
+          null,
+          null,
+          null,
+          fileInput.target.files[i].name,
+          newFile.name,
+          false
         );
 
-        const h = new Source()
 
-        candidateAttachment = 1;
+
 
         this.candidateAttachments.push(candidateAttachment);
         this.notifierService.notify('default', 'File uploaded successfully');
@@ -171,16 +150,12 @@ export class AddNewCandidateComponent implements OnInit {
   }
 
   addEducationFields() {
-
-    // (this.addNewCandidateForm.get('education')['controls'] as FormArray)
-    //   .push(this.populateEducationFields());
-
-    (this.addNewCandidateForm.controls['education'] as FormArray)
+    (this.addNewCandidateForm.controls['educations'] as FormArray)
       .push(this.populateEducationFields());
   }
 
   removeEducationFields(index: number) {
-    (this.addNewCandidateForm.controls['education'] as FormArray).removeAt(index);
+    (this.addNewCandidateForm.controls['educations'] as FormArray).removeAt(index);
     this.startDateOfEducation.splice(index, 1);
   }
 
@@ -198,16 +173,12 @@ export class AddNewCandidateComponent implements OnInit {
 
 
   addExperienceFields() {
-
-    // (this.addNewCandidateForm.get('experience')['controls'] as FormArray)
-    //   .push(this.populateExperienceFields());
-
-    (this.addNewCandidateForm.controls['experience'] as FormArray)
+    (this.addNewCandidateForm.controls['experiences'] as FormArray)
       .push(this.populateExperienceFields());
   }
 
   removeExperienceFields(index: number) {
-    (this.addNewCandidateForm.controls['experience'] as FormArray).removeAt(index);
+    (this.addNewCandidateForm.controls['experiences'] as FormArray).removeAt(index);
   }
 
   getEmailErrorMessage() {
@@ -216,195 +187,79 @@ export class AddNewCandidateComponent implements OnInit {
         '';
   }
 
-  addNewCandidate() {
-   const jobId = this.addNewCandidateForm.controls['jobId'].value;
-   const firstName = this.addNewCandidateForm.controls['firstName'].value;
-   const lastName = this.addNewCandidateForm.controls['lastName'].value;
-   const email = this.addNewCandidateForm.controls['email'].value;
-   const mobile = this.addNewCandidateForm.controls['mobile'].value;
-   const address = this.addNewCandidateForm.controls['address'].value;
-   const city = this.addNewCandidateForm.controls['city'].value;
-   const state = this.addNewCandidateForm.controls['state'].value;
-   const country = this.addNewCandidateForm.controls['country'].value;
-   const candidateSourceId = this.addNewCandidateForm.controls['candidateSourceId'].value;
-   this.candidateEducation = this.addNewCandidateForm.controls['education'].value;
-   this.candidateExperience = this.addNewCandidateForm.controls['experience'].value;
-   const facebookUrl = this.addNewCandidateForm.controls['facebookUrl'].value;
-   const linkedInUrl = this.addNewCandidateForm.controls['linkedInUrl'].value;
-   const isArchived = false;
-   const isHired = false;
-   const isClosed = false;
-   const applicationDate = new Date();
+  async addNewCandidate() {
+    const jobId = this.addNewCandidateForm.controls['jobId'].value;
+    const jobAssignments: JobAssignment[] = [];
 
-   for ( let i = 0; i < this.candidateAttachments.length; i++ ) {
-     this.candidateAttachments[i].CandidateId = null;
-     this.candidateAttachments[i].Id = null;
-   }
-   for ( let i = 0; i < this.candidateEducation.length; i++ ) {
-     this.candidateEducation[i].CandidateId = null;
-     this.candidateEducation[i].Id = null;
-   }
-   for ( let i = 0; i < this.candidateExperience.length; i++ ) {
-     this.candidateExperience[i].CandidateId = null;
-     this.candidateExperience[i].Id = null;
-   }
+    if (jobId !== '') {
+      const jobAssignment = new JobAssignment(
+        null,
+        null,
+        null,
+        null,
+        jobId,
+        [],
+        [],
+        [],
+        [],
+        true,
+      );
 
-   const jobAssigneds: JobAssignment[] = [];
+      jobAssignments.push(jobAssignment);
+    }
 
 
-   const candidate = new Candidate(
-     null,
-     firstName,
-     lastName,
-     email,
-     mobile,
-     address,
-     city,
-     state,
-     country,
-     candidateSourceId,
-     this.candidateEducation,
-     this.candidateExperience,
-     this.candidateAttachments,
-     jobAssigneds,
-     facebookUrl,
-     linkedInUrl,
-     isArchived,
-     isHired,
-     isClosed,
-     applicationDate.toString(),
-     false
-   );
-
+    const candidate = new Candidate(
+      null,
+      this.addNewCandidateForm.controls['firstName'].value,
+      this.addNewCandidateForm.controls['lastName'].value,
+      this.addNewCandidateForm.controls['email'].value,
+      this.addNewCandidateForm.controls['mobile'].value,
+      this.addNewCandidateForm.controls['address'].value,
+      this.addNewCandidateForm.controls['city'].value,
+      this.addNewCandidateForm.controls['state'].value,
+      this.addNewCandidateForm.controls['country'].value,
+      null,
+      this.addNewCandidateForm.controls['sourceId'].value,
+      this.addNewCandidateForm.controls['educations'].value,
+      this.addNewCandidateForm.controls['experiences'].value,
+      this.candidateAttachments,
+      jobAssignments,
+      this.addNewCandidateForm.controls['facebookUrl'].value,
+      this.addNewCandidateForm.controls['linkedInUrl'].value,
+      this.addNewCandidateForm.controls['gitHubInUrl'].value,
+      false,
+      false,
+      false,
+      new Date(),
+      false,
+      null,
+      null
+    );
 
 
    this.isDisabled = true;
-   this.candidateDataStorageService.addNewCandidate(candidate)
+   await this.candidateDataStorageService.uploadAttachments(this.filesToUpload)
      .subscribe(
        (data: any) => {
-         if (data.statusText === 'Success') {
-
-           this.candidateDataStorageService.uploadAttachments(this.filesToUpload)
-             .subscribe(
-               (response: any) => {
-
-
-                 if (jobId !== '') {
-
-                   this.jobDataStorageService.getJob(jobId)
-                     .subscribe((job: Job) => {
-
-
-                       const stageScores: StageScore[] = [];
-                       const criteriaScores: CriteriaScore[] = [];
-                       const stageComments: StageComment[] = [];
-                       const stageComment = new StageComment(
-                         null,
-                         null,
-                         job.Workflow.Pipelines[0].PipelineStage[0].Id,
-                         data.candidate.Id,
-                         jobId,
-                         'Created from '
-                       );
-
-                       stageComments.push(stageComment);
-
-                       for (let i = 0; i < job.Workflow.Pipelines.length; i++) {
-
-                         for (let j = 0; j < job.Workflow.Pipelines[i].PipelineStage.length; j++) {
-
-                           const stageScore = new StageScore(
-                             null,
-                             null,
-                             0,
-                             job.Workflow.Pipelines[i].PipelineStage[j].Id,
-                             data.candidate.Id,
-                             jobId
-                           );
-                           stageScores.push(stageScore);
-
-
-
-                           job.Workflow.Pipelines[i].PipelineStage.forEach((x) => {
-
-                             if (x.PipelineStageCriteria === null) {
-                               x.PipelineStageCriteria = [];
-                             }
-
-                           });
-
-
-                           for (let l = 0;
-                                l < job.Workflow.Pipelines[i].
-                                  PipelineStage[j].PipelineStageCriteria.length;
-                                l++) {
-
-
-
-                             const criteriaScore = new CriteriaScore(
-                               null,
-                               null,
-                               0,
-                               job.Workflow.Pipelines[i].PipelineStage[j].PipelineStageCriteria[l].Id,
-                               data.candidate.Id,
-                               jobId
-                             );
-                             criteriaScores.push(criteriaScore);
-
-
-                           }
-
-
-
-                         }
-                       }
-                       const jobAssigned = new JobAssignment(
-                         null,
-                         data.candidate.Id,
-                         null,
-                         jobId,
-                         stageScores,
-                         criteriaScores,
-                         stageComments,
-                         job.Workflow.Pipelines[0].PipelineStage[0].Id,
-                         true
-                       );
-
-                       jobAssigneds.push(jobAssigned);
-
-
-                       this.jobDataStorageService.addJobAssignment(jobAssigned)
-                         .subscribe(
-                           (getJobAssigned: JobAssignment) => {
-
-
-
-                             this.router.navigate(['/candidates/', data.candidate
-                               .Id]);
-                             this.notifierService.notify('default',
-                               'New candidate added.');
-                           });
-
-
-                     });
-
-                 } else {
-                   this.router.navigate(['/candidates/', data.candidate
-                     .Id]);
-                   this.notifierService.notify('default',
-                     'New candidate added.');
-                 }
-
-
-
-
-               });
-         } else {
-           this.isDisabled = false;
-           this.notifierService.notify('default', 'Error! Something went wrong!');
+         if (data.statusText !== 'Success') {
+           this.notifierService.notify('default', data.statusText);
+           return;
          }
+       });
+
+
+   this.candidateDataStorageService.addNewCandidate(candidate)
+     .subscribe((data: any) => {
+
+       if (data.statusText !== 'Success') {
+         this.notifierService.notify('default', data.statusText);
+       } else {
+         this.router.navigate(['/candidates/', data.candidate.Id]);
+         this.notifierService.notify('default', 'New candidate added.');
        }
-     );
+
+     });
 
   }
 }
