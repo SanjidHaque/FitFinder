@@ -43,7 +43,6 @@ const candidateRoutes: Routes = [
         component: AddNewCandidateComponent,
         resolve:
           {
-            jobs: JobsResolverService,
             sources: SourcesResolverService
           }
       },

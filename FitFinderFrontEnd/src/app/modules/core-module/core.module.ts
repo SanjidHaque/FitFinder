@@ -36,6 +36,8 @@ import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {AuthInterceptor} from '../../auth/auth.interceptor';
 import {HttpErrorInterceptor} from '../../http-error-interceptor/http-error.interceptor';
 import {StarRatingConfigService} from 'angular-star-rating';
+import {AttachmentDataStorageService} from '../../services/data-storage-services/attachment-data-storage.service';
+import {JobAssignmentDataStorageService} from '../../services/data-storage-services/job-assignment-data-storage.service';
 
 export function initGapi(gapiService: GapiService) {
   return () => gapiService.initClient();
@@ -74,6 +76,8 @@ export function initGapi(gapiService: GapiService) {
     SettingsDataStorageService,
     UserAccountDataStorageService,
     JobDataStorageService,
+    AttachmentDataStorageService,
+    JobAssignmentDataStorageService,
     JobService,
     CandidateResolverService,
     JobResolverService,

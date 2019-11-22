@@ -9,13 +9,13 @@ import {MAT_DIALOG_DATA, MatDialogRef, MatSelectionList} from '@angular/material
 import {JobService} from '../../services/shared-services/job.service';
 
 @Component({
-  selector: 'app-assign-job-to-candidate',
-  templateUrl: './assign-job-to-candidate-dialog.component.html',
-  styleUrls: ['./assign-job-to-candidate-dialog.component.css'],
+  selector: 'app-job-assignment-dialog',
+  templateUrl: './job-assignment-dialog.component.html',
+  styleUrls: ['./job-assignment-dialog.component.css'],
   encapsulation: ViewEncapsulation.None
 })
 
-export class AssignJobToCandidateDialogComponent implements OnInit {
+export class JobAssignmentDialogComponent implements OnInit {
 
   archivedChecked = false;
   favouriteChecked = false;
@@ -27,7 +27,7 @@ export class AssignJobToCandidateDialogComponent implements OnInit {
   selection = new SelectionModel<Job>(false, []);
   departments: Department[] = [];
 
-  constructor(public dialogRef: MatDialogRef<AssignJobToCandidateDialogComponent>,
+  constructor(public dialogRef: MatDialogRef<JobAssignmentDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private jobDataStorageService: JobDataStorageService,
               private jobService: JobService,

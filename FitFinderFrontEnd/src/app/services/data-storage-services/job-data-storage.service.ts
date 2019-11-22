@@ -30,20 +30,7 @@ export class JobDataStorageService {
   }
 
 
-  addJobAssignment(jobAssignment: JobAssignment) {
-    return this.httpClient.post<JobAssignment>(this.rootUrl + '/api/AddJobAssignment',
-      jobAssignment);
-  }
 
-  updateJobAssignment(jobAssignment: JobAssignment) {
-    return this.httpClient.post<JobAssignment>(this.rootUrl + '/api/UpdateJobAssignment',
-      jobAssignment);
-  }
-
-  removeJobAssignment (jobAssignment: JobAssignment) {
-    return this.httpClient.post<JobAssignment>(this.rootUrl + '/api/RemoveJobAssignment',
-      jobAssignment);
-  }
 
   archiveJobs(jobs: Job[]) {
     return this.httpClient.put<Job[]>(this.rootUrl  + '/api/ArchiveJobs', jobs);

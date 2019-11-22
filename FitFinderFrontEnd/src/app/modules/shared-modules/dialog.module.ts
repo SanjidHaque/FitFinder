@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CandidateScoreCardComponent} from '../../components/candidates/candidate-id/candidate-score-card/candidate-score-card.component';
-import {AssignJobToCandidateDialogComponent} from '../../dialogs/assign-job-to-candidate-dialog/assign-job-to-candidate-dialog.component';
+import {JobAssignmentDialogComponent} from '../../dialogs/job-assignment-dialog/job-assignment-dialog.component';
 import {ChangeStatusDialogComponent} from '../../dialogs/change-status-dialog/change-status-dialog.component';
 import {SelectCandidatesForInterviewDialogComponent} from '../../dialogs/select-candidates-for-interview-dialog/select-candidates-for-interview-dialog.component';
 import {AddUpdateDialogComponent} from '../../dialogs/add-update-dialog/add-update-dialog.component';
@@ -17,7 +17,7 @@ import { ColorPickerModule } from 'ngx-color-picker';
 
 @NgModule({
   declarations: [
-    AssignJobToCandidateDialogComponent,
+    JobAssignmentDialogComponent,
     ChangeStatusDialogComponent,
     SelectCandidatesForInterviewDialogComponent,
     AddUpdateDialogComponent,
@@ -36,7 +36,7 @@ import { ColorPickerModule } from 'ngx-color-picker';
     StarRatingModule.forChild()
   ],
   entryComponents: [
-    AssignJobToCandidateDialogComponent,
+    JobAssignmentDialogComponent,
     ChangeStatusDialogComponent,
     SelectCandidatesForInterviewDialogComponent,
     AddUpdateDialogComponent,

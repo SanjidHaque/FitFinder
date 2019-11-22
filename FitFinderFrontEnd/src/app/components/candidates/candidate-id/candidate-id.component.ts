@@ -9,7 +9,7 @@ import {CandidateExperience} from '../../../models/candidate/candidate-experienc
 import {Source} from '../../../models/settings/source.model';
 import {SettingsDataStorageService} from '../../../services/data-storage-services/settings-data-storage.service';
 import {MatDialog} from '@angular/material';
-import {AssignJobToCandidateDialogComponent} from '../../../dialogs/assign-job-to-candidate-dialog/assign-job-to-candidate-dialog.component';
+import {JobAssignmentDialogComponent} from '../../../dialogs/job-assignment-dialog/job-assignment-dialog.component';
 import {JobAssignment} from '../../../models/candidate/job-assignment.model';
 import {Job} from '../../../models/job/job.model';
 import {JobDataStorageService} from '../../../services/data-storage-services/job-data-storage.service';
@@ -24,6 +24,7 @@ import {ConfirmationDialogComponent} from '../../../dialogs/confirmation-dialog/
 import {DeleteDialogComponent} from '../../../dialogs/delete-dialog/delete-dialog.component';
 import {CandidateService} from '../../../services/shared-services/candidate.service';
 import {Department} from '../../../models/settings/department.model';
+import {JobAssignmentDataStorageService} from '../../../services/data-storage-services/job-assignment-data-storage.service';
 
 
 
@@ -57,7 +58,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
               private candidateService: CandidateService,
               private jobDataStorageService: JobDataStorageService,
               private candidateDataStorageService: CandidateDataStorageService,
-              private settingsDataStorageService: SettingsDataStorageService) {
+              private jobAssignmentDataStorageService: JobAssignmentDataStorageService) {
 
   }
 
@@ -69,22 +70,13 @@ export class CandidateIdComponent implements OnInit, DoCheck {
           this.sources = data['sources'];
           this.candidate = data['candidate'];
           this.departments = data['departments'];
-
         }
       );
-
-
-
 
     if (this.candidate.JobAssignments !== null) {
       this.job = this.candidate.JobAssignments[0].Job;
     //  this.changeStatus(this.candidate.JobAssignment[0].CurrentStageId);
     }
-
-
-
-
-
 
     this.candidateService.candidate = this.candidate;
     this.getCurrentStageNameAndColor();
@@ -117,10 +109,6 @@ export class CandidateIdComponent implements OnInit, DoCheck {
 
   detectStageChange(pipelineStageId: number) {
 
-
-
-
-
     for (let i = 0; i < this.job.Workflow.Pipelines.length; i++) {
       for (let j = 0; j < this.job.Workflow.Pipelines[i].PipelineStage.length; j++) {
         if (this.job.Workflow.Pipelines[i].PipelineStage[j].Id === pipelineStageId) {
@@ -142,7 +130,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
 
   removeJobAssignment() {
     const jobAssignment = this.candidate.JobAssignments
-      .find(x => x.Id === this.getActiveJobAssignedId());
+      .find(x => x.Id === this.getActiveJobAssignmentId());
     const title = this.jobs.find(x => x.Id === jobAssignment.JobId).Title;
 
     const dialogRef = this.dialog.open(DeleteDialogComponent,
@@ -161,16 +149,16 @@ export class CandidateIdComponent implements OnInit, DoCheck {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result.confirmationStatus) {
-        this.jobDataStorageService.removeJobAssignment(jobAssignment)
+        this.jobAssignmentDataStorageServiceob.removeJobAssignment(jobAssignment)
           .subscribe(
             (data: any) => {
-              const index = this.candidate.JobAssigned
-                .findIndex(x => x.Id === this.getActiveJobAssignedId());
+              const index = this.candidate.JobAssignments
+                .findIndex(x => x.Id === this.getActiveJobAssignmentId());
 
-              this.candidate.JobAssigned.splice(index, 1);
+              this.candidate.JobAssignments.splice(index, 1);
 
-              if (this.candidate.JobAssigned.length === 0) {
-                this.candidate.JobAssignment = null;
+              if (this.candidate.JobAssignments.length === 0) {
+                this.candidate.JobAssignments = null;
               }
 
               this.notifierService.notify('default', 'Job removed.')
@@ -181,6 +169,8 @@ export class CandidateIdComponent implements OnInit, DoCheck {
     );
   }
 
+
+
   changeStatus(pipelineStageId: number) {
    const pipelineStages: PipelineStage[] = [];
 
@@ -190,10 +180,10 @@ export class CandidateIdComponent implements OnInit, DoCheck {
       }
     }
 
-    const stageScores = this.candidate.JobAssigned
-      .find(x => x.Id === this.getActiveJobAssignedId()).StageScore;
-    const criteriaScores = this.candidate.JobAssigned
-      .find(x => x.Id === this.getActiveJobAssignedId()).CriteriaScore;
+    const stageScores = this.candidate.JobAssignments
+      .find(x => x.Id === this.getActiveJobAssignmentId()).StageScores;
+    const criteriaScores = this.candidate.JobAssignments
+      .find(x => x.Id === this.getActiveJobAssignmentId()).CriteriaScores;
 
     for (let k = 0; k < pipelineStages.length; k++) {
       if (pipelineStages[k].Id === pipelineStageId) {
@@ -214,13 +204,13 @@ export class CandidateIdComponent implements OnInit, DoCheck {
           candidate: this.candidate,
           pipelineStageId: pipelineStageId,
           stageScore:
-          this.candidate.JobAssigned
-            .find(x => x.Id === this.getActiveJobAssignedId())
-            .StageScore,
+          this.candidate.JobAssignments
+            .find(x => x.Id === this.getActiveJobAssignmentId())
+            .StageScores,
           criteriaScore:
-          this.candidate.JobAssigned
-            .find(x => x.Id === this.getActiveJobAssignedId())
-            .CriteriaScore,
+          this.candidate.JobAssignments
+            .find(x => x.Id === this.getActiveJobAssignmentId())
+            .CriteriaScores,
           comment: '',
           status: false
         }
@@ -230,23 +220,25 @@ export class CandidateIdComponent implements OnInit, DoCheck {
      if (result !== null) {
 
        let currentStageId = 1;
-       const allPipelineStages: PipelineStage[] = [];
+
+       const allPipelineStage: PipelineStage[] = [];
        for (let i = 0; i < this.job.Workflow.Pipelines.length; i++) {
          for (let j = 0; j < this.job.Workflow.Pipelines[i].PipelineStage.length; j++) {
-           allPipelineStages.push(this.job.Workflow.Pipelines[i].PipelineStage[j]);
+           allPipelineStage.push(this.job.Workflow.Pipelines[i].PipelineStage[j]);
          }
        }
 
-       currentStageId = allPipelineStages[result.selectTab].Id;
+       currentStageId = allPipelineStage[result.selectTab].Id;
        const stageComments: StageComment[] = [];
+
        if (result.comment !== '') {
           const stageComment = new StageComment(
            null,
-           this.getActiveJobAssignedId(),
+           this.getActiveJobAssignmentId(),
            currentStageId,
            this.candidate.Id,
-           this.candidate.JobAssigned
-             .find(x => x.Id === this.getActiveJobAssignedId())
+           this.candidate.JobAssignments
+             .find(x => x.Id === this.getActiveJobAssignmentId())
              .JobId,
            result.comment
          );
@@ -264,11 +256,11 @@ export class CandidateIdComponent implements OnInit, DoCheck {
        }
 
        const jobAssigned = new JobAssignment(
-         this.getActiveJobAssignedId(),
+         this.getActiveJobAssignmentId(),
          this.candidate.Id,
          null,
          this.candidate.JobAssigned
-           .find(x => x.Id === this.getActiveJobAssignedId())
+           .find(x => x.Id === this.getActiveJobAssignmentId())
            .JobId,
          result.stageScore,
          result.criteriaScore,
@@ -277,12 +269,12 @@ export class CandidateIdComponent implements OnInit, DoCheck {
          true
        );
 
-       this.jobDataStorageService.updateJobAssignment(jobAssigned)
+       this.jobAssignmentDataStorageService.updateJobAssignment(jobAssigned)
          .subscribe(
            (data: any) => {
-             const activeJobAssignedIndex
-               = this.candidate.JobAssigned.findIndex( x => x.Id === this.getActiveJobAssignedId());
-             this.candidate.JobAssigned[activeJobAssignedIndex] = data;
+             const activeJobAssignmentIndex
+               = this.candidate.JobAssignments.findIndex( x => x.Id === this.getActiveJobAssignmentId());
+             this.candidate.JobAssignments[activeJobAssignmentIndex] = data;
              this.notifierService.notify('default', 'Status changed!');
              this.currentStageId = this.detectStageChange(currentStageId).stageId;
              this.name = this.detectStageChange(currentStageId).stageName;
@@ -296,7 +288,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
   favouriteCandidates(candidate: Candidate) {
     const candidates: Candidate[] = [];
     candidates.push(candidate);
-    this.candidateDataStorageService.favouriteCandidates(candidates)
+    this.jobAssignmentDataStorageService.favouriteCandidates(candidates)
       .subscribe(
         (response: any) => {
           this.candidate.IsFavourite = true;
@@ -308,6 +300,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
   unfavouriteCandidates(candidate: Candidate) {
     const candidates: Candidate[] = [];
     candidates.push(candidate);
+
     this.candidateDataStorageService.unfavouriteCandidates(candidates)
       .subscribe(
         (response: any) => {
@@ -347,6 +340,8 @@ export class CandidateIdComponent implements OnInit, DoCheck {
       }
     );
   }
+
+
   restoreCandidates(candidate: Candidate) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent,
       {
@@ -378,8 +373,8 @@ export class CandidateIdComponent implements OnInit, DoCheck {
     );
   }
 
-  assignJobDialog(candidate: Candidate) {
-    const dialogRef = this.dialog.open(AssignJobToCandidateDialogComponent,
+  jobAssignmentDialog(candidate: Candidate) {
+    const dialogRef = this.dialog.open(JobAssignmentDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,
@@ -394,123 +389,58 @@ export class CandidateIdComponent implements OnInit, DoCheck {
     dialogRef.afterClosed().subscribe(result => {
       if (result !== '' ) {
         const jobId = result[0].Id;
-        const stageScores: StageScore[] = [];
-        const criteriaScores: CriteriaScore[] = [];
-        const stageComments: StageComment[] = [];
 
+        const jobAssignment = new JobAssignment(
+          null,
+          null,
+          this.candidate.Id,
+          null,
+          jobId,
+          [],
+          [],
+          [],
+          null,
+          true
+        );
 
-        this.jobDataStorageService.getJob(jobId).subscribe((job: Job) => {
+        this.jobAssignmentDataStorageService.addJobAssignment(jobAssignment)
+          .subscribe(
+            (data: any) => {
 
-          this.job = job;
+              if (data.statusText !== 'Success') {
+                this.notifierService.notify('default', data.statusText);
+              } else {
 
-
-          const stageComment = new StageComment(
-            null,
-            null,
-            this.job.Workflow.Pipelines[0].PipelineStage[0].Id,
-            this.candidate.Id,
-            jobId,
-            'Created from '
-          );
-
-          stageComments.push(stageComment);
-
-          for (let i = 0; i < this.job.Workflow.Pipelines.length; i++) {
-
-            for (let j = 0; j < this.job.Workflow.Pipelines[i].PipelineStage.length; j++) {
-
-              const stageScore = new StageScore(
-                null,
-                null,
-                0,
-                this.job.Workflow.Pipelines[i].PipelineStage[j].Id,
-                this.candidate.Id,
-                jobId
-              );
-              stageScores.push(stageScore);
-
-
-
-              this.job.Workflow.Pipelines[i].PipelineStage.forEach((x) => {
-
-                if (x.PipelineStageCriteria === null) {
-                  x.PipelineStageCriteria = [];
+                if (this.candidate.JobAssignments === null) {
+                  this.candidate.JobAssignments = [];
                 }
 
-              });
-
-
-              for (let l = 0;
-                   l < this.job.Workflow.Pipelines[i].PipelineStage[j].PipelineStageCriteria.length;
-                   l++) {
-
-
-
-                const criteriaScore = new CriteriaScore(
-                  null,
-                  null,
-                  0,
-                  this.job.Workflow.Pipelines[i].PipelineStage[j].PipelineStageCriteria[l].Id,
-                  this.candidate.Id,
-                  jobId
-                );
-                criteriaScores.push(criteriaScore);
-
-
+                this.candidate.JobAssignments.push(data.jobAssignment);
+                this.changeStatus(data.jobAssignment.CurrentStageId);
+                this.notifierService.notify('default', 'Status changed.');
               }
 
 
-
-            }
-          }
-          const jobAssigned = new JobAssignment(
-            null,
-            this.candidate.Id,
-            null,
-            result[0].Id,
-            stageScores,
-            criteriaScores,
-            stageComments,
-            this.job.Workflow.Pipelines[0].PipelineStage[0].Id,
-            true
-          );
-
-          this.jobDataStorageService.addJobAssignment(jobAssigned)
-            .subscribe(
-              (getJobAssigned: any) => {
-                if (this.candidate.JobAssigned === null) {
-                  this.candidate.JobAssignment = [];
-                }
-
-                this.candidate.JobAssigned.push(getJobAssigned);
-                this.changeStatus(this.job.Workflow.Pipelines[0].PipelineStage[0].Id);
-              });
-
-
-
-
-        });
-
-
+            });
       }
     });
   }
 
 
-  getActiveJobAssignedId() {
-    return this.candidate.JobAssigned.find(x => x.IsActive === true).Id;
+  getActiveJobAssignmentId() {
+    return this.candidate.JobAssignments.find(x => x.IsActive === true).Id;
   }
 
   getLastAssignedJobName() {
-   const lastIndex = this.candidate.JobAssigned.length - 1;
+   const lastIndex = this.candidate.JobAssignments.length - 1;
    return this.jobs.find(
      x => x.Id ===
-       this.candidate.JobAssigned[lastIndex].JobId).JobTitle;
+       this.candidate.JobAssignments[lastIndex].JobId).Title;
   }
 
   goToJobDetail() {
-    const lastIndex = this.candidate.JobAssigned.length - 1;
-    const jobId = this.candidate.JobAssigned[lastIndex].JobId;
+    const lastIndex = this.candidate.JobAssignments.length - 1;
+    const jobId = this.candidate.JobAssignments[lastIndex].JobId;
     this.router.navigate(['jobs/',  jobId ]);
   }
 
@@ -523,8 +453,8 @@ export class CandidateIdComponent implements OnInit, DoCheck {
     const pipelineStages: PipelineStage[] = [];
     let currentStageId;
 
-    if (this.candidate.JobAssigned !== null) {
-       currentStageId = this.candidate.JobAssigned
+    if (this.candidate.JobAssignments !== null) {
+       currentStageId = this.candidate.JobAssignments
          .find( x => x.IsActive === true).CurrentStageId;
     }
 
@@ -545,44 +475,13 @@ export class CandidateIdComponent implements OnInit, DoCheck {
     }
   }
 
-  previousCandidate() {
-    // const currentIndex = this.candidates.findIndex(x => x.Id === this.candidate.Id);
-    // let previousIndex = currentIndex - 1;
-    // if ( previousIndex === -1 ) {
-    //   previousIndex = this.candidates.length - 1;
-    // } else {
-    //   previousIndex = currentIndex - 1;
-    // }
-    // // this.candidate = this.candidates[nextIndex];
-    // // this.candidateService.candidate = this.candidates[nextIndex];
-    // this.candidate.Id = this.candidates[previousIndex].Id;
-    //
-   // this.router.navigate(['/candidates/' + 10]);
-  }
 
-
-
-
-  nextCandidate() {
-    const currentIndex = this.candidates.findIndex(x => x.Id === this.candidate.Id);
-    let nextIndex = currentIndex + 1;
-    if ( nextIndex === this.candidates.length ) {
-      nextIndex = 0;
-    } else {
-      nextIndex = currentIndex + 1;
-    }
-    this.candidate = this.candidates[nextIndex];
-    this.candidateService.candidate = this.candidates[nextIndex];
-    this.candidate.Id = this.candidates[nextIndex].Id;
-    this.router.navigate(['/candidates/' + this.candidate.Id]);
-  }
 
   getApplicationDate() {
     return moment(new Date(this.candidate.ApplicationDate)).format('Do MMM YYYY');
   }
-  getCandidateSource() {
-    return this.sources.find(x => x.Id === this.candidate.SourceId).Name;
-  }
+
+
   goToFacebookProfile() {
     window.open('http://' + this.candidate.FacebookUrl);
   }
