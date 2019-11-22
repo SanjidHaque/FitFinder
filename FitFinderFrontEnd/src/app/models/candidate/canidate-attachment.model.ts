@@ -1,10 +1,12 @@
 import {Candidate} from './candidate.model';
-import {Attachment} from '../shared/attachment.model';
 
-export class CandidateAttachment extends Attachment {
+export class CandidateAttachment {
   constructor(
+    public Id: number,
+    public FileName: string,
+    public ModifiedFileName: string,
+    public IsResume: boolean,
     public Candidate: Candidate,
-    public CandidateId: number,
-    public IsResume: boolean
+    public CandidateId: number
   ) {}
 }

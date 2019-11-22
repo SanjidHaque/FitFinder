@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
 import {Job} from '../../models/job/job.model';
-import {Subject} from 'rxjs/index';
 import {HttpClient} from '@angular/common/http';
 import {UserAccountDataStorageService} from './user-account-data-storage.service';
 import {JobAssignment} from '../../models/candidate/job-assignment.model';
-import {Interview} from '../../models/interview/interview.model';
-import {Candidate} from '../../models/candidate/candidate.model';
+
 
 @Injectable({
   providedIn: 'root'
@@ -32,24 +30,29 @@ export class JobDataStorageService {
   }
 
 
-  jobAssigned(jobAssigned: JobAssignment) {
-    return this.httpClient.post<JobAssignment>(this.rootUrl + '/api/JobAssignment',
-      jobAssigned);
+  addJobAssignment(jobAssignment: JobAssignment) {
+    return this.httpClient.post<JobAssignment>(this.rootUrl + '/api/AddJobAssignment',
+      jobAssignment);
   }
 
-  jobStatusChanged(jobAssigned: JobAssignment) {
-    return this.httpClient.post<JobAssignment>(this.rootUrl + '/api/JobStatusChanged',
-      jobAssigned);
+  updateJobAssignment(jobAssignment: JobAssignment) {
+    return this.httpClient.post<JobAssignment>(this.rootUrl + '/api/UpdateJobAssignment',
+      jobAssignment);
+  }
+
+  removeJobAssignment (jobAssignment: JobAssignment) {
+    return this.httpClient.post<JobAssignment>(this.rootUrl + '/api/RemoveJobAssignment',
+      jobAssignment);
   }
 
   archiveJobs(jobs: Job[]) {
     return this.httpClient.put<Job[]>(this.rootUrl  + '/api/ArchiveJobs', jobs);
   }
 
+
   restoreJobs(jobs: Job[]) {
     return this.httpClient.put<Job[]>(this.rootUrl + '/api/RestoreJobs', jobs);
   }
-
 
   favouriteJobs(jobs: Job[]) {
     return this.httpClient.put<Job[]>(this.rootUrl + '/api/FavouriteJobs', jobs);
@@ -57,11 +60,6 @@ export class JobDataStorageService {
 
   unfavouriteJobs(jobs: Job[]) {
     return this.httpClient.put<Job[]>(this.rootUrl + '/api/UnfavouriteJobs', jobs);
-  }
-
-  removeAssignedJob (jobAssigned: JobAssignment) {
-    return this.httpClient.post<JobAssignment>(this.rootUrl + '/api/RemoveAssignedJob',
-      jobAssigned);
   }
 
 

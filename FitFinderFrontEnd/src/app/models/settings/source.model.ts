@@ -1,6 +1,10 @@
-import {Resource} from '../shared/resource.model';
+import {Company} from './company.model';
 
-export class Source extends Resource {
+export class Source {
   constructor(
+    public Id: number,
+    public Name: string,
+    public Company: Company,
+    public CompanyId: number
   ) {}
 }

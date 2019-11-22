@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Data, Router} from '@angular/router';
 import {Candidate} from '../../../models/candidate/candidate.model';
@@ -101,8 +101,26 @@ export class AddNewCandidateComponent implements OnInit {
         const newFileName = fileName + Date.now() + '.' + fileExtension;
         const newFile = new File([fileInput.target.files[i]], newFileName, {type: fileInput.target.files[i].type});
         this.filesToUpload.push(newFile);
+        // const candidateAttachment = new CandidateAttachment(
+        //   null,
+        //   null,
+        //   fileInput.target.files[i].name,
+        //   newFile.name,
+        //   false
+        // );
+
         const candidateAttachment = new CandidateAttachment(
-          null, null, fileInput.target.files[i].name, newFile.name, false);
+          1,
+          1,
+          1,
+          1,
+          1
+        );
+
+        const h = new Source()
+
+        candidateAttachment = 1;
+
         this.candidateAttachments.push(candidateAttachment);
         this.notifierService.notify('default', 'File uploaded successfully');
       } else {
@@ -355,7 +373,7 @@ export class AddNewCandidateComponent implements OnInit {
                        jobAssigneds.push(jobAssigned);
 
 
-                       this.jobDataStorageService.jobAssigned(jobAssigned)
+                       this.jobDataStorageService.addJobAssignment(jobAssigned)
                          .subscribe(
                            (getJobAssigned: JobAssignment) => {
 

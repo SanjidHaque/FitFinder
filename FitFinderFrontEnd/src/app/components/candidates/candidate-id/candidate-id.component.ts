@@ -76,8 +76,8 @@ export class CandidateIdComponent implements OnInit, DoCheck {
 
 
 
-    if (this.candidate.JobAssigned !== null) {
-      this.job = this.candidate.JobAssigned[0].Job;
+    if (this.candidate.JobAssignments !== null) {
+      this.job = this.candidate.JobAssignments[0].Job;
     //  this.changeStatus(this.candidate.JobAssignment[0].CurrentStageId);
     }
 
@@ -97,9 +97,10 @@ export class CandidateIdComponent implements OnInit, DoCheck {
 
 
   getCurrentStageNameAndColor() {
-    if (this.candidate.JobAssigned !== null) {
+    if (this.candidate.JobAssignments !== null) {
       this.currentStageId =
-        this.candidate.JobAssigned.find( x => x.IsActive === true).CurrentStageId;
+        this.candidate.JobAssignments
+          .find( x => x.IsActive === true).CurrentStageId;
       this.name = this.detectStageChange(this.currentStageId).stageName;
       this.color = this.detectStageChange(this.currentStageId).stageColor;
     }
@@ -133,16 +134,16 @@ export class CandidateIdComponent implements OnInit, DoCheck {
     }
   }
 
-  changeAssignedJob() {
+
+  changeJobAssignment() {
   }
 
 
 
-
-  removeAssignedJob() {
-    const jobAssigned = this.candidate.JobAssigned
+  removeJobAssignment() {
+    const jobAssignment = this.candidate.JobAssignments
       .find(x => x.Id === this.getActiveJobAssignedId());
-    const jobName = this.jobs.find(x => x.Id === jobAssigned.JobId).JobTitle;
+    const title = this.jobs.find(x => x.Id === jobAssignment.JobId).Title;
 
     const dialogRef = this.dialog.open(DeleteDialogComponent,
       {
@@ -152,7 +153,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
         data: {
           header: 'Remove Job',
           iconClass: 'far fa-trash-alt',
-          confirmationText: 'Are you sure you want to remove ' + jobName + ' from Candidate?',
+          confirmationText: 'Are you sure you want to remove ' + title + ' from Candidate?',
           buttonText: 'Remove',
           confirmationStatus: false
         }
@@ -160,7 +161,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result.confirmationStatus) {
-        this.jobDataStorageService.removeAssignedJob(jobAssigned)
+        this.jobDataStorageService.removeJobAssignment(jobAssignment)
           .subscribe(
             (data: any) => {
               const index = this.candidate.JobAssigned
@@ -276,7 +277,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
          true
        );
 
-       this.jobDataStorageService.jobStatusChanged(jobAssigned)
+       this.jobDataStorageService.updateJobAssignment(jobAssigned)
          .subscribe(
            (data: any) => {
              const activeJobAssignedIndex
@@ -474,7 +475,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
             true
           );
 
-          this.jobDataStorageService.jobAssigned(jobAssigned)
+          this.jobDataStorageService.addJobAssignment(jobAssigned)
             .subscribe(
               (getJobAssigned: any) => {
                 if (this.candidate.JobAssigned === null) {
