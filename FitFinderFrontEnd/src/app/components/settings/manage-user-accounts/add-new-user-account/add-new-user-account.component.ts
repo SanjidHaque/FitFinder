@@ -29,8 +29,8 @@ export class AddNewUserAccountComponent implements OnInit {
     this.route.data.
     subscribe(
       (data: Data) => {
-        this.roles = data['roles'];
-        this.departments = data['departments'];
+        this.roles = data['roles'].roles;
+        this.departments = data['departments'].departments;
       }
     );
 
@@ -56,6 +56,7 @@ export class AddNewUserAccountComponent implements OnInit {
       new UserAccount(
         null,
         null,
+        null,
         this.addNewUserAccountForm.controls['userName'].value,
         this.addNewUserAccountForm.controls['fullName'].value,
         this.addNewUserAccountForm.controls['email'].value,
@@ -63,6 +64,7 @@ export class AddNewUserAccountComponent implements OnInit {
         this.addNewUserAccountForm.controls['phoneNumber'].value,
         moment().format('h:mm:ss A, Do MMMM YYYY'),
         this.addNewUserAccountForm.controls['roleName'].value,
+        null,
         this.addNewUserAccountForm.controls['departmentId'].value,
         false
       )

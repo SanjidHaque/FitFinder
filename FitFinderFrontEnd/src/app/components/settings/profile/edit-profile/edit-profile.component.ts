@@ -31,10 +31,10 @@ export class EditProfileComponent implements OnInit {
 
     this.route.data.subscribe(
       (data: Data) => {
-        this.currentUserAccount = data['currentUserAccount'];
+        this.currentUserAccount = data['currentUserAccount'].userAccount;
 
-        this.company = data['company'];
-        this.departments = data['departments'];
+        this.company = data['company'].company;
+        this.departments = data['departments'].departments;
 
 
         if (this.currentUserAccount === undefined) {
@@ -71,6 +71,7 @@ export class EditProfileComponent implements OnInit {
     this.userAccountDataStorageService.editUserAccount(
       new UserAccount(
         this.currentUserAccount.Id,
+        null,
         this.currentUserAccount.CompanyId,
         this.currentUserAccount.UserName,
         this.editProfileForm.controls['fullName'].value,
@@ -80,7 +81,8 @@ export class EditProfileComponent implements OnInit {
         this.currentUserAccount.JoiningDateTime,
         this.currentUserAccount.RoleName,
         null,
-        this.currentUserAccount.IsOwner,
+        this.editProfileForm.controls['departmentId'].value,
+        this.currentUserAccount.IsOwner
       )
     ).subscribe( (data: any) => {
       if (data.Succeeded) {
@@ -98,7 +100,19 @@ export class EditProfileComponent implements OnInit {
               this.editProfileForm.controls['fullName'].value,
               this.editProfileForm.controls['email'].value,
               this.editProfileForm.controls['phoneNumber'].value,
-              ''
+              '',
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              []
             )
           ).subscribe( (response: any) => {
             if ( response.statusText === 'Success' ) {

@@ -58,17 +58,23 @@ namespace FitFinderBackEnd.Controllers
         [Route("api/AddNewCandidate")]
         public IHttpActionResult AddNewCandidate(Candidate candidate)
         {
+
+            
+
             Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
             if (userNameClaim == null)
             {
+                
                 return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
             ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
             if (applicationUser == null)
             {
+                
                 return Ok(new { statusText = _statusTextService.UserClaimError });
             }
+
 
             candidate.CompanyId = applicationUser.CompanyId;
             _context.Candidates.Add(candidate);

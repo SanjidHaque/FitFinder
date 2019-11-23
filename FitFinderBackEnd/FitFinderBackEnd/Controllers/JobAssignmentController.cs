@@ -111,7 +111,7 @@ namespace FitFinderBackEnd.Controllers
             _context.JobAssignments.Add(getJobAssignment);
             _context.SaveChanges();
 
-            return Ok(new {statusText = _statusTextService.Success});
+            return Ok(new { jobAssignment, statusText = _statusTextService.Success});
         }
 
         [HttpPost]

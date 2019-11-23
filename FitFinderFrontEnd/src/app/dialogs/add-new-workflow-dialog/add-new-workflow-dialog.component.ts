@@ -53,8 +53,9 @@ export class AddNewWorkflowDialogComponent implements OnInit {
           null,
           result.name,
           result.color,
+          null,
           pipelineId,
-          null
+          []
         );
 
         const getPipeline = this.data.defaultPipelines.find(x => x.Id === pipelineId);
@@ -104,6 +105,7 @@ export class AddNewWorkflowDialogComponent implements OnInit {
             pipelineStage.Id,
             result.name,
             result.color,
+            null,
             pipelineStage.PipelineId,
             []
           );

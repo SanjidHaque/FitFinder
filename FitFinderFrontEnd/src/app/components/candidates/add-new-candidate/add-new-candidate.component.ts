@@ -17,6 +17,7 @@ import {JobAssignment} from '../../../models/candidate/job-assignment.model';
 import {StageScore} from '../../../models/settings/stage-score.model';
 import {CriteriaScore} from '../../../models/settings/criteria-score.model';
 import {StageComment} from '../../../models/settings/stage-comment.model';
+import {AttachmentDataStorageService} from '../../../services/data-storage-services/attachment-data-storage.service';
 
 
 @Component({
@@ -45,6 +46,7 @@ export class AddNewCandidateComponent implements OnInit {
               private route: ActivatedRoute,
               private jobDataStorageService: JobDataStorageService,
               private settingsDataStorageService: SettingsDataStorageService,
+              private attachmentDataStorageService: AttachmentDataStorageService,
               private notifierService: NotifierService,
               private candidateDataStorageService: CandidateDataStorageService,
               private formBuilder: FormBuilder) {
@@ -201,7 +203,7 @@ export class AddNewCandidateComponent implements OnInit {
         [],
         [],
         [],
-        [],
+        null,
         true,
       );
 
@@ -231,7 +233,7 @@ export class AddNewCandidateComponent implements OnInit {
       false,
       false,
       false,
-      new Date(),
+      new Date().toString(),
       false,
       null,
       null
@@ -239,10 +241,11 @@ export class AddNewCandidateComponent implements OnInit {
 
 
    this.isDisabled = true;
-   await this.candidateDataStorageService.uploadAttachments(this.filesToUpload)
+   await this.attachmentDataStorageService.uploadAttachments(this.filesToUpload)
      .subscribe(
        (data: any) => {
          if (data.statusText !== 'Success') {
+           this.isDisabled = false;
            this.notifierService.notify('default', data.statusText);
            return;
          }
@@ -253,6 +256,7 @@ export class AddNewCandidateComponent implements OnInit {
      .subscribe((data: any) => {
 
        if (data.statusText !== 'Success') {
+         this.isDisabled = false;
          this.notifierService.notify('default', data.statusText);
        } else {
          this.router.navigate(['/candidates/', data.candidate.Id]);

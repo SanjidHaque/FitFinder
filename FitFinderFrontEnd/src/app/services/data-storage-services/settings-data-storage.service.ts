@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import {Pipeline} from '../../models/settings/pipeline.model';
 import {JobType} from '../../models/settings/job-type.model';
 import {Department} from '../../models/settings/department.model';
 import {JobFunction} from '../../models/settings/job-function.model';
@@ -10,9 +9,8 @@ import {UserAccountDataStorageService} from './user-account-data-storage.service
 import {RejectedReason} from '../../models/settings/rejected-reason.model';
 import {WithdrawnReason} from '../../models/settings/withdrawn-reason.model';
 import {PipelineStage} from '../../models/settings/pipeline-stage.model';
-import {PipelineStageCriteria} from '../../models/settings/pipeline-stage-criterion.model';
 import {Workflow} from '../../models/settings/workflow.model';
-import {Candidate} from '../../models/candidate/candidate.model';
+import {PipelineStageCriterion} from '../../models/settings/pipeline-stage-criterion.model';
 
 @Injectable({
   providedIn: 'root'
@@ -132,12 +130,12 @@ export class SettingsDataStorageService {
     return this.httpClient.put<PipelineStage>(this.rootUrl + '/api/EditPipelineStage', pipelineStage);
   }
 
-  addNewPipelineStageCriteria(pipelineStageCriteria: PipelineStageCriteria) {
-    return this.httpClient.post<PipelineStageCriteria>(this.rootUrl + '/api/AddNewPipelineStageCriteria', pipelineStageCriteria);
+  addNewPipelineStageCriteria(pipelineStageCriterion: PipelineStageCriterion) {
+    return this.httpClient.post<PipelineStageCriterion>(this.rootUrl + '/api/AddNewPipelineStageCriteria', pipelineStageCriterion);
   }
 
-  editPipelineStageCriteria(pipelineStageCriteria: PipelineStageCriteria) {
-    return this.httpClient.put<PipelineStageCriteria>(this.rootUrl + '/api/EditPipelineStageCriteria', pipelineStageCriteria);
+  editPipelineStageCriterion(pipelineStageCriterion: PipelineStageCriterion) {
+    return this.httpClient.put<PipelineStageCriterion>(this.rootUrl + '/api/EditPipelineStageCriteria', pipelineStageCriterion);
   }
 
   addNewWorkflow(workflow: Workflow) {
@@ -148,8 +146,8 @@ export class SettingsDataStorageService {
     return this.httpClient.put<Workflow>(this.rootUrl + '/api/EditWorkflowName', workflow);
   }
 
-  addNewPipelineStageCriteriaForNewJob(pipelineStageCriteria: PipelineStageCriteria[]) {
-    return this.httpClient.post<PipelineStageCriteria[]>(
+  addNewPipelineStageCriteriaForNewJob(pipelineStageCriteria: PipelineStageCriterion[]) {
+    return this.httpClient.post<PipelineStageCriterion[]>(
       this.rootUrl + '/api/AddNewPipelineStageCriteriaForNewJob', pipelineStageCriteria);
   }
 
@@ -185,8 +183,8 @@ export class SettingsDataStorageService {
     return this.httpClient.delete(`${this.rootUrl + 'api/DeletePipelineStage'}/${pipelineStageId}`);
   }
 
-  deletePipelineStageCriteria(pipelineStageCriteriaId: number) {
-    return this.httpClient.delete(`${this.rootUrl + 'api/DeletePipelineStageCriteria'}/${pipelineStageCriteriaId}`);
+  deletePipelineStageCriterion(pipelineStageCriterionId: number) {
+    return this.httpClient.delete(`${this.rootUrl + 'api/DeletePipelineStageCriterion'}/${pipelineStageCriterionId}`);
   }
   
 

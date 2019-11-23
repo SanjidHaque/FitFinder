@@ -1,6 +1,6 @@
-import {Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import { AngularEditorConfig } from '@kolkov/angular-editor';
+import {AngularEditorConfig} from '@kolkov/angular-editor';
 import {MatDialog} from '@angular/material';
 import * as moment from 'moment';
 import {JobAttachment} from '../../../models/job/job-attachment.model';
@@ -15,9 +15,10 @@ import {JobType} from '../../../models/settings/job-type.model';
 import {SettingsDataStorageService} from '../../../services/data-storage-services/settings-data-storage.service';
 import {CandidateDataStorageService} from '../../../services/data-storage-services/candidate-data-storage.service';
 import {Workflow} from '../../../models/settings/workflow.model';
-import {PipelineStageCriteria} from '../../../models/settings/pipeline-stage-criterion.model';
+import {PipelineStageCriterion} from '../../../models/settings/pipeline-stage-criterion.model';
 import {PipelineStage} from '../../../models/settings/pipeline-stage.model';
 import {GapiService} from '../../../services/google-api-services/gapi.service';
+import {AttachmentDataStorageService} from '../../../services/data-storage-services/attachment-data-storage.service';
 
 @Component({
   selector: 'app-add-new-job',
@@ -85,6 +86,7 @@ export class AddNewJobComponent implements OnInit {
               private notifierService: NotifierService,
               private jobDataStorageService: JobDataStorageService,
               private candidateDataStorageService: CandidateDataStorageService,
+              private attachmentDataStorageService: AttachmentDataStorageService,
               private route: ActivatedRoute,
               private gapiService: GapiService,
               private router: Router,
@@ -97,9 +99,9 @@ export class AddNewJobComponent implements OnInit {
     this.route.data
       .subscribe(
         (data: Data) => {
-          this.jobTypes = data['jobTypes'];
-          this.jobFunctions = data['jobFunctions'];
-          this.departments = data['departments'];
+          this.jobTypes = data['jobTypes'].jobTypes;
+          this.jobFunctions = data['jobFunctions'].jobFunctions;
+          this.departments = data['departments'].departments;
           this.workflows = data['workflows'];
 
         }
@@ -110,22 +112,22 @@ export class AddNewJobComponent implements OnInit {
 
     this.minDate = this.getTomorrowsDate();
     this.addNewJobForm = new FormGroup({
-      'jobTitle': new FormControl('', Validators.required),
-      'jobCode': new FormControl(''),
-      'jobDescription': new FormControl(''),
-      'jobImmediate': new FormControl(''),
-      'jobIntermediate': new FormControl(''),
-      'jobGoodToHave': new FormControl(''),
-      'jobLocation': new FormControl(''),
+      'title': new FormControl('', Validators.required),
+      'code': new FormControl(''),
+      'description': new FormControl(''),
+      'immediateSkills': new FormControl(''),
+      'intermediateSkills': new FormControl(''),
+      'goodToHaveSkills': new FormControl(''),
+      'location': new FormControl(''),
       'departmentId': new FormControl('', Validators.required),
-      'jobFunctionalityId': new FormControl(''),
-      'employmentTypeId': new FormControl(''),
-      'jobPositions': new FormControl('', [Validators.required, Validators.min(0)]),
-      'jobClosingDate': new FormControl(''),
-      'jobExperienceStarts': new FormControl('', Validators.min(0)),
-      'jobExperienceEnds': new FormControl('', Validators.min(0)),
-      'jobSalaryStarts': new FormControl('', Validators.min(0)),
-      'jobSalaryEnds': new FormControl('', Validators.min(0)),
+      'jobFunctionId': new FormControl(''),
+      'jobTypeId': new FormControl(''),
+      'positions': new FormControl('', [Validators.required, Validators.min(0)]),
+      'closingDate': new FormControl(''),
+      'experienceStarts': new FormControl('', Validators.min(0)),
+      'experienceEnds': new FormControl('', Validators.min(0)),
+      'salaryStarts': new FormControl('', Validators.min(0)),
+      'salaryEnds': new FormControl('', Validators.min(0)),
       'workflowId': new FormControl(this.workflows[0].Id, Validators.required)
     });
   }
@@ -142,7 +144,6 @@ export class AddNewJobComponent implements OnInit {
 
           pipelineStage.PipelineStageCriteria.forEach((pipelineStageCriteria, index) => {
             if (pipelineStageCriteria.JobId !== null) {
-             // const index = pipelineStage.PipelineStageCriteria.indexOf(pipelineStageCriteria.Id);
               pipelineStage.PipelineStageCriteria.splice(index);
             }
           });
@@ -151,76 +152,114 @@ export class AddNewJobComponent implements OnInit {
     });
   }
 
-
-  onSubmitNewJob() {
-    const jobId = null;
-
-    for ( let i = 0; i < this.jobAttachments.length; i++ ) {
-      this.jobAttachments[i].JobId = null;
-      this.jobAttachments[i].Id = null;
-    }
-
+  async addNewJob() {
     const job = new Job(
-      jobId,
-      this.addNewJobForm.controls['jobTitle'].value,
-      this.addNewJobForm.controls['jobCode'].value,
-      this.addNewJobForm.controls['jobDescription'].value,
-      this.addNewJobForm.controls['jobImmediate'].value,
-      this.addNewJobForm.controls['jobIntermediate'].value,
-      this.addNewJobForm.controls['jobGoodToHave'].value,
-      this.addNewJobForm.controls['jobLocation'].value,
+      null,
+      this.addNewJobForm.controls['title'].value,
+      this.addNewJobForm.controls['code'].value,
+      this.addNewJobForm.controls['description'].value,
+      this.addNewJobForm.controls['immediateSkills'].value,
+      this.addNewJobForm.controls['intermediateSkills'].value,
+      this.addNewJobForm.controls['goodToHaveSkills'].value,
+      this.addNewJobForm.controls['location'].value,
+      null,
       this.addNewJobForm.controls['departmentId'].value,
-      this.addNewJobForm.controls['jobFunctionalityId'].value,
-      this.addNewJobForm.controls['employmentTypeId'].value,
-      this.addNewJobForm.controls['jobPositions'].value,
-      this.addNewJobForm.controls['jobClosingDate'].value,
-      this.addNewJobForm.controls['jobExperienceStarts'].value,
-      this.addNewJobForm.controls['jobExperienceEnds'].value,
-      this.addNewJobForm.controls['jobSalaryStarts'].value,
-      this.addNewJobForm.controls['jobSalaryEnds'].value,
+      null,
+      this.addNewJobForm.controls['jobFunctionId'].value,
+      null,
+      this.addNewJobForm.controls['jobTypeId'].value,
+      this.addNewJobForm.controls['positions'].value,
+      this.addNewJobForm.controls['closingDate'].value,
+      this.addNewJobForm.controls['experienceStarts'].value,
+      this.addNewJobForm.controls['experienceEnds'].value,
+      this.addNewJobForm.controls['salaryStarts'].value,
+      this.addNewJobForm.controls['salaryEnds'].value,
       this.jobAttachments,
       false,
       true,
       new Date().toString(),
       false,
       null,
+      null,
+      null,
       this.addNewJobForm.controls['workflowId'].value,
     );
 
     this.isDisabled = true;
+
+
+    this.isDisabled = true;
+    await this.attachmentDataStorageService.uploadAttachments(this.filesToUpload)
+      .subscribe(
+        (data: any) => {
+          if (data.statusText !== 'Success') {
+            this.isDisabled = false;
+            this.notifierService.notify('default', data.statusText);
+            return;
+          }
+        });
+
     this.jobDataStorageService.addNewJob(job)
-       .subscribe(
-         (data: any) => {
-           this.candidateDataStorageService.uploadAttachments(this.filesToUpload)
-             .subscribe(
-               (response: any) => {
+      .subscribe(
+        (data: any) => {
+          if (data.statusText !== 'Success') {
 
-                 this.settingsDataStorageService
-                   .addNewPipelineStageCriteriaForNewJob(this.getNewPipelineStageCriterias(data.job.Id))
-                   .subscribe((reply: any) => {
+            this.isDisabled = false;
+            this.notifierService.notify('default', data.statusText);
+            return;
 
-                     this.router.navigate(['/jobs/', data.job.Id ]);
-                     this.notifierService.notify('default', 'New job published.');
-
-                     const jobs: Job[] = [];
-                     jobs.push(data.job);
-                     this.gapiService.syncToDrive(this.departments, jobs);
-
-                   });
+          } else {
 
 
+            const jobSpecificPipelineStageCriteria = this.getJobSpecificPipelineStageCriteria(data.job.Id);
+
+            this.settingsDataStorageService.addNewPipelineStageCriteriaForNewJob(jobSpecificPipelineStageCriteria)
+              .subscribe((response: any) => {
+
+                if (data.statusText !== 'Success') {
+
+                  this.isDisabled = false;
+                  this.notifierService.notify('default', data.statusText);
+                  return;
+                }
+
+              });
+          }
+        });
 
 
-               });
-         });
+    // await this.jobDataStorageService.addNewJob(job)
+    //    .subscribe(
+    //      (data: any) => {
+    //        this.candidateDataStorageService.uploadAttachments(this.filesToUpload)
+    //          .subscribe(
+    //            (response: any) => {
+    //
+    //              this.settingsDataStorageService
+    //                .addNewPipelineStageCriteriaForNewJob()
+    //                .subscribe((reply: any) => {
+    //
+    //                  this.router.navigate(['/jobs/', data.job.Id ]);
+    //                  this.notifierService.notify('default', 'New job published.');
+    //
+    //                  const jobs: Job[] = [];
+    //                  jobs.push(data.job);
+    //
+    //                  this.gapiService.syncToDrive(this.departments, jobs);
+    //
+    //                });
+    //
+    //
+    //
+    //
+    //            });
+    //      });
   }
 
-  getNewPipelineStageCriterias(jobId: number) {
+  getJobSpecificPipelineStageCriteria(jobId: number) {
     const workflowId = this.addNewJobForm.controls['workflowId'].value;
-
     const workflow = this.workflows.find(x => x.Id === workflowId);
-
-    const pipelineStageCriterias: PipelineStageCriteria [] = [];
+    const pipelineStageCriteria: PipelineStageCriterion[] = [];
 
     workflow.Pipelines.forEach((pipeline) => {
       pipeline.PipelineStage.forEach((pipelineStage) => {
@@ -229,22 +268,20 @@ export class AddNewJobComponent implements OnInit {
           pipelineStage.PipelineStageCriteria = [];
         }
 
-        pipelineStage.PipelineStageCriteria.forEach((pipelineStageCriteria) => {
-          if (pipelineStageCriteria.Id === null) {
-            pipelineStageCriteria.JobId = jobId;
-            pipelineStageCriterias.push(pipelineStageCriteria);
+        pipelineStage.PipelineStageCriteria.forEach((pipelineStageCriterion) => {
+          if (pipelineStageCriterion.Id === null) {
+            pipelineStageCriterion.JobId = jobId;
+            pipelineStageCriteria.push(pipelineStageCriterion);
           }
         });
       });
     });
 
-    return pipelineStageCriterias;
+    return pipelineStageCriteria;
   }
 
   getSelectedWorkflow() {
-
     const workflowId = this.addNewJobForm.controls['workflowId'].value;
-
     return this.workflows.find(x => x.Id === workflowId);
   }
 
@@ -269,10 +306,12 @@ export class AddNewJobComponent implements OnInit {
 
         if (result !== '') {
 
-          const pipelineStageCriteria = new PipelineStageCriteria(
+          const pipelineStageCriteria = new PipelineStageCriterion(
             null,
             result,
+            null,
             pipelineStage.Id,
+            null,
             null
           );
 
@@ -288,7 +327,7 @@ export class AddNewJobComponent implements OnInit {
   }
 
 
-  editPipelineStageCriteria(pipelineStageCriteria: PipelineStageCriteria) {
+  editPipelineStageCriteria(pipelineStageCriterion: PipelineStageCriterion) {
     const dialogRef = this.dialog.open(AddUpdateDialogComponent,
       {
         hasBackdrop: true,
@@ -297,7 +336,7 @@ export class AddNewJobComponent implements OnInit {
         data:
           {
             header: 'Edit Pipeline Criteria',
-            name: pipelineStageCriteria.Name,
+            name: pipelineStageCriterion.Name,
             iconClass: 'fas fa-flag-checkered',
             footer: 'Add or update different pipeline criteria your candidate needs.'
           }
@@ -305,8 +344,8 @@ export class AddNewJobComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
 
-      if (result !== '' && result !== pipelineStageCriteria.Name) {
-        pipelineStageCriteria.Name = result;
+      if (result !== '' && result !== pipelineStageCriterion.Name) {
+        pipelineStageCriterion.Name = result;
       }
 
     });
@@ -317,7 +356,7 @@ export class AddNewJobComponent implements OnInit {
 
   }
 
-  deletePipelineStageCriteria(pipelineStage: PipelineStage, index: number) {
+  deletePipelineStageCriterion(pipelineStage: PipelineStage, index: number) {
     pipelineStage.PipelineStageCriteria.splice(index, 1);
   }
 
@@ -333,9 +372,11 @@ export class AddNewJobComponent implements OnInit {
         this.filesToUpload.push(newFile);
         const jobAttachment = new JobAttachment(
           null,
-          null,
           fileInput.target.files[i].name,
-          newFile.name);
+          newFile.name,
+          null,
+          null
+        );
         this.jobAttachments.push(jobAttachment);
         this.notifierService.notify('default', 'File uploaded successfully.');
 
@@ -346,10 +387,7 @@ export class AddNewJobComponent implements OnInit {
     this.fileUploadVar.nativeElement.value = '';
   }
 
-  clearAllArrays() {
-    this.jobAttachments = [];
-    this.filesToUpload = [];
-  }
+
 
   getFile() {
     document.getElementById('choseFile').click();
@@ -399,7 +437,9 @@ export class AddNewJobComponent implements OnInit {
       if (result !== '') {
         const department = new Department(
           null,
-          result
+          result,
+          null,
+          null
         );
 
         this.settingsDataStorageService.addNewDepartment(department)
@@ -433,7 +473,9 @@ export class AddNewJobComponent implements OnInit {
       if (result !== '') {
         const jobFunction = new JobFunction(
           null,
-          result
+          result,
+          null,
+          null
         );
 
         this.settingsDataStorageService.addNewJobFunction(jobFunction)
@@ -468,7 +510,9 @@ export class AddNewJobComponent implements OnInit {
       if (result !== '') {
         const jobType = new JobType(
           null,
-          result
+          result,
+          null,
+          null
         );
 
 

@@ -149,7 +149,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result.confirmationStatus) {
-        this.jobAssignmentDataStorageServiceob.removeJobAssignment(jobAssignment)
+        this.jobAssignmentDataStorageService.removeJobAssignment(jobAssignment)
           .subscribe(
             (data: any) => {
               const index = this.candidate.JobAssignments
@@ -234,12 +234,12 @@ export class CandidateIdComponent implements OnInit, DoCheck {
        if (result.comment !== '') {
           const stageComment = new StageComment(
            null,
+           null,
            this.getActiveJobAssignmentId(),
+           null,
            currentStageId,
+           null,
            this.candidate.Id,
-           this.candidate.JobAssignments
-             .find(x => x.Id === this.getActiveJobAssignmentId())
-             .JobId,
            result.comment
          );
           stageComments.push(stageComment);
@@ -257,9 +257,10 @@ export class CandidateIdComponent implements OnInit, DoCheck {
 
        const jobAssigned = new JobAssignment(
          this.getActiveJobAssignmentId(),
+         null,
          this.candidate.Id,
          null,
-         this.candidate.JobAssigned
+         this.candidate.JobAssignments
            .find(x => x.Id === this.getActiveJobAssignmentId())
            .JobId,
          result.stageScore,
@@ -288,7 +289,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
   favouriteCandidates(candidate: Candidate) {
     const candidates: Candidate[] = [];
     candidates.push(candidate);
-    this.jobAssignmentDataStorageService.favouriteCandidates(candidates)
+    this.candidateDataStorageService.favouriteCandidates(candidates)
       .subscribe(
         (response: any) => {
           this.candidate.IsFavourite = true;

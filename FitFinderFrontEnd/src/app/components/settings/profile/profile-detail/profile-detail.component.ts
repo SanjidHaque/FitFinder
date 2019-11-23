@@ -47,10 +47,10 @@ export class ProfileDetailComponent implements OnInit {
 
 
 
-        this.currentUserAccount = data['currentUserAccount'];
-        this.company = data['company'];
-        this.departments = data['departments'];
-        this.jobs = data['jobs'];
+        this.currentUserAccount = data['currentUserAccount'].userAccount;
+        this.company = data['company'].company;
+        this.departments = data['departments'].departments;
+        this.jobs = data['jobs'].jobs;
 
 
         if (this.currentUserAccount === undefined) {

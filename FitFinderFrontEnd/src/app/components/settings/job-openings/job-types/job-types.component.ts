@@ -24,7 +24,7 @@ export class JobTypesComponent implements OnInit {
     this.route.data.
     subscribe(
       (data: Data) => {
-        this.jobTypes= data['jobTypes'];
+        this.jobTypes = data['jobTypes'].jobTypes;
       }
     );
   }
@@ -49,7 +49,15 @@ export class JobTypesComponent implements OnInit {
       if (result !== jobType.Name && result !== '') {
 
 
-        this.settingsDataStorageService.editJobType({Id: jobType.Id, Name: result})
+        const editedJobType = new JobType(
+          jobType.Id,
+          result,
+          null,
+          null
+        );
+
+
+        this.settingsDataStorageService.editJobType(editedJobType)
           .subscribe(
             (data: any) => {
               jobType.Name = result;
@@ -80,7 +88,9 @@ export class JobTypesComponent implements OnInit {
       if (result !== '') {
         const jobType = new JobType(
           null,
-          result
+          result,
+          null,
+          null
         );
 
 

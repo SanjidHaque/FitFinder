@@ -1,8 +1,5 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {ActivatedRoute, Data} from '@angular/router';
-import {JobDataStorageService} from '../../services/data-storage-services/job-data-storage.service';
-import {CandidateDataStorageService} from '../../services/data-storage-services/candidate-data-storage.service';
-import {InterviewDataStorageService} from '../../services/data-storage-services/interview-data-storage.service';
 import {Job} from '../../models/job/job.model';
 import {Interview} from '../../models/interview/interview.model';
 import {Candidate} from '../../models/candidate/candidate.model';
@@ -38,18 +35,20 @@ export class DashboardComponent implements OnInit {
     this.route.data
       .subscribe(
         (data: Data) => {
-          this.candidates = data['candidates'];
-          this.jobs = data['jobs'];
-          this.interviews = data['interviews'];
-          this.departments = data['departments'];
-          this.sources = data['sources'];
+          this.candidates = data['candidates'].candidates;
+          this.jobs = data['jobs'].jobs;
+          this.interviews = data['interviews'].interviews;
+          this.departments = data['departments'].departments;
+          this.sources = data['sources'].sources;
 
           this.activeJobs = this.jobs.filter(x => x.IsArchived === false).length;
-          this.activeCandidates = this.candidates.filter(x => x.JobId !== null).length;
-          const department = {
-            Id: 0,
-            Name: 'All Department'
-          };
+        //  this.activeCandidates = this.candidates.filter(x => x.JobId !== null).length;
+          const department = new Department(
+            0,
+            'All Department',
+            null,
+            null
+          );
           this.departments.unshift(department);
         }
       );

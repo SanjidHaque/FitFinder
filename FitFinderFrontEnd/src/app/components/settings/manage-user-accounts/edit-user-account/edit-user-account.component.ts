@@ -76,6 +76,7 @@ export class EditUserAccountComponent implements OnInit {
     this.userAccountDataStorageService.editUserAccount(
       new UserAccount(
         this.userAccount.Id,
+        null,
         this.userAccount.CompanyId,
         this.editUserAccountForm.controls['userName'].value,
         this.editUserAccountForm.controls['fullName'].value,
@@ -84,6 +85,7 @@ export class EditUserAccountComponent implements OnInit {
         this.editUserAccountForm.controls['phoneNumber'].value,
         this.userAccount.JoiningDateTime,
         this.editUserAccountForm.controls['roleName'].value,
+        null,
         this.editUserAccountForm.controls['departmentId'].value,
         this.userAccount.IsOwner
       )

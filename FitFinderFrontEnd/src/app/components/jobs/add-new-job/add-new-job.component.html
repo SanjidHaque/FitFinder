@@ -1,7 +1,7 @@
 <br>
 <form
   [formGroup]="addNewJobForm"
-  (ngSubmit)="onSubmitNewJob()"
+  (ngSubmit)="addNewJob()"
   #form="ngForm">
   <div class="row">
 
@@ -40,7 +40,7 @@
           <mat-form-field style="width: 100%;" appearance="outline">
             <mat-label>Job Title</mat-label>
             <input
-              formControlName="jobTitle"
+              formControlName="title"
               required
               matInput>
             <mat-error>You must enter a job name!</mat-error>
@@ -53,7 +53,7 @@
           <mat-form-field style="width: 100%;" appearance="outline">
             <mat-label>Job Code</mat-label>
             <input
-              formControlName="jobCode"
+              formControlName="code"
               matInput>
           </mat-form-field>
 
@@ -73,7 +73,7 @@
 
             <angular-editor
               class="jobEditor"
-              formControlName="jobDescription"
+              formControlName="description"
               [config]="jobDescriptionConfig">
             </angular-editor>
 
@@ -106,7 +106,7 @@
 
           <angular-editor
             class="jobEditor"
-            formControlName="jobImmediate"
+            formControlName="immediateSkills"
             [config]="jobImmediateConfig">
           </angular-editor>
 
@@ -130,7 +130,7 @@
 
           <angular-editor
             class="jobEditor"
-            formControlName="jobIntermediate"
+            formControlName="intermediateSkills"
             [config]="jobIntermediateConfig">
           </angular-editor>
 
@@ -152,7 +152,7 @@
 
           <angular-editor
             class="jobEditor"
-            formControlName="jobGoodToHave"
+            formControlName="goodToHaveSkills"
             [config]="jobGoodToHaveConfig">
           </angular-editor>
 
@@ -177,7 +177,7 @@
             <mat-label>Location</mat-label>
             <input
               required
-              formControlName = "jobLocation"
+              formControlName = "location"
               matInput>
             <mat-error>You must enter a job location!</mat-error>
           </mat-form-field>
@@ -234,7 +234,7 @@
 
           <mat-form-field style="width: 100%;" appearance="outline">
             <mat-label>Select Job Function</mat-label>
-            <mat-select formControlName="jobFunctionalityId">
+            <mat-select formControlName="jobFunctionId">
               <mat-option
                 *ngIf="jobFunctions.length == 0">No job function is available</mat-option>
               <mat-option
@@ -267,7 +267,7 @@
 
           <mat-form-field style="width: 100%;" appearance="outline">
             <mat-label>Select Job Type</mat-label>
-            <mat-select formControlName="employmentTypeId">
+            <mat-select formControlName="jobTypeId">
               <mat-option
                 *ngIf="jobTypes.length == 0">No job type is available</mat-option>
               <mat-option
@@ -292,7 +292,7 @@
               required
               min="0"
               type="number"
-              formControlName = "jobPositions"
+              formControlName = "positions"
               matInput>
             <mat-error *ngIf="addNewJobForm.controls['jobPositions'].invalid">{{getJobPositionErrorMessage()}}</mat-error>
           </mat-form-field>
@@ -305,7 +305,7 @@
             <mat-label>Closing Date</mat-label>
             <input
               [min]="minDate"
-              formControlName = 'jobClosingDate'
+              formControlName = 'closingDate'
               matInput
               [matDatepicker]="picker"
               readonly
@@ -342,7 +342,7 @@
             <input
               type="number"
               min="0"
-              formControlName = "jobExperienceStarts"
+              formControlName = "experienceStarts"
               matInput>
             <mat-error>This value is invalid!</mat-error>
           </mat-form-field>
@@ -356,7 +356,7 @@
             <input
               type="number"
               min="0"
-              formControlName = "jobExperienceEnds"
+              formControlName = "experienceEnds"
               matInput>
             <mat-error>This value is invalid!</mat-error>
           </mat-form-field>
@@ -381,7 +381,7 @@
             <input
               type="number"
               min="0"
-              formControlName = "jobSalaryStarts"
+              formControlName = "salaryStarts"
               matInput>
             <mat-error>This value is invalid!</mat-error>
           </mat-form-field>
@@ -395,7 +395,7 @@
             <input
               type="number"
               min="0"
-              formControlName = "jobSalaryEnds"
+              formControlName = "salaryEnds"
               matInput>
             <mat-error>This value is invalid!</mat-error>
           </mat-form-field>
@@ -590,17 +590,17 @@
 
                 <div class="row"
                      style="padding-left: 30px; padding-top: 5px; padding-bottom: 5px;"
-                     *ngFor="let pipelineStageCriteria of pipelineStage.PipelineStageCriteria; let i = index">
+                     *ngFor="let pipelineStageCriterion of pipelineStage.PipelineStageCriteria; let i = index">
                   <div class="col-xl-12">
 
                   <span style="font-size: 14px;">
 
                      <i class="far fa-check-circle"></i>
-                    {{ pipelineStageCriteria.Name }} &nbsp;
+                    {{ pipelineStageCriterion.Name }} &nbsp;
 
                     <i
-                      (click)="editPipelineStageCriteria(pipelineStageCriteria)"
-                      *ngIf="pipelineStageCriteria.Id === null"
+                      (click)="editPipelineStageCriteria(pipelineStageCriterion)"
+                      *ngIf="pipelineStageCriterion.Id === null"
                       style="
                       cursor: pointer;
                       opacity: .8;
@@ -609,8 +609,8 @@
                       class="fas fa-pencil-alt"></i>&nbsp;
 
                     <i
-                      (click)="deletePipelineStageCriteria(pipelineStage, i)"
-                      *ngIf="pipelineStageCriteria.Id === null"
+                      (click)="deletePipelineStageCriterion(pipelineStage, i)"
+                      *ngIf="pipelineStageCriterion.Id === null"
                       style="cursor: pointer;
                       opacity: .8;
                       color: #bc0000;
@@ -631,10 +631,6 @@
         </div>
 
       </div>
-
-
-
-
 
 
 

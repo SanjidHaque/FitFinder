@@ -27,7 +27,7 @@ export class DepartmentsComponent implements OnInit {
     this.route.data.
     subscribe(
       (data: Data) => {
-        this.departments= data['departments'];
+        this.departments = data['departments'].departments;
       }
     )
   }
@@ -50,8 +50,15 @@ export class DepartmentsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result !== department.Name && result !== '') {
 
+        const editedDepartment = new Department(
+          department.Id,
+          result,
+          null,
+          null
+        );
 
-        this.settingsDataStorageService.editDepartment({Id: department.Id, Name: result})
+
+        this.settingsDataStorageService.editDepartment(editedDepartment)
           .subscribe(
             (data: any) => {
               department.Name = result;
@@ -82,7 +89,9 @@ export class DepartmentsComponent implements OnInit {
       if (result !== '') {
         const department = new Department(
           null,
-          result
+          result,
+          null,
+          null
         );
 
         this.settingsDataStorageService.addNewDepartment(department)

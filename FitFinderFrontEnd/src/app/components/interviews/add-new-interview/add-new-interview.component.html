@@ -1,7 +1,7 @@
 <br>
 <form
   [formGroup]="addNewInterviewForm"
-  (ngSubmit)="onSubmitNewInterview()"
+  (ngSubmit)="addNewInterview()"
   #form="ngForm">
 <div class="row">
 
@@ -167,7 +167,7 @@
             <mat-label>Select Interview Type</mat-label>
             <mat-select
               required
-              formControlName="interviewTypeId">
+              formControlName="interviewType">
               <mat-option
                 *ngIf="interviewTypes.length == 0">No interview type is available</mat-option>
               <mat-option

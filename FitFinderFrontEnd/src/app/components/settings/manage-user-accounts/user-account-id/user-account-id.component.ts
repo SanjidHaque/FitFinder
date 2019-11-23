@@ -38,8 +38,8 @@ export class UserAccountIdComponent implements OnInit {
     this.route.data.
     subscribe(
       (data: Data) => {
-        this.userAccount = data['userAccount'];
-        this.departments = data['departments'];
+        this.userAccount = data['userAccount'].userAccount;
+        this.departments = data['departments'].departments;
        // this.userAccount = this.userAccounts.find(x => x.Id === this.userAccountId);
 
         if (this.userAccount === null) {

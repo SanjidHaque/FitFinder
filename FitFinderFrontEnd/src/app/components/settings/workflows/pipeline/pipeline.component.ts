@@ -32,7 +32,7 @@ export class PipelineComponent implements OnInit {
     subscribe(
       (data: Data) => {
 
-        this.workflow = data['workflow'];
+        this.workflow = data['workflow'].workflow;
       }
     );
   }
@@ -60,6 +60,7 @@ export class PipelineComponent implements OnInit {
           null,
           result.name,
           result.color,
+          null,
           pipelineId,
           []
         );
@@ -100,6 +101,7 @@ export class PipelineComponent implements OnInit {
             pipelineStage.Id,
             result.name,
             result.color,
+            null,
             pipelineStage.PipelineId,
             []
           );
@@ -158,6 +160,7 @@ export class PipelineComponent implements OnInit {
         const editedWorkflow = new Workflow(
           this.workflow.Id,
           result,
+          null,
           null,
           []
         );

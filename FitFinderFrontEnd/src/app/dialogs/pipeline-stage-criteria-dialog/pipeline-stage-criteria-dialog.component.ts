@@ -1,10 +1,8 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
-import {AddUpdatePipelineStageDialogComponent} from '../add-update-pipeline-stage-dialog/add-update-pipeline-stage-dialog.component';
-import {PipelineStage} from '../../models/settings/pipeline-stage.model';
 import {NotifierService} from 'angular-notifier';
 import {AddUpdateDialogComponent} from '../add-update-dialog/add-update-dialog.component';
-import {PipelineStageCriteria} from '../../models/settings/pipeline-stage-criterion.model';
+import { PipelineStageCriterion} from '../../models/settings/pipeline-stage-criterion.model';
 import {SettingsDataStorageService} from '../../services/data-storage-services/settings-data-storage.service';
 
 @Component({
@@ -45,10 +43,12 @@ export class PipelineStageCriteriaDialogComponent implements OnInit {
 
       if (result !== '') {
 
-        const pipelineStageCriteria = new PipelineStageCriteria(
+        const pipelineStageCriteria = new PipelineStageCriterion(
           null,
           result,
           this.data.stage.Id,
+          null,
+          null,
           null
         );
 
@@ -57,13 +57,13 @@ export class PipelineStageCriteriaDialogComponent implements OnInit {
 
           this.settingsDataStorageService.addNewPipelineStageCriteria(pipelineStageCriteria)
             .subscribe(
-              (newPipelineStageCriteria: PipelineStageCriteria) => {
+              (newPipelineStageCriterion: PipelineStageCriterion) => {
 
                 if (this.data.stage.PipelineStageCriteria === null) {
                   this.data.stage.PipelineStageCriteria = [];
                 }
 
-                this.data.stage.PipelineStageCriteria.push(newPipelineStageCriteria);
+                this.data.stage.PipelineStageCriteria.push(newPipelineStageCriterion);
                 this.notifierService.notify('default', 'New criteria added!');
               }
             );
@@ -80,7 +80,7 @@ export class PipelineStageCriteriaDialogComponent implements OnInit {
       }
     });
   }
-  editPipelineStageCriteria(pipelineStageCriteria: PipelineStageCriteria) {
+  editPipelineStageCriteria(pipelineStageCriterion: PipelineStageCriterion) {
     const dialogRef = this.dialog.open(AddUpdateDialogComponent,
       {
         hasBackdrop: true,
@@ -89,7 +89,7 @@ export class PipelineStageCriteriaDialogComponent implements OnInit {
         data:
           {
             header: 'Edit Pipeline Criteria',
-            name: pipelineStageCriteria.Name,
+            name: pipelineStageCriterion.Name,
             iconClass: 'fas fa-flag-checkered',
             footer: 'Add or update different pipeline criteria your candidate needs.'
           }
@@ -97,29 +97,31 @@ export class PipelineStageCriteriaDialogComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
 
-      if (result !== '' && result !== pipelineStageCriteria.Name) {
+      if (result !== '' && result !== pipelineStageCriterion.Name) {
 
-        const editPipelineStageCriteria = new PipelineStageCriteria(
-          pipelineStageCriteria.Id,
+        const editPipelineStageCriterion = new PipelineStageCriterion(
+          pipelineStageCriterion.Id,
           result,
-          pipelineStageCriteria.PipelineStageId,
+          null,
+          pipelineStageCriterion.PipelineStageId,
+          null,
           null
         );
 
 
         if (this.data.editMode) {
 
-          this.settingsDataStorageService.editPipelineStageCriteria(editPipelineStageCriteria)
+          this.settingsDataStorageService.editPipelineStageCriterion(editPipelineStageCriterion)
             .subscribe(
               (data: any) => {
-                pipelineStageCriteria.Name = result;
+                pipelineStageCriterion.Name = result;
                 this.notifierService.notify('default', 'Criteria updated successfully!');
               }
             );
 
         } else {
 
-          pipelineStageCriteria.Name = result;
+          pipelineStageCriterion.Name = result;
           this.notifierService.notify('default', 'Criteria updated successfully!');
 
         }

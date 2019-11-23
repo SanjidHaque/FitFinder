@@ -42,7 +42,7 @@ export class ChangeStatusDialogComponent implements OnInit {
 
   resetCriteriaScore(criteriaId: number) {
     for (let j = 0; j < this.data.criteriaScore.length; j++) {
-      if (this.data.criteriaScore[j].PipelineStageCriteriaId === criteriaId) {
+      if (this.data.criteriaScore[j].PipelineStageCriterionId === criteriaId) {
         this.data.criteriaScore[j].Rating = 0;
         return;
       }
@@ -58,40 +58,44 @@ export class ChangeStatusDialogComponent implements OnInit {
     }
   }
 
-  criteriaScoreChanged(event: any, criteriaId: number) {
+  criteriaScoreChanged(event: any, pipelineStageCriterionId: number) {
     for (let j = 0; j < this.data.criteriaScore.length; j++) {
-      if (this.data.criteriaScore[j].PipelineStageCriteriaId === criteriaId) {
+      if (this.data.criteriaScore[j].PipelineStageCriterionId === pipelineStageCriterionId) {
         this.data.criteriaScore[j].Rating = event.rating;
         return;
       }
     }
     const criteriaScore = new CriteriaScore(
       null,
-      this.data.candidate.JobAssigned[this.data.candidate.JobAssigned.length - 1].Id,
-      event.rating,
-      criteriaId,
+      null,
+      this.data.candidate.JobAssignments[this.data.candidate.JobAssignments.length - 1].Id,
+     null,
       this.data.candidate.Id,
-      this.data.candidate.JobAssigned[this.data.candidate.JobAssigned.length - 1].JobId
+      event.rating,
+      null,
+      pipelineStageCriterionId
     );
     this.data.criteriaScore.push(criteriaScore);
   }
 
 
 
-  stageScoreChanged(event: any, stageId: number) {
+  stageScoreChanged(event: any, pipelineStageId: number) {
     for (let j = 0; j < this.data.stageScore.length; j++) {
-      if (this.data.stageScore[j].PipelineStageId === stageId) {
+      if (this.data.stageScore[j].PipelineStageId === pipelineStageId) {
         this.data.stageScore[j].Rating = event.rating;
         return;
       }
     }
     const stageScore = new StageScore(
       null,
-      this.data.candidate.JobAssigned[this.data.candidate.JobAssigned.length - 1].Id,
-      event.rating,
-      stageId,
+      null,
+      this.data.candidate.JobAssignments[this.data.candidate.JobAssignments.length - 1].Id,
+      null,
+      pipelineStageId,
+      null,
       this.data.candidate.Id,
-      this.data.candidate.JobAssigned[this.data.candidate.JobAssigned.length - 1].JobId
+      event.rating,
     );
     this.data.stageScore.push(stageScore);
   }
@@ -109,7 +113,7 @@ export class ChangeStatusDialogComponent implements OnInit {
   getCriteriaScore(criteriaId: number) {
 
     for (let j = 0; j < this.data.criteriaScore.length; j++) {
-      if (this.data.criteriaScore[j].PipelineStageCriteriaId === criteriaId) {
+      if (this.data.criteriaScore[j].PipelineStageCriterionId === criteriaId) {
         return this.data.criteriaScore[j].Rating;
       }
     }

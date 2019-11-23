@@ -75,6 +75,7 @@ export class EditCompanyComponent implements OnInit {
     this.userAccountDataStorageService.editUserAccount(
       new UserAccount(
         null,
+        null,
         this.companyId,
         this.company.AdminUserName,
         this.editCompanyForm.controls['adminFullName'].value,
@@ -83,6 +84,7 @@ export class EditCompanyComponent implements OnInit {
         this.editCompanyForm.controls['adminPhoneNumber'].value,
         '',
         'HR',
+        null,
         1,
         true
       )
@@ -101,7 +103,19 @@ export class EditCompanyComponent implements OnInit {
               this.editCompanyForm.controls['adminFullName'].value,
               this.editCompanyForm.controls['adminEmail'].value,
               this.editCompanyForm.controls['adminPhoneNumber'].value,
-              ''
+              '',
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              []
             )
           ).subscribe( (response: any) => {
             if ( response.statusText === 'Success' ) {

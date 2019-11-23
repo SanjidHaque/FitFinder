@@ -42,7 +42,7 @@ export class InterviewPanelComponent implements OnInit {
     this.route.data
       .subscribe(
         (data: Data) => {
-          this.interviews = data['interviews'];
+          this.interviews = data['interviews'].interviews;
         }
       );
 
@@ -150,20 +150,16 @@ export class InterviewPanelComponent implements OnInit {
       this.interviews.forEach(row => this.selection.select(row));
   }
 
-  getInterviewTypeName(interview: Interview) {
-    return this.interviewTypes.find(x => x.id === interview.InterviewTypeId).type;
-  }
-
   getInterviewDay(interview: Interview) {
-    return moment(new Date(interview.InterviewDate)).format('Do');
+    return moment(new Date(interview.Date)).format('Do');
   }
 
   getInterviewMonth(interview: Interview) {
-    return moment(new Date(interview.InterviewDate)).format('MMMM');
+    return moment(new Date(interview.Date)).format('MMMM');
   }
 
   getInterviewYear(interview: Interview) {
-    return moment(new Date(interview.InterviewDate)).format('YYYY');
+    return moment(new Date(interview.Date)).format('YYYY');
   }
 
 

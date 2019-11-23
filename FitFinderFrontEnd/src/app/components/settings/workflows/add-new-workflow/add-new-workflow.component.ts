@@ -30,7 +30,7 @@ export class AddNewWorkflowComponent implements OnInit {
 
     this.route.data.subscribe(
       (data: Data) => {
-        this.defaultWorkflow = data['defaultWorkflow'];
+        this.defaultWorkflow = data['defaultWorkflow'].defaultWorkflow;
       }
     );
   }
@@ -60,6 +60,7 @@ export class AddNewWorkflowComponent implements OnInit {
           null,
           result.name,
           result.color,
+          null,
           pipelineId,
           null
         );
@@ -99,6 +100,7 @@ export class AddNewWorkflowComponent implements OnInit {
             pipelineStage.Id,
             result.name,
             result.color,
+            null,
             pipelineStage.PipelineId,
             []
           );

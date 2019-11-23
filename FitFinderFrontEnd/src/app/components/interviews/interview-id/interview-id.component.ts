@@ -184,7 +184,9 @@ export class InterviewIdComponent implements OnInit {
         for (let i = 0; i < result.length; i++) {
           const candidateForInterview = new CandidatesForInterview(
             null,
+            null,
             this.interviewId,
+            null,
             result[i].Id
           );
           candidatesForInterview.push(candidateForInterview);
@@ -213,7 +215,7 @@ export class InterviewIdComponent implements OnInit {
 
   getCandidateAttachment(candidateId: number) {
     return this.candidates
-      .find(x => x.Id === candidateId).CandidateAttachment;
+      .find(x => x.Id === candidateId).CandidateAttachments;
   }
 
   downloadFile(modifiedFileName: string) {
@@ -292,7 +294,7 @@ export class InterviewIdComponent implements OnInit {
   }
 
   getJobTitle(candidateId: number) {
-    const jobAssigned = this.candidates.find(x => x.Id === candidateId).JobAssigned;
+    const jobAssigned = this.candidates.find(x => x.Id === candidateId).JobAssignments;
 
     if (jobAssigned === null ) {
       return '';
@@ -310,13 +312,11 @@ export class InterviewIdComponent implements OnInit {
       return '';
     }
 
-    return job.JobTitle;
+    return job.Title;
   }
 
 
-  getInterviewTypeName(interview: Interview) {
-    return this.interviewTypes.find(x => x.id === interview.InterviewTypeId).type;
-  }
+
 
   getInterviewerName(interviewerId: number) {
     return this.users.find(x => x.id === interviewerId).userName;
@@ -335,42 +335,17 @@ export class InterviewIdComponent implements OnInit {
     this.notifierService.notify('default', 'Interview status changed');
   }
 
-  previousInterview() {
-    const currentIndex = this.interviews.findIndex(x => x.Id === this.interviewId);
-    let nextIndex = currentIndex - 1;
-    if ( nextIndex === -1 ) {
-      nextIndex = this.interviews.length - 1;
-    } else {
-      nextIndex = currentIndex - 1;
-    }
-    this.interview = this.interviews[nextIndex];
-    this.interviewId = this.interviews[nextIndex].Id;
-    this.router.navigate(['/interviews/' + this.interviewId]);
-  }
-
-  nextInterview() {
-    const currentIndex = this.interviews.findIndex(x => x.Id === this.interviewId);
-    let nextIndex = currentIndex + 1;
-    if ( nextIndex === this.interviews.length ) {
-      nextIndex = 0;
-    } else {
-      nextIndex = currentIndex + 1;
-    }
-    this.interview = this.interviews[nextIndex];
-    this.interviewId = this.interviews[nextIndex].Id;
-    this.router.navigate(['/interviews/' + this.interviewId]);
-  }
 
   getInterviewDay(interview: Interview) {
-    return moment(new Date(interview.InterviewDate)).format('Do');
+    return moment(new Date(interview.Date)).format('Do');
   }
 
   getInterviewMonth(interview: Interview) {
-    return moment(new Date(interview.InterviewDate)).format('MMMM');
+    return moment(new Date(interview.Date)).format('MMMM');
   }
 
   getInterviewYear(interview: Interview) {
-    return moment(new Date(interview.InterviewDate)).format('YYYY');
+    return moment(new Date(interview.Date)).format('YYYY');
   }
 
 

@@ -76,29 +76,29 @@ namespace FitFinderBackEnd.Controllers
 
 
 
-        //[HttpGet]
-        //[Route("api/GetAllSource")]
-        //public IHttpActionResult GetAllSource()
-        //{
-        //    Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
+        [HttpGet]
+        [Route("api/GetAllSource")]
+        public IHttpActionResult GetAllSource()
+        {
+            Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
 
-        //    if (userNameClaim == null)
-        //    {
-        //        return Ok(new { statusText = _statusTextService.UserClaimError });
-        //    }
+            if (userNameClaim == null)
+            {
+                return Ok(new { statusText = _statusTextService.UserClaimError });
+            }
 
-        //    ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
-        //    if (applicationUser == null)
-        //    {
-        //        return Ok(new { statusText = _statusTextService.UserClaimError });
-        //    }
+            ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
+            if (applicationUser == null)
+            {
+                return Ok(new { statusText = _statusTextService.UserClaimError });
+            }
 
-        //    List<Source> sources = _context.Sources
-        //        .Where(x => x.CompanyId == applicationUser.CompanyId)
-        //        .ToList();
+            List<Source> sources = _context.Sources
+                .Where(x => x.CompanyId == applicationUser.CompanyId)
+                .ToList();
 
-        //    return Ok(new { sources, statusText = _statusTextService.Success });
-        //}
+            return Ok(new { sources, statusText = _statusTextService.Success });
+        }
 
         [HttpGet]
         [Route("api/GetAllJobFunction")]

@@ -15,18 +15,18 @@ using Microsoft.Owin.Security;
 namespace FitFinderBackEnd.Controllers
 {
     [Authorize]
-    public class SharedController : ApiController
+    public class AttachmentController : ApiController
     {
         
        private ApplicationUserManager _userManager;
        private StatusTextService _statusTextService;
 
-        public SharedController()
+        public AttachmentController()
         {
             _statusTextService = new StatusTextService();
         }
 
-        public SharedController(ApplicationUserManager userManager,
+        public AttachmentController(ApplicationUserManager userManager,
             ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
         {
             UserManager = userManager;
@@ -76,7 +76,7 @@ namespace FitFinderBackEnd.Controllers
                     var filePath = HttpContext.Current.Server.MapPath("~/Content/Attachments/" + postedFile.FileName);
                     postedFile.SaveAs(filePath);
                 }
-                catch (Exception e)
+                catch (HttpException)
                 {
                     return Ok(new {statusText = _statusTextService.SomethingWentWrong});
                 }

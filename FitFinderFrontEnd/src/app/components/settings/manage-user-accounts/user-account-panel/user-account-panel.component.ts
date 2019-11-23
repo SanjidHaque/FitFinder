@@ -23,7 +23,7 @@ export class UserAccountPanelComponent implements OnInit {
     this.route.data
       .subscribe(
       (data: Data) => {
-        this.userAccounts = data['userAccounts'];
+        this.userAccounts = data['userAccounts'].userAccounts;
       }
     );
   }
@@ -36,6 +36,7 @@ export class UserAccountPanelComponent implements OnInit {
           this.userAccounts.splice(index, 1);
           this.notifierService.notify('default',  'User deleted successfully.');
         } else {
+          this.isDisabled = false;
           this.notifierService.notify('default',  'Error! Something went wrong!');
         }
       }

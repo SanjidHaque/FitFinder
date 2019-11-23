@@ -24,7 +24,7 @@ export class TagsComponent implements OnInit {
     this.route.data
       .subscribe(
         (data: Data) => {
-          this.tags = data['tags'];
+          this.tags = data['tags'].tags;
         }
       );
   }
@@ -79,7 +79,9 @@ export class TagsComponent implements OnInit {
       if (result !== '') {
         const tag = new Tag(
           null,
-          result
+          result,
+          null,
+          null
         );
 
 

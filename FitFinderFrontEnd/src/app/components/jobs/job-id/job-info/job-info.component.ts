@@ -19,7 +19,7 @@ import {JobService} from '../../../../services/shared-services/job.service';
   templateUrl: './job-info.component.html',
   styleUrls: ['./job-info.component.css']
 })
-export class JobInfoComponent implements OnInit, DoCheck {
+export class JobInfoComponent implements OnInit {
 
   candidateDefaultImage = 'assets/images/candidateDefaultImage.png';
   job: Job;
@@ -44,18 +44,15 @@ export class JobInfoComponent implements OnInit, DoCheck {
 
     this.route.data.subscribe(
       (data: Data) => {
-        this.jobTypes = data['jobTypes'];
-        this.jobFunctions = data['jobFunctions'];
-        this.departments = data['departments'];
+        this.jobTypes = data['jobTypes'].jobTypes;
+        this.jobFunctions = data['jobFunctions'].jobFunctions;
+        this.departments = data['departments'].departments;
         this.job = this.jobService.job;
       }
     );
 
   }
 
-  ngDoCheck() {
- //  this.job = this.jobService.job;
-  }
 
   favouriteJobs(job: Job) {
     const jobs: Job[] = [];
@@ -143,19 +140,19 @@ export class JobInfoComponent implements OnInit, DoCheck {
     );
   }
   getJobDescription() {
-    document.getElementById('job-description').innerHTML = this.job.JobDescription;
+    document.getElementById('job-description').innerHTML = this.job.Description;
   }
 
   getImmediateSkill() {
-    document.getElementById('job-immediate').innerHTML = this.job.JobImmediate;
+    document.getElementById('job-immediate').innerHTML = this.job.ImmediateSkills;
   }
 
   getIntermediateSkill() {
-    document.getElementById('job-intermediate').innerHTML = this.job.JobIntermediate;
+    document.getElementById('job-intermediate').innerHTML = this.job.IntermediateSkills;
   }
 
   getGoodToHaveSkill() {
-    document.getElementById('job-good-to-have').innerHTML = this.job.JobGoodToHave;
+    document.getElementById('job-good-to-have').innerHTML = this.job.GoodToHaveSkills;
   }
 
 
@@ -173,8 +170,13 @@ export class JobInfoComponent implements OnInit, DoCheck {
         const newFile = new File([fileInput.target.files[i]], newFileName, {type: fileInput.target.files[i].type});
         this.filesToUpload.push(newFile);
         const jobAttachment = new JobAttachment(
-          null, this.job.Id, fileInput.target.files[i].name, newFile.name);
-        this.job.JobAttachment.push(jobAttachment);
+          null,
+          fileInput.target.files[i].name,
+          newFile.name,
+          null,
+          this.job.Id
+        );
+        this.job.JobAttachments.push(jobAttachment);
         this.notifierService.notify('default', 'File uploaded successfully');
       } else {
         this.notifierService.notify('default', 'Unsupported file format!');
@@ -192,12 +194,12 @@ export class JobInfoComponent implements OnInit, DoCheck {
 
   getJobFunction() {
 
-    if (this.job.JobFunctionalityId === null) {
+    if (this.job.JobFunctionId === null) {
       return '';
     }
 
     const jobFunction =  this.jobFunctions
-      .find(x => x.Id === this.job.JobFunctionalityId);
+      .find(x => x.Id === this.job.JobFunctionId);
 
     if (jobFunction === undefined) {
       return '';
@@ -208,12 +210,12 @@ export class JobInfoComponent implements OnInit, DoCheck {
 
   getJobType() {
 
-    if (this.job.EmploymentTypeId === null) {
+    if (this.job.JobTypeId === null) {
       return '';
     }
 
     const jobType =  this.jobTypes
-      .find(x => x.Id === this.job.EmploymentTypeId);
+      .find(x => x.Id === this.job.JobTypeId);
 
     if (jobType === undefined) {
       return '';
@@ -226,7 +228,7 @@ export class JobInfoComponent implements OnInit, DoCheck {
 
   getClosingDays() {
     const today = new Date();
-    const closingDate = moment(new Date(this.job.JobClosingDate));
+    const closingDate = moment(new Date(this.job.ClosingDate));
     return Math.ceil(closingDate.diff(today, 'days', true));
 
   }
@@ -237,11 +239,11 @@ export class JobInfoComponent implements OnInit, DoCheck {
   }
 
   getCreatedDate() {
-    return moment(new Date(this.job.JobCreatedDate)).format('Do MMM YYYY')
+    return moment(new Date(this.job.PostingDate)).format('Do MMM YYYY')
   }
 
   getClosingDate() {
-    return moment(new Date(this.job.JobClosingDate)).format('Do MMM YYYY')
+    return moment(new Date(this.job.ClosingDate)).format('Do MMM YYYY')
   }
 
 }

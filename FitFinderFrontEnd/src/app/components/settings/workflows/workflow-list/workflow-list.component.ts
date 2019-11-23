@@ -25,7 +25,7 @@ export class WorkflowListComponent implements OnInit {
   ngOnInit() {
     this.route.data.subscribe(
       (data: Data) => {
-        this.workflows = data['workflows'];
+        this.workflows = data['workflows'].workflows;
       }
     )
   }
@@ -52,6 +52,7 @@ export class WorkflowListComponent implements OnInit {
         const editedWorkflow = new Workflow(
           workflow.Id,
           result,
+          null,
           null,
           []
         );

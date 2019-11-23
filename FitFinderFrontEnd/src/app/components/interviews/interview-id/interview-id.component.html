@@ -14,27 +14,6 @@
           class="far fa-arrow-alt-circle-left"></i> Interview Panel</button>
       </div>
 
-      <!--<div class="col-xl-4">-->
-        <!--<button-->
-          <!--(click)="previousInterview()"-->
-          <!--matTooltip="Previous Interview"-->
-          <!--matTooltipPosition="above"-->
-          <!--style="background-color: transparent; outline: 0;"-->
-          <!--mat-flat-button><i-->
-          <!--style="font-size: 30px;"-->
-          <!--class="fas fa-angle-double-left"></i></button>-->
-      <!--</div>-->
-
-      <!--<div class="col-xl-4">-->
-        <!--<button-->
-          <!--(click)="nextInterview()"-->
-          <!--matTooltip="Next Interview"-->
-          <!--matTooltipPosition="above"-->
-          <!--style="background-color: transparent; outline: 0;"-->
-          <!--mat-flat-button><i-->
-          <!--style="font-size: 30px;"-->
-          <!--class="fas fa-angle-double-right"></i></button>-->
-      <!--</div>-->
 
     </div>
   </div>
@@ -128,7 +107,7 @@
     </div>
 
   <div class="col-xl-9" style="font-size: 35px;">
-    {{ interview.InterviewStartTime }} - {{ interview.InterviewName }} ({{ getInterviewTypeName(interview) }})
+    {{ interview.StartTime }} - {{ interview.Name }} ({{ interview.InterviewType }})
   </div>
 
 
@@ -139,7 +118,7 @@
       <mat-select
         [disabled]="interview.IsArchived"
         (selectionChange)="selectValueChanged($event.value)"
-        [(value)]= "pending"
+        [(value)]="pending"
         style="
             text-align: center;
             font-weight: bold;">
@@ -148,7 +127,8 @@
           style="
               text-align: center;
               font-weight: bold;"
-          *ngFor="let interviewStatus of interviewStatuses"   [value]="interviewStatus.Id">
+          *ngFor="let interviewStatus of interviewStatuses"
+          [value]="interviewStatus.Id">
           {{ interviewStatus.Name }}
         </mat-option>
 
@@ -207,13 +187,13 @@
     <div class="row" style="padding-top: 5px; padding-bottom: 5px; font-size: 17px;">
       <div class="col-xl-12">
         <i class="far fa-clock"></i>
-        {{ interview.InterviewStartTime }} - {{ interview.InterviewEndTime }}
+        {{ interview.InterviewStartTime }} - {{ interview.EndTime }}
       </div>
     </div>
 
     <div class="row" style="padding-top: 5px; padding-bottom: 5px; font-size: 15px;">
       <div class="col-xl-12">
-        <i class="fas fa-ribbon"></i> {{ getInterviewTypeName(interview) }} Interview
+        <i class="fas fa-ribbon"></i> {{ interview.InterviewType }} Interview
       </div>
     </div>
 
@@ -223,7 +203,7 @@
       </div>
     </div>
 
-    <div *ngIf="interview.InterviewLocation !== ''">
+    <div *ngIf="interview.Location !== ''">
       <br>
       <div class="row">
         <div class="col-xl-12">
@@ -233,7 +213,7 @@
       <hr>
       <div class="row" style="padding-top: 5px; padding-bottom: 5px; font-size: 15px;">
         <div class="col-xl-12">
-          <i class="fas fa-map-marker-alt"></i> {{ interview.InterviewLocation }}
+          <i class="fas fa-map-marker-alt"></i> {{ interview.Location }}
         </div>
       </div>
     </div>
@@ -262,8 +242,8 @@
       </div>
 
       <div class="col-xl-11 text-xl-left" style="padding-top: 6px;">
-       {{ getInterviewerName(interviewersForInterview.InterviewerId) }} |
-        <span style="font-size: 13px;">{{ getInterviewerRole(interviewersForInterview.InterviewerId) }}</span>
+       {{ getInterviewerName(interviewersForInterview.Id) }} |
+        <span style="font-size: 13px;">{{ getInterviewerRole(interviewersForInterview.UserAccountId) }}</span>
       </div>
     </div>
 
@@ -354,7 +334,7 @@
                          style="padding-top: 6px;">
                       <a title="More Detail"
                          style="cursor: pointer; outline: 0; text-decoration: none;"
-                         routerLink="/candidates/{{candidatesForInterview.CandidateId}}"
+                         routerLink="/candidates/{{ candidatesForInterview.CandidateId }}"
                       >
                       <strong>
                         {{ getCandidateFullName(candidatesForInterview.CandidateId) }}

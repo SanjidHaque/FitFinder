@@ -54,7 +54,19 @@ export class AddNewCompanyComponent implements OnInit {
         this.addNewCompanyForm.controls['adminFullName'].value,
         this.addNewCompanyForm.controls['adminEmail'].value,
         this.addNewCompanyForm.controls['adminPhoneNumber'].value,
-        moment().format('h:mm:ss A, Do MMMM YYYY')
+        moment().format('h:mm:ss A, Do MMMM YYYY'),
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        []
       )
     ).subscribe((data: any) => {
 
@@ -62,6 +74,7 @@ export class AddNewCompanyComponent implements OnInit {
 
           this.userAccountDataStorageService.addNewUserAccount(
             new UserAccount(
+              null,
               null,
               data.companyId,
               this.addNewCompanyForm.controls['adminUserName'].value,
@@ -71,6 +84,7 @@ export class AddNewCompanyComponent implements OnInit {
               this.addNewCompanyForm.controls['adminPhoneNumber'].value,
               moment().format('h:mm:ss A, Do MMMM YYYY'),
               'HR',
+              null,
               data.departmentId,
               true
             )

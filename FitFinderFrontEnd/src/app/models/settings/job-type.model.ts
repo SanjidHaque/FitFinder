@@ -1,6 +1,6 @@
 import {Company} from './company.model';
 
-export class JobType extends Resource  {
+export class JobType  {
   constructor(
     public Id: number,
     public Name: string,

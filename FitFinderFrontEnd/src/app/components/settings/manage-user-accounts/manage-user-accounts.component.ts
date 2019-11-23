@@ -5,11 +5,4 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './manage-user-accounts.component.html',
   styleUrls: ['./manage-user-accounts.component.css']
 })
-export class ManageUserAccountsComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
-}
+export class ManageUserAccountsComponent {}

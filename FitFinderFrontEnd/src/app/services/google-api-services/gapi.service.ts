@@ -196,13 +196,13 @@ export class GapiService {
         if (findDepartment !== undefined) {
 
           await this
-            .searchFolder(findDepartment.Id, job.JobTitle)
+            .searchFolder(findDepartment.Id, job.Title)
             .then((jobFolderInfo) => {
 
 
               if (jobFolderInfo.result.files.length === 0) {
 
-                this.createNewFolder(findDepartment.Id, job.JobTitle)
+                this.createNewFolder(findDepartment.Id, job.Title)
                   .then();
 
               }

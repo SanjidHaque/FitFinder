@@ -248,7 +248,7 @@
     <Compile Include="Controllers\JobController.cs" />
     <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Controllers\JobAssignmentController.cs" />
-    <Compile Include="Controllers\SharedController.cs" />
+    <Compile Include="Controllers\AttachmentController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

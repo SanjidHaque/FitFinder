@@ -23,7 +23,7 @@ export class SourcesComponent implements OnInit {
     this.route.data
       .subscribe(
         (data: Data) => {
-          this.sources = data['sources'];
+          this.sources = data['sources'].sources;
         }
       );
   }
@@ -46,8 +46,14 @@ export class SourcesComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result !== source.Name && result !== '') {
 
+        const editedSource = new Source(
+          source.Id,
+          result,
+          null,
+          null
+        );
 
-        this.settingsDataStorageService.editSource({Id: source.Id, Name: result})
+        this.settingsDataStorageService.editSource(editedSource)
           .subscribe(
             (data: any) => {
               source.Name = result;
@@ -78,7 +84,9 @@ export class SourcesComponent implements OnInit {
       if (result !== '') {
         const source = new Source(
           null,
-          result
+          result,
+          null,
+          null
         );
 
 

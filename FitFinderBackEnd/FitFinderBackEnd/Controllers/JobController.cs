@@ -74,11 +74,6 @@ namespace FitFinderBackEnd.Controllers
             job.CompanyId = applicationUser.CompanyId;
 
             _context.Jobs.Add(job);
-//            foreach (var jobAttachment in job.JobAttachments)
-//            {
-//                jobAttachment.JobId = job.Id;
-//            }
-//            _context.JobAttachments.AddRange(job.JobAttachments);
 
             _context.SaveChanges();
             return Ok(new { job,  statusText = _statusTextService.Success });

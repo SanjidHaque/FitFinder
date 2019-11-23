@@ -49,24 +49,24 @@ export class SelectCandidatesForInterviewDialogComponent implements OnInit {
 
   getJobName(candidate: Candidate) {
 
-    if (candidate.JobAssigned === null) {
+    if (candidate.JobAssignments === null) {
       return '';
     }
 
-    const assignedJob = candidate.JobAssigned
+    const jobAssignment = candidate.JobAssignments
       .find(x => x.IsActive === true);
 
-    if (assignedJob === undefined) {
+    if (jobAssignment === undefined) {
       return '';
     }
 
-    const job = this.jobs.find(x => x.Id === assignedJob.JobId);
+    const job = this.jobs.find(x => x.Id === jobAssignment.JobId);
 
     if (job === undefined) {
       return '';
     }
 
-    return job.JobTitle;
+    return job.Title;
   }
 
   getApplicationDate(candidate: Candidate) {

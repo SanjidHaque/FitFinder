@@ -25,7 +25,7 @@ export class JobFunctionsComponent implements OnInit {
     subscribe(
       (data: Data) => {
 
-        this.jobFunctions= data['jobFunctions'];
+        this.jobFunctions = data['jobFunctions'].jobFunctions;
       }
     )
   }
@@ -48,9 +48,14 @@ export class JobFunctionsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result !== jobFunction.Name && result !== '') {
 
+        const editedJobFunction = new JobFunction(
+          jobFunction.Id,
+          result,
+          null,
+          null
+        );
 
-        this.settingsDataStorageService
-          .editJobFunction({Id: jobFunction.Id, Name: result})
+        this.settingsDataStorageService.editJobFunction(editedJobFunction)
           .subscribe(
             (data: any) => {
               jobFunction.Name = result;
@@ -81,7 +86,9 @@ export class JobFunctionsComponent implements OnInit {
       if (result !== '') {
         const jobFunction = new JobFunction(
           null,
-          result
+          result,
+          null,
+          null
         );
 
         this.settingsDataStorageService.addNewJobFunction(jobFunction)

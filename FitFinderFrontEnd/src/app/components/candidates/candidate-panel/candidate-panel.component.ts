@@ -174,16 +174,16 @@ export class CandidatePanelComponent implements OnInit {
   }
 
   getJobName(candidate: Candidate) {
-    const lastIndex = candidate.JobAssigned.length - 1;
+    const lastIndex = candidate.JobAssignments.length - 1;
 
     const job = this.jobs.find(
-      x => x.Id === candidate.JobAssigned[lastIndex].JobId);
+      x => x.Id === candidate.JobAssignments[lastIndex].JobId);
 
     if (job === undefined) {
       return '';
     }
 
-    return job.JobTitle;
+    return job.Title;
   }
 
   getApplicationDate(candidate: Candidate) {

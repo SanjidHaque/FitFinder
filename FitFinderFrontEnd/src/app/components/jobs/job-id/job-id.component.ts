@@ -26,9 +26,7 @@ export class JobIdComponent implements OnInit {
               private dialog: MatDialog,
               private notifierService: NotifierService,
               private jobDataStorageService: JobDataStorageService,
-              private jobService: JobService,
-              private router: Router,
-              private settingsDataStorageService: SettingsDataStorageService) {
+              private jobService: JobService) {
     this.route.params
       .subscribe(
         (params: Params) => {
@@ -41,9 +39,8 @@ export class JobIdComponent implements OnInit {
     this.route.data
       .subscribe(
         (data: Data) => {
-          this.job = data['job'];
-          this.departments = data['departments'];
-          // this.job = this.jobs.find( x => x.Id === this.jobId);
+          this.job = data['job'].job;
+          this.departments = data['departments'].departments;
            this.jobService.job = this.job;
         }
       );
@@ -88,36 +85,10 @@ export class JobIdComponent implements OnInit {
 
   getClosingDays() {
     const today = new Date();
-    const closingDate = moment(new Date(this.job.JobClosingDate));
+    const closingDate = moment(new Date(this.job.ClosingDate));
     return Math.ceil(closingDate.diff(today, 'days', true));
   }
 
-  previousJob() {
-    const currentIndex = this.jobs.findIndex(x => x.Id === this.jobId);
-    let nextIndex = currentIndex - 1;
-    if ( nextIndex === -1 ) {
-      nextIndex = this.jobs.length - 1;
-    } else {
-      nextIndex = currentIndex - 1;
-    }
-    this.job = this.jobs[nextIndex];
-    this.jobService.job = this.job;
-    this.jobId = this.jobs[nextIndex].Id;
-    this.router.navigate(['/jobs/' + 4]);
-  }
 
-  nextJob() {
-    const currentIndex = this.jobs.findIndex(x => x.Id === this.jobId);
-    let nextIndex = currentIndex + 1;
-    if ( nextIndex === this.jobs.length ) {
-      nextIndex = 0;
-    } else {
-      nextIndex = currentIndex + 1;
-    }
-    this.job = this.jobs[nextIndex];
-    this.jobService.job = this.job;
-    this.jobId = this.jobs[nextIndex].Id;
-    this.router.navigate(['/jobs/' + this.jobId]);
-  }
 
 }

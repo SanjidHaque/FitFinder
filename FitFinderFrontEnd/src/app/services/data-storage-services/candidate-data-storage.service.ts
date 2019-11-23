@@ -29,13 +29,7 @@ export class CandidateDataStorageService {
     return this.httpClient.post<Candidate>(this.rootUrl + '/api/AddNewCandidate', candidate);
   }
 
-  uploadAttachments(attachments: Array<File>) {
-    const formData = new FormData();
-    for (let i = 0; i < attachments.length; i++) {
-      formData.append('Attachments', attachments[i], attachments[i].name);
-    }
-    return this.httpClient.post(this.rootUrl + '/api/UploadAttachments', formData);
-  }
+
 
 
   archiveCandidates(candidates: Candidate[]) {

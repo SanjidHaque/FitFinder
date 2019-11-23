@@ -28,7 +28,7 @@ export class CompanyPanelComponent implements OnInit {
   ngOnInit() {
     this.route.data.subscribe(
       (data: Data) => {
-        this.companies = data['companies'];
+        this.companies = data['companies'].companies;
       }
     );
   }

@@ -25,8 +25,8 @@ export class DisqualifyReasonsComponent implements OnInit {
   ngOnInit() {
     this.route.data.subscribe(
       (data: Data) => {
-        this.rejectedReasons = data['rejectedReasons'];
-        this.withdrawnReasons = data['withdrawnReasons'];
+        this.rejectedReasons = data['rejectedReasons'].rejectedReasons;
+        this.withdrawnReasons = data['withdrawnReasons'].withdrawnReasons;
       }
     );
   }
@@ -50,7 +50,9 @@ export class DisqualifyReasonsComponent implements OnInit {
       if (result !== '') {
         const rejectedReason = new RejectedReason(
           null,
-          result
+          result,
+          null,
+          null
         );
 
 
@@ -85,7 +87,9 @@ export class DisqualifyReasonsComponent implements OnInit {
       if (result !== '') {
         const withdrawnReason = new WithdrawnReason(
           null,
-          result
+          result,
+          null,
+          null
         );
 
 
@@ -121,7 +125,9 @@ export class DisqualifyReasonsComponent implements OnInit {
       if (result !== '' && result !== rejectedReason.Name) {
         const editRejectedReason = new RejectedReason(
           rejectedReason.Id,
-          result
+          result,
+          null,
+          null
         );
 
 
@@ -156,7 +162,9 @@ export class DisqualifyReasonsComponent implements OnInit {
       if (result !== '' && result !== withdrawnReason.Name) {
         const editWithdrawnReason = new WithdrawnReason(
           withdrawnReason.Id,
-          result
+          result,
+          null,
+          null
         );
 
 

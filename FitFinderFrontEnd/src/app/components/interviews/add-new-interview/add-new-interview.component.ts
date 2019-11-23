@@ -80,91 +80,99 @@ export class AddNewInterviewComponent implements OnInit {
 
 
     this.addNewInterviewForm = new FormGroup({
-      'interviewDate': new FormControl('', Validators.required),
-      'interviewName': new FormControl(''),
+      'date': new FormControl('', Validators.required),
+      'name': new FormControl(''),
       'interviewers': new FormControl('', Validators.required),
-      'interviewLocation': new FormControl(''),
-      'interviewStartTime': new FormControl('10:00', Validators.required),
-      'interviewEndTime': new FormControl('11:30', Validators.required),
-      'interviewTypeId': new FormControl('', Validators.required)
+      'location': new FormControl(''),
+      'startTime': new FormControl('10:00', Validators.required),
+      'endTime': new FormControl('11:30', Validators.required),
+      'interviewType': new FormControl('', Validators.required)
     });
   }
 
 
-  getJobTitle(candidateJobId: number) {
-
-    const job = this.jobs.find(x => x.Id === candidateJobId);
+  getJobTitle(jobId: number) {
+    const job = this.jobs.find(x => x.Id === jobId);
     if (job === undefined) {
       return '';
     }
-    return job.JobTitle;
+    return job.Title;
   }
 
-  getCandidatesForInterview(interviewId: number) {
+  getCandidatesForInterview() {
     const candidatesForInterview: CandidatesForInterview[] = [];
 
     for (let i = 0; i < this.selectedCandidatesForInterview.length; i++) {
       const candidateForInterview =
         new CandidatesForInterview(
-          null, interviewId, this.selectedCandidatesForInterview[i].Id);
+          null,
+          null,
+          null,
+          null,
+          this.selectedCandidatesForInterview[i].Id
+        );
       candidatesForInterview.push(candidateForInterview);
     }
     return candidatesForInterview;
   }
 
-  getInterviewersForInterview(interviewId: number, interviewers: any[]) {
+
+  getInterviewersForInterview(interviewers: any[]) {
     const interviewersForInterview: InterviewersForInterview[] = [];
 
     for (let i = 0; i < interviewers.length; i++) {
       const interviewerForInterview =
-        new InterviewersForInterview(null, interviewId, interviewers[i].id  );
+        new InterviewersForInterview(
+          null,
+          null,
+          null,
+          null,
+          interviewers[i].id
+        );
       interviewersForInterview.push(interviewerForInterview);
     }
     return interviewersForInterview;
   }
 
-  onSubmitNewInterview() {
-    const interviewId = null;
-    const interviewDate = this.addNewInterviewForm.controls['interviewDate'].value;
-    const interviewName = this.addNewInterviewForm.controls['interviewName'].value;
-    const interviewLocation = this.addNewInterviewForm.controls['interviewLocation'].value;
-
-    let interviewStartTime = this.addNewInterviewForm.controls['interviewStartTime'].value;
+  addNewInterview() {
+    let interviewStartTime = this.addNewInterviewForm.controls['startTime'].value;
     interviewStartTime = this.getTimeWithAmOrPm(interviewStartTime);
 
-    let interviewEndTime = this.addNewInterviewForm.controls['interviewEndTime'].value;
+    let interviewEndTime = this.addNewInterviewForm.controls['endTime'].value;
     interviewEndTime = this.getTimeWithAmOrPm(interviewEndTime);
 
-    const interviewTypeId = this.addNewInterviewForm.controls['interviewTypeId'].value;
-    const candidatesForInterview = this.getCandidatesForInterview(interviewId);
-
     let interviewersForInterview = this.addNewInterviewForm.controls['interviewers'].value;
-    interviewersForInterview = this.getInterviewersForInterview(interviewId, interviewersForInterview);
-    const isArchived = false;
+    interviewersForInterview = this.getInterviewersForInterview(interviewersForInterview);
 
     const interview = new Interview(
-      interviewId,
-      interviewDate,
-      interviewName,
-      interviewLocation,
+      null,
+      this.addNewInterviewForm.controls['name'].value,
+      this.addNewInterviewForm.controls['date'].value,
+      this.addNewInterviewForm.controls['location'].value,
       interviewStartTime,
       interviewEndTime,
-      interviewTypeId,
-      candidatesForInterview,
-      interviewersForInterview,
-      1,
-      isArchived
+      this.addNewInterviewForm.controls['interviewType'].value,
+      this.getCandidatesForInterview(),
+      this.getInterviewersForInterview(interviewersForInterview),
+      'Pending',
+      false,
+      null,
+      null
     );
     this.isDisabled = true;
     this.interviewDataStorageService.addNewInterview(interview)
        .subscribe(
          (data: any) => {
-                 this.router.navigate(['/interviews/', data.interview.Id ]);
-                 this.notifierService.notify('default', 'New interview added.');
 
+           if (data.statusText !== 'Success') {
+             this.isDisabled = false;
+             this.notifierService.notify('default', data.statusText);
+           } else {
+             this.router.navigate(['/interviews/', data.interview.Id ]);
+             this.notifierService.notify('default', 'New interview added.');
+           }
 
-         }
-       );
+         });
   }
 
   getTimeWithAmOrPm(time: string) {

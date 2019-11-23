@@ -91,14 +91,15 @@ namespace FitFinderBackEnd.Services
             });
 
             jobAssignment.CurrentStageId = pipelines[0].PipelineStages[0].Id;
-            jobAssignment.IsActive = true;
             jobAssignment.StageComments = stageComments;
             jobAssignment.StageScores = stageScores;
             jobAssignment.CriteriaScores = criteriaScores;
+            jobAssignment.Job = job;
 
             return jobAssignment;
         }
 
+        
 
         public void OnDeleteAttachment(List<string> fileNames)        
         {

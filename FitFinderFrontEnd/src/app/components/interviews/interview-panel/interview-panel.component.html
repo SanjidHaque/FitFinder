@@ -178,7 +178,7 @@
         </div>
 
         <div style="text-align: center;">
-          You can schedule interviews for either a single candidate or a batch.
+          You can schedule interviews for a single candidate.
         </div>
 
         <br>
@@ -277,13 +277,13 @@
                        outline: 0;
                        cursor: pointer;"
                     routerLink="/interviews/{{ interview.Id }}"
-                  > {{ interview.InterviewStartTime }} - {{ interview.InterviewName }} </strong>
+                  > {{ interview.StartTime }} - {{ interview.Name }} </strong>
                 </div>
               </div>
 
               <div class="row">
                 <div class="col-xl-12" style="font-size: 12px;">
-                  <strong><i class="fas fa-ribbon"></i> {{ getInterviewTypeName(interview) }} - <i class="fas fa-users"></i> Sanjid Haque</strong>
+                  <strong><i class="fas fa-ribbon"></i> {{ interview.InterviewType }} - <i class="fas fa-users"></i> Sanjid Haque</strong>
                 </div>
               </div>
 
