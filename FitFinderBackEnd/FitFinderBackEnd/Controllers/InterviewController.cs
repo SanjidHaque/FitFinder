@@ -71,19 +71,6 @@ namespace FitFinderBackEnd.Controllers
             interview.CompanyId = applicationUser.CompanyId;
             _context.Interviews.Add(interview);
 
-//            foreach (var candidatesForInterview in interview.Candidates)
-//            {
-//                candidatesForInterview.Id = interview.Id;
-//            }
-//
-//            foreach (var interviewersForInterview in interview.InterviewersForInterview)
-//            {
-//                interviewersForInterview.Id = interview.Id;
-//            }
-
-//            _context.CandidatesForInterviews.AddRange(interview.Candidates);
-//            _context.InterviewersForInterviews.AddRange(interview.InterviewersForInterview);
-
             _context.SaveChanges();
             return Ok(new { interview, statusText = _statusTextService.Success });
         }
@@ -121,21 +108,22 @@ namespace FitFinderBackEnd.Controllers
         [AllowAnonymous]
         public IHttpActionResult GetAllInterview()
         {
+            List<Interview> interviews = new List<Interview>();
             Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
 
             if (userNameClaim == null)
             {
-                return Ok(new { statusText = _statusTextService.UserClaimError });
+                return Ok(new { interviews, statusText = _statusTextService.UserClaimError });
             }
 
             ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
             if (applicationUser == null)
             {
-                return Ok(new { statusText = _statusTextService.UserClaimError });
+                return Ok(new { interviews, statusText = _statusTextService.UserClaimError });
             }
 
 
-            List<Interview> interviews = _context.Interviews
+            interviews = _context.Interviews
                 .Where(x => x.CompanyId == applicationUser.CompanyId)
                 .OrderByDescending(x => x.Id)
                 .ToList();
@@ -154,7 +142,7 @@ namespace FitFinderBackEnd.Controllers
 
             if (interview == null)
             {
-                return Ok(new { statusText = _statusTextService.ResourceNotFound });
+                return Ok(new { interview, statusText = _statusTextService.ResourceNotFound });
             }
 
             List<CandidatesForInterview> candidatesForInterviews = _context.CandidatesForInterviews

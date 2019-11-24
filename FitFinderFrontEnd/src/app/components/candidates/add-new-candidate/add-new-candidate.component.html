@@ -42,9 +42,11 @@
 
         <mat-form-field style="width: 100%;" appearance="outline">
           <mat-label>Select Job</mat-label>
-          <mat-select formControlName="jobId">
-            <mat-option *ngIf="jobs.length == 0">No job is available</mat-option>
-            <mat-option *ngFor="let job of jobs" [value]="job.Id"> {{ job.JobTitle }} </mat-option>
+          <mat-select>
+            <mat-option *ngIf="jobs.length === 0">No job is available</mat-option>
+            <mat-option *ngFor="let job of jobs"
+                        [value]="job.Id"> {{ job.Title }}
+            </mat-option>
           </mat-select>
         </mat-form-field>
 
@@ -85,7 +87,7 @@
             formControlName="email"
             required
             matInput>
-          <mat-error *ngIf="email.invalid">{{getEmailErrorMessage()}}</mat-error>
+          <mat-error *ngIf="addNewCandidateForm.get('email').invalid">{{getEmailErrorMessage()}}</mat-error>
         </mat-form-field>
       </div>
 
@@ -155,7 +157,7 @@
           <mat-label>Select Candidate Source</mat-label>
           <mat-select
             required
-            formControlName="candidateSourceId">
+            formControlName="sourceId">
             <mat-option *ngIf="sources.length === 0">No source is available</mat-option>
 
             <mat-option
@@ -181,7 +183,7 @@
 
 
     <div class="row"
-         formArrayName="education"
+         formArrayName="educations"
          *ngFor="let formFields of addNewCandidateForm.get('educations')['controls']; let i = index">
       <div class="col-xl-12" [formGroupName]="i">
         <hr>
@@ -308,7 +310,7 @@
     <br>
 
     <div class="row"
-         formArrayName="experience"
+         formArrayName="experiences"
          *ngFor="let formFields of addNewCandidateForm.get('experiences')['controls']; let i = index">
       <div class="col-xl-12" [formGroupName]="i">
         <hr>

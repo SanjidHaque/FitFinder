@@ -59,19 +59,19 @@ namespace FitFinderBackEnd.Controllers
         public IHttpActionResult AddNewCandidate(Candidate candidate)
         {
 
-            
+            SharedService sharedService = new SharedService();
 
             Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
             if (userNameClaim == null)
             {
-                
-                return Ok(new { statusText = _statusTextService.UserClaimError });
+               sharedService.DeleteCandidateAttachment(candidate.CandidateAttachments);
+               return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
             ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
             if (applicationUser == null)
             {
-                
+                sharedService.DeleteCandidateAttachment(candidate.CandidateAttachments);
                 return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
@@ -86,24 +86,12 @@ namespace FitFinderBackEnd.Controllers
             if (candidate.JobAssignments[0].JobId != null)
             {
                 candidate.JobAssignments[0].CandidateId = candidate.Id;
-
-                SharedService sharedService = new SharedService();
                 JobAssignment getJobAssignment = sharedService.OnAddJobAssignment(candidate.JobAssignments[0]);
 
 
                 if (getJobAssignment == null)
                 {
-
-                    if (candidate.CandidateAttachments != null)
-                    {
-                        List<string> fileNames = new List<string>();
-                        candidate.CandidateAttachments.ForEach(fileName =>
-                        {
-                            fileNames.Add(fileName.ModifiedFileName);
-                        });
-                        sharedService.OnDeleteAttachment(fileNames);
-                    }
-
+                    sharedService.DeleteCandidateAttachment(candidate.CandidateAttachments);
                     _context.Candidates.Remove(candidate);
                     _context.SaveChanges();
 
@@ -111,8 +99,6 @@ namespace FitFinderBackEnd.Controllers
                 }
 
             }
-
-
 
 
             return Ok(new { candidate, statusText = _statusTextService.Success });
@@ -179,19 +165,22 @@ namespace FitFinderBackEnd.Controllers
         {
             Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
 
+            List<Candidate> candidates = new List<Candidate>();
+
+
             if (userNameClaim == null)
             {
-                return Ok(new { statusText = _statusTextService.UserClaimError });
+                return Ok(new { candidates, statusText = _statusTextService.UserClaimError });
             }
 
             ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
             if (applicationUser == null)
             {
-                return Ok(new { statusText = _statusTextService.UserClaimError });
+                return Ok(new { candidates, statusText = _statusTextService.UserClaimError });
             }
 
 
-            List<Candidate> candidates = _context.Candidates
+            candidates = _context.Candidates
                 .Where(x => x.CompanyId == applicationUser.CompanyId)
                 .OrderByDescending(x => x.Id)
                 .ToList();
@@ -215,11 +204,11 @@ namespace FitFinderBackEnd.Controllers
 
             if (candidate == null)
             {
-                return Ok(new { statusText = _statusTextService.ResourceNotFound });
+                return Ok(new { candidate, statusText = _statusTextService.ResourceNotFound });
             }
 
 
-            List<JobAssignment> jobAssigneds = _context.JobAssignments
+            List<JobAssignment> jobAssignments = _context.JobAssignments
                 .Where(x => x.CandidateId == candidateId)
                 .ToList();
 
@@ -228,9 +217,9 @@ namespace FitFinderBackEnd.Controllers
                 .FirstOrDefault(x => x.Id == candidate.SourceId);
 
 
-            jobAssigneds.ForEach(jobAssigned =>
+            jobAssignments.ForEach(jobAssignment =>
             {
-                Job job = _context.Jobs.FirstOrDefault(x => x.Id == jobAssigned.JobId);
+                Job job = _context.Jobs.FirstOrDefault(x => x.Id == jobAssignment.JobId);
 
                 Workflow workflow = _context.Workflows.FirstOrDefault(x => x.Id == job.WorkflowId);
 
@@ -248,7 +237,7 @@ namespace FitFinderBackEnd.Controllers
                     .ToList();
                
 
-                jobAssigned.Job = job;
+                jobAssignment.Job = job;
 
             });
          

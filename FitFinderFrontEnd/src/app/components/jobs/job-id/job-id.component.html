@@ -16,27 +16,7 @@
           class="far fa-arrow-alt-circle-left"></i> Job Panel</button>
       </div>
 
-      <!--<div class="col-xl-4">-->
-        <!--<button-->
-          <!--(click)="previousJob()"-->
-          <!--matTooltip="Previous Job"-->
-          <!--matTooltipPosition="above"-->
-          <!--style="background-color: transparent; outline: 0;"-->
-          <!--mat-flat-button><i-->
-          <!--style="font-size: 30px;"-->
-          <!--class="fas fa-angle-double-left"></i></button>-->
-      <!--</div>-->
 
-      <!--<div class="col-xl-4">-->
-        <!--<button-->
-          <!--(click)="nextJob()"-->
-          <!--matTooltip="Next Job"-->
-          <!--matTooltipPosition="above"-->
-          <!--style="background-color: transparent; outline: 0;"-->
-          <!--mat-flat-button><i-->
-          <!--style="font-size: 30px;"-->
-          <!--class="fas fa-angle-double-right"></i></button>-->
-      <!--</div>-->
 
     </div>
   </div>
@@ -56,7 +36,7 @@
     </div>
 
     <div class="row"
-         *ngIf="job.JobClosingDate !== '' && job.IsPublished
+         *ngIf="job.ClosingDate !== '' && job.IsPublished
                 && getClosingDays() > 0">
       <div class="col-xl-12"
            style="
@@ -70,7 +50,7 @@
 
 
     <div class="row"
-         *ngIf="job.JobClosingDate !== '' && job.IsPublished
+         *ngIf="job.ClosingDate !== '' && job.IsPublished
                 && getClosingDays() < 0">
       <div class="col-xl-12"
            style="
@@ -132,7 +112,7 @@
 
     <div class="row">
       <div class="col-xl-12" style="font-size: 30px;">
-        {{ job.JobTitle }}
+        {{ job.Title }}
       </div>
     </div>
 
@@ -141,18 +121,18 @@
                style="font-size: 17px;">
             <span
               title="Job Code"
-              *ngIf="job.JobCode !== ''"
-            ><i class="fas fa-paperclip"></i> {{ job.JobCode }} &nbsp;
+              *ngIf="job.Code !== ''"
+            ><i class="fas fa-paperclip"></i> {{ job.Code }} &nbsp;
             </span>
 
             <span
               title="Department"
-            ><i class="far fa-building"></i> {{ getDepartmentName(job.DepartmentId) }} &nbsp;
+            ><i class="far fa-building"></i> {{ job.Department.Name }} &nbsp;
             </span>
 
             <span
               title="Location"
-            ><i class="fas fa-map-marker-alt"></i> {{ job.JobLocation }}
+            ><i class="fas fa-map-marker-alt"></i> {{ job.Location }}
             </span>
 
 

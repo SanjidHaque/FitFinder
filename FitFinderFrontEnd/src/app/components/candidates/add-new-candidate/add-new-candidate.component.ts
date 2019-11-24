@@ -35,6 +35,7 @@ export class AddNewCandidateComponent implements OnInit {
   defaultSource = 'BdJobs';
 
   sources: Source[] = [];
+  jobs: Job[] = [];
 
   filesToUpload: Array<File>;
   @ViewChild('fileUpload', {static: false}) fileUploadVar: any;
@@ -57,7 +58,8 @@ export class AddNewCandidateComponent implements OnInit {
     this.route.data
       .subscribe(
         (data: Data) => {
-          this.sources = data['sources'];
+          this.sources = data['sources'].sources;
+          this.jobs = data['jobs'].jobs;
         }
       );
 
@@ -71,7 +73,7 @@ export class AddNewCandidateComponent implements OnInit {
       'city': new FormControl('', Validators.required),
       'state': new FormControl(''),
       'country': new FormControl('', Validators.required),
-      'sourceId': new FormControl(this.defaultSource, Validators.required),
+      'sourceId': new FormControl('', Validators.required),
       'educations': new FormArray([]),
       'experiences': new FormArray([]),
       'facebookUrl': new FormControl(''),
@@ -229,7 +231,7 @@ export class AddNewCandidateComponent implements OnInit {
       jobAssignments,
       this.addNewCandidateForm.controls['facebookUrl'].value,
       this.addNewCandidateForm.controls['linkedInUrl'].value,
-      this.addNewCandidateForm.controls['gitHubInUrl'].value,
+      '',
       false,
       false,
       false,
@@ -241,15 +243,22 @@ export class AddNewCandidateComponent implements OnInit {
 
 
    this.isDisabled = true;
-   await this.attachmentDataStorageService.uploadAttachments(this.filesToUpload)
-     .subscribe(
-       (data: any) => {
-         if (data.statusText !== 'Success') {
-           this.isDisabled = false;
-           this.notifierService.notify('default', data.statusText);
-           return;
-         }
-       });
+
+   if (this.filesToUpload.length !== 0) {
+
+     await this.attachmentDataStorageService.uploadAttachments(this.filesToUpload)
+       .subscribe(
+         (data: any) => {
+           if (data.statusText !== 'Success') {
+             this.isDisabled = false;
+             this.notifierService.notify('default', data.statusText);
+             return;
+           }
+         });
+
+   }
+
+
 
 
    this.candidateDataStorageService.addNewCandidate(candidate)

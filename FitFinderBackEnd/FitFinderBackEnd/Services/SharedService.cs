@@ -108,10 +108,45 @@ namespace FitFinderBackEnd.Services
                 string filePath = HttpContext.Current.Server.MapPath("~/Content/Attachments/" + fileName);
                 if (File.Exists(filePath))
                 {
-                    File.Delete(filePath);
+                    try
+                    {
+                        File.Delete(filePath);
+                    }
+                    catch (Exception)
+                    {
+                        // ignored
+                    }
                 }
             }); 
 
+        }
+
+
+        public void DeleteCandidateAttachment(List<CandidateAttachment> candidateAttachments)
+        {
+            if (candidateAttachments != null)
+            {
+                List<string> fileNames = new List<string>();
+                candidateAttachments.ForEach(fileName =>
+                {
+                    fileNames.Add(fileName.ModifiedFileName);
+                });
+                OnDeleteAttachment(fileNames);
+            }
+        }
+
+
+        public void DeleteJobAttachment(List<JobAttachment> jobAttachments)
+        {
+            if (jobAttachments != null)
+            {
+                List<string> fileNames = new List<string>();
+                jobAttachments.ForEach(fileName =>
+                {
+                    fileNames.Add(fileName.ModifiedFileName);
+                });
+                OnDeleteAttachment(fileNames);
+            }
         }
 
     }

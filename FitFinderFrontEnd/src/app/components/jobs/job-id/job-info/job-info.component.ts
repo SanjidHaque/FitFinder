@@ -44,9 +44,6 @@ export class JobInfoComponent implements OnInit {
 
     this.route.data.subscribe(
       (data: Data) => {
-        this.jobTypes = data['jobTypes'].jobTypes;
-        this.jobFunctions = data['jobFunctions'].jobFunctions;
-        this.departments = data['departments'].departments;
         this.job = this.jobService.job;
       }
     );
@@ -192,38 +189,10 @@ export class JobInfoComponent implements OnInit {
     window.open('http://localhost:55586/Content/Attachments/' + jobAttachment.ModifiedFileName);
   }
 
-  getJobFunction() {
-
-    if (this.job.JobFunctionId === null) {
-      return '';
-    }
-
-    const jobFunction =  this.jobFunctions
-      .find(x => x.Id === this.job.JobFunctionId);
-
-    if (jobFunction === undefined) {
-      return '';
-    }
-    return jobFunction.Name;
-  }
 
 
-  getJobType() {
-
-    if (this.job.JobTypeId === null) {
-      return '';
-    }
-
-    const jobType =  this.jobTypes
-      .find(x => x.Id === this.job.JobTypeId);
-
-    if (jobType === undefined) {
-      return '';
-    }
-    return jobType.Name;
 
 
-  }
 
 
   getClosingDays() {
@@ -233,10 +202,7 @@ export class JobInfoComponent implements OnInit {
 
   }
 
-  getDepartmentName() {
-    return this.departments.find(
-      x => x.Id === this.job.DepartmentId).Name;
-  }
+
 
   getCreatedDate() {
     return moment(new Date(this.job.PostingDate)).format('Do MMM YYYY')

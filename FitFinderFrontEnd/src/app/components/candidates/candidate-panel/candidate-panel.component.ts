@@ -44,9 +44,9 @@ export class CandidatePanelComponent implements OnInit {
     this.route.data
       .subscribe(
         (data: Data) => {
-          this.jobs = data['jobs'];
-          this.sources = data['sources'];
-          this.candidates = data['candidates'];
+          this.jobs = data['jobs'].jobs;
+          this.sources = data['sources'].sources;
+          this.candidates = data['candidates'].candidates;
         }
       );
 
@@ -202,15 +202,6 @@ export class CandidatePanelComponent implements OnInit {
       this.candidates.forEach(row => this.selection.select(row));
   }
 
-
-  getCandidateSourceName(candidate: Candidate) {
-    const source = this.sources.find(x => x.Id === candidate.SourceId);
-
-    if (source === undefined) {
-      return '';
-    }
-    return source.Name;
-  }
 
   getInterviewDate() {
 

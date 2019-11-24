@@ -19,6 +19,7 @@ import {PipelineStageCriterion} from '../../../models/settings/pipeline-stage-cr
 import {PipelineStage} from '../../../models/settings/pipeline-stage.model';
 import {GapiService} from '../../../services/google-api-services/gapi.service';
 import {AttachmentDataStorageService} from '../../../services/data-storage-services/attachment-data-storage.service';
+import {Pipeline} from '../../../models/settings/pipeline.model';
 
 @Component({
   selector: 'app-add-new-job',
@@ -153,6 +154,33 @@ export class AddNewJobComponent implements OnInit {
   }
 
   async addNewJob() {
+
+    const workflow = new Workflow(
+      null,
+      null,
+      null,
+      null,
+      [
+        new Pipeline(
+          null,
+          null,
+          null,
+          null,
+          [
+            new PipelineStage(
+              null,
+              null,
+              null,
+              null,
+              null,
+              this.getJobSpecificPipelineStageCriteria()
+            )
+          ]
+        )
+      ]
+    );
+
+
     const job = new Job(
       null,
       this.addNewJobForm.controls['title'].value,
@@ -181,11 +209,10 @@ export class AddNewJobComponent implements OnInit {
       false,
       null,
       null,
-      null,
+      workflow,
       this.addNewJobForm.controls['workflowId'].value,
     );
 
-    this.isDisabled = true;
 
 
     this.isDisabled = true;
@@ -199,6 +226,10 @@ export class AddNewJobComponent implements OnInit {
           }
         });
 
+
+
+
+
     this.jobDataStorageService.addNewJob(job)
       .subscribe(
         (data: any) => {
@@ -208,55 +239,24 @@ export class AddNewJobComponent implements OnInit {
             this.notifierService.notify('default', data.statusText);
             return;
 
+
+
           } else {
 
+            this.router.navigate(['/jobs/', data.job.Id]);
+            this.notifierService.notify('default', 'New job published.');
 
-            const jobSpecificPipelineStageCriteria = this.getJobSpecificPipelineStageCriteria(data.job.Id);
+            const jobs: Job[] = [];
+            jobs.push(data.job);
+            this.gapiService.syncToDrive(this.departments, jobs);
 
-            this.settingsDataStorageService.addNewPipelineStageCriteriaForNewJob(jobSpecificPipelineStageCriteria)
-              .subscribe((response: any) => {
-
-                if (data.statusText !== 'Success') {
-
-                  this.isDisabled = false;
-                  this.notifierService.notify('default', data.statusText);
-                  return;
-                }
-
-              });
           }
         });
 
 
-    // await this.jobDataStorageService.addNewJob(job)
-    //    .subscribe(
-    //      (data: any) => {
-    //        this.candidateDataStorageService.uploadAttachments(this.filesToUpload)
-    //          .subscribe(
-    //            (response: any) => {
-    //
-    //              this.settingsDataStorageService
-    //                .addNewPipelineStageCriteriaForNewJob()
-    //                .subscribe((reply: any) => {
-    //
-    //                  this.router.navigate(['/jobs/', data.job.Id ]);
-    //                  this.notifierService.notify('default', 'New job published.');
-    //
-    //                  const jobs: Job[] = [];
-    //                  jobs.push(data.job);
-    //
-    //                  this.gapiService.syncToDrive(this.departments, jobs);
-    //
-    //                });
-    //
-    //
-    //
-    //
-    //            });
-    //      });
   }
 
-  getJobSpecificPipelineStageCriteria(jobId: number) {
+  getJobSpecificPipelineStageCriteria() {
     const workflowId = this.addNewJobForm.controls['workflowId'].value;
     const workflow = this.workflows.find(x => x.Id === workflowId);
     const pipelineStageCriteria: PipelineStageCriterion[] = [];
@@ -270,7 +270,6 @@ export class AddNewJobComponent implements OnInit {
 
         pipelineStage.PipelineStageCriteria.forEach((pipelineStageCriterion) => {
           if (pipelineStageCriterion.Id === null) {
-            pipelineStageCriterion.JobId = jobId;
             pipelineStageCriteria.push(pipelineStageCriterion);
           }
         });

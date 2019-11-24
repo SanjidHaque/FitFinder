@@ -58,13 +58,13 @@
 <div class="row">
   <div class="col-xl-5">
 
-    <div *ngIf="job.JobCode!== ''"
+    <div *ngIf="job.Code!== null"
          class="row"
          style="padding-top: 3px;
          font-size: 14px;
          padding-bottom: 3px;">
       <div class="col-xl-12">
-        <i class="fas fa-paperclip"></i> &nbsp;{{ job.JobCode }}
+        <i class="fas fa-paperclip"></i> &nbsp;{{ job.Code }}
       </div>
     </div>
 
@@ -73,7 +73,7 @@
          font-size: 15px;
          padding-bottom: 3px;">
       <div class="col-xl-12">
-        <i class="far fa-building"></i> &nbsp;{{ getDepartmentName() }}
+        <i class="far fa-building"></i> &nbsp;{{ job.Department.Name }}
       </div>
     </div>
 
@@ -82,7 +82,7 @@
          font-size: 15px;
          padding-bottom: 3px;">
       <div class="col-xl-12">
-        <i class="fas fa-map-marker-alt"></i> &nbsp;{{ job.JobLocation }}
+        <i class="fas fa-map-marker-alt"></i> &nbsp;{{ job.Location }}
       </div>
     </div>
 
@@ -132,71 +132,71 @@
 
     <hr>
 
-    <div class="row" *ngIf="getJobFunction() !== ''">
+    <div class="row" *ngIf="job.JobFunction.Name !== null">
       <div class="col-xl-12">
         <strong style="font-size: 13px;">Function : </strong>
-        <span style="font-size: 14px;">{{ getJobFunction() }}</span>
+        <span style="font-size: 14px;">{{ job.JobFunction.Name }}</span>
       </div>
     </div>
 
-    <div class="row" *ngIf="getJobType() !== ''">
+    <div class="row" *ngIf="job.JobType.Name !== null">
       <div class="col-xl-12">
         <strong style="font-size: 13px;">Type : </strong>
-        <span style="font-size: 14px;">{{ getJobType() }}</span>
+        <span style="font-size: 14px;">{{ job.JobType.Name }}</span>
       </div>
     </div>
 
     <div class="row">
       <div class="col-xl-12">
         <strong style="font-size: 13px;">Positions : </strong>
-        <span style="font-size: 14px;">{{ job.JobPositions }}</span>
+        <span style="font-size: 14px;">{{ job.Positions }}</span>
       </div>
     </div>
 
-    <div *ngIf="job.JobExperienceStarts !== null && job.JobExperienceEnds !== null">
+    <div *ngIf="job.ExperienceStarts !== null && job.ExperienceEnds !== null">
 
-      <div class="row" *ngIf="job.JobExperienceStarts < job.JobExperienceEnds">
+      <div class="row" *ngIf="job.ExperienceStarts < job.ExperienceEnds">
         <div class="col-xl-12">
           <strong style="font-size: 13px;">Experience : </strong>
-          <span style="font-size: 14px;">{{ job.JobExperienceStarts }} -
-            {{ job.JobExperienceEnds }} years</span>
+          <span style="font-size: 14px;">{{ job.ExperienceStarts }} -
+            {{ job.ExperienceEnds }} years</span>
         </div>
       </div>
 
-      <div class="row" *ngIf="job.JobExperienceStarts === job.JobExperienceEnds">
+      <div class="row" *ngIf="job.ExperienceStarts === job.ExperienceEnds">
         <div class="col-xl-12">
           <strong style="font-size: 13px;">Experience : </strong>
-          <span style="font-size: 14px;">{{ job.JobExperienceEnds }} years</span>
+          <span style="font-size: 14px;">{{ job.ExperienceEnds }} years</span>
         </div>
       </div>
 
-      <div class="row" *ngIf="job.JobExperienceStarts > job.JobExperienceEnds">
+      <div class="row" *ngIf="job.ExperienceStarts > job.ExperienceEnds">
         <div class="col-xl-12">
           <strong style="font-size: 13px;">Experience : </strong>
-          <span style="font-size: 14px;">{{ job.JobExperienceEnds }} -
-            {{ job.JobExperienceStarts }} years</span>
+          <span style="font-size: 14px;">{{ job.ExperienceEnds }} -
+            {{ job.ExperienceStarts }} years</span>
         </div>
       </div>
 
     </div>
 
-    <div *ngIf="job.JobExperienceStarts !== null && job.JobExperienceEnds === null">
+    <div *ngIf="job.ExperienceStarts !== null && job.ExperienceEnds === null">
 
       <div class="row">
         <div class="col-xl-12">
           <strong style="font-size: 13px;">Experience : </strong>
-          <span style="font-size: 14px;">{{ job.JobExperienceStarts }} years</span>
+          <span style="font-size: 14px;">{{ job.ExperienceStarts }} years</span>
         </div>
       </div>
 
       </div>
 
-    <div *ngIf="job.JobExperienceStarts === null && job.JobExperienceEnds !== null">
+    <div *ngIf="job.ExperienceStarts === null && job.ExperienceEnds !== null">
 
       <div class="row">
         <div class="col-xl-12">
           <strong style="font-size: 13px;">Experience : </strong>
-          <span style="font-size: 14px;">{{ job.JobExperienceEnds }} years</span>
+          <span style="font-size: 14px;">{{ job.ExperienceEnds }} years</span>
         </div>
       </div>
 
@@ -209,52 +209,52 @@
 
 
 
-<div *ngIf="job.JobSalaryStarts !== null && job.JobSalaryEnds !== null">
+<div *ngIf="job.SalaryStarts !== null && job.SalaryEnds !== null">
 
-  <div *ngIf="job.JobSalaryStarts !== null && job.JobSalaryEnds !== null">
+  <div *ngIf="job.SalaryStarts !== null && job.SalaryEnds !== null">
 
-    <div class="row" *ngIf="job.JobSalaryStarts < job.JobSalaryEnds">
+    <div class="row" *ngIf="job.SalaryStarts < job.SalaryEnds">
       <div class="col-xl-12">
         <strong style="font-size: 13px;">Salary : </strong>
-        <span style="font-size: 14px;">BDT {{ job.JobSalaryStarts }} -
-          {{ job.JobSalaryEnds }}</span>
+        <span style="font-size: 14px;">BDT {{ job.SalaryStarts }} -
+          {{ job.SalaryEnds }}</span>
       </div>
     </div>
 
-    <div class="row" *ngIf="job.JobSalaryStarts === job.JobSalaryEnds">
+    <div class="row" *ngIf="job.SalaryStarts === job.SalaryEnds">
       <div class="col-xl-12">
         <strong style="font-size: 13px;">Salary : </strong>
-        <span style="font-size: 14px;">BDT {{ job.JobSalaryEnds }}</span>
+        <span style="font-size: 14px;">BDT {{ job.SalaryEnds }}</span>
       </div>
     </div>
 
-    <div class="row" *ngIf="job.JobSalaryStarts > job.JobSalaryEnds">
+    <div class="row" *ngIf="job.SalaryStarts > job.SalaryEnds">
       <div class="col-xl-12">
         <strong style="font-size: 13px;">Salary : </strong>
-        <span style="font-size: 14px;">BDT {{ job.JobSalaryEnds }} -
-          {{ job.JobSalaryStarts }}</span>
+        <span style="font-size: 14px;">BDT {{ job.SalaryEnds }} -
+          {{ job.SalaryStarts }}</span>
       </div>
     </div>
 
   </div>
 
-  <div *ngIf="job.JobSalaryStarts !== null && job.JobSalaryEnds === null">
+  <div *ngIf="job.SalaryStarts !== null && job.SalaryEnds === null">
 
     <div class="row">
       <div class="col-xl-12">
         <strong style="font-size: 13px;">Salary : </strong>
-        <span style="font-size: 14px;">BDT {{ job.JobSalaryStarts }}</span>
+        <span style="font-size: 14px;">BDT {{ job.SalaryStarts }}</span>
       </div>
     </div>
 
   </div>
 
-  <div *ngIf="job.JobSalaryStarts === null && job.JobSalaryEnds !== null">
+  <div *ngIf="job.SalaryStarts === null && job.SalaryEnds !== null">
 
     <div class="row">
       <div class="col-xl-12">
         <strong style="font-size: 13px;">Salary : </strong>
-        <span style="font-size: 14px;">BDT {{ job.JobSalaryEnds }}</span>
+        <span style="font-size: 14px;">BDT {{ job.SalaryEnds }}</span>
       </div>
     </div>
 
@@ -289,8 +289,8 @@
     </div>
     <hr>
 
-    <div class="row" *ngIf="job.JobAttachment !== null; else noAttachments">
-      <div class="col-xl-12" *ngFor="let jobAttachment of job.JobAttachment">
+    <div class="row" *ngIf="job.JobAttachments !== null; else noAttachments">
+      <div class="col-xl-12" *ngFor="let jobAttachment of job.JobAttachments">
 
         <div class="row">
           <div class="col-xl-10" style="
@@ -499,7 +499,7 @@
     </div>
     <hr>
 
-    <div class="row" *ngIf="job.JobDescription !== ''; else noDescription">
+    <div class="row" *ngIf="job.Description !== ''; else noDescription">
       <div class="col-xl-12" id="job-description">
         {{ getJobDescription() }}
       </div>
@@ -530,13 +530,13 @@
     </div>
     <hr>
 
-    <div class="row" *ngIf="job.JobImmediate !== ''; else noImmediate">
+    <div class="row" *ngIf="job.ImmediateSkills !== ''; else noImmediateSkills">
       <div class="col-xl-12" id="job-immediate">
         {{ getImmediateSkill() }}
       </div>
     </div>
 
-    <ng-template #noImmediate>
+    <ng-template #noImmediateSkills>
       <div class="row" style="
         opacity: .7;
         font-size: 14px;">
@@ -554,13 +554,13 @@
     </div>
     <hr>
 
-    <div class="row" *ngIf="job.JobIntermediate !== ''; else noIntermediate">
+    <div class="row" *ngIf="job.IntermediateSkills !== ''; else noIntermediateSkills">
       <div class="col-xl-12" id="job-intermediate">
         {{ getIntermediateSkill() }}
       </div>
     </div>
 
-    <ng-template #noIntermediate>
+    <ng-template #noIntermediateSkills>
       <div class="row" style="
         opacity: .7;
         font-size: 14px;">
@@ -578,13 +578,13 @@
     </div>
     <hr>
 
-    <div class="row" *ngIf="job.JobGoodToHave !== ''; else noGoodToHave">
+    <div class="row" *ngIf="job.GoodToHaveSkills !== ''; else noGoodToHaveSkills">
       <div class="col-xl-12" id="job-good-to-have">
         {{ getGoodToHaveSkill() }}
       </div>
     </div>
 
-    <ng-template #noGoodToHave>
+    <ng-template #noGoodToHaveSkills>
       <div class="row" style="
         opacity: .7;
         font-size: 14px;">

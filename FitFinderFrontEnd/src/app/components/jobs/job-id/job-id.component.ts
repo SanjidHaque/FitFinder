@@ -40,8 +40,7 @@ export class JobIdComponent implements OnInit {
       .subscribe(
         (data: Data) => {
           this.job = data['job'].job;
-          this.departments = data['departments'].departments;
-           this.jobService.job = this.job;
+          this.jobService.job = this.job;
         }
       );
   }

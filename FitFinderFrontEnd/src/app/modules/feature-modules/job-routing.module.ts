@@ -53,8 +53,7 @@ const jobRoutes: Routes = [
         component: JobIdComponent,
         resolve:
           {
-            job: JobResolverService,
-            departments: DepartmentsResolverService
+            job: JobResolverService
           },
         children:
           [
@@ -65,13 +64,7 @@ const jobRoutes: Routes = [
             },
             {
               path: 'job-info',
-              component: JobInfoComponent,
-              resolve:
-                {
-                  departments: DepartmentsResolverService,
-                  jobFunctions: JobFunctionsResolverService,
-                  jobTypes: JobTypesResolverService
-                }
+              component: JobInfoComponent
             },
             {
               path: 'job-candidates',

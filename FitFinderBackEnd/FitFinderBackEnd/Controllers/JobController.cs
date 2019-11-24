@@ -58,24 +58,37 @@ namespace FitFinderBackEnd.Controllers
         [Route("api/AddNewJob")]
         public IHttpActionResult AddNewJob(Job job)
         {
+
+            SharedService sharedService = new SharedService();
             Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
 
             if (userNameClaim == null)
             {
+                sharedService.DeleteJobAttachment(job.JobAttachments);
                 return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
             ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
             if (applicationUser == null)
             {
+                sharedService.DeleteJobAttachment(job.JobAttachments);
                 return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
             job.CompanyId = applicationUser.CompanyId;
-
             _context.Jobs.Add(job);
-
             _context.SaveChanges();
+
+            List<PipelineStageCriterion> newPipelineStageCriteria = new List<PipelineStageCriterion>();
+            newPipelineStageCriteria = job.Workflow.Pipelines[0].PipelineStages[0].PipelineStageCriteria;
+
+            if (newPipelineStageCriteria.Count != 0)
+            {
+                newPipelineStageCriteria.ForEach(x => x.JobId = job.Id );
+                _context.PipelineStageCriteria.AddRange(newPipelineStageCriteria);
+                _context.SaveChanges();
+            }
+
             return Ok(new { job,  statusText = _statusTextService.Success });
         }
 
@@ -121,25 +134,26 @@ namespace FitFinderBackEnd.Controllers
         [AllowAnonymous]
         public IHttpActionResult GetAllJob()
         {
+            List<Job> jobs = new List<Job>();
             Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
 
             if (userNameClaim == null)
             {
-                return Ok(new { statusText = _statusTextService.UserClaimError });
+                return Ok(new { jobs, statusText = _statusTextService.UserClaimError });
             }
 
             ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
             if (applicationUser == null)
             {
-                return Ok(new { statusText = _statusTextService.UserClaimError });
+                return Ok(new { jobs, statusText = _statusTextService.UserClaimError });
             }
 
 
-            List<Job> job = _context.Jobs
+            jobs = _context.Jobs
                 .Where(x => x.CompanyId == applicationUser.CompanyId)
                 .ToList();
 
-            return Ok(new { job, statusText = _statusTextService.Success });
+            return Ok(new { jobs, statusText = _statusTextService.Success });
         }
 
         [HttpGet]

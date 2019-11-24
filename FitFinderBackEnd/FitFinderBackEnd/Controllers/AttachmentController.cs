@@ -55,28 +55,25 @@ namespace FitFinderBackEnd.Controllers
         public IHttpActionResult UploadAttachments()
         {
 
-            //var httpRequest = HttpContext.Current.Request;
-            //for (int i = 0; i < httpRequest.Files.Count; i++)
-            //{
-            //    try
-            //    {
-            //        var postedFile = httpRequest.Files[i];
-            //        var filePath = HttpContext.Current.Server.MapPath("~/Content/Attachments/" + postedFile.FileName);
-            //        postedFile.SaveAs(filePath);
-            //    }
-            //    catch (HttpException)
-            //    {
-            //        return Ok(new {statusText = _statusTextService.SomethingWentWrong});
-            //    }
+            var httpRequest = HttpContext.Current.Request;
+            for (int i = 0; i < httpRequest.Files.Count; i++)
+            {
+                try
+                {
+                    var postedFile = httpRequest.Files[i];
+                    var filePath = HttpContext.Current.Server.MapPath("~/Content/Attachments/" + postedFile.FileName);
+                    postedFile.SaveAs(filePath);
+                }
+                catch (HttpException)
+                {
+                    return Ok(new { statusText = _statusTextService.SomethingWentWrong });
+                }
 
-            //}
-
-            HttpRequest httpRequest = HttpContext.Current.Request;  
-            HttpPostedFile candidate = httpRequest.Files["Candidate"];
+            }
 
 
 
-            return Ok(new { candidate, statusText = _statusTextService.Success });
+            return Ok(new {statusText = _statusTextService.Success });
         }
 
 

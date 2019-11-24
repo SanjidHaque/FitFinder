@@ -40,8 +40,8 @@ export class JobPanelComponent implements OnInit {
     this.route.data
       .subscribe(
         (data: Data) => {
-          this.jobs = data['jobs'];
-          this.departments = data['departments'];
+          this.jobs = data['jobs'].jobs;
+          this.departments = data['departments'].departments;
         }
       );
  //   this.jobs = this.jobService.getAllJob().filter(x => x.IsArchived === false);
