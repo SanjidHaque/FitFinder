@@ -24,12 +24,25 @@ export class CandidateDataStorageService {
     return this.httpClient.get<Candidate>(`${this.rootUrl + '/api/GetCandidate'}/${candidateId}`);
   }
 
+  //
+  // addNewCandidate(candidate: Candidate) {
+  //   return this.httpClient.post<Candidate>(this.rootUrl + '/api/AddNewCandidate', candidate);
+  // }
 
   addNewCandidate(candidate: Candidate) {
-    return this.httpClient.post<Candidate>(this.rootUrl + '/api/AddNewCandidate', candidate);
+    const formData = new FormData();
+
+    const c : Candidate[] = [];
+    c.push(candidate);
+    const i = 0;
+
+    for (let i = 0; i < c.length; i++) {
+      formData.append('Candidate', c[i]);
+    }
+
+   // formData.append('Candidate', c[i]);
+    return this.httpClient.post(this.rootUrl + '/api/UploadAttachments', formData);
   }
-
-
 
 
   archiveCandidates(candidates: Candidate[]) {

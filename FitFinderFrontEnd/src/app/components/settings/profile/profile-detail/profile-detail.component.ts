@@ -45,8 +45,6 @@ export class ProfileDetailComponent implements OnInit {
     subscribe(
       (data: Data) => {
 
-
-
         this.currentUserAccount = data['currentUserAccount'].userAccount;
         this.company = data['company'].company;
         this.departments = data['departments'].departments;

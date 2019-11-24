@@ -51,11 +51,11 @@ export class AddNewInterviewComponent implements OnInit {
   ];
 
   interviewTypes = [
-    {id: 1, type: 'Face to Face'},
-    {id: 2, type: 'Telephonic'},
-    {id: 3, type: 'Video Conference'},
-    {id: 4, type: 'Group'},
-    {id: 5, type: 'Panel'}
+    {Type: 'Face to Face'},
+    {Type: 'Telephonic'},
+    {Type: 'Video Conference'},
+    {Type: 'Group'},
+    {Type: 'Panel'}
   ];
 
   constructor(private dialog: MatDialog,
@@ -72,9 +72,9 @@ export class AddNewInterviewComponent implements OnInit {
     this.route.data
       .subscribe(
         (data: Data) => {
-          this.jobs = data['jobs'];
-          this.candidates = data['candidates'];
-          this.sources = data['sources'];
+          this.jobs = data['jobs'].jobs;
+          this.candidates = data['candidates'].candidates;
+          this.sources = data['sources'].sources;
         }
       );
 
@@ -82,7 +82,7 @@ export class AddNewInterviewComponent implements OnInit {
     this.addNewInterviewForm = new FormGroup({
       'date': new FormControl('', Validators.required),
       'name': new FormControl(''),
-      'interviewers': new FormControl('', Validators.required),
+      'userAccounts': new FormControl('', Validators.required),
       'location': new FormControl(''),
       'startTime': new FormControl('10:00', Validators.required),
       'endTime': new FormControl('11:30', Validators.required),

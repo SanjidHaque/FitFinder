@@ -344,8 +344,15 @@ namespace FitFinderBackEnd.Controllers
 
             SettingsService settingsService = new SettingsService();
             settingsService.GenerateDefaultWorkflow(company.Id);
-            long departmentId = settingsService.GenerateDefaultDepartment(company.Id);
 
+            long departmentId = settingsService.GenerateDefaultDepartment(company.Id);
+            settingsService.GenerateDefaultSources(company.Id);
+            settingsService.GenerateDefaulJobTypes(company.Id);
+            settingsService.GenerateDefaultJobFunction(company.Id);
+            settingsService.GenerateDefaultWithdrawnReasons(company.Id);
+            settingsService.GenerateDefaultWithdrawnReasons(company.Id);
+
+            _context.SaveChanges();
             return Ok(new { statusText = _statusTextService.Success, companyId = company.Id, departmentId });
         }
 
@@ -798,7 +805,8 @@ namespace FitFinderBackEnd.Controllers
             var roles = roleManager.Roles.Select(x => new { x.Id, x.Name }).ToList();
             roles.RemoveAt(0);
 
-            return Ok(new { roles, statusText = _statusTextService.Success });
+            // return Ok(new { roles, statusText = _statusTextService.Success });
+            return Ok(roles);
         }
 
         [HttpGet]

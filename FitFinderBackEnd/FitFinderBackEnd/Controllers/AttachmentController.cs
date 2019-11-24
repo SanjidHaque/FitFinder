@@ -54,36 +54,29 @@ namespace FitFinderBackEnd.Controllers
         [AllowAnonymous]
         public IHttpActionResult UploadAttachments()
         {
-            Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
 
-            if (userNameClaim == null)
-            {
-                return Ok(new { statusText = _statusTextService.UserClaimError });
-            }
+            //var httpRequest = HttpContext.Current.Request;
+            //for (int i = 0; i < httpRequest.Files.Count; i++)
+            //{
+            //    try
+            //    {
+            //        var postedFile = httpRequest.Files[i];
+            //        var filePath = HttpContext.Current.Server.MapPath("~/Content/Attachments/" + postedFile.FileName);
+            //        postedFile.SaveAs(filePath);
+            //    }
+            //    catch (HttpException)
+            //    {
+            //        return Ok(new {statusText = _statusTextService.SomethingWentWrong});
+            //    }
 
-            ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
-            if (applicationUser == null)
-            {
-                return Ok(new { statusText = _statusTextService.UserClaimError });
-            }
+            //}
 
-            var httpRequest = HttpContext.Current.Request;
-            for (int i = 0; i < httpRequest.Files.Count; i++)
-            {
-                try
-                {
-                    var postedFile = httpRequest.Files[i];
-                    var filePath = HttpContext.Current.Server.MapPath("~/Content/Attachments/" + postedFile.FileName);
-                    postedFile.SaveAs(filePath);
-                }
-                catch (HttpException)
-                {
-                    return Ok(new {statusText = _statusTextService.SomethingWentWrong});
-                }
-               
-            }
+            HttpRequest httpRequest = HttpContext.Current.Request;  
+            HttpPostedFile candidate = httpRequest.Files["Candidate"];
 
-            return Ok(new { statusText = _statusTextService.Success });
+
+
+            return Ok(new { candidate, statusText = _statusTextService.Success });
         }
 
 

@@ -16,7 +16,7 @@ namespace FitFinderBackEnd.Services
             _context = new ApplicationDbContext();
         }
 
-        public void GenerateDefaultWorkflow(long companyId)
+        public void GenerateDefaultWorkflow(long? companyId)
         {
 
             Workflow workflow = new Workflow
@@ -116,25 +116,147 @@ namespace FitFinderBackEnd.Services
                         } }
             };
 
-
-
             _context.Workflows.Add(workflow);
-
-
-
-            //  _context.SaveChanges();
         }
 
         public long GenerateDefaultDepartment(long companyId)
         {
             Department department = new Department
             {
-               CompanyId = companyId,
-               Name = "Development"
+                CompanyId = companyId,
+                Name = "Development"
             };
             _context.Departments.Add(department);
             _context.SaveChanges();
             return department.Id;
         }
+
+        public void GenerateDefaultSources(long companyId)
+        {
+            List<Source> sources = new List<Source>
+            {
+                new Source()
+                {
+                    CompanyId = companyId,
+                    Name = "Bdjobs.com"
+                },
+                new Source()
+                {
+                    CompanyId = companyId,
+                    Name = "LinkedIn"
+                },
+                new Source()
+                {
+                    CompanyId = companyId,
+                    Name = "Facebook"
+                }
+            };
+
+            _context.Sources.AddRange(sources);
+            
+           
+        }   
+
+        public void GenerateDefaulJobTypes(long companyId)
+        {
+
+            List<JobType> jobTypes = new List<JobType>
+            {
+                new JobType()
+                {
+                    CompanyId = companyId,
+                    Name = "Full-Time"
+                },
+                new JobType()
+                {
+                    CompanyId = companyId,
+                    Name = "Part-Time"
+                },
+                new JobType()
+                {
+                    CompanyId = companyId,
+                    Name = "Intern"
+                }
+            };
+           
+            _context.JobTypes.AddRange(jobTypes);
+          
+            
+        }
+
+        public void GenerateDefaultJobFunction(long companyId)
+        {
+
+            List<JobFunction> jobFunctions = new List<JobFunction>
+            {
+                new JobFunction()
+                {
+                    CompanyId = companyId,
+                    Name = "Development"
+                },
+                new JobFunction()
+                {
+                    CompanyId = companyId,
+                    Name = "Human Resource"
+                },
+                new JobFunction()
+                {
+                    CompanyId = companyId,
+                    Name = "Account"
+                }
+            };
+          
+            _context.JobFunctions.AddRange(jobFunctions);
+            
+            
+        }
+
+        public void GenerateDefaultWithdrawnReasons(long companyId)
+        {
+           
+            List<WithdrawnReason> withdrawnReasons = new List<WithdrawnReason>
+            {
+                new WithdrawnReason()
+                {
+                    CompanyId = companyId,
+                    Name = "Withdrew to accept another job"
+                },
+                new WithdrawnReason()
+                {
+                    CompanyId = companyId,
+                    Name = "Declined the position when offered"
+                },
+                new WithdrawnReason()
+                {
+                    CompanyId = companyId,
+                    Name = "Not available for interview"
+                }
+            };
+
+            _context.WithdrawnReasons.AddRange(withdrawnReasons);
+            _context.SaveChanges();
+        }
+
+        public void GenerateDefaultRejectedReasons(long companyId)
+        {
+           List<RejectedReason> rejectedReasons = new List<RejectedReason>
+           {
+               new RejectedReason()
+               {
+                   CompanyId = companyId,
+                   Name = "Does not have minimum qualifications"
+               },
+               new RejectedReason()
+               {
+                   CompanyId = companyId,
+                   Name = "Reference check unsatisfactory"
+               }
+           };
+            _context.RejectedReasons.AddRange(rejectedReasons);
+           
+          
+        }
+
+      
     }
 }
