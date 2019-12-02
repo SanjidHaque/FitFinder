@@ -1,3 +1,6 @@
+<form [formGroup]="textFieldForm"
+      #form="ngForm">
+
 
 
 <h3 mat-dialog-title>{{ data.header }}</h3>
@@ -12,7 +15,9 @@
 
   <div class="col-xl-10">
     <mat-form-field style="width: 100%">
-      <input required [(ngModel)]="data.name" matInput>
+      <input required
+             formControlName="inputText"
+             matInput>
       <mat-error>This field is required!</mat-error>
     </mat-form-field>
   </div>
@@ -35,18 +40,19 @@
     <mat-dialog-actions align="end">
       <button
         mat-flat-button
-        [disabled]="data.name == ''"
-        [mat-dialog-close]="data.name"
+        [disabled]="!form.valid"
         color="primary"
+        (click)="confirmClick()"
         style="outline: 0;"
       >Save</button>
       <button
         mat-stroked-button
-        mat-dialog-close
+        (click)="cancelClick()"
         style="outline: 0;"
-        mat-dialog-close>Cancel</button>
+        >Cancel</button>
     </mat-dialog-actions>
 
 
   </div>
 
+</form>

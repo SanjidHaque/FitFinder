@@ -1,6 +1,7 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {FormControl} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {noWhitespaceValidator} from '../../custom-form-validators/no-white-space.validator';
 
 @Component({
   selector: 'app-add-update',
@@ -9,14 +10,24 @@ import {FormControl} from '@angular/forms';
 })
 export class AddUpdateDialogComponent {
 
-  constructor(
-    public dialogRef: MatDialogRef<AddUpdateDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) {
+  textFieldForm: FormGroup;
+  constructor(public dialogRef: MatDialogRef<AddUpdateDialogComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: any) {
+    this.textFieldForm = new FormGroup({
+      'inputText': new FormControl(data.name, [Validators.required, noWhitespaceValidator])
+    });
   }
 
-  noWhitespaceValidator(control: FormControl) {
-    const isWhitespace = (control.value || '').trim().length === 0;
-    const isValid = !isWhitespace;
-    return isValid ? null : {'whitespace': true};
+
+  cancelClick() {
+    this.data.confirmationStatus = false;
+    this.dialogRef.close('');
   }
+
+  confirmClick() {
+    this.data.confirmationStatus = true;
+    this.dialogRef.close(this.textFieldForm.controls['inputText'].value);
+  }
+
+
 }

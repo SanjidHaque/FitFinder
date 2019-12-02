@@ -250,6 +250,11 @@ namespace FitFinderBackEnd.Services
                {
                    CompanyId = companyId,
                    Name = "Reference check unsatisfactory"
+               },
+               new RejectedReason()
+               {
+                   CompanyId = companyId,
+                   Name = "Poor resume format"
                }
            };
             _context.RejectedReasons.AddRange(rejectedReasons);

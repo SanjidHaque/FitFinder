@@ -61,6 +61,7 @@ export class DisqualifyReasonsComponent implements OnInit {
   addNewWithdrawnReason() {
     this.settingsService.addNewWithdrawnReason().then(result => {
       if (result !== '') {
+
         const withdrawnReason = new WithdrawnReason(
           null,
           result,
