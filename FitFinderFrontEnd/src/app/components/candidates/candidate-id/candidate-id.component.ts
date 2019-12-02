@@ -21,7 +21,6 @@ import {CriteriaScore} from '../../../models/settings/criteria-score.model';
 import {StageComment} from '../../../models/settings/stage-comment.model';
 import {NotifierService} from 'angular-notifier';
 import {ConfirmationDialogComponent} from '../../../dialogs/confirmation-dialog/confirmation-dialog.component';
-import {DeleteDialogComponent} from '../../../dialogs/delete-dialog/delete-dialog.component';
 import {CandidateService} from '../../../services/shared-services/candidate.service';
 import {Department} from '../../../models/settings/department.model';
 import {JobAssignmentDataStorageService} from '../../../services/data-storage-services/job-assignment-data-storage.service';

@@ -55,7 +55,7 @@ export class JobDataStorageService {
   }
 
   deleteJob(jobId: number) {
-    return this.httpClient.delete(`${this.rootUrl + 'api/DeleteJob'}/${jobId}`);
+    return this.httpClient.delete(`${this.rootUrl + '/api/DeleteJob'}/${jobId}`);
   }
 
 }

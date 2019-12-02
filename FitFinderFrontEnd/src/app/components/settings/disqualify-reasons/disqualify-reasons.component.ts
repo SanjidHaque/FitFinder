@@ -6,6 +6,8 @@ import {NotifierService} from 'angular-notifier';
 import {RejectedReason} from '../../../models/settings/rejected-reason.model';
 import {WithdrawnReason} from '../../../models/settings/withdrawn-reason.model';
 import {ActivatedRoute, Data} from '@angular/router';
+import {DialogService} from '../../../services/dialog-services/dialog.service';
+import {SettingsService} from '../../../services/shared-services/settings.service';
 
 @Component({
   selector: 'app-disqualify-reasons',
@@ -13,12 +15,15 @@ import {ActivatedRoute, Data} from '@angular/router';
   styleUrls: ['./disqualify-reasons.component.css']
 })
 export class DisqualifyReasonsComponent implements OnInit {
+  isDisabled = false;
 
   rejectedReasons: RejectedReason[] = [];
   withdrawnReasons: WithdrawnReason[] = [];
 
-  constructor(private commonDialog: MatDialog,
+  constructor(private matDialog: MatDialog,
               private route: ActivatedRoute,
+              private dialogService: DialogService,
+              private settingsService: SettingsService,
               private settingsDataStorageService: SettingsDataStorageService,
               private notifierService: NotifierService) { }
 
@@ -31,59 +36,30 @@ export class DisqualifyReasonsComponent implements OnInit {
     );
   }
 
-  addNewRejectedReasonDialog() {
-    const dialogRef = this.commonDialog.open(AddUpdateDialogComponent,
-      {
-        hasBackdrop: true,
-        disableClose: true,
-        width: '500px',
-        data:
-          {
-            header: 'New Rejected Reason',
-            name: '',
-            iconClass: 'fas fa-ban',
-            footer: 'Add or update different reasons for rejection by hiring manager.'
-          }
-      });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result !== '') {
-        const rejectedReason = new RejectedReason(
+  addNewRejectedReason() {
+    this.settingsService.addNewRejectedReason().then(result => {
+      const rejectedReason = new RejectedReason(
           null,
           result,
           null,
           null
         );
 
-
-        this.settingsDataStorageService.addNewRejectedReason(rejectedReason)
-          .subscribe(
-            (newRejectedReason: RejectedReason) => {
-              this.rejectedReasons.push(newRejectedReason);
+        this.settingsDataStorageService.addNewRejectedReason(rejectedReason).subscribe(
+          (data: any) => {
+            if (data.statusText !== 'Success') {
+              this.notifierService.notify('default', data.statusText);
+            } else {
+              this.rejectedReasons.push(data.rejectedReason);
               this.notifierService.notify('default', 'New reason added.');
             }
-          );
-
-      }
-    });
+          });
+      });
   }
 
-  addNewWithdrawnReasonDialog() {
-    const dialogRef = this.commonDialog.open(AddUpdateDialogComponent,
-      {
-        hasBackdrop: true,
-        disableClose: true,
-        width: '500px',
-        data:
-          {
-            header: 'New Withdrawn Reason',
-            name: '',
-            iconClass: 'fas fa-ban',
-            footer: 'Add or update different reasons for withdrawn of application by candidate.'
-          }
-      });
-
-    dialogRef.afterClosed().subscribe(result => {
+  addNewWithdrawnReason() {
+    this.settingsService.addNewWithdrawnReason().then(result => {
       if (result !== '') {
         const withdrawnReason = new WithdrawnReason(
           null,
@@ -92,91 +68,113 @@ export class DisqualifyReasonsComponent implements OnInit {
           null
         );
 
-
-
         this.settingsDataStorageService.addNewWithdrawnReason(withdrawnReason)
           .subscribe(
-            (newWithdrawnReason: WithdrawnReason) => {
-              this.withdrawnReasons.push(newWithdrawnReason);
-              this.notifierService.notify('default', 'New reason added.');
-            }
-          );
-
+            (data: any) => {
+              if (data.statusText !== 'Success') {
+                this.notifierService.notify('default', data.statusText);
+              } else {
+                this.withdrawnReasons.push(data.withdrawnReason);
+                this.notifierService.notify('default', 'New reason added.');
+              }
+            });
       }
     });
   }
 
-  editRejectedReason(rejectedReason: RejectedReason) {
-    const dialogRef = this.commonDialog.open(AddUpdateDialogComponent,
-      {
-        hasBackdrop: true,
-        disableClose: true,
-        width: '500px',
-        data:
-          {
-            header: 'Edit Rejected Reason',
-            name: rejectedReason.Name ,
-            iconClass: 'fas fa-ban',
-            footer: 'Add or update different reasons for rejection by hiring manager.'
-          }
-      });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result !== '' && result !== rejectedReason.Name) {
-        const editRejectedReason = new RejectedReason(
-          rejectedReason.Id,
+
+  editRejectedReason(rejectedReason: RejectedReason) {
+    this.settingsService.editRejectedReason(rejectedReason.Name).then(result => {
+      if (result !== '') {
+        const editedRejectedReason = new RejectedReason(
+          null,
           result,
           null,
           null
         );
 
-
-        this.settingsDataStorageService.editRejectedReason(editRejectedReason )
+        this.isDisabled = true;
+        this.settingsDataStorageService.editRejectedReason(editedRejectedReason)
           .subscribe(
             (data: any) => {
-              rejectedReason.Name = result;
-              this.notifierService.notify('default', 'Reason updated successfully.');
-            }
-          );
-
+              this.isDisabled = false;
+              if (data.statusText !== 'Success') {
+                this.notifierService.notify('default', data.statusText);
+              } else {
+                rejectedReason.Name = result;
+                this.notifierService.notify('default', 'Reason updated successfully.');
+              }
+            });
       }
     });
   }
 
   editWithdrawnReason(withdrawnReason: WithdrawnReason) {
-    const dialogRef = this.commonDialog.open(AddUpdateDialogComponent,
-      {
-        hasBackdrop: true,
-        disableClose: true,
-        width: '500px',
-        data:
-          {
-            header: 'Edit Withdrawn Reason',
-            name: withdrawnReason.Name ,
-            iconClass: 'fas fa-ban',
-            footer: 'Add or update different reasons for withdrawn of application by candidate.'
-          }
-      });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result !== '' && result !== withdrawnReason.Name) {
-        const editWithdrawnReason = new WithdrawnReason(
-          withdrawnReason.Id,
-          result,
-          null,
-          null
-        );
-
-
-        this.settingsDataStorageService.editWithdrawnReason(editWithdrawnReason)
-          .subscribe(
-            (data: any) => {
-              withdrawnReason.Name = result;
-              this.notifierService.notify('default', 'Reason updated successfully.');
-            }
+    this.settingsService.editWithdrawnReason(withdrawnReason.Name)
+      .then(result => {
+        if (result !== '') {
+          const editedWithdrawnReason = new WithdrawnReason(
+            null,
+            result,
+            null,
+            null
           );
 
-      }
-    });
+          this.isDisabled = true;
+          this.settingsDataStorageService.editWithdrawnReason(editedWithdrawnReason)
+            .subscribe(
+              (data: any) => {
+                this.isDisabled = false;
+                if (data.statusText !== 'Success') {
+                  this.notifierService.notify('default', data.statusText);
+                } else {
+                  withdrawnReason.Name = result;
+                  this.notifierService.notify('default', 'Reason updated successfully.');
+                }
+              });
+        }
+      })
+      .catch();
+  }
+
+
+  deleteRejectedReason(rejectedReasonId: number, index: number) {
+
+    this.isDisabled = true;
+
+    this.settingsService.deleteRejectedReason()
+      .then(result => {
+        
+        if (result.confirmationStatus) {
+
+          this.settingsDataStorageService.deleteRejectedReason(rejectedReasonId)
+            .subscribe((response: any) => {
+
+              this.isDisabled = false;
+
+              if (response.statusText !== 'Success') {
+
+                this.notifierService.notify('default', response.statusText);
+
+              } else {
+
+                this.rejectedReasons.splice(index, 1);
+                this.notifierService.notify('default',
+                  'Rejected reason deleted successfully.');
+
+              }
+
+            });
+        }
+
+        this.isDisabled = false;
+        
+      })
+      .catch();
+  }
+
+  deleteWithdrawnReason(withdrawnReason: WithdrawnReason) {
+
   }
 }

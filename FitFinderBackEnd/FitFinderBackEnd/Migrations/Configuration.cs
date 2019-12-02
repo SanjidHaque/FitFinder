@@ -19,9 +19,9 @@ namespace FitFinderBackEnd.Migrations
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(FitFinderBackEnd.Models.ApplicationDbContext context)
+        protected override void Seed(ApplicationDbContext context)
         {
-            //SettingsService settingsService = new SettingsService();
+           //SettingsService settingsService = new SettingsService();
 
 
             //settingsService.GenerateDefaultWorkflow(null);
@@ -34,12 +34,12 @@ namespace FitFinderBackEnd.Migrations
             //settingsService.GenerateDefaultWithdrawnReasons(1);
             //settingsService.GenerateDefaultRejectedReasons(1);
 
-
+            //context.SaveChanges();
 
             //context.Roles.AddOrUpdate(x => x.Id,
             //     new IdentityRole { Name = "Admin" },
             //     new IdentityRole { Name = "HR" },
-            //     new IdentityRole { Name = "Team member" }
+            //     new IdentityRole { Name = "TeamMember" }
             // );
 
             //context.Companies.AddOrUpdate(x => x.Id, new Company
@@ -55,7 +55,7 @@ namespace FitFinderBackEnd.Migrations
             //    JoiningDateTime = "11:27 am, 19-June-2019"
             //});
 
-            //context.SaveChanges();
+
 
             //long companyId = context.Companies.FirstOrDefault(x => x.CompanyName == "Headblocks").Id;
 

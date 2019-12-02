@@ -13,7 +13,7 @@ export class AuthGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot):  boolean {
     if (localStorage.getItem('userToken') !== null) {
-      const roles = next.data['roles'] as string;
+      const roles: string[] = next.data['roles'];
       if (roles !== undefined) {
         const match = this.userAccountDataStorageService.roleMatch(roles);
         if (match) {

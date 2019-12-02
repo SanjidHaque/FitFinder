@@ -23,7 +23,7 @@
 </div>
 
 <div
-  *ngIf="currentUserAccount.FullName !== ''"
+  *ngIf="currentUserAccount.FullName !== null"
   class="row" style="padding-bottom: 5px;padding-top: 5px;">
   <div class="col-xl-8">
 
@@ -65,11 +65,11 @@
 </div>
 
 
-<div class="row" *ngIf="getDepartmentName() !== ''" style="padding-top: 5px; padding-bottom: 5px;">
+<div class="row" *ngIf="currentUserAccount.Department.Name !== null" style="padding-top: 5px; padding-bottom: 5px;">
   <div class="col-xl-8">
 
     <span title="Department">
-    <i class="far fa-building"></i> &nbsp; {{ getDepartmentName() }}
+    <i class="far fa-building"></i> &nbsp; {{ currentUserAccount.Department.Name }}
     </span>
 
   </div>
@@ -127,7 +127,7 @@
      font-weight: 500;">
   <div class="col-xl-8">
 
-    <span *ngIf="currentGoogleAccountEmail !==''; else noAccountConnected">
+    <span *ngIf="currentGoogleAccountEmail !== null; else noAccountConnected">
 
       <i class="fas fa-check-circle"></i>
      Connected as {{ currentGoogleAccountEmail }}
@@ -173,7 +173,7 @@
   </div>
 
   <div
-    *ngIf="company.CompanyAddress !== ''"
+    *ngIf="company.CompanyAddress !== null"
     class="row" style="padding-bottom: 5px;padding-top: 5px;">
     <div class="col-xl-8">
 

@@ -6,7 +6,7 @@ import {NotifierService} from 'angular-notifier';
 import {UserAccountDataStorageService} from '../../../../services/data-storage-services/user-account-data-storage.service';
 import {MatDialog} from '@angular/material';
 import {ConfirmationDialogComponent} from '../../../../dialogs/confirmation-dialog/confirmation-dialog.component';
-import {DeleteDialogComponent} from '../../../../dialogs/delete-dialog/delete-dialog.component';
+import {AddUpdateDialogComponent} from '../../../../dialogs/add-update-dialog/add-update-dialog.component';
 
 @Component({
   selector: 'app-company-panel',
@@ -36,7 +36,7 @@ export class CompanyPanelComponent implements OnInit {
 
   deleteCompany(company: Company, index: number) {
 
-    const dialogRef = this.dialog.open(DeleteDialogComponent,
+    const dialogRef = this.dialog.open(AddUpdateDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,

@@ -22,16 +22,12 @@
 
 <br>
 
-
-
-
-
 <div>
 
   <mat-dialog-actions align="end">
     <button
       (click)="confirmClick()"
-      style="background-color: #ec971f; border-color: #d58512; color: #fff; outline: 0;"
+      [ngClass]="data.cssClass"
       mat-flat-button
     >{{ data.buttonText }}</button>
     <button

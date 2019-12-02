@@ -159,6 +159,10 @@ const settingsRoutes: Routes = [
       {
         path: 'profile',
         component: ProfileComponent,
+        data:
+          {
+            roles: ['TeamMember']
+          },
         children:
           [
             {

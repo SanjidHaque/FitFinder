@@ -51,9 +51,6 @@ export class UserAccountIdComponent implements OnInit {
   }
 
 
-  getDepartmentName() {
-    return this.settingsService.getDepartmentName(this.userAccount.DepartmentId, this.departments);
-  }
 
   deleteUserAccount() {
     this.isDisabled = true;

@@ -54,20 +54,21 @@ namespace FitFinderBackEnd.Controllers
         [Route("api/GetAllJobType")]
         public IHttpActionResult GetAllJobType()
         {
+            List<JobType> jobTypes = new List<JobType>();
             Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
 
             if (userNameClaim == null)
             {
-                return Ok(new { statusText = _statusTextService.UserClaimError });
+                return Ok(new { jobTypes, statusText = _statusTextService.UserClaimError });
             }
 
             ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
             if (applicationUser == null)
             {
-                return Ok(new { statusText = _statusTextService.UserClaimError });
+                return Ok(new { jobTypes, statusText = _statusTextService.UserClaimError });
             }
 
-            List<JobType> jobTypes = _context.JobTypes
+            jobTypes = _context.JobTypes
                 .Where(x => x.CompanyId == applicationUser.CompanyId)
                 .ToList();
 
@@ -80,20 +81,21 @@ namespace FitFinderBackEnd.Controllers
         [Route("api/GetAllSource")]
         public IHttpActionResult GetAllSource()
         {
+            List<Source> sources = new List<Source>();
             Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
 
             if (userNameClaim == null)
             {
-                return Ok(new { statusText = _statusTextService.UserClaimError });
+                return Ok(new { sources, statusText = _statusTextService.UserClaimError });
             }
 
             ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
             if (applicationUser == null)
             {
-                return Ok(new { statusText = _statusTextService.UserClaimError });
+                return Ok(new { sources, statusText = _statusTextService.UserClaimError });
             }
 
-            List<Source> sources = _context.Sources
+            sources = _context.Sources
                 .Where(x => x.CompanyId == applicationUser.CompanyId)
                 .ToList();
 
@@ -104,20 +106,21 @@ namespace FitFinderBackEnd.Controllers
         [Route("api/GetAllJobFunction")]
         public IHttpActionResult GetAllJobFunction()
         {
+            List<JobFunction> jobFunctions = new List<JobFunction>();
             Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
 
             if (userNameClaim == null)
             {
-                return Ok(new { statusText = _statusTextService.UserClaimError });
+                return Ok(new { jobFunctions, statusText = _statusTextService.UserClaimError });
             }
 
             ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
             if (applicationUser == null)
             {
-                return Ok(new { statusText = _statusTextService.UserClaimError });
+                return Ok(new { jobFunctions, statusText = _statusTextService.UserClaimError });
             }
 
-            List<JobFunction> jobFunctions = _context.JobFunctions
+            jobFunctions = _context.JobFunctions
                 .Where(x => x.CompanyId == applicationUser.CompanyId)
                 .ToList();
 
@@ -128,20 +131,22 @@ namespace FitFinderBackEnd.Controllers
         [Route("api/GetAllDepartment")]
         public IHttpActionResult GetAllDepartment()
         {
+
+            List<Department> departments = new List<Department>();
             Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
 
             if (userNameClaim == null)
             {
-                return Ok(new { statusText = _statusTextService.UserClaimError });
+                return Ok(new { departments, statusText = _statusTextService.UserClaimError });
             }
 
             ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
             if (applicationUser == null)
             {
-                return Ok(new { statusText = _statusTextService.UserClaimError });
+                return Ok(new { departments, statusText = _statusTextService.UserClaimError });
             }
 
-            List<Department> departments = _context.Departments
+           departments = _context.Departments
                 .Where(x => x.CompanyId == applicationUser.CompanyId)
                 .ToList();
 
@@ -178,29 +183,30 @@ namespace FitFinderBackEnd.Controllers
 
 
 
-        //[HttpPost]
-        //[Route("api/AddNewSource")]
-        //public IHttpActionResult AddNewSource(Source source)
-        //{
-        //    Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
+        [HttpPost]
+        [Route("api/AddNewSource")]
+        public IHttpActionResult AddNewSource(Source source)
+        {
+            Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
 
-        //    if (userNameClaim == null)
-        //    {
-        //        return Ok(new { statusText = _statusTextService.UserClaimError });
-        //    }
+            if (userNameClaim == null)
+            {
+                return Ok(new { statusText = _statusTextService.UserClaimError });
+            }
 
-        //    ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
-        //    if (applicationUser == null)
-        //    {
-        //        return Ok(new { statusText = _statusTextService.UserClaimError });
-        //    }
+            ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
+            if (applicationUser == null)
+            {
+                return Ok(new { statusText = _statusTextService.UserClaimError });
+            }
 
-        //    source.CompanyId = applicationUser.CompanyId;
-        //    _context.Sources.Add(source);
-        //    _context.SaveChanges();
+            source.CompanyId = applicationUser.CompanyId;
+            _context.Sources.Add(source);
+            _context.SaveChanges();
 
-        //    return Ok(new { source, statusText = _statusTextService.Success });
-        //}
+            return Ok(new { source, statusText = _statusTextService.Success });
+        }
+
 
         [HttpPost]
         [Route("api/AddNewJobFunction")]
@@ -384,6 +390,11 @@ namespace FitFinderBackEnd.Controllers
         [Route("api/AddNewRejectedReason")]
         public IHttpActionResult AddNewRejectedReason(RejectedReason rejectedReason)
         {
+            //if (_context.FoodItems.Any(o => o.Name == foodItem.Name && o.Name != foodItem.Name))
+            //{
+            //    return Ok(new { StatusText = _statusTextService.DuplicateItemName });
+            //}
+
             Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
 
             if (userNameClaim == null)
@@ -395,6 +406,11 @@ namespace FitFinderBackEnd.Controllers
             if (applicationUser == null)
             {
                 return Ok(new { statusText = _statusTextService.UserClaimError });
+            }
+
+            if (_context.RejectedReasons.Any(o => o.Name == rejectedReason.Name))
+            {
+                return Ok(new { statusText = _statusTextService.DuplicateResourceFound });
             }
 
             rejectedReason.CompanyId = applicationUser.CompanyId;
@@ -421,6 +437,11 @@ namespace FitFinderBackEnd.Controllers
                 return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
+            if (_context.WithdrawnReasons.Any(o => o.Name == withdrawnReason.Name))
+            {
+                return Ok(new { statusText = _statusTextService.DuplicateResourceFound });
+            }
+
             withdrawnReason.CompanyId = applicationUser.CompanyId;
             _context.WithdrawnReasons.Add(withdrawnReason);
             _context.SaveChanges();
@@ -432,20 +453,21 @@ namespace FitFinderBackEnd.Controllers
         [Route("api/GetAllRejectedReason")]
         public IHttpActionResult GetAllRejectedReason()
         {
+            List<RejectedReason> rejectedReasons = new List<RejectedReason>();
             Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
 
             if (userNameClaim == null)
             {
-                return Ok(new { statusText = _statusTextService.UserClaimError });
+                return Ok(new { rejectedReasons, statusText = _statusTextService.UserClaimError });
             }
 
             ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
             if (applicationUser == null)
             {
-                return Ok(new { statusText = _statusTextService.UserClaimError });
+                return Ok(new { rejectedReasons, statusText = _statusTextService.UserClaimError });
             }
 
-            List<RejectedReason> rejectedReasons = _context.RejectedReasons
+            rejectedReasons = _context.RejectedReasons
                 .Where(x => x.CompanyId == applicationUser.CompanyId)
                 .ToList();
 
@@ -456,20 +478,21 @@ namespace FitFinderBackEnd.Controllers
         [Route("api/GetAllWithdrawnReason")]
         public IHttpActionResult GetAllWithdrawnReason()
         {
+            List<WithdrawnReason> withdrawnReasons = new List<WithdrawnReason>();
             Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
 
             if (userNameClaim == null)
             {
-                return Ok(new { statusText = _statusTextService.UserClaimError });
+                return Ok(new { withdrawnReasons, statusText = _statusTextService.UserClaimError });
             }
 
             ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
             if (applicationUser == null)
             {
-                return Ok(new { statusText = _statusTextService.UserClaimError });
+                return Ok(new { withdrawnReasons, statusText = _statusTextService.UserClaimError });
             }
 
-            List<WithdrawnReason> withdrawnReasons = _context.WithdrawnReasons
+            withdrawnReasons = _context.WithdrawnReasons
                 .Where(x => x.CompanyId == applicationUser.CompanyId)
                 .ToList();
 
@@ -503,6 +526,12 @@ namespace FitFinderBackEnd.Controllers
                 return Ok(new { statusText = _statusTextService.ResourceNotFound });
             }
 
+            if (_context.RejectedReasons.Any(o => o.Name == rejectedReason.Name 
+                                                  && o.Name != getRejectedReason.Name))
+            {
+                return Ok(new { StatusText = _statusTextService.DuplicateResourceFound });
+            }
+
             getRejectedReason.Name = rejectedReason.Name;
             _context.Entry(getRejectedReason).State = EntityState.Modified;
             _context.SaveChanges();
@@ -534,6 +563,12 @@ namespace FitFinderBackEnd.Controllers
             if (getWithdrawnReason == null)
             {
                 return Ok(new { statusText = _statusTextService.ResourceNotFound });
+            }
+
+            if (_context.WithdrawnReasons.Any(o => o.Name == withdrawnReason.Name
+                                                   && o.Name != withdrawnReason.Name))
+            {
+                return Ok(new { StatusText = _statusTextService.DuplicateResourceFound });
             }
 
             withdrawnReason.Name = withdrawnReason.Name;
@@ -910,7 +945,7 @@ namespace FitFinderBackEnd.Controllers
 
             if (hasRelation)
             {
-                return Ok(new { StatusText = _statusTextService.ReportingPurposeIssue });
+                return Ok(new { statusText = _statusTextService.ReportingPurposeIssue });
             }
 
 
@@ -939,7 +974,7 @@ namespace FitFinderBackEnd.Controllers
 
             if (hasRelation)
             {
-                return Ok(new { StatusText = _statusTextService.ReportingPurposeIssue });
+                return Ok(new { statusText = _statusTextService.ReportingPurposeIssue });
             }
 
 

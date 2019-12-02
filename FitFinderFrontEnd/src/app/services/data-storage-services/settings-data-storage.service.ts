@@ -119,7 +119,7 @@ export class SettingsDataStorageService {
   }
 
   getAllWithdrawnReason() {
-    return this.httpClient.get<WithdrawnReason[]>(this.rootUrl + '/api/GetAllRejectedReason');
+    return this.httpClient.get<WithdrawnReason[]>(this.rootUrl + '/api/GetAllWithdrawnReason');
   }
 
   addNewPipelineStage(pipelineStage: PipelineStage) {
@@ -152,39 +152,39 @@ export class SettingsDataStorageService {
   }
 
   deleteRejectedReason(rejectedReasonId: number) {
-    return this.httpClient.delete(`${this.rootUrl + 'api/DeleteRejectedReason'}/${rejectedReasonId}`);
+    return this.httpClient.delete(`${this.rootUrl + '/api/DeleteRejectedReason'}/${rejectedReasonId}`);
   }
 
   deleteWithdrawnReason(withdrawnReasonId: number) {
-    return this.httpClient.delete(`${this.rootUrl + 'api/DeleteWithdrawnReason'}/${withdrawnReasonId}`);
+    return this.httpClient.delete(`${this.rootUrl + '/api/DeleteWithdrawnReason'}/${withdrawnReasonId}`);
   }
 
   deleteSource(sourceId: number) {
-    return this.httpClient.delete(`${this.rootUrl + 'api/DeleteSource'}/${sourceId}`);
+    return this.httpClient.delete(`${this.rootUrl + '/api/DeleteSource'}/${sourceId}`);
   }
 
   deleteDepartment(departmentId: number) {
-    return this.httpClient.delete(`${this.rootUrl + 'api/DeleteDepartment'}/${departmentId}`);
+    return this.httpClient.delete(`${this.rootUrl + '/api/DeleteDepartment'}/${departmentId}`);
   }
 
   deleteJobType(jobTypeId: number) {
-    return this.httpClient.delete(`${this.rootUrl + 'api/DeleteJobType'}/${jobTypeId}`);
+    return this.httpClient.delete(`${this.rootUrl + '/api/DeleteJobType'}/${jobTypeId}`);
   }
 
   deleteJobFunction(jobFunctionId: number) {
-    return this.httpClient.delete(`${this.rootUrl + 'api/DeleteJobFunction'}/${jobFunctionId}`);
+    return this.httpClient.delete(`${this.rootUrl + '/api/DeleteJobFunction'}/${jobFunctionId}`);
   }
 
   deleteWorkflow(workflowId: number) {
-    return this.httpClient.delete(`${this.rootUrl + 'api/DeleteWorkflow'}/${workflowId}`);
+    return this.httpClient.delete(`${this.rootUrl + '/api/DeleteWorkflow'}/${workflowId}`);
   }
 
   deletePipelineStage(pipelineStageId: number) {
-    return this.httpClient.delete(`${this.rootUrl + 'api/DeletePipelineStage'}/${pipelineStageId}`);
+    return this.httpClient.delete(`${this.rootUrl + '/api/DeletePipelineStage'}/${pipelineStageId}`);
   }
 
   deletePipelineStageCriterion(pipelineStageCriterionId: number) {
-    return this.httpClient.delete(`${this.rootUrl + 'api/DeletePipelineStageCriterion'}/${pipelineStageCriterionId}`);
+    return this.httpClient.delete(`${this.rootUrl + '/api/DeletePipelineStageCriterion'}/${pipelineStageCriterionId}`);
   }
   
 

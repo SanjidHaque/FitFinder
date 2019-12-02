@@ -47,7 +47,7 @@ export class InterviewDataStorageService {
   }
 
   deleteInterview(interviewId: number) {
-    return this.httpClient.delete(`${this.rootUrl + 'api/DeleteInterview'}/${interviewId}`);
+    return this.httpClient.delete(`${this.rootUrl + '/api/DeleteInterview'}/${interviewId}`);
   }
 
 }

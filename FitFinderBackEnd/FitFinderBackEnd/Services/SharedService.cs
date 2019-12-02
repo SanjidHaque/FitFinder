@@ -14,12 +14,10 @@ namespace FitFinderBackEnd.Services
     public class SharedService
     {
         private readonly ApplicationDbContext _context;
-        private StatusTextService _statusTextService;
 
         public SharedService()
         {
             _context = new ApplicationDbContext();
-            _statusTextService = new StatusTextService();
         }
 
         public JobAssignment OnAddJobAssignment(JobAssignment jobAssignment)
@@ -147,6 +145,52 @@ namespace FitFinderBackEnd.Services
                 });
                 OnDeleteAttachment(fileNames);
             }
+        }
+
+        public UserAccount GetUserAccount(ApplicationUser applicationUser)
+        {
+            string roleName = "";
+
+            foreach (var role in applicationUser.Roles)
+            {
+                if (role.RoleId == "9e024189-563d-4e68-8c0d-7d34a9981f00")
+                {
+                    roleName = "Admin";
+                }
+                else if (role.RoleId == "db8afd11-64a3-41e3-9005-0cd72ab76d9b")
+                {
+                    roleName = "HR";
+                }
+                else
+                {
+                    roleName = "Teammate";
+                }
+            }
+
+            Department department = new Department();
+            if (applicationUser.DepartmentId != null)
+            {
+                department =
+                    _context.Departments.FirstOrDefault(x => x.Id == applicationUser.DepartmentId);
+            }
+
+            UserAccount userAccount = new UserAccount
+            {
+                Id = applicationUser.Id,
+                UserName = applicationUser.UserName,
+                FullName = applicationUser.FullName,
+                Email = applicationUser.Email,
+                PhoneNumber = applicationUser.PhoneNumber,
+                Password = "",
+                JoiningDateTime = applicationUser.JoiningDateTime,
+                RoleName = roleName,
+                CompanyId = applicationUser.CompanyId,
+                DepartmentId = applicationUser.DepartmentId,
+                IsOwner = applicationUser.IsOwner,
+                Department = department
+            };
+
+            return userAccount;
         }
 
     }

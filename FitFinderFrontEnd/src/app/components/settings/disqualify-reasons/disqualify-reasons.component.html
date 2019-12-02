@@ -8,7 +8,8 @@
 <br>
 
 <div class="row" style="font-size: 14px;  color: #656c8a">
-  <div class="col-xl-12">Define your default reasons for rejecting Candidates. You can add reasons for Rejections as well as Withdrawals.
+  <div class="col-xl-12">Define your default reasons for rejecting Candidates.
+    You can add reasons for Rejections as well as Withdrawals.
   </div>
 </div>
 
@@ -30,14 +31,31 @@
     </div>
 
     <div class="col-xl-1" *ngIf="i > 1">
-      <i (click)="editRejectedReason(rejectedReason)"
-         style="cursor: pointer; opacity: .8;
-               color: #345188; font-size: 17px;" class="fas fa-pencil-alt"></i>
+      <button
+        [disabled]="isDisabled"
+        style="border: none;
+        cursor: pointer;
+        outline: 0;
+        opacity: .8; color: #345188; font-size: 17px;"
+        (click)="editRejectedReason(rejectedReason)"
+        mat-stroked-button>
+        <i class="fas fa-pencil-alt"></i>
+      </button>
+
     </div>
 
     <div class="col-xl-1" *ngIf="i > 1">
-      <i style="cursor: pointer; opacity: .8;
-               color: #bc0000; font-size: 17px;" class="far fa-trash-alt"></i> &nbsp;
+      <button
+        [disabled]="isDisabled"
+        style="border: none;
+        cursor: pointer;
+        outline: 0;
+        opacity: .8; color: #bc0000; font-size: 17px;"
+        (click)="deleteRejectedReason(rejectedReason.Id, i)"
+        mat-stroked-button>
+        <i class="far fa-trash-alt"></i>
+      </button>
+
     </div>
 
   </div>
@@ -51,7 +69,7 @@
 
 <div class="row">
   <div class="col-xl-12 text-xl-left">
-    <button (click)="addNewRejectedReasonDialog()"
+    <button (click)="addNewRejectedReason()"
             mat-stroked-button color="primary" style="outline: 0;">
       <i class="fas fa-plus-circle"></i> Add Reason
     </button>
@@ -76,9 +94,32 @@
     </div>
 
     <div class="col-xl-1" *ngIf="j > 2">
-      <i (click)="editWithdrawnReason(withdrawnReason)" style="cursor: pointer; opacity: .8;
-               color: #345188; font-size: 17px;" class="fas fa-pencil-alt"></i>
+      <button
+        [disabled]="isDisabled"
+        style="border: none;
+        cursor: pointer;
+        outline: 0;
+        opacity: .8; color: #345188; font-size: 17px;"
+        (click)="editWithdrawnReason(withdrawnReason)"
+        mat-stroked-button>
+        <i class="fas fa-pencil-alt"></i>
+      </button>
     </div>
+
+    <div class="col-xl-1" *ngIf="j > 1">
+      <button
+        [disabled]="isDisabled"
+        style="border: none;
+        cursor: pointer;
+        outline: 0;
+        opacity: .8; color: #bc0000; font-size: 17px;"
+        (click)="deleteWithdrawnReason(withdrawnReason)"
+        mat-stroked-button>
+        <i class="far fa-trash-alt"></i>
+      </button>
+
+    </div>
+
 
     <div class="col-xl-1" *ngIf="j > 2">
       <i style="cursor: pointer; opacity: .8;
@@ -97,7 +138,7 @@
 
 <div class="row">
   <div class="col-xl-12 text-xl-left">
-    <button (click)="addNewWithdrawnReasonDialog()"
+    <button (click)="addNewWithdrawnReason()"
             mat-stroked-button color="primary" style="outline: 0;">
       <i class="fas fa-plus-circle"></i> Add Reason
     </button>

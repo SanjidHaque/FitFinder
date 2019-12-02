@@ -60,6 +60,6 @@ export class CandidateDataStorageService {
   }
 
   deleteCandidate(candidateId: number) {
-    return this.httpClient.delete(`${this.rootUrl + 'api/DeleteCandidate'}/${candidateId}`);
+    return this.httpClient.delete(`${this.rootUrl + '/api/DeleteCandidate'}/${candidateId}`);
   }
 }

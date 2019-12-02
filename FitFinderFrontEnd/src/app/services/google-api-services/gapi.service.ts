@@ -22,7 +22,8 @@ export class GapiService {
   companyName = '';
 
   constructor(private notifierService: NotifierService,
-              private settingsService: SettingsService) {}
+              private settingsService: SettingsService) {
+  }
 
 
   initClient() {
@@ -69,7 +70,7 @@ export class GapiService {
       .then((rootFolder) => {
 
         if (rootFolder.result.files.length !== 0) {
-          rootFolderId =  rootFolder.result.files[0].id;
+          rootFolderId = rootFolder.result.files[0].id;
         }
 
       });
@@ -119,37 +120,20 @@ export class GapiService {
 
       });
 
-
     });
 
 
-    await Promise.all(newDepartmentFoldersPromises)
-      .then((newDepartmentFolderInfo) => {});
+    await Promise.all(newDepartmentFoldersPromises).then(() => {
+    });
 
     const departmentPromisesForJobs = [];
-
     const departmentNames = [];
 
     jobs.forEach((job) => {
-
-      const departmentName = this.settingsService
-        .getDepartmentName(job.DepartmentId, departments);
-
-      if (departmentName !== '') {
-
-        const ifExists = departmentNames.find(x => x === departmentName);
-
-        if (ifExists === undefined) {
-          departmentNames.push(departmentName);
-        }
-      }
-
-
+      departmentNames.push(job.Department.Name);
     });
 
-
     departmentNames.forEach((departmentName) => {
-
       departmentPromisesForJobs.push(this.searchFolder(rootFolderId, departmentName));
 
     });
@@ -173,9 +157,7 @@ export class GapiService {
             filteredDepartments.push(department);
 
           }
-
         });
-
 
       }).catch((error) => {
         console.log(error);
@@ -186,31 +168,27 @@ export class GapiService {
 
     for (const job of jobs) {
 
-      const getDepartmentName = this.settingsService
-        .getDepartmentName(job.DepartmentId, departments);
+      const findDepartment = filteredDepartments
+        .find(x => x.Name === job.Department.Name);
 
-      if (getDepartmentName !== '') {
-        const findDepartment = filteredDepartments
-          .find(x => x.Name === getDepartmentName);
+      if (findDepartment !== undefined) {
 
-        if (findDepartment !== undefined) {
-
-          await this
-            .searchFolder(findDepartment.Id, job.Title)
-            .then((jobFolderInfo) => {
+        await this
+          .searchFolder(findDepartment.Id, job.Title)
+          .then((jobFolderInfo) => {
 
 
-              if (jobFolderInfo.result.files.length === 0) {
+            if (jobFolderInfo.result.files.length === 0) {
 
-                this.createNewFolder(findDepartment.Id, job.Title)
-                  .then();
+              this.createNewFolder(findDepartment.Id, job.Title)
+                .then();
 
-              }
+            }
 
-            });
+          });
 
-        }
       }
+
     }
   }
 
@@ -223,14 +201,10 @@ export class GapiService {
     return this.googleAuth.signIn({
       prompt: 'consent'
     }).then((googleUser: gapi.auth2.GoogleUser) => {
-        this.currentGoogleAccountEmail = googleUser.getBasicProfile().getEmail();
+      this.currentGoogleAccountEmail = googleUser.getBasicProfile().getEmail();
     }).catch(() => {
     });
   }
-
-
-
-
 
 
   createNewFolder(parentFolderId: string, newFolderName: string) {
@@ -255,21 +229,17 @@ export class GapiService {
   searchFolder(parentFolderId: string, queryFolderName: string) {
     const pageToken = null;
 
-      return gapi.client.drive.files.list({
-        q: `name = '${queryFolderName}' and ` +
-          `mimeType = 'application/vnd.google-apps.folder' and ` +
-          `'${parentFolderId}' in parents and ` +
-          `trashed = false`,
-        fields: 'nextPageToken, files(id, parents, name, mimeType)',
-        spaces: 'drive',
-        corpora: 'user',
-        pageToken
-      });
+    return gapi.client.drive.files.list({
+      q: `name = '${queryFolderName}' and ` +
+        `mimeType = 'application/vnd.google-apps.folder' and ` +
+        `'${parentFolderId}' in parents and ` +
+        `trashed = false`,
+      fields: 'nextPageToken, files(id, parents, name, mimeType)',
+      spaces: 'drive',
+      corpora: 'user',
+      pageToken
+    });
   }
-
-
-
-
 
 
   signOut() {
@@ -281,7 +251,7 @@ export class GapiService {
   }
 
   getCurrentUser() {
-   return this.googleAuth.currentUser.get();
+    return this.googleAuth.currentUser.get();
   }
 
 

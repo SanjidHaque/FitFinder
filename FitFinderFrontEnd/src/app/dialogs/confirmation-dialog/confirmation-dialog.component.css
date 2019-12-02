@@ -1,0 +1,12 @@
+.warn {
+  background-color: #ffa31f;
+  border-color: #c57b12;
+  color: #fff;
+  outline: 0;
+}
+.delete {
+  background-color: #f31d38;
+  border-color: #dd0b07;
+  color: #fff;
+  outline: 0;
+}

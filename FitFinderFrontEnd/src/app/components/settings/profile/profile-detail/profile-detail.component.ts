@@ -21,18 +21,19 @@ export class ProfileDetailComponent implements OnInit {
 
   currentGoogleAccountEmail = '';
 
-
   jobs: Job[] = [];
 
   company: Company;
   departments: Department[] = [];
+
   constructor(private router: Router,
               private settingsService: SettingsService,
               private notifierService: NotifierService,
               private gapiService: GapiService,
               private zone: NgZone,
               private changeDetectorRef: ChangeDetectorRef,
-              private route: ActivatedRoute) {}
+              private route: ActivatedRoute) {
+  }
 
   ngOnInit() {
 
@@ -41,8 +42,7 @@ export class ProfileDetailComponent implements OnInit {
     }
 
 
-    this.route.data.
-    subscribe(
+    this.route.data.subscribe(
       (data: Data) => {
 
         this.currentUserAccount = data['currentUserAccount'].userAccount;
@@ -51,28 +51,18 @@ export class ProfileDetailComponent implements OnInit {
         this.jobs = data['jobs'].jobs;
 
 
-        if (this.currentUserAccount === undefined) {
+        if (this.currentUserAccount === null) {
           this.router.navigate(['/sign-in']);
-          this.notifierService.notify('default',
-            'User not found, sign-in again');
+          this.notifierService.notify('default', 'User not found. Sign in again');
         }
 
       });
   }
 
 
+  connectToGoogleDrive() {
 
-  getDepartmentName() {
-    return this.settingsService
-      .getDepartmentName(this.currentUserAccount.DepartmentId, this.departments);
-  }
-
-
-
-
-  async connectToGoogleDrive() {
-
-    await this.gapiService.signIn()
+    this.gapiService.signIn()
       .then(() => {
 
         this.zone.run(() => {
@@ -89,9 +79,6 @@ export class ProfileDetailComponent implements OnInit {
 
   }
 
-
-
-  
 
   disconnectFormGoogleDrive() {
     this.gapiService.disconnect();

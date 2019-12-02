@@ -3,8 +3,8 @@ import {ActivatedRoute, Data, Params, Router} from '@angular/router';
 import {NotifierService} from 'angular-notifier';
 import {Company} from '../../../../models/settings/company.model';
 import {UserAccountDataStorageService} from '../../../../services/data-storage-services/user-account-data-storage.service';
-import {DeleteDialogComponent} from '../../../../dialogs/delete-dialog/delete-dialog.component';
 import {MatDialog} from '@angular/material';
+import {AddUpdateDialogComponent} from '../../../../dialogs/add-update-dialog/add-update-dialog.component';
 
 @Component({
   selector: 'app-company-id',
@@ -53,7 +53,7 @@ export class CompanyIdComponent implements OnInit {
   deleteCompany() {
 
 
-    const dialogRef = this.dialog.open(DeleteDialogComponent,
+    const dialogRef = this.dialog.open(AddUpdateDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,
@@ -61,6 +61,7 @@ export class CompanyIdComponent implements OnInit {
         data: {
           header: 'Delete Company',
           iconClass: 'far fa-trash-alt',
+          cssClass: 'delete',
           confirmationText: 'Are you sure?',
           buttonText: 'Delete',
           confirmationStatus: false
