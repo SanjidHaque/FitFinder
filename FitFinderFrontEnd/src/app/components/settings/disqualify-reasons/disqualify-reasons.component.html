@@ -93,7 +93,7 @@
       {{ withdrawnReason.Name }}
     </div>
 
-    <div class="col-xl-1" *ngIf="j > 2">
+    <div class="col-xl-1">
       <button
         [disabled]="isDisabled"
         style="border: none;
@@ -106,25 +106,20 @@
       </button>
     </div>
 
-    <div class="col-xl-1" *ngIf="j > 1">
+    <div class="col-xl-1" *ngIf="j > 2">
       <button
         [disabled]="isDisabled"
         style="border: none;
         cursor: pointer;
         outline: 0;
         opacity: .8; color: #bc0000; font-size: 17px;"
-        (click)="deleteWithdrawnReason(withdrawnReason)"
+        (click)="deleteWithdrawnReason(withdrawnReason.Id, j)"
         mat-stroked-button>
         <i class="far fa-trash-alt"></i>
       </button>
 
     </div>
 
-
-    <div class="col-xl-1" *ngIf="j > 2">
-      <i style="cursor: pointer; opacity: .8;
-               color: #bc0000; font-size: 17px;" class="far fa-trash-alt"></i> &nbsp;
-    </div>
 
   </div>
 

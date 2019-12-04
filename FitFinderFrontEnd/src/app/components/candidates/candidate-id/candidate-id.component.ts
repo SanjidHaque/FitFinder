@@ -132,7 +132,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
       .find(x => x.Id === this.getActiveJobAssignmentId());
     const title = this.jobs.find(x => x.Id === jobAssignment.JobId).Title;
 
-    const dialogRef = this.dialog.open(DeleteDialogComponent,
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,
