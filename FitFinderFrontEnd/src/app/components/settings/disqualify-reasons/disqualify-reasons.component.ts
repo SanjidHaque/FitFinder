@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {AddUpdateDialogComponent} from '../../../dialogs/add-update-dialog/add-update-dialog.component';
 import {MatDialog} from '@angular/material';
 import {SettingsDataStorageService} from '../../../services/data-storage-services/settings-data-storage.service';
 import {NotifierService} from 'angular-notifier';
@@ -89,7 +88,7 @@ export class DisqualifyReasonsComponent implements OnInit {
     this.settingsService.editRejectedReason(rejectedReason.Name).then(result => {
       if (result !== '') {
         const editedRejectedReason = new RejectedReason(
-          null,
+          rejectedReason.Id,
           result,
           null,
           null
@@ -116,7 +115,7 @@ export class DisqualifyReasonsComponent implements OnInit {
       .then(result => {
         if (result !== '') {
           const editedWithdrawnReason = new WithdrawnReason(
-            null,
+            withdrawnReason.Id,
             result,
             null,
             null
@@ -141,9 +140,7 @@ export class DisqualifyReasonsComponent implements OnInit {
 
 
   deleteRejectedReason(rejectedReasonId: number, index: number) {
-
     this.isDisabled = true;
-
     this.settingsService.deleteRejectedReason()
       .then(result => {
         
@@ -151,7 +148,6 @@ export class DisqualifyReasonsComponent implements OnInit {
 
           this.settingsDataStorageService.deleteRejectedReason(rejectedReasonId)
             .subscribe((response: any) => {
-
               this.isDisabled = false;
 
               if (response.statusText !== 'Success') {
@@ -162,7 +158,7 @@ export class DisqualifyReasonsComponent implements OnInit {
 
                 this.rejectedReasons.splice(index, 1);
                 this.notifierService.notify('default',
-                  'Rejected reason deleted successfully.');
+                  'Withdrawn reason deleted successfully.');
 
               }
 
@@ -175,7 +171,34 @@ export class DisqualifyReasonsComponent implements OnInit {
       .catch();
   }
 
-  deleteWithdrawnReason(withdrawnReason: WithdrawnReason) {
+  deleteWithdrawnReason(withdrawnReasonId: number, index: number) {
+    this.isDisabled = true;
+    this.settingsService.deleteRejectedReason()
+      .then(result => {
 
+        if (result.confirmationStatus) {
+
+          this.settingsDataStorageService.deleteWithdrawnReason(withdrawnReasonId)
+            .subscribe((response: any) => {
+              this.isDisabled = false;
+
+              if (response.statusText !== 'Success') {
+
+                this.notifierService.notify('default', response.statusText);
+
+              } else {
+
+                this.withdrawnReasons.splice(index, 1);
+                this.notifierService.notify('default',
+                  'Rejected reason deleted successfully.');
+              }
+
+            });
+        }
+
+        this.isDisabled = false;
+
+      })
+      .catch();
   }
 }
