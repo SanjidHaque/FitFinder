@@ -124,7 +124,7 @@ namespace FitFinderBackEnd.Controllers
                 .Where(x => x.CompanyId == applicationUser.CompanyId)
                 .ToList();
 
-            return Ok(new { jobFunctions  , statusText = _statusTextService.Success });
+            return Ok(new { jobFunctions, statusText = _statusTextService.Success });
         }
 
         [HttpGet]
@@ -146,9 +146,9 @@ namespace FitFinderBackEnd.Controllers
                 return Ok(new { departments, statusText = _statusTextService.UserClaimError });
             }
 
-           departments = _context.Departments
-                .Where(x => x.CompanyId == applicationUser.CompanyId)
-                .ToList();
+            departments = _context.Departments
+                 .Where(x => x.CompanyId == applicationUser.CompanyId)
+                 .ToList();
 
             return Ok(new { departments, statusText = _statusTextService.Success });
         }
@@ -280,14 +280,14 @@ namespace FitFinderBackEnd.Controllers
 
             if (getJobType == null)
             {
-                return Ok(new {statusText = _statusTextService.ResourceNotFound });
+                return Ok(new { statusText = _statusTextService.ResourceNotFound });
             }
 
             getJobType.Name = jobType.Name;
             _context.Entry(getJobType).State = EntityState.Modified;
             _context.SaveChanges();
-        
-            return Ok(new {statusText = _statusTextService.Success });
+
+            return Ok(new { statusText = _statusTextService.Success });
         }
 
         [HttpPut]
@@ -345,7 +345,7 @@ namespace FitFinderBackEnd.Controllers
 
             if (getDepartment == null)
             {
-                return Ok(new {statusText = _statusTextService.ResourceNotFound });
+                return Ok(new { statusText = _statusTextService.ResourceNotFound });
             }
             getDepartment.Name = department.Name;
             _context.Entry(getDepartment).State = EntityState.Modified;
@@ -383,17 +383,13 @@ namespace FitFinderBackEnd.Controllers
             _context.Entry(getSource).State = EntityState.Modified;
             _context.SaveChanges();
 
-            return Ok(new {statusText = _statusTextService.Success });
+            return Ok(new { statusText = _statusTextService.Success });
         }
 
         [HttpPost]
         [Route("api/AddNewRejectedReason")]
         public IHttpActionResult AddNewRejectedReason(RejectedReason rejectedReason)
         {
-            //if (_context.FoodItems.Any(o => o.Name == foodItem.Name && o.Name != foodItem.Name))
-            //{
-            //    return Ok(new { StatusText = _statusTextService.DuplicateItemName });
-            //}
 
             Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
 
@@ -408,7 +404,12 @@ namespace FitFinderBackEnd.Controllers
                 return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
-            if (_context.RejectedReasons.Any(o => o.Name == rejectedReason.Name))
+
+            bool isDuplicate = _context.RejectedReasons
+                .Any(o => o.Name == rejectedReason.Name
+                          && o.CompanyId == applicationUser.CompanyId);
+
+            if (isDuplicate)
             {
                 return Ok(new { statusText = _statusTextService.DuplicateResourceFound });
             }
@@ -437,7 +438,11 @@ namespace FitFinderBackEnd.Controllers
                 return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
-            if (_context.WithdrawnReasons.Any(o => o.Name == withdrawnReason.Name))
+            bool isDuplicate = _context.WithdrawnReasons
+                .Any(o => o.Name == withdrawnReason.Name
+                          && o.CompanyId == applicationUser.CompanyId);
+
+            if (isDuplicate)
             {
                 return Ok(new { statusText = _statusTextService.DuplicateResourceFound });
             }
@@ -526,10 +531,14 @@ namespace FitFinderBackEnd.Controllers
                 return Ok(new { statusText = _statusTextService.ResourceNotFound });
             }
 
-            if (_context.RejectedReasons.Any(o => o.Name == rejectedReason.Name 
-                                                  && o.Name != getRejectedReason.Name))
+            bool isDuplicate = _context.RejectedReasons
+                .Any(o => o.Name == rejectedReason.Name 
+                          && o.Name != getRejectedReason.Name
+                          && o.CompanyId == applicationUser.CompanyId);
+
+            if (isDuplicate)
             {
-                return Ok(new { StatusText = _statusTextService.DuplicateResourceFound });
+                return Ok(new { statusText = _statusTextService.DuplicateResourceFound });
             }
 
             getRejectedReason.Name = rejectedReason.Name;
@@ -565,10 +574,14 @@ namespace FitFinderBackEnd.Controllers
                 return Ok(new { statusText = _statusTextService.ResourceNotFound });
             }
 
-            if (_context.WithdrawnReasons.Any(o => o.Name == withdrawnReason.Name
-                                                   && o.Name != withdrawnReason.Name))
+            bool isDuplicate = _context.WithdrawnReasons
+                .Any(o => o.Name == withdrawnReason.Name
+                          && o.Name != getWithdrawnReason.Name
+                          && o.CompanyId == applicationUser.CompanyId);
+
+            if (isDuplicate)
             {
-                return Ok(new { StatusText = _statusTextService.DuplicateResourceFound });
+                return Ok(new { statusText = _statusTextService.DuplicateResourceFound });
             }
 
             withdrawnReason.Name = withdrawnReason.Name;
@@ -602,7 +615,7 @@ namespace FitFinderBackEnd.Controllers
 
             _context.Workflows.Add(workflow);
 
-        
+
 
             _context.SaveChanges();
             return Ok(new { statusText = _statusTextService.Success });
@@ -671,7 +684,7 @@ namespace FitFinderBackEnd.Controllers
         [AllowAnonymous]
         public IHttpActionResult GetDefaultWorkflow()
         {
-           
+
             Workflow workflow = _context.Workflows
                 .FirstOrDefault(x => x.CompanyId == null);
 
@@ -719,7 +732,7 @@ namespace FitFinderBackEnd.Controllers
                 .Where(x => x.PipelineStage.Pipeline.WorkflowId == workflowId && x.JobId == null)
                 .ToList();
 
-           
+
             return Ok(new { workflow, statusText = _statusTextService.Success });
         }
 
@@ -732,7 +745,7 @@ namespace FitFinderBackEnd.Controllers
             _context.PipelineStages.Add(pipelineStage);
             _context.SaveChanges();
 
-            return Ok(new { pipelineStage , statusText = _statusTextService.Success });
+            return Ok(new { pipelineStage, statusText = _statusTextService.Success });
         }
 
         [HttpPost]
@@ -788,7 +801,7 @@ namespace FitFinderBackEnd.Controllers
         [Route("api/EditWorkflowName")]
         public IHttpActionResult EditWorkflowName(Workflow workflow)
         {
-           
+
             Workflow getWorkflow = _context.Workflows.FirstOrDefault(x => x.Id == workflow.Id);
 
             if (getWorkflow == null)
@@ -801,7 +814,7 @@ namespace FitFinderBackEnd.Controllers
             _context.Entry(getWorkflow).State = EntityState.Modified;
             _context.SaveChanges();
 
-            return Ok( new { statusText = _statusTextService.Success });
+            return Ok(new { statusText = _statusTextService.Success });
         }
 
         [HttpPost]
@@ -810,7 +823,7 @@ namespace FitFinderBackEnd.Controllers
         {
             _context.PipelineStageCriteria.AddRange(pipelineStageCriteria);
             _context.SaveChanges();
-            return Ok( new { statusText = _statusTextService.Success });
+            return Ok(new { statusText = _statusTextService.Success });
         }
 
 
@@ -825,7 +838,7 @@ namespace FitFinderBackEnd.Controllers
 
             if (department == null)
             {
-                return Ok(new {statusText = _statusTextService.ResourceNotFound});
+                return Ok(new { statusText = _statusTextService.ResourceNotFound });
             }
 
             bool hasRelation = (_context.Jobs.Any(o => o.DepartmentId == departmentId)
@@ -833,7 +846,7 @@ namespace FitFinderBackEnd.Controllers
 
             if (hasRelation)
             {
-                return Ok(new {StatusText = _statusTextService.ReportingPurposeIssue});
+                return Ok(new { StatusText = _statusTextService.ReportingPurposeIssue });
             }
 
 
@@ -1028,7 +1041,7 @@ namespace FitFinderBackEnd.Controllers
             }
 
 
-            bool hasRelation = (_context.StageComments.Any(o => o.PipelineStageId == pipelineStageId) 
+            bool hasRelation = (_context.StageComments.Any(o => o.PipelineStageId == pipelineStageId)
                                 && _context.StageScores.Any(o => o.PipelineStageId == pipelineStageId));
 
             if (hasRelation)
