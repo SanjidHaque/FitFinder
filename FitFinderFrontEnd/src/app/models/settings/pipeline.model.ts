@@ -7,7 +7,7 @@ export class Pipeline {
     public Name: string,
     public Workflow: Workflow,
     public WorkflowId: number,
-    public PipelineStage: PipelineStage[]
+    public PipelineStages: PipelineStage[]
   ) {
   }
 }

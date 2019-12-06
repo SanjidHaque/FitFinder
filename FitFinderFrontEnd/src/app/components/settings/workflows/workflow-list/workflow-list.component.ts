@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Workflow} from '../../../../models/settings/workflow.model';
-import {ActivatedRoute, Data, Route} from '@angular/router';
-import {Department} from '../../../../models/settings/department.model';
+import {ActivatedRoute, Data} from '@angular/router';
 import {AddUpdateDialogComponent} from '../../../../dialogs/add-update-dialog/add-update-dialog.component';
 import {MatDialog} from '@angular/material';
 import {SettingsDataStorageService} from '../../../../services/data-storage-services/settings-data-storage.service';
@@ -14,8 +13,8 @@ import {NotifierService} from 'angular-notifier';
 })
 export class WorkflowListComponent implements OnInit {
 
+  isDisabled = false;
   workflows: Workflow[] = [];
-
 
   constructor(private workflowDialog: MatDialog,
               private route: ActivatedRoute,
@@ -26,8 +25,7 @@ export class WorkflowListComponent implements OnInit {
     this.route.data.subscribe(
       (data: Data) => {
         this.workflows = data['workflows'].workflows;
-      }
-    )
+      });
   }
 
 

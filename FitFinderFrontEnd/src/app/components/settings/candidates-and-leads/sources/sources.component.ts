@@ -3,9 +3,7 @@ import {MatDialog} from '@angular/material';
 import {NotifierService} from 'angular-notifier';
 import {Source} from '../../../../models/settings/source.model';
 import {SettingsDataStorageService} from '../../../../services/data-storage-services/settings-data-storage.service';
-import {AddUpdateDialogComponent} from '../../../../dialogs/add-update-dialog/add-update-dialog.component';
 import {ActivatedRoute, Data} from '@angular/router';
-import {Department} from '../../../../models/settings/department.model';
 import {SettingsService} from '../../../../services/shared-services/settings.service';
 
 @Component({
@@ -28,8 +26,7 @@ export class SourcesComponent implements OnInit {
       .subscribe(
         (data: Data) => {
           this.sources = data['sources'].sources;
-        }
-      );
+        });
   }
 
 

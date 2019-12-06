@@ -1,11 +1,10 @@
-
-<div  *ngFor="let workflow of workflows; let i = index">
+<div *ngFor="let workflow of workflows; let i = index">
 
   <div class="row">
     <div class="col-xl-10">
       <span
         style="cursor: pointer; outline: 0;"
-      routerLink="/settings/workflows/{{workflow.Id}}"
+        routerLink="/settings/workflows/{{workflow.Id}}"
       >
 
         {{ workflow.Name }}

@@ -27,12 +27,10 @@ export class AddNewWorkflowComponent implements OnInit {
               private notifierService: NotifierService) { }
 
   ngOnInit() {
-
     this.route.data.subscribe(
       (data: Data) => {
-        this.defaultWorkflow = data['defaultWorkflow'].defaultWorkflow;
-      }
-    );
+        this.defaultWorkflow = data['defaultWorkflow'].workflow;
+      });
   }
 
 

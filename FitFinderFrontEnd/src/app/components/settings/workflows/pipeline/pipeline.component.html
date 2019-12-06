@@ -10,8 +10,8 @@
 <div class="row" style="margin-top: 5px; font-size: 14px;  color: #656c8a;">
   <div class="col-xl-12">
     Manage and track your candidates through out their recruitment process by moving
-    them across various stages. Create stages according to your requirements and
-    simplify your hiring.
+    them across various stages. Create stages, criteria according to your requirements
+    and simplify your hiring.
   </div>
 </div>
 
@@ -35,7 +35,7 @@
            style="
            padding: 5px;
            "
-           *ngFor="let pipelineStage of pipeline.PipelineStage">
+           *ngFor="let pipelineStage of pipeline.PipelineStages">
         <div
           style=
             "background-color: #f2f8fd;
@@ -56,10 +56,12 @@
             <div class="col-xl-10" style="padding-top: 3px;">
 
            <h6
-             *ngIf="pipeline.Name !== 'HIRED' && pipeline.Name !== 'REJECTED'; else notHiredOrDisqualified "
+             *ngIf="pipeline.Name !== 'HIRED' && pipeline.Name !== 'REJECTED';
+             else notHiredOrDisqualified "
              title="Click To See Pipeline Stage Criteria"
              style="cursor: pointer;"
-             (click)="pipelineStageCriteria(pipelineStage)"> &nbsp; {{ pipelineStage.Name }}
+             (click)="pipelineStageCriteria(pipelineStage)"> &nbsp;
+             {{ pipelineStage.Name }}
            </h6>
 
               <ng-template #notHiredOrDisqualified>
@@ -82,7 +84,7 @@
               opacity: .8;
                color: #345188; font-size: 17px;" class="fas fa-pencil-alt"></i>&nbsp;
               <i
-                *ngIf="pipeline.PipelineStage.length > 1
+                *ngIf="pipeline.PipelineStages.length > 1
                 && pipeline.Id !== 7"
                 style="cursor: pointer;
               opacity: .8;
@@ -97,9 +99,10 @@
       </div>
 
       <div class="col-xl-4"
-           *ngIf="pipeline.Name === 'INREVIEW' ||
-pipeline.Name === 'INTERVIEW' ||
- pipeline.Name === 'OFFERED'"
+           *ngIf="
+           pipeline.Name === 'INREVIEW'
+           || pipeline.Name === 'INTERVIEW'
+           || pipeline.Name === 'OFFERED'"
            style="
            padding: 5px;">
         <div
@@ -127,12 +130,9 @@ pipeline.Name === 'INTERVIEW' ||
 
 
       <div class="offset-xl-4 col-xl-4"
-           *ngIf="pipeline.Name === 'NEW' ||
-pipeline.Name === 'HIRED' "
-           style="
-           padding: 5px;">
-        <div
-          style=
+           *ngIf="pipeline.Name === 'NEW' || pipeline.Name === 'HIRED' "
+           style=" padding: 5px;">
+        <div style=
             "background-color: #f3f5f7;
              border: 1px solid #f3f5f7;
              padding: 14px;

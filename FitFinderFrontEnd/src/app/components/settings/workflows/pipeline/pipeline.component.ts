@@ -6,7 +6,6 @@ import {PipelineStage} from '../../../../models/settings/pipeline-stage.model';
 import {MatDialog} from '@angular/material';
 import {NotifierService} from 'angular-notifier';
 import {AddUpdateDialogComponent} from '../../../../dialogs/add-update-dialog/add-update-dialog.component';
-import {JobType} from '../../../../models/settings/job-type.model';
 import {AddUpdatePipelineStageDialogComponent} from '../../../../dialogs/add-update-pipeline-stage-dialog/add-update-pipeline-stage-dialog.component';
 import {PipelineStageCriteriaDialogComponent} from '../../../../dialogs/pipeline-stage-criteria-dialog/pipeline-stage-criteria-dialog.component';
 import {Workflow} from '../../../../models/settings/workflow.model';
@@ -28,13 +27,10 @@ export class PipelineComponent implements OnInit {
               private notifierService: NotifierService) {}
 
   ngOnInit() {
-    this.route.data.
-    subscribe(
+    this.route.data.subscribe(
       (data: Data) => {
-
         this.workflow = data['workflow'].workflow;
-      }
-    );
+      });
   }
 
   addNewPipelineStage(pipelineId: number) {
