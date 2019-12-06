@@ -29,7 +29,7 @@ namespace FitFinderBackEnd.Models.Candidate
         public string ApplicationDate { get; set; }
         public bool IsFavourite { get; set; }
         public Company Company { get; set; }    
-        public long CompanyId { get; set; } 
+        public long? CompanyId { get; set; } 
     
     }
 }

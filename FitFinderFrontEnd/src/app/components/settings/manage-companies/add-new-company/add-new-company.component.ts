@@ -65,7 +65,6 @@ export class AddNewCompanyComponent implements OnInit {
         [],
         [],
         [],
-        [],
         []
       )
     ).subscribe((data: any) => {

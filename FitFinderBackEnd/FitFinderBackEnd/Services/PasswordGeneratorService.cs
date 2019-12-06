@@ -9,9 +9,7 @@ namespace FitFinderBackEnd.Services
     public class PasswordGeneratorService
     {
        
-            // Define default min and max password lengths.
-            private static int DEFAULT_MIN_PASSWORD_LENGTH = 6;
-            private static int DEFAULT_MAX_PASSWORD_LENGTH = 6;
+         
 
             // Define supported password characters divided into groups.
             // You can add (or remove) characters to (from) these groups.

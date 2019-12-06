@@ -36,7 +36,7 @@ namespace FitFinderBackEnd.Models.Job
         public string PostingDate { get; set; }
         public bool IsFavourite { get; set; }
         public Company Company { get; set; }    
-        public long CompanyId { get; set; }
+        public long? CompanyId { get; set; }
         public Workflow Workflow { get; set; }
         public long WorkflowId { get; set; }    
     }

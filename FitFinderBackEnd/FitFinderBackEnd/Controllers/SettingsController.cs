@@ -174,6 +174,15 @@ namespace FitFinderBackEnd.Controllers
                 return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
+            bool isDuplicate = _context.Departments
+                .Any(o => o.Name == department.Name
+                          && o.CompanyId == applicationUser.CompanyId);
+
+            if (isDuplicate)
+            {
+                return Ok(new { statusText = _statusTextService.DuplicateResourceFound });
+            }
+
             department.CompanyId = applicationUser.CompanyId;
             _context.Departments.Add(department);
             _context.SaveChanges();
@@ -198,6 +207,15 @@ namespace FitFinderBackEnd.Controllers
             if (applicationUser == null)
             {
                 return Ok(new { statusText = _statusTextService.UserClaimError });
+            }
+
+            bool isDuplicate = _context.Sources
+                .Any(o => o.Name == source.Name
+                          && o.CompanyId == applicationUser.CompanyId);
+
+            if (isDuplicate)
+            {
+                return Ok(new { statusText = _statusTextService.DuplicateResourceFound });
             }
 
             source.CompanyId = applicationUser.CompanyId;
@@ -225,6 +243,15 @@ namespace FitFinderBackEnd.Controllers
                 return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
+            bool isDuplicate = _context.JobFunctions
+                .Any(o => o.Name == jobFunction.Name
+                          && o.CompanyId == applicationUser.CompanyId);
+
+            if (isDuplicate)
+            {
+                return Ok(new { statusText = _statusTextService.DuplicateResourceFound });
+            }
+
             jobFunction.CompanyId = applicationUser.CompanyId;
             _context.JobFunctions.Add(jobFunction);
             _context.SaveChanges();
@@ -248,6 +275,15 @@ namespace FitFinderBackEnd.Controllers
             if (applicationUser == null)
             {
                 return Ok(new { statusText = _statusTextService.UserClaimError });
+            }
+
+            bool isDuplicate = _context.JobTypes
+                .Any(o => o.Name == jobType.Name
+                          && o.CompanyId == applicationUser.CompanyId);
+
+            if (isDuplicate)
+            {
+                return Ok(new { statusText = _statusTextService.DuplicateResourceFound });
             }
 
             jobType.CompanyId = applicationUser.CompanyId;
@@ -283,6 +319,16 @@ namespace FitFinderBackEnd.Controllers
                 return Ok(new { statusText = _statusTextService.ResourceNotFound });
             }
 
+            bool isDuplicate = _context.JobTypes
+                .Any(o => o.Name == jobType.Name
+                          && o.Name != getJobType.Name
+                          && o.CompanyId == applicationUser.CompanyId);
+
+            if (isDuplicate)
+            {
+                return Ok(new { statusText = _statusTextService.DuplicateResourceFound });
+            }
+
             getJobType.Name = jobType.Name;
             _context.Entry(getJobType).State = EntityState.Modified;
             _context.SaveChanges();
@@ -316,6 +362,16 @@ namespace FitFinderBackEnd.Controllers
                 return Ok(new { statusText = _statusTextService.ResourceNotFound });
             }
 
+            bool isDuplicate = _context.JobFunctions
+                .Any(o => o.Name == jobFunction.Name
+                          && o.Name != getJobFunction.Name
+                          && o.CompanyId == applicationUser.CompanyId);
+
+            if (isDuplicate)
+            {
+                return Ok(new { statusText = _statusTextService.DuplicateResourceFound });
+            }
+
             getJobFunction.Name = jobFunction.Name;
             _context.Entry(getJobFunction).State = EntityState.Modified;
             _context.SaveChanges();
@@ -347,6 +403,17 @@ namespace FitFinderBackEnd.Controllers
             {
                 return Ok(new { statusText = _statusTextService.ResourceNotFound });
             }
+
+            bool isDuplicate = _context.Departments
+                .Any(o => o.Name == department.Name
+                          && o.Name != getDepartment.Name
+                          && o.CompanyId == applicationUser.CompanyId);
+
+            if (isDuplicate)
+            {
+                return Ok(new { statusText = _statusTextService.DuplicateResourceFound });
+            }
+
             getDepartment.Name = department.Name;
             _context.Entry(getDepartment).State = EntityState.Modified;
             _context.SaveChanges();
@@ -377,6 +444,16 @@ namespace FitFinderBackEnd.Controllers
             if (getSource == null)
             {
                 return Ok(new { statusText = _statusTextService.ResourceNotFound });
+            }
+
+            bool isDuplicate = _context.Sources
+                .Any(o => o.Name == source.Name
+                          && o.Name != getSource.Name
+                          && o.CompanyId == applicationUser.CompanyId);
+
+            if (isDuplicate)
+            {
+                return Ok(new { statusText = _statusTextService.DuplicateResourceFound });
             }
 
             getSource.Name = source.Name;
@@ -611,11 +688,17 @@ namespace FitFinderBackEnd.Controllers
             }
 
 
+            bool isDuplicate = _context.Workflows
+                .Any(o => o.Name == workflow.Name
+                          && o.CompanyId == applicationUser.CompanyId);
+
+            if (isDuplicate)
+            {
+                return Ok(new { statusText = _statusTextService.DuplicateResourceFound });
+            }
+
             workflow.CompanyId = applicationUser.CompanyId;
-
             _context.Workflows.Add(workflow);
-
-
 
             _context.SaveChanges();
             return Ok(new { statusText = _statusTextService.Success });
@@ -628,14 +711,6 @@ namespace FitFinderBackEnd.Controllers
         public IHttpActionResult AddNewPipeline(Pipeline pipeline)
         {
             _context.Pipelines.Add(pipeline);
-
-            //foreach (var pipelineStage in pipeline.PipelineStages)
-            //{
-            //    pipelineStage.PipelineId = pipeline.Id;
-            //}
-
-            //_context.PipelineStages.AddRange(pipeline.PipelineStages);
-
             _context.SaveChanges();
             return Ok(new { statusText = _statusTextService.Success });
 
@@ -802,6 +877,19 @@ namespace FitFinderBackEnd.Controllers
         public IHttpActionResult EditWorkflowName(Workflow workflow)
         {
 
+            Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
+
+            if (userNameClaim == null)
+            {
+                return Ok(new { statusText = _statusTextService.UserClaimError });
+            }
+
+            ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
+            if (applicationUser == null)
+            {
+                return Ok(new { statusText = _statusTextService.UserClaimError });
+            }
+
             Workflow getWorkflow = _context.Workflows.FirstOrDefault(x => x.Id == workflow.Id);
 
             if (getWorkflow == null)
@@ -809,6 +897,16 @@ namespace FitFinderBackEnd.Controllers
                 return Ok(new { statusText = _statusTextService.ResourceNotFound });
             }
 
+
+            bool isDuplicate = _context.Workflows
+                .Any(o => o.Name == workflow.Name
+                          && o.Name != getWorkflow.Name
+                          && o.CompanyId == applicationUser.CompanyId);
+
+            if (isDuplicate)
+            {
+                return Ok(new { statusText = _statusTextService.DuplicateResourceFound });
+            }
             getWorkflow.Name = workflow.Name;
 
             _context.Entry(getWorkflow).State = EntityState.Modified;

@@ -28,15 +28,33 @@
       {{ department.Name }}
     </div>
 
-    <div class="col-xl-1" *ngIf="i > 2">
-      <i (click)="editDepartment(department)" style="cursor: pointer; opacity: .8;
-               color: #345188; font-size: 17px;" class="fas fa-pencil-alt"></i>
+    <div class="col-xl-1">
+      <button
+        [disabled]="isDisabled"
+        style="border: none;
+        cursor: pointer;
+        outline: 0;
+        opacity: .8; color: #345188; font-size: 17px;"
+        (click)="editDepartment(department)"
+        mat-stroked-button>
+        <i class="fas fa-pencil-alt"></i>
+      </button>
     </div>
 
     <div class="col-xl-1" *ngIf="i > 2">
-      <i style="cursor: pointer; opacity: .8;
-               color: #bc0000; font-size: 17px;" class="far fa-trash-alt"></i> &nbsp;
+      <button
+        [disabled]="isDisabled"
+        style="border: none;
+        cursor: pointer;
+        outline: 0;
+        opacity: .8; color: #bc0000; font-size: 17px;"
+        (click)="deleteDepartment(department.Id, i)"
+        mat-stroked-button>
+        <i class="far fa-trash-alt"></i>
+      </button>
+
     </div>
+
 
   </div>
 

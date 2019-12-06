@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
-import {Department} from '../models/settings/department.model';
+import {Resolve} from '@angular/router';
 import {Observable} from 'rxjs';
 import {Source} from '../models/settings/source.model';
 import {SettingsDataStorageService} from '../services/data-storage-services/settings-data-storage.service';
@@ -11,8 +10,7 @@ import {SettingsDataStorageService} from '../services/data-storage-services/sett
 export class SourcesResolverService implements Resolve<Source[]> {
   constructor(private settingsDataStorageService: SettingsDataStorageService) {}
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Source[]>
-    | Promise<Source[]> | Source[] {
+  resolve(): Observable<Source[]> | Promise<Source[]> | Source[] {
     return this.settingsDataStorageService.getAllSource();
   }
 }

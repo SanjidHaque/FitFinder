@@ -8,7 +8,6 @@ import {JobType} from './job-type.model';
 import {JobFunction} from './job-function.model';
 import {Department} from './department.model';
 import {Source} from './source.model';
-import {Tag} from './tag.model';
 import {Workflow} from './workflow.model';
 
 export class Company {
@@ -27,7 +26,6 @@ export class Company {
     public Interviews: Interview[],
     public Jobs: Job[],
     public Workflows: Workflow[],
-    public Tags: Tag[],
     public Sources: Source[],
     public Departments: Department[],
     public JobFunctions: JobFunction[],

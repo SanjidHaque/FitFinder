@@ -31,8 +31,7 @@ export class DisqualifyReasonsComponent implements OnInit {
       (data: Data) => {
         this.rejectedReasons = data['rejectedReasons'].rejectedReasons;
         this.withdrawnReasons = data['withdrawnReasons'].withdrawnReasons;
-      }
-    );
+      });
   }
 
 
@@ -51,7 +50,8 @@ export class DisqualifyReasonsComponent implements OnInit {
               this.notifierService.notify('default', data.statusText);
             } else {
               this.rejectedReasons.push(data.rejectedReason);
-              this.notifierService.notify('default', 'New reason added.');
+              this.notifierService.notify('default',
+                'New rejected reason added.');
             }
           });
       });
@@ -75,7 +75,8 @@ export class DisqualifyReasonsComponent implements OnInit {
                 this.notifierService.notify('default', data.statusText);
               } else {
                 this.withdrawnReasons.push(data.withdrawnReason);
-                this.notifierService.notify('default', 'New reason added.');
+                this.notifierService.notify('default',
+                  'New withdrawn reason added.');
               }
             });
       }
@@ -103,7 +104,8 @@ export class DisqualifyReasonsComponent implements OnInit {
                 this.notifierService.notify('default', data.statusText);
               } else {
                 rejectedReason.Name = result;
-                this.notifierService.notify('default', 'Reason updated successfully.');
+                this.notifierService.notify('default',
+                  'Reason updated successfully.');
               }
             });
       }
@@ -130,7 +132,8 @@ export class DisqualifyReasonsComponent implements OnInit {
                   this.notifierService.notify('default', data.statusText);
                 } else {
                   withdrawnReason.Name = result;
-                  this.notifierService.notify('default', 'Reason updated successfully.');
+                  this.notifierService.notify('default',
+                    'Reason updated successfully.');
                 }
               });
         }
@@ -164,7 +167,6 @@ export class DisqualifyReasonsComponent implements OnInit {
 
             });
         }
-
         this.isDisabled = false;
         
       })
@@ -173,7 +175,7 @@ export class DisqualifyReasonsComponent implements OnInit {
 
   deleteWithdrawnReason(withdrawnReasonId: number, index: number) {
     this.isDisabled = true;
-    this.settingsService.deleteRejectedReason()
+    this.settingsService.deleteWithdrawnReason()
       .then(result => {
 
         if (result.confirmationStatus) {

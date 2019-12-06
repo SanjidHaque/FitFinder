@@ -12,7 +12,6 @@ import {InterviewsResolverService} from '../../route-resolvers/interviews-resolv
 import {WorkflowsResolverService} from '../../route-resolvers/workflows-resolver.service';
 import {CompaniesResolverService} from '../../route-resolvers/companies-resolver.service';
 import {SourcesResolverService} from '../../route-resolvers/sources-resolver.service';
-import {TagsResolverService} from '../../route-resolvers/tags-resolver.service';
 import {JobTypesResolverService} from '../../route-resolvers/job-types-resolver.service';
 import {JobFunctionsResolverService} from '../../route-resolvers/job-functions-resolver.service';
 import {DepartmentsResolverService} from '../../route-resolvers/departments-resolver.service';
@@ -66,7 +65,6 @@ export function initGapi(gapiService: GapiService) {
     WorkflowsResolverService,
     CompaniesResolverService,
     SourcesResolverService,
-    TagsResolverService,
     JobTypesResolverService,
     JobFunctionsResolverService,
     DepartmentsResolverService,

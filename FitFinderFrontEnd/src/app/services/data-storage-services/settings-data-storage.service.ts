@@ -3,7 +3,6 @@ import {JobType} from '../../models/settings/job-type.model';
 import {Department} from '../../models/settings/department.model';
 import {JobFunction} from '../../models/settings/job-function.model';
 import {Source} from '../../models/settings/source.model';
-import {Tag} from '../../models/settings/tag.model';
 import {HttpClient} from '@angular/common/http';
 import {UserAccountDataStorageService} from './user-account-data-storage.service';
 import {RejectedReason} from '../../models/settings/rejected-reason.model';
@@ -40,10 +39,6 @@ export class SettingsDataStorageService {
     return this.httpClient.get<JobType[]>(this.rootUrl + '/api/GetAllJobType');
   }
 
-  getAllTag() {
-    return this.httpClient.get<Tag[]>(this.rootUrl + '/api/GetAllTag');
-  }
-
   getAllWorkflow() {
     return this.httpClient.get<Workflow[]>(this.rootUrl + '/api/GetAllWorkflow');
   }
@@ -61,10 +56,6 @@ export class SettingsDataStorageService {
     return this.httpClient.post<Department>(this.rootUrl + '/api/AddNewDepartment', department);
   }
 
-  addNewTag(tag: Tag) {
-    return this.httpClient.post<Tag>(this.rootUrl + '/api/AddNewTag', tag);
-  }
-
   addNewSource(source: Source) {
     return this.httpClient.post<Source>(this.rootUrl + '/api/AddNewSource', source);
   }
@@ -77,9 +68,6 @@ export class SettingsDataStorageService {
     return this.httpClient.post<JobFunction>(this.rootUrl + '/api/AddNewJobFunction', jobFunction);
   }
 
-  editTag(tag: Tag) {
-    return this.httpClient.put<Tag>(this.rootUrl + '/api/EditTag', tag);
-  }
 
   editJobType(jobType: JobType) {
     return this.httpClient.put<JobType>(this.rootUrl + '/api/EditJobType', jobType);
@@ -144,11 +132,6 @@ export class SettingsDataStorageService {
 
   editWorkflowName(workflow: Workflow) {
     return this.httpClient.put<Workflow>(this.rootUrl + '/api/EditWorkflowName', workflow);
-  }
-
-  addNewPipelineStageCriteriaForNewJob(pipelineStageCriteria: PipelineStageCriterion[]) {
-    return this.httpClient.post<PipelineStageCriterion[]>(
-      this.rootUrl + '/api/AddNewPipelineStageCriteriaForNewJob', pipelineStageCriteria);
   }
 
   deleteRejectedReason(rejectedReasonId: number) {

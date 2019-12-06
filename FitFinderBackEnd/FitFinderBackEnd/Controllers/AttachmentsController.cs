@@ -15,18 +15,18 @@ using Microsoft.Owin.Security;
 namespace FitFinderBackEnd.Controllers
 {
     [Authorize]
-    public class AttachmentController : ApiController
+    public class AttachmentsController : ApiController
     {
         
        private ApplicationUserManager _userManager;
        private StatusTextService _statusTextService;
 
-        public AttachmentController()
+        public AttachmentsController()
         {
             _statusTextService = new StatusTextService();
         }
 
-        public AttachmentController(ApplicationUserManager userManager,
+        public AttachmentsController(ApplicationUserManager userManager,
             ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
         {
             UserManager = userManager;

@@ -5,6 +5,8 @@ import {Source} from '../../../../models/settings/source.model';
 import {SettingsDataStorageService} from '../../../../services/data-storage-services/settings-data-storage.service';
 import {AddUpdateDialogComponent} from '../../../../dialogs/add-update-dialog/add-update-dialog.component';
 import {ActivatedRoute, Data} from '@angular/router';
+import {Department} from '../../../../models/settings/department.model';
+import {SettingsService} from '../../../../services/shared-services/settings.service';
 
 @Component({
   selector: 'app-sources',
@@ -12,10 +14,12 @@ import {ActivatedRoute, Data} from '@angular/router';
   styleUrls: ['./sources.component.css']
 })
 export class SourcesComponent implements OnInit {
+  isDisabled = false;
   sources: Source[] = [];
 
   constructor(private sourceDialog: MatDialog,
               private route: ActivatedRoute,
+              private settingsService: SettingsService,
               private settingsDataStorageService: SettingsDataStorageService,
               private notifierService: NotifierService) { }
 
@@ -28,60 +32,11 @@ export class SourcesComponent implements OnInit {
       );
   }
 
-  editSource(source: Source) {
-    const dialogRef = this.sourceDialog.open(AddUpdateDialogComponent,
-      {
-        hasBackdrop: true,
-        disableClose: true,
-        width: '400px',
-        data:
-          {
-            header: 'Edit Source',
-            name: source.Name,
-            iconClass: 'fas fa-envelope-open-text',
-            footer: 'Add or update different sources your organization needs.'
-          }
-      });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result !== source.Name && result !== '') {
-
-        const editedSource = new Source(
-          source.Id,
-          result,
-          null,
-          null
-        );
-
-        this.settingsDataStorageService.editSource(editedSource)
-          .subscribe(
-            (data: any) => {
-              source.Name = result;
-              this.notifierService.notify('default', 'Source updated.');
-            }
-          );
-
-      }
-    });
-  }
-
-  addNewSourceDialog() {
-    const dialogRef = this.sourceDialog.open(AddUpdateDialogComponent,
-      {
-        hasBackdrop: true,
-        disableClose: true,
-        width: '400px',
-        data:
-          {
-            header: 'New Source',
-            name: '',
-            iconClass: 'fas fa-envelope-open-text',
-            footer: 'Add or update different sources your organization needs.'
-          }
-      });
-
-    dialogRef.afterClosed().subscribe(result => {
+  addNewSource() {
+    this.settingsService.addNewSource().then(result => {
       if (result !== '') {
+
         const source = new Source(
           null,
           result,
@@ -89,17 +44,76 @@ export class SourcesComponent implements OnInit {
           null
         );
 
-
         this.settingsDataStorageService.addNewSource(source)
           .subscribe(
-            (newSource: Source) => {
-              this.sources.push(newSource);
-              this.notifierService.notify('default', 'New source added.');
-            }
-          );
-
+            (data: any) => {
+              if (data.statusText !== 'Success') {
+                this.notifierService.notify('default', data.statusText);
+              } else {
+                this.sources.push(data.source);
+                this.notifierService.notify('default', 'New source added.');
+              }
+            });
       }
     });
   }
+
+  editSource(source: Source) {
+    this.settingsService.editSource(source.Name).then(result => {
+      if (result !== '') {
+        const editedSource = new Source(
+          source.Id,
+          result,
+          null,
+          null
+        );
+
+        this.isDisabled = true;
+        this.settingsDataStorageService.editSource(editedSource)
+          .subscribe(
+            (data: any) => {
+              this.isDisabled = false;
+              if (data.statusText !== 'Success') {
+                this.notifierService.notify('default', data.statusText);
+              } else {
+                source.Name = result;
+                this.notifierService.notify('default',
+                  'Source updated successfully.');
+              }
+            });
+      }
+    });
+  }
+
+  deleteSource(sourceId: number, index: number) {
+    this.isDisabled = true;
+    this.settingsService.deleteSource().then(result => {
+
+      if (result.confirmationStatus) {
+
+        this.settingsDataStorageService.deleteSource(sourceId)
+          .subscribe((response: any) => {
+            this.isDisabled = false;
+
+            if (response.statusText !== 'Success') {
+
+              this.notifierService.notify('default', response.statusText);
+
+            } else {
+
+              this.sources.splice(index, 1);
+              this.notifierService.notify('default',
+                'Source deleted successfully.');
+            }
+
+          });
+      }
+
+      this.isDisabled = false;
+
+    })
+      .catch();
+  }
+
 
 }

@@ -33,9 +33,9 @@ namespace FitFinderBackEnd.Services
                     smtpClient.Send(mailMessage);
 
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-
+                    
                 }
             }
             catch (SmtpFailedRecipientsException ex)

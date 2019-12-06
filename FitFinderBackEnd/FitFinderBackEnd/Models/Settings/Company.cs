@@ -18,7 +18,6 @@ namespace FitFinderBackEnd.Models.Settings
         public List<Interview.Interview> Interviews { get; set; }
         public List<Job.Job> Jobs { get; set; }
         public List<Workflow> Workflows { get; set; }
-        public List<Tag> Tags { get; set; }
         public List<Source> Sources { get; set; }
         public List<Department> Departments { get; set; }
         public List<JobFunction> JobFunctions { get; set; }

@@ -248,7 +248,7 @@
     <Compile Include="Controllers\JobController.cs" />
     <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Controllers\JobAssignmentController.cs" />
-    <Compile Include="Controllers\AttachmentController.cs" />
+    <Compile Include="Controllers\AttachmentsController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -260,6 +260,14 @@
     <Compile Include="Migrations\201911221627439_SomePropertyIsNullableNow.cs" />
     <Compile Include="Migrations\201911221627439_SomePropertyIsNullableNow.Designer.cs">
       <DependentUpon>201911221627439_SomePropertyIsNullableNow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201912060855166_TagModelRemoved.cs" />
+    <Compile Include="Migrations\201912060855166_TagModelRemoved.Designer.cs">
+      <DependentUpon>201912060855166_TagModelRemoved.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201912060937436_SomeModelsCompanyIDMadeNullish.cs" />
+    <Compile Include="Migrations\201912060937436_SomeModelsCompanyIDMadeNullish.Designer.cs">
+      <DependentUpon>201912060937436_SomeModelsCompanyIDMadeNullish.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -288,7 +296,6 @@
     <Compile Include="Models\Settings\Source.cs" />
     <Compile Include="Models\Settings\StageComment.cs" />
     <Compile Include="Models\Settings\StageScore.cs" />
-    <Compile Include="Models\Settings\Tag.cs" />
     <Compile Include="Models\Settings\Company.cs" />
     <Compile Include="Models\Settings\UserAccount.cs" />
     <Compile Include="Models\Settings\WithdrawnReason.cs" />
@@ -431,6 +438,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201911221627439_SomePropertyIsNullableNow.resx">
       <DependentUpon>201911221627439_SomePropertyIsNullableNow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912060855166_TagModelRemoved.resx">
+      <DependentUpon>201912060855166_TagModelRemoved.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912060937436_SomeModelsCompanyIDMadeNullish.resx">
+      <DependentUpon>201912060937436_SomeModelsCompanyIDMadeNullish.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

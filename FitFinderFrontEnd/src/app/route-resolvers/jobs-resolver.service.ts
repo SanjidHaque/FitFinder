@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Job} from '../models/job/job.model';
-import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
+import {Resolve} from '@angular/router';
 import {Observable} from 'rxjs/index';
 import {JobDataStorageService} from '../services/data-storage-services/job-data-storage.service';
 
@@ -10,8 +10,7 @@ import {JobDataStorageService} from '../services/data-storage-services/job-data-
 export class JobsResolverService implements Resolve<Job[]> {
   constructor(private jobDataStorageService: JobDataStorageService) {}
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):
-    Observable<Job[]> | Promise<Job[]> | Job[] {
+  resolve(): Observable<Job[]> | Promise<Job[]> | Job[] {
     return this.jobDataStorageService.getAllJob();
   }
 }

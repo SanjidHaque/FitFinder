@@ -3,8 +3,8 @@ import {MatDialog} from '@angular/material';
 import {NotifierService} from 'angular-notifier';
 import {JobType} from '../../../../models/settings/job-type.model';
 import {SettingsDataStorageService} from '../../../../services/data-storage-services/settings-data-storage.service';
-import {AddUpdateDialogComponent} from '../../../../dialogs/add-update-dialog/add-update-dialog.component';
 import {ActivatedRoute, Data} from '@angular/router';
+import {SettingsService} from '../../../../services/shared-services/settings.service';
 
 @Component({
   selector: 'app-types',
@@ -12,11 +12,12 @@ import {ActivatedRoute, Data} from '@angular/router';
   styleUrls: ['./job-types.component.css']
 })
 export class JobTypesComponent implements OnInit {
-
+  isDisabled = false;
   jobTypes: JobType[] = [];
 
   constructor(private jobTypeDialog: MatDialog,
               private route: ActivatedRoute,
+              private settingsService: SettingsService,
               private settingsDataStorageService: SettingsDataStorageService,
               private notifierService: NotifierService) { }
 
@@ -25,67 +26,14 @@ export class JobTypesComponent implements OnInit {
     subscribe(
       (data: Data) => {
         this.jobTypes = data['jobTypes'].jobTypes;
-      }
-    );
-  }
-
-
-  editJobType(jobType: JobType) {
-    const dialogRef = this.jobTypeDialog.open(AddUpdateDialogComponent,
-      {
-        hasBackdrop: true,
-        disableClose: true,
-        width: '400px',
-        data:
-          {
-            header: 'Edit Job Type',
-            name: jobType.Name,
-            iconClass: 'fas fa-passport',
-            footer: 'Add or update different job job-types your organization hires.'
-          }
       });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result !== jobType.Name && result !== '') {
-
-
-        const editedJobType = new JobType(
-          jobType.Id,
-          result,
-          null,
-          null
-        );
-
-
-        this.settingsDataStorageService.editJobType(editedJobType)
-          .subscribe(
-            (data: any) => {
-              jobType.Name = result;
-              this.notifierService.notify('default', 'Job type updated.');
-            }
-          );
-
-      }
-    });
   }
+
 
   addNewJobType() {
-    const dialogRef = this.jobTypeDialog.open(AddUpdateDialogComponent,
-      {
-        hasBackdrop: true,
-        disableClose: true,
-        width: '400px',
-        data:
-          {
-            header: 'New Job Type',
-            name: '',
-            iconClass: 'fas fa-passport',
-            footer: 'Add or update different job job-types your organization hires.'
-          }
-      });
-
-    dialogRef.afterClosed().subscribe(result => {
+    this.settingsService.addNewJobType().then(result => {
       if (result !== '') {
+
         const jobType = new JobType(
           null,
           result,
@@ -93,16 +41,78 @@ export class JobTypesComponent implements OnInit {
           null
         );
 
-
         this.settingsDataStorageService.addNewJobType(jobType)
           .subscribe(
-            (newJobType: any) => {
-              this.jobTypes.push(newJobType);
-              this.notifierService.notify('default', 'New job type added.');
-            }
-          );
+            (data: any) => {
+              if (data.statusText !== 'Success') {
+                this.notifierService.notify('default', data.statusText);
+              } else {
+                this.jobTypes.push(data.jobType);
+                this.notifierService.notify('default',
+                  'New job type added.');
+              }
+            });
       }
     });
+  }
+
+
+  editJobType(jobType: JobType) {
+    this.settingsService.editJobType(jobType.Name).then(result => {
+      if (result !== '') {
+        const editedJobType = new JobType(
+          jobType.Id,
+          result,
+          null,
+          null
+        );
+
+        this.isDisabled = true;
+        this.settingsDataStorageService.editJobType(editedJobType)
+          .subscribe(
+            (data: any) => {
+              this.isDisabled = false;
+              if (data.statusText !== 'Success') {
+                this.notifierService.notify('default', data.statusText);
+              } else {
+                jobType.Name = result;
+                this.notifierService.notify('default',
+                  'Job type updated successfully.');
+              }
+            });
+      }
+    });
+  }
+
+
+  deleteJobType(jobTypeId: number, index: number) {
+    this.isDisabled = true;
+    this.settingsService.deleteJobType().then(result => {
+
+        if (result.confirmationStatus) {
+
+          this.settingsDataStorageService.deleteJobType(jobTypeId)
+            .subscribe((response: any) => {
+              this.isDisabled = false;
+
+              if (response.statusText !== 'Success') {
+
+                this.notifierService.notify('default', response.statusText);
+
+              } else {
+
+                this.jobTypes.splice(index, 1);
+                this.notifierService.notify('default',
+                  'Job type deleted successfully.');
+              }
+
+            });
+        }
+
+        this.isDisabled = false;
+
+      })
+      .catch();
   }
 
 }

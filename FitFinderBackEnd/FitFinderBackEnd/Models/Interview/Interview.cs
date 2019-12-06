@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using FitFinderBackEnd.Models.Settings;
 using FitFinderBackEnd.Models.Shared;
 
 namespace FitFinderBackEnd.Models.Interview

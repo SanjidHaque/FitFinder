@@ -121,14 +121,28 @@ namespace FitFinderBackEnd.Services
 
         public long GenerateDefaultDepartment(long companyId)
         {
-            Department department = new Department
+            List<Department> departments = new List<Department>
             {
-                CompanyId = companyId,
-                Name = "Development"
+                new Department()
+                {
+                    CompanyId = companyId,
+                    Name = "Development"
+                },
+                new Department()
+                {
+                    CompanyId = companyId,
+                    Name = "Accounts"
+                },
+                new Department()
+                {
+                    CompanyId = companyId,
+                    Name = "Human Resource"
+                }
             };
-            _context.Departments.Add(department);
+           
+            _context.Departments.AddRange(departments);
             _context.SaveChanges();
-            return department.Id;
+            return departments[0].Id;
         }
 
         public void GenerateDefaultSources(long companyId)

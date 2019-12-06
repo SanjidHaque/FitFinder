@@ -1,6 +1,5 @@
 import {PipelineStageCriterion} from './pipeline-stage-criterion.model';
 import {JobAssignment} from '../candidate/job-assignment.model';
-import {PipelineStage} from './pipeline-stage.model';
 import {Candidate} from '../candidate/candidate.model';
 
 export class CriteriaScore {

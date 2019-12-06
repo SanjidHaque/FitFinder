@@ -13,7 +13,7 @@
 
 <div class="row">
   <div class="col-xl-12 text-xl-left">
-    <button (click)="addNewSourceDialog()" mat-raised-button color="primary" style="outline: 0;">
+    <button (click)="addNewSource()" mat-raised-button color="primary" style="outline: 0;">
       Add New Source
     </button>
   </div>
@@ -29,15 +29,33 @@
       {{ source.Name }}
     </div>
 
-    <div class="col-xl-1" *ngIf="i > 3">
-      <i (click)="editSource(source)" style="cursor: pointer; opacity: .8;
-               color: #345188; font-size: 17px;" class="fas fa-pencil-alt"></i>
+    <div class="col-xl-1">
+      <button
+        [disabled]="isDisabled"
+        style="border: none;
+        cursor: pointer;
+        outline: 0;
+        opacity: .8; color: #345188; font-size: 17px;"
+        (click)="editSource(source)"
+        mat-stroked-button>
+        <i class="fas fa-pencil-alt"></i>
+      </button>
     </div>
 
-    <div class="col-xl-1" *ngIf="i > 3">
-      <i style="cursor: pointer; opacity: .8;
-               color: #bc0000; font-size: 17px;" class="far fa-trash-alt"></i> &nbsp;
+    <div class="col-xl-1" *ngIf="i > 2">
+      <button
+        [disabled]="isDisabled"
+        style="border: none;
+        cursor: pointer;
+        outline: 0;
+        opacity: .8; color: #bc0000; font-size: 17px;"
+        (click)="deleteSource(source.Id, i)"
+        mat-stroked-button>
+        <i class="far fa-trash-alt"></i>
+      </button>
+
     </div>
+
 
   </div>
 

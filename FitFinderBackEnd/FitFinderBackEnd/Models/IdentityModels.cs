@@ -19,7 +19,7 @@ namespace FitFinderBackEnd.Models
     {
        
         public Company Company { get; set; }    
-        public long CompanyId { get; set; }
+        public long? CompanyId { get; set; }
         public string FullName { get; set; }
         public string JoiningDateTime { get; set; }
         public bool IsOwner { get; set; }

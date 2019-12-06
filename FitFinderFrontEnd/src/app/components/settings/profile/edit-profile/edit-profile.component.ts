@@ -111,7 +111,6 @@ export class EditProfileComponent implements OnInit {
               [],
               [],
               [],
-              [],
               []
             )
           ).subscribe( (response: any) => {

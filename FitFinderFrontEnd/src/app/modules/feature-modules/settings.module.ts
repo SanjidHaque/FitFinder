@@ -6,7 +6,6 @@ import {ManageUserAccountsComponent} from '../../components/settings/manage-user
 import {CandidatesAndLeadsComponent} from '../../components/settings/candidates-and-leads/candidates-and-leads.component';
 import {WorkflowsComponent} from '../../components/settings/workflows/workflows.component';
 import {DisqualifyReasonsComponent} from '../../components/settings/disqualify-reasons/disqualify-reasons.component';
-import {TagsComponent} from '../../components/settings/candidates-and-leads/tags/tags.component';
 import {SourcesComponent} from '../../components/settings/candidates-and-leads/sources/sources.component';
 import {DepartmentsComponent} from '../../components/settings/job-openings/departments/departments.component';
 import {JobTypesComponent} from '../../components/settings/job-openings/job-types/job-types.component';
@@ -43,7 +42,6 @@ import {DialogModule} from '../shared-modules/dialog.module';
     JobOpeningsComponent,
     WorkflowsComponent,
     DisqualifyReasonsComponent,
-    TagsComponent,
     SourcesComponent,
     DepartmentsComponent,
     JobTypesComponent,

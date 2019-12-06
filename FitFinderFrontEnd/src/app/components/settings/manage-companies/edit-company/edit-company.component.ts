@@ -114,7 +114,6 @@ export class EditCompanyComponent implements OnInit {
               [],
               [],
               [],
-              [],
               []
             )
           ).subscribe( (response: any) => {
