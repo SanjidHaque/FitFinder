@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {MatDialog} from '@angular/material';
 import {NotifierService} from 'angular-notifier';
 import {JobFunction} from '../../../../models/settings/job-function.model';
 import {SettingsDataStorageService} from '../../../../services/data-storage-services/settings-data-storage.service';
@@ -15,8 +14,7 @@ export class JobFunctionsComponent implements OnInit {
   isDisabled = false;
   jobFunctions: JobFunction[] = [];
 
-  constructor(private jobFunctionDialog: MatDialog,
-              private route: ActivatedRoute,
+  constructor(private route: ActivatedRoute,
               private settingsService: SettingsService,
               private settingsDataStorageService: SettingsDataStorageService,
               private notifierService: NotifierService) { }

@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import {Pipeline} from '../../../../models/settings/pipeline.model';
 import {SettingsDataStorageService} from '../../../../services/data-storage-services/settings-data-storage.service';
-import {ActivatedRoute, Data} from '@angular/router';
+import {ActivatedRoute, Data, Router} from '@angular/router';
 import {PipelineStage} from '../../../../models/settings/pipeline-stage.model';
 import {MatDialog} from '@angular/material';
 import {NotifierService} from 'angular-notifier';
-import {AddUpdateDialogComponent} from '../../../../dialogs/add-update-dialog/add-update-dialog.component';
-import {AddUpdatePipelineStageDialogComponent} from '../../../../dialogs/add-update-pipeline-stage-dialog/add-update-pipeline-stage-dialog.component';
-import {PipelineStageCriteriaDialogComponent} from '../../../../dialogs/pipeline-stage-criteria-dialog/pipeline-stage-criteria-dialog.component';
+import {DisplayPipelineStageCriteriaDialogComponent} from '../../../../dialogs/display-pipeline-stage-criteria-dialog/display-pipeline-stage-criteria-dialog.component';
 import {Workflow} from '../../../../models/settings/workflow.model';
+import {SettingsService} from '../../../../services/shared-services/settings.service';
 
 @Component({
   selector: 'app-pipeline',
@@ -16,14 +15,15 @@ import {Workflow} from '../../../../models/settings/workflow.model';
   styleUrls: ['./pipeline.component.css']
 })
 export class PipelineComponent implements OnInit {
-
+  isDisabled = false;
   pipelines: Pipeline[] = [];
   workflow: Workflow;
 
   constructor(private settingsDataStorageService: SettingsDataStorageService,
               private route: ActivatedRoute,
               private dialog: MatDialog,
-              private adialog: MatDialog,
+              private router: Router,
+              private settingsService: SettingsService,
               private notifierService: NotifierService) {}
 
   ngOnInit() {
@@ -34,23 +34,10 @@ export class PipelineComponent implements OnInit {
   }
 
   addNewPipelineStage(pipelineId: number) {
-    const dialogRef = this.dialog.open(AddUpdatePipelineStageDialogComponent,
-      {
-        hasBackdrop: true,
-        disableClose: true,
-        width: '450px',
-        data:
-          {
-            header: 'New Pipeline Stage',
-            name: '',
-            color: '#' + (Math.random().toString(16) + '000000').substring(2, 8),
-            iconClass: 'fas fa-flag-checkered',
-            footer: 'Add or update different pipeline stages your organization needs.'
-          }
-      });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
+    this.settingsService.addNewPipelineStage().then(result => {
+      this.isDisabled = true;
+
       if (result !== '') {
         const pipelineStage = new PipelineStage(
           null,
@@ -61,38 +48,43 @@ export class PipelineComponent implements OnInit {
           []
         );
 
-        const getPipeline = this.workflow.Pipelines.find(x => x.Id === pipelineId);
+        const getPipeline =
+          this.workflow.Pipelines.find(x => x.Id === pipelineId);
 
         this.settingsDataStorageService.addNewPipelineStage(pipelineStage)
           .subscribe(
-            (newPipelineStage: PipelineStage) => {
-              getPipeline.PipelineStage.push(newPipelineStage);
-              this.notifierService.notify('default', 'New stage added.');
-            }
-          );
+            (data: any) => {
+
+              this.isDisabled = false;
+              if (data.statusText !== 'Success') {
+                this.notifierService.notify('default', data.statusText);
+
+              } else {
+
+                if (getPipeline === undefined) {
+                  this.notifierService.notify('default',
+                    'Something went wrong!');
+                  return;
+                }
+
+                getPipeline.PipelineStages.push(data.pipelineStage);
+                this.notifierService.notify('default',
+                  'New pipeline stage added.');
+              }
+
+            });
       }
-    });
+    }).catch();
   }
 
   editPipelineStage(pipelineStage: PipelineStage) {
-    const dialogRef = this.dialog.open(AddUpdatePipelineStageDialogComponent,
-      {
-        hasBackdrop: true,
-        disableClose: true,
-        width: '450px',
-        data:
-          {
-            header: 'Edit Pipeline Stage',
-            name: pipelineStage.Name,
-            color: pipelineStage.Color,
-            iconClass: 'fas fa-flag-checkered',
-            footer: 'Add or update different pipeline stages your organization needs.'
-          }
-      });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result !== '') {
-        if (result.name !== pipelineStage.Name || result.color !== pipelineStage.Color ) {
+    this.settingsService.editPipelineStage(pipelineStage.Name, pipelineStage.Color)
+      .then(result => {
+        if ((result !== '')
+          && (result.name !== pipelineStage.Name || result.color !== pipelineStage.Color)) {
+
+          this.isDisabled = true;
           const editedPipelineStage = new PipelineStage(
             pipelineStage.Id,
             result.name,
@@ -106,21 +98,26 @@ export class PipelineComponent implements OnInit {
           this.settingsDataStorageService.editPipelineStage(editedPipelineStage)
             .subscribe(
               (data: any) => {
-                pipelineStage.Name = result.name;
-                pipelineStage.Color = result.color;
-                this.notifierService.notify('default',
-                  'Stage updated successfully.');
-              }
-            );
-        }
-      }
 
-    });
+                if (data.statusText !== 'Success') {
+
+                  this.notifierService.notify('default', data.statusText);
+
+                } else {
+
+                  pipelineStage.Name = result.name;
+                  pipelineStage.Color = result.color;
+                  this.notifierService.notify('default',
+                    'Pipeline stage updated successfully.');
+                }
+              });
+        }
+      }).catch();
   }
 
 
-  pipelineStageCriteria(pipelineStage: PipelineStage) {
-    const dialogRef = this.dialog.open(PipelineStageCriteriaDialogComponent,
+  openPipelineStageCriteria(pipelineStage: PipelineStage) {
+    const dialogRef = this.dialog.open(DisplayPipelineStageCriteriaDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,
@@ -129,31 +126,16 @@ export class PipelineComponent implements OnInit {
           {
             iconClass: 'fas fa-flag-checkered',
             stage: pipelineStage,
-            editMode: true
+            insertInDatabase: true
           }
       });
   }
 
 
   editWorkflowName() {
-    const dialogRef = this.adialog.open(AddUpdateDialogComponent,
-      {
-        hasBackdrop: true,
-        disableClose: true,
-        width: '400px',
-        data:
-          {
-            header: 'Edit Workflow Name',
-            name: this.workflow.Name,
-            iconClass: 'fas fa-flag-checkered',
-            footer: 'Add or update different workflows your organization needs.'
-          }
-      });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result !== this.workflow.Name && result !== '') {
-
-        const editedWorkflow = new Workflow(
+    this.settingsService.editWorkflowName(this.workflow.Name).then(result => {
+      if (result !== '') {
+        const workflow = new Workflow(
           this.workflow.Id,
           result,
           null,
@@ -161,15 +143,92 @@ export class PipelineComponent implements OnInit {
           []
         );
 
-        this.settingsDataStorageService.editWorkflowName(editedWorkflow)
-          .subscribe(
-            (data: any) => {
-              this.workflow.Name = result;
-              this.notifierService.notify('default', 'Workflow name updated.');
-            }
-          );
+        this.isDisabled = true;
+        this.settingsDataStorageService.editWorkflowName(workflow)
+          .subscribe((data: any) => {
 
+            this.isDisabled = false;
+
+            if (data.statusText !== 'Success') {
+
+              this.notifierService.notify('default', data.statusText);
+
+            } else {
+
+              workflow.Name = result;
+              this.notifierService.notify('default',
+                'Workflow name updated successfully.');
+
+            }
+          });
       }
-    });
+    }).catch();
+  }
+
+
+  deletePipelineStage(pipelineId: number, pipelineStageId: number, index: number) {
+    this.isDisabled = true;
+    this.settingsService.deletePipelineStage().then(result => {
+
+      if (result.confirmationStatus) {
+
+        this.settingsDataStorageService.deletePipelineStage(pipelineStageId)
+          .subscribe((response: any) => {
+            this.isDisabled = false;
+
+            if (response.statusText !== 'Success') {
+
+              this.notifierService.notify('default', response.statusText);
+
+            } else {
+
+              const pipeline = this.workflow.Pipelines
+                .find(x => x.Id === pipelineId);
+
+              if (pipeline === undefined) {
+                this.notifierService.notify('default', 'Something went wrong!');
+                return;
+              }
+
+              pipeline.PipelineStages.splice(index, 1);
+              this.notifierService
+                .notify('default', 'Pipeline stage deleted successfully.');
+            }
+
+          });
+      }
+
+      this.isDisabled = false;
+
+    }).catch();
+  }
+
+  deleteWorkflow() {
+    this.isDisabled = true;
+    this.settingsService.deleteWorkflow().then(result => {
+
+      if (result.confirmationStatus) {
+
+        this.settingsDataStorageService.deleteWorkflow(this.workflow.Id)
+          .subscribe((response: any) => {
+            this.isDisabled = false;
+
+            if (response.statusText !== 'Success') {
+
+              this.notifierService.notify('default', response.statusText);
+
+
+            } else {
+              this.router.navigate(['/settings/workflows']);
+              this.notifierService.notify('default',
+                'Workflow deleted successfully.');
+            }
+
+          });
+      }
+
+      this.isDisabled = false;
+
+    }).catch();
   }
 }

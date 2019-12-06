@@ -4,7 +4,7 @@ import {ChangeStatusDialogComponent} from '../../dialogs/change-status-dialog/ch
 import {SelectCandidatesForInterviewDialogComponent} from '../../dialogs/select-candidates-for-interview-dialog/select-candidates-for-interview-dialog.component';
 import {AddUpdateDialogComponent} from '../../dialogs/add-update-dialog/add-update-dialog.component';
 import {AddUpdatePipelineStageDialogComponent} from '../../dialogs/add-update-pipeline-stage-dialog/add-update-pipeline-stage-dialog.component';
-import {PipelineStageCriteriaDialogComponent} from '../../dialogs/pipeline-stage-criteria-dialog/pipeline-stage-criteria-dialog.component';
+import {DisplayPipelineStageCriteriaDialogComponent} from '../../dialogs/display-pipeline-stage-criteria-dialog/display-pipeline-stage-criteria-dialog.component';
 import {ConfirmationDialogComponent} from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
 import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -20,7 +20,7 @@ import { ColorPickerModule } from 'ngx-color-picker';
     SelectCandidatesForInterviewDialogComponent,
     AddUpdateDialogComponent,
     AddUpdatePipelineStageDialogComponent,
-    PipelineStageCriteriaDialogComponent,
+    DisplayPipelineStageCriteriaDialogComponent,
     ConfirmationDialogComponent
   ],
   imports: [
@@ -38,7 +38,7 @@ import { ColorPickerModule } from 'ngx-color-picker';
     SelectCandidatesForInterviewDialogComponent,
     AddUpdateDialogComponent,
     AddUpdatePipelineStageDialogComponent,
-    PipelineStageCriteriaDialogComponent,
+    DisplayPipelineStageCriteriaDialogComponent,
     ConfirmationDialogComponent]
 })
 export class DialogModule {}

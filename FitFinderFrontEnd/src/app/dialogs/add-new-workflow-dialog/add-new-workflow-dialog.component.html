@@ -50,7 +50,7 @@
              style="
            padding: 5px;
            "
-             *ngFor="let pipelineStage of pipeline.PipelineStage">
+             *ngFor="let pipelineStage of pipeline.PipelineStages">
           <div
             style=
               "background-color: #f2f8fd;
@@ -97,7 +97,7 @@
               opacity: .8;
                color: #345188; font-size: 17px;" class="fas fa-pencil-alt"></i>&nbsp;
                 <i
-                  *ngIf="pipeline.PipelineStage.length > 1
+                  *ngIf="pipeline.PipelineStages.length > 1
                 && pipeline.Id !== 7"
                   style="cursor: pointer;
               opacity: .8;

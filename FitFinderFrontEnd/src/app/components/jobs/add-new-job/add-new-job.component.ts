@@ -137,7 +137,7 @@ export class AddNewJobComponent implements OnInit {
   filterDefaultPipelineStages() {
     this.workflows.forEach((workflow) => {
       workflow.Pipelines.forEach((pipeline) => {
-        pipeline.PipelineStage.forEach((pipelineStage) => {
+        pipeline.PipelineStages.forEach((pipelineStage) => {
 
           if (pipelineStage.PipelineStageCriteria === null) {
             pipelineStage.PipelineStageCriteria = [];
@@ -262,7 +262,7 @@ export class AddNewJobComponent implements OnInit {
     const pipelineStageCriteria: PipelineStageCriterion[] = [];
 
     workflow.Pipelines.forEach((pipeline) => {
-      pipeline.PipelineStage.forEach((pipelineStage) => {
+      pipeline.PipelineStages.forEach((pipelineStage) => {
 
         if (pipelineStage.PipelineStageCriteria === null) {
           pipelineStage.PipelineStageCriteria = [];
@@ -297,7 +297,7 @@ export class AddNewJobComponent implements OnInit {
             header: 'New Pipeline Criteria',
             name: '',
             iconClass: 'fas fa-flag-checkered',
-            footer: 'Add or update different pipeline criteria your candidate needs.'
+            footer: 'Add or update different pipeline pipelineStageCriterion your candidate needs.'
           }
       });
 
@@ -337,7 +337,7 @@ export class AddNewJobComponent implements OnInit {
             header: 'Edit Pipeline Criteria',
             name: pipelineStageCriterion.Name,
             iconClass: 'fas fa-flag-checkered',
-            footer: 'Add or update different pipeline criteria your candidate needs.'
+            footer: 'Add or update different pipeline pipelineStageCriterion your candidate needs.'
           }
       });
 

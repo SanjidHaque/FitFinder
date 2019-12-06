@@ -412,7 +412,7 @@
 
           <div class="row"
                style="padding-left: 30px; padding-top: 5px; padding-bottom: 5px;"
-               *ngFor="let pipelineStage of pipeline.PipelineStage">
+               *ngFor="let pipelineStage of pipeline.PipelineStages">
 
             <div class="col-xl-1">
               <input
@@ -433,8 +433,8 @@
 
                 <!--<i-->
                   <!--*ngIf="pipeline.Name !== 'HIRED' && pipeline.Name !== 'REJECTED'"-->
-                  <!--(click)="addNewPipelineStageCriteria(pipelineStage)"-->
-                  <!--matTooltip="Add a new criteria"-->
+                  <!--(click)="addNewPipelineStageCriterion(pipelineStage)"-->
+                  <!--matTooltip="Add a new pipelineStageCriterion"-->
                   <!--matTooltipPosition="right"-->
                   <!--style="cursor: pointer; font-size: 13px;"-->
                   <!--class="fas fa-plus-circle"></i>-->

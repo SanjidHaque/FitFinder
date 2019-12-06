@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Data, Router} from '@angular/router';
 import {Workflow} from '../../../../models/settings/workflow.model';
-import {AddUpdatePipelineStageDialogComponent} from '../../../../dialogs/add-update-pipeline-stage-dialog/add-update-pipeline-stage-dialog.component';
 import {PipelineStage} from '../../../../models/settings/pipeline-stage.model';
-import {PipelineStageCriteriaDialogComponent} from '../../../../dialogs/pipeline-stage-criteria-dialog/pipeline-stage-criteria-dialog.component';
+import {DisplayPipelineStageCriteriaDialogComponent} from '../../../../dialogs/display-pipeline-stage-criteria-dialog/display-pipeline-stage-criteria-dialog.component';
 import {MatDialog} from '@angular/material';
 import {NotifierService} from 'angular-notifier';
 import {SettingsDataStorageService} from '../../../../services/data-storage-services/settings-data-storage.service';
+import {SettingsService} from '../../../../services/shared-services/settings.service';
 
 @Component({
   selector: 'app-add-new-workflow',
@@ -17,12 +17,12 @@ export class AddNewWorkflowComponent implements OnInit {
   defaultWorkflow: Workflow;
 
   isDisabled = false;
-
   workflowName = '';
 
   constructor(private route: ActivatedRoute,
               private dialog: MatDialog,
               private router: Router,
+              private settingsService: SettingsService,
               private settingsDataStorageService: SettingsDataStorageService,
               private notifierService: NotifierService) { }
 
@@ -35,23 +35,7 @@ export class AddNewWorkflowComponent implements OnInit {
 
 
   addNewPipelineStage(pipelineId: number) {
-    const dialogRef = this.dialog.open(AddUpdatePipelineStageDialogComponent,
-      {
-        hasBackdrop: true,
-        disableClose: true,
-        width: '450px',
-        data:
-          {
-            header: 'New Pipeline Stage',
-            name: '',
-            color: '#' + (Math.random().toString(16) + '000000').substring(2, 8),
-            iconClass: 'fas fa-flag-checkered',
-            footer: 'Add or update different pipeline stages your organization needs.'
-          }
-      });
-
-    dialogRef.afterClosed().subscribe(result => {
-
+    this.settingsService.addNewPipelineStage().then(result => {
       if (result !== '') {
 
         const pipelineStage = new PipelineStage(
@@ -63,37 +47,25 @@ export class AddNewWorkflowComponent implements OnInit {
           null
         );
 
-        const getPipeline = this.defaultWorkflow.Pipelines.find(x => x.Id === pipelineId);
-        getPipeline.PipelineStage.push(pipelineStage);
-        this.notifierService.notify('default', 'New stage added.');
+        const pipeline = this.defaultWorkflow.Pipelines
+          .find(x => x.Id === pipelineId);
 
-
+        if (pipeline === undefined) {
+          this.notifierService.notify('default', 'Something went wrong!');
+        } else {
+          pipeline.PipelineStages.push(pipelineStage);
+          this.notifierService.notify('default', 'New pipeline stage added.');
+        }
       }
     });
   }
 
 
-
-
   editPipelineStage(pipelineStage: PipelineStage) {
-    const dialogRef = this.dialog.open(AddUpdatePipelineStageDialogComponent,
-      {
-        hasBackdrop: true,
-        disableClose: true,
-        width: '450px',
-        data:
-          {
-            header: 'Edit Pipeline Stage',
-            name: pipelineStage.Name,
-            color: pipelineStage.Color,
-            iconClass: 'fas fa-flag-checkered',
-            footer: 'Add or update different pipeline stages your organization needs.'
-          }
-      });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result !== '') {
-        if (result.name !== pipelineStage.Name || result.color !== pipelineStage.Color ) {
+    this.settingsService.editPipelineStage(pipelineStage.Name, pipelineStage.Color)
+      .then(result => {
+        if ((result !== '')
+          && (result.name !== pipelineStage.Name || result.color !== pipelineStage.Color)) {
           const editedPipelineStage = new PipelineStage(
             pipelineStage.Id,
             result.name,
@@ -104,27 +76,36 @@ export class AddNewWorkflowComponent implements OnInit {
           );
           pipelineStage.Name = result.name;
           pipelineStage.Color = result.color;
-          this.notifierService.notify('default',
-            'Stage updated successfully.');
-
-          // this.settingsDataStorageService.editPipelineStage(editedPipelineStage)
-          //   .subscribe(
-          //     (data: any) => {
-          //       pipelineStage.Name = result.name;
-          //       pipelineStage.Color = result.color;
-          //       this.notifierService.notify('default',
-          //         'Stage updated successfully.');
-          //     }
-          //   );
+          this.notifierService
+            .notify('default', 'pipeline stage updated successfully.');
         }
-      }
-
-    });
+      });
   }
 
+  deletePipelineStage(pipelineId: number, pipelineStageId: number, index: number) {
+    this.isDisabled = true;
+    this.settingsService.deletePipelineStage().then(result => {
 
-  pipelineStageCriteria(pipelineStage: PipelineStage) {
-    const dialogRef = this.dialog.open(PipelineStageCriteriaDialogComponent,
+      if (result.confirmationStatus) {
+
+        const pipeline = this.defaultWorkflow.Pipelines
+          .find(x => x.Id === pipelineId);
+
+        if (pipeline === undefined) {
+          this.notifierService.notify('default', 'Something went wrong!');
+          return;
+        }
+
+        pipeline.PipelineStages.splice(index, 1);
+        this.notifierService
+          .notify('default', 'Pipeline stage deleted successfully.');
+      }
+
+    }).catch();
+  }
+
+  openPipelineStageCriteria(pipelineStage: PipelineStage) {
+    const dialogRef = this.dialog.open(DisplayPipelineStageCriteriaDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,
@@ -133,31 +114,26 @@ export class AddNewWorkflowComponent implements OnInit {
           {
             iconClass: 'fas fa-flag-checkered',
             stage: pipelineStage,
-            editMode: false
+            insertInDatabase: false
           }
       });
   }
 
 
   addNewWorkflow() {
-
     this.isDisabled = true;
     this.defaultWorkflow.Name = this.workflowName;
 
-
     this.settingsDataStorageService.addNewWorkflow(this.defaultWorkflow)
-      .subscribe( (data: any) => {
-
-        this.notifierService.notify('default', 'New workflow added.');
-        this.router.navigate(['/settings/workflows']);
-
-
-
+      .subscribe((data: any) => {
+        this.isDisabled = false;
+        if (data.statusText !== 'Success') {
+          this.notifierService.notify('default', data.statusText);
+        } else {
+          this.notifierService.notify('default', 'New workflow added.');
+          this.router.navigate(['/settings/workflows']);
+        }
       });
-
-
   }
-
-
 
 }

@@ -1,11 +1,10 @@
 import {Injectable} from '@angular/core';
 import {AddUpdateDialogComponent} from '../../dialogs/add-update-dialog/add-update-dialog.component';
-import {RejectedReason} from '../../models/settings/rejected-reason.model';
 import {MatDialog} from '@angular/material';
-import {ActivatedRoute} from '@angular/router';
-import {SettingsDataStorageService} from '../data-storage-services/settings-data-storage.service';
-import {NotifierService} from 'angular-notifier';
 import {ConfirmationDialogComponent} from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
+import {PipelineStage} from '../../models/settings/pipeline-stage.model';
+import {DisplayPipelineStageCriteriaDialogComponent} from '../../dialogs/display-pipeline-stage-criteria-dialog/display-pipeline-stage-criteria-dialog.component';
+import {AddUpdatePipelineStageDialogComponent} from '../../dialogs/add-update-pipeline-stage-dialog/add-update-pipeline-stage-dialog.component';
 
 @Injectable({
   providedIn: 'root'
@@ -34,14 +33,14 @@ export class DialogService {
 
 
   confirmationDialog(header: string,
-                     iconClass: string,
+                     iconClass: string, width: string,
                      cssClass: string, confirmationText: string,
                      buttonText: string, confirmationStatus: boolean) {
    return this.matDialog.open(ConfirmationDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,
-        width: '400px',
+        width: width,
         data: {
           header: header,
           iconClass: iconClass,
@@ -53,8 +52,20 @@ export class DialogService {
       });
   }
 
-
-
-
-
+  addNewPipelineStageDialog(header: string, name: string, color: string,
+                            iconClass: string, width: string, footer: string) {
+    return this.matDialog.open(AddUpdatePipelineStageDialogComponent,
+      {
+        hasBackdrop: true,
+        disableClose: true,
+        width: width,
+        data: {
+          header: header,
+          name: name,
+          color: color,
+          iconClass: iconClass,
+          footer: footer,
+        }
+      });
+  }
 }

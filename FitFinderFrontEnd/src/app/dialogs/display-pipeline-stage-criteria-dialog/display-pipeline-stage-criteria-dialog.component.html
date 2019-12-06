@@ -25,7 +25,7 @@
 
   <hr>
 
-  <div class="row" *ngIf="data.stage.PipelineStageCriteria === null; else criteriaExist">
+  <div class="row" *ngIf="data.stage.PipelineStageCriteria.length === 0; else criteriaExist">
     <div class="col-xl-12 text-xl-center"
          style="font-size: 14px; padding-top: 10px;">
       No criteria exist. It's easy to create one.
@@ -33,7 +33,7 @@
   </div>
 
   <ng-template #criteriaExist>
-<div style="padding-top: 10px;" *ngFor="let criteria of data.stage.PipelineStageCriteria">
+<div style="padding-top: 10px;" *ngFor="let pipelineStageCriterion of data.stage.PipelineStageCriteria">
     <div class="row"
          style="
          padding-bottom: 5px;
@@ -42,13 +42,13 @@
 
       <div class="col-xl-10" style="padding-left: 23px;">
 
-        &bull; &nbsp; {{ criteria.Name }}
+        &bull; &nbsp; {{ pipelineStageCriterion.Name }}
 
       </div>
 
       <div class="col-xl-1">
         <i
-          (click)="editPipelineStageCriteria(criteria)"
+          (click)="editPipelineStageCriterion(pipelineStageCriterion)"
           style="cursor: pointer;
               opacity: .8;
                color: #345188; font-size: 17px;" class="fas fa-pencil-alt"></i>&nbsp;

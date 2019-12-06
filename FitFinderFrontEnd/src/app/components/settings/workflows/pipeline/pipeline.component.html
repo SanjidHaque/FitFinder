@@ -1,9 +1,18 @@
 <div class="row">
   <div class="col-xl-12">
-    <h4>Candidate Pipeline of {{ workflow.Name }}  &nbsp;
-      <i (click)="editWorkflowName()" style="cursor: pointer; opacity: .8;
+    <h4>Candidate Pipeline of {{ workflow.Name }}
+      &nbsp;
+      <i
+        *ngIf="workflow.Name !== 'Default'"
+        (click)="editWorkflowName()" style="cursor: pointer; opacity: .8;
                color: #345188; font-size: 18px;" class="fas fa-pencil-alt"></i>
+      &nbsp;
+      <i
+        *ngIf="workflow.Name !== 'Default'"
+        (click)="deleteWorkflow()" style="cursor: pointer; opacity: .8;
+               color: #bc0000; font-size: 18px;" class="far fa-trash-alt"></i>
     </h4>
+
   </div>
 </div>
 
@@ -60,7 +69,7 @@
              else notHiredOrDisqualified "
              title="Click To See Pipeline Stage Criteria"
              style="cursor: pointer;"
-             (click)="pipelineStageCriteria(pipelineStage)"> &nbsp;
+             (click)="openPipelineStageCriteria(pipelineStage)"> &nbsp;
              {{ pipelineStage.Name }}
            </h6>
 

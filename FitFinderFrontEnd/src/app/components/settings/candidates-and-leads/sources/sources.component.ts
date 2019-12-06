@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {MatDialog} from '@angular/material';
 import {NotifierService} from 'angular-notifier';
 import {Source} from '../../../../models/settings/source.model';
 import {SettingsDataStorageService} from '../../../../services/data-storage-services/settings-data-storage.service';
@@ -15,8 +14,7 @@ export class SourcesComponent implements OnInit {
   isDisabled = false;
   sources: Source[] = [];
 
-  constructor(private sourceDialog: MatDialog,
-              private route: ActivatedRoute,
+  constructor(private route: ActivatedRoute,
               private settingsService: SettingsService,
               private settingsDataStorageService: SettingsDataStorageService,
               private notifierService: NotifierService) { }

@@ -5,7 +5,7 @@ import {FormGroup} from '@angular/forms';
 import {AddUpdatePipelineStageDialogComponent} from '../add-update-pipeline-stage-dialog/add-update-pipeline-stage-dialog.component';
 import {PipelineStage} from '../../models/settings/pipeline-stage.model';
 import {NotifierService} from 'angular-notifier';
-import {PipelineStageCriteriaDialogComponent} from '../pipeline-stage-criteria-dialog/pipeline-stage-criteria-dialog.component';
+import {DisplayPipelineStageCriteriaDialogComponent} from '../display-pipeline-stage-criteria-dialog/display-pipeline-stage-criteria-dialog.component';
 
 @Component({
   selector: 'app-add-new-workflow-dialog',
@@ -59,7 +59,7 @@ export class AddNewWorkflowDialogComponent implements OnInit {
         );
 
         const getPipeline = this.data.defaultPipelines.find(x => x.Id === pipelineId);
-        getPipeline.PipelineStage.push(pipelineStage);
+        getPipeline.PipelineStages.push(pipelineStage);
         this.notifierService.notify('default', 'New stage added.');
 
 
@@ -68,7 +68,7 @@ export class AddNewWorkflowDialogComponent implements OnInit {
   }
 
   pipelineStageCriteria(pipelineStage: PipelineStage) {
-    const dialogRef = this.dialog.open(PipelineStageCriteriaDialogComponent,
+    const dialogRef = this.dialog.open(DisplayPipelineStageCriteriaDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,

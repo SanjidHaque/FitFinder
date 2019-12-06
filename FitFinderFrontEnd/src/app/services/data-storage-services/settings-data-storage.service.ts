@@ -118,7 +118,7 @@ export class SettingsDataStorageService {
     return this.httpClient.put<PipelineStage>(this.rootUrl + '/api/EditPipelineStage', pipelineStage);
   }
 
-  addNewPipelineStageCriteria(pipelineStageCriterion: PipelineStageCriterion) {
+  addNewPipelineStageCriterion(pipelineStageCriterion: PipelineStageCriterion) {
     return this.httpClient.post<PipelineStageCriterion>(this.rootUrl + '/api/AddNewPipelineStageCriteria', pipelineStageCriterion);
   }
 

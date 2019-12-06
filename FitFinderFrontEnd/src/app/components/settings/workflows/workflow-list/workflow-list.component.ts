@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {Workflow} from '../../../../models/settings/workflow.model';
-import {ActivatedRoute, Data} from '@angular/router';
-import {AddUpdateDialogComponent} from '../../../../dialogs/add-update-dialog/add-update-dialog.component';
-import {MatDialog} from '@angular/material';
+import {ActivatedRoute, Data, Router} from '@angular/router';
 import {SettingsDataStorageService} from '../../../../services/data-storage-services/settings-data-storage.service';
 import {NotifierService} from 'angular-notifier';
+import {SettingsService} from '../../../../services/shared-services/settings.service';
 
 @Component({
   selector: 'app-workflow-list',
@@ -12,12 +11,12 @@ import {NotifierService} from 'angular-notifier';
   styleUrls: ['./workflow-list.component.css']
 })
 export class WorkflowListComponent implements OnInit {
-
   isDisabled = false;
   workflows: Workflow[] = [];
 
-  constructor(private workflowDialog: MatDialog,
-              private route: ActivatedRoute,
+  constructor(private route: ActivatedRoute,
+              private router: Router,
+              private settingsService: SettingsService,
               private settingsDataStorageService: SettingsDataStorageService,
               private notifierService: NotifierService) { }
 
@@ -30,23 +29,8 @@ export class WorkflowListComponent implements OnInit {
 
 
   editWorkflowName(workflow: Workflow) {
-    const dialogRef = this.workflowDialog.open(AddUpdateDialogComponent,
-      {
-        hasBackdrop: true,
-        disableClose: true,
-        width: '400px',
-        data:
-          {
-            header: 'Edit Workflow Name',
-            name: workflow.Name,
-            iconClass: 'fas fa-flag-checkered',
-            footer: 'Add or update different workflows your organization needs.'
-          }
-      });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result !== workflow.Name && result !== '') {
-
+    this.settingsService.editWorkflowName(workflow.Name).then(result => {
+      if (result !== '') {
         const editedWorkflow = new Workflow(
           workflow.Id,
           result,
@@ -55,16 +39,48 @@ export class WorkflowListComponent implements OnInit {
           []
         );
 
+        this.isDisabled = true;
         this.settingsDataStorageService.editWorkflowName(editedWorkflow)
-          .subscribe(
-            (data: any) => {
-              workflow.Name = result;
-              this.notifierService.notify('default', 'Workflow name updated.');
-            }
-          );
-
+          .subscribe((data: any) => {
+              this.isDisabled = false;
+              if (data.statusText !== 'Success') {
+                this.notifierService.notify('default', data.statusText);
+              } else {
+                workflow.Name = result;
+                this.notifierService.notify('default',
+                  'Workflow name updated successfully.');
+              }
+            });
       }
     });
+  }
+
+  deleteWorkflow(workflowId: number, index: number) {
+    this.isDisabled = true;
+    this.settingsService.deleteWorkflow().then(result => {
+
+      if (result.confirmationStatus) {
+
+        this.settingsDataStorageService.deleteWorkflow(workflowId)
+          .subscribe((response: any) => {
+            this.isDisabled = false;
+
+            if (response.statusText !== 'Success') {
+
+              this.notifierService.notify('default', response.statusText);
+
+            } else {
+              this.workflows.splice(index, 1);
+              this.notifierService.notify('default',
+                'Workflow deleted successfully.');
+            }
+
+          });
+      }
+
+      this.isDisabled = false;
+
+    }).catch();
   }
 
 

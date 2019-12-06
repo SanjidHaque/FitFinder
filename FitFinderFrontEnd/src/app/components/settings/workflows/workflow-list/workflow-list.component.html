@@ -4,21 +4,39 @@
     <div class="col-xl-10">
       <span
         style="cursor: pointer; outline: 0;"
-        routerLink="/settings/workflows/{{workflow.Id}}"
-      >
+        routerLink="/settings/workflows/{{ workflow.Id }}">
 
         {{ workflow.Name }}
 
       </span>
     </div>
-    <div class="col-xl-1" *ngIf="i > 0">
-      <i (click)="editWorkflowName(workflow)" style="cursor: pointer; opacity: .8;
-               color: #345188; font-size: 17px;" class="fas fa-pencil-alt"></i>
+
+
+    <div class="col-xl-1"  *ngIf="workflow.Name !== 'Default'">
+      <button
+        [disabled]="isDisabled"
+        style="border: none;
+        cursor: pointer;
+        outline: 0;
+        opacity: .8; color: #345188; font-size: 17px;"
+        (click)="editWorkflowName(workflow)"
+        mat-stroked-button>
+        <i class="fas fa-pencil-alt"></i>
+      </button>
     </div>
 
-    <div class="col-xl-1" *ngIf="i > 0">
-      <i style="cursor: pointer; opacity: .8;
-               color: #bc0000; font-size: 17px;" class="far fa-trash-alt"></i> &nbsp;
+    <div class="col-xl-1"  *ngIf="workflow.Name !== 'Default'">
+      <button
+        [disabled]="isDisabled"
+        style="border: none;
+        cursor: pointer;
+        outline: 0;
+        opacity: .8; color: #bc0000; font-size: 17px;"
+        (click)="deleteWorkflow(workflow.Id, i)"
+        mat-stroked-button>
+        <i class="far fa-trash-alt"></i>
+      </button>
+
     </div>
 
   </div>

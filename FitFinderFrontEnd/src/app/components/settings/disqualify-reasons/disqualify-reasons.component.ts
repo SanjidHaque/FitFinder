@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {MatDialog} from '@angular/material';
 import {SettingsDataStorageService} from '../../../services/data-storage-services/settings-data-storage.service';
 import {NotifierService} from 'angular-notifier';
 import {RejectedReason} from '../../../models/settings/rejected-reason.model';
@@ -19,9 +18,7 @@ export class DisqualifyReasonsComponent implements OnInit {
   rejectedReasons: RejectedReason[] = [];
   withdrawnReasons: WithdrawnReason[] = [];
 
-  constructor(private matDialog: MatDialog,
-              private route: ActivatedRoute,
-              private dialogService: DialogService,
+  constructor(private route: ActivatedRoute,
               private settingsService: SettingsService,
               private settingsDataStorageService: SettingsDataStorageService,
               private notifierService: NotifierService) { }

@@ -23,8 +23,8 @@ export class ChangeStatusDialogComponent implements OnInit {
 
   ngOnInit() {
     for (let i = 0; i < this.data.pipelines.length; i++) {
-      for (let j = 0; j < this.data.pipelines[i].PipelineStage.length; j++) {
-        this.pipelineStages.push(this.data.pipelines[i].PipelineStage[j]);
+      for (let j = 0; j < this.data.pipelines[i].PipelineStages.length; j++) {
+        this.pipelineStages.push(this.data.pipelines[i].PipelineStages[j]);
       }
     }
     this.currentStageName =
