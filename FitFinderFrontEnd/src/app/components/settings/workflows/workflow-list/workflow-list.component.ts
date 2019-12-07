@@ -24,6 +24,7 @@ export class WorkflowListComponent implements OnInit {
     this.route.data.subscribe(
       (data: Data) => {
         this.workflows = data['workflows'].workflows;
+        this.settingsService.numberOfWorkflows = this.workflows.length;
       });
   }
 

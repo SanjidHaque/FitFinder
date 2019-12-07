@@ -23,7 +23,7 @@ export class PipelineComponent implements OnInit {
               private route: ActivatedRoute,
               private dialog: MatDialog,
               private router: Router,
-              private settingsService: SettingsService,
+              public settingsService: SettingsService,
               private notifierService: NotifierService) {}
 
   ngOnInit() {

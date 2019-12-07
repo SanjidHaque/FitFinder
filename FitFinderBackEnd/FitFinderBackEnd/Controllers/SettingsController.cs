@@ -794,6 +794,7 @@ namespace FitFinderBackEnd.Controllers
                 return Ok(new { statusText = _statusTextService.ResourceNotFound });
             }
 
+
             List<Pipeline> pipelines = _context.Pipelines
                 .Where(x => x.WorkflowId == workflowId)
                 .ToList();

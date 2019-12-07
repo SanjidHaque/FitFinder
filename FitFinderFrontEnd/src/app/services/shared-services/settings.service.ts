@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import {DialogService} from '../dialog-services/dialog.service';
-import {PipelineStage} from '../../models/settings/pipeline-stage.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SettingsService {
+  numberOfWorkflows = 0;
 
   constructor(private dialogService: DialogService) {}
 
