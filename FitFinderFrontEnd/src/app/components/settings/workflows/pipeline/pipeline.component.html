@@ -1,17 +1,30 @@
 <div class="row">
-  <div class="col-xl-12">
-    <h4>Candidate Pipeline of {{ workflow.Name }}
-      &nbsp;
-      <i
-        *ngIf="workflow.Name !== 'Default'"
-        (click)="editWorkflowName()" style="cursor: pointer; opacity: .8;
-               color: #345188; font-size: 18px;" class="fas fa-pencil-alt"></i>
-      &nbsp;
-      <i
-        *ngIf="workflow.Name !== 'Default'"
-        (click)="deleteWorkflow()" style="cursor: pointer; opacity: .8;
-               color: #bc0000; font-size: 18px;" class="far fa-trash-alt"></i>
+  <div class="col-xl-10">
+    <h4>
+      Candidate Pipeline of {{ workflow.Name }}
     </h4>
+  </div>
+
+  <div class="col-xl-2 text-xl-right">
+
+    <button
+      *ngIf="workflow.Name !== 'Default'"
+      mat-button
+      (click)="editWorkflowName()"
+      [disabled]="isDisabled"
+      style="outline: 0; border: none; min-width: 1%;
+        color: #345188; font-size: 18px;">
+      <i class="fas fa-pencil-alt"></i>
+    </button>
+    <button
+      *ngIf="workflow.Name !== 'Default'"
+      mat-button
+      (click)="deleteWorkflow()"
+      [disabled]="isDisabled"
+      style="outline: 0; border: none; min-width: 1%;
+        color: #bc0000; font-size: 18px;">
+      <i class="far fa-trash-alt"></i>
+    </button>
 
   </div>
 </div>
@@ -44,7 +57,7 @@
            style="
            padding: 5px;
            "
-           *ngFor="let pipelineStage of pipeline.PipelineStages">
+           *ngFor="let pipelineStage of pipeline.PipelineStages; let i = index">
         <div
           style=
             "background-color: #f2f8fd;
@@ -64,14 +77,18 @@
             </div>
             <div class="col-xl-10" style="padding-top: 3px;">
 
-           <h6
-             *ngIf="pipeline.Name !== 'HIRED' && pipeline.Name !== 'REJECTED';
+              <h6
+                *ngIf="
+                pipeline.Name !== 'REJECTED'
+                && pipeline.Name !== 'HIRED'
+                && pipeline.Name !== 'ONHOLD'
+                && pipeline.Name !== 'OFFERED';
              else notHiredOrDisqualified "
-             title="Click To See Pipeline Stage Criteria"
-             style="cursor: pointer;"
-             (click)="openPipelineStageCriteria(pipelineStage)"> &nbsp;
-             {{ pipelineStage.Name }}
-           </h6>
+                title="click to see pipeline stage criteria"
+                style="cursor: pointer;"
+                (click)="openPipelineStageCriteria(pipelineStage)"> &nbsp;
+                {{ pipelineStage.Name }}
+              </h6>
 
               <ng-template #notHiredOrDisqualified>
 
@@ -84,36 +101,66 @@
             </div>
           </div>
 
-          <div class="row" style="padding-top: 30px;">
+
+          <div
+            *ngIf="pipeline.Name !== 'REJECTED'
+                && pipeline.Name !== 'HIRED'
+                && pipeline.Name !== 'ONHOLD'
+                && pipeline.Name !== 'OFFERED'; else otherStages"
+            class="row" style="padding-top: 30px;">
             <div class="col-xl-12 text-xl-right">
 
-              <i
+              <button
                 (click)="editPipelineStage(pipelineStage)"
-                style="cursor: pointer;
-              opacity: .8;
-               color: #345188; font-size: 17px;" class="fas fa-pencil-alt"></i>&nbsp;
-              <i
-                *ngIf="pipeline.PipelineStages.length > 1
-                && pipeline.Id !== 7"
-                style="cursor: pointer;
-              opacity: .8;
-               color: #bc0000; font-size: 17px;" class="far fa-trash-alt"></i>
+                style="
+                outline: 0;
+                border: none;
+                min-width: 1%;"
+                mat-stroked-button>
+                <i
+                  style="
+                  cursor: pointer;
+                  color: #345188;
+                  font-size: 17px;"
+                  class="fas fa-pencil-alt"></i>
+              </button>
+
+
+              <button
+                (click)="deletePipelineStage(pipeline.Id, pipelineStage.Id, i)"
+                *ngIf="pipeline.PipelineStages.length > 1"
+                style="
+                outline: 0;
+                border: none;
+                min-width: 1%;"
+                mat-stroked-button>
+
+                <i
+                  style="cursor: pointer;
+                  color: #bc0000;
+                  font-size: 17px;"
+                  class="far fa-trash-alt"></i>
+              </button>
+
             </div>
           </div>
+
+
+          <ng-template #otherStages>
+
+            <div class="row" style="padding-top: 57px;">
+              <div class="col-xl-12"></div>
+            </div>
+
+          </ng-template>
+
+
         </div>
-
-
-
-
       </div>
 
       <div class="col-xl-4"
-           *ngIf="
-           pipeline.Name === 'INREVIEW'
-           || pipeline.Name === 'INTERVIEW'
-           || pipeline.Name === 'OFFERED'"
-           style="
-           padding: 5px;">
+           *ngIf="pipeline.Name === 'INREVIEW' || pipeline.Name === 'INTERVIEW'"
+           style="padding: 5px;">
         <div
           style=
             "background-color: #f2f8fd;
@@ -123,14 +170,19 @@
 
           <div class="row">
             <div class="col-xl-12"
-                 style="color: #00a7de;
-                 padding-bottom: 31px;
-                 padding-top: 31px;
+                 style="color: #008bb8;
+                 padding-bottom: 29px;
+                 padding-top: 29px;
                  font-size: 14px;
-                  text-align: center;">
-             <span
-               (click)="addNewPipelineStage(pipeline.Id)"
-               style="cursor: pointer;"> <i class="fas fa-plus-circle"></i> Add</span>
+                 text-align: center;">
+             <button
+               [disabled]="isDisabled"
+               mat-stroked-button
+               style="border: none; outline: 0;"
+               (click)="addNewPipelineStage(pipeline.Id)">
+               <i class="fas fa-plus-circle"></i>
+               Add
+             </button>
             </div>
           </div>
 
@@ -141,19 +193,19 @@
       <div class="offset-xl-4 col-xl-4"
            *ngIf="pipeline.Name === 'NEW' || pipeline.Name === 'HIRED' "
            style=" padding: 5px;">
-        <div style=
-            "background-color: #f3f5f7;
-             border: 1px solid #f3f5f7;
-             padding: 14px;
-             border-radius: 3px;">
+        <div
+          style="background-color: #f3f5f7;
+          border: 1px solid #f3f5f7;
+          padding: 14px;
+          border-radius: 3px;">
 
           <div *ngIf="pipeline.Name === 'NEW'">
-            <div class="row" >
+            <div class="row">
               <div class="col-xl-12">
                 <h6>Active stages</h6>
               </div>
             </div>
-            <div class="row" >
+            <div class="row">
               <div class="col-xl-12" style="font-size: 14px; opacity: .8;">
                 Active stage represent a potential candidate's journey.
               </div>
@@ -161,18 +213,17 @@
           </div>
 
           <div *ngIf="pipeline.Name === 'HIRED'">
-            <div class="row" >
+            <div class="row">
               <div class="col-xl-12">
                 <h6>Closed stages</h6>
               </div>
             </div>
-            <div class="row" >
+            <div class="row">
               <div class="col-xl-12" style="font-size: 14px; opacity: .8;">
                 Closed stage represent the result of your candidate journey.
               </div>
             </div>
           </div>
-
 
 
         </div>

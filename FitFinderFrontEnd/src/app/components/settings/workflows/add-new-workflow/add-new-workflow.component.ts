@@ -7,6 +7,8 @@ import {MatDialog} from '@angular/material';
 import {NotifierService} from 'angular-notifier';
 import {SettingsDataStorageService} from '../../../../services/data-storage-services/settings-data-storage.service';
 import {SettingsService} from '../../../../services/shared-services/settings.service';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {noWhitespaceValidator} from '../../../../custom-form-validators/no-white-space.validator';
 
 @Component({
   selector: 'app-add-new-workflow',
@@ -17,7 +19,7 @@ export class AddNewWorkflowComponent implements OnInit {
   defaultWorkflow: Workflow;
 
   isDisabled = false;
-  workflowName = '';
+  addNewWorkflowForm: FormGroup;
 
   constructor(private route: ActivatedRoute,
               private dialog: MatDialog,
@@ -31,6 +33,11 @@ export class AddNewWorkflowComponent implements OnInit {
       (data: Data) => {
         this.defaultWorkflow = data['defaultWorkflow'].workflow;
       });
+
+    this.addNewWorkflowForm = new FormGroup({
+      'workflowName': new FormControl('',
+        [Validators.required, noWhitespaceValidator])
+    });
   }
 
 
@@ -122,12 +129,12 @@ export class AddNewWorkflowComponent implements OnInit {
 
   addNewWorkflow() {
     this.isDisabled = true;
-    this.defaultWorkflow.Name = this.workflowName;
+    this.defaultWorkflow.Name = this.addNewWorkflowForm.controls['workflowName'].value;
 
     this.settingsDataStorageService.addNewWorkflow(this.defaultWorkflow)
       .subscribe((data: any) => {
-        this.isDisabled = false;
         if (data.statusText !== 'Success') {
+          this.isDisabled = false;
           this.notifierService.notify('default', data.statusText);
         } else {
           this.notifierService.notify('default', 'New workflow added.');
