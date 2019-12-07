@@ -34,7 +34,8 @@ export class DisqualifyReasonsComponent implements OnInit {
 
   addNewRejectedReason() {
     this.settingsService.addNewRejectedReason().then(result => {
-      const rejectedReason = new RejectedReason(
+      if (result !== '') {
+        const rejectedReason = new RejectedReason(
           null,
           result,
           null,
@@ -51,8 +52,10 @@ export class DisqualifyReasonsComponent implements OnInit {
                 'New rejected reason added.');
             }
           });
-      });
+      }
+    });
   }
+
 
   addNewWithdrawnReason() {
     this.settingsService.addNewWithdrawnReason().then(result => {

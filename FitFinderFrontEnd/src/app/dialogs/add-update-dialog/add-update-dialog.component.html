@@ -1,8 +1,6 @@
 <form [formGroup]="textFieldForm"
       #form="ngForm">
 
-
-
 <h3 mat-dialog-title>{{ data.header }}</h3>
 
 
@@ -39,6 +37,7 @@
 
     <mat-dialog-actions align="end">
       <button
+        type="submit"
         mat-flat-button
         [disabled]="!form.valid"
         color="primary"
@@ -46,6 +45,7 @@
         style="outline: 0;"
       >Save</button>
       <button
+        type="button"
         mat-stroked-button
         (click)="cancelClick()"
         style="outline: 0;"
