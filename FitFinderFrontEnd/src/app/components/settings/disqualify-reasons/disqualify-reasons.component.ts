@@ -144,7 +144,7 @@ export class DisqualifyReasonsComponent implements OnInit {
 
   deleteRejectedReason(rejectedReasonId: number, index: number) {
     this.isDisabled = true;
-    this.settingsService.deleteRejectedReason()
+    this.settingsService.deleteResource('Delete Rejected Reason')
       .then(result => {
         
         if (result.confirmationStatus) {
@@ -175,7 +175,7 @@ export class DisqualifyReasonsComponent implements OnInit {
 
   deleteWithdrawnReason(withdrawnReasonId: number, index: number) {
     this.isDisabled = true;
-    this.settingsService.deleteWithdrawnReason()
+    this.settingsService.deleteResource('Delete Withdrawn Reason')
       .then(result => {
 
         if (result.confirmationStatus) {

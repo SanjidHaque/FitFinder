@@ -88,7 +88,8 @@ export class DepartmentsComponent implements OnInit {
 
   deleteDepartment(departmentId: number, index: number) {
     this.isDisabled = true;
-    this.settingsService.deleteDepartment().then(result => {
+    this.settingsService.deleteResource('Delete Department')
+      .then(result => {
 
         if (result.confirmationStatus) {
 

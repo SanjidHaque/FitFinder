@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {Company} from '../../../../models/settings/company.model';
 import {ActivatedRoute, Data, Params, Router} from '@angular/router';
 import {NotifierService} from 'angular-notifier';
-import * as moment from 'moment';
 import {UserAccount} from '../../../../models/settings/user-account.model';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserAccountDataStorageService} from '../../../../services/data-storage-services/user-account-data-storage.service';
@@ -38,15 +37,14 @@ export class EditCompanyComponent implements OnInit {
     this.route.data.
     subscribe(
       (data: Data) => {
-        // this.companies = data['companies'];
-        this.company = data['company'];
+        this.companies = data['companies'].companies;
 
+        this.company = this.companies.find(x => x.Id === this.companyId);
         if (this.company === undefined) {
+          this.notifierService.notify('default', 'Resource not found!');
           this.router.navigate(['/settings/manage-companies']);
-          this.notifierService.notify('default',  'Company not found.')
         }
-      }
-    );
+      });
 
 
     this.editCompanyForm = new FormGroup({
@@ -71,72 +69,60 @@ export class EditCompanyComponent implements OnInit {
   }
 
   editCompany() {
+    const company = new Company(
+      this.companyId,
+      this.editCompanyForm.controls['companyName'].value,
+      this.editCompanyForm.controls['companyAddress'].value,
+      this.editCompanyForm.controls['companyEmail'].value,
+      this.editCompanyForm.controls['companyPhoneNumber'].value,
+      '',
+      this.editCompanyForm.controls['adminFullName'].value,
+      this.editCompanyForm.controls['adminEmail'].value,
+      this.editCompanyForm.controls['adminPhoneNumber'].value,
+      '',
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    );
+
+    const userAccount = new UserAccount(
+      null,
+      this.company,
+      this.companyId,
+      this.company.AdminUserName,
+      this.editCompanyForm.controls['adminFullName'].value,
+      this.editCompanyForm.controls['adminEmail'].value,
+      '',
+      this.editCompanyForm.controls['adminPhoneNumber'].value,
+      '',
+      'HR',
+      null,
+      1,
+      true
+    );
+
     this.isDisabled = true;
-    this.userAccountDataStorageService.editUserAccount(
-      new UserAccount(
-        null,
-        null,
-        this.companyId,
-        this.company.AdminUserName,
-        this.editCompanyForm.controls['adminFullName'].value,
-        this.editCompanyForm.controls['adminEmail'].value,
-        '',
-        this.editCompanyForm.controls['adminPhoneNumber'].value,
-        '',
-        'HR',
-        null,
-        1,
-        true
-      )
-    ).subscribe((data: any) => {
+    this.userAccountDataStorageService.editUserAccount(userAccount)
+      .subscribe((data: any) => {
 
-        if (data.Succeeded) {
-
-          this.userAccountDataStorageService.editCompany(
-            new Company(
-              this.companyId,
-              this.editCompanyForm.controls['companyName'].value,
-              this.editCompanyForm.controls['companyAddress'].value,
-              this.editCompanyForm.controls['companyEmail'].value,
-              this.editCompanyForm.controls['companyPhoneNumber'].value,
-              '',
-              this.editCompanyForm.controls['adminFullName'].value,
-              this.editCompanyForm.controls['adminEmail'].value,
-              this.editCompanyForm.controls['adminPhoneNumber'].value,
-              '',
-              [],
-              [],
-              [],
-              [],
-              [],
-              [],
-              [],
-              [],
-              [],
-              [],
-              []
-            )
-          ).subscribe( (response: any) => {
-            if ( response.statusText === 'Success' ) {
-
-              this.notifierService.notify(
-                'default',
-                'Information updated.');
-              this.router.navigate(['/settings/manage-companies']);
-
-            } else {
-
-              this.notifierService.notify( 'default', 'Something went wrong.');
-              this.isDisabled = false;
-
-            }
-          })
-        } else {
-          this.notifierService.notify( 'default', data.Errors[0]);
+        if (data.statusText !== 'Success') {
+          this.notifierService.notify('default', data.statusText);
           this.isDisabled = false;
-        }
-      }
-    )
-  }
+        } else {
 
+          this.notifierService.notify('default', 'Information updated.');
+          this.router.navigate(['/settings/manage-companies']);
+
+        }
+      });
+
+  }
 }

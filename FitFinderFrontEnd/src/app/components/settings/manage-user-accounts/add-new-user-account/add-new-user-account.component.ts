@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserAccountDataStorageService} from '../../../../services/data-storage-services/user-account-data-storage.service';
 import {NotifierService} from 'angular-notifier';
-import {ActivatedRoute, Data, Route, Router} from '@angular/router';
+import {ActivatedRoute, Data, Router} from '@angular/router';
 import {Role} from '../../../../models/settings/role.model';
 import {UserAccount} from '../../../../models/settings/user-account.model';
 import * as moment from 'moment';
@@ -43,49 +43,46 @@ export class AddNewUserAccountComponent implements OnInit {
       'roleName': new FormControl('', Validators.required),
       'departmentId': new FormControl('', Validators.required)
     });
-
-
   }
+
 
 
 
 
   addNewUserAccount() {
     this.isDisabled = true;
-    this.userAccountDataStorageService.addNewUserAccount(
-      new UserAccount(
-        null,
-        null,
-        null,
-        this.addNewUserAccountForm.controls['userName'].value,
-        this.addNewUserAccountForm.controls['fullName'].value,
-        this.addNewUserAccountForm.controls['email'].value,
-        '',
-        this.addNewUserAccountForm.controls['phoneNumber'].value,
-        moment().format('h:mm:ss A, Do MMMM YYYY'),
-        this.addNewUserAccountForm.controls['roleName'].value,
-        null,
-        this.addNewUserAccountForm.controls['departmentId'].value,
-        false
-      )
-    ).subscribe( (response: any) => {
-      if (response.Succeeded) {
 
-        this.notifierService.notify(
-          'default',
-          'New user created.' +
-          ' A confirmation email ' +
-          'includes username and password has sent to the registered email.');
-        this.addNewUserAccountForm.reset();
-        this.router.navigate(['/settings/manage-user-accounts']);
+    const userAccount = new UserAccount(
+      null,
+      null,
+      null,
+      this.addNewUserAccountForm.controls['userName'].value,
+      this.addNewUserAccountForm.controls['fullName'].value,
+      this.addNewUserAccountForm.controls['email'].value,
+      '',
+      this.addNewUserAccountForm.controls['phoneNumber'].value,
+      moment().format('h:mm:ss A, Do MMMM YYYY'),
+      this.addNewUserAccountForm.controls['roleName'].value,
+      null,
+      this.addNewUserAccountForm.controls['departmentId'].value,
+      false
+    );
 
-      } else {
+    this.userAccountDataStorageService.addNewUserAccount(userAccount)
+      .subscribe((response: any) => {
+        if (response.statusText !== 'Success') {
 
-        this.notifierService.notify( 'default', response.Errors[0]);
-        this.isDisabled = false;
+          this.notifierService.notify('default', response.statusText);
+          this.isDisabled = false;
 
-      }
-    })
+        } else {
+
+          this.notifierService.notify('default',
+            'New user created. Check corresponded email.');
+          this.router.navigate(['/settings/manage-user-accounts']);
+
+        }
+      });
   }
 
   getEmailErrorMessage(formControlName: string) {
@@ -93,6 +90,5 @@ export class AddNewUserAccountComponent implements OnInit {
       this.addNewUserAccountForm.controls[formControlName].hasError('email') ? 'Not a valid email' :
         '';
   }
-
 
 }

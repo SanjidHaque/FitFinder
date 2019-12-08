@@ -84,7 +84,8 @@ export class JobFunctionsComponent implements OnInit {
 
   deleteJobFunction(jobFunctionId: number, index: number) {
     this.isDisabled = true;
-    this.settingsService.deleteJobFunction().then(result => {
+    this.settingsService.deleteResource('Delete Job Function')
+      .then(result => {
 
         if (result.confirmationStatus) {
 

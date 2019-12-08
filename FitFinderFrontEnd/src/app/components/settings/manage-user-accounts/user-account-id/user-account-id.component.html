@@ -23,7 +23,7 @@
 </div>
 
 <div
-  *ngIf="userAccount.FullName !== ''"
+  *ngIf="userAccount.FullName !== null"
   class="row" style="padding-bottom: 5px;padding-top: 5px;">
   <div class="col-xl-8">
 
@@ -93,10 +93,11 @@
   <div class="col-xl-8">
 
     <button
-      routerLink="/settings/manage-user-accounts/{{userAccount.Id}}/edit-user-account"
+      routerLink="/settings/manage-user-accounts/{{ userAccount.Id }}/edit-user-account"
       style="outline: 0;"
-      mat-stroked-button color="primary">Edit</button> &nbsp;
+      mat-stroked-button color="primary">Edit</button>
     <button
+      *ngIf="!userAccount.IsOwner"
       (click)="deleteUserAccount()"
       [disabled]="isDisabled"
       style="outline: 0;"

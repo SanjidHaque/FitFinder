@@ -91,7 +91,7 @@ const settingsRoutes: Routes = [
               component: CompanyIdComponent,
               resolve:
                 {
-                  company: CompanyResolverService
+                  companies: CompaniesResolverService
                 }
             },
             {
@@ -99,7 +99,7 @@ const settingsRoutes: Routes = [
               component: EditCompanyComponent,
               resolve:
                 {
-                  company: CompanyResolverService
+                  companies: CompaniesResolverService
                 }
             }
           ]
@@ -140,8 +140,7 @@ const settingsRoutes: Routes = [
               component: UserAccountIdComponent,
               resolve:
                 {
-                  userAccount: UserAccountResolverService,
-                  departments: DepartmentsResolverService
+                  userAccount: UserAccountResolverService
                 }
             },
             {

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {UserAccount} from '../../../../models/settings/user-account.model';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {ActivatedRoute, Data, Params, Router} from '@angular/router';
+import {ActivatedRoute, Data, Router} from '@angular/router';
 import {UserAccountDataStorageService} from '../../../../services/data-storage-services/user-account-data-storage.service';
 import {NotifierService} from 'angular-notifier';
 import {Role} from '../../../../models/settings/role.model';
@@ -13,10 +13,9 @@ import {Department} from '../../../../models/settings/department.model';
   styleUrls: ['./edit-user-account.component.css']
 })
 export class EditUserAccountComponent implements OnInit {
-  userAccountId: string;
   isDisabled = false;
-  roles: Role[] = [];
 
+  roles: Role[] = [];
   departments: Department[] = [];
   userAccount: UserAccount;
 
@@ -27,31 +26,19 @@ export class EditUserAccountComponent implements OnInit {
               private fb: FormBuilder,
               private userAccountDataStorageService: UserAccountDataStorageService,
               private notifierService: NotifierService,
-              private route: ActivatedRoute) {
-    this.route.params
-      .subscribe(
-        (params: Params) => {
-          this.userAccountId = params['id'];
-        }
-      );
-
-  }
+              private route: ActivatedRoute) {}
 
   ngOnInit() {
+    this.route.data.subscribe((data: Data) => {
 
-    this.route.data.subscribe(
-      (data: Data) => {
-        this.userAccount = data['userAccount'];
-        this.departments = data['departments'];
-        this.roles = data['roles'];
+        this.userAccount = data['userAccount'].userAccount;
+        this.departments = data['departments'].departments;
+        this.roles = data['roles'].roles;
 
-        // this.userAccount = this.userAccounts.find(x => x.Id === this.userAccountId);
         if (this.userAccount === undefined) {
           this.router.navigate(['/settings/manage-user-accounts']);
-          this.notifierService.notify('default', 'User not found.')
+          this.notifierService.notify('default', 'Resource not found!')
         }
-
-
 
         this.editUserAccountForm = this.fb.group({
           userName: new FormControl(this.userAccount.UserName, Validators.required),
@@ -64,49 +51,43 @@ export class EditUserAccountComponent implements OnInit {
         });
 
         this.editUserAccountForm.get('userName').disable();
-      }
-    );
-
+      });
   }
 
 
-
   editUserAccount() {
-    this.isDisabled = true;
-    this.userAccountDataStorageService.editUserAccount(
-      new UserAccount(
-        this.userAccount.Id,
-        null,
-        this.userAccount.CompanyId,
-        this.editUserAccountForm.controls['userName'].value,
-        this.editUserAccountForm.controls['fullName'].value,
-        this.editUserAccountForm.controls['email'].value,
-        '',
-        this.editUserAccountForm.controls['phoneNumber'].value,
-        this.userAccount.JoiningDateTime,
-        this.editUserAccountForm.controls['roleName'].value,
-        null,
-        this.editUserAccountForm.controls['departmentId'].value,
-        this.userAccount.IsOwner
-      )
-    ).subscribe( (response: any) => {
-      if (response.Succeeded) {
 
-        if (this.userAccount.IsOwner) {
+    this.isDisabled = true;
+    const userAccount = new UserAccount(
+      this.userAccount.Id,
+      null,
+      this.userAccount.CompanyId,
+      this.editUserAccountForm.controls['userName'].value,
+      this.editUserAccountForm.controls['fullName'].value,
+      this.editUserAccountForm.controls['email'].value,
+      '',
+      this.editUserAccountForm.controls['phoneNumber'].value,
+      this.userAccount.JoiningDateTime,
+      this.editUserAccountForm.controls['roleName'].value,
+      null,
+      this.editUserAccountForm.controls['departmentId'].value,
+      this.userAccount.IsOwner
+    );
+
+    this.userAccountDataStorageService.editUserAccount(userAccount)
+      .subscribe((response: any) => {
+        if (response.statusText !== 'Success') {
+
+          this.notifierService.notify('default', response.statusText);
+          this.isDisabled = false;
+
+        } else {
+
+          this.router.navigate(['/settings/manage-user-accounts/', this.userAccount.Id]);
+          this.notifierService.notify('default', 'Information updated.');
 
         }
-
-        this.router.navigate(['/settings/manage-user-accounts/', this.userAccountId]);
-        this.notifierService.notify(
-          'default',
-          'Information updated.');
-      } else {
-
-        this.notifierService.notify( 'default', response.Errors[0]);
-        this.isDisabled = false;
-
-      }
-    })
+      });
   }
 
   getEmailErrorMessage(formControlName: string) {

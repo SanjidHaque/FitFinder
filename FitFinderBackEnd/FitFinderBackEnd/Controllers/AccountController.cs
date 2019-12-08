@@ -34,12 +34,14 @@ namespace FitFinderBackEnd.Controllers
         private ApplicationDbContext _context;
         private StatusTextService _statusTextService;
         private SharedService _sharedService;
+        private SettingsService _settingsService;
 
         public AccountController()
         {
             _context = new ApplicationDbContext();
             _statusTextService = new StatusTextService();
             _sharedService = new SharedService();
+            _settingsService = new SettingsService();
         }
 
         public AccountController(ApplicationUserManager userManager,
@@ -336,14 +338,8 @@ namespace FitFinderBackEnd.Controllers
         public IHttpActionResult AddNewCompany(Company company)
         {
 
-            //if (company == null)
-            //{
-            //    return Ok(new { companyId = -1 , statusText = _statusTextService.ResourceNotFound });
-            //}
-
             _context.Companies.Add(company);
             _context.SaveChanges();
-
             SettingsService settingsService = new SettingsService();
             settingsService.GenerateDefaultWorkflow(company.Id);
 
@@ -354,8 +350,11 @@ namespace FitFinderBackEnd.Controllers
             settingsService.GenerateDefaultWithdrawnReasons(company.Id);
             settingsService.GenerateDefaultWithdrawnReasons(company.Id);
 
+
+
+
             _context.SaveChanges();
-            return Ok(new { statusText = _statusTextService.Success, companyId = company.Id, departmentId });
+            return Ok(new { company, statusText = _statusTextService.Success });
         }
 
 
@@ -367,22 +366,17 @@ namespace FitFinderBackEnd.Controllers
         public async Task<IHttpActionResult> Register(UserAccount userAccount)
         {
 
-            if (userAccount.CompanyId == null)
+            Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
+
+            if (userNameClaim == null)
             {
-                Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
+                return Ok(new { statusText = _statusTextService.UserClaimError });
+            }
 
-                if (userNameClaim == null)
-                {
-                    return Ok(new {statusText =_statusTextService.UserClaimError});
-                }
-
-                ApplicationUser getActiveApplicationUser = UserManager.FindByName(userNameClaim.Value);
-                if (getActiveApplicationUser == null)
-                {
-                    return Ok(new { statusText = _statusTextService.UserClaimError });
-                }
-
-                userAccount.CompanyId = getActiveApplicationUser.CompanyId;
+            ApplicationUser getActiveApplicationUser = UserManager.FindByName(userNameClaim.Value);
+            if (getActiveApplicationUser == null)
+            {
+                return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
 
@@ -390,29 +384,23 @@ namespace FitFinderBackEnd.Controllers
             {
                 UserName = userAccount.UserName,
                 Email = userAccount.Email,
-                PhoneNumber = userAccount.PhoneNumber
+                PhoneNumber = userAccount.PhoneNumber,
+                FullName = userAccount.FullName,
+                JoiningDateTime = userAccount.JoiningDateTime,
+                IsOwner = userAccount.IsOwner
             };
 
-            applicationUser.FullName = userAccount.FullName;
-            applicationUser.CompanyId = userAccount.CompanyId;
-            applicationUser.DepartmentId = userAccount.DepartmentId;
-            applicationUser.JoiningDateTime = userAccount.JoiningDateTime;
-            applicationUser.IsOwner = userAccount.IsOwner;
-
             PasswordGeneratorService passwordGeneratorService = new PasswordGeneratorService();
-
-            string customPassword = passwordGeneratorService.Generate(6,6);
+            string customPassword = passwordGeneratorService.Generate(6, 6);
 
 
 
             IdentityResult result = await UserManager.CreateAsync(applicationUser, customPassword);
 
             if (!result.Succeeded)
-            {   
-                return Ok(result);
+            {
+                return Ok(new { statusText = result.Errors.First() });
             }
-
-
 
             UserManager.AddToRole(applicationUser.Id, userAccount.RoleName);
 
@@ -425,7 +413,20 @@ namespace FitFinderBackEnd.Controllers
                     "Please confirm your fitfinder account by clicking <a href=\""
                      + callbackUrl + "\">here.</a>" + " Username is " + applicationUser.UserName
                      + " and password is " + customPassword);
-            return Ok(result);
+
+            if (userAccount.Company != null)
+            {
+                var getIds = _sharedService.OnAddNewCompany(userAccount.Company);
+
+                applicationUser.CompanyId = getIds.companyId;
+                applicationUser.DepartmentId = getIds.departmentId;
+                await UserManager.UpdateAsync(applicationUser);
+
+                return Ok(new { companyId = applicationUser.CompanyId, statusText = _statusTextService.Success });
+            }
+
+            return Ok(new { statusText = _statusTextService.Success });
+
         }
 
 
@@ -433,9 +434,9 @@ namespace FitFinderBackEnd.Controllers
         [Route("api/EditUserAccount")]
         [HttpPut]
         [AllowAnonymous]
-        public async Task<IHttpActionResult> EditUserAccount(UserAccount editUserAccount)
+        public async Task<IHttpActionResult> EditUserAccount(UserAccount userAccount)
         {
-            ApplicationUser applicationUser = UserManager.FindByName(editUserAccount.UserName);
+            ApplicationUser applicationUser = UserManager.FindByName(userAccount.UserName);
             if (applicationUser == null)
             {
                 return Ok(new { statusText = _statusTextService.ResourceNotFound });
@@ -444,23 +445,47 @@ namespace FitFinderBackEnd.Controllers
             string roleId = applicationUser.Roles.SingleOrDefault()?.RoleId;
             string roleName = _context.Roles.SingleOrDefault(r => r.Id == roleId)?.Name;
 
-            if (roleName != editUserAccount.RoleName)
+            if (roleName != userAccount.RoleName)
             {
                 UserManager.RemoveFromRole(applicationUser.Id, roleName);
-                UserManager.AddToRole(applicationUser.Id, editUserAccount.RoleName);
+                UserManager.AddToRole(applicationUser.Id, userAccount.RoleName);
             }
 
-            applicationUser.FullName = editUserAccount.FullName;
-            applicationUser.Email = editUserAccount.Email;
-            applicationUser.PhoneNumber = editUserAccount.PhoneNumber;
+            applicationUser.FullName = userAccount.FullName;
+            applicationUser.Email = userAccount.Email;
+            applicationUser.PhoneNumber = userAccount.PhoneNumber;
+            applicationUser.DepartmentId = userAccount.DepartmentId;
+
+
+            if (userAccount.Company != null)
+            {
+                Company getCompany = _context.Companies.FirstOrDefault(x => x.Id == applicationUser.CompanyId);
+                if (getCompany == null)
+                {
+                    return Ok(new { statusText = _statusTextService.ResourceNotFound });
+                }
+
+                getCompany.AdminEmail = userAccount.Company.AdminEmail;
+                getCompany.AdminFullName = userAccount.Company.AdminFullName;
+                getCompany.AdminPhoneNumber = userAccount.Company.AdminPhoneNumber;
+                getCompany.CompanyAddress = userAccount.Company.CompanyAddress;
+                getCompany.CompanyName = userAccount.Company.CompanyName;
+                getCompany.CompanyEmail = userAccount.Company.CompanyEmail;
+                getCompany.CompanyPhoneNumber = userAccount.Company.CompanyPhoneNumber;
+
+                _context.Entry(getCompany).State = EntityState.Modified;
+
+            }
+
             IdentityResult result = await UserManager.UpdateAsync(applicationUser);
 
-            if (result.Succeeded)
+            if (!result.Succeeded)
             {
-                return Ok(new { statusText = _statusTextService.Success });
+                return Ok(new { statusText = result.Errors.First() });
             }
+            _context.SaveChanges();
+            return Ok(new { statusText = _statusTextService.Success });
 
-            return Ok(new { statusText = result.Errors.First() });
         }
 
 
@@ -473,45 +498,6 @@ namespace FitFinderBackEnd.Controllers
             return Ok(new { companies, statusText = _statusTextService.Success });
         }
 
-
-        [HttpPut]
-        [AllowAnonymous]
-        [Route("api/EditCompany")]
-        public IHttpActionResult EditCompany(Company company)
-        {
-
-            Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
-
-            if (userNameClaim == null)
-            {
-                return Ok(new { statusText = _statusTextService.UserClaimError });
-            }
-
-            ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
-            if (applicationUser == null)
-            {
-                return Ok(new { statusText = _statusTextService.UserClaimError });
-            }
-
-            Company getCompany = _context.Companies.FirstOrDefault(x => x.Id == applicationUser.CompanyId);
-            if (getCompany == null)
-            {
-                return Ok(new { statusText = _statusTextService.ResourceNotFound });
-            }
-
-            getCompany.AdminEmail = company.AdminEmail;
-            getCompany.AdminFullName = company.AdminFullName;
-            getCompany.AdminPhoneNumber = company.AdminPhoneNumber;
-            getCompany.CompanyAddress = company.CompanyAddress;
-            getCompany.CompanyName = company.CompanyName;
-            getCompany.CompanyEmail = company.CompanyEmail;
-            getCompany.CompanyPhoneNumber = company.CompanyPhoneNumber;
-
-            _context.Entry(getCompany).State = EntityState.Modified;
-            _context.SaveChanges();
-
-            return Ok(new { statusText = _statusTextService.Success });
-        }
 
         [HttpGet]
         [AllowAnonymous]
@@ -616,11 +602,11 @@ namespace FitFinderBackEnd.Controllers
                 {
                     string roleName;
 
-                    if (role.RoleId == "9e024189-563d-4e68-8c0d-7d34a9981f00")
+                    if (role.RoleId == "f11f2694-b80a-403b-81fa-3fc4f2f41c6e")
                     {
                         roleName = "Admin";
                     }
-                    else if(role.RoleId == "db8afd11-64a3-41e3-9005-0cd72ab76d9b")
+                    else if (role.RoleId == "5e4e0928-d8b5-4981-939e-39b46fa44834")
                     {
                         roleName = "HR";
                     }
@@ -632,8 +618,8 @@ namespace FitFinderBackEnd.Controllers
                     Department department = new Department();
                     if (applicationUser.DepartmentId != null)
                     {
-                         department =
-                            _context.Departments.FirstOrDefault(x => x.Id == applicationUser.DepartmentId);
+                         department = _context.Departments
+                             .FirstOrDefault(x => x.Id == applicationUser.DepartmentId);
                     }
 
                     
@@ -674,9 +660,8 @@ namespace FitFinderBackEnd.Controllers
             }
 
             _context.Users.Remove(applicationUser);
-                _context.SaveChanges();
-
-                return Ok(new { statusText = _statusTextService.Success });
+            _context.SaveChanges();
+            return Ok(new { statusText = _statusTextService.Success });
                                   
             
         }
@@ -692,17 +677,18 @@ namespace FitFinderBackEnd.Controllers
                 return Ok(new { statusText = _statusTextService.ResourceNotFound });
             }
 
+            
+            _sharedService.OnDeleteCompany(getCompany);
             _context.Companies.Remove(getCompany);
+
             try
             {
                 _context.SaveChanges();
             }
             catch (DbUpdateException)
             {
-                return Ok(new { StatusText = _statusTextService.SomethingWentWrong });
+                return Ok(new { statusText = _statusTextService.SomethingWentWrong });
             }
-
-            
 
             return Ok(new { statusText = _statusTextService.Success });
         }
@@ -746,9 +732,7 @@ namespace FitFinderBackEnd.Controllers
             RoleManager<IdentityRole> roleManager = new RoleManager<IdentityRole>(roleStore);
             var roles = roleManager.Roles.Select(x => new { x.Id, x.Name }).ToList();
             roles.RemoveAt(0);
-
-            // return Ok(new { roles, statusText = _statusTextService.Success });
-            return Ok(roles);
+            return Ok(new { roles, statusText = _statusTextService.Success });
         }
 
         [HttpGet]

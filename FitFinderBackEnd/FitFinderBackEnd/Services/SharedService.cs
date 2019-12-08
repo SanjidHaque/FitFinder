@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Razor.Parser.SyntaxTree;
 using FitFinderBackEnd.Models;
 using FitFinderBackEnd.Models.Candidate;
+using FitFinderBackEnd.Models.Interview;
 using FitFinderBackEnd.Models.Job;
 using FitFinderBackEnd.Models.Settings;
 
@@ -14,10 +16,12 @@ namespace FitFinderBackEnd.Services
     public class SharedService
     {
         private readonly ApplicationDbContext _context;
+        private  SettingsService _settingsService;
 
         public SharedService()
         {
             _context = new ApplicationDbContext();
+            _settingsService = new SettingsService();
         }
 
         public JobAssignment OnAddJobAssignment(JobAssignment jobAssignment)
@@ -153,17 +157,17 @@ namespace FitFinderBackEnd.Services
 
             foreach (var role in applicationUser.Roles)
             {
-                if (role.RoleId == "9e024189-563d-4e68-8c0d-7d34a9981f00")
+                if (role.RoleId == "f11f2694-b80a-403b-81fa-3fc4f2f41c6e")
                 {
                     roleName = "Admin";
                 }
-                else if (role.RoleId == "db8afd11-64a3-41e3-9005-0cd72ab76d9b")
+                else if (role.RoleId == "5e4e0928-d8b5-4981-939e-39b46fa44834")
                 {
                     roleName = "HR";
                 }
                 else
                 {
-                    roleName = "Teammate";
+                    roleName = "TeamMember";
                 }
             }
 
@@ -193,5 +197,84 @@ namespace FitFinderBackEnd.Services
             return userAccount;
         }
 
+
+        public dynamic OnAddNewCompany(Company company)
+        {
+            _context.Companies.Add(company);
+            _context.SaveChanges();
+
+            _settingsService.GenerateDefaultWorkflow(company.Id);
+
+            long departmentId = _settingsService.GenerateDefaultDepartment(company.Id);
+            _settingsService.GenerateDefaultSources(company.Id);
+            _settingsService.GenerateDefaulJobTypes(company.Id);
+            _settingsService.GenerateDefaultJobFunction(company.Id);
+            _settingsService.GenerateDefaultWithdrawnReasons(company.Id);
+            _settingsService.GenerateDefaultWithdrawnReasons(company.Id);
+
+            return( new { companyId = company.Id, departmentId } );
+        }
+
+        public void OnDeleteCompany(Company company)
+        {
+            List<Source> sources = _context.Sources
+                .Where(x => x.CompanyId == company.Id)
+                .ToList();
+
+            List<Department> departments = _context.Departments
+                .Where(x => x.CompanyId == company.Id)
+                .ToList();
+
+            List<JobType> jobTypes = _context.JobTypes
+                .Where(x => x.CompanyId == company.Id)
+                .ToList();
+
+            List<JobFunction> jobFunctions = _context.JobFunctions
+                .Where(x => x.CompanyId == company.Id)
+                .ToList();
+
+            List<WithdrawnReason> withdrawnReasons = _context.WithdrawnReasons
+                .Where(x => x.CompanyId == company.Id)
+                .ToList();
+
+            List<RejectedReason> rejectedReasons = _context.RejectedReasons
+                .Where(x => x.CompanyId == company.Id)
+                .ToList();
+
+
+            List<Workflow> workflows = _context.Workflows
+                    .Where(x => x.CompanyId == company.Id)
+                    .ToList();
+
+            List<Candidate> candidates = _context.Candidates
+                .Where(x => x.CompanyId == company.Id)
+                .ToList();
+
+            List<Interview> interviews = _context.Interviews
+                .Where(x => x.CompanyId == company.Id)
+                .ToList();
+
+            List<Job> jobs = _context.Jobs
+                .Where(x => x.CompanyId == company.Id)
+                .ToList();
+
+            List<ApplicationUser> applicationUsers = _context.Users
+                .Where(x => x.CompanyId == company.Id)
+                .ToList();
+
+            applicationUsers.ForEach(x => { _context.Users.Remove(x); });
+
+            _context.Sources.RemoveRange(sources);
+            _context.Departments.RemoveRange(departments);
+            _context.JobFunctions.RemoveRange(jobFunctions);
+            _context.JobTypes.RemoveRange(jobTypes);
+            _context.Workflows.RemoveRange(workflows);
+            _context.RejectedReasons.RemoveRange(rejectedReasons);
+            _context.WithdrawnReasons.RemoveRange(withdrawnReasons);
+            _context.Candidates.RemoveRange(candidates);
+            _context.Jobs.RemoveRange(jobs);
+            _context.Interviews.RemoveRange(interviews);
+            _context.SaveChanges();
+        }
     }
 }

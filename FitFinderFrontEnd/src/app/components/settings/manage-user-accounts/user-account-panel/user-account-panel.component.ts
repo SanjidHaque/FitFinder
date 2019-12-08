@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {Company} from '../../../../models/settings/company.model';
 import {ActivatedRoute, Data} from '@angular/router';
 import {UserAccount} from '../../../../models/settings/user-account.model';
 import {UserAccountDataStorageService} from '../../../../services/data-storage-services/user-account-data-storage.service';
 import {NotifierService} from 'angular-notifier';
+import {SettingsService} from '../../../../services/shared-services/settings.service';
 
 @Component({
   selector: 'app-user-account-panel',
@@ -16,6 +16,7 @@ export class UserAccountPanelComponent implements OnInit {
   userAccounts: UserAccount[] = [];
 
   constructor(private route: ActivatedRoute,
+              private settingsService: SettingsService,
               private notifierService: NotifierService,
               private userAccountDataStorageService: UserAccountDataStorageService) { }
 
@@ -24,23 +25,38 @@ export class UserAccountPanelComponent implements OnInit {
       .subscribe(
       (data: Data) => {
         this.userAccounts = data['userAccounts'].userAccounts;
-      }
-    );
+      });
   }
 
   deleteUserAccount(userAccountId: string, index: number) {
     this.isDisabled = true;
-    this.userAccountDataStorageService.deleteUserAccount(userAccountId).subscribe(
-      (data: any) => {
-        if (data.statusText === 'Success') {
-          this.userAccounts.splice(index, 1);
-          this.notifierService.notify('default',  'User deleted successfully.');
-        } else {
-          this.isDisabled = false;
-          this.notifierService.notify('default',  'Error! Something went wrong!');
+
+    this.settingsService.deleteResource('Delete User Account')
+      .then(result => {
+
+        if (result.confirmationStatus) {
+
+          this.userAccountDataStorageService.deleteUserAccount(userAccountId)
+            .subscribe((response: any) => {
+              this.isDisabled = false;
+
+              if (response.statusText !== 'Success') {
+
+                this.notifierService.notify('default', response.statusText);
+
+              } else {
+                this.userAccounts.splice(index, 1);
+                this.notifierService.notify('default',
+                  'User account deleted successfully.');
+              }
+
+            });
         }
-      }
-    )
+
+        this.isDisabled = false;
+
+      }).catch();
+
   }
 
 }

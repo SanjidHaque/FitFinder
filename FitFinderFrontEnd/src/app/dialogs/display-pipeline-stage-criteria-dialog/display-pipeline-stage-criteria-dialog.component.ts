@@ -26,7 +26,7 @@ export class DisplayPipelineStageCriteriaDialogComponent {
   }
 
 
-  addNewPipelineStageCriteria() {
+  addNewPipelineStageCriterion() {
     this.settingsService.addNewPipelineStageCriterion().then(result => {
 
       if (result !== '') {
@@ -34,8 +34,8 @@ export class DisplayPipelineStageCriteriaDialogComponent {
         const pipelineStageCriterion = new PipelineStageCriterion(
           null,
           result,
-          this.data.stage.Id,
           null,
+          this.data.stage.Id,
           null,
           null
         );
@@ -51,7 +51,7 @@ export class DisplayPipelineStageCriteriaDialogComponent {
                   this.notifierService.notify('default', data.statusText);
                 } else {
 
-                  this.data.stage.PipelineStageCriteria.push(data.PipelineStageCriterion);
+                  this.data.stage.PipelineStageCriteria.push(data.pipelineStageCriterion);
                   this.notifierService
                     .notify('default', 'New pipeline stage criterion added.');
 
@@ -121,7 +121,8 @@ export class DisplayPipelineStageCriteriaDialogComponent {
 
   deletePipelineStageCriterion(pipelineStageCriterionId: number, index: number) {
     this.isDisabled = true;
-    this.settingsService.deletePipelineStageCriterion().then(result => {
+    this.settingsService.deleteResource('Delete Pipeline Stage Criterion')
+      .then(result => {
 
       if (result.confirmationStatus) {
         if (this.data.insertInDatabase) {

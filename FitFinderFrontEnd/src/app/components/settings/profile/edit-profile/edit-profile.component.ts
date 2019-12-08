@@ -22,10 +22,7 @@ export class EditProfileComponent implements OnInit {
   constructor(private router: Router,
               private userAccountDataStorageService: UserAccountDataStorageService,
               private notifierService: NotifierService,
-              private route: ActivatedRoute) {
-
-
-  }
+              private route: ActivatedRoute) {}
 
   ngOnInit() {
 
@@ -37,107 +34,90 @@ export class EditProfileComponent implements OnInit {
         this.departments = data['departments'].departments;
 
 
-        if (this.currentUserAccount === undefined) {
+        if (this.currentUserAccount === undefined || this.company === undefined) {
           this.router.navigate(['/sign-in']);
-          this.notifierService.notify('default',  'User not found, sign-in again')
+          this.notifierService.notify('default', 'Resources not found. Sign in again');
         }
 
       });
 
 
-        this.editProfileForm = new FormGroup({
-          'userName': new FormControl(this.currentUserAccount.UserName, Validators.required),
-          'fullName': new FormControl(this.currentUserAccount.FullName),
-          'email': new FormControl(this.currentUserAccount.Email,
-            [Validators.required, Validators.email]),
-          'phoneNumber': new FormControl(this.currentUserAccount.PhoneNumber, Validators.required),
-          'departmentId': new FormControl(this.currentUserAccount.DepartmentId, Validators.required),
-          'companyName': new FormControl(this.company.CompanyName, Validators.required),
-          'companyPhoneNumber': new FormControl(this.company.CompanyPhoneNumber, Validators.required),
-          'companyEmail': new FormControl(this.company.CompanyEmail, Validators.required),
-          'companyAddress': new FormControl(this.company.CompanyAddress)
-        });
+    this.editProfileForm = new FormGroup({
+      'userName': new FormControl(this.currentUserAccount.UserName, Validators.required),
+      'fullName': new FormControl(this.currentUserAccount.FullName),
+      'email': new FormControl(this.currentUserAccount.Email,
+        [Validators.required, Validators.email]),
+      'phoneNumber': new FormControl(this.currentUserAccount.PhoneNumber, Validators.required),
+      'departmentId': new FormControl(this.currentUserAccount.DepartmentId, Validators.required),
+      'companyName': new FormControl(this.company.CompanyName, Validators.required),
+      'companyPhoneNumber': new FormControl(this.company.CompanyPhoneNumber, Validators.required),
+      'companyEmail': new FormControl(this.company.CompanyEmail, Validators.required),
+      'companyAddress': new FormControl(this.company.CompanyAddress)
+    });
 
-        this.editProfileForm.controls['userName'].disable();
-
-
-
-
+    this.editProfileForm.controls['userName'].disable();
   }
 
 
   editUserAccount() {
     this.isDisabled = true;
-    this.userAccountDataStorageService.editUserAccount(
-      new UserAccount(
-        this.currentUserAccount.Id,
+    let company = null;
+    if (this.currentUserAccount.IsOwner) {
+      company = new Company(
         null,
-        this.currentUserAccount.CompanyId,
-        this.currentUserAccount.UserName,
+        this.editProfileForm.controls['companyName'].value,
+        this.editProfileForm.controls['companyAddress'].value,
+        this.editProfileForm.controls['companyEmail'].value,
+        this.editProfileForm.controls['companyPhoneNumber'].value,
+        '',
         this.editProfileForm.controls['fullName'].value,
         this.editProfileForm.controls['email'].value,
-        '',
         this.editProfileForm.controls['phoneNumber'].value,
-        this.currentUserAccount.JoiningDateTime,
-        this.currentUserAccount.RoleName,
-        null,
-        this.editProfileForm.controls['departmentId'].value,
-        this.currentUserAccount.IsOwner
-      )
-    ).subscribe( (data: any) => {
-      if (data.Succeeded) {
+        '',
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        []
+      );
+    }
 
-        if (this.currentUserAccount.IsOwner) {
+    const userAccount = new UserAccount(
+      this.currentUserAccount.Id,
+      company,
+      this.currentUserAccount.CompanyId,
+      this.currentUserAccount.UserName,
+      this.editProfileForm.controls['fullName'].value,
+      this.editProfileForm.controls['email'].value,
+      '',
+      this.editProfileForm.controls['phoneNumber'].value,
+      this.currentUserAccount.JoiningDateTime,
+      this.currentUserAccount.RoleName,
+      null,
+      this.editProfileForm.controls['departmentId'].value,
+      this.currentUserAccount.IsOwner
+    );
 
-          this.userAccountDataStorageService.editCompany(
-            new Company(
-              null,
-              this.editProfileForm.controls['companyName'].value,
-              this.editProfileForm.controls['companyAddress'].value,
-              this.editProfileForm.controls['companyEmail'].value,
-              this.editProfileForm.controls['companyPhoneNumber'].value,
-              '',
-              this.editProfileForm.controls['fullName'].value,
-              this.editProfileForm.controls['email'].value,
-              this.editProfileForm.controls['phoneNumber'].value,
-              '',
-              [],
-              [],
-              [],
-              [],
-              [],
-              [],
-              [],
-              [],
-              [],
-              [],
-              []
-            )
-          ).subscribe( (response: any) => {
-            if ( response.statusText === 'Success' ) {
+    this.userAccountDataStorageService.editUserAccount(userAccount)
+      .subscribe( (data: any) => {
+        if (data.statusText !== 'Success') {
 
-              this.notifierService.notify(
-                'default',
-                'Information updated.');
-              this.router.navigate(['/settings/profile']);
+          this.notifierService.notify( 'default', data.statusText);
+          this.isDisabled = false;
 
-            } else {
-
-              this.notifierService.notify( 'default', 'Something went wrong.');
-              this.isDisabled = false;
-
-            }
-          })
         } else {
-          this.router.navigate(['settings/profile']);
+
+          this.notifierService.notify('default', 'Information updated.');
+          this.router.navigate(['/settings/profile']);
+
         }
-
-
-      } else {
-        this.notifierService.notify( 'default', data.Errors[0]);
-        this.isDisabled = false;
-      }
-    })
+    });
   }
 
   getEmailErrorMessage(formControlName: string) {

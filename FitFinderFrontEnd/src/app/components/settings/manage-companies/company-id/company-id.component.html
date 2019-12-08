@@ -23,7 +23,7 @@
 </div>
 
 <div
-  *ngIf="company.CompanyAddress !== ''"
+  *ngIf="company.CompanyAddress !== null"
   class="row" style="padding-bottom: 5px;padding-top: 5px;">
   <div class="col-xl-8">
 
@@ -90,7 +90,7 @@
 </div>
 
 <div
-  *ngIf="company.AdminFullName !== ''"
+  *ngIf="company.AdminFullName !== null"
   class="row" style="padding-bottom: 5px;padding-top: 5px;">
   <div class="col-xl-8">
 
@@ -129,9 +129,9 @@
   <div class="col-xl-8">
 
     <button
-      routerLink="/settings/manage-companies/{{companyId}}/edit-company"
+      routerLink="/settings/manage-companies/{{ companyId }}/edit-company"
       style="outline: 0;"
-      mat-stroked-button color="primary">Edit</button> &nbsp;
+      mat-stroked-button color="primary">Edit</button>
     <button
       [disabled]="isDisabled"
       (click)="deleteCompany()"

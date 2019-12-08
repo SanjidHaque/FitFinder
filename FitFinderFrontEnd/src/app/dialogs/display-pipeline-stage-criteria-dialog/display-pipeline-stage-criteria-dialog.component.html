@@ -1,5 +1,5 @@
 
-<div>
+
 <div class="row">
   <div class="col-xl-8">
     <input
@@ -10,61 +10,74 @@
                 cursor: pointer; height: 26px; width: 26px;"
       [style.background]="data.stage.Color"/>
 
-    &nbsp; <span style="font-size: 20px;">{{ data.stage.Name}}</span>
+    &nbsp; <span style="font-size: 20px; font-weight: 500;">
+    {{ data.stage.Name}}</span>
   </div>
 
   <div class="col-xl-4 text-xl-right"
-       style="font-size: 15px; padding-top: 7px; opacity: .8;">
-    Stage criteria
+       style="font-size: 15px; padding-top: 7px; font-weight: 500;">
+   Pipeline Stage Criteria
   </div>
 </div>
 
-</div>
 
-<mat-dialog-content>
+<mat-dialog-content style="padding-top: 20px;">
 
-  <hr>
-
-  <div class="row" *ngIf="data.stage.PipelineStageCriteria.length === 0; else criteriaExist">
+  <div class="row" *ngIf="data.stage.PipelineStageCriteria.length === 0;
+   else criteriaExist">
     <div class="col-xl-12 text-xl-center"
-         style="font-size: 14px; padding-top: 10px;">
-      No criteria exist. It's easy to create one.
+         style="font-size: 15px; padding-top: 10px;">
+      No criterion exist and it's easy to create one.
     </div>
   </div>
 
   <ng-template #criteriaExist>
-<div style="padding-top: 10px;" *ngFor="let pipelineStageCriterion of data.stage.PipelineStageCriteria">
-    <div class="row"
-         style="
+
+    <div style="padding-top: 10px;"
+         *ngFor="
+     let pipelineStageCriterion of data.stage.PipelineStageCriteria;
+     let i = index">
+      <div class="row"
+           style="
          padding-bottom: 5px;
-         padding-top: 5px;
-         border-bottom: 1px solid #e9e9e9">
+         padding-top: 5px;">
 
-      <div class="col-xl-10" style="padding-left: 23px;">
+        <div class="col-xl-9" style="padding-left: 44px;">
 
-        &bull; &nbsp; {{ pipelineStageCriterion.Name }}
+          <i class="fas fa-flag"></i> {{ pipelineStageCriterion.Name }}
 
-      </div>
+        </div>
 
-      <div class="col-xl-1">
-        <i
-          (click)="editPipelineStageCriterion(pipelineStageCriterion)"
-          style="cursor: pointer;
-              opacity: .8;
-               color: #345188; font-size: 17px;" class="fas fa-pencil-alt"></i>&nbsp;
+        <div class="col-xl-1">
+          <button
+            [disabled]="isDisabled"
+            style="border: none;
+          cursor: pointer;
+          outline: 0;
+          color: #345188; font-size: 17px;"
+            (click)="editPipelineStageCriterion(pipelineStageCriterion)"
+            mat-stroked-button>
+            <i class="fas fa-pencil-alt"></i>
+          </button>
+        </div>
 
-      </div>
+        <div class="col-xl-1">
+          <button
+            [disabled]="isDisabled"
+            style="border: none;
+          cursor: pointer;
+          outline: 0;
+          color: #bc0000; font-size: 17px;"
+            (click)="deletePipelineStageCriterion(pipelineStageCriterion.Id, i)"
+            mat-stroked-button>
+            <i class="far fa-trash-alt"></i>
+          </button>
 
-      <div class="col-xl-1">
-        <i style="
-        cursor: pointer;
-        opacity: .8;
-        color: #bc0000; font-size: 17px;" class="far fa-trash-alt"></i>
+        </div>
+
       </div>
 
     </div>
-
-</div>
   </ng-template>
 
 </mat-dialog-content>
@@ -78,10 +91,10 @@
 
     <mat-dialog-actions align="end">
       <button
-        (click)="addNewPipelineStageCriteria()"
+        (click)="addNewPipelineStageCriterion()"
         mat-flat-button
         color="primary"
-        style="outline: 0;">Add New</button>
+        style="outline: 0;">Add</button>
       <button
         mat-stroked-button
         style="outline: 0;"

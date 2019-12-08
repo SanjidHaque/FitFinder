@@ -85,7 +85,8 @@ export class JobTypesComponent implements OnInit {
 
   deleteJobType(jobTypeId: number, index: number) {
     this.isDisabled = true;
-    this.settingsService.deleteJobType().then(result => {
+    this.settingsService.deleteResource('Delete Job Type')
+      .then(result => {
 
         if (result.confirmationStatus) {
 

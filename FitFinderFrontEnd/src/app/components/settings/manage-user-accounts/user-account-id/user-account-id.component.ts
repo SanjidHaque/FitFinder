@@ -12,57 +12,56 @@ import {SettingsService} from '../../../../services/shared-services/settings.ser
   styleUrls: ['./user-account-id.component.css']
 })
 export class UserAccountIdComponent implements OnInit {
-  userAccountId: string;
   isDisabled = false;
-
-  userAccounts: UserAccount[] = [];
   userAccount: UserAccount;
-
-  departments: Department[] = [];
-
 
   constructor(private router: Router,
               private notifierService: NotifierService,
               private settingsService: SettingsService,
               private userAccountDataStorageService: UserAccountDataStorageService,
-              private route: ActivatedRoute) {
-    this.route.params
-      .subscribe(
-        (params: Params) => {
-          this.userAccountId = params['id'];
-        }
-      );
-  }
+              private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.route.data.
     subscribe(
       (data: Data) => {
         this.userAccount = data['userAccount'].userAccount;
-        this.departments = data['departments'].departments;
-       // this.userAccount = this.userAccounts.find(x => x.Id === this.userAccountId);
 
         if (this.userAccount === null) {
           this.router.navigate(['/settings/manage-user-accounts']);
-          this.notifierService.notify('default',  'User not found.')
+          this.notifierService.notify('default',  'Resource not found!')
         }
-      }
-    );
+      });
   }
 
 
 
   deleteUserAccount() {
-    this.isDisabled = true;
-    this.userAccountDataStorageService.deleteUserAccount(this.userAccount.Id).subscribe(
-      (data: any) => {
-        if (data.statusText === 'Success') {
-          this.notifierService.notify('default',  'User deleted successfully.');
-          this.router.navigate(['/settings/manage-user-accounts']);
-        } else {
-          this.notifierService.notify('default', 'Error! Something went wrong!');
+
+    this.settingsService.deleteResource('Delete User Account')
+      .then(result => {
+
+        this.isDisabled = true;
+        if (result.confirmationStatus) {
+
+          this.userAccountDataStorageService.deleteUserAccount(this.userAccount.Id)
+            .subscribe((response: any) => {
+              this.isDisabled = false;
+
+              if (response.statusText !== 'Success') {
+
+                this.notifierService.notify('default', response.statusText);
+
+              } else {
+                this.router.navigate(['/settings/manage-user-accounts']);
+                this.notifierService.notify('default',
+                  'User account deleted successfully.');
+              }
+
+            });
         }
-      });
+
+      }).catch();
   }
 
 }

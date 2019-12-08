@@ -22,18 +22,32 @@
     </div>
 
     <div class="col-xl-1">
-      <i routerLink="/settings/manage-companies/{{ company.Id }}/edit-company"
-         style="cursor: pointer; opacity: .8; outline: 0;
-               color: #345188; font-size: 17px;" class="fas fa-pencil-alt"></i>
+      <button
+        routerLink="/settings/manage-companies/{{ company.Id }}/edit-company"
+        style="border: none;
+        cursor: pointer;
+        outline: 0;
+        color: #345188; font-size: 17px;"
+        mat-stroked-button>
+        <i class="fas fa-pencil-alt"></i>
+      </button>
     </div>
 
+
     <div class="col-xl-1" *ngIf="company.CompanyName !== 'Headblocks'">
-      <i
-        [attr.disabled] = "isDisabled"
+      <button
+        [disabled]="isDisabled"
+        style="border: none;
+        cursor: pointer;
+        outline: 0;
+        color: #bc0000; font-size: 17px;"
         (click)="deleteCompany(company, i)"
-        style="cursor: pointer; opacity: .8;
-               color: #bc0000; font-size: 17px;" class="far fa-trash-alt"></i> &nbsp;
+        mat-stroked-button>
+        <i class="far fa-trash-alt"></i>
+      </button>
+
     </div>
+
 
   </div>
 

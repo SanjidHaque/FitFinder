@@ -5,6 +5,7 @@ import {Company} from '../../../../models/settings/company.model';
 import {UserAccountDataStorageService} from '../../../../services/data-storage-services/user-account-data-storage.service';
 import {MatDialog} from '@angular/material';
 import {AddUpdateDialogComponent} from '../../../../dialogs/add-update-dialog/add-update-dialog.component';
+import {SettingsService} from '../../../../services/shared-services/settings.service';
 
 @Component({
   selector: 'app-company-id',
@@ -23,70 +24,51 @@ export class CompanyIdComponent implements OnInit {
   constructor(private router: Router,
               private notifierService: NotifierService,
               private dialog: MatDialog,
+              private settingsService: SettingsService,
               private userAccountDataStorageService: UserAccountDataStorageService,
               private route: ActivatedRoute) {
 
-    this.route.params
-      .subscribe(
-        (params: Params) => {
+    this.route.params.subscribe((params: Params) => {
           this.companyId = +params['id'];
-        }
-      );
+        });
   }
 
   ngOnInit() {
     this.route.data.
     subscribe(
       (data: Data) => {
-       // this.companies = data['companies'];
-        this.company = data['company'];
+        this.companies = data['companies'].companies;
 
+        this.company = this.companies.find(x => x.Id === this.companyId);
         if (this.company === undefined) {
+          this.notifierService.notify('default', 'Resource not found!');
           this.router.navigate(['/settings/manage-companies']);
-          this.notifierService.notify('default',  'Company not found.')
         }
-      }
-    );
+      });
   }
 
 
   deleteCompany() {
-
-
-    const dialogRef = this.dialog.open(AddUpdateDialogComponent,
-      {
-        hasBackdrop: true,
-        disableClose: true,
-        width: '400px',
-        data: {
-          header: 'Delete Company',
-          iconClass: 'far fa-trash-alt',
-          cssClass: 'delete',
-          confirmationText: 'Are you sure?',
-          buttonText: 'Delete',
-          confirmationStatus: false
-        }
-      });
-
-
-    dialogRef.afterClosed().subscribe( result => {
+    this.settingsService.deleteResource('Delete Company')
+      .then( result => {
       if (result.confirmationStatus) {
 
 
         this.isDisabled = true;
         this.userAccountDataStorageService.deleteCompany(this.company).subscribe(
           (data: any) => {
-            if (data.statusText === 'Success') {
+            if (data.statusText !== 'Success') {
+
+              this.isDisabled = false;
+              this.notifierService.notify('default', data.statusText);
+
+            } else {
 
               this.notifierService.notify('default', 'Company deleted successfully.');
               this.router.navigate(['/settings/manage-companies']);
 
-            } else {
-              this.isDisabled = false;
-              this.notifierService.notify('default', 'Error! Something went wrong!');
             }
-          }
-        );
+          });
 
       }
     });

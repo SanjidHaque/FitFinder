@@ -14,8 +14,8 @@ import {NotifierService} from 'angular-notifier';
 })
 export class AddNewCompanyComponent implements OnInit {
   isDisabled = false;
-
   addNewCompanyForm: FormGroup;
+
   constructor(private userAccountDataStorageService: UserAccountDataStorageService,
               private notifierService: NotifierService,
               private router: Router) { }
@@ -42,72 +42,62 @@ export class AddNewCompanyComponent implements OnInit {
 
 
   addNewCompany() {
+
+    const company = new Company(
+      null,
+      this.addNewCompanyForm.controls['companyName'].value,
+      this.addNewCompanyForm.controls['companyAddress'].value,
+      this.addNewCompanyForm.controls['companyEmail'].value,
+      this.addNewCompanyForm.controls['companyPhoneNumber'].value,
+      this.addNewCompanyForm.controls['adminUserName'].value,
+      this.addNewCompanyForm.controls['adminFullName'].value,
+      this.addNewCompanyForm.controls['adminEmail'].value,
+      this.addNewCompanyForm.controls['adminPhoneNumber'].value,
+      moment().format('h:mm:ss A, Do MMMM YYYY'),
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    );
+
+    const userAccount = new UserAccount(
+      null,
+      company,
+      null,
+      this.addNewCompanyForm.controls['adminUserName'].value,
+      this.addNewCompanyForm.controls['adminFullName'].value,
+      this.addNewCompanyForm.controls['adminEmail'].value,
+      '',
+      this.addNewCompanyForm.controls['adminPhoneNumber'].value,
+      moment().format('h:mm:ss A, Do MMMM YYYY'),
+      'HR',
+      null,
+      null,
+      true
+    );
+
     this.isDisabled = true;
-    this.userAccountDataStorageService.addNewCompany(
-      new Company(
-        null,
-        this.addNewCompanyForm.controls['companyName'].value,
-        this.addNewCompanyForm.controls['companyAddress'].value,
-        this.addNewCompanyForm.controls['companyEmail'].value,
-        this.addNewCompanyForm.controls['companyPhoneNumber'].value,
-        this.addNewCompanyForm.controls['adminUserName'].value,
-        this.addNewCompanyForm.controls['adminFullName'].value,
-        this.addNewCompanyForm.controls['adminEmail'].value,
-        this.addNewCompanyForm.controls['adminPhoneNumber'].value,
-        moment().format('h:mm:ss A, Do MMMM YYYY'),
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        []
-      )
-    ).subscribe((data: any) => {
+    this.userAccountDataStorageService.addNewUserAccount(userAccount)
+      .subscribe((data: any) => {
 
-        if (data.statusText === 'Success' && data.companyId !== -1) {
+        if (data.statusText !== 'Success') {
 
-          this.userAccountDataStorageService.addNewUserAccount(
-            new UserAccount(
-              null,
-              null,
-              data.companyId,
-              this.addNewCompanyForm.controls['adminUserName'].value,
-              this.addNewCompanyForm.controls['adminFullName'].value,
-              this.addNewCompanyForm.controls['adminEmail'].value,
-              '',
-              this.addNewCompanyForm.controls['adminPhoneNumber'].value,
-              moment().format('h:mm:ss A, Do MMMM YYYY'),
-              'HR',
-              null,
-              data.departmentId,
-              true
-            )
-          ).subscribe( (response: any) => {
-            if (response.Succeeded) {
+          this.isDisabled = false;
+          this.notifierService.notify('default', data.statusText);
+        } else {
 
-              this.notifierService.notify(
-                'default',
-                'New company created.' +
-                ' A confirmation email ' +
-                'includes username and password has sent to the registered email.');
-              this.addNewCompanyForm.reset();
-              this.router.navigate(['/settings/manage-companies']);
+          this.notifierService.notify(
+            'default', 'New company created. Check corresponded email.');
+          this.router.navigate(['/settings/manage-companies', data.companyId]);
 
-            } else {
-
-              this.notifierService.notify( 'default', response.Errors[0]);
-              this.isDisabled = false;
-
-            }
-          })
         }
-      }
-    )
+      });
   }
-
 }

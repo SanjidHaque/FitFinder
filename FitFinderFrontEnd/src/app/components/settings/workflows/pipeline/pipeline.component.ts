@@ -168,7 +168,8 @@ export class PipelineComponent implements OnInit {
 
   deletePipelineStage(pipelineId: number, pipelineStageId: number, index: number) {
     this.isDisabled = true;
-    this.settingsService.deletePipelineStage().then(result => {
+    this.settingsService.deleteResource('Delete Pipeline Stage')
+      .then(result => {
 
       if (result.confirmationStatus) {
 
@@ -205,7 +206,8 @@ export class PipelineComponent implements OnInit {
 
   deleteWorkflow() {
     this.isDisabled = true;
-    this.settingsService.deleteWorkflow().then(result => {
+    this.settingsService.deleteResource('Delete Workflow')
+      .then(result => {
 
       if (result.confirmationStatus) {
 

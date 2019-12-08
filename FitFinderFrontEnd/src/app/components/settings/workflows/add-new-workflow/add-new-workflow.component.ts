@@ -91,7 +91,8 @@ export class AddNewWorkflowComponent implements OnInit {
 
   deletePipelineStage(pipelineId: number, pipelineStageId: number, index: number) {
     this.isDisabled = true;
-    this.settingsService.deletePipelineStage().then(result => {
+    this.settingsService.deleteResource('Delete Pipeline Stage')
+      .then(result => {
 
       if (result.confirmationStatus) {
 

@@ -148,96 +148,6 @@ export class SettingsService {
     return dialogRef.afterClosed().toPromise();
   }
 
-  deleteSource() {
-    const header = 'Delete Source';
-    const iconClass = 'far fa-trash-alt';
-    const cssClass = 'delete';
-    const width = '400px';
-    const confirmationText = 'Are you sure?';
-    const buttonText = 'Delete';
-    const confirmationStatus = false;
-    const dialogRef = this.dialogService.confirmationDialog(header, iconClass, width,
-      cssClass, confirmationText, buttonText, confirmationStatus);
-    return dialogRef.afterClosed().toPromise();
-  }
-
-  deleteDepartment() {
-    const header = 'Delete Department';
-    const iconClass = 'far fa-trash-alt';
-    const cssClass = 'delete';
-    const width = '400px';
-    const confirmationText = 'Are you sure?';
-    const buttonText = 'Delete';
-    const confirmationStatus = false;
-    const dialogRef = this.dialogService.confirmationDialog(header, iconClass, width,
-      cssClass, confirmationText, buttonText, confirmationStatus);
-    return dialogRef.afterClosed().toPromise();
-  }
-
-  deleteJobFunction() {
-    const header = 'Delete Job Function';
-    const iconClass = 'far fa-trash-alt';
-    const cssClass = 'delete';
-    const width = '400px';
-    const confirmationText = 'Are you sure?';
-    const buttonText = 'Delete';
-    const confirmationStatus = false;
-    const dialogRef = this.dialogService.confirmationDialog(header, iconClass, width,
-      cssClass, confirmationText, buttonText, confirmationStatus);
-    return dialogRef.afterClosed().toPromise();
-  }
-
-  deleteJobType() {
-    const header = 'Delete Job Type';
-    const iconClass = 'far fa-trash-alt';
-    const cssClass = 'delete';
-    const width = '400px';
-    const confirmationText = 'Are you sure?';
-    const buttonText = 'Delete';
-    const confirmationStatus = false;
-    const dialogRef = this.dialogService.confirmationDialog(header, iconClass, width,
-      cssClass, confirmationText, buttonText, confirmationStatus);
-    return dialogRef.afterClosed().toPromise();
-  }
-
-  deleteRejectedReason() {
-    const header = 'Delete Rejected Reason';
-    const iconClass = 'far fa-trash-alt';
-    const cssClass = 'delete';
-    const width = '400px';
-    const confirmationText = 'Are you sure?';
-    const buttonText = 'Delete';
-    const confirmationStatus = false;
-    const dialogRef = this.dialogService.confirmationDialog(header, iconClass, width,
-      cssClass, confirmationText, buttonText, confirmationStatus);
-    return dialogRef.afterClosed().toPromise();
-  }
-
-  deleteWithdrawnReason() {
-    const header = 'Delete Withdrawn Reason';
-    const iconClass = 'far fa-trash-alt';
-    const cssClass = 'delete';
-    const width = '400px';
-    const confirmationText = 'Are you sure?';
-    const buttonText = 'Delete';
-    const confirmationStatus = false;
-    const dialogRef = this.dialogService.confirmationDialog(header, iconClass, width,
-      cssClass, confirmationText, buttonText, confirmationStatus);
-    return dialogRef.afterClosed().toPromise();
-  }
-
-  deleteWorkflow() {
-    const header = 'Delete Workflow';
-    const iconClass = 'far fa-trash-alt';
-    const cssClass = 'delete';
-    const width = '400px';
-    const confirmationText = 'Are you sure?';
-    const buttonText = 'Delete';
-    const confirmationStatus = false;
-    const dialogRef = this.dialogService.confirmationDialog(header, iconClass, width,
-      cssClass, confirmationText, buttonText, confirmationStatus);
-    return dialogRef.afterClosed().toPromise();
-  }
 
   addNewPipelineStage() {
     const header = 'New Pipeline Stage';
@@ -261,18 +171,6 @@ export class SettingsService {
     return dialogRef.afterClosed().toPromise();
   }
 
-  deletePipelineStage() {
-    const header = 'Delete Pipeline Stage';
-    const iconClass = 'far fa-trash-alt';
-    const cssClass = 'delete';
-    const width = '400px';
-    const confirmationText = 'Are you sure?';
-    const buttonText = 'Delete';
-    const confirmationStatus = false;
-    const dialogRef = this.dialogService.confirmationDialog(header, iconClass, width,
-      cssClass, confirmationText, buttonText, confirmationStatus);
-    return dialogRef.afterClosed().toPromise();
-  }
 
   addNewPipelineStageCriterion() {
     const header = 'Add New Pipeline Stage Criterion';
@@ -295,8 +193,7 @@ export class SettingsService {
     return dialogRef.afterClosed().toPromise();
   }
 
-  deletePipelineStageCriterion() {
-    const header = 'Delete Pipeline Stage Criterion';
+  deleteResource(header: string) {
     const iconClass = 'far fa-trash-alt';
     const cssClass = 'delete';
     const width = '400px';
@@ -307,6 +204,5 @@ export class SettingsService {
       cssClass, confirmationText, buttonText, confirmationStatus);
     return dialogRef.afterClosed().toPromise();
   }
-
 
 }

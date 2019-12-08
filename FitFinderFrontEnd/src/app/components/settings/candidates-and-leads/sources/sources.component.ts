@@ -82,7 +82,8 @@ export class SourcesComponent implements OnInit {
 
   deleteSource(sourceId: number, index: number) {
     this.isDisabled = true;
-    this.settingsService.deleteSource().then(result => {
+    this.settingsService.deleteResource('Delete Source')
+      .then(result => {
 
       if (result.confirmationStatus) {
 

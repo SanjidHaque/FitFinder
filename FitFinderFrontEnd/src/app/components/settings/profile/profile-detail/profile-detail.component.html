@@ -97,7 +97,7 @@
       style="outline: 0; color: #00bfff;">
       <img
         style="height: 25px;"
-        src="https://img.icons8.com/color/28/000000/google-drive.png">
+        [src]="'assets/images/google-drive.png'">
       Connect Google Drive
 
     </button>
@@ -127,7 +127,7 @@
      font-weight: 500;">
   <div class="col-xl-8">
 
-    <span *ngIf="currentGoogleAccountEmail !== null; else noAccountConnected">
+    <span *ngIf="currentGoogleAccountEmail !== ''; else noAccountConnected">
 
       <i class="fas fa-check-circle"></i>
      Connected as {{ currentGoogleAccountEmail }}

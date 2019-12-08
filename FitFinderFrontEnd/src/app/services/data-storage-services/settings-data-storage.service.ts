@@ -119,11 +119,11 @@ export class SettingsDataStorageService {
   }
 
   addNewPipelineStageCriterion(pipelineStageCriterion: PipelineStageCriterion) {
-    return this.httpClient.post<PipelineStageCriterion>(this.rootUrl + '/api/AddNewPipelineStageCriteria', pipelineStageCriterion);
+    return this.httpClient.post<PipelineStageCriterion>(this.rootUrl + '/api/AddNewPipelineStageCriterion', pipelineStageCriterion);
   }
 
   editPipelineStageCriterion(pipelineStageCriterion: PipelineStageCriterion) {
-    return this.httpClient.put<PipelineStageCriterion>(this.rootUrl + '/api/EditPipelineStageCriteria', pipelineStageCriterion);
+    return this.httpClient.put<PipelineStageCriterion>(this.rootUrl + '/api/EditPipelineStageCriterion', pipelineStageCriterion);
   }
 
   addNewWorkflow(workflow: Workflow) {

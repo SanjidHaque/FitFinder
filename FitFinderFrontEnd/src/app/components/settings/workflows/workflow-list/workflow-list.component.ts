@@ -58,7 +58,8 @@ export class WorkflowListComponent implements OnInit {
 
   deleteWorkflow(workflowId: number, index: number) {
     this.isDisabled = true;
-    this.settingsService.deleteWorkflow().then(result => {
+    this.settingsService.deleteResource('Delete Workflow')
+      .then(result => {
 
       if (result.confirmationStatus) {
 

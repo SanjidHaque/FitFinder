@@ -51,30 +51,28 @@ export class ChangeProfilePasswordComponent implements OnInit {
 
   changeProfilePassword() {
     this.isDisabled = true;
-    this.userAccountDataStorageService.changeProfilePassword(
-      new ChangePassword(
-        this.changeProfilePasswordForm.controls['oldPassword'].value,
-        this.changeProfilePasswordForm.controls['newPassword'].value
-      )
-    ).subscribe( (data: any) => {
-      if (data === null || data === undefined) {
-        this.isDisabled = false;
-        this.notifierService.notify('default',  'Error! Something went wrong!');
-      }
+    const changePassword = new ChangePassword(
+      this.changeProfilePasswordForm.controls['oldPassword'].value,
+      this.changeProfilePasswordForm.controls['newPassword'].value
+    );
 
-      if (data.Succeeded) {
+
+
+    this.userAccountDataStorageService.changeProfilePassword(changePassword)
+      .subscribe( (data: any) => {
+      if (data.statusText !== 'Success') {
+        this.isDisabled = false;
+        this.notifierService.notify('default',  data.statusText);
+      } else {
+
         localStorage.removeItem('userToken');
         localStorage.removeItem('userRole');
         this.router.navigate(['sign-in']);
-        this.notifierService.notify('default',  'Password changed successfully! Sign in again.');
-      } else {
-        if (data.Errors[0] === 'Incorrect password') {
-          this.notifierService.notify('default',  'Error! Old password is incorrect!');
-        } else {
-          this.notifierService.notify('default',  'Error! ' + data.Errors[0]);
-        }
-      }
-    })
+        this.notifierService.notify('default',  'Password changed successfully!');      }
+
+    });
+
+
   }
 }
 

@@ -14,11 +14,8 @@ import {Job} from '../../../../models/job/job.model';
   styleUrls: ['./profile-detail.component.css']
 })
 
-
 export class ProfileDetailComponent implements OnInit {
-
   currentUserAccount: UserAccount;
-
   currentGoogleAccountEmail = '';
 
   jobs: Job[] = [];
@@ -36,47 +33,35 @@ export class ProfileDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-
     if (this.gapiService.getCurrentUser().isSignedIn()) {
       this.currentGoogleAccountEmail = this.gapiService.currentGoogleAccountEmail;
+      console.log(this.gapiService.getCurrentUser().isSignedIn());
+      console.log(this.gapiService.currentGoogleAccountEmail);
     }
 
-
-    this.route.data.subscribe(
-      (data: Data) => {
-
+    this.route.data.subscribe((data: Data) => {
         this.currentUserAccount = data['currentUserAccount'].userAccount;
         this.company = data['company'].company;
         this.departments = data['departments'].departments;
         this.jobs = data['jobs'].jobs;
 
-
-        if (this.currentUserAccount === null) {
+        if (this.currentUserAccount === undefined || this.company === undefined)  {
           this.router.navigate(['/sign-in']);
-          this.notifierService.notify('default', 'User not found. Sign in again');
+          this.notifierService.notify('default', 'Resources not found. Sign in again');
         }
-
       });
   }
 
 
   connectToGoogleDrive() {
-
     this.gapiService.signIn()
       .then(() => {
-
         this.zone.run(() => {
-
           this.currentGoogleAccountEmail = this.gapiService.currentGoogleAccountEmail;
           this.notifierService.notify('default', 'Connected to drive.');
           this.gapiService.syncToDrive(this.departments, this.jobs);
-
         });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
+      }).catch();
   }
 
 
@@ -84,8 +69,5 @@ export class ProfileDetailComponent implements OnInit {
     this.gapiService.disconnect();
     this.currentGoogleAccountEmail = '';
     this.notifierService.notify('default', 'Disconnected from drive.');
-
   }
-
-
 }
