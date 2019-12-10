@@ -76,11 +76,11 @@
                         padding-bottom: 5px;"
                  *ngFor="let department of departments">
               <div class="col-xl-1">
-                <mat-checkbox color="primary"></mat-checkbox>
+                <mat-checkbox pipelineStageColor="primary"></mat-checkbox>
               </div>
 
               <div class="col-xl-10" >
-                <strong> {{ department.name }}</strong>
+                <strong> {{ department.pipelineStageName }}</strong>
               </div>
             </div>
 

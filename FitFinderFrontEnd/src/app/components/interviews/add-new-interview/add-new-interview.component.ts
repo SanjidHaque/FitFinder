@@ -146,7 +146,7 @@ export class AddNewInterviewComponent implements OnInit {
 
     const interview = new Interview(
       null,
-      this.addNewInterviewForm.controls['name'].value,
+      this.addNewInterviewForm.controls['pipelineStageName'].value,
       this.addNewInterviewForm.controls['date'].value,
       this.addNewInterviewForm.controls['location'].value,
       interviewStartTime,

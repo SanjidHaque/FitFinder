@@ -103,11 +103,11 @@ namespace FitFinderBackEnd.Services
 
         
 
-        public void OnDeleteAttachment(List<string> fileNames)        
+        public void OnDeleteAttachment(List<string> modifiedFileNames)        
         {
-            fileNames.ForEach(fileName =>
+            modifiedFileNames.ForEach(modifiedFileName =>
             {
-                string filePath = HttpContext.Current.Server.MapPath("~/Content/Attachments/" + fileName);
+                string filePath = HttpContext.Current.Server.MapPath("~/Content/Attachments/" + modifiedFileName);
                 if (File.Exists(filePath))
                 {
                     try

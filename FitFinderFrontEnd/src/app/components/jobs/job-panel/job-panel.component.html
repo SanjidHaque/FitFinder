@@ -63,43 +63,7 @@
 
     </div>
 
-    <!--<div class="row">
-      <div class="offset-xl-1 col-xl-9" style="padding-top: 20px;">
 
-        <mat-accordion >
-          <mat-expansion-panel>
-
-            <mat-expansion-panel-header
-              matTooltip="Filter jobs by department"
-              matTooltipPosition="above">
-              <mat-panel-title>
-                <span
-                  style="text-align: left; font-weight: bold; font-size: 14px;"
-                >Departments</span>
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-
-            <div class="row"
-                 style="padding-top: 5px;
-                        padding-bottom: 5px;"
-                 *ngFor="let department of departments">
-              <div class="col-xl-1">
-                <mat-checkbox color="primary"></mat-checkbox>
-              </div>
-
-              <div class="col-xl-10" >
-                <strong> {{ department.name }}</strong>
-              </div>
-            </div>
-
-
-
-          </mat-expansion-panel>
-        </mat-accordion>
-
-
-      </div>
-    </div>-->
 
   </div>
 
@@ -109,6 +73,7 @@
       <div class="col-xl-1 text-xl-left" style="padding-top: 18px;">
 
         <mat-checkbox (change)="$event ? masterToggle() : null"
+                      [disabled]="jobs.length === 0"
                       color="primary"
                       matTooltip="Select all"
                       matTooltipPosition="left"

@@ -79,8 +79,6 @@ export class AddNewJobComponent implements OnInit {
   @ViewChild('fileUpload', {static: false}) fileUploadVar: any;
   isDisabled = false;
 
-
-
   constructor(private departmentDialog: MatDialog,
               private settingsDataStorageService: SettingsDataStorageService,
               private jobFunctionalityDialog: MatDialog,
@@ -103,7 +101,7 @@ export class AddNewJobComponent implements OnInit {
           this.jobTypes = data['jobTypes'].jobTypes;
           this.jobFunctions = data['jobFunctions'].jobFunctions;
           this.departments = data['departments'].departments;
-          this.workflows = data['workflows'];
+          this.workflows = data['workflows'].workflows;
 
         }
       );
@@ -154,7 +152,6 @@ export class AddNewJobComponent implements OnInit {
   }
 
   async addNewJob() {
-
     const workflow = new Workflow(
       null,
       null,
@@ -227,9 +224,6 @@ export class AddNewJobComponent implements OnInit {
         });
 
 
-
-
-
     this.jobDataStorageService.addNewJob(job)
       .subscribe(
         (data: any) => {
@@ -238,8 +232,6 @@ export class AddNewJobComponent implements OnInit {
             this.isDisabled = false;
             this.notifierService.notify('default', data.statusText);
             return;
-
-
 
           } else {
 

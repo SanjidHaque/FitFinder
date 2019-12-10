@@ -1,21 +1,19 @@
-import {Component, Inject, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import * as moment from 'moment';
 import {Job} from '../../models/job/job.model';
 import {SelectionModel} from '@angular/cdk/collections';
 import {Department} from '../../models/settings/department.model';
 import {JobDataStorageService} from '../../services/data-storage-services/job-data-storage.service';
-import {SettingsDataStorageService} from '../../services/data-storage-services/settings-data-storage.service';
-import {MAT_DIALOG_DATA, MatDialogRef, MatSelectionList} from '@angular/material';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {JobService} from '../../services/shared-services/job.service';
 
 @Component({
-  selector: 'app-job-assignment-dialog',
-  templateUrl: './job-assignment-dialog.component.html',
-  styleUrls: ['./job-assignment-dialog.component.css'],
-  encapsulation: ViewEncapsulation.None
+  selector: 'app-display-job-dialog',
+  templateUrl: './display-job-dialog.component.html',
+  styleUrls: ['./display-job-dialog.component.css']
 })
 
-export class JobAssignmentDialogComponent implements OnInit {
+export class DisplayJobDialogComponent implements OnInit {
 
   archivedChecked = false;
   favouriteChecked = false;
@@ -27,11 +25,10 @@ export class JobAssignmentDialogComponent implements OnInit {
   selection = new SelectionModel<Job>(false, []);
   departments: Department[] = [];
 
-  constructor(public dialogRef: MatDialogRef<JobAssignmentDialogComponent>,
+  constructor(public dialogRef: MatDialogRef<DisplayJobDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private jobDataStorageService: JobDataStorageService,
-              private jobService: JobService,
-              private settingsDataStorageService: SettingsDataStorageService) { }
+              private jobService: JobService) { }
 
   ngOnInit() {
      this.jobs = this.data.jobs.filter(x => x.IsArchived === false);

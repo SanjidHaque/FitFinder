@@ -49,7 +49,7 @@ export class WorkflowListComponent implements OnInit {
               } else {
                 workflow.Name = result;
                 this.notifierService.notify('default',
-                  'Workflow name updated successfully.');
+                  'Workflow pipelineStageName updated successfully.');
               }
             });
       }

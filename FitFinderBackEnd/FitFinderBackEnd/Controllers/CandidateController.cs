@@ -21,11 +21,13 @@ namespace FitFinderBackEnd.Controllers
         private readonly ApplicationDbContext _context;
         private ApplicationUserManager _userManager;
         private StatusTextService _statusTextService;
+        private SharedService _sharedService;
 
         public CandidateController()
         {
             _context = new ApplicationDbContext();
             _statusTextService = new StatusTextService();
+            _sharedService = new SharedService();
         }
 
         public CandidateController(ApplicationUserManager userManager,
@@ -81,7 +83,7 @@ namespace FitFinderBackEnd.Controllers
            
 
            
-            if (candidate.JobAssignments[0].JobId != null)
+            if (candidate.JobAssignments.Count != 0)
             {
                 candidate.JobAssignments[0].CandidateId = candidate.Id;
                 JobAssignment getJobAssignment = sharedService.OnAddJobAssignment(candidate.JobAssignments[0]);
@@ -95,9 +97,7 @@ namespace FitFinderBackEnd.Controllers
 
                     return Ok(new { statusText = _statusTextService.SomethingWentWrong });
                 }
-
             }
-
 
             return Ok(new { candidate, statusText = _statusTextService.Success });
         }
@@ -210,10 +210,8 @@ namespace FitFinderBackEnd.Controllers
                 .Where(x => x.CandidateId == candidateId)
                 .ToList();
 
-
             Source source = _context.Sources
                 .FirstOrDefault(x => x.Id == candidate.SourceId);
-
 
             jobAssignments.ForEach(jobAssignment =>
             {
@@ -359,6 +357,20 @@ namespace FitFinderBackEnd.Controllers
             {
                 return Ok(new { StatusText = _statusTextService.ReportingPurposeIssue });
             }
+
+           List<CandidateAttachment> candidateAttachments = _context.CandidateAttachments
+               .Where(x => x.CandidateId == candidateId)
+               .AsNoTracking()
+               .ToList();
+
+            List<string> modifiedFileNames = new List<string>();
+
+            candidateAttachments.ForEach(candidateAttachment =>
+            {
+                modifiedFileNames.Add(candidateAttachment.ModifiedFileName);
+            });
+
+            _sharedService.OnDeleteAttachment(modifiedFileNames);
 
             _context.Candidates.Remove(candidate);
             _context.SaveChanges();

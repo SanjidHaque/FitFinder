@@ -117,8 +117,8 @@ export class AddNewWorkflowDialogComponent implements OnInit {
           // this.settingsDataStorageService.editPipelineStage(editedPipelineStage)
           //   .subscribe(
           //     (data: any) => {
-          //       pipelineStage.Name = result.name;
-          //       pipelineStage.Color = result.color;
+          //       pipelineStage.Name = result.pipelineStageName;
+          //       pipelineStage.Color = result.pipelineStageColor;
           //       this.notifierService.notify('default',
           //         'Stage updated successfully.');
           //     }

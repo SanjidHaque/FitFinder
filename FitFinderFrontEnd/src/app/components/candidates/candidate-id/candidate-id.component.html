@@ -37,7 +37,7 @@
   <div class="col-xl-2 text-xl-right">
     <button
       [disabled]="candidate.JobAssignments !== null"
-      (click)="jobAssignmentDialog(candidate)"
+      (click)="addJobAssignment()"
       style="
       outline: 0;"
       color="primary"
@@ -159,6 +159,8 @@
 
       <div class="col-xl-3 text-xl-center">
         <button
+          [disabled]="isDisabled"
+          (click)="deleteCandidate()"
           style="background-color: transparent; outline: 0;"
           mat-flat-button><i class="far fa-trash-alt"></i> Delete</button>
       </div>
@@ -192,7 +194,7 @@
       <!--<div class="col-xl-12">-->
 
         <!--<i title="Tag" style="font-size: 14px;" class="fas fa-tag"></i>-->
-        <!--<button mat-flat-button style="background-color: transparent; outline: 0;">New <i class="fas fa-plus"></i></button>-->
+        <!--<button mat-flat-button style="background-pipelineStageColor: transparent; outline: 0;">New <i class="fas fa-plus"></i></button>-->
 
       <!--</div>-->
     <!--</div>-->
@@ -558,7 +560,7 @@
               [disabled]="candidate.IsArchived"
               class="stage-select"
               (selectionChange)="pipelineStageChanged($event.value)"
-              [(value)]="currentStageId"
+              [(value)]="currentPipelineStageId"
               style="font-size: 15px; ">
 
               <mat-select-trigger>
@@ -569,8 +571,8 @@
                 border: 1px solid white;
                 border-radius: 3px;
                 cursor: pointer; height: 25px; width: 25px;"
-                  [style.background]="color"/>
-                {{ name }}
+                  [style.background]="pipelineStageColor"/>
+                {{ pipelineStageName }}
               </mat-select-trigger>
 
               <mat-optgroup

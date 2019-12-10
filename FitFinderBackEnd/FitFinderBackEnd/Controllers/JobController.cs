@@ -1,15 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Web.Http;
-using System.Web.Http.Cors;
 using FitFinderBackEnd.Models;
 using FitFinderBackEnd.Models.Job;
 using FitFinderBackEnd.Models.Settings;
-using FitFinderBackEnd.Models.Shared;
 using FitFinderBackEnd.Services;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -23,11 +20,13 @@ namespace FitFinderBackEnd.Controllers
         private readonly ApplicationDbContext _context;
         private ApplicationUserManager _userManager;
         private StatusTextService _statusTextService;
+        private SharedService _sharedService;
 
         public JobController()
         {
             _context = new ApplicationDbContext();
             _statusTextService = new StatusTextService();
+            _sharedService = new SharedService();
         }
 
 
@@ -299,6 +298,20 @@ namespace FitFinderBackEnd.Controllers
                 return Ok(new { StatusText = _statusTextService.ReportingPurposeIssue });
             }
 
+
+            List<JobAttachment> jobAttachments = _context.JobAttachments
+                .Where(x => x.JobId == jobId)
+                .AsNoTracking()
+                .ToList();
+
+            List<string> modifiedFileNames = new List<string>();
+
+            jobAttachments.ForEach(jobAttachment =>
+            {
+                modifiedFileNames.Add(jobAttachment.ModifiedFileName);
+            });
+
+            _sharedService.OnDeleteAttachment(modifiedFileNames);
 
             _context.Jobs.Remove(job);
             _context.SaveChanges();

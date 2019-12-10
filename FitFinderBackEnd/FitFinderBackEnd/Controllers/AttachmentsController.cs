@@ -80,23 +80,10 @@ namespace FitFinderBackEnd.Controllers
         [HttpPost]
         [Route("api/DeleteAttachments")]
         [AllowAnonymous]
-        public IHttpActionResult DeleteAttachments(List<string> fileNames)
+        public IHttpActionResult DeleteAttachments(List<string> modifiedFileNames)
         {
-            Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
-
-            if (userNameClaim == null)
-            {
-                return Ok(new { statusText = _statusTextService.UserClaimError });
-            }
-
-            ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
-            if (applicationUser == null)
-            {
-                return Ok(new { statusText = _statusTextService.UserClaimError });
-            }
-
             SharedService sharedService = new SharedService();
-            sharedService.OnDeleteAttachment(fileNames);
+            sharedService.OnDeleteAttachment(modifiedFileNames);
 
             return Ok(new { statusText = _statusTextService.Success });
         }

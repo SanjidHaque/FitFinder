@@ -1,29 +1,26 @@
-import {Component, DoCheck, OnInit, ViewEncapsulation} from '@angular/core';
-import {ActivatedRoute, Data, Params, Router} from '@angular/router';
+import {Component, DoCheck, OnInit} from '@angular/core';
+import {ActivatedRoute, Data, Router} from '@angular/router';
 import {Candidate} from '../../../models/candidate/candidate.model';
 import {CandidateDataStorageService} from '../../../services/data-storage-services/candidate-data-storage.service';
 import * as moment from 'moment';
 import {CandidateAttachment} from '../../../models/candidate/canidate-attachment.model';
 import {CandidateEducation} from '../../../models/candidate/candidate-education.model';
 import {CandidateExperience} from '../../../models/candidate/candidate-experience.model';
-import {Source} from '../../../models/settings/source.model';
-import {SettingsDataStorageService} from '../../../services/data-storage-services/settings-data-storage.service';
 import {MatDialog} from '@angular/material';
-import {JobAssignmentDialogComponent} from '../../../dialogs/job-assignment-dialog/job-assignment-dialog.component';
+import {DisplayJobDialogComponent} from '../../../dialogs/display-job-dialog/display-job-dialog.component';
 import {JobAssignment} from '../../../models/candidate/job-assignment.model';
 import {Job} from '../../../models/job/job.model';
 import {JobDataStorageService} from '../../../services/data-storage-services/job-data-storage.service';
 import {Pipeline} from '../../../models/settings/pipeline.model';
 import {ChangeStatusDialogComponent} from '../../../dialogs/change-status-dialog/change-status-dialog.component';
 import {PipelineStage} from '../../../models/settings/pipeline-stage.model';
-import {StageScore} from '../../../models/settings/stage-score.model';
-import {CriteriaScore} from '../../../models/settings/criteria-score.model';
 import {StageComment} from '../../../models/settings/stage-comment.model';
 import {NotifierService} from 'angular-notifier';
 import {ConfirmationDialogComponent} from '../../../dialogs/confirmation-dialog/confirmation-dialog.component';
 import {CandidateService} from '../../../services/shared-services/candidate.service';
 import {Department} from '../../../models/settings/department.model';
 import {JobAssignmentDataStorageService} from '../../../services/data-storage-services/job-assignment-data-storage.service';
+import {SettingsService} from '../../../services/shared-services/settings.service';
 
 
 
@@ -33,44 +30,39 @@ import {JobAssignmentDataStorageService} from '../../../services/data-storage-se
   styleUrls: ['./candidate-id.component.css']
 })
 export class CandidateIdComponent implements OnInit, DoCheck {
+  isDisabled = false;
 
   selectTabIndex = 0;
   candidateDefaultImage = 'assets/images/candidateDefaultImage.png';
   rating: 0;
-  currentStageId = 0;
-  name = '';
-  color = '';
-  pipelines: Pipeline[] = [];
+  currentPipelineStageId = 0;
+  pipelineStageName = '';
+  pipelineStageColor = '';
 
+  pipelines: Pipeline[] = [];
   candidates: Candidate[] = [];
   departments: Department[] = [];
   candidate: Candidate;
   jobs: Job[] = [];
   job: Job;
 
-  sources: Source[] = [];
-
   constructor(private route: ActivatedRoute,
               private router: Router,
               private dialog: MatDialog,
               private notifierService: NotifierService,
               private candidateService: CandidateService,
+              private settingsService: SettingsService,
               private jobDataStorageService: JobDataStorageService,
               private candidateDataStorageService: CandidateDataStorageService,
-              private jobAssignmentDataStorageService: JobAssignmentDataStorageService) {
-
-  }
+              private jobAssignmentDataStorageService: JobAssignmentDataStorageService) {}
 
   ngOnInit() {
     this.route.data
-      .subscribe(
-        (data: Data) => {
-          this.jobs = data['jobs'];
-          this.sources = data['sources'];
-          this.candidate = data['candidate'];
-          this.departments = data['departments'];
-        }
-      );
+      .subscribe((data: Data) => {
+          this.jobs = data['jobs'].jobs;
+          this.candidate = data['candidate'].candidate;
+          this.departments = data['departments'].departments;
+        });
 
     if (this.candidate.JobAssignments !== null) {
       this.job = this.candidate.JobAssignments[0].Job;
@@ -89,11 +81,11 @@ export class CandidateIdComponent implements OnInit, DoCheck {
 
   getCurrentStageNameAndColor() {
     if (this.candidate.JobAssignments !== null) {
-      this.currentStageId =
+      this.currentPipelineStageId =
         this.candidate.JobAssignments
           .find( x => x.IsActive === true).CurrentStageId;
-      this.name = this.detectStageChange(this.currentStageId).stageName;
-      this.color = this.detectStageChange(this.currentStageId).stageColor;
+      this.pipelineStageName = this.detectStageChange(this.currentPipelineStageId).stageName;
+      this.pipelineStageColor = this.detectStageChange(this.currentPipelineStageId).stageColor;
     }
   }
 
@@ -102,7 +94,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
   }
 
   openCurrentPipelineStage() {
-    this.changeStatus(this.currentStageId);
+    this.changeStatus(this.currentPipelineStageId);
   }
 
 
@@ -122,50 +114,36 @@ export class CandidateIdComponent implements OnInit, DoCheck {
   }
 
 
-  changeJobAssignment() {
-  }
+  changeJobAssignment() {}
 
 
 
   removeJobAssignment() {
     const jobAssignment = this.candidate.JobAssignments
-      .find(x => x.Id === this.getActiveJobAssignmentId());
-    const title = this.jobs.find(x => x.Id === jobAssignment.JobId).Title;
+      .find(x => x.Id === this.getActiveJobAssignment().Id);
 
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent,
-      {
-        hasBackdrop: true,
-        disableClose: true,
-        width: '400px',
-        data: {
-          header: 'Remove Job',
-          iconClass: 'far fa-trash-alt',
-          confirmationText: 'Are you sure you want to remove ' + title + ' from Candidate?',
-          buttonText: 'Remove',
-          confirmationStatus: false
-        }
-      });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result.confirmationStatus) {
-        this.jobAssignmentDataStorageService.removeJobAssignment(jobAssignment)
-          .subscribe(
-            (data: any) => {
-              const index = this.candidate.JobAssignments
-                .findIndex(x => x.Id === this.getActiveJobAssignmentId());
+    this.settingsService.deleteResource('Remove Job Assignment')
+      .then(result => {
 
-              this.candidate.JobAssignments.splice(index, 1);
+          if (result.confirmationStatus) {
+      this.jobAssignmentDataStorageService.removeJobAssignment(jobAssignment)
+        .subscribe(
+          (data: any) => {
+            const index = this.candidate.JobAssignments
+              .findIndex(x => x.Id === this.getActiveJobAssignment().Id);
 
-              if (this.candidate.JobAssignments.length === 0) {
-                this.candidate.JobAssignments = null;
-              }
+            this.candidate.JobAssignments.splice(index, 1);
 
-              this.notifierService.notify('default', 'Job removed.')
+            if (this.candidate.JobAssignments.length === 0) {
+              this.candidate.JobAssignments = null;
             }
-          );
-      }
-    }
-    );
+
+            this.notifierService.notify('default', 'Job removed.');
+          }
+        );
+          }
+      });
   }
 
 
@@ -180,9 +158,9 @@ export class CandidateIdComponent implements OnInit, DoCheck {
     }
 
     const stageScores = this.candidate.JobAssignments
-      .find(x => x.Id === this.getActiveJobAssignmentId()).StageScores;
+      .find(x => x.Id === this.getActiveJobAssignment().Id).StageScores;
     const criteriaScores = this.candidate.JobAssignments
-      .find(x => x.Id === this.getActiveJobAssignmentId()).CriteriaScores;
+      .find(x => x.Id === this.getActiveJobAssignment().Id).CriteriaScores;
 
     for (let k = 0; k < pipelineStages.length; k++) {
       if (pipelineStages[k].Id === pipelineStageId) {
@@ -204,11 +182,11 @@ export class CandidateIdComponent implements OnInit, DoCheck {
           pipelineStageId: pipelineStageId,
           stageScore:
           this.candidate.JobAssignments
-            .find(x => x.Id === this.getActiveJobAssignmentId())
+            .find(x => x.Id === this.getActiveJobAssignment().Id)
             .StageScores,
           criteriaScore:
           this.candidate.JobAssignments
-            .find(x => x.Id === this.getActiveJobAssignmentId())
+            .find(x => x.Id === this.getActiveJobAssignment().Id)
             .CriteriaScores,
           comment: '',
           status: false
@@ -234,7 +212,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
           const stageComment = new StageComment(
            null,
            null,
-           this.getActiveJobAssignmentId(),
+           this.getActiveJobAssignment().Id,
            null,
            currentStageId,
            null,
@@ -255,12 +233,12 @@ export class CandidateIdComponent implements OnInit, DoCheck {
        }
 
        const jobAssigned = new JobAssignment(
-         this.getActiveJobAssignmentId(),
+         this.getActiveJobAssignment().Id,
          null,
          this.candidate.Id,
          null,
          this.candidate.JobAssignments
-           .find(x => x.Id === this.getActiveJobAssignmentId())
+           .find(x => x.Id === this.getActiveJobAssignment().Id)
            .JobId,
          result.stageScore,
          result.criteriaScore,
@@ -273,12 +251,12 @@ export class CandidateIdComponent implements OnInit, DoCheck {
          .subscribe(
            (data: any) => {
              const activeJobAssignmentIndex
-               = this.candidate.JobAssignments.findIndex( x => x.Id === this.getActiveJobAssignmentId());
+               = this.candidate.JobAssignments.findIndex( x => x.Id === this.getActiveJobAssignment().Id);
              this.candidate.JobAssignments[activeJobAssignmentIndex] = data;
              this.notifierService.notify('default', 'Status changed!');
-             this.currentStageId = this.detectStageChange(currentStageId).stageId;
-             this.name = this.detectStageChange(currentStageId).stageName;
-             this.color = this.detectStageChange(currentStageId).stageColor;
+             this.currentPipelineStageId = this.detectStageChange(currentStageId).stageId;
+             this.pipelineStageName = this.detectStageChange(currentStageId).stageName;
+             this.pipelineStageColor = this.detectStageChange(currentStageId).stageColor;
            }
          );
      }
@@ -373,23 +351,19 @@ export class CandidateIdComponent implements OnInit, DoCheck {
     );
   }
 
-  jobAssignmentDialog(candidate: Candidate) {
-    const dialogRef = this.dialog.open(JobAssignmentDialogComponent,
+  addJobAssignment() {
+    const dialogRef = this.dialog.open(DisplayJobDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,
         width: '1000px',
-        data:
-          {
-            jobs: this.jobs,
-            departments: this.departments
-          }
+        data: { jobs: this.jobs, departments: this.departments }
       });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result !== '' ) {
-        const jobId = result[0].Id;
 
+        const jobId = result[0].Id;
         const jobAssignment = new JobAssignment(
           null,
           null,
@@ -419,16 +393,14 @@ export class CandidateIdComponent implements OnInit, DoCheck {
                 this.changeStatus(data.jobAssignment.CurrentStageId);
                 this.notifierService.notify('default', 'Status changed.');
               }
-
-
             });
       }
     });
   }
 
 
-  getActiveJobAssignmentId() {
-    return this.candidate.JobAssignments.find(x => x.IsActive === true).Id;
+  getActiveJobAssignment() {
+    return this.candidate.JobAssignments.find(x => x.IsActive === true);
   }
 
   getLastAssignedJobName() {
@@ -475,12 +447,37 @@ export class CandidateIdComponent implements OnInit, DoCheck {
     }
   }
 
+  deleteCandidate() {
+    this.settingsService.deleteResource('Delete Candidate')
+      .then(result => {
 
+        if (result.confirmationStatus) {
+          this.isDisabled = true;
+
+          this.candidateDataStorageService.deleteCandidate(this.candidate.Id)
+            .subscribe((data: any) => {
+
+              if (data.statusText !== 'Success') {
+
+                this.isDisabled = false;
+                this.notifierService.notify('default', data.statusText);
+
+              } else {
+
+                this.notifierService.notify('default', 'Candidate deleted successfully');
+                this.router.navigate(['candidates']);
+
+              }
+            });
+
+        }
+      }).catch();
+
+  }
 
   getApplicationDate() {
     return moment(new Date(this.candidate.ApplicationDate)).format('Do MMM YYYY');
   }
-
 
   goToFacebookProfile() {
     window.open('http://' + this.candidate.FacebookUrl);

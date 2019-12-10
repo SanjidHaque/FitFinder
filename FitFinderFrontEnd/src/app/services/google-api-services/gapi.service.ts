@@ -221,7 +221,7 @@ export class GapiService {
 
     return gapi.client.drive.files.create({
       resource: newFolder,
-      fields: 'id, name'
+      fields: 'id, pipelineStageName'
     });
   }
 
@@ -234,7 +234,7 @@ export class GapiService {
         `mimeType = 'application/vnd.google-apps.folder' and ` +
         `'${parentFolderId}' in parents and ` +
         `trashed = false`,
-      fields: 'nextPageToken, files(id, parents, name, mimeType)',
+      fields: 'nextPageToken, files(id, parents, pipelineStageName, mimeType)',
       spaces: 'drive',
       corpora: 'user',
       pageToken

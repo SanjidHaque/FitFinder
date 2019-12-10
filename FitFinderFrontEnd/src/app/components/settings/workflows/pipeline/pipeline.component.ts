@@ -157,7 +157,7 @@ export class PipelineComponent implements OnInit {
 
               workflow.Name = result;
               this.notifierService.notify('default',
-                'Workflow name updated successfully.');
+                'Workflow pipelineStageName updated successfully.');
 
             }
           });

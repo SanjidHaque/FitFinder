@@ -5,8 +5,6 @@ import {Candidate} from '../../../models/candidate/candidate.model';
 import {CandidateDataStorageService} from '../../../services/data-storage-services/candidate-data-storage.service';
 import {DateAdapter} from '@angular/material';
 import {ShortDateAdapter} from '../../../date-adapters/short-date.adapter';
-import {CandidateEducation} from '../../../models/candidate/candidate-education.model';
-import {CandidateExperience} from '../../../models/candidate/candidate-experience.model';
 import {NotifierService} from 'angular-notifier';
 import {CandidateAttachment} from '../../../models/candidate/canidate-attachment.model';
 import {Job} from '../../../models/job/job.model';
@@ -14,9 +12,6 @@ import {JobDataStorageService} from '../../../services/data-storage-services/job
 import {SettingsDataStorageService} from '../../../services/data-storage-services/settings-data-storage.service';
 import {Source} from '../../../models/settings/source.model';
 import {JobAssignment} from '../../../models/candidate/job-assignment.model';
-import {StageScore} from '../../../models/settings/stage-score.model';
-import {CriteriaScore} from '../../../models/settings/criteria-score.model';
-import {StageComment} from '../../../models/settings/stage-comment.model';
 import {AttachmentDataStorageService} from '../../../services/data-storage-services/attachment-data-storage.service';
 
 
@@ -73,7 +68,7 @@ export class AddNewCandidateComponent implements OnInit {
       'city': new FormControl('', Validators.required),
       'state': new FormControl(''),
       'country': new FormControl('', Validators.required),
-      'sourceId': new FormControl('', Validators.required),
+      'sourceId': new FormControl(this.sources[0].Id, Validators.required),
       'educations': new FormArray([]),
       'experiences': new FormArray([]),
       'facebookUrl': new FormControl(''),
@@ -100,9 +95,6 @@ export class AddNewCandidateComponent implements OnInit {
           newFile.name,
           false
         );
-
-
-
 
         this.candidateAttachments.push(candidateAttachment);
         this.notifierService.notify('default', 'File uploaded successfully');
@@ -140,7 +132,6 @@ export class AddNewCandidateComponent implements OnInit {
 
   getStartDateOfExperience(date: string, index: number) {
     this.startDateOfExperience[index] = date;
-
   }
   populateEducationFields() {
     return this.formBuilder.group({
@@ -208,7 +199,6 @@ export class AddNewCandidateComponent implements OnInit {
         null,
         true,
       );
-
       jobAssignments.push(jobAssignment);
     }
 
@@ -243,7 +233,6 @@ export class AddNewCandidateComponent implements OnInit {
 
 
    this.isDisabled = true;
-
    if (this.filesToUpload.length !== 0) {
 
      await this.attachmentDataStorageService.uploadAttachments(this.filesToUpload)

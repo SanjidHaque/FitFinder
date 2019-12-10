@@ -294,7 +294,9 @@
               type="number"
               formControlName = "positions"
               matInput>
-            <mat-error *ngIf="addNewJobForm.controls['jobPositions'].invalid">{{getJobPositionErrorMessage()}}</mat-error>
+            <mat-error *ngIf="addNewJobForm.controls['positions'].invalid">
+              {{getJobPositionErrorMessage()}}
+            </mat-error>
           </mat-form-field>
 
         </div>
