@@ -307,7 +307,7 @@ export class AddNewJobComponent implements OnInit {
           );
 
           if (pipelineStage.PipelineStageCriteria === null) {
-            pipelineStage.PipelineStageCriteria= [];
+            pipelineStage.PipelineStageCriteria = [];
           }
 
           pipelineStage.PipelineStageCriteria.push(pipelineStageCriteria);

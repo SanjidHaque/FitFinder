@@ -89,12 +89,15 @@
               formControlName="userAccounts"
               multiple>
               <mat-option
-
-                *ngFor="let user of users" [value]="user">
+                *ngFor="let userAccount of userAccounts"
+                [value]="userAccount">
                 <img
                   style="border-radius: 50%;height: 30px; width: 30px"
-                  [src]= "candidateDefaultImage"> {{ user.userName }} |
-                <span style="font-size: 13px; opacity: 7;">{{ user.role }}</span>
+                  [src]= "candidateDefaultImage"> {{ userAccount.UserName }} |
+                <span
+                  style="font-size: 13px; opacity: 7;">
+                  {{ userAccount.RoleName }}
+                </span>
               </mat-option>
             </mat-select>
             <mat-error>You must select at least one interviewer!</mat-error>
@@ -169,10 +172,12 @@
               required
               formControlName="interviewType">
               <mat-option
-                *ngIf="interviewTypes.length == 0">No interview type is available</mat-option>
+                *ngIf="interviewTypes.length == 0">
+                No interview type is available
+              </mat-option>
               <mat-option
                 *ngFor="let interviewType of interviewTypes"
-                [value]="interviewType.id"> {{ interviewType.type }} </mat-option>
+                [value]="interviewType.Name"> {{ interviewType.Name }} </mat-option>
             </mat-select>
             <mat-error>You must select an interview type!</mat-error>
           </mat-form-field>
@@ -300,7 +305,7 @@
                    padding-bottom: 3px;">
 
               <i title="Job Application" class="fas fa-briefcase"></i>
-                {{ getJobTitle(candidate.JobAssignments[0].JobId) }}
+                {{ candidate.JobAssignments[0].Job.Title }}
 
               </div>
 

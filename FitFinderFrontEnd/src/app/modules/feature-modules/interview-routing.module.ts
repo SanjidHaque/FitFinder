@@ -11,6 +11,7 @@ import {InterviewsResolverService} from '../../route-resolvers/interviews-resolv
 import {AddNewInterviewComponent} from '../../components/interviews/add-new-interview/add-new-interview.component';
 import {InterviewIdComponent} from '../../components/interviews/interview-id/interview-id.component';
 import {InterviewResolverService} from '../../route-resolvers/interview-resolver.service';
+import {UserAccountsResolverService} from '../../route-resolvers/user-accounts-resolver.service';
 
 
 const interviewRoutes: Routes = [
@@ -40,7 +41,8 @@ const interviewRoutes: Routes = [
           {
             jobs: JobsResolverService,
             candidates: CandidatesResolverService,
-            sources: SourcesResolverService
+            sources: SourcesResolverService,
+            userAccounts: UserAccountsResolverService
           }
       },
       {

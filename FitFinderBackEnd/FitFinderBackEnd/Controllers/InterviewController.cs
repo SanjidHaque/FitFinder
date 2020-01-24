@@ -8,6 +8,7 @@ using System.Security.Claims;
 using System.Web.Http;
 using FitFinderBackEnd.Models;
 using FitFinderBackEnd.Models.Interview;
+using FitFinderBackEnd.Models.Settings;
 using FitFinderBackEnd.Services;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -21,11 +22,13 @@ namespace FitFinderBackEnd.Controllers
         private readonly ApplicationDbContext _context;
         private ApplicationUserManager _userManager;
         private StatusTextService _statusTextService;
+        private SharedService _sharedService;
 
         public InterviewController()
         {
             _context = new ApplicationDbContext();
             _statusTextService = new StatusTextService();
+            _sharedService = new SharedService();
         }
 
         public InterviewController(ApplicationUserManager userManager,
@@ -139,7 +142,6 @@ namespace FitFinderBackEnd.Controllers
         {
             Interview interview = _context.Interviews.FirstOrDefault(x =>  x.Id == interviewId);
 
-
             if (interview == null)
             {
                 return Ok(new { interview, statusText = _statusTextService.ResourceNotFound });
@@ -149,9 +151,23 @@ namespace FitFinderBackEnd.Controllers
                 .Where(x => x.InterviewId == interviewId)
                 .ToList();
 
+           
             List<InterviewersForInterview> interviewersForInterviews = _context.InterviewersForInterviews
                 .Where(x => x.InterviewId == interviewId)
                 .ToList();
+
+
+
+            interviewersForInterviews.ForEach(x =>
+            {
+                ApplicationUser applicationUser = _context.Users.FirstOrDefault(a => a.Id == x.UserAccountId);
+
+                if (applicationUser != null)
+                {
+                    x.UserAccount = _sharedService.GetUserAccount(applicationUser);
+                }
+            });
+
 
             return Ok(new { interview, statusText = _statusTextService.Success });
             
@@ -207,22 +223,24 @@ namespace FitFinderBackEnd.Controllers
                 return Ok(new { statusText = _statusTextService.ResourceNotFound });
             }
 
-            bool hasRelation = (_context.InterviewersForInterviews.Any(o => o.InterviewId == interviewId)
-                               && _context.CandidatesForInterviews.Any(o => o.InterviewId == interviewId));
 
-            if (hasRelation)
-            {
-                return Ok(new { StatusText = _statusTextService.ReportingPurposeIssue });
-            }
+            List<CandidatesForInterview> candidatesForInterviews = _context.CandidatesForInterviews
+                .Where(x => x.InterviewId == interviewId)
+                .ToList();
 
+            List<InterviewersForInterview> interviewersForInterviews = _context.InterviewersForInterviews
+                .Where(x => x.InterviewId == interviewId)
+                .ToList();
+
+            _context.CandidatesForInterviews.RemoveRange(candidatesForInterviews);
+            _context.InterviewersForInterviews.RemoveRange(interviewersForInterviews);
+            _context.SaveChanges();
 
             _context.Interviews.Remove(interview);
             _context.SaveChanges();
 
             return Ok(new { statusText = _statusTextService.Success });
-            
-          //  return Ok(new { statusText = _statusTextService.ReportingPurposeIssue });
-          
+                      
         }
     }
 }

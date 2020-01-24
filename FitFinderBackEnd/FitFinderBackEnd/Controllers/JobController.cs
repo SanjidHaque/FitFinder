@@ -165,7 +165,7 @@ namespace FitFinderBackEnd.Controllers
 
             if (job == null)
             {
-                return Ok(new { statusText = _statusTextService.ResourceNotFound});
+                return Ok(new { job, statusText = _statusTextService.ResourceNotFound});
             }
 
             List<JobAttachment> jobAttachments = _context.JobAttachments

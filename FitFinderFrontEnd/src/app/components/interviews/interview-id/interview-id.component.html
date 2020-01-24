@@ -33,16 +33,16 @@
 
 
 
-  <div
-    *ngIf="!interview.IsArchived; else interviewIsArchived"
-    class="col-xl-2 text-xl-right">
-    <button
-      [disabled]="disableEmailInvites"
-      style="
-      outline: 0;"
-      color="primary"
-      mat-raised-button>  <i class="far fa-envelope"></i> Email Invites</button>
-  </div>
+  <!--<div-->
+    <!--*ngIf="!interview.IsArchived; else interviewIsArchived"-->
+    <!--class="col-xl-2 text-xl-right">-->
+    <!--<button-->
+      <!--[disabled]="disableEmailInvites"-->
+      <!--style="-->
+      <!--outline: 0;"-->
+      <!--color="primary"-->
+      <!--mat-raised-button>  <i class="far fa-envelope"></i> Email Invites</button>-->
+  <!--</div>-->
 
   <ng-template #interviewIsArchived>
 
@@ -230,7 +230,7 @@
     <div
       class="row"
       style="padding-top: 5px; padding-bottom: 5px;"
-      *ngFor="let interviewersForInterview of interview.InterviewersForInterview">
+      *ngFor="let interviewerForInterview of interview.InterviewersForInterview">
       <div class="col-xl-1">
         <img
           class="img-responsive"
@@ -242,8 +242,10 @@
       </div>
 
       <div class="col-xl-11 text-xl-left" style="padding-top: 6px;">
-       {{ getInterviewerName(interviewersForInterview.Id) }} |
-        <span style="font-size: 13px;">{{ getInterviewerRole(interviewersForInterview.UserAccountId) }}</span>
+       {{ interviewerForInterview.UserAccount.UserName }} |
+        <span style="font-size: 13px;">
+          {{ interviewerForInterview.UserAccount.RoleName }}
+        </span>
       </div>
     </div>
 

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Data, Params, Router} from '@angular/router';
+import {ActivatedRoute, Data, Router} from '@angular/router';
 import {CandidateDataStorageService} from '../../../services/data-storage-services/candidate-data-storage.service';
 import {InterviewDataStorageService} from '../../../services/data-storage-services/interview-data-storage.service';
 import {Interview} from '../../../models/interview/interview.model';
@@ -23,40 +23,15 @@ import {InterviewService} from '../../../services/shared-services/interview.serv
   styleUrls: ['./interview-id.component.css']
 })
 export class InterviewIdComponent implements OnInit {
-  interviewId: number;
-  pending = 1;
-  interviews: Interview[] = [];
   interview: Interview;
+  interviews: Interview[] = [];
   candidates: Candidate[] = [];
   jobs: Job[] = [];
-  jobNotAssigned: boolean;
   sources: Source[] = [];
+
   disableEmailInvites = false;
   candidateDefaultImage = 'assets/images/candidateDefaultImage.png';
-
-  users = [
-    {id: 1, userName: 'Yaha Juan', role: 'Super user'},
-    {id: 2, userName: 'Cholo Han', role: 'HR'},
-    {id: 3, userName: 'Kaytui Hyan', role: 'Team member'},
-    {id: 4, userName: 'Kunisu Honda', role: 'Team member'},
-    {id: 5, userName: 'Yahan Kawai', role: 'HR'},
-    {id: 6, userName: 'Tatua Nokia', role: 'Team member'},
-    {id: 7, userName: 'Vusimuji Momak', role: 'Team member'},
-    {id: 8, userName: 'Wyengyu Duija', role: 'Team member'}
-  ];
-  interviewTypes = [
-    {id: 1, type: 'Face to Face'},
-    {id: 2, type: 'Telephonic'},
-    {id: 3, type: 'Video Conference'},
-    {id: 4, type: 'Group'},
-    {id: 5, type: 'Panel'}
-  ];
-  interviewStatuses = [
-    { Id: 1, Name: 'Pending' },
-    { Id: 2, Name: 'Invited' },
-    { Id: 3, Name: 'Confirmed' },
-    { Id: 4, Name: 'Declined' }
-  ];
+  interviewStatuses : any = [];
 
   constructor(private route: ActivatedRoute,
               private jobService: JobDataStorageService,
@@ -66,28 +41,17 @@ export class InterviewIdComponent implements OnInit {
               private dialog: MatDialog,
               private interviewService: InterviewService,
               private candidateDataStorageService: CandidateDataStorageService,
-              private interviewDataStorageService: InterviewDataStorageService) {
-    this.route.params
-      .subscribe(
-        (params: Params) => {
-          this.interviewId = +params['interview-id'];
-        }
-      );
-  }
+              private interviewDataStorageService: InterviewDataStorageService) {}
 
   ngOnInit() {
-    this.route.data
-      .subscribe(
+    this.route.data.subscribe(
         (data: Data) => {
-          this.jobs = data['jobs'];
-          this.sources = data['sources'];
-          this.interview = data['interview'];
-          this.candidates = data['candidates'];
-        }
-      );
-
-   // this.interview = this.interviews.find(x => x.Id === this.interviewId);
-
+          this.jobs = data['jobs'].jobs;
+          this.sources = data['sources'].sources;
+          this.interview = data['interview'].interview;
+          this.candidates = data['candidates'].candidates;
+          this.interviewStatuses = this.interviewService.getInterviewStatuses();
+        });
   }
 
 
@@ -185,7 +149,7 @@ export class InterviewIdComponent implements OnInit {
           const candidateForInterview = new CandidatesForInterview(
             null,
             null,
-            this.interviewId,
+            this.interview.Id,
             null,
             result[i].Id
           );
@@ -237,6 +201,7 @@ export class InterviewIdComponent implements OnInit {
     const candidate = this.candidates.find(x => x.Id === candidateId);
     return candidate.FirstName + ' ' + candidate.LastName;
   }
+
   getCandidateEmail(candidateId: number) {
     return this.candidates.find(x => x.Id === candidateId).Email;
   }
@@ -299,41 +264,19 @@ export class InterviewIdComponent implements OnInit {
     if (jobAssigned === null ) {
       return '';
     }
-
     const activeJob = jobAssigned.find(x => x.IsActive === true);
 
     if (activeJob === undefined) {
       return '';
     }
-
     const job = this.jobs.find(x => x.Id === activeJob.JobId);
 
     if (job === undefined) {
       return '';
     }
-
     return job.Title;
   }
 
-
-
-
-  getInterviewerName(interviewerId: number) {
-    return this.users.find(x => x.id === interviewerId).userName;
-  }
-
-  getInterviewerRole(interviewerId: number) {
-    return this.users.find(x => x.id === interviewerId).role;
-  }
-
-  selectValueChanged(value: any) {
-    if (value === 3 || value === 4 ) {
-      this.disableEmailInvites = true;
-    } else {
-      this.disableEmailInvites = false;
-    }
-    this.notifierService.notify('default', 'Interview status changed');
-  }
 
 
   getInterviewDay(interview: Interview) {

@@ -7,6 +7,6 @@ export class InterviewersForInterview {
     public Interview: Interview,
     public InterviewId: number,
     public UserAccount: UserAccount,
-    public UserAccountId: number
+    public UserAccountId: string
   ) {}
 }

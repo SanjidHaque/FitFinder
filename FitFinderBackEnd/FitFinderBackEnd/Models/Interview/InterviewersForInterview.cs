@@ -13,6 +13,6 @@ namespace FitFinderBackEnd.Models.Interview
         public Interview Interview { get; set; }    
         public long? InterviewId { get; set; }
         public UserAccount UserAccount { get; set; }        
-        public long UserAccountId { get; set; }     
+        public string UserAccountId { get; set; }     
     }
 }

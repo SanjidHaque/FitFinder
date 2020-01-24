@@ -39,9 +39,6 @@ namespace FitFinderBackEnd.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-
-       
-
         public DbSet<Candidate.Candidate> Candidates { get; set; }
         public DbSet<CandidateEducation> CandidateEducations { get; set; }
         public DbSet<CandidateExperience> CandidateExperiences { get; set; }
@@ -82,6 +79,7 @@ namespace FitFinderBackEnd.Models
         {
         }
 
+       
 
 
         public static ApplicationDbContext Create()

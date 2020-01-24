@@ -273,6 +273,10 @@
     <Compile Include="Migrations\201912071842182_PipelinestageCriterionIdMadeUnNullish.Designer.cs">
       <DependentUpon>201912071842182_PipelinestageCriterionIdMadeUnNullish.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202001241628233_UserAccountIdTypeIsChanged.cs" />
+    <Compile Include="Migrations\202001241628233_UserAccountIdTypeIsChanged.Designer.cs">
+      <DependentUpon>202001241628233_UserAccountIdTypeIsChanged.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -451,6 +455,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201912071842182_PipelinestageCriterionIdMadeUnNullish.resx">
       <DependentUpon>201912071842182_PipelinestageCriterionIdMadeUnNullish.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001241628233_UserAccountIdTypeIsChanged.resx">
+      <DependentUpon>202001241628233_UserAccountIdTypeIsChanged.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
