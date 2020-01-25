@@ -208,8 +208,22 @@ namespace FitFinderBackEnd.Controllers
             _context.SaveChanges();
             return Ok(new { statusText = _statusTextService.Success });
         }
+        [HttpPut]
+        [Route("api/ChangeInterviewStatus")]
+        [AllowAnonymous]
+        public IHttpActionResult ChangeInterviewStatus(Interview interview)
+        {
+            Interview getInterview = _context.Interviews.FirstOrDefault(x => x.Id == interview.Id);
+            if (getInterview == null)
+            {
+                return Ok(new { statusText = _statusTextService.ResourceNotFound });
+            }
 
+            getInterview.InterviewStatus = interview.InterviewStatus;
+            _context.SaveChanges();
 
+            return Ok(new { statusText = _statusTextService.Success });
+        }
 
         [HttpDelete]
         [Route("api/DeleteInterview/{interviewId}")]
