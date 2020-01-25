@@ -42,6 +42,11 @@ export class InterviewDataStorageService {
       interviews);
   }
 
+  changeInterviewStatus(interview: Interview) {
+    return this.httpClient.put<Interview>(this.rootUrl + '/api/ChangeInterviewStatus',
+      interview);
+  }
+
   editInterview(interview: Interview) {
     return this.httpClient.put<Interview>(this.rootUrl + '/api/EditInterview', interview);
   }

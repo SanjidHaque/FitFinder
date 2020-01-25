@@ -48,7 +48,8 @@
 
     <div class="col-xl-2 text-xl-right">
       <button
-        (click)="restoreInterviews(interview)"
+        [disabled]="isDisabled" a
+        (click)="restoreInterview(interview)"
         style="
         outline: 0;"
         mat-stroked-button><i class="far fa-window-restore"></i> Restore</button>
@@ -117,8 +118,8 @@
 
       <mat-select
         [disabled]="interview.IsArchived"
-        (selectionChange)="selectValueChanged($event.value)"
-        [(value)]="pending"
+        (selectionChange)="changeInterviewStatus($event.value)"
+        [(value)]="selectedInterviewStatus"
         style="
             text-align: center;
             font-weight: bold;">
@@ -128,7 +129,7 @@
               text-align: center;
               font-weight: bold;"
           *ngFor="let interviewStatus of interviewStatuses"
-          [value]="interviewStatus.Id">
+          [value]="interviewStatus.Name">
           {{ interviewStatus.Name }}
         </mat-option>
 
@@ -153,27 +154,30 @@
 
       <div *ngIf="!interview.IsArchived" class="col-xl-3 text-xl-center">
         <button
-          (click)="archiveInterviews(interview)"
+          [disabled]="isDisabled"
+          (click)="archiveInterview(interview)"
           style="background-color: transparent; outline: 0; width: 100%;"
           mat-flat-button><i class="fas fa-archive"></i> Archive</button>
       </div>
 
       <div *ngIf="interview.IsArchived" class="col-xl-3 text-xl-center">
         <button
-          (click)="restoreInterviews(interview)"
+          [disabled]="isDisabled"
+          (click)="restoreInterview()"
           style="background-color: transparent; outline: 0; width: 100%;"
           mat-flat-button><i class="far fa-window-restore"></i> Restore</button>
       </div>
 
       <div class="col-xl-3 text-xl-center">
         <button
+          [disabled]="isDisabled"
+          (click)="deleteInterview()"
           style="background-color: transparent; outline: 0; width: 100%;"
           mat-flat-button><i class="far fa-trash-alt"></i> Delete</button>
       </div>
 
 
     </div>
-
   </div>
 
 </div>
@@ -187,7 +191,7 @@
     <div class="row" style="padding-top: 5px; padding-bottom: 5px; font-size: 17px;">
       <div class="col-xl-12">
         <i class="far fa-clock"></i>
-        {{ interview.InterviewStartTime }} - {{ interview.EndTime }}
+        {{ interview.StartTime }} - {{ interview.EndTime }}
       </div>
     </div>
 
@@ -199,7 +203,7 @@
 
     <div class="row" style="padding-top: 5px; padding-bottom: 5px; font-size: 15px;">
       <div class="col-xl-12">
-        <i class="far fa-user"></i> Sanjid Haque
+        <i class="far fa-user"></i> {{ interview.HiringManagerName }}
       </div>
     </div>
 

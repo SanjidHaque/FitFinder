@@ -277,6 +277,10 @@
     <Compile Include="Migrations\202001241628233_UserAccountIdTypeIsChanged.Designer.cs">
       <DependentUpon>202001241628233_UserAccountIdTypeIsChanged.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202001251303025_InterviewModelChanged.cs" />
+    <Compile Include="Migrations\202001251303025_InterviewModelChanged.Designer.cs">
+      <DependentUpon>202001251303025_InterviewModelChanged.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -458,6 +462,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202001241628233_UserAccountIdTypeIsChanged.resx">
       <DependentUpon>202001241628233_UserAccountIdTypeIsChanged.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001251303025_InterviewModelChanged.resx">
+      <DependentUpon>202001251303025_InterviewModelChanged.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

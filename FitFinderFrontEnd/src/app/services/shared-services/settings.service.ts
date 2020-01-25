@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+
 import {DialogService} from '../dialog-services/dialog.service';
 
 @Injectable({
@@ -6,7 +7,6 @@ import {DialogService} from '../dialog-services/dialog.service';
 })
 export class SettingsService {
   numberOfWorkflows = 0;
-
   constructor(private dialogService: DialogService) {}
 
   addNewRejectedReason() {

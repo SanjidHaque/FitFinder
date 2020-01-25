@@ -183,6 +183,15 @@ namespace FitFinderBackEnd.Controllers
                 .OrderByDescending(x => x.Id)
                 .ToList();
 
+            candidates.ForEach(candidate =>
+            {
+                Source source = _context.Sources.FirstOrDefault(x => x.Id == candidate.SourceId);
+                if (source != null)
+                {
+                    candidate.Source = source;
+                }
+            });
+
             List<JobAssignment> jobAssignments = _context.JobAssignments
                 .Include(x => x.Candidate)
                 .ToList();

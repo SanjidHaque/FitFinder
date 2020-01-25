@@ -208,6 +208,7 @@ namespace FitFinderBackEnd.Controllers
             _context.SaveChanges();
             return Ok(new { statusText = _statusTextService.Success });
         }
+
         [HttpPut]
         [Route("api/ChangeInterviewStatus")]
         [AllowAnonymous]

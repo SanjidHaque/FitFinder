@@ -1,9 +1,8 @@
 import {Injectable} from '@angular/core';
-import {AddUpdateDialogComponent} from '../../dialogs/add-update-dialog/add-update-dialog.component';
 import {MatDialog} from '@angular/material';
+
+import {AddUpdateDialogComponent} from '../../dialogs/add-update-dialog/add-update-dialog.component';
 import {ConfirmationDialogComponent} from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
-import {PipelineStage} from '../../models/settings/pipeline-stage.model';
-import {DisplayPipelineStageCriteriaDialogComponent} from '../../dialogs/display-pipeline-stage-criteria-dialog/display-pipeline-stage-criteria-dialog.component';
 import {AddUpdatePipelineStageDialogComponent} from '../../dialogs/add-update-pipeline-stage-dialog/add-update-pipeline-stage-dialog.component';
 
 @Injectable({

@@ -11,8 +11,6 @@ import {InterviewDataStorageService} from '../../../services/data-storage-servic
 import {ActivatedRoute, Data, Router} from '@angular/router';
 import {NotifierService} from 'angular-notifier';
 import {Job} from '../../../models/job/job.model';
-import {JobDataStorageService} from '../../../services/data-storage-services/job-data-storage.service';
-import {CandidateDataStorageService} from '../../../services/data-storage-services/candidate-data-storage.service';
 import {Source} from '../../../models/settings/source.model';
 import {UserAccount} from '../../../models/settings/user-account.model';
 import {InterviewService} from '../../../services/shared-services/interview.service';
@@ -26,9 +24,9 @@ import {InterviewService} from '../../../services/shared-services/interview.serv
 
 export class AddNewInterviewComponent implements OnInit {
 
+  isDisabled = false;
   addNewInterviewForm: FormGroup;
   candidateDefaultImage = 'assets/images/candidateDefaultImage.png';
-  isDisabled = false;
   selectedCandidatesForInterview: Candidate[]= [];
 
   sources: Source[] = [];
@@ -39,8 +37,6 @@ export class AddNewInterviewComponent implements OnInit {
 
   constructor(private dialog: MatDialog,
               private interviewDataStorageService: InterviewDataStorageService,
-              private candidateDataStorageService: CandidateDataStorageService,
-              private jobDataStorageService: JobDataStorageService,
               private interviewService: InterviewService,
               private router: Router,
               private route: ActivatedRoute,
@@ -92,6 +88,7 @@ export class AddNewInterviewComponent implements OnInit {
       this.interviewService.getInterviewersForInterview(interviewersForInterview),
       'Pending',
       false,
+      localStorage.getItem('userName'),
       null,
       null
     );

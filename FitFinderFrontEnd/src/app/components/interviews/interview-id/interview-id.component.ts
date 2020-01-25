@@ -1,20 +1,18 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Data, Router} from '@angular/router';
-import {CandidateDataStorageService} from '../../../services/data-storage-services/candidate-data-storage.service';
 import {InterviewDataStorageService} from '../../../services/data-storage-services/interview-data-storage.service';
 import {Interview} from '../../../models/interview/interview.model';
 import * as moment from 'moment';
 import {NotifierService} from 'angular-notifier';
 import {Candidate} from '../../../models/candidate/candidate.model';
 import {Job} from '../../../models/job/job.model';
-import {JobDataStorageService} from '../../../services/data-storage-services/job-data-storage.service';
 import {SelectCandidatesForInterviewDialogComponent} from '../../../dialogs/select-candidates-for-interview-dialog/select-candidates-for-interview-dialog.component';
 import {MatDialog} from '@angular/material';
 import {CandidatesForInterview} from '../../../models/interview/candidates-for-interview.model';
 import {Source} from '../../../models/settings/source.model';
-import {SettingsDataStorageService} from '../../../services/data-storage-services/settings-data-storage.service';
-import {ConfirmationDialogComponent} from '../../../dialogs/confirmation-dialog/confirmation-dialog.component';
 import {InterviewService} from '../../../services/shared-services/interview.service';
+import {DialogService} from '../../../services/dialog-services/dialog.service';
+import {SettingsService} from '../../../services/shared-services/settings.service';
 
 
 @Component({
@@ -23,107 +21,65 @@ import {InterviewService} from '../../../services/shared-services/interview.serv
   styleUrls: ['./interview-id.component.css']
 })
 export class InterviewIdComponent implements OnInit {
+  isDisabled = false;
+
+  selectedInterviewStatus = '';
+  disableEmailInvites = false;
+  candidateDefaultImage = 'assets/images/candidateDefaultImage.png';
+
   interview: Interview;
   interviews: Interview[] = [];
   candidates: Candidate[] = [];
   jobs: Job[] = [];
   sources: Source[] = [];
-
-  disableEmailInvites = false;
-  candidateDefaultImage = 'assets/images/candidateDefaultImage.png';
   interviewStatuses : any = [];
 
   constructor(private route: ActivatedRoute,
-              private jobService: JobDataStorageService,
-              private settingsDataStorageService: SettingsDataStorageService,
               private router: Router,
               private notifierService: NotifierService,
               private dialog: MatDialog,
+              private dialogService: DialogService,
+              private settingsService: SettingsService,
               private interviewService: InterviewService,
-              private candidateDataStorageService: CandidateDataStorageService,
               private interviewDataStorageService: InterviewDataStorageService) {}
 
   ngOnInit() {
     this.route.data.subscribe(
         (data: Data) => {
+          this.interview = data['interview'].interview;
+
+          if (this.interview === null) {
+            this.router.navigate(['/interviews']);
+            this.notifierService.notify('default', 'Resource not found!');
+          }
+
           this.jobs = data['jobs'].jobs;
           this.sources = data['sources'].sources;
-          this.interview = data['interview'].interview;
           this.candidates = data['candidates'].candidates;
           this.interviewStatuses = this.interviewService.getInterviewStatuses();
+          this.selectedInterviewStatus = this.interview.InterviewStatus;
+
         });
   }
 
 
-  archiveInterviews(interview: Interview) {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent,
-      {
-        hasBackdrop: true,
-        disableClose: true,
-        width: '400px',
-        data: {
-          header: 'Archive Interview',
-          iconClass: 'fas fa-archive',
-          confirmationText: 'Are you sure?',
-          buttonText: 'Archive',
-          confirmationStatus: false
-        }
-      });
-
-    dialogRef.afterClosed().subscribe(result => {
-        if (result.confirmationStatus) {
-          const interviews: Interview[] = [];
-          interviews.push(interview);
-          this.interviewDataStorageService.restoreInterviews(interviews)
-            .subscribe(
-              (response: any) => {
-                this.interview.IsArchived = true;
-                this.notifierService.notify('default', 'Archived successfully!')
-              }
-            );
-        }
-      }
-    );
+  archiveInterview() {
+    const interviews: Interview[] = [];
+    interviews.push(this.interview);
+    this.interviewService.archiveInterviews(interviews);
   }
 
-  restoreInterviews(interview: Interview) {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent,
-      {
-        hasBackdrop: true,
-        disableClose: true,
-        width: '400px',
-        data: {
-          header: 'Restore Interview',
-          iconClass: 'far fa-window-restore',
-          confirmationText: 'Are you sure?',
-          buttonText: 'Restore',
-          confirmationStatus: false
-        }
-      });
-
-    dialogRef.afterClosed().subscribe(result => {
-        if (result.confirmationStatus) {
-          const interviews: Interview[] = [];
-          interviews.push(interview);
-          this.interviewDataStorageService.restoreInterviews(interviews)
-            .subscribe(
-              (response: any) => {
-                this.interview.IsArchived = false;
-                this.notifierService.notify('default', 'Restored successfully!')
-              }
-            );
-        }
-      }
-    );
+  restoreInterview() {
+    const interviews: Interview[] = [];
+    interviews.push(this.interview);
+    this.interviewService.restoreInterviews(interviews);
   }
 
   removeCandidate(index: number) {
     this.interview.CandidatesForInterview.splice(index, 1);
-
     if (this.interview.CandidatesForInterview.length === 0) {
       this.interview.CandidatesForInterview = null;
     }
-
   }
 
   openSelectCandidatesDialog() {
@@ -141,39 +97,10 @@ export class InterviewIdComponent implements OnInit {
       });
 
     dialogRef.afterClosed().subscribe(result => {
-
       if (result !== '' ) {
-        let candidatesForInterview: CandidatesForInterview[] = [];
-
-        for (let i = 0; i < result.length; i++) {
-          const candidateForInterview = new CandidatesForInterview(
-            null,
-            null,
-            this.interview.Id,
-            null,
-            result[i].Id
-          );
-          candidatesForInterview.push(candidateForInterview);
-        }
-
-        if (this.interview.CandidatesForInterview !== null ) {
-          for (let k = 0; k < candidatesForInterview.length; k++) {
-            for (let j = 0; j < this.interview.CandidatesForInterview.length; j++) {
-              if (candidatesForInterview[k].CandidateId === this.interview.CandidatesForInterview[j].CandidateId ) {
-                this.interview.CandidatesForInterview.splice(j, 1);
-              }
-            }
-          }
-
-          this.interview.CandidatesForInterview =
-            Array.from(new Set(this.interview.CandidatesForInterview.
-            concat(candidatesForInterview)));
-        } else {
-          this.interview.CandidatesForInterview = candidatesForInterview;
-        }
-        candidatesForInterview = [];
+        this.interviewService.mergeCandidateList(result, this.interview);
       }
-    })
+    });
   }
 
 
@@ -264,20 +191,60 @@ export class InterviewIdComponent implements OnInit {
     if (jobAssigned === null ) {
       return '';
     }
+
     const activeJob = jobAssigned.find(x => x.IsActive === true);
 
     if (activeJob === undefined) {
       return '';
     }
+
     const job = this.jobs.find(x => x.Id === activeJob.JobId);
 
     if (job === undefined) {
       return '';
     }
+
     return job.Title;
   }
 
 
+
+  changeInterviewStatus(statusName: string) {
+    this.interview.InterviewStatus = statusName;
+    this.interviewDataStorageService.changeInterviewStatus(this.interview)
+      .subscribe((data: any) => {
+        if (data.statusText === 'Success') {
+
+          this.disableEmailInvites = statusName === 'Confirmed' || statusName === 'Declined';
+          this.notifierService.notify('default', 'Interview status changed.');
+        } else {
+          this.notifierService.notify('default', data.statusText);
+        }
+      });
+  }
+
+
+  deleteInterview() {
+    this.settingsService.deleteResource('Delete Interview')
+      .then(result => {
+
+        if (result.confirmationStatus) {
+          this.isDisabled = true;
+
+          this.interviewDataStorageService.deleteInterview(this.interview.Id)
+            .subscribe((response: any) => {
+              if (response.statusText !== 'Success') {
+                this.isDisabled = false;
+                this.notifierService.notify('default', response.statusText);
+              } else {
+                this.router.navigate(['/interviews']);
+                this.notifierService.notify('default', 'Interview deleted successfully.');
+              }
+
+            });
+        }
+      }).catch();
+  }
 
   getInterviewDay(interview: Interview) {
     return moment(new Date(interview.Date)).format('Do');

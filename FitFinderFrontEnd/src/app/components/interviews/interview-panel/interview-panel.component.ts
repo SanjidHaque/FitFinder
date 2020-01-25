@@ -40,12 +40,9 @@ export class InterviewPanelComponent implements OnInit {
 
   ngOnInit() {
     this.route.data
-      .subscribe(
-        (data: Data) => {
+      .subscribe((data: Data) => {
           this.interviews = data['interviews'].interviews;
-        }
-      );
-
+        });
   }
 
 
