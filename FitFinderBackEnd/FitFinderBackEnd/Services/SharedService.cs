@@ -16,7 +16,7 @@ namespace FitFinderBackEnd.Services
     public class SharedService
     {
         private readonly ApplicationDbContext _context;
-        private  SettingsService _settingsService;
+        private SettingsService _settingsService;
 
         public SharedService()
         {
@@ -56,7 +56,7 @@ namespace FitFinderBackEnd.Services
 
             List<StageComment> stageComments = new List<StageComment>();
             List<StageScore> stageScores = new List<StageScore>();
-            List<CriteriaScore> criteriaScores= new List<CriteriaScore>();
+            List<CriteriaScore> criteriaScores = new List<CriteriaScore>();
 
             StageComment stageComment = new StageComment
             {
@@ -81,7 +81,7 @@ namespace FitFinderBackEnd.Services
 
             pipelineStageCriteria.ForEach(x =>
             {
-                CriteriaScore criteriaScore = new CriteriaScore    
+                CriteriaScore criteriaScore = new CriteriaScore
                 {
                     PipelineStageId = x.PipelineStageId,
                     PipelineStageCriterionId = x.Id,
@@ -101,9 +101,9 @@ namespace FitFinderBackEnd.Services
             return jobAssignment;
         }
 
-        
 
-        public void OnDeleteAttachment(List<string> modifiedFileNames)        
+
+        public void OnDeleteAttachment(List<string> modifiedFileNames)
         {
             modifiedFileNames.ForEach(modifiedFileName =>
             {
@@ -119,7 +119,7 @@ namespace FitFinderBackEnd.Services
                         // ignored
                     }
                 }
-            }); 
+            });
 
         }
 
@@ -197,6 +197,22 @@ namespace FitFinderBackEnd.Services
             return userAccount;
         }
 
+        public Candidate GetCandidate(long candidateId)
+        {
+            Candidate candidate = _context.Candidates.FirstOrDefault(x => x.Id == candidateId);
+
+            if (candidate != null)
+            {
+               Source source = _context.Sources.FirstOrDefault(s => s.Id == candidate.SourceId);
+
+               List<CandidateAttachment> candidateAttachments = _context.CandidateAttachments
+                .Where(z => z.CandidateId == candidateId)
+                .ToList();
+            }
+
+            return candidate;
+        }
+
 
         public dynamic OnAddNewCompany(Company company)
         {
@@ -212,7 +228,7 @@ namespace FitFinderBackEnd.Services
             _settingsService.GenerateDefaultWithdrawnReasons(company.Id);
             _settingsService.GenerateDefaultWithdrawnReasons(company.Id);
 
-            return( new { companyId = company.Id, departmentId } );
+            return (new { companyId = company.Id, departmentId });
         }
 
         public void OnDeleteCompany(Company company)

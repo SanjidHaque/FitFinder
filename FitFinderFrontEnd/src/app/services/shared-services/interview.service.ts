@@ -128,6 +128,7 @@ export class InterviewService {
     candidatesForInterview = [];
   }
 
+
   archiveInterviews(interviews: Interview[]) {
 
     this.dialogService.confirmationDialog(

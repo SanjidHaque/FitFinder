@@ -54,11 +54,9 @@ export class InterviewIdComponent implements OnInit {
           }
 
           this.jobs = data['jobs'].jobs;
-          this.sources = data['sources'].sources;
           this.candidates = data['candidates'].candidates;
           this.interviewStatuses = this.interviewService.getInterviewStatuses();
           this.selectedInterviewStatus = this.interview.InterviewStatus;
-
         });
   }
 
@@ -75,11 +73,32 @@ export class InterviewIdComponent implements OnInit {
     this.interviewService.restoreInterviews(interviews);
   }
 
-  removeCandidate(index: number) {
-    this.interview.CandidatesForInterview.splice(index, 1);
-    if (this.interview.CandidatesForInterview.length === 0) {
-      this.interview.CandidatesForInterview = null;
-    }
+  removeCandidatesFromInterview(index: number, candidatesForInterviewId: number) {
+    this.settingsService.deleteResource('Remove Candidate')
+      .then(result => {
+
+        if (result.confirmationStatus) {
+          this.isDisabled = true;
+
+          this.interviewDataStorageService
+            .removeCandidatesFromInterview(candidatesForInterviewId)
+            .subscribe((response: any) => {
+              this.isDisabled = false;
+              
+              if (response.statusText !== 'Success') {
+                this.notifierService.notify('default', response.statusText);
+              } else {
+
+                this.interview.CandidatesForInterview.splice(index, 1);
+                if (this.interview.CandidatesForInterview.length === 0) {
+                  this.interview.CandidatesForInterview = null;
+                }
+                this.notifierService.notify('default', 'Candidate removed successfully.');
+
+              }
+            });
+        }
+      }).catch();
   }
 
   openSelectCandidatesDialog() {
@@ -96,110 +115,70 @@ export class InterviewIdComponent implements OnInit {
           }
       });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result !== '' ) {
-        this.interviewService.mergeCandidateList(result, this.interview);
+    dialogRef.afterClosed().subscribe(selectedCandidates => {
+      if (selectedCandidates !== '') {
+
+        let candidatesForInterview: CandidatesForInterview[] = [];
+        for (let i = 0; i < selectedCandidates.length; i++) {
+          const candidateForInterview = new CandidatesForInterview(
+            null,
+            null,
+            this.interview.Id,
+            null,
+            selectedCandidates[i].Id
+          );
+          candidatesForInterview.push(candidateForInterview);
+        }
+
+
+        if (this.interview.CandidatesForInterview !== null) {
+          for (let j = 0; j < this.interview.CandidatesForInterview.length; j++) {
+            for (let k = 0; k < candidatesForInterview.length; k++) {
+              if (candidatesForInterview[k].CandidateId ===
+                this.interview.CandidatesForInterview[j].CandidateId) {
+                candidatesForInterview.splice(k, 1);
+              }
+            }
+          }
+
+          if (candidatesForInterview.length === 0) {
+            return;
+          }
+
+        }
+
+        this.interviewDataStorageService.assignCandidatesToInterview(candidatesForInterview)
+          .subscribe((data: any) => {
+
+            if (this.interview.CandidatesForInterview === null) {
+              this.interview.CandidatesForInterview =
+                data.candidatesForInterviews;
+            } else {
+              this.interview.CandidatesForInterview =
+                this.interview.CandidatesForInterview
+                  .concat(data.candidatesForInterviews);
+            }
+
+            this.notifierService.notify('default', 'Candidates added in interview.');
+            candidatesForInterview = [];
+          });
       }
     });
   }
 
 
-  getCandidateAttachment(candidateId: number) {
-    return this.candidates
-      .find(x => x.Id === candidateId).CandidateAttachments;
-  }
-
-  downloadFile(modifiedFileName: string) {
-    window.open('http://localhost:55586/Content/Attachments/' + modifiedFileName);
-  }
-
-  getApplicationDate(candidateId: number) {
-    const date = this.candidates.find(x => x.Id === candidateId).ApplicationDate;
-    return moment(new Date(date)).format('Do MMM YYYY');
-  }
-
-  getCandidateSource(candidateId: number) {
-    const sourceId = this.candidates.find( x => x.Id === candidateId).SourceId;
-    return this.sources.find(x => x.Id === sourceId).Name;
-  }
-
-
-  getCandidateFullName(candidateId: number) {
-    const candidate = this.candidates.find(x => x.Id === candidateId);
-    return candidate.FirstName + ' ' + candidate.LastName;
-  }
-
-  getCandidateEmail(candidateId: number) {
-    return this.candidates.find(x => x.Id === candidateId).Email;
-  }
-
-  getCandidatePhone(candidateId: number) {
-    return this.candidates.find(x => x.Id === candidateId).Mobile;
-  }
-
-  getCandidateFullAddress(candidateId: number) {
-    const candidate = this.candidates.find(x => x.Id === candidateId);
-    if (candidate.Address === '' && candidate.State !== '') {
-      return candidate.City + ', ' + candidate.State + ', ' + candidate.Country;
-
-    } else if (candidate.Address !== '' && candidate.State === '') {
-      return candidate.Address + ', ' + candidate.City + ', ' + candidate.Country;
-
-    } else if (candidate.State === '' && candidate.Address === '') {
-      return candidate.City + ', ' + candidate.Country;
-
-    } else {
-      return candidate.Address + ', ' + candidate.State + ', '
-        + candidate.City + ', ' + candidate.Country;
-
-    }
-  }
-
-  goToFacebookProfile(candidateId: number) {
-    const candidateFb = this.candidates.find(x => x.Id === candidateId).FacebookUrl;
-    if (candidateFb !== '') {
-      window.open('http://' + candidateFb);
-    }
-  }
-
-  facebookUrlExist(candidateId: number) {
-    const candidateFb = this.candidates.find(x => x.Id === candidateId).FacebookUrl;
-    if (candidateFb === '') {
-      return false;
-    }
-    return true;
-  }
-
-  linkedInUrlExist(candidateId: number) {
-    const candidateLn = this.candidates.find(x => x.Id === candidateId).LinkedInUrl;
-    if (candidateLn === '') {
-      return false;
-    }
-    return true;
-  }
-
-  goToLinkedInProfile(candidateId: number) {
-    const candidateLn = this.candidates.find(x => x.Id === candidateId).LinkedInUrl;
-    if (candidateLn !== '') {
-      window.open('http://' + candidateLn);
-    }
-  }
-
   getJobTitle(candidateId: number) {
     const jobAssigned = this.candidates.find(x => x.Id === candidateId).JobAssignments;
-
     if (jobAssigned === null ) {
       return '';
     }
 
     const activeJob = jobAssigned.find(x => x.IsActive === true);
-
     if (activeJob === undefined) {
       return '';
     }
 
     const job = this.jobs.find(x => x.Id === activeJob.JobId);
-
     if (job === undefined) {
       return '';
     }
@@ -258,5 +237,20 @@ export class InterviewIdComponent implements OnInit {
     return moment(new Date(interview.Date)).format('YYYY');
   }
 
+  downloadFile(modifiedFileName: string) {
+    window.open('http://localhost:55586/Content/Attachments/' + modifiedFileName);
+  }
+
+  getApplicationDate(candidate: Candidate) {
+    return moment(new Date(candidate.ApplicationDate)).format('Do MMM YYYY');
+  }
+
+  goToFacebookProfile(candidate: Candidate) {
+    window.open('http://' + candidate.FacebookUrl);
+  }
+
+  goToLinkedInProfile(candidate: Candidate) {
+    window.open('http://' + candidate.LinkedInUrl);
+  }
 
 }

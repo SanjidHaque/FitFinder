@@ -232,25 +232,35 @@
     <hr>
 
     <div
-      class="row"
       style="padding-top: 5px; padding-bottom: 5px;"
       *ngFor="let interviewerForInterview of interview.InterviewersForInterview">
-      <div class="col-xl-1">
-        <img
-          class="img-responsive"
-          style="
-                    outline: 0;
-                    cursor: pointer;
-                    border-radius: 50%;height: 40px; width: 40px"
-          [src]="candidateDefaultImage">
+
+      <div class="row" *ngIf="interviewerForInterview.UserAccount !== null">
+        <div class="col-xl-12">
+
+
+            <img
+              class="img-responsive"
+              style="outline: 0;
+                   cursor: pointer;
+                   border-radius: 50%;
+                   height: 40px;
+                   width: 40px"
+              [src]="candidateDefaultImage">
+
+          {{ interviewerForInterview.UserAccount.UserName }} |
+            <span style="font-size: 13px;">
+              {{ interviewerForInterview.UserAccount.RoleName }}
+            </span>
+
+
+        </div>
       </div>
 
-      <div class="col-xl-11 text-xl-left" style="padding-top: 6px;">
-       {{ interviewerForInterview.UserAccount.UserName }} |
-        <span style="font-size: 13px;">
-          {{ interviewerForInterview.UserAccount.RoleName }}
-        </span>
-      </div>
+
+
+
+
     </div>
 
 
@@ -317,10 +327,10 @@
              *ngFor="let candidatesForInterview of interview.CandidatesForInterview;
              let i = index">
 
-          <div class="row">
-            <div class="col-xl-12" style="
-               padding-top: 10px; padding-bottom: 10px;
-               ">
+          <div>
+
+            <div class="row">
+            <div class="col-xl-12" style="padding-top: 10px; padding-bottom: 10px;">
 
               <div class="row">
                 <div class="col-xl-2" style="text-align: center;">
@@ -333,7 +343,7 @@
 
                 </div>
 
-                <div class="col-xl-9">
+                <div class="col-xl-8">
 
                   <div class="row">
                     <div class="col-xl-12 text-xl-left"
@@ -342,9 +352,10 @@
                          style="cursor: pointer; outline: 0; text-decoration: none;"
                          routerLink="/candidates/{{ candidatesForInterview.CandidateId }}"
                       >
-                      <strong>
-                        {{ getCandidateFullName(candidatesForInterview.CandidateId) }}
-                      </strong>
+                        <strong>
+                          {{candidatesForInterview.Candidate.FirstName }}
+                          {{candidatesForInterview.Candidate.LastName }}
+                        </strong>
                       </a>
                     </div>
                   </div>
@@ -373,9 +384,13 @@
 
                 <div class="col-xl-1" *ngIf="!interview.IsArchived">
 
-                  <i (click)="removeCandidate(i)"
-                     style="cursor: pointer;"
-                     matTooltip="Remove" class="fas fa-times"></i>
+                  <button
+                    [disabled]="isDisabled"
+                    (click)="removeCandidatesFromInterview(i, candidatesForInterview.Id)"
+                    style="cursor: pointer; outline: 0;"
+                    mat-flat-button>
+                    <i matTooltip="Remove" class="fas fa-times"></i>
+                  </button>
 
                 </div>
 
@@ -384,166 +399,162 @@
             </div>
           </div>
 
-          <hr>
+            <hr>
 
-          <div class="row">
-            <div class="col-xl-6 text-xl-center">
-              <button
-                [disabled]="
+            <div class="row">
+              <div class="col-xl-6 text-xl-center">
+                <button
+                  [disabled]="
                 getJobTitle(candidatesForInterview.CandidateId) === '' ||
                 interview.IsArchived"
-                mat-flat-button
-                style="outline: 0;
+                  mat-flat-button
+                  style="outline: 0;
                 background-color: transparent;">
-                <i class="far fa-comment-alt"></i> Comment</button>
-            </div>
-            <div class="col-xl-6 text-xl-center">
-              <button
-                [disabled]="
+                  <i class="far fa-comment-alt"></i> Comment</button>
+              </div>
+              <div class="col-xl-6 text-xl-center">
+                <button
+                  [disabled]="
                 getJobTitle(candidatesForInterview.CandidateId) === '' ||
                 interview.IsArchived"
-                mat-flat-button
-                style="outline: 0;
+                  mat-flat-button
+                  style="outline: 0;
                 background-color: transparent;">
-                <i class="fas fa-sign-in-alt"></i> Status</button>
+                  <i class="fas fa-sign-in-alt"></i> Status</button>
+              </div>
             </div>
-          </div>
-          <hr>
+            <hr>
 
-          <div class="row" *ngIf="getJobTitle(candidatesForInterview.CandidateId) !== ''">
+            <div class="row" *ngIf="getJobTitle(candidatesForInterview.CandidateId) !== ''">
 
-            <div class="col-xl-12"
-                 style="
+              <div class="col-xl-12"
+                   style="
                    color: #4d94e5;
                    font-size: 16px;
                    padding-top: 5px;
                    padding-bottom: 7px;">
 
-              <i title="Job Application" class="fas fa-briefcase"></i>
-              <span style="
+                <i title="Job Application" class="fas fa-briefcase"></i>
+                <span style="
                     color: #4d94e5;">
                 {{ getJobTitle(candidatesForInterview.CandidateId) }}</span>
 
-            </div>
-          </div>
-
-
-
-
-          <div class="row">
-            <div style="font-size: 14px;" class="col-xl-10">
-              <strong> <i title="Source/Candidate Application Date" class="fab fa-osi"></i>
-                {{ getCandidateSource(candidatesForInterview.CandidateId) }}
-              </strong> on {{ getApplicationDate(candidatesForInterview.CandidateId) }}
+              </div>
             </div>
 
-            <div *ngIf="facebookUrlExist(candidatesForInterview.CandidateId)"
-                 class="col-xl-1 text-xl-right" style="font-size: 22px;">
-              <i style="cursor: pointer;"
-                 (click)="goToFacebookProfile(candidatesForInterview.CandidateId)"
-                 class="fab fa-facebook-square"></i>
+
+            <div class="row">
+              <div style="font-size: 14px;" class="col-xl-10">
+                <strong> <i title="Source/Candidate Application Date" class="fab fa-osi"></i>
+                  {{ candidatesForInterview.Candidate.Source.Name }}
+                </strong> on {{ getApplicationDate(candidatesForInterview.Candidate) }}
+              </div>
+
+              <div *ngIf="candidatesForInterview.Candidate.FacebookUrl !== ''"
+                   class="col-xl-1 text-xl-right" style="font-size: 22px;">
+                <i style="cursor: pointer;"
+                   (click)="goToFacebookProfile(candidatesForInterview.Candidate)"
+                   class="fab fa-facebook-square"></i>
+              </div>
+
+
+              <div *ngIf="candidatesForInterview.Candidate.LinkedInUrl !== ''"
+                   class="col-xl-1 text-xl-left" style="font-size: 22px;">
+                <i
+                  style="cursor: pointer;"
+                  (click)="goToLinkedInProfile(candidatesForInterview.Candidate)"
+                  class="fab fa-linkedin"></i>
+              </div>
+            </div>
+            <hr>
+
+            <div class="row">
+              <div class="col-xl-12"
+                   style="font-size: 14px; padding-top: 3px; padding-bottom: 3px;">
+
+                <i title="Email" class="far fa-envelope"></i>
+                {{ candidatesForInterview.Candidate.Email }}
+
+              </div>
             </div>
 
-            <div *ngIf="linkedInUrlExist(candidatesForInterview.CandidateId)"
-                 class="col-xl-1 text-xl-left" style="font-size: 22px;">
-              <i
-                style="cursor: pointer;"
-                (click)="goToLinkedInProfile(candidatesForInterview.CandidateId)"
-                class="fab fa-linkedin"></i>
-            </div>
-          </div>
-          <hr>
 
+            <div class="row">
+              <div class="col-xl-12" style="font-size: 14px; padding-top: 3px; padding-bottom: 3px;">
 
+                <i  title="Phone" class="fas fa-phone"></i>
+                {{ candidatesForInterview.Candidate.Mobile }}
 
-          <div class="row">
-
-            <div class="col-xl-12"
-                 style="font-size: 14px; padding-top: 3px; padding-bottom: 3px;">
-
-              <i title="Email" class="far fa-envelope"></i> {{ getCandidateEmail(candidatesForInterview.CandidateId) }}
-
+              </div>
             </div>
 
-          </div>
+            <div class="row">
 
+              <div class="col-xl-12"
+                   style="font-size: 14px; padding-top: 3px; padding-bottom: 3px;">
 
-          <div class="row">
-            <div class="col-xl-12" style="font-size: 14px; padding-top: 3px; padding-bottom: 3px;">
+                <i  title="Address" class="fas fa-map-marker-alt"></i>
+                {{ candidatesForInterview.Candidate.Address }}
+                {{ candidatesForInterview.Candidate.City }}
+                {{ candidatesForInterview.Candidate.State }}
+                {{ candidatesForInterview.Candidate.Country }}
 
-              <i  title="Phone" class="fas fa-phone"></i> {{ getCandidatePhone(candidatesForInterview.CandidateId) }}
-
+              </div>
             </div>
-          </div>
-
-          <div class="row">
-
-            <div class="col-xl-12"
-                 style="font-size: 14px; padding-top: 3px; padding-bottom: 3px;">
-
-              <i  title="Address" class="fas fa-map-marker-alt"></i>
-             {{ getCandidateFullAddress(candidatesForInterview.CandidateId) }}
-
+            <br>
+            <div class="row">
+              <div class="col-xl-12"
+                   style="font-size: 13px; opacity: .9; font-weight: bold;">
+                ATTACHMENTS
+              </div>
             </div>
-          </div>
-          <br>
-          <div class="row">
-            <div class="col-xl-12"
-                 style="font-size: 13px; opacity: .9; font-weight: bold;">
-              ATTACHMENTS
-            </div>
-          </div>
-          <hr>
+            <hr>
 
-          <div class="row"
-               *ngIf="getCandidateAttachment(candidatesForInterview.CandidateId) !== null;
+            <div class="row"
+                 *ngIf="candidatesForInterview.Candidate.CandidateAttachments !== null;
                else noAttachments">
-            <div class="col-xl-12">
+              <div class="col-xl-12">
 
-              <div class="row"
-                   *ngFor="
+                <div class="row"
+                     *ngFor="
                    let candidateAttachment
-                   of getCandidateAttachment(candidatesForInterview.CandidateId)">
-                <div class="col-xl-12" style="
+                   of candidatesForInterview.Candidate.CandidateAttachments">
+                  <div class="col-xl-12" style="
           font-size: 12px;
           font-weight: bold;
           padding-top: 6px;
           padding-bottom: 6px;">
 
-                  <i class="far fa-file"></i>
-                  <span
-                    style="cursor: pointer;"
-                    title="Download File"
-                    (click)="downloadFile(candidateAttachment.ModifiedFileName)"
-                  > {{ candidateAttachment.FileName }}</span>
-                  <span
-                    style="
+                    <i class="far fa-file"></i>
+                    <span
+                      style="cursor: pointer;"
+                      title="Download File"
+                      (click)="downloadFile(candidateAttachment.ModifiedFileName)"
+                    > {{ candidateAttachment.FileName }}</span>
+                    <span
+                      style="
               color: #000;
               opacity: .6;
               font-size: 10px;"
-                    *ngIf="candidateAttachment.IsResume"> (Resume)</span>
+                      *ngIf="candidateAttachment.IsResume"> (Resume)</span>
+
+                  </div>
+
 
                 </div>
 
-
               </div>
-
             </div>
+
+            <ng-template #noAttachments>
+              <div class="row">
+                <div class="col-xl-12 text-xl-left" style="opacity: .7; font-size: 11px;">
+                  No Attachments
+                </div>
+              </div>
+            </ng-template>
+
           </div>
-
-          <ng-template #noAttachments>
-            <div class="row">
-              <div class="col-xl-12 text-xl-left" style="opacity: .7; font-size: 11px;">
-                No Attachments
-              </div>
-            </div>
-          </ng-template>
-
-
-
-
-
-
 
 
 

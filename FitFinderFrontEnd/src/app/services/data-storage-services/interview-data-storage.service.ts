@@ -4,6 +4,8 @@ import {Subject} from 'rxjs/index';
 import {Candidate} from '../../models/candidate/candidate.model';
 import {HttpClient} from '@angular/common/http';
 import {UserAccountDataStorageService} from './user-account-data-storage.service';
+import {InterviewersForInterview} from '../../models/interview/interviewers-for-interview.model';
+import {CandidatesForInterview} from '../../models/interview/candidates-for-interview.model';
 
 @Injectable({
   providedIn: 'root'
@@ -45,6 +47,16 @@ export class InterviewDataStorageService {
   changeInterviewStatus(interview: Interview) {
     return this.httpClient.put<Interview>(this.rootUrl + '/api/ChangeInterviewStatus',
       interview);
+  }
+
+  assignCandidatesToInterview(candidatesForInterview: CandidatesForInterview[]) {
+    return this.httpClient.post<CandidatesForInterview[]>
+    (this.rootUrl + '/api/AssignCandidatesToInterview', candidatesForInterview);
+  }
+
+  removeCandidatesFromInterview(id: number) {
+    return this.httpClient
+      .delete(`${this.rootUrl + '/api/RemoveCandidatesFromInterview'}/${id}`);
   }
 
   editInterview(interview: Interview) {
