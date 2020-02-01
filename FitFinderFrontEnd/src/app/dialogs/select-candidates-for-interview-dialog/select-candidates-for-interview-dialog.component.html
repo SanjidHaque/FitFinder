@@ -181,10 +181,8 @@
           ><i class="fas fa-briefcase"></i> {{ getJobName(candidate) }} &nbsp;
           </strong>
 
-          <strong
-            title="Candidate Source"
-            *ngIf="getCandidateSource(candidate) !== ''"
-          ><i class="fab fa-osi"></i> {{ getCandidateSource(candidate) }} &nbsp;
+          <strong title="Candidate Source">
+            <i class="fab fa-osi"></i> {{ candidate.Source.Name }} &nbsp;
           </strong>
 
           <strong

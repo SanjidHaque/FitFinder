@@ -84,7 +84,7 @@ export class InterviewIdComponent implements OnInit {
             .removeCandidatesFromInterview(candidatesForInterviewId)
             .subscribe((response: any) => {
               this.isDisabled = false;
-              
+
               if (response.statusText !== 'Success') {
                 this.notifierService.notify('default', response.statusText);
               } else {
@@ -110,7 +110,6 @@ export class InterviewIdComponent implements OnInit {
         data:
           {
             candidates: this.candidates,
-            sources: this.sources,
             jobs: this.jobs
           }
       });
@@ -118,20 +117,12 @@ export class InterviewIdComponent implements OnInit {
     dialogRef.afterClosed().subscribe(selectedCandidates => {
       if (selectedCandidates !== '') {
 
-        let candidatesForInterview: CandidatesForInterview[] = [];
-        for (let i = 0; i < selectedCandidates.length; i++) {
-          const candidateForInterview = new CandidatesForInterview(
-            null,
-            null,
-            this.interview.Id,
-            null,
-            selectedCandidates[i].Id
-          );
-          candidatesForInterview.push(candidateForInterview);
-        }
-
+        let candidatesForInterview: CandidatesForInterview[] =
+          this.interviewService
+          .getCandidatesForInterview(selectedCandidates);
 
         if (this.interview.CandidatesForInterview !== null) {
+
           for (let j = 0; j < this.interview.CandidatesForInterview.length; j++) {
             for (let k = 0; k < candidatesForInterview.length; k++) {
               if (candidatesForInterview[k].CandidateId ===
@@ -144,10 +135,10 @@ export class InterviewIdComponent implements OnInit {
           if (candidatesForInterview.length === 0) {
             return;
           }
-
         }
 
-        this.interviewDataStorageService.assignCandidatesToInterview(candidatesForInterview)
+        this.interviewDataStorageService
+          .assignCandidatesToInterview(candidatesForInterview)
           .subscribe((data: any) => {
 
             if (this.interview.CandidatesForInterview === null) {
@@ -159,7 +150,8 @@ export class InterviewIdComponent implements OnInit {
                   .concat(data.candidatesForInterviews);
             }
 
-            this.notifierService.notify('default', 'Candidates added in interview.');
+            this.notifierService
+              .notify('default', 'Candidates added in interview.');
             candidatesForInterview = [];
           });
       }

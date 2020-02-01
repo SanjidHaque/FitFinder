@@ -14,6 +14,7 @@ import {Job} from '../../../models/job/job.model';
 import {Source} from '../../../models/settings/source.model';
 import {UserAccount} from '../../../models/settings/user-account.model';
 import {InterviewService} from '../../../services/shared-services/interview.service';
+import {noWhitespaceValidator} from '../../../custom-form-validators/no-white-space.validator';
 
 @Component({
   selector: 'app-add-new-interview',
@@ -23,12 +24,11 @@ import {InterviewService} from '../../../services/shared-services/interview.serv
 })
 
 export class AddNewInterviewComponent implements OnInit {
-
   isDisabled = false;
   addNewInterviewForm: FormGroup;
   candidateDefaultImage = 'assets/images/candidateDefaultImage.png';
-  selectedCandidatesForInterview: Candidate[]= [];
 
+  selectedCandidatesForInterview: Candidate[] = [];
   sources: Source[] = [];
   jobs: Job[] = [];
   candidates: Candidate[] = [];
@@ -47,7 +47,6 @@ export class AddNewInterviewComponent implements OnInit {
       .subscribe((data: Data) => {
           this.jobs = data['jobs'].jobs;
           this.candidates = data['candidates'].candidates;
-          this.sources = data['sources'].sources;
           this.userAccounts = data['userAccounts'].userAccounts;
           this.interviewTypes = this.interviewService.getInterviewTypes();
           this.createNewInterviewForm();
@@ -57,10 +56,10 @@ export class AddNewInterviewComponent implements OnInit {
 
   createNewInterviewForm() {
     this.addNewInterviewForm = new FormGroup({
-      'date': new FormControl('', Validators.required),
-      'name': new FormControl(''),
+      'date': new FormControl('', [Validators.required]),
+      'name': new FormControl('', noWhitespaceValidator),
       'userAccounts': new FormControl('', Validators.required),
-      'location': new FormControl(''),
+      'location': new FormControl('', noWhitespaceValidator),
       'startTime': new FormControl('10:00', Validators.required),
       'endTime': new FormControl('11:30', Validators.required),
       'interviewType': new FormControl('', Validators.required)
@@ -122,19 +121,29 @@ export class AddNewInterviewComponent implements OnInit {
           }
       });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result !== '' ) {
+    dialogRef.afterClosed().subscribe(selectedCandidates => {
+      if (selectedCandidates !== '' ) {
         if (this.selectedCandidatesForInterview.length !== 0 ) {
+
+          for (let j = 0; j < this.selectedCandidatesForInterview.length; j++) {
+            for (let k = 0; k < selectedCandidates.length; k++) {
+              if (selectedCandidates[k].Id ===
+                this.selectedCandidatesForInterview[j].Id) {
+                selectedCandidates.splice(k, 1);
+              }
+            }
+          }
+
             this.selectedCandidatesForInterview =
-              Array.from(new Set(this.selectedCandidatesForInterview.concat(result)));
+             this.selectedCandidatesForInterview.concat(selectedCandidates);
         } else {
-          this.selectedCandidatesForInterview = result;
+          this.selectedCandidatesForInterview = selectedCandidates;
         }
       }
     });
   }
 
-  removeCandidate(index: number) {
+  removeCandidatesFromInterview(index: number) {
     this.selectedCandidatesForInterview.splice(index, 1);
   }
 
