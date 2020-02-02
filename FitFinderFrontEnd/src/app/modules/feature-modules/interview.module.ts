@@ -11,19 +11,21 @@ import {InterviewRoutingModule} from './interview-routing.module';
 import {StarRatingModule} from 'angular-star-rating';
 import {DialogModule} from '../shared-modules/dialog.module';
 import {AmazingTimePickerModule} from 'amazing-time-picker';
+import {EditInterviewComponent} from '../../components/interviews/edit-interview/edit-interview.component';
 
 @NgModule({
   declarations: [
     InterviewsComponent,
     AddNewInterviewComponent,
     InterviewIdComponent,
-    InterviewPanelComponent
+    InterviewPanelComponent,
+    EditInterviewComponent
   ],
   imports: [
     CommonModule,
+    FormsModule,
     ReactiveFormsModule,
     AngularMaterialModule,
-    FormsModule,
     DialogModule,
     AmazingTimePickerModule,
     PipeModule,

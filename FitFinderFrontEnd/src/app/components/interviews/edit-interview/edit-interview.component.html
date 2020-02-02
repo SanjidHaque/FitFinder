@@ -1,0 +1,191 @@
+<br>
+<form
+  [formGroup]="editInterviewForm"
+  (ngSubmit)="editInterview()"
+  #form="ngForm">
+  <div class="row">
+
+    <div class="col-xl-10">
+      <h3>Edit Interview</h3>
+    </div>
+
+    <div class="col-xl-1 pr-xl-1">
+      <button
+        [disabled]="!form.valid || isDisabled"
+        type="submit"
+        style="width: 100%;
+      outline: 0;"
+        color="primary"
+        mat-flat-button>Save</button>
+    </div>
+
+    <div class="col-xl-1 pl-xl-1">
+      <button
+        type="button"
+        style="width:
+      100%;outline: 0;"
+        routerLink="/interviews"
+        mat-stroked-button>Cancel</button>
+    </div>
+
+  </div>
+  <hr>
+
+  <div class="row" style="padding-bottom: 50px;">
+    <div class="col-xl-6">
+
+      <div class="row">
+        <div class="col-xl-12">
+          <mat-form-field style="width: 100%;" appearance="outline">
+            <mat-label>Start Date</mat-label>
+            <input
+              formControlName = "date"
+              matInput
+              [matDatepicker]="picker"
+              required
+              readonly
+              (click)="picker.open()"
+            >
+            <mat-error>You must enter a date!</mat-error>
+            <mat-datepicker-toggle
+              matTooltip = "Click Me!"
+              matTooltipPosition = "right"
+              matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker
+              #picker
+            ></mat-datepicker>
+          </mat-form-field>
+
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xl-12">
+          <mat-form-field style="width: 100%;" appearance="outline">
+            <mat-label>Interview Name</mat-label>
+            <input
+              formControlName="name"
+              required
+              matInput>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xl-12">
+          <h6>Interviewers</h6>
+        </div>
+      </div>
+      <hr>
+
+
+      <div class="row">
+        <div class="col-xl-12">
+
+          <mat-form-field style="width: 100%;" appearance="outline">
+            <mat-label>Select Interviewers</mat-label>
+            <mat-select
+              required
+              formControlName="userAccounts"
+              multiple>
+              <mat-option
+                *ngFor="let userAccount of userAccounts"
+                [value]="userAccount">
+                 {{ userAccount.UserName }} |
+                <span
+                  style="font-size: 13px; opacity: 7;">
+                  {{ userAccount.RoleName }}
+                </span>
+              </mat-option>
+            </mat-select>
+            <mat-error>You must select at least one interviewer!</mat-error>
+          </mat-form-field>
+
+        </div>
+      </div>
+
+
+
+      <div class="row">
+        <div class="col-xl-12">
+          <h6>Location</h6>
+        </div>
+      </div>
+      <hr>
+
+      <div class="row">
+        <div class="col-xl-12">
+          <mat-form-field style="width: 100%;" appearance="outline">
+            <mat-label>Address</mat-label>
+            <input
+              formControlName="location"
+              matInput>
+          </mat-form-field>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col-xl-6">
+
+      <div class="row">
+
+        <div class="col-xl-6">
+          <mat-form-field style="width: 100%;" appearance="outline">
+            <mat-label>Start Time</mat-label>
+            <input
+              matInput
+              required
+              formControlName="startTime"
+              type="time"
+              atp-time-picker
+              theme="material-purple" />
+          </mat-form-field>
+        </div>
+
+
+
+        <div class="col-xl-6">
+          <mat-form-field style="width: 100%;" appearance="outline">
+            <mat-label>End Time</mat-label>
+            <input
+              matInput
+              formControlName="endTime"
+              required
+              type="time"
+              atp-time-picker
+              theme="material-purple" />
+          </mat-form-field>
+        </div>
+
+
+      </div>
+
+      <div class="row">
+
+        <div class="col-xl-12">
+          <mat-form-field style="width: 100%;" appearance="outline">
+            <mat-label>Select Interview Type</mat-label>
+            <mat-select
+              required
+              formControlName="interviewType">
+              <mat-option
+                *ngIf="interviewTypes.length == 0">
+                No interview type is available
+              </mat-option>
+              <mat-option
+                *ngFor="let interviewType of interviewTypes"
+                [value]="interviewType.Name"> {{ interviewType.Name }} </mat-option>
+            </mat-select>
+            <mat-error>You must select an interview type!</mat-error>
+          </mat-form-field>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</form>
+

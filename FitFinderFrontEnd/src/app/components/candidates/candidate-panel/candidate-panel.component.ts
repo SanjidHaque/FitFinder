@@ -29,7 +29,7 @@ export class CandidatePanelComponent implements OnInit {
   candidates: Candidate[] = [];
   jobs: Job[] = [];
   sources: Source[] = [];
-  candidateDefaultImage = 'assets/images/candidateDefaultImage.png';
+  candidateDefaultImage = 'assets/images/defaultImage.png';
 
 
 

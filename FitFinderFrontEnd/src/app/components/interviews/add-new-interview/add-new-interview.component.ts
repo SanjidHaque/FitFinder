@@ -11,7 +11,6 @@ import {InterviewDataStorageService} from '../../../services/data-storage-servic
 import {ActivatedRoute, Data, Router} from '@angular/router';
 import {NotifierService} from 'angular-notifier';
 import {Job} from '../../../models/job/job.model';
-import {Source} from '../../../models/settings/source.model';
 import {UserAccount} from '../../../models/settings/user-account.model';
 import {InterviewService} from '../../../services/shared-services/interview.service';
 import {noWhitespaceValidator} from '../../../custom-form-validators/no-white-space.validator';
@@ -26,10 +25,8 @@ import {noWhitespaceValidator} from '../../../custom-form-validators/no-white-sp
 export class AddNewInterviewComponent implements OnInit {
   isDisabled = false;
   addNewInterviewForm: FormGroup;
-  candidateDefaultImage = 'assets/images/candidateDefaultImage.png';
 
   selectedCandidatesForInterview: Candidate[] = [];
-  sources: Source[] = [];
   jobs: Job[] = [];
   candidates: Candidate[] = [];
   userAccounts: UserAccount[] = [];
@@ -68,10 +65,10 @@ export class AddNewInterviewComponent implements OnInit {
 
   addNewInterview() {
     let interviewStartTime = this.addNewInterviewForm.controls['startTime'].value;
-    interviewStartTime = this.interviewService.getTimeWithAmOrPm(interviewStartTime);
+    interviewStartTime = this.interviewService.getTimeIn12HourFormat(interviewStartTime);
 
     let interviewEndTime = this.addNewInterviewForm.controls['endTime'].value;
-    interviewEndTime = this.interviewService.getTimeWithAmOrPm(interviewEndTime);
+    interviewEndTime = this.interviewService.getTimeIn12HourFormat(interviewEndTime);
 
     const interviewersForInterview = this.addNewInterviewForm.controls['userAccounts'].value;
 
@@ -116,8 +113,7 @@ export class AddNewInterviewComponent implements OnInit {
         data:
           {
             candidates: this.candidates,
-            jobs: this.jobs,
-            sources: this.sources
+            jobs: this.jobs
           }
       });
 

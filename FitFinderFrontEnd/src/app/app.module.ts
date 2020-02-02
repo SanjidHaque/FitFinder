@@ -16,8 +16,6 @@ import {CoreModule} from './modules/core-module/core.module';
 import {DialogModule} from './modules/shared-modules/dialog.module';
 import {AuthModule} from './modules/auth/auth.module';
 
-
-
 @NgModule({
   declarations: [
     AppComponent

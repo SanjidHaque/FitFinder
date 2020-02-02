@@ -148,6 +148,7 @@
 
       <div *ngIf="!interview.IsArchived" class="col-xl-3 text-xl-center">
         <button
+          routerLink="/interviews/{{ interview.Id }}/edit-interview"
           style="background-color: transparent; outline: 0; width: 100%;"
           mat-flat-button><i class="far fa-edit"></i> Edit</button>
       </div>

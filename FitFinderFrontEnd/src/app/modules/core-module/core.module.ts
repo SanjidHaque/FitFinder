@@ -2,7 +2,7 @@ import {APP_INITIALIZER, NgModule} from '@angular/core';
 import {HeaderComponent} from '../../components/header/header.component';
 import {DashboardComponent} from '../../components/dashboard/dashboard.component';
 import {CommonModule} from '@angular/common';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AngularMaterialModule} from '../shared-modules/angular-material.module';
 import {AppRoutingModule} from '../../app-routing.module';
 import {CandidateDataStorageService} from '../../services/data-storage-services/candidate-data-storage.service';

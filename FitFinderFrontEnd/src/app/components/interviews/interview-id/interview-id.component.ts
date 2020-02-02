@@ -25,7 +25,7 @@ export class InterviewIdComponent implements OnInit {
 
   selectedInterviewStatus = '';
   disableEmailInvites = false;
-  candidateDefaultImage = 'assets/images/candidateDefaultImage.png';
+  candidateDefaultImage = 'assets/images/defaultImage.png';
 
   interview: Interview;
   interviews: Interview[] = [];
@@ -47,7 +47,6 @@ export class InterviewIdComponent implements OnInit {
     this.route.data.subscribe(
         (data: Data) => {
           this.interview = data['interview'].interview;
-
           if (this.interview === null) {
             this.router.navigate(['/interviews']);
             this.notifierService.notify('default', 'Resource not found!');

@@ -3,7 +3,6 @@ import {RouterModule, Routes} from '@angular/router';
 import {AuthGuard} from '../../auth/auth.guard';
 
 import {JobsResolverService} from '../../route-resolvers/jobs-resolver.service';
-import {SourcesResolverService} from '../../route-resolvers/sources-resolver.service';
 import {CandidatesResolverService} from '../../route-resolvers/candidates-resolver.service';
 import {InterviewsComponent} from '../../components/interviews/interviews.component';
 import {InterviewPanelComponent} from '../../components/interviews/interview-panel/interview-panel.component';
@@ -12,6 +11,7 @@ import {AddNewInterviewComponent} from '../../components/interviews/add-new-inte
 import {InterviewIdComponent} from '../../components/interviews/interview-id/interview-id.component';
 import {InterviewResolverService} from '../../route-resolvers/interview-resolver.service';
 import {UserAccountsResolverService} from '../../route-resolvers/user-accounts-resolver.service';
+import {EditInterviewComponent} from '../../components/interviews/edit-interview/edit-interview.component';
 
 
 const interviewRoutes: Routes = [
@@ -52,6 +52,15 @@ const interviewRoutes: Routes = [
             interview: InterviewResolverService,
             candidates: CandidatesResolverService,
             jobs: JobsResolverService,
+          }
+      },
+      {
+        path: ':interview-id/edit-interview',
+        component: EditInterviewComponent,
+        resolve:
+          {
+            interview: InterviewResolverService,
+            userAccounts: UserAccountsResolverService
           }
       }
     ]

@@ -39,7 +39,7 @@ export class InterviewService {
     return this.interviewStatuses.slice();
   }
 
-  getTimeWithAmOrPm(time: string) {
+  getTimeIn12HourFormat(time: string) {
     const minutes = time.slice(3, 5);
     let newTime;
 
@@ -56,6 +56,24 @@ export class InterviewService {
 
     return newTime;
   }
+
+  getTimeIn24HourFormat(time: string) {
+    let hours = Number.parseInt(time.slice(0, 2), 10);
+    const minutes = time.slice(3, 5);
+    const format = time.slice(6, 8);
+    let newTime;
+
+    if (format === 'AM') {
+      newTime = hours.toString() + ':' + minutes;
+    } else {
+      hours += 12;
+      newTime = hours.toString() + ':' + minutes;
+    }
+
+    return newTime;
+  }
+
+
 
   getCandidatesForInterview(selectedCandidatesForInterview: Candidate[]) {
     const candidatesForInterview: CandidatesForInterview[] = [];
@@ -91,42 +109,6 @@ export class InterviewService {
     return interviewersForInterview;
   }
 
-
-  mergeCandidateList(selectedCandidates: any[], interview: Interview) {
-
-    let candidatesForInterview: CandidatesForInterview[] = [];
-    for (let i = 0; i < selectedCandidates.length; i++) {
-      const candidateForInterview = new CandidatesForInterview(
-        null,
-        null,
-        interview.Id,
-        null,
-        selectedCandidates[i].Id
-      );
-      candidatesForInterview.push(candidateForInterview);
-    }
-
-
-    if (interview.CandidatesForInterview !== null ) {
-      for (let j = 0; j < interview.CandidatesForInterview.length; j++) {
-        for (let k = 0; k < candidatesForInterview.length; k++) {
-          if (candidatesForInterview[k].CandidateId ===
-            interview.CandidatesForInterview[j].CandidateId ) {
-            candidatesForInterview.splice(k, 1);
-          }
-        }
-      }
-
-      console.log(candidatesForInterview);
-
-       interview.CandidatesForInterview =
-        Array.from(new Set(interview.CandidatesForInterview.
-        concat(candidatesForInterview)));
-    } else {
-      interview.CandidatesForInterview = candidatesForInterview;
-    }
-    candidatesForInterview = [];
-  }
 
 
   archiveInterviews(interviews: Interview[]) {

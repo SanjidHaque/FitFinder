@@ -33,7 +33,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
   isDisabled = false;
 
   selectTabIndex = 0;
-  candidateDefaultImage = 'assets/images/candidateDefaultImage.png';
+  candidateDefaultImage = 'assets/images/defaultImage.png';
   rating: 0;
   currentPipelineStageId = 0;
   pipelineStageName = '';

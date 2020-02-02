@@ -1,7 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {Candidate} from '../../models/candidate/candidate.model';
 import {SelectionModel} from '@angular/cdk/collections';
-import {Source} from '../../models/settings/source.model';
 import * as moment from 'moment';
 import {Job} from '../../models/job/job.model';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
@@ -16,11 +15,10 @@ export class SelectCandidatesForInterviewDialogComponent implements OnInit {
   selectedValue = 'all';
   archivedChecked = false;
   favouriteChecked = false;
-  candidateDefaultImage = 'assets/images/candidateDefaultImage.png';
+  candidateDefaultImage = 'assets/images/defaultImage.png';
   selection = new SelectionModel<Candidate>(true, []);
 
   candidates: Candidate[] = [];
-  sources: Source[] = [];
   jobs: Job[] = [];
 
   constructor(public dialogRef: MatDialogRef<SelectCandidatesForInterviewDialogComponent>,

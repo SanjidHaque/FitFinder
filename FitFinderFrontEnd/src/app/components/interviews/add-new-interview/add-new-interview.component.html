@@ -91,9 +91,7 @@
               <mat-option
                 *ngFor="let userAccount of userAccounts"
                 [value]="userAccount">
-                <img
-                  style="border-radius: 50%;height: 30px; width: 30px"
-                  [src]= "candidateDefaultImage"> {{ userAccount.UserName }} |
+                {{ userAccount.UserName }} |
                 <span
                   style="font-size: 13px; opacity: 7;">
                   {{ userAccount.RoleName }}
@@ -252,15 +250,6 @@
                ">
 
                 <div class="row">
-                  <div class="col-xl-2" style="text-align: center;">
-
-                    <img
-                      class="img-responsive"
-                      style="
-                      border-radius: 50%;height: 60px; width: 60px"
-                      [src]="candidateDefaultImage">
-
-                  </div>
 
                   <div class="col-xl-9">
 

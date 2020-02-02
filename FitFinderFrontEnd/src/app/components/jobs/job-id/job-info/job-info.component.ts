@@ -21,7 +21,7 @@ import {JobService} from '../../../../services/shared-services/job.service';
 })
 export class JobInfoComponent implements OnInit {
 
-  candidateDefaultImage = 'assets/images/candidateDefaultImage.png';
+  candidateDefaultImage = 'assets/images/defaultImage.png';
   job: Job;
   filesToUpload: Array<File>;
   @ViewChild('fileUpload', {static: false}) fileUploadVar: any;
