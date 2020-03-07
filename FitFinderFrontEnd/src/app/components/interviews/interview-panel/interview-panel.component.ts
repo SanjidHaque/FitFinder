@@ -4,7 +4,6 @@ import {InterviewDataStorageService} from '../../../services/data-storage-servic
 import {SelectionModel} from '@angular/cdk/collections';
 import * as moment from 'moment';
 import {ConfirmationDialogComponent} from '../../../dialogs/confirmation-dialog/confirmation-dialog.component';
-import {Candidate} from '../../../models/candidate/candidate.model';
 import {MatDialog} from '@angular/material';
 import {NotifierService} from 'angular-notifier';
 import {ActivatedRoute, Data} from '@angular/router';

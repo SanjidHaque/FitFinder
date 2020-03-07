@@ -50,7 +50,7 @@ export class EditInterviewComponent implements OnInit {
     const endTime = this.interviewService.getTimeIn24HourFormat(this.interview.EndTime);
 
     this.editInterviewForm = new FormGroup({
-      'date': new FormControl(this.interview.Date, [Validators.required]),
+      'date': new FormControl(this.interview.Date, Validators.required),
       'name': new FormControl(this.interview.Name, noWhitespaceValidator),
       'userAccounts': new FormControl(this.userAccounts, Validators.required),
       'location': new FormControl(this.interview.Location, noWhitespaceValidator),
@@ -91,9 +91,8 @@ export class EditInterviewComponent implements OnInit {
     this.interviewDataStorageService.editInterview(interview)
       .subscribe(
         (data: any) => {
-
+          this.isDisabled = false;
           if (data.statusText !== 'Success') {
-            this.isDisabled = false;
             this.notifierService.notify('default', data.statusText);
           } else {
             this.router.navigate(['/interviews/', data.interview.Id ]);

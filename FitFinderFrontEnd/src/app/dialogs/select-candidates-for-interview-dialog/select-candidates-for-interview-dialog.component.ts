@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, OnInit, ViewEncapsulation} from '@angular/core';
 import {Candidate} from '../../models/candidate/candidate.model';
 import {SelectionModel} from '@angular/cdk/collections';
 import * as moment from 'moment';
@@ -8,7 +8,8 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 @Component({
   selector: 'app-select-candidates-for-interview',
   templateUrl: './select-candidates-for-interview-dialog.component.html',
-  styleUrls: ['./select-candidates-for-interview-dialog.component.css']
+  styleUrls: ['./select-candidates-for-interview-dialog.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class SelectCandidatesForInterviewDialogComponent implements OnInit {
   term: string;

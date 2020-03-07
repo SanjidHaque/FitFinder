@@ -25,7 +25,6 @@ export class InterviewIdComponent implements OnInit {
 
   selectedInterviewStatus = '';
   disableEmailInvites = false;
-  candidateDefaultImage = 'assets/images/defaultImage.png';
 
   interview: Interview;
   interviews: Interview[] = [];

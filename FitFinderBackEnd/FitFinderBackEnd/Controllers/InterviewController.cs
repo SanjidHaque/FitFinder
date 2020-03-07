@@ -97,10 +97,9 @@ namespace FitFinderBackEnd.Controllers
             getInterview.StartTime = interview.StartTime;
             getInterview.EndTime = interview.EndTime;
             getInterview.Location = interview.Location;
-            getInterview.InterviewStatus = interview.InterviewStatus;
             getInterview.InterviewType = interview.InterviewType;
 
-            _context.Entry(getInterview).State = EntityState.Modified;
+           
             _context.SaveChanges();
 
             return Ok(new { statusText = _statusTextService.Success });
