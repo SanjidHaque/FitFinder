@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import {Candidate} from '../../models/candidate/candidate.model';
 import {CandidatesForInterview} from '../../models/interview/candidates-for-interview.model';
-import {InterviewersForInterview} from '../../models/interview/interviewers-for-interview.model';
+import {InterviewerForInterview} from '../../models/interview/interviewers-for-interview.model';
 import {Interview} from '../../models/interview/interview.model';
 import {DialogService} from '../dialog-services/dialog.service';
 import {InterviewDataStorageService} from '../data-storage-services/interview-data-storage.service';
@@ -93,11 +93,11 @@ export class InterviewService {
   }
 
   getInterviewersForInterview(interviewers: any[]) {
-    const interviewersForInterview: InterviewersForInterview[] = [];
+    const interviewersForInterview: InterviewerForInterview[] = [];
 
     for (let i = 0; i < interviewers.length; i++) {
       const interviewerForInterview =
-        new InterviewersForInterview(
+        new InterviewerForInterview(
           null,
           null,
           null,

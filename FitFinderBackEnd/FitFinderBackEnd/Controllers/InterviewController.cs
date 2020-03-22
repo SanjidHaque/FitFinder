@@ -230,6 +230,39 @@ namespace FitFinderBackEnd.Controllers
         }
 
 
+
+
+        [HttpPost]
+        [Route("api/AssignInterviewerToInterview")]
+        [AllowAnonymous]
+        public IHttpActionResult AssignInterviewerToInterview(InterviewersForInterview interviewersForInterview)
+        {
+            _context.InterviewersForInterviews.Add(interviewersForInterview);
+            _context.SaveChanges();
+
+            return Ok(new { id = interviewersForInterview.Id, statusText = _statusTextService.Success });
+        }
+
+
+        [HttpDelete]
+        [Route("api/RemoveInterviewerFromInterview/{id}")]
+        [AllowAnonymous]
+        public IHttpActionResult RemoveInterviewerFromInterview(long id)
+        {
+            InterviewersForInterview interviewersForInterview = _context.InterviewersForInterviews
+                .FirstOrDefault(x => x.Id == id);
+
+            if (interviewersForInterview == null)
+            {
+                return Ok(new { statusText = _statusTextService.ResourceNotFound });
+            }
+
+            _context.InterviewersForInterviews.Remove(interviewersForInterview);
+            _context.SaveChanges();
+
+            return Ok(new { statusText = _statusTextService.Success });
+        }
+
         [HttpPost]
         [Route("api/AssignCandidatesToInterview")]
         [AllowAnonymous]

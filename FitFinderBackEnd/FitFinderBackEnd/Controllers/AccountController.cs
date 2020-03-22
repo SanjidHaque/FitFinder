@@ -423,9 +423,14 @@ namespace FitFinderBackEnd.Controllers
                 await UserManager.UpdateAsync(applicationUser);
 
                 return Ok(new { companyId = applicationUser.CompanyId, statusText = _statusTextService.Success });
-            }
+            } else
+            {
+                applicationUser.DepartmentId = userAccount.DepartmentId;
+                applicationUser.CompanyId = getActiveApplicationUser.CompanyId;
+                await UserManager.UpdateAsync(applicationUser);
 
-            return Ok(new { statusText = _statusTextService.Success });
+                return Ok(new { statusText = _statusTextService.Success });
+            }
 
         }
 

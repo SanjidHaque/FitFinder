@@ -1,6 +1,6 @@
 import {Company} from '../settings/company.model';
 import {CandidatesForInterview} from './candidates-for-interview.model';
-import {InterviewersForInterview} from './interviewers-for-interview.model';
+import {InterviewerForInterview} from './interviewers-for-interview.model';
 
 export class Interview {
   constructor(
@@ -12,7 +12,7 @@ export class Interview {
     public EndTime: string,
     public InterviewType: string,
     public CandidatesForInterview: CandidatesForInterview[],
-    public InterviewersForInterview: InterviewersForInterview[],
+    public InterviewersForInterview: InterviewerForInterview[],
     public InterviewStatus: string,
     public IsArchived: boolean,
     public HiringManagerName: string,

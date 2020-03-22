@@ -232,11 +232,59 @@
     </div>
     <hr>
 
+
+    <form [formGroup]="assignInterviewerForm"
+          (ngSubmit)="assignInterviewerToInterview()"
+           #form="ngForm">
+
+    <div class="row">
+      <div class="col-xl-10">
+
+        <mat-form-field style="width: 100%;" appearance="outline">
+          <mat-label>Select Interviewers</mat-label>
+          <mat-select
+            required
+            formControlName="userAccounts">
+            <mat-option
+              *ngFor="let userAccount of userAccounts"
+              [value]="userAccount">
+              {{ userAccount.UserName }} |
+              <span
+                style="font-size: 13px; opacity: 7;">
+                  {{ userAccount.RoleName }}
+                </span>
+            </mat-option>
+          </mat-select>
+          <mat-error>You must select at least one interviewer!</mat-error>
+        </mat-form-field>
+
+      </div>
+
+      <div class="col-xl-2" style="padding-top: 5px;">
+
+        <button
+          [disabled]="form.invalid"
+          color="primary"
+          type="submit"
+          style="outline: 0; font-size: 12px;"
+          mat-fab>Assign</button>
+
+      </div>
+
+    </div>
+
+    </form>
+
+
+
+
     <div
       style="padding-top: 5px; padding-bottom: 5px;"
-      *ngFor="let interviewerForInterview of interview.InterviewersForInterview">
+      *ngFor="let interviewerForInterview of interview.InterviewersForInterview; let k = index">
 
-      <div class="row" *ngIf="interviewerForInterview.UserAccount !== null">
+      <div
+        style="padding-top: 3px; padding-bottom: 3px;"
+        class="row" *ngIf="interviewerForInterview.UserAccount !== null">
         <div class="col-xl-12">
 
           {{ interviewerForInterview.UserAccount.UserName }} |
@@ -244,13 +292,17 @@
               {{ interviewerForInterview.UserAccount.RoleName }}
             </span>
 
+          <button
+            *ngIf="interview.InterviewersForInterview.length > 1"
+            [disabled]="isDisabled"
+            (click)="removeInterviewerFromInterview(k,interviewerForInterview.Id)"
+            style="cursor: pointer; outline: 0;"
+            mat-flat-button>
+            <i matTooltip="Remove" class="fas fa-times"></i>
+          </button>
 
         </div>
       </div>
-
-
-
-
 
     </div>
 
@@ -291,8 +343,6 @@
 
     <ng-template #candidateIsSelected>
       <div class="row">
-
-
 
         <div class="offset-xl-7 col-xl-4 text-xl-right"
              *ngIf="interview.CandidatesForInterview !== null">

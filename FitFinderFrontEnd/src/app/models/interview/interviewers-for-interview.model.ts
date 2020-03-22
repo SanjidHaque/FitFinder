@@ -1,7 +1,7 @@
 import {Interview} from './interview.model';
 import {UserAccount} from '../settings/user-account.model';
 
-export class InterviewersForInterview {
+export class InterviewerForInterview {
   constructor(
     public Id: number,
     public Interview: Interview,

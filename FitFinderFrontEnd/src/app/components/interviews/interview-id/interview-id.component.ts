@@ -13,6 +13,9 @@ import {Source} from '../../../models/settings/source.model';
 import {InterviewService} from '../../../services/shared-services/interview.service';
 import {DialogService} from '../../../services/dialog-services/dialog.service';
 import {SettingsService} from '../../../services/shared-services/settings.service';
+import {UserAccount} from '../../../models/settings/user-account.model';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {InterviewerForInterview} from '../../../models/interview/interviewers-for-interview.model';
 
 
 @Component({
@@ -23,14 +26,17 @@ import {SettingsService} from '../../../services/shared-services/settings.servic
 export class InterviewIdComponent implements OnInit {
   isDisabled = false;
 
+  candidateDefaultImage = 'assets/images/defaultImage.png';
   selectedInterviewStatus = '';
   disableEmailInvites = false;
+  assignInterviewerForm: FormGroup;
 
   interview: Interview;
   interviews: Interview[] = [];
   candidates: Candidate[] = [];
   jobs: Job[] = [];
   sources: Source[] = [];
+  userAccounts: UserAccount[] = [];
   interviewStatuses : any = [];
 
   constructor(private route: ActivatedRoute,
@@ -53,11 +59,75 @@ export class InterviewIdComponent implements OnInit {
 
           this.jobs = data['jobs'].jobs;
           this.candidates = data['candidates'].candidates;
+          this.userAccounts = data['userAccounts'].userAccounts;
           this.interviewStatuses = this.interviewService.getInterviewStatuses();
           this.selectedInterviewStatus = this.interview.InterviewStatus;
+          this.createAssignInterviewersForm();
         });
   }
 
+
+  createAssignInterviewersForm() {
+    this.assignInterviewerForm = new FormGroup({
+      'userAccounts': new FormControl(null, Validators.required)
+    });
+  }
+
+  assignInterviewerToInterview() {
+
+    const userAccount = this.assignInterviewerForm.controls['userAccounts'].value;
+    const ifExist = this.interview.InterviewersForInterview
+      .find(x => x.UserAccount.UserName === userAccount.UserName);
+
+    if (ifExist !== undefined) {
+      this.notifierService.notify('default', 'Interviewer already assigned!');
+      return;
+    }
+
+    const interviewerForInterview = new InterviewerForInterview(
+      null,
+      null,
+      this.interview.Id,
+      null,
+      userAccount.Id,
+    );
+
+    this.interviewDataStorageService.assignInterviewerToInterview(interviewerForInterview)
+      .subscribe((data: any) => {
+
+        interviewerForInterview.Id = data.id;
+        interviewerForInterview.UserAccount = userAccount;
+
+        this.interview.InterviewersForInterview.push(interviewerForInterview);
+        this.notifierService.notify('default', 'Interviewer assigned.');
+      });
+  }
+
+
+  removeInterviewerFromInterview(index: number, interviewerForInterviewId: number) {
+    this.settingsService.deleteResource('Remove Interviewer')
+      .then(result => {
+
+        if (result.confirmationStatus) {
+          this.isDisabled = true;
+
+          this.interviewDataStorageService
+            .removeInterviewerFromInterview(interviewerForInterviewId)
+            .subscribe((response: any) => {
+              this.isDisabled = false;
+
+              if (response.statusText !== 'Success') {
+                this.notifierService.notify('default', response.statusText);
+              } else {
+
+                this.interview.InterviewersForInterview.splice(index, 1);
+                this.notifierService.notify('default', 'Interviewer removed successfully.');
+
+              }
+            });
+        }
+      }).catch();
+  }
 
   archiveInterview() {
     const interviews: Interview[] = [];
