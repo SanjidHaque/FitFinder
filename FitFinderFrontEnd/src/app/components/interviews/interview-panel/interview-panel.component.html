@@ -76,8 +76,8 @@
               style="
               text-align: left;
               font-weight: bold;"
-              *ngFor="let interviewType of interviewTypes"   [value]="interviewType.id">
-              {{ interviewType.type }}
+              *ngFor="let interviewType of interviewTypes"   [value]="interviewType">
+              {{ interviewType.Name }}
             </mat-option>
 
           </mat-select>
@@ -216,7 +216,7 @@
             </div>
           </div>
 
-          <div class="row" *ngFor="let interview of interviews | searchJob:term"
+          <div class="row" *ngFor="let interview of interviews | searchInterview:term"
                style="padding-bottom: 7px; padding-top: 7px;">
 
             <div class="col-xl-1" style="padding-top: 18px;">

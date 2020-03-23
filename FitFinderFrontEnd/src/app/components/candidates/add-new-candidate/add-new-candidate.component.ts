@@ -27,8 +27,6 @@ export class AddNewCandidateComponent implements OnInit {
   startDateOfExperience = [];
   candidateAttachments: CandidateAttachment[] = [];
 
-  defaultSource = 'BdJobs';
-
   sources: Source[] = [];
   jobs: Job[] = [];
 
@@ -166,7 +164,6 @@ export class AddNewCandidateComponent implements OnInit {
     });
   }
 
-
   addExperienceFields() {
     (this.addNewCandidateForm.controls['experiences'] as FormArray)
       .push(this.populateExperienceFields());
@@ -201,7 +198,6 @@ export class AddNewCandidateComponent implements OnInit {
       );
       jobAssignments.push(jobAssignment);
     }
-
 
     const candidate = new Candidate(
       null,
@@ -244,9 +240,7 @@ export class AddNewCandidateComponent implements OnInit {
              return;
            }
          });
-
    }
-
 
 
 

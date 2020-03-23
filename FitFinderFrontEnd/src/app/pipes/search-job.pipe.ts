@@ -10,7 +10,7 @@ export class SearchJobPipe implements PipeTransform {
       return jobs;
     }
     return jobs.filter(function (job) {
-      return job.JobTitle.toLowerCase()
+      return job.Title.toLowerCase()
         .includes(term.toLowerCase());
     });
   }

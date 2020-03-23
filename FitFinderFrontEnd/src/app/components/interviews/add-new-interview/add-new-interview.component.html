@@ -44,6 +44,7 @@
               [matDatepicker]="picker"
               required
               readonly
+              [min]="minDate"
               (click)="picker.open()"
             >
             <mat-error>You must enter a date!</mat-error>

@@ -32,6 +32,7 @@ export class AddNewInterviewComponent implements OnInit {
   candidates: Candidate[] = [];
   userAccounts: UserAccount[] = [];
   interviewTypes: any = [];
+  minDate: Date;
 
   constructor(private dialog: MatDialog,
               private interviewDataStorageService: InterviewDataStorageService,
@@ -48,6 +49,7 @@ export class AddNewInterviewComponent implements OnInit {
           this.userAccounts = data['userAccounts'].userAccounts;
           this.interviewTypes = this.interviewService.getInterviewTypes();
           this.createNewInterviewForm();
+          this.minDate = new Date();
         });
   }
 
@@ -81,7 +83,7 @@ export class AddNewInterviewComponent implements OnInit {
       interviewStartTime,
       interviewEndTime,
       this.addNewInterviewForm.controls['interviewType'].value,
-      this.interviewService.getCandidatesForInterview(this.selectedCandidatesForInterview),
+      this.interviewService.getCandidatesForInterview(this.selectedCandidatesForInterview, null),
       this.interviewService.getInterviewersForInterview(interviewersForInterview),
       false,
       localStorage.getItem('userName'),

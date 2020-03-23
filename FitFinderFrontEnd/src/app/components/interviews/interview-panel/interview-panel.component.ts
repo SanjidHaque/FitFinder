@@ -7,6 +7,7 @@ import {ConfirmationDialogComponent} from '../../../dialogs/confirmation-dialog/
 import {MatDialog} from '@angular/material';
 import {NotifierService} from 'angular-notifier';
 import {ActivatedRoute, Data} from '@angular/router';
+import {InterviewService} from '../../../services/shared-services/interview.service';
 
 
 
@@ -24,15 +25,10 @@ export class InterviewPanelComponent implements OnInit {
   selectedDateFormatted = '';
   selectedDate = '';
   selection = new SelectionModel<Interview>(true, []);
-  interviewTypes = [
-    {id: 1, type: 'Face to Face'},
-    {id: 2, type: 'Telephonic'},
-    {id: 3, type: 'Video Conference'},
-    {id: 4, type: 'Group'},
-    {id: 5, type: 'Panel'}
-  ];
+  interviewTypes: any = [];
 
   constructor(private interviewDataStorageService: InterviewDataStorageService,
+              private interviewService: InterviewService,
               private notifierService: NotifierService,
               private route: ActivatedRoute,
               private dialog: MatDialog) {}
@@ -41,6 +37,7 @@ export class InterviewPanelComponent implements OnInit {
     this.route.data
       .subscribe((data: Data) => {
           this.interviews = data['interviews'].interviews;
+          this.interviewTypes = this.interviewService.getInterviewTypes();
         });
   }
 
