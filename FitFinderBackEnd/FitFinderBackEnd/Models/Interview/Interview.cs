@@ -11,10 +11,11 @@ namespace FitFinderBackEnd.Models.Interview
         public string StartTime { get; set; }
         public string EndTime { get; set; }
         public string InterviewType { get; set; }
-        public List<CandidatesForInterview> CandidatesForInterview { get; set; }
-        public List<InterviewersForInterview> InterviewersForInterview { get; set; }
-        public string InterviewStatus { get; set; }
+        public List<CandidateForInterview> CandidatesForInterview { get; set; }
+        public List<InterviewerForInterview> InterviewersForInterview { get; set; }
         public bool IsArchived { get; set; }
-        public string HiringManagerName { get; set; }   
+        public string HiringManagerName { get; set; }
+        public long? ConfirmedCandidate { get; set; }
+        public long? DeclinedCandidate { get; set; }    
     }
 }

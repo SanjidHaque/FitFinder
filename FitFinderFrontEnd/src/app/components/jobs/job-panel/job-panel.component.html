@@ -188,7 +188,7 @@
                        outline: 0;
                        cursor: pointer;"
                   >
-                    {{ job.JobTitle }} </strong>
+                    {{ job.Title }} </strong>
                   <i
                     (click)="unfavouriteJobs(job)"
                     *ngIf="job.IsFavourite"
@@ -206,8 +206,8 @@
                      style="font-size: 12px;">
                 <strong
                   title="Job Code"
-                  *ngIf="job.JobCode !== ''"
-                ><i class="fas fa-paperclip"></i> {{ job.JobCode }} &nbsp;
+                  *ngIf="job.Code !== ''"
+                ><i class="fas fa-paperclip"></i> {{ job.Code }} &nbsp;
                 </strong>
 
                 <strong
@@ -217,7 +217,7 @@
 
                 <strong
                 title="Location"
-                ><i class="fas fa-map-marker-alt"></i> {{ job.JobLocation }}
+                ><i class="fas fa-map-marker-alt"></i> {{ job.Location }}
                 </strong>
 
                 </div>
@@ -248,16 +248,16 @@
                   </div>
                 </div>
                 <div
-                  *ngIf="job.JobClosingDate !== ''
-                && getClosingDays(job.JobClosingDate) > 0"
+                  *ngIf="job.ClosingDate !== ''
+                && getClosingDays(job.ClosingDate) > 0"
                   class="row">
                   <div
                     style="
                 font-weight: bold;
                 font-size: 11px;" class="col-xl-12 text-xl-center">
                   <span
-                    matTooltip="Closing in {{ getClosingDays(job.JobClosingDate) }} Days"
-                    matTooltipPosition="after">{{ getClosingDays(job.JobClosingDate) }} days</span>
+                    matTooltip="Closing in {{ getClosingDays(job.ClosingDate) }} Days"
+                    matTooltipPosition="after">{{ getClosingDays(job.ClosingDate) }} days</span>
                   </div>
                 </div>
               </div>

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {ActivatedRoute, Data, Router} from '@angular/router';
 import {InterviewDataStorageService} from '../../../services/data-storage-services/interview-data-storage.service';
 import {Interview} from '../../../models/interview/interview.model';
@@ -8,26 +8,26 @@ import {Candidate} from '../../../models/candidate/candidate.model';
 import {Job} from '../../../models/job/job.model';
 import {SelectCandidatesForInterviewDialogComponent} from '../../../dialogs/select-candidates-for-interview-dialog/select-candidates-for-interview-dialog.component';
 import {MatDialog} from '@angular/material';
-import {CandidatesForInterview} from '../../../models/interview/candidates-for-interview.model';
+import {CandidateForInterview} from '../../../models/interview/candidate-for-interview.model';
 import {Source} from '../../../models/settings/source.model';
 import {InterviewService} from '../../../services/shared-services/interview.service';
 import {DialogService} from '../../../services/dialog-services/dialog.service';
 import {SettingsService} from '../../../services/shared-services/settings.service';
 import {UserAccount} from '../../../models/settings/user-account.model';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {InterviewerForInterview} from '../../../models/interview/interviewers-for-interview.model';
+import {InterviewerForInterview} from '../../../models/interview/interviewer-for-interview.model';
 
 
 @Component({
   selector: 'app-interview-id',
   templateUrl: './interview-id.component.html',
-  styleUrls: ['./interview-id.component.css']
+  styleUrls: ['./interview-id.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class InterviewIdComponent implements OnInit {
   isDisabled = false;
 
   candidateDefaultImage = 'assets/images/defaultImage.png';
-  selectedInterviewStatus = '';
   disableEmailInvites = false;
   assignInterviewerForm: FormGroup;
 
@@ -61,7 +61,6 @@ export class InterviewIdComponent implements OnInit {
           this.candidates = data['candidates'].candidates;
           this.userAccounts = data['userAccounts'].userAccounts;
           this.interviewStatuses = this.interviewService.getInterviewStatuses();
-          this.selectedInterviewStatus = this.interview.InterviewStatus;
           this.createAssignInterviewersForm();
         });
   }
@@ -74,7 +73,6 @@ export class InterviewIdComponent implements OnInit {
   }
 
   assignInterviewerToInterview() {
-
     const userAccount = this.assignInterviewerForm.controls['userAccounts'].value;
     const ifExist = this.interview.InterviewersForInterview
       .find(x => x.UserAccount.UserName === userAccount.UserName);
@@ -185,9 +183,9 @@ export class InterviewIdComponent implements OnInit {
     dialogRef.afterClosed().subscribe(selectedCandidates => {
       if (selectedCandidates !== '') {
 
-        let candidatesForInterview: CandidatesForInterview[] =
+        let candidatesForInterview: CandidateForInterview[] =
           this.interviewService
-          .getCandidatesForInterview(selectedCandidates);
+          .getCandidatesForInterview(selectedCandidates, this.interview.Id);
 
         if (this.interview.CandidatesForInterview !== null) {
 
@@ -248,13 +246,13 @@ export class InterviewIdComponent implements OnInit {
 
 
 
-  changeInterviewStatus(statusName: string) {
-    this.interview.InterviewStatus = statusName;
-    this.interviewDataStorageService.changeInterviewStatus(this.interview)
+  changeInterviewStatus(statusName: string, candidateForInterview: CandidateForInterview) {
+
+    this.interviewDataStorageService.changeInterviewStatus(candidateForInterview)
       .subscribe((data: any) => {
         if (data.statusText === 'Success') {
+          candidateForInterview.InterviewStatus = statusName;
 
-          this.disableEmailInvites = statusName === 'Confirmed' || statusName === 'Declined';
           this.notifierService.notify('default', 'Interview status changed.');
         } else {
           this.notifierService.notify('default', data.statusText);

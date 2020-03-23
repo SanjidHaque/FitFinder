@@ -281,6 +281,18 @@
     <Compile Include="Migrations\202001251303025_InterviewModelChanged.Designer.cs">
       <DependentUpon>202001251303025_InterviewModelChanged.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202003221419472_InterviewModelChanged1.cs" />
+    <Compile Include="Migrations\202003221419472_InterviewModelChanged1.Designer.cs">
+      <DependentUpon>202003221419472_InterviewModelChanged1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003221513174_SomeModelsRenamed.cs" />
+    <Compile Include="Migrations\202003221513174_SomeModelsRenamed.Designer.cs">
+      <DependentUpon>202003221513174_SomeModelsRenamed.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003221810276_ConfirmedDeclinedPropertyAdded.cs" />
+    <Compile Include="Migrations\202003221810276_ConfirmedDeclinedPropertyAdded.Designer.cs">
+      <DependentUpon>202003221810276_ConfirmedDeclinedPropertyAdded.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -290,9 +302,9 @@
     <Compile Include="Models\Candidate\CandidateExperience.cs" />
     <Compile Include="Models\Candidate\JobAssignment.cs" />
     <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\Interview\CandidatesForInterview.cs" />
+    <Compile Include="Models\Interview\CandidateForInterview.cs" />
     <Compile Include="Models\Interview\Interview.cs" />
-    <Compile Include="Models\Interview\InterviewersForInterview.cs" />
+    <Compile Include="Models\Interview\InterviewerForInterview.cs" />
     <Compile Include="Models\Job\Job.cs" />
     <Compile Include="Models\Job\JobAttachment.cs" />
     <Compile Include="Models\Shared\Attachment.cs" />
@@ -465,6 +477,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202001251303025_InterviewModelChanged.resx">
       <DependentUpon>202001251303025_InterviewModelChanged.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003221419472_InterviewModelChanged1.resx">
+      <DependentUpon>202003221419472_InterviewModelChanged1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003221513174_SomeModelsRenamed.resx">
+      <DependentUpon>202003221513174_SomeModelsRenamed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003221810276_ConfirmedDeclinedPropertyAdded.resx">
+      <DependentUpon>202003221810276_ConfirmedDeclinedPropertyAdded.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -81,9 +81,10 @@ export class EditInterviewComponent implements OnInit {
       this.editInterviewForm.controls['interviewType'].value,
       [],
       this.interviewService.getInterviewersForInterview(interviewersForInterview),
-      '',
       false,
       '',
+      null,
+      null,
       null,
       null
     );
@@ -95,7 +96,7 @@ export class EditInterviewComponent implements OnInit {
           if (data.statusText !== 'Success') {
             this.notifierService.notify('default', data.statusText);
           } else {
-            this.router.navigate(['/interviews/', data.interview.Id ]);
+            this.router.navigate(['/interviews/', this.interview.Id ]);
             this.notifierService.notify('default', 'Interview updated successfully.');
           }
 

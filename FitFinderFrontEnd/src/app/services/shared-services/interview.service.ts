@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 
 import {Candidate} from '../../models/candidate/candidate.model';
-import {CandidatesForInterview} from '../../models/interview/candidates-for-interview.model';
-import {InterviewerForInterview} from '../../models/interview/interviewers-for-interview.model';
+import {CandidateForInterview} from '../../models/interview/candidate-for-interview.model';
+import {InterviewerForInterview} from '../../models/interview/interviewer-for-interview.model';
 import {Interview} from '../../models/interview/interview.model';
 import {DialogService} from '../dialog-services/dialog.service';
 import {InterviewDataStorageService} from '../data-storage-services/interview-data-storage.service';
@@ -75,17 +75,18 @@ export class InterviewService {
 
 
 
-  getCandidatesForInterview(selectedCandidatesForInterview: Candidate[]) {
-    const candidatesForInterview: CandidatesForInterview[] = [];
+  getCandidatesForInterview(selectedCandidatesForInterview: Candidate[], interviewId: number) {
+    const candidatesForInterview: CandidateForInterview[] = [];
 
     for (let i = 0; i < selectedCandidatesForInterview.length; i++) {
       const candidateForInterview =
-        new CandidatesForInterview(
+        new CandidateForInterview(
           null,
           null,
+          interviewId,
           null,
-          null,
-          selectedCandidatesForInterview[i].Id
+          selectedCandidatesForInterview[i].Id,
+          'Pending'
         );
       candidatesForInterview.push(candidateForInterview);
     }

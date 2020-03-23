@@ -25,6 +25,7 @@ import {noWhitespaceValidator} from '../../../custom-form-validators/no-white-sp
 export class AddNewInterviewComponent implements OnInit {
   isDisabled = false;
   addNewInterviewForm: FormGroup;
+  candidateDefaultImage = 'assets/images/defaultImage.png';
 
   selectedCandidatesForInterview: Candidate[] = [];
   jobs: Job[] = [];
@@ -82,11 +83,12 @@ export class AddNewInterviewComponent implements OnInit {
       this.addNewInterviewForm.controls['interviewType'].value,
       this.interviewService.getCandidatesForInterview(this.selectedCandidatesForInterview),
       this.interviewService.getInterviewersForInterview(interviewersForInterview),
-      'Pending',
       false,
       localStorage.getItem('userName'),
       null,
-      null
+      null,
+      0,
+      0
     );
     this.isDisabled = true;
     this.interviewDataStorageService.addNewInterview(interview)

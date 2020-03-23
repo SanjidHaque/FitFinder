@@ -71,41 +71,7 @@
         </div>
       </div>
 
-      <div class="row">
-        <div class="col-xl-12">
-          <h6>Interviewers</h6>
-        </div>
-      </div>
-      <hr>
-
-
-      <div class="row">
-        <div class="col-xl-12">
-
-          <mat-form-field style="width: 100%;" appearance="outline">
-            <mat-label>Select Interviewers</mat-label>
-            <mat-select
-              required
-              formControlName="userAccounts"
-              multiple>
-              <mat-option
-                *ngFor="let userAccount of userAccounts"
-                [value]="userAccount">
-                 {{ userAccount.UserName }} |
-                <span
-                  style="font-size: 13px; opacity: 7;">
-                  {{ userAccount.RoleName }}
-                </span>
-              </mat-option>
-            </mat-select>
-            <mat-error>You must select at least one interviewer!</mat-error>
-          </mat-form-field>
-
-        </div>
-      </div>
-
-
-
+      
       <div class="row">
         <div class="col-xl-12">
           <h6>Location</h6>

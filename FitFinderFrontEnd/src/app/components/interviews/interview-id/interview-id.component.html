@@ -32,18 +32,6 @@
   </ng-template>
 
 
-
-  <!--<div-->
-    <!--*ngIf="!interview.IsArchived; else interviewIsArchived"-->
-    <!--class="col-xl-2 text-xl-right">-->
-    <!--<button-->
-      <!--[disabled]="disableEmailInvites"-->
-      <!--style="-->
-      <!--outline: 0;"-->
-      <!--color="primary"-->
-      <!--mat-raised-button>  <i class="far fa-envelope"></i> Email Invites</button>-->
-  <!--</div>-->
-
   <ng-template #interviewIsArchived>
 
     <div class="col-xl-2 text-xl-right">
@@ -111,32 +99,6 @@
     {{ interview.StartTime }} - {{ interview.Name }} ({{ interview.InterviewType }})
   </div>
 
-
-    <div class="col-xl-2">
-
-      <mat-form-field>
-
-      <mat-select
-        [disabled]="interview.IsArchived"
-        (selectionChange)="changeInterviewStatus($event.value)"
-        [(value)]="selectedInterviewStatus"
-        style="
-            text-align: center;
-            font-weight: bold;">
-
-        <mat-option
-          style="
-              text-align: center;
-              font-weight: bold;"
-          *ngFor="let interviewStatus of interviewStatuses"
-          [value]="interviewStatus.Name">
-          {{ interviewStatus.Name }}
-        </mat-option>
-
-      </mat-select>
-
-    </mat-form-field>
-  </div>
 
 </div>
 <hr>
@@ -365,7 +327,7 @@
                margin-top: 10px;
                border-radius: 8px;
                border: 1px solid #1a237e; padding-bottom: 10px;"
-             *ngFor="let candidatesForInterview of interview.CandidatesForInterview;
+             *ngFor="let candidateForInterview of interview.CandidatesForInterview;
              let i = index">
 
           <div>
@@ -391,11 +353,11 @@
                          style="padding-top: 6px;">
                       <a title="More Detail"
                          style="cursor: pointer; outline: 0; text-decoration: none;"
-                         routerLink="/candidates/{{ candidatesForInterview.CandidateId }}"
+                         routerLink="/candidates/{{ candidateForInterview.CandidateId }}"
                       >
                         <strong>
-                          {{candidatesForInterview.Candidate.FirstName }}
-                          {{candidatesForInterview.Candidate.LastName }}
+                          {{candidateForInterview.Candidate.FirstName }}
+                          {{candidateForInterview.Candidate.LastName }}
                         </strong>
                       </a>
                     </div>
@@ -427,7 +389,7 @@
 
                   <button
                     [disabled]="isDisabled"
-                    (click)="removeCandidatesFromInterview(i, candidatesForInterview.Id)"
+                    (click)="removeCandidatesFromInterview(i, candidateForInterview.Id)"
                     style="cursor: pointer; outline: 0;"
                     mat-flat-button>
                     <i matTooltip="Remove" class="fas fa-times"></i>
@@ -443,30 +405,57 @@
             <hr>
 
             <div class="row">
-              <div class="col-xl-6 text-xl-center">
+              <div class="col-xl-4 text-xl-center">
                 <button
                   [disabled]="
-                getJobTitle(candidatesForInterview.CandidateId) === '' ||
+                getJobTitle(candidateForInterview.CandidateId) === '' ||
                 interview.IsArchived"
                   mat-flat-button
                   style="outline: 0;
                 background-color: transparent;">
                   <i class="far fa-comment-alt"></i> Comment</button>
               </div>
-              <div class="col-xl-6 text-xl-center">
+              <div class="col-xl-4 text-xl-center">
                 <button
                   [disabled]="
-                getJobTitle(candidatesForInterview.CandidateId) === '' ||
+                getJobTitle(candidateForInterview.CandidateId) === '' ||
                 interview.IsArchived"
                   mat-flat-button
                   style="outline: 0;
                 background-color: transparent;">
                   <i class="fas fa-sign-in-alt"></i> Status</button>
               </div>
+
+              <div class="col-xl-4" style="font-size: 13px;">
+
+                <mat-form-field class="interview-type">
+
+                  <mat-select
+                    [disabled]="interview.IsArchived"
+                    (selectionChange)="changeInterviewStatus($event.value, candidateForInterview)"
+                    [(value)]="candidateForInterview.InterviewStatus"
+                    style="
+            text-align: center;
+            font-weight: bold;">
+
+                    <mat-option
+                      style="
+              text-align: center;
+              font-weight: bold;"
+                      *ngFor="let interviewStatus of interviewStatuses"
+                      [value]="interviewStatus.Name">
+                      {{ interviewStatus.Name }}
+                    </mat-option>
+
+                  </mat-select>
+
+                </mat-form-field>
+              </div>
+
             </div>
             <hr>
 
-            <div class="row" *ngIf="getJobTitle(candidatesForInterview.CandidateId) !== ''">
+            <div class="row" *ngIf="getJobTitle(candidateForInterview.CandidateId) !== ''">
 
               <div class="col-xl-12"
                    style="
@@ -478,7 +467,7 @@
                 <i title="Job Application" class="fas fa-briefcase"></i>
                 <span style="
                     color: #4d94e5;">
-                {{ getJobTitle(candidatesForInterview.CandidateId) }}</span>
+                {{ getJobTitle(candidateForInterview.CandidateId) }}</span>
 
               </div>
             </div>
@@ -487,23 +476,23 @@
             <div class="row">
               <div style="font-size: 14px;" class="col-xl-10">
                 <strong> <i title="Source/Candidate Application Date" class="fab fa-osi"></i>
-                  {{ candidatesForInterview.Candidate.Source.Name }}
-                </strong> on {{ getApplicationDate(candidatesForInterview.Candidate) }}
+                  {{ candidateForInterview.Candidate.Source.Name }}
+                </strong> on {{ getApplicationDate(candidateForInterview.Candidate) }}
               </div>
 
-              <div *ngIf="candidatesForInterview.Candidate.FacebookUrl !== ''"
+              <div *ngIf="candidateForInterview.Candidate.FacebookUrl !== ''"
                    class="col-xl-1 text-xl-right" style="font-size: 22px;">
                 <i style="cursor: pointer;"
-                   (click)="goToFacebookProfile(candidatesForInterview.Candidate)"
+                   (click)="goToFacebookProfile(candidateForInterview.Candidate)"
                    class="fab fa-facebook-square"></i>
               </div>
 
 
-              <div *ngIf="candidatesForInterview.Candidate.LinkedInUrl !== ''"
+              <div *ngIf="candidateForInterview.Candidate.LinkedInUrl !== ''"
                    class="col-xl-1 text-xl-left" style="font-size: 22px;">
                 <i
                   style="cursor: pointer;"
-                  (click)="goToLinkedInProfile(candidatesForInterview.Candidate)"
+                  (click)="goToLinkedInProfile(candidateForInterview.Candidate)"
                   class="fab fa-linkedin"></i>
               </div>
             </div>
@@ -514,7 +503,7 @@
                    style="font-size: 14px; padding-top: 3px; padding-bottom: 3px;">
 
                 <i title="Email" class="far fa-envelope"></i>
-                {{ candidatesForInterview.Candidate.Email }}
+                {{ candidateForInterview.Candidate.Email }}
 
               </div>
             </div>
@@ -524,7 +513,7 @@
               <div class="col-xl-12" style="font-size: 14px; padding-top: 3px; padding-bottom: 3px;">
 
                 <i  title="Phone" class="fas fa-phone"></i>
-                {{ candidatesForInterview.Candidate.Mobile }}
+                {{ candidateForInterview.Candidate.Mobile }}
 
               </div>
             </div>
@@ -535,10 +524,10 @@
                    style="font-size: 14px; padding-top: 3px; padding-bottom: 3px;">
 
                 <i  title="Address" class="fas fa-map-marker-alt"></i>
-                {{ candidatesForInterview.Candidate.Address }}
-                {{ candidatesForInterview.Candidate.City }}
-                {{ candidatesForInterview.Candidate.State }}
-                {{ candidatesForInterview.Candidate.Country }}
+                {{ candidateForInterview.Candidate.Address }}
+                {{ candidateForInterview.Candidate.City }}
+                {{ candidateForInterview.Candidate.State }}
+                {{ candidateForInterview.Candidate.Country }}
 
               </div>
             </div>
@@ -552,14 +541,14 @@
             <hr>
 
             <div class="row"
-                 *ngIf="candidatesForInterview.Candidate.CandidateAttachments !== null;
+                 *ngIf="candidateForInterview.Candidate.CandidateAttachments !== null;
                else noAttachments">
               <div class="col-xl-12">
 
                 <div class="row"
                      *ngFor="
                    let candidateAttachment
-                   of candidatesForInterview.Candidate.CandidateAttachments">
+                   of candidateForInterview.Candidate.CandidateAttachments">
                   <div class="col-xl-12" style="
           font-size: 12px;
           font-weight: bold;

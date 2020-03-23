@@ -395,8 +395,8 @@ export class AddNewJobComponent implements OnInit {
   }
 
   getJobPositionErrorMessage() {
-    return this.addNewJobForm.controls['jobPositions'].hasError('required') ? 'You must enter a job position!' :
-      this.addNewJobForm.controls['jobPositions'].hasError('min') ? 'This value is invalid!' :
+    return this.addNewJobForm.controls['positions'].hasError('required') ? 'You must enter a position!' :
+      this.addNewJobForm.controls['positions'].hasError('min') ? 'This value is invalid!' :
         '';
   }
 

@@ -58,7 +58,7 @@
 <div class="row">
   <div class="col-xl-5">
 
-    <div *ngIf="job.Code!== null"
+    <div *ngIf="job.Code !== ''"
          class="row"
          style="padding-top: 3px;
          font-size: 14px;
@@ -95,7 +95,7 @@
       </div>
     </div>
 
-    <div *ngIf="job.JobClosingDate !== ''">
+    <div *ngIf="job.  ClosingDate !== ''">
 
       <div class="row"
            *ngIf="getClosingDays() > 0"
@@ -132,14 +132,14 @@
 
     <hr>
 
-    <div class="row" *ngIf="job.JobFunction.Name !== null">
+    <div class="row" *ngIf="job.JobFunction !== null">
       <div class="col-xl-12">
         <strong style="font-size: 13px;">Function : </strong>
         <span style="font-size: 14px;">{{ job.JobFunction.Name }}</span>
       </div>
     </div>
 
-    <div class="row" *ngIf="job.JobType.Name !== null">
+    <div class="row" *ngIf="job.JobType !== null">
       <div class="col-xl-12">
         <strong style="font-size: 13px;">Type : </strong>
         <span style="font-size: 14px;">{{ job.JobType.Name }}</span>

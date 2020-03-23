@@ -132,6 +132,16 @@ namespace FitFinderBackEnd.Controllers
                 .OrderByDescending(x => x.Id)
                 .ToList();
 
+            interviews.ForEach(interview =>
+            {
+                List<CandidateForInterview> candidatesForInterview = _context.CandidatesForInterviews
+                    .Where(x => x.InterviewId == interview.Id)
+                    .ToList();
+
+                interview.CandidatesForInterview = candidatesForInterview;
+            });
+
+
             return Ok(new { interviews, statusText = _statusTextService.Success });
         }
 
@@ -148,7 +158,7 @@ namespace FitFinderBackEnd.Controllers
                 return Ok(new { interview, statusText = _statusTextService.ResourceNotFound });
             }
 
-            List<CandidatesForInterview> candidatesForInterviews = _context.CandidatesForInterviews
+            List<CandidateForInterview> candidatesForInterviews = _context.CandidatesForInterviews
                 .Where(x => x.InterviewId == interviewId)
                 .ToList();
 
@@ -157,7 +167,7 @@ namespace FitFinderBackEnd.Controllers
                     x.Candidate = _sharedService.GetCandidate(x.CandidateId);
                 });
 
-            List<InterviewersForInterview> interviewersForInterviews = _context.InterviewersForInterviews
+            List<InterviewerForInterview> interviewersForInterviews = _context.InterviewersForInterviews
                 .Where(x => x.InterviewId == interviewId)
                 .ToList();
 
@@ -215,15 +225,58 @@ namespace FitFinderBackEnd.Controllers
         [HttpPut]
         [Route("api/ChangeInterviewStatus")]
         [AllowAnonymous]
-        public IHttpActionResult ChangeInterviewStatus(Interview interview)
+        public IHttpActionResult ChangeInterviewStatus(CandidateForInterview candidateForInterview)
         {
-            Interview getInterview = _context.Interviews.FirstOrDefault(x => x.Id == interview.Id);
-            if (getInterview == null)
+            CandidateForInterview getCandidateForInterview = _context.CandidatesForInterviews
+                .FirstOrDefault(x => x.Id == candidateForInterview.Id);
+
+            Interview interview = _context.Interviews
+                .FirstOrDefault(x => x.Id == candidateForInterview.InterviewId);
+
+            if (getCandidateForInterview == null || interview == null)
             {
                 return Ok(new { statusText = _statusTextService.ResourceNotFound });
             }
 
-            getInterview.InterviewStatus = interview.InterviewStatus;
+            
+
+            if (candidateForInterview.InterviewStatus == "Confirmed")
+            {
+                interview.ConfirmedCandidate++;
+
+                if (getCandidateForInterview.InterviewStatus == "Declined")
+                {
+                    interview.DeclinedCandidate--;
+                }
+            }
+
+            if (candidateForInterview.InterviewStatus == "Declined")
+            {
+                interview.DeclinedCandidate++;
+
+                if (getCandidateForInterview.InterviewStatus == "Confirmed")
+                {
+                    interview.ConfirmedCandidate--;
+                }
+            }
+
+            if (candidateForInterview.InterviewStatus == "Invited" 
+                || candidateForInterview.InterviewStatus == "Pending")
+            {
+                if (getCandidateForInterview.InterviewStatus == "Confirmed")
+                {
+                    interview.ConfirmedCandidate--;
+                }
+
+                if (getCandidateForInterview.InterviewStatus == "Declined")
+                {
+                    interview.DeclinedCandidate--;
+                }
+            }
+
+
+
+            getCandidateForInterview.InterviewStatus = candidateForInterview.InterviewStatus;
             _context.SaveChanges();
 
             return Ok(new { statusText = _statusTextService.Success });
@@ -235,12 +288,12 @@ namespace FitFinderBackEnd.Controllers
         [HttpPost]
         [Route("api/AssignInterviewerToInterview")]
         [AllowAnonymous]
-        public IHttpActionResult AssignInterviewerToInterview(InterviewersForInterview interviewersForInterview)
+        public IHttpActionResult AssignInterviewerToInterview(InterviewerForInterview interviewerForInterview)
         {
-            _context.InterviewersForInterviews.Add(interviewersForInterview);
+            _context.InterviewersForInterviews.Add(interviewerForInterview);
             _context.SaveChanges();
 
-            return Ok(new { id = interviewersForInterview.Id, statusText = _statusTextService.Success });
+            return Ok(new { id = interviewerForInterview.Id, statusText = _statusTextService.Success });
         }
 
 
@@ -249,15 +302,15 @@ namespace FitFinderBackEnd.Controllers
         [AllowAnonymous]
         public IHttpActionResult RemoveInterviewerFromInterview(long id)
         {
-            InterviewersForInterview interviewersForInterview = _context.InterviewersForInterviews
+            InterviewerForInterview interviewerForInterview = _context.InterviewersForInterviews
                 .FirstOrDefault(x => x.Id == id);
 
-            if (interviewersForInterview == null)
+            if (interviewerForInterview == null)
             {
                 return Ok(new { statusText = _statusTextService.ResourceNotFound });
             }
 
-            _context.InterviewersForInterviews.Remove(interviewersForInterview);
+            _context.InterviewersForInterviews.Remove(interviewerForInterview);
             _context.SaveChanges();
 
             return Ok(new { statusText = _statusTextService.Success });
@@ -266,7 +319,7 @@ namespace FitFinderBackEnd.Controllers
         [HttpPost]
         [Route("api/AssignCandidatesToInterview")]
         [AllowAnonymous]
-        public IHttpActionResult AssignCandidatesToInterview(List<CandidatesForInterview> candidatesForInterviews)
+        public IHttpActionResult AssignCandidatesToInterview(List<CandidateForInterview> candidatesForInterviews)
         {
             _context.CandidatesForInterviews.AddRange(candidatesForInterviews);
             _context.SaveChanges();
@@ -284,15 +337,15 @@ namespace FitFinderBackEnd.Controllers
         [AllowAnonymous]
         public IHttpActionResult RemoveCandidatesFromInterview(long candidatesForInterviewId)
         {
-            CandidatesForInterview candidatesForInterview = _context.CandidatesForInterviews
+            CandidateForInterview candidateForInterview = _context.CandidatesForInterviews
                 .FirstOrDefault(x => x.Id == candidatesForInterviewId);
 
-            if (candidatesForInterview == null)
+            if (candidateForInterview == null)
             {
                 return Ok(new { statusText = _statusTextService.ResourceNotFound });
             }
 
-            _context.CandidatesForInterviews.Remove(candidatesForInterview);
+            _context.CandidatesForInterviews.Remove(candidateForInterview);
             _context.SaveChanges();
 
             return Ok(new { statusText = _statusTextService.Success });
@@ -312,11 +365,11 @@ namespace FitFinderBackEnd.Controllers
             }
 
 
-            List<CandidatesForInterview> candidatesForInterviews = _context.CandidatesForInterviews
+            List<CandidateForInterview> candidatesForInterviews = _context.CandidatesForInterviews
                 .Where(x => x.InterviewId == interviewId)
                 .ToList();
 
-            List<InterviewersForInterview> interviewersForInterviews = _context.InterviewersForInterviews
+            List<InterviewerForInterview> interviewersForInterviews = _context.InterviewersForInterviews
                 .Where(x => x.InterviewId == interviewId)
                 .ToList();
 
