@@ -8,6 +8,7 @@ import {MatDialog} from '@angular/material';
 import {NotifierService} from 'angular-notifier';
 import {ActivatedRoute, Data} from '@angular/router';
 import {InterviewService} from '../../../services/shared-services/interview.service';
+import {DialogService} from '../../../services/dialog-services/dialog.service';
 
 
 
@@ -18,6 +19,8 @@ import {InterviewService} from '../../../services/shared-services/interview.serv
   encapsulation: ViewEncapsulation.None
 })
 export class InterviewPanelComponent implements OnInit {
+  isDisabled = false;
+
 
   selectedValue = 'all';
   interviews: Interview[] = [];
@@ -30,8 +33,8 @@ export class InterviewPanelComponent implements OnInit {
   constructor(private interviewDataStorageService: InterviewDataStorageService,
               private interviewService: InterviewService,
               private notifierService: NotifierService,
-              private route: ActivatedRoute,
-              private dialog: MatDialog) {}
+              private dialogService: DialogService,
+              private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.route.data
@@ -43,27 +46,26 @@ export class InterviewPanelComponent implements OnInit {
 
 
   archiveInterviews() {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent,
-      {
-        hasBackdrop: true,
-        disableClose: true,
-        width: '400px',
-        data: {
-          header: 'Archive Interviews',
-          iconClass: 'fas fa-archive',
-          confirmationText: 'Are you sure?',
-          buttonText: 'Archive',
-          confirmationStatus: false
-        }
-      });
-
-    dialogRef.afterClosed().subscribe(result => {
+    this.dialogService.confirmationDialog(
+      'Archive Interviews',
+      'fas fa-archive',
+      '400px',
+      'warn',
+      'Are you sure?',
+      'Archive',
+      false
+    ).afterClosed().subscribe(result => {
         if (result.confirmationStatus) {
+
           let interviews: Interview[] = [];
           interviews = this.selection.selected;
+
+          this.isDisabled = true;
           this.interviewDataStorageService.archiveInterviews(interviews)
-            .subscribe(
-              (response: any) => {
+            .subscribe((response: any) => {
+
+                this.isDisabled = false;
+
                 for (let i = 0; i < this.interviews.length; i++) {
                   for (let j = 0; j < interviews.length; j++) {
                     if (this.interviews[i].Id === interviews[j].Id)  {
@@ -71,37 +73,35 @@ export class InterviewPanelComponent implements OnInit {
                     }
                   }
                 }
+
                 this.selection.clear();
                 this.notifierService.notify('default', 'Archived successfully!')
-              }
-            );
+              });
         }
-      }
-    );
+      });
   }
 
   restoreInterviews() {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent,
-      {
-        hasBackdrop: true,
-        disableClose: true,
-        width: '400px',
-        data: {
-          header: 'Restore Interviews',
-          iconClass: 'far fa-window-restore',
-          confirmationText: 'Are you sure?',
-          buttonText: 'Restore',
-          confirmationStatus: false
-        }
-      });
-
-    dialogRef.afterClosed().subscribe(result => {
+    this.dialogService.confirmationDialog(
+      'Restore Interview',
+      'far fa-window-restore',
+      '400px',
+      'warn',
+      'Are you sure?',
+      'Restore',
+      false
+    ).afterClosed().subscribe(result => {
         if (result.confirmationStatus) {
+
           let interviews: Interview[] = [];
           interviews = this.selection.selected;
+
+          this.isDisabled = true;
           this.interviewDataStorageService.restoreInterviews(interviews)
-            .subscribe(
-              (response: any) => {
+            .subscribe((response: any) => {
+
+              this.isDisabled = false;
+
                 for (let i = 0; i < this.interviews.length; i++) {
                   for (let j = 0; j < interviews.length; j++) {
                     if (this.interviews[i].Id === interviews[j].Id)  {
@@ -111,11 +111,9 @@ export class InterviewPanelComponent implements OnInit {
                 }
                 this.selection.clear();
                 this.notifierService.notify('default', 'Restored successfully!')
-              }
-            );
+              });
         }
-      }
-    );
+      });
   }
 
   getDate(selectedDate: string) {

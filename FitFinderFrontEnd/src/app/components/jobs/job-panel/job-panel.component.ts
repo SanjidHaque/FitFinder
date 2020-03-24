@@ -12,6 +12,7 @@ import {ConfirmationDialogComponent} from '../../../dialogs/confirmation-dialog/
 import {NotifierService} from 'angular-notifier';
 import {ActivatedRoute, Data} from '@angular/router';
 import {JobService} from '../../../services/shared-services/job.service';
+import {DialogService} from '../../../services/dialog-services/dialog.service';
 
 @Component({
   selector: 'app-job-panel',
@@ -32,20 +33,18 @@ export class JobPanelComponent implements OnInit {
   constructor(private jobDataStorageService: JobDataStorageService,
               private notifierService: NotifierService,
               private route: ActivatedRoute,
-              private dialog: MatDialog,
-              private jobService: JobService,
-              private settingsDataStorageService: SettingsDataStorageService) { }
+              private dialogService: DialogService,
+              private jobService: JobService) { }
 
   ngOnInit() {
     this.route.data
       .subscribe(
         (data: Data) => {
           this.jobs = data['jobs'].jobs;
-          this.departments = data['departments'].departments;
+          this.jobService.jobs = this.jobs;
+          this.jobs = this.jobService.getAllJob().filter(x => x.IsArchived === false);
         }
       );
- //   this.jobs = this.jobService.getAllJob().filter(x => x.IsArchived === false);
-
   }
 
 
@@ -82,27 +81,24 @@ export class JobPanelComponent implements OnInit {
   }
 
   archiveJobs() {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent,
-      {
-        hasBackdrop: true,
-        disableClose: true,
-        width: '400px',
-        data: {
-          header: 'Archive Jobs',
-          iconClass: 'fas fa-archive',
-          confirmationText: 'Are you sure?',
-          buttonText: 'Archive',
-          confirmationStatus: false
-        }
-      });
-
-    dialogRef.afterClosed().subscribe(result => {
+    this.dialogService.confirmationDialog(
+      'Archive Jobs',
+      'fas fa-archive',
+      '400px',
+      'warn',
+      'Are you sure?',
+      'Archive',
+      false
+    ).afterClosed().subscribe(result => {
         if (result.confirmationStatus) {
+
           let jobs: Job[] = [];
           jobs = this.selection.selected;
+
           this.jobDataStorageService.archiveJobs(jobs)
             .subscribe(
               (response: any) => {
+
                 for (let i = 0; i < this.jobs.length; i++) {
                   for (let j = 0; j < jobs.length; j++) {
                     if (this.jobs[i].Id === jobs[j].Id)  {
@@ -112,35 +108,30 @@ export class JobPanelComponent implements OnInit {
                 }
                 this.selection.clear();
                 this.notifierService.notify('default', 'Archived successfully.');
-              }
-            );
+              });
         }
-      }
-    );
+      });
   }
 
   restoreJobs() {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent,
-      {
-        hasBackdrop: true,
-        disableClose: true,
-        width: '400px',
-        data: {
-          header: 'Restore Jobs',
-          iconClass: 'fas fa-archive',
-          confirmationText: 'Are you sure?',
-          buttonText: 'Archive',
-          confirmationStatus: false
-        }
-      });
-
-    dialogRef.afterClosed().subscribe(result => {
+    this.dialogService.confirmationDialog(
+      'Restore Jobs',
+      'far fa-window-restore',
+      '400px',
+      'warn',
+      'Are you sure?',
+      'Restore',
+      false
+    ).afterClosed().subscribe(result => {
         if (result.confirmationStatus) {
+
           let jobs: Job[] = [];
           jobs = this.selection.selected;
+
           this.jobDataStorageService.restoreJobs(jobs)
             .subscribe(
               (response: any) => {
+
                 for (let i = 0; i < this.jobs.length; i++) {
                   for (let j = 0; j < jobs.length; j++) {
                     if (this.jobs[i].Id === jobs[j].Id)  {
@@ -150,11 +141,9 @@ export class JobPanelComponent implements OnInit {
                 }
                 this.selection.clear();
                 this.notifierService.notify('default', 'Restored successfully.')
-              }
-            );
+              });
         }
-      }
-    );
+      });
   }
 
   onValueChange(value: string) {
@@ -173,10 +162,6 @@ export class JobPanelComponent implements OnInit {
     this.favouriteChecked = event.checked;
     this.jobs = this.jobService.filterArchivedJob(
       this.jobs, this.selectedValue, this.archivedChecked, this.favouriteChecked);
-  }
-
-  getDepartmentName(departmentId: number) {
-    return this.departments.find(x => x.Id === departmentId ).Name;
   }
 
   getClosingDays(jobClosingDate: string) {

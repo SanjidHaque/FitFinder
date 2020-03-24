@@ -122,6 +122,7 @@
 
       <div class="col-xl-3 text-xl-center" *ngIf="candidate.IsFavourite">
         <button
+          [disabled]="isDisabled"
           (click)="unfavouriteCandidates(candidate)"
           style="background-color: transparent; outline: 0; width: 100%;"
           mat-flat-button><i
@@ -131,6 +132,7 @@
 
       <div class="col-xl-3 text-xl-center" *ngIf="!candidate.IsFavourite">
         <button
+          [disabled]="isDisabled"
           (click)="favouriteCandidates(candidate)"
           style="background-color: transparent; outline: 0; width: 100%"
           mat-flat-button><i class="far fa-heart"></i>
@@ -139,6 +141,7 @@
 
       <div *ngIf="!candidate.IsArchived" class="col-xl-3 text-xl-center">
         <button
+          [disabled]="isDisabled"
           style="background-color: transparent; outline: 0;"
           (click)="archiveCandidates(candidate)"
           mat-flat-button><i class="fas fa-archive"></i> Archive</button>
@@ -146,6 +149,7 @@
 
       <div *ngIf="candidate.IsArchived" class="col-xl-3 text-xl-center">
         <button
+          [disabled]="isDisabled"
           (click)="restoreCandidates(candidate)"
           style="background-color: transparent; outline: 0;"
           mat-flat-button><i class="far fa-window-restore"></i> Restore</button>

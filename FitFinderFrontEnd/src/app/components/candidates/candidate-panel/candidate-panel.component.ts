@@ -11,6 +11,7 @@ import {NotifierService} from 'angular-notifier';
 import {ConfirmationDialogComponent} from '../../../dialogs/confirmation-dialog/confirmation-dialog.component';
 import {MatDialog} from '@angular/material';
 import {ActivatedRoute, Data} from '@angular/router';
+import {DialogService} from '../../../services/dialog-services/dialog.service';
 
 
 @Component({
@@ -20,6 +21,7 @@ import {ActivatedRoute, Data} from '@angular/router';
   encapsulation: ViewEncapsulation.None
 })
 export class CandidatePanelComponent implements OnInit {
+  isDisabled = false;
 
   archivedChecked = false;
   favouriteChecked = false;
@@ -37,6 +39,7 @@ export class CandidatePanelComponent implements OnInit {
               private notifierService: NotifierService,
               private dialog: MatDialog,
               private route: ActivatedRoute,
+              private dialogService: DialogService,
               private settingsDataStorageService: SettingsDataStorageService,
               private jobDataStorageService: JobDataStorageService) {}
 
@@ -73,8 +76,7 @@ export class CandidatePanelComponent implements OnInit {
     const candidates: Candidate[] = [];
     candidates.push(candidate);
     this.candidateDataStorageService.unfavouriteCandidates(candidates)
-      .subscribe(
-        (response: any) => {
+      .subscribe((response: any) => {
           for (let i = 0; i < this.candidates.length; i++) {
             if (this.candidates[i].Id === candidate.Id) {
               this.candidates[i].IsFavourite = false;
@@ -86,27 +88,26 @@ export class CandidatePanelComponent implements OnInit {
   }
 
   archiveCandidates() {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent,
-      {
-        hasBackdrop: true,
-        disableClose: true,
-        width: '400px',
-        data: {
-          header: 'Archive Candidates',
-          iconClass: 'fas fa-archive',
-          confirmationText: 'Are you sure?',
-          buttonText: 'Archive',
-          confirmationStatus: false
-        }
-      });
-
-    dialogRef.afterClosed().subscribe(result => {
+    this.dialogService.confirmationDialog(
+      'Restore Candidates',
+      'fas fa-archive',
+      '400px',
+      'warn',
+      'Are you sure?',
+      'Archive',
+      false
+    ).afterClosed().subscribe(result => {
         if (result.confirmationStatus) {
+
           let candidates: Candidate[] = [];
           candidates = this.selection.selected;
+
+          this.isDisabled = true;
           this.candidateDataStorageService.archiveCandidates(candidates)
             .subscribe(
               (response: any) => {
+                this.isDisabled = false;
+
                 for (let i = 0; i < this.candidates.length; i++) {
                  for (let j = 0; j < candidates.length; j++) {
                    if (this.candidates[i].Id === candidates[j].Id)  {
@@ -116,35 +117,32 @@ export class CandidatePanelComponent implements OnInit {
                 }
                 this.selection.clear();
                 this.notifierService.notify('default', 'Archived successfully!')
-              }
-            );
+              });
         }
-      }
-    );
+      });
   }
 
   restoreCandidates() {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent,
-      {
-        hasBackdrop: true,
-        disableClose: true,
-        width: '400px',
-        data: {
-          header: 'Restore Candidates',
-          iconClass: 'far fa-window-restore',
-          confirmationText: 'Are you sure?',
-          buttonText: 'Restore',
-          confirmationStatus: false
-        }
-      });
-
-    dialogRef.afterClosed().subscribe(result => {
+    this.dialogService.confirmationDialog(
+      'Restore Candidates',
+      'far fa-window-restore',
+      '400px',
+      'warn',
+      'Are you sure?',
+      'Restore',
+      false
+    ).afterClosed().subscribe(result => {
         if (result.confirmationStatus) {
+
           let candidates: Candidate[] = [];
           candidates = this.selection.selected;
+
+          this.isDisabled = true;
           this.candidateDataStorageService.restoreCandidates(candidates)
-            .subscribe(
-              (response: any) => {
+            .subscribe((response: any) => {
+
+              this.isDisabled = false;
+
                 for (let i = 0; i < this.candidates.length; i++) {
                   for (let j = 0; j < candidates.length; j++) {
                     if (this.candidates[i].Id === candidates[j].Id)  {
@@ -152,13 +150,12 @@ export class CandidatePanelComponent implements OnInit {
                     }
                   }
                 }
+
                 this.selection.clear();
                 this.notifierService.notify('default', 'Restored successfully!')
-              }
-            );
+            });
         }
-      }
-    );
+      });
   }
 
   onValueChange(value: string) {
@@ -204,6 +201,5 @@ export class CandidatePanelComponent implements OnInit {
 
 
   getInterviewDate() {
-
   }
 }

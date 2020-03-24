@@ -139,7 +139,8 @@
           mat-flat-button
           [disabled]="interviews.length == 0
           ||
-          !selection.hasValue()"
+          !selection.hasValue()
+          || isDisabled"
           style="background-color: transparent; outline: 0;">
           <i class="fas fa-archive"></i>
           Archive</button>

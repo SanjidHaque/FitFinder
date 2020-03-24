@@ -33,8 +33,7 @@ const jobRoutes: Routes = [
         component: JobPanelComponent,
         resolve:
           {
-            jobs: JobsResolverService,
-            departments: DepartmentsResolverService
+            jobs: JobsResolverService
           }
       },
       {

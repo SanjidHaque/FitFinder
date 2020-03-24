@@ -21,6 +21,7 @@ import {CandidateService} from '../../../services/shared-services/candidate.serv
 import {Department} from '../../../models/settings/department.model';
 import {JobAssignmentDataStorageService} from '../../../services/data-storage-services/job-assignment-data-storage.service';
 import {SettingsService} from '../../../services/shared-services/settings.service';
+import {DialogService} from '../../../services/dialog-services/dialog.service';
 
 
 
@@ -52,6 +53,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
               private notifierService: NotifierService,
               private candidateService: CandidateService,
               private settingsService: SettingsService,
+              private dialogService: DialogService,
               private jobDataStorageService: JobDataStorageService,
               private candidateDataStorageService: CandidateDataStorageService,
               private jobAssignmentDataStorageService: JobAssignmentDataStorageService) {}
@@ -267,8 +269,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
     const candidates: Candidate[] = [];
     candidates.push(candidate);
     this.candidateDataStorageService.favouriteCandidates(candidates)
-      .subscribe(
-        (response: any) => {
+      .subscribe((response: any) => {
           this.candidate.IsFavourite = true;
           this.notifierService.notify('default', 'Added to favourites!')
         }
@@ -280,8 +281,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
     candidates.push(candidate);
 
     this.candidateDataStorageService.unfavouriteCandidates(candidates)
-      .subscribe(
-        (response: any) => {
+      .subscribe((response: any) => {
           this.candidate.IsFavourite = false;
           this.notifierService.notify('default', 'Removed from favourites!')
         }
@@ -289,66 +289,58 @@ export class CandidateIdComponent implements OnInit, DoCheck {
   }
 
   archiveCandidates(candidate: Candidate) {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent,
-      {
-        hasBackdrop: true,
-        disableClose: true,
-        width: '400px',
-        data: {
-          header: 'Archive Candidate',
-          iconClass: 'fas fa-archive',
-          confirmationText: 'Are you sure?',
-          buttonText: 'Archive',
-          confirmationStatus: false
-        }
-      });
-
-    dialogRef.afterClosed().subscribe(result => {
+    this.dialogService.confirmationDialog(
+      'Restore Candidates',
+      'fas fa-archive',
+      '400px',
+      'warn',
+      'Are you sure?',
+      'Archive',
+      false
+    ).afterClosed().subscribe(result => {
       if (result.confirmationStatus) {
+
          const candidates: Candidate[] = [];
          candidates.push(candidate);
+
+         this.isDisabled = true;
          this.candidateDataStorageService.archiveCandidates(candidates)
-             .subscribe(
-                (response: any) => {
-                  this.candidate.IsArchived = true;
-                  this.notifierService.notify('default', 'Archived successfully!')
-                }
-           );
+             .subscribe((response: any) => {
+               this.isDisabled = false;
+
+               this.candidate.IsArchived = true;
+               this.notifierService.notify('default', 'Archived successfully!')
+             });
       }
-      }
-    );
+    });
   }
 
 
   restoreCandidates(candidate: Candidate) {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent,
-      {
-        hasBackdrop: true,
-        disableClose: true,
-        width: '400px',
-        data: {
-          header: 'Restore Candidate',
-          iconClass: 'far fa-window-restore',
-          confirmationText: 'Are you sure?',
-          buttonText: 'Restore',
-          confirmationStatus: false
-        }
-      });
-
-    dialogRef.afterClosed().subscribe(result => {
+    this.dialogService.confirmationDialog(
+      'Restore Candidates',
+      'far fa-window-restore',
+      '400px',
+      'warn',
+      'Are you sure?',
+      'Restore',
+      false
+    ).afterClosed().subscribe(result => {
         if (result.confirmationStatus) {
+
           const candidates: Candidate[] = [];
           candidates.push(candidate);
+
+          this.isDisabled = true;
           this.candidateDataStorageService.restoreCandidates(candidates)
-            .subscribe(
-              (response: any) => {
-                this.candidate.IsArchived = false;
-                this.notifierService.notify('default', 'Restored successfully!')
-              }
-            );
+            .subscribe((response: any) => {
+              this.isDisabled = false;
+
+              this.candidate.IsArchived = false;
+              this.notifierService.notify('default', 'Restored successfully!')
+            });
         }
-      }
-    );
+      });
   }
 
   addJobAssignment() {

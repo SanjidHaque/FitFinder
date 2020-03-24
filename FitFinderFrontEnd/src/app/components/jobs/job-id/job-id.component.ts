@@ -9,6 +9,7 @@ import {Department} from '../../../models/settings/department.model';
 import {SettingsDataStorageService} from '../../../services/data-storage-services/settings-data-storage.service';
 import {ConfirmationDialogComponent} from '../../../dialogs/confirmation-dialog/confirmation-dialog.component';
 import {JobService} from '../../../services/shared-services/job.service';
+import {DialogService} from '../../../services/dialog-services/dialog.service';
 
 @Component({
   selector: 'app-job-id',
@@ -16,6 +17,7 @@ import {JobService} from '../../../services/shared-services/job.service';
   styleUrls: ['./job-id.component.css']
 })
 export class JobIdComponent implements OnInit {
+  isDisabled = false;
 
   jobId: number;
   job: Job;
@@ -24,6 +26,7 @@ export class JobIdComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private dialog: MatDialog,
+              private dialogService: DialogService,
               private notifierService: NotifierService,
               private jobDataStorageService: JobDataStorageService,
               private jobService: JobService) {
@@ -41,45 +44,35 @@ export class JobIdComponent implements OnInit {
         (data: Data) => {
           this.job = data['job'].job;
           this.jobService.job = this.job;
-        }
-      );
+        });
   }
-
 
 
   restoreJobs(job: Job) {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent,
-      {
-        hasBackdrop: true,
-        disableClose: true,
-        width: '400px',
-        data: {
-          header: 'Restore Job',
-          iconClass: 'fas fa-archive',
-          confirmationText: 'Are you sure?',
-          buttonText: 'Archive',
-          confirmationStatus: false
-        }
-      });
-
-    dialogRef.afterClosed().subscribe(result => {
+    this.dialogService.confirmationDialog(
+      'Restore Job',
+      'far fa-window-restore',
+      '400px',
+      'warn',
+      'Are you sure?',
+      'Restore',
+      false
+    ).afterClosed().subscribe(result => {
         if (result.confirmationStatus) {
+
           const jobs: Job[] = [];
           jobs.push(job);
-          this.jobDataStorageService.restoreJobs(jobs)
-            .subscribe(
-              (response: any) => {
-                this.job.IsArchived = false;
-                this.notifierService.notify('default', 'Restored successfully!')
-              }
-            );
-        }
-      }
-    );
-  }
 
-  getDepartmentName(departmentId: number) {
-    return this.departments.find(x => x.Id === departmentId ).Name;
+          this.isDisabled = true;
+          this.jobDataStorageService.restoreJobs(jobs)
+            .subscribe((response: any) => {
+              this.isDisabled = false;
+
+              this.job.IsArchived = false;
+              this.notifierService.notify('default', 'Restored successfully!')
+            });
+        }
+      });
   }
 
   getClosingDays() {
@@ -87,7 +80,5 @@ export class JobIdComponent implements OnInit {
     const closingDate = moment(new Date(this.job.ClosingDate));
     return Math.ceil(closingDate.diff(today, 'days', true));
   }
-
-
 
 }

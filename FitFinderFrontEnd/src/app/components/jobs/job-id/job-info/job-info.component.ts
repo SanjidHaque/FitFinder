@@ -13,6 +13,7 @@ import {ConfirmationDialogComponent} from '../../../../dialogs/confirmation-dial
 import {MatDialog} from '@angular/material';
 import {ActivatedRoute, Data} from '@angular/router';
 import {JobService} from '../../../../services/shared-services/job.service';
+import {DialogService} from '../../../../services/dialog-services/dialog.service';
 
 @Component({
   selector: 'app-job-info',
@@ -20,12 +21,12 @@ import {JobService} from '../../../../services/shared-services/job.service';
   styleUrls: ['./job-info.component.css']
 })
 export class JobInfoComponent implements OnInit {
+  isDisabled = false;
 
   candidateDefaultImage = 'assets/images/defaultImage.png';
   job: Job;
   filesToUpload: Array<File>;
   @ViewChild('fileUpload', {static: false}) fileUploadVar: any;
-
 
   departments: Department[] = [];
   jobFunctions: JobFunction[] = [];
@@ -35,25 +36,21 @@ export class JobInfoComponent implements OnInit {
               private settingsDataStorageService: SettingsDataStorageService,
               private dialog: MatDialog,
               private route: ActivatedRoute,
+              private dialogService: DialogService,
               private jobService: JobService,
               private notifierService: NotifierService) {
     this.filesToUpload = [];
   }
 
   ngOnInit() {
-
-    this.route.data.subscribe(
-      (data: Data) => {
-        this.job = this.jobService.job;
-      }
-    );
-
+    this.job = this.jobService.job;
   }
 
 
   favouriteJobs(job: Job) {
     const jobs: Job[] = [];
     jobs.push(job);
+
     this.jobDataStorageService.favouriteJobs(jobs)
       .subscribe(
         (response: any) => {
@@ -76,58 +73,55 @@ export class JobInfoComponent implements OnInit {
   }
 
   archiveJobs(job: Job) {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent,
-      {
-        hasBackdrop: true,
-        disableClose: true,
-        width: '400px',
-        data: {
-          header: 'Archive Job',
-          iconClass: 'fas fa-archive',
-          confirmationText: 'Are you sure?',
-          buttonText: 'Archive',
-          confirmationStatus: false
-        }
-      });
-
-    dialogRef.afterClosed().subscribe(result => {
+    this.dialogService.confirmationDialog(
+      'Archive Job',
+      'fas fa-archive',
+      '400px',
+      'warn',
+      'Are you sure?',
+      'Archive',
+      false
+    ).afterClosed().subscribe(result => {
         if (result.confirmationStatus) {
+
           const jobs: Job[] = [];
           jobs.push(job);
+
+          this.isDisabled = true;
           this.jobDataStorageService.archiveJobs(jobs)
             .subscribe(
               (response: any) => {
+                this.isDisabled = false;
+
                 this.job.IsArchived = true;
                 this.notifierService.notify('default', 'Archived successfully.')
-              }
-            );
+              });
         }
       }
     );
   }
 
   restoreJobs(job: Job) {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent,
-      {
-        hasBackdrop: true,
-        disableClose: true,
-        width: '400px',
-        data: {
-          header: 'Restore Job',
-          iconClass: 'fas fa-archive',
-          confirmationText: 'Are you sure?',
-          buttonText: 'Archive',
-          confirmationStatus: false
-        }
-      });
-
-    dialogRef.afterClosed().subscribe(result => {
+    this.dialogService.confirmationDialog(
+      'Restore Job',
+      'far fa-window-restore',
+      '400px',
+      'warn',
+      'Are you sure?',
+      'Restore',
+      false
+    ).afterClosed().subscribe(result => {
         if (result.confirmationStatus) {
+
           const jobs: Job[] = [];
           jobs.push(job);
+
+          this.isDisabled = true;
           this.jobDataStorageService.restoreJobs(jobs)
             .subscribe(
               (response: any) => {
+                this.isDisabled = false;
+
                 this.job.IsArchived = false;
                 this.notifierService.notify('default', 'Restored successfully.')
               }
@@ -188,10 +182,6 @@ export class JobInfoComponent implements OnInit {
   downloadFile(jobAttachment: JobAttachment) {
     window.open('http://localhost:55586/Content/Attachments/' + jobAttachment.ModifiedFileName);
   }
-
-
-
-
 
 
 

@@ -211,8 +211,9 @@
                 </strong>
 
                 <strong
+                  *ngIf="job.Department !== null"
                   title="Department"
-                ><i class="far fa-building"></i> {{ getDepartmentName(job.DepartmentId) }} &nbsp;
+                ><i class="far fa-building"></i> {{ job.Department.Name }} &nbsp;
                 </strong>
 
                 <strong

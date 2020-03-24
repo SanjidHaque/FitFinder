@@ -152,6 +152,12 @@ namespace FitFinderBackEnd.Controllers
                 .Where(x => x.CompanyId == applicationUser.CompanyId)
                 .ToList();
 
+            jobs.ForEach(job =>
+            {
+                Department department = _context.Departments.FirstOrDefault(x => x.Id == job.DepartmentId);
+                job.Department = department;
+            });
+
             return Ok(new { jobs, statusText = _statusTextService.Success });
         }
 

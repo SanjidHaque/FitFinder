@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+
 import {Job} from '../../models/job/job.model';
 
 @Injectable({
@@ -6,6 +7,11 @@ import {Job} from '../../models/job/job.model';
 })
 export class JobService {
   job: Job;
+  jobs: Job[] = [];
+
+  getAllJob() {
+    return this.jobs.slice();
+  }
 
   filterArchivedJob(jobs: Job[], selectedValue: string, archivedChecked: boolean, favouriteChecked: boolean) {
     if (archivedChecked) {

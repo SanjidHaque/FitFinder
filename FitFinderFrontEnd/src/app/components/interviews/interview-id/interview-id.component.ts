@@ -28,7 +28,6 @@ export class InterviewIdComponent implements OnInit {
   isDisabled = false;
 
   candidateDefaultImage = 'assets/images/defaultImage.png';
-  disableEmailInvites = false;
   assignInterviewerForm: FormGroup;
 
   interview: Interview;
@@ -130,13 +129,64 @@ export class InterviewIdComponent implements OnInit {
   archiveInterview() {
     const interviews: Interview[] = [];
     interviews.push(this.interview);
-    this.interviewService.archiveInterviews(interviews);
+
+    this.dialogService.confirmationDialog(
+      'Archive Interview',
+      'fas fa-archive',
+      '400px',
+      'warn',
+      'Are you sure?',
+      'Archive',
+      false
+    ).afterClosed().subscribe(result => {
+
+      if (result.confirmationStatus) {
+
+        this.isDisabled = true;
+        this.interviewDataStorageService.archiveInterviews(interviews)
+          .subscribe((response: any) => {
+
+              this.isDisabled = false;
+              interviews.forEach((interview) => {
+                interview.IsArchived = true;
+              });
+
+              this.notifierService.notify('default', 'Archived successfully!');
+          });
+      }
+    });
   }
 
   restoreInterview() {
     const interviews: Interview[] = [];
     interviews.push(this.interview);
-    this.interviewService.restoreInterviews(interviews);
+
+    this.dialogService.confirmationDialog(
+      'Restore Interview',
+      'far fa-window-restore',
+      '400px',
+      'warn',
+      'Are you sure?',
+      'Restore',
+      false
+    ).afterClosed().subscribe(result => {
+
+      if (result.confirmationStatus) {
+
+        this.isDisabled = true;
+        this.interviewDataStorageService.restoreInterviews(interviews)
+          .subscribe((response: any) => {
+
+            this.isDisabled = false;
+            interviews.forEach((interview) => {
+              interview.IsArchived = false;
+            });
+
+            this.notifierService.notify('default', 'Restored successfully!');
+
+          });
+      }
+    });
   }
 
   removeCandidatesFromInterview(index: number, candidatesForInterviewId: number) {
