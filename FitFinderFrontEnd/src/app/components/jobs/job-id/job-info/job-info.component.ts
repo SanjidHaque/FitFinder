@@ -11,9 +11,10 @@ import {JobType} from '../../../../models/settings/job-type.model';
 import {SettingsDataStorageService} from '../../../../services/data-storage-services/settings-data-storage.service';
 import {ConfirmationDialogComponent} from '../../../../dialogs/confirmation-dialog/confirmation-dialog.component';
 import {MatDialog} from '@angular/material';
-import {ActivatedRoute, Data} from '@angular/router';
+import {ActivatedRoute, Data, Router} from '@angular/router';
 import {JobService} from '../../../../services/shared-services/job.service';
 import {DialogService} from '../../../../services/dialog-services/dialog.service';
+import {SettingsService} from '../../../../services/shared-services/settings.service';
 
 @Component({
   selector: 'app-job-info',
@@ -34,8 +35,10 @@ export class JobInfoComponent implements OnInit {
 
   constructor(private jobDataStorageService: JobDataStorageService,
               private settingsDataStorageService: SettingsDataStorageService,
+              private settingsService: SettingsService,
               private dialog: MatDialog,
               private route: ActivatedRoute,
+              private router: Router,
               private dialogService: DialogService,
               private jobService: JobService,
               private notifierService: NotifierService) {
@@ -64,12 +67,10 @@ export class JobInfoComponent implements OnInit {
     const jobs: Job[] = [];
     jobs.push(job);
     this.jobDataStorageService.unfavouriteJobs(jobs)
-      .subscribe(
-        (response: any) => {
+      .subscribe((response: any) => {
           this.job.IsFavourite = false;
           this.notifierService.notify('default', 'Removed from favourites.')
-        }
-      );
+        });
   }
 
   archiveJobs(job: Job) {
@@ -130,6 +131,35 @@ export class JobInfoComponent implements OnInit {
       }
     );
   }
+
+
+  deleteJob() {
+    this.settingsService.deleteResource('Delete Job')
+      .then(result => {
+
+        if (result.confirmationStatus) {
+          this.isDisabled = true;
+
+          this.jobDataStorageService.deleteJob(this.job.Id)
+            .subscribe((data: any) => {
+
+              if (data.statusText !== 'Success') {
+
+                this.isDisabled = false;
+                this.notifierService.notify('default', data.statusText);
+
+              } else {
+
+                this.notifierService.notify('default', 'Job deleted successfully');
+                this.router.navigate(['jobs']);
+
+              }
+            });
+
+        }
+      }).catch();
+  }
+
   getJobDescription() {
     document.getElementById('job-description').innerHTML = this.job.Description;
   }

@@ -183,6 +183,8 @@ export class CandidatePanelComponent implements OnInit {
     return job.Title;
   }
 
+
+
   getApplicationDate(candidate: Candidate) {
     return moment(new Date(candidate.ApplicationDate)).format('Do MMMM, YYYY');
   }

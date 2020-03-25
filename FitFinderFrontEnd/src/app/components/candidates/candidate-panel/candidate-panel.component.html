@@ -211,7 +211,7 @@
                     [src]="candidateDefaultImage">
                 </div>
 
-                <div class="col-xl-10">
+                <div class="col-xl-7">
                   <div class="row">
 
                     <div
@@ -262,6 +262,29 @@
 
 
                 </div>
+
+
+                <div class="col-xl-3 text-xl-right"
+                    style="font-weight: bold; opacity: .5;"
+                    *ngIf="candidate.IsArchived; else notArchived">
+                     <br>
+                    <i style="background-color: #eee;
+                     border-color: #ccc;" class="far fa-square"></i>
+                   <span style="font-size: 14px;"> Archived </span>
+
+
+               </div>
+
+               <ng-template #notArchived>
+                 
+                 <div class="col-xl-3">
+
+                   <!--Pipeline Stage Criterion Name Here-->
+
+                 </div>
+
+               </ng-template>
+
 
 
           </div>

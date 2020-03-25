@@ -152,32 +152,6 @@ export class AddNewJobComponent implements OnInit {
   }
 
   async addNewJob() {
-    const workflow = new Workflow(
-      null,
-      null,
-      null,
-      null,
-      [
-        new Pipeline(
-          null,
-          null,
-          null,
-          null,
-          [
-            new PipelineStage(
-              null,
-              null,
-              null,
-              null,
-              null,
-              this.getJobSpecificPipelineStageCriteria()
-            )
-          ]
-        )
-      ]
-    );
-
-
     const job = new Job(
       null,
       this.addNewJobForm.controls['title'].value,
@@ -206,7 +180,7 @@ export class AddNewJobComponent implements OnInit {
       false,
       null,
       null,
-      workflow,
+      null,
       this.addNewJobForm.controls['workflowId'].value,
     );
 
@@ -235,17 +209,23 @@ export class AddNewJobComponent implements OnInit {
 
           } else {
 
-            this.router.navigate(['/jobs/', data.job.Id]);
-            this.notifierService.notify('default', 'New job published.');
+            const newPipelineStageCriteria = this.getJobSpecificPipelineStageCriteria();
+            newPipelineStageCriteria.forEach(x => {
+              x.JobId = data.job.Id;
+            });
 
-            const jobs: Job[] = [];
-            jobs.push(data.job);
-            this.gapiService.syncToDrive(this.departments, jobs);
+            this.settingsDataStorageService.addNewPipelineStageCriteria(newPipelineStageCriteria)
+              .subscribe((res: any) => {
 
+                this.router.navigate(['/jobs/', data.job.Id]);
+                this.notifierService.notify('default', 'New job published.');
+
+                const jobs: Job[] = [];
+                jobs.push(data.job);
+                // this.gapiService.syncToDrive(this.departments, jobs);
+              });
           }
         });
-
-
   }
 
   getJobSpecificPipelineStageCriteria() {

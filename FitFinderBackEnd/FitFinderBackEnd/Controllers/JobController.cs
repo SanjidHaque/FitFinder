@@ -78,16 +78,6 @@ namespace FitFinderBackEnd.Controllers
             _context.Jobs.Add(job);
             _context.SaveChanges();
 
-            List<PipelineStageCriterion> newPipelineStageCriteria = new List<PipelineStageCriterion>();
-            newPipelineStageCriteria = job.Workflow.Pipelines[0].PipelineStages[0].PipelineStageCriteria;
-
-            if (newPipelineStageCriteria.Count != 0)
-            {
-                newPipelineStageCriteria.ForEach(x => x.JobId = job.Id );
-                _context.PipelineStageCriteria.AddRange(newPipelineStageCriteria);
-                _context.SaveChanges();
-            }
-
             return Ok(new { job,  statusText = _statusTextService.Success });
         }
 

@@ -917,15 +917,13 @@ namespace FitFinderBackEnd.Controllers
         }
 
         [HttpPost]
-        [Route("api/AddNewPipelineStageCriterionForNewJob")]
-        public IHttpActionResult AddNewPipelineStageCriterionForNewJob(List<PipelineStageCriterion> pipelineStageCriteria)
+        [Route("api/AddNewPipelineStageCriteria")]
+        public IHttpActionResult AddNewPipelineStageCriteria(List<PipelineStageCriterion> pipelineStageCriteria)
         {
             _context.PipelineStageCriteria.AddRange(pipelineStageCriteria);
             _context.SaveChanges();
             return Ok(new { statusText = _statusTextService.Success });
         }
-
-
 
 
         [HttpDelete]

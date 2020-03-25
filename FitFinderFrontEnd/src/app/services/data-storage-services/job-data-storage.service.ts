@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import {Job} from '../../models/job/job.model';
 import {HttpClient} from '@angular/common/http';
+
+import {Job} from '../../models/job/job.model';
 import {UserAccountDataStorageService} from './user-account-data-storage.service';
-import {JobAssignment} from '../../models/candidate/job-assignment.model';
 
 
 @Injectable({
@@ -20,7 +20,6 @@ export class JobDataStorageService {
     return this.httpClient.get<Job[]>(this.rootUrl + '/api/GetAllJob');
   }
 
-
   getJob(jobId: number) {
     return this.httpClient.get<Job>(`${this.rootUrl + '/api/GetJob'}/${jobId}`);
   }
@@ -29,13 +28,9 @@ export class JobDataStorageService {
     return this.httpClient.post<Job>(this.rootUrl + '/api/AddNewJob', job);
   }
 
-
-
-
   archiveJobs(jobs: Job[]) {
     return this.httpClient.put<Job[]>(this.rootUrl  + '/api/ArchiveJobs', jobs);
   }
-
 
   restoreJobs(jobs: Job[]) {
     return this.httpClient.put<Job[]>(this.rootUrl + '/api/RestoreJobs', jobs);
@@ -48,7 +43,6 @@ export class JobDataStorageService {
   unfavouriteJobs(jobs: Job[]) {
     return this.httpClient.put<Job[]>(this.rootUrl + '/api/UnfavouriteJobs', jobs);
   }
-
 
   editJob(job: Job) {
     return this.httpClient.put<Job>(this.rootUrl + '/api/EditJob', job);

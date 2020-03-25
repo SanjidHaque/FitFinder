@@ -122,6 +122,11 @@ export class SettingsDataStorageService {
     return this.httpClient.post<PipelineStageCriterion>(this.rootUrl + '/api/AddNewPipelineStageCriterion', pipelineStageCriterion);
   }
 
+  addNewPipelineStageCriteria(pipelineStageCriteria: PipelineStageCriterion[]) {
+    return this.httpClient.post<PipelineStageCriterion[]>
+    (this.rootUrl + '/api/AddNewPipelineStageCriteria', pipelineStageCriteria);
+  }
+
   editPipelineStageCriterion(pipelineStageCriterion: PipelineStageCriterion) {
     return this.httpClient.put<PipelineStageCriterion>(this.rootUrl + '/api/EditPipelineStageCriterion', pipelineStageCriterion);
   }
