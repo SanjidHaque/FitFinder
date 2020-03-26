@@ -28,7 +28,7 @@
       <div class="offset-xl-1 col-xl-10" style="padding-top: 30px; text-align: left; font-size: 14px;">
         <mat-button-toggle-group
           #group="matButtonToggleGroup" [value]="publishedSelected"
-                                 (change)="filterByPublishedJob(group.value)">
+                                 (change)="filterByPublished(group.value)">
           <mat-button-toggle value="all"> All </mat-button-toggle>
           <mat-button-toggle value="published"> Published </mat-button-toggle>
           <mat-button-toggle value="internal"> Internal </mat-button-toggle>
@@ -44,7 +44,7 @@
        font-weight: bold;
        text-align: left; font-size: 14px;">
         Show Archived <mat-slide-toggle
-        (change)="filterByArchive($event)"
+        (change)="filterByArchived($event)"
         color="primary"></mat-slide-toggle>
       </div>
 

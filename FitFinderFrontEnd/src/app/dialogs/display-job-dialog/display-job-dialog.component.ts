@@ -1,84 +1,59 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, OnInit, ViewEncapsulation} from '@angular/core';
 import * as moment from 'moment';
 import {Job} from '../../models/job/job.model';
 import {SelectionModel} from '@angular/cdk/collections';
 import {Department} from '../../models/settings/department.model';
-import {JobDataStorageService} from '../../services/data-storage-services/job-data-storage.service';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {JobService} from '../../services/shared-services/job.service';
 
 @Component({
   selector: 'app-display-job-dialog',
   templateUrl: './display-job-dialog.component.html',
-  styleUrls: ['./display-job-dialog.component.css']
+  styleUrls: ['./display-job-dialog.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 
 export class DisplayJobDialogComponent implements OnInit {
+  archivedSelected = false;
+  favouriteSelected = false;
+  publishedSelected = 'all';
 
-  archivedChecked = false;
-  favouriteChecked = false;
+  jobs: Job[] = [];
+  departments: Department[] = [];
 
   term: string;
-
-  selectedValue = 'all';
-  jobs: Job[] = [];
   selection = new SelectionModel<Job>(false, []);
-  departments: Department[] = [];
 
   constructor(public dialogRef: MatDialogRef<DisplayJobDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
-              private jobDataStorageService: JobDataStorageService,
-              private jobService: JobService) { }
+              private jobService: JobService) {}
 
   ngOnInit() {
-     this.jobs = this.data.jobs.filter(x => x.IsArchived === false);
-     this.departments = this.data.departments;
+    this.jobService.jobs = this.data.jobs;
+    this.jobs = this.jobService.getAllJob().filter(x => x.IsArchived === false);
   }
 
-  archiveStatus(event: any) {
-    this.archivedChecked = event.checked;
-    this.jobs = this.jobService.
-    filterArchivedJob(this.jobs, this.selectedValue, this.archivedChecked, this.favouriteChecked);
+  filterByArchived(event: any) {
+    this.archivedSelected = event.checked;
+    this.jobs = this.jobService
+      .filterArchivedJob(this.publishedSelected, this.archivedSelected, this.favouriteSelected);
   }
 
-  favouriteStatus(event: any) {
-    this.favouriteChecked = event.checked;
-    this.jobs = this.jobService.
-    filterArchivedJob(this.jobs, this.selectedValue, this.archivedChecked, this.favouriteChecked);
+  filterByFavourite(event: any) {
+    this.favouriteSelected = event.checked;
+    this.jobs = this.jobService
+      .filterArchivedJob(this.publishedSelected, this.archivedSelected, this.favouriteSelected);
   }
 
-  getDepartmentName(departmentId: number) {
-    if (this.departments === undefined) {
-      return '';
-    }
-
-    const departmentName = this.departments.find(x => x.Id === departmentId ).Name;
-    if (departmentName === '' || departmentName === undefined) {
-      return '';
-    }
-    return departmentName;
+  filterByPublished(value: string) {
+    this.publishedSelected = value;
+    this.jobs = this.jobService
+      .filterArchivedJob(value, this.archivedSelected, this.favouriteSelected);
   }
 
   getClosingDays(jobClosingDate: string) {
     const today = moment(new Date());
     const closingDate = moment(new Date(jobClosingDate));
     return closingDate.diff(today, 'days');
-  }
-
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.jobs.length;
-    return numSelected === numRows;
-  }
-
-  masterToggle() {
-    this.isAllSelected() ?
-      this.selection.clear() :
-      this.jobs.forEach(row => this.selection.select(row));
-  }
-
-  onValueChange(value: string) {
-    this.selectedValue = value;
-   // this.jobs = this.jobService.filterArchivedJob(value, this.archivedSelected, this.favouriteSelected);
   }
 }

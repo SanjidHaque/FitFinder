@@ -349,7 +349,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
         hasBackdrop: true,
         disableClose: true,
         width: '1000px',
-        data: { jobs: this.jobs, departments: this.departments }
+        data: { jobs: this.jobs }
       });
 
     dialogRef.afterClosed().subscribe(result => {

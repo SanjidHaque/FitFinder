@@ -39,10 +39,9 @@ export class JobPanelComponent implements OnInit {
   ngOnInit() {
     this.route.data
       .subscribe((data: Data) => {
-          this.jobs = data['jobs'].jobs;
-          this.jobService.jobs = this.jobs;
-          this.jobs = this.jobService.getAllJob().filter(x => x.IsArchived === false);
-        });
+        this.jobService.jobs = data['jobs'].jobs;
+        this.jobs = this.jobService.getAllJob().filter(x => x.IsArchived === false);
+      });
   }
 
 
@@ -140,13 +139,13 @@ export class JobPanelComponent implements OnInit {
       });
   }
 
-  filterByPublishedJob(value: string) {
+  filterByPublished(value: string) {
     this.publishedSelected = value;
     this.jobs = this.jobService.filterArchivedJob(
       value, this.archivedSelected, this.favouriteSelected);
   }
 
-  filterByArchive(event: any) {
+  filterByArchived(event: any) {
     this.archivedSelected = event.checked;
     this.jobs = this.jobService.filterArchivedJob(
       this.publishedSelected, this.archivedSelected, this.favouriteSelected);

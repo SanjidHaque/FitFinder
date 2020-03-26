@@ -13,33 +13,33 @@ export class JobService {
     return this.jobs.slice();
   }
 
-  filterArchivedJob(publishSelected: string, archivedSelected: boolean,
+  filterArchivedJob(publishedSelected: string, archivedSelected: boolean,
                     favouriteSelected: boolean) {
 
     if (archivedSelected) {
-      if (!favouriteSelected && publishSelected === 'all') {
+      if (!favouriteSelected && publishedSelected === 'all') {
         return this.jobs;
-      } else if (favouriteSelected && publishSelected === 'all') {
+      } else if (favouriteSelected && publishedSelected === 'all') {
         return this.jobs.filter(x => x.IsFavourite === true);
-      } else if (!favouriteSelected && publishSelected === 'published') {
+      } else if (!favouriteSelected && publishedSelected === 'published') {
         return this.jobs.filter(x => x.IsPublished === true);
-      } else if (favouriteSelected && publishSelected === 'published') {
+      } else if (favouriteSelected && publishedSelected === 'published') {
         return this.jobs.filter(x => x.IsFavourite === true && x.IsPublished === true );
-      } else if (!favouriteSelected && publishSelected === 'internal') {
+      } else if (!favouriteSelected && publishedSelected === 'internal') {
         return this.jobs.filter(x => x.IsPublished === false);
       } else {
         return this.jobs.filter(x => x.IsFavourite === true && x.IsPublished === false);
       }
     } else {
-      if (!favouriteSelected && publishSelected === 'all') {
+      if (!favouriteSelected && publishedSelected === 'all') {
         return this.jobs.filter( x => x.IsArchived === false);
-      } else if (favouriteSelected && publishSelected === 'all') {
+      } else if (favouriteSelected && publishedSelected === 'all') {
         return this.jobs.filter(x => x.IsFavourite === true && x.IsArchived === false);
-      } else if (!favouriteSelected && publishSelected === 'published') {
+      } else if (!favouriteSelected && publishedSelected === 'published') {
         return this.jobs.filter(x => x.IsPublished === true && x.IsArchived === false);
-      } else if (favouriteSelected && publishSelected === 'published') {
+      } else if (favouriteSelected && publishedSelected === 'published') {
         return this.jobs.filter(x => x.IsFavourite === true && x.IsPublished === true && x.IsArchived === false);
-      } else if (!favouriteSelected && publishSelected === 'internal') {
+      } else if (!favouriteSelected && publishedSelected === 'internal') {
         return this.jobs.filter(x => x.IsPublished === false && x.IsArchived === false);
       } else {
         return this.jobs.filter(x => x.IsFavourite === true && x.IsPublished === false && x.IsArchived === false);

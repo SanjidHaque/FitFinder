@@ -19,8 +19,8 @@
            style="padding-top: 14px; text-align: left; font-size: 14px;">
 
         <mat-button-toggle-group
-          #group="matButtonToggleGroup" [value]="selectedValue"
-          (change)="onValueChange(group.value)">
+          #group="matButtonToggleGroup" [value]="publishedSelected"
+          (change)="filterByPublished(group.value)">
           <mat-button-toggle value="all"> All </mat-button-toggle>
           <mat-button-toggle value="published"> Published </mat-button-toggle>
           <mat-button-toggle value="internal"> Internal </mat-button-toggle>
@@ -36,7 +36,7 @@
        font-weight: bold;
        text-align: left; font-size: 14px;">
         Show Archived <mat-slide-toggle
-        (change)="archiveStatus($event)"
+        (change)="filterByArchived($event)"
         color="primary"></mat-slide-toggle>
       </div>
 
@@ -49,49 +49,11 @@
        font-weight: bold;
        text-align: left; font-size: 14px;">
         Only Favourites <mat-slide-toggle
-        (change)="favouriteStatus($event)"
+        (change)="filterByFavourite($event)"
         color="primary"></mat-slide-toggle>
       </div>
 
     </div>
-
-    <!--<div class="row">
-      <div class="offset-xl-1 col-xl-9" style="padding-top: 20px;">
-
-        <mat-accordion >
-          <mat-expansion-panel>
-
-            <mat-expansion-panel-header
-              matTooltip="Filter jobs by department"
-              matTooltipPosition="above">
-              <mat-panel-title>
-                <span
-                  style="text-align: left; font-weight: bold; font-size: 14px;"
-                >Departments</span>
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-
-            <div class="row"
-                 style="padding-top: 5px;
-                        padding-bottom: 5px;"
-                 *ngFor="let department of departments">
-              <div class="col-xl-1">
-                <mat-checkbox pipelineStageColor="primary"></mat-checkbox>
-              </div>
-
-              <div class="col-xl-10" >
-                <strong> {{ department.pipelineStageName }}</strong>
-              </div>
-            </div>
-
-
-
-          </mat-expansion-panel>
-        </mat-accordion>
-
-
-      </div>
-    </div>-->
 
   </div>
 
@@ -100,10 +62,6 @@
   <div class="col-xl-9 col-9">
 
     <div class="row">
-      <!--<div class="col-xl-1 col-1" style="padding-top: 23px;">
-
-
-      </div>-->
 
       <div class="col-xl-11 col-11">
 
@@ -177,7 +135,7 @@
                        outline: 0;
                        cursor: pointer;"
                   >
-                    {{ job.JobTitle }} </strong>
+                    {{ job.Title }} </strong>
                   <i
                     *ngIf="job.IsFavourite"
                     style="color: #FFD61D; cursor: pointer;" class="fas fa-heart"></i>
@@ -193,19 +151,18 @@
                      style="font-size: 12px;">
                   <strong
                     title="Job Code"
-                    *ngIf="job.JobCode !== ''"
-                  ><i class="fas fa-paperclip"></i> {{ job.JobCode }} &nbsp;
+                    *ngIf="job.Code !== ''"
+                  ><i class="fas fa-paperclip"></i> {{ job.Code }} &nbsp;
                   </strong>
 
                   <strong
-                    *ngIf="getDepartmentName(job.DepartmentId) !== ''"
                     title="Department"
-                  ><i class="far fa-building"></i> {{ getDepartmentName(job.DepartmentId) }} &nbsp;
+                  ><i class="far fa-building"></i> &nbsp;{{ job.Department.Name }}
                   </strong>
 
                   <strong
                     title="Location"
-                  ><i class="fas fa-map-marker-alt"></i> {{ job.JobLocation }}
+                  ><i class="fas fa-map-marker-alt"></i> {{ job.Location }}
                   </strong>
 
                 </div>
@@ -220,8 +177,8 @@
               <i style="background-color: #eee;
               border-color: #ccc;" class="far fa-square"></i>
               <span
-                style="font-size: 14px;"
-              > Archived</span>
+                style="font-size: 14px;">
+                Archived</span>
 
             </div>
 
@@ -237,15 +194,15 @@
                 </div>
                 <div
                   *ngIf="job.JobClosingDate !== ''
-                && getClosingDays(job.JobClosingDate) > 0"
+                && getClosingDays(job.ClosingDate) > 0"
                   class="row">
                   <div
                     style="
                 font-weight: bold;
                 font-size: 11px;" class="col-xl-12 text-xl-center">
                   <span
-                    matTooltip="Closing in {{ getClosingDays(job.JobClosingDate) }} Days"
-                    matTooltipPosition="after">{{ getClosingDays(job.JobClosingDate) }} days</span>
+                    matTooltip="Closing in {{ getClosingDays(job.ClosingDate) }} Days"
+                    matTooltipPosition="after">{{ getClosingDays(job.ClosingDate) }} days</span>
                   </div>
                 </div>
               </div>
@@ -304,16 +261,11 @@
             </ng-template>
 
 
-
           </div>
-
         </div>
 
 
-
       </ng-template>
-
-
 
 
     </mat-dialog-content>
