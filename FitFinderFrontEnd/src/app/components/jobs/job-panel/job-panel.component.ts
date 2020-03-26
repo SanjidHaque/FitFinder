@@ -22,10 +22,10 @@ import {DialogService} from '../../../services/dialog-services/dialog.service';
 })
 export class JobPanelComponent implements OnInit {
 
-  archivedChecked = false;
-  favouriteChecked = false;
+  archivedSelected = false;
+  favouriteSelected = false;
+  publishedSelected = 'all';
 
-  selectedValue = 'all';
   jobs: Job[] = [];
   selection = new SelectionModel<Job>(true, []);
   departments: Department[] = [];
@@ -38,13 +38,11 @@ export class JobPanelComponent implements OnInit {
 
   ngOnInit() {
     this.route.data
-      .subscribe(
-        (data: Data) => {
+      .subscribe((data: Data) => {
           this.jobs = data['jobs'].jobs;
           this.jobService.jobs = this.jobs;
           this.jobs = this.jobService.getAllJob().filter(x => x.IsArchived === false);
-        }
-      );
+        });
   }
 
 
@@ -52,32 +50,28 @@ export class JobPanelComponent implements OnInit {
     const jobs: Job[] = [];
     jobs.push(job);
     this.jobDataStorageService.favouriteJobs(jobs)
-      .subscribe(
-        (response: any) => {
+      .subscribe((response: any) => {
           for (let i = 0; i < this.jobs.length; i++) {
             if (this.jobs[i].Id === job.Id) {
               this.jobs[i].IsFavourite = true;
             }
           }
           this.notifierService.notify('default', 'Added to favourites.');
-        }
-      );
+        });
   }
 
   unfavouriteJobs(job: Job) {
     const jobs: Job[] = [];
     jobs.push(job);
     this.jobDataStorageService.unfavouriteJobs(jobs)
-      .subscribe(
-        (response: any) => {
+      .subscribe((response: any) => {
           for (let i = 0; i < this.jobs.length; i++) {
             if (this.jobs[i].Id === job.Id) {
               this.jobs[i].IsFavourite = false;
             }
           }
           this.notifierService.notify('default', 'Removed from favourites.');
-        }
-      );
+        });
   }
 
   archiveJobs() {
@@ -146,22 +140,22 @@ export class JobPanelComponent implements OnInit {
       });
   }
 
-  onValueChange(value: string) {
-    this.selectedValue = value;
+  filterByPublishedJob(value: string) {
+    this.publishedSelected = value;
     this.jobs = this.jobService.filterArchivedJob(
-      this.jobs, value, this.archivedChecked, this.favouriteChecked);
+      value, this.archivedSelected, this.favouriteSelected);
   }
 
-  archiveStatus(event: any) {
-    this.archivedChecked = event.checked;
+  filterByArchive(event: any) {
+    this.archivedSelected = event.checked;
     this.jobs = this.jobService.filterArchivedJob(
-      this.jobs, this.selectedValue, this.archivedChecked, this.favouriteChecked);
+      this.publishedSelected, this.archivedSelected, this.favouriteSelected);
   }
 
-  favouriteStatus(event: any) {
-    this.favouriteChecked = event.checked;
+  filterByFavourite(event: any) {
+    this.favouriteSelected = event.checked;
     this.jobs = this.jobService.filterArchivedJob(
-      this.jobs, this.selectedValue, this.archivedChecked, this.favouriteChecked);
+      this.publishedSelected, this.archivedSelected, this.favouriteSelected);
   }
 
   getClosingDays(jobClosingDate: string) {
@@ -177,8 +171,7 @@ export class JobPanelComponent implements OnInit {
   }
 
   masterToggle() {
-    this.isAllSelected() ?
-      this.selection.clear() :
+    this.isAllSelected() ? this.selection.clear() : 
       this.jobs.forEach(row => this.selection.select(row));
   }
 }

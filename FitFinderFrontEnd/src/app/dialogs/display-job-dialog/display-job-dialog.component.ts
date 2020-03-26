@@ -79,6 +79,6 @@ export class DisplayJobDialogComponent implements OnInit {
 
   onValueChange(value: string) {
     this.selectedValue = value;
-   // this.jobs = this.jobService.filterArchivedJob(value, this.archivedChecked, this.favouriteChecked);
+   // this.jobs = this.jobService.filterArchivedJob(value, this.archivedSelected, this.favouriteSelected);
   }
 }
