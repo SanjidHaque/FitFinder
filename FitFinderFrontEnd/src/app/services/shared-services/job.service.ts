@@ -45,5 +45,7 @@ export class JobService {
         return this.jobs.filter(x => x.IsFavourite === true && x.IsPublished === false && x.IsArchived === false);
       }
     }
+
+
   }
 }

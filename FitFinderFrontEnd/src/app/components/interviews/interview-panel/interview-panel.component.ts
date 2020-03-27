@@ -3,13 +3,10 @@ import {Interview} from '../../../models/interview/interview.model';
 import {InterviewDataStorageService} from '../../../services/data-storage-services/interview-data-storage.service';
 import {SelectionModel} from '@angular/cdk/collections';
 import * as moment from 'moment';
-import {ConfirmationDialogComponent} from '../../../dialogs/confirmation-dialog/confirmation-dialog.component';
-import {MatDialog} from '@angular/material';
 import {NotifierService} from 'angular-notifier';
 import {ActivatedRoute, Data} from '@angular/router';
 import {InterviewService} from '../../../services/shared-services/interview.service';
 import {DialogService} from '../../../services/dialog-services/dialog.service';
-
 
 
 @Component({
@@ -21,12 +18,14 @@ import {DialogService} from '../../../services/dialog-services/dialog.service';
 export class InterviewPanelComponent implements OnInit {
   isDisabled = false;
 
+  selectedInterviewType = 'All';
 
-  selectedValue = 'all';
-  interviews: Interview[] = [];
-  all = 'All';
-  selectedDateFormatted = '';
+  selectedInterviewPeriod = 'All';
   selectedDate = '';
+  archivedSelected = false;
+
+  interviews: Interview[] = [];
+  selectedDateFormatted = '';
   selection = new SelectionModel<Interview>(true, []);
   interviewTypes: any = [];
 
@@ -39,7 +38,8 @@ export class InterviewPanelComponent implements OnInit {
   ngOnInit() {
     this.route.data
       .subscribe((data: Data) => {
-          this.interviews = data['interviews'].interviews;
+          this.interviewService.interviews = data['interviews'].interviews;
+          this.interviews = this.interviewService.getAllInterview().filter(x => x.IsArchived == false);
           this.interviewTypes = this.interviewService.getInterviewTypes();
         });
   }
@@ -116,13 +116,23 @@ export class InterviewPanelComponent implements OnInit {
       });
   }
 
-  getDate(selectedDate: string) {
-    const formattedDate = moment(new Date(selectedDate)).format('ddd, Do MMMM, YYYY');
-    this.selectedDateFormatted = formattedDate;
+
+  filterByArchived(event: any) {
+    this.archivedSelected = event.checked;
   }
 
-  onValueChange(value: string) {
-    this.selectedValue = value;
+
+  filterByDate(selectedDate: string) {
+    console.log(selectedDate);
+    this.selectedDateFormatted =
+      moment(new Date(selectedDate)).format('ddd, Do MMMM, YYYY');
+
+    console.log(this.selectedDateFormatted);
+  }
+
+  filterByInterviewPeriod(interviewPeriod: string) {
+    this.selectedInterviewPeriod = interviewPeriod;
+    console.log(interviewPeriod);
   }
 
   isAllSelected() {
@@ -131,8 +141,7 @@ export class InterviewPanelComponent implements OnInit {
     return numSelected === numRows;
   }
 
-  selectValueChanged(value: any) {
-    console.log(value);
+  filterByInterviewType(interviewType: string) {
   }
 
   masterToggle() {

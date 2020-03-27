@@ -13,6 +13,8 @@ import {NotifierService} from 'angular-notifier';
 })
 
 export class InterviewService {
+  interviews: Interview[] = [];
+
   interviewTypes = [
     {Name: 'Face to Face'},
     {Name: 'Telephonic'},
@@ -27,9 +29,9 @@ export class InterviewService {
     {Name: 'Declined'}
   ];
 
-  constructor(private dialogService: DialogService,
-              private notifierService: NotifierService,
-              private interviewDataStorageService: InterviewDataStorageService) {}
+  getAllInterview() {
+    return this.interviews.slice();
+  }
 
   getInterviewTypes() {
     return this.interviewTypes.slice();

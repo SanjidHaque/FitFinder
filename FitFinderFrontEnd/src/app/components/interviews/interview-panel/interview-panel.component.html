@@ -28,10 +28,11 @@
         <mat-button-toggle-group
 
           #group="matButtonToggleGroup"
-          [value]="selectedValue" (change)="onValueChange(group.value)">
-          <mat-button-toggle value="all"> All </mat-button-toggle>
-          <mat-button-toggle value="upcoming"> Upcoming </mat-button-toggle>
-          <mat-button-toggle value="past"> Past </mat-button-toggle>
+          [value]="selectedInterviewPeriod"
+          (change)="filterByInterviewPeriod(group.value)">
+          <mat-button-toggle value="All"> All </mat-button-toggle>
+          <mat-button-toggle value="Upcoming"> Upcoming </mat-button-toggle>
+          <mat-button-toggle value="Past"> Past </mat-button-toggle>
         </mat-button-toggle-group>
       </div>
 
@@ -43,7 +44,9 @@
       font-weight: bold;
       font-size: 14px;">
         Show Archived
-        <mat-slide-toggle color="primary"></mat-slide-toggle>
+        <mat-slide-toggle
+          (change)="filterByArchived($event)"
+          color="primary"></mat-slide-toggle>
       </div>
     </div>
 
@@ -62,8 +65,8 @@
         <mat-form-field appearance="outline" class="interview-type">
 
           <mat-select
-            (selectionChange)="selectValueChanged($event.value)"
-            [(value)]= "all"
+            (selectionChange)="filterByInterviewType($event.value)"
+            [(value)]= "selectedInterviewType"
             style="
             text-align: left;
             font-weight: bold;">
@@ -106,8 +109,8 @@
 
         <mat-calendar
           [selected]="selectedDate"
-          (selectedChange)="selectedDate = $event"
-          (selectedChange)="getDate($event)" >
+          (selectedChange)="[selectedDate = $event, filterByDate(selectedDate)]"
+          >
         </mat-calendar>
 
       </div>

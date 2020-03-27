@@ -24,6 +24,7 @@ import {noWhitespaceValidator} from '../../../custom-form-validators/no-white-sp
 
 export class AddNewInterviewComponent implements OnInit {
   isDisabled = false;
+
   addNewInterviewForm: FormGroup;
   candidateDefaultImage = 'assets/images/defaultImage.png';
 
@@ -57,9 +58,9 @@ export class AddNewInterviewComponent implements OnInit {
   createNewInterviewForm() {
     this.addNewInterviewForm = new FormGroup({
       'date': new FormControl('', [Validators.required]),
-      'name': new FormControl('', noWhitespaceValidator),
+      'name': new FormControl('', [Validators.required, noWhitespaceValidator]),
       'userAccounts': new FormControl('', Validators.required),
-      'location': new FormControl('', noWhitespaceValidator),
+      'location': new FormControl(''),
       'startTime': new FormControl('10:00', Validators.required),
       'endTime': new FormControl('11:30', Validators.required),
       'interviewType': new FormControl('', Validators.required)

@@ -11,7 +11,7 @@
 
   <div class="col-xl-1 pr-xl-1">
     <button
-      [disabled]="!form.valid || isDisabled"
+      [disabled]="form.invalid || isDisabled"
       type="submit"
       style="width: 100%;
       outline: 0;"
@@ -68,6 +68,7 @@
               formControlName="name"
               required
               matInput>
+            <mat-error>You must enter a name!</mat-error>
           </mat-form-field>
         </div>
       </div>
@@ -170,10 +171,6 @@
             <mat-select
               required
               formControlName="interviewType">
-              <mat-option
-                *ngIf="interviewTypes.length == 0">
-                No interview type is available
-              </mat-option>
               <mat-option
                 *ngFor="let interviewType of interviewTypes"
                 [value]="interviewType.Name"> {{ interviewType.Name }} </mat-option>
