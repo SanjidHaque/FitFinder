@@ -7,6 +7,7 @@ import {Interview} from '../../models/interview/interview.model';
 import {DialogService} from '../dialog-services/dialog.service';
 import {InterviewDataStorageService} from '../data-storage-services/interview-data-storage.service';
 import {NotifierService} from 'angular-notifier';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -110,6 +111,43 @@ export class InterviewService {
       interviewersForInterview.push(interviewerForInterview);
     }
     return interviewersForInterview;
+  }
+  
+
+  matchInterviewsByDate(interviews: Interview[], selectedDate: string) {
+    const filteredInterviews: Interview[] = [];
+
+    interviews.forEach(interview => {
+      const formattedDate = moment(new Date(interview.Date))
+        .format('ddd, Do MMMM, YYYY');
+
+      if (formattedDate === selectedDate ) {
+        filteredInterviews.push(interview);
+      }
+    });
+
+    return filteredInterviews;
+  }
+
+  filterByDate(selectedDate: string,
+               archivedSelected: boolean,
+               selectedInterviewType: string) {
+    let interviews = this.interviews;
+
+    if (!archivedSelected) {
+     interviews = interviews.filter(x => x.IsArchived === false);
+    }
+
+    if (selectedDate === '' && selectedInterviewType === 'All') {
+      return interviews;
+    } else if (selectedDate === '' && selectedInterviewType !== 'All') {
+      return interviews.filter(x => x.InterviewType === selectedInterviewType);
+    } else if (selectedDate !== '' && selectedInterviewType === 'All') {
+      return this.matchInterviewsByDate(interviews, selectedDate);
+    } else {
+      return this.matchInterviewsByDate(interviews, selectedDate)
+        .filter(x => x.InterviewType === selectedInterviewType);
+    }
   }
 
 }

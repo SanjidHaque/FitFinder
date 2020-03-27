@@ -18,14 +18,13 @@ import {DialogService} from '../../../services/dialog-services/dialog.service';
 export class InterviewPanelComponent implements OnInit {
   isDisabled = false;
 
-  selectedInterviewType = 'All';
-
   selectedInterviewPeriod = 'All';
+  selectedInterviewType = 'All';
+  selectedDateFormatted = '';
   selectedDate = '';
   archivedSelected = false;
 
   interviews: Interview[] = [];
-  selectedDateFormatted = '';
   selection = new SelectionModel<Interview>(true, []);
   interviewTypes: any = [];
 
@@ -119,21 +118,27 @@ export class InterviewPanelComponent implements OnInit {
 
   filterByArchived(event: any) {
     this.archivedSelected = event.checked;
+    this.interviews = this.interviewService
+      .filterByDate(this.selectedDate, this.archivedSelected, this.selectedInterviewType);
   }
 
 
-  filterByDate(selectedDate: string) {
-    console.log(selectedDate);
-    this.selectedDateFormatted =
-      moment(new Date(selectedDate)).format('ddd, Do MMMM, YYYY');
-
-    console.log(this.selectedDateFormatted);
+  filterByDate(selectedDate: any) {
+   this.selectedDateFormatted = moment(new Date(selectedDate)).format('ddd, Do MMMM, YYYY');
+   this.interviews = this.interviewService
+     .filterByDate(this.selectedDateFormatted, this.archivedSelected, this.selectedInterviewType);
   }
 
-  filterByInterviewPeriod(interviewPeriod: string) {
+
+  filterByInterviewType(interviewType: string) {
+    this.selectedInterviewType = interviewType;
+    this.interviews = this.interviewService
+      .filterByDate(this.selectedDate, this.archivedSelected, this.selectedInterviewType);
+  }
+
+  filterByInterviewPeriod(interviewPeriod: any) {
     this.selectedInterviewPeriod = interviewPeriod;
-    console.log(interviewPeriod);
-  }
+   }
 
   isAllSelected() {
     const numSelected = this.selection.selected.length;
@@ -141,8 +146,6 @@ export class InterviewPanelComponent implements OnInit {
     return numSelected === numRows;
   }
 
-  filterByInterviewType(interviewType: string) {
-  }
 
   masterToggle() {
     this.isAllSelected() ?
