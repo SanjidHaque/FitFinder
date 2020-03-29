@@ -2,23 +2,29 @@
 
 <div class="row">
 
-  <div class="col-xl-10">
+  <div class="col-xl-3">
     <h3>Interviews</h3>
   </div>
 
-  <div class="col-xl-2">
+  <div class="col-xl-9">
     <button
       routerLink = "/interviews/add-new-interview"
-      style="width: 100%;
+      style="
       outline: 0;"
       color="primary"
-      mat-raised-button><i class="fas fa-plus"></i> New Interview</button>
+      mat-stroked-button><i class="fas fa-plus"></i> New</button>&nbsp;
+    <button
+      *ngIf="isFilterTouched"
+      (click)="resetAllFilter()"
+      style="
+      outline: 0;"
+      mat-stroked-button>Reset</button>
   </div>
 
 </div>
 
 
-<div class="row">
+<div class="row" style="padding-top: 10px;">
 
   <div class="col-xl-3">
 
