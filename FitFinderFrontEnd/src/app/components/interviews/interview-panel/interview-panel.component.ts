@@ -40,7 +40,12 @@ export class InterviewPanelComponent implements OnInit {
           this.interviewService.interviews = data['interviews'].interviews;
           this.interviews = this.interviewService.getAllInterview().filter(x => x.IsArchived == false);
           this.interviewTypes = this.interviewService.getInterviewTypes();
-        });
+
+
+
+
+
+      });
   }
 
 
@@ -119,7 +124,7 @@ export class InterviewPanelComponent implements OnInit {
   filterByArchived(event: any) {
     this.archivedSelected = event.checked;
     this.interviews = this.interviewService
-      .filterByDate(this.selectedDate, this.archivedSelected, this.selectedInterviewType);
+      .filterByDate(this.selectedDateFormatted, this.archivedSelected, this.selectedInterviewType);
   }
 
 
@@ -133,11 +138,40 @@ export class InterviewPanelComponent implements OnInit {
   filterByInterviewType(interviewType: string) {
     this.selectedInterviewType = interviewType;
     this.interviews = this.interviewService
-      .filterByDate(this.selectedDate, this.archivedSelected, this.selectedInterviewType);
+      .filterByDate(this.selectedDateFormatted, this.archivedSelected, this.selectedInterviewType);
   }
 
   filterByInterviewPeriod(interviewPeriod: any) {
-    this.selectedInterviewPeriod = interviewPeriod;
+    this.selectedDateFormatted = '';
+    this.selectedDate = null;
+    this.selectedInterviewType = 'All';
+
+    this.interviewService.filterByInterviewPeriod(interviewPeriod, this.archivedSelected);
+
+
+    // const interviewStartTime = this.interviews[1].StartTime;
+    //
+    // const interviewStartTimeWithoutAmPm =  interviewStartTime
+    //   .substr(0, 5);
+    //
+    // console.log(interviewStartTimeWithoutAmPm);
+    //
+    // const getAmPm = interviewStartTime
+    //   .substr(6, interviewStartTime.length);
+    //
+    // console.log(getAmPm);
+    //
+    // const interviewStartTimeWithDate = new Date(new Date(this.interviews[1].Date)
+    //   .toDateString() + ' ' + interviewStartTimeWithoutAmPm);
+    //
+    // console.log(interviewStartTimeWithDate);
+    //
+    //
+    // const now = new Date();
+    // console.log(now);
+    //
+    // console.log(moment(now).isBefore(interviewStartTimeWithDate));
+
    }
 
   isAllSelected() {

@@ -129,11 +129,11 @@ export class InterviewService {
     return filteredInterviews;
   }
 
-  filterByDate(selectedDate: string,
+  filterByDate(selectedDate: any,
                archivedSelected: boolean,
                selectedInterviewType: string) {
-    let interviews = this.interviews;
 
+    let interviews = this.interviews;
     if (!archivedSelected) {
      interviews = interviews.filter(x => x.IsArchived === false);
     }
@@ -148,6 +148,28 @@ export class InterviewService {
       return this.matchInterviewsByDate(interviews, selectedDate)
         .filter(x => x.InterviewType === selectedInterviewType);
     }
+  }
+
+
+  filterByInterviewPeriod(selectedInterviewPeriod: string, archivedSelected: boolean) {
+
+    let interviews = this.interviews;
+    if (!archivedSelected) {
+      interviews = interviews.filter(x => x.IsArchived === false);
+    }
+
+
+
+
+    const startTimeIn24HourFormat  = this
+      .getTimeIn24HourFormat(this.interviews[1].StartTime);
+
+
+
+    const interviewStartTimeWithDate = new Date(new Date(this.interviews[1].Date)
+      .toDateString() + ' ' + startTimeIn24HourFormat);
+
+    console.log(moment(new Date()).isBefore(interviewStartTimeWithDate));
   }
 
 }
