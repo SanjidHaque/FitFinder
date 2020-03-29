@@ -61,9 +61,11 @@ export class InterviewService {
   }
 
   getTimeIn24HourFormat(time: string) {
-    let hours = Number.parseInt(time.slice(0, 2), 10);
-    const minutes = time.slice(3, 5);
-    const format = time.slice(6, 8);
+    let hours = Number.parseInt(time.substr(0, time.indexOf(':')), 10);
+    const timeWithoutFormat = time.split(' ')[0];
+    const minutes = timeWithoutFormat.substr((timeWithoutFormat.indexOf(':') + 1), timeWithoutFormat.length);
+    const format = time.split(' ')[1];
+
     let newTime;
 
     if (format === 'AM') {
@@ -74,6 +76,12 @@ export class InterviewService {
     }
 
     return newTime;
+
+    // console.log(hours);
+    // console.log(minutes);
+    // console.log(format);
+    // console.log(newTime);
+
   }
 
 
@@ -131,22 +139,27 @@ export class InterviewService {
 
   filterByDate(selectedDate: any,
                archivedSelected: boolean,
-               selectedInterviewType: string) {
+               selectedInterviewType: string,
+               selectedInterviewPeriod: string) {
 
-    let interviews = this.interviews;
-    if (!archivedSelected) {
-     interviews = interviews.filter(x => x.IsArchived === false);
-    }
-
-    if (selectedDate === '' && selectedInterviewType === 'All') {
-      return interviews;
-    } else if (selectedDate === '' && selectedInterviewType !== 'All') {
-      return interviews.filter(x => x.InterviewType === selectedInterviewType);
-    } else if (selectedDate !== '' && selectedInterviewType === 'All') {
-      return this.matchInterviewsByDate(interviews, selectedDate);
+    if (selectedInterviewPeriod === 'Past' || selectedInterviewPeriod === 'Upcoming') {
+      return this.filterByInterviewPeriod(selectedInterviewPeriod, archivedSelected);
     } else {
-      return this.matchInterviewsByDate(interviews, selectedDate)
-        .filter(x => x.InterviewType === selectedInterviewType);
+      let interviews = this.interviews;
+      if (!archivedSelected) {
+        interviews = interviews.filter(x => x.IsArchived === false);
+      }
+
+      if (selectedDate === '' && selectedInterviewType === 'All') {
+        return interviews;
+      } else if (selectedDate === '' && selectedInterviewType !== 'All') {
+        return interviews.filter(x => x.InterviewType === selectedInterviewType);
+      } else if (selectedDate !== '' && selectedInterviewType === 'All') {
+        return this.matchInterviewsByDate(interviews, selectedDate);
+      } else {
+        return this.matchInterviewsByDate(interviews, selectedDate)
+          .filter(x => x.InterviewType === selectedInterviewType);
+      }
     }
   }
 
@@ -158,18 +171,31 @@ export class InterviewService {
       interviews = interviews.filter(x => x.IsArchived === false);
     }
 
+    const pastInterviews: Interview[] = [];
+    const upcomingInterviews: Interview[] = [];
 
+    interviews.forEach(interview => {
 
+      const startTimeIn24HourFormat  = this
+        .getTimeIn24HourFormat(interview.StartTime);
 
-    const startTimeIn24HourFormat  = this
-      .getTimeIn24HourFormat(this.interviews[1].StartTime);
+      const interviewStartTimeWithDate = new Date(new Date(interview.Date)
+        .toDateString() + ' ' + startTimeIn24HourFormat);
 
+      if (moment(new Date()).isBefore(interviewStartTimeWithDate)) {
+        upcomingInterviews.push(interview);
+      } else {
+        pastInterviews.push(interview);
+      }
 
+    });
 
-    const interviewStartTimeWithDate = new Date(new Date(this.interviews[1].Date)
-      .toDateString() + ' ' + startTimeIn24HourFormat);
-
-    console.log(moment(new Date()).isBefore(interviewStartTimeWithDate));
+    if (selectedInterviewPeriod === 'Upcoming') {
+      return upcomingInterviews;
+    } else if (selectedInterviewPeriod === 'Past') {
+      return pastInterviews;
+    } else {
+      return interviews;
+    }
   }
-
 }

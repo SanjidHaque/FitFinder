@@ -18,10 +18,14 @@ import {DialogService} from '../../../services/dialog-services/dialog.service';
 export class InterviewPanelComponent implements OnInit {
   isDisabled = false;
 
-  selectedInterviewPeriod = 'All';
+  AllInterviews = 'All';
+  upcomingInterviews = 'Upcoming';
+  pastInterviews = 'Past';
+  selectedInterviewPeriod = this.AllInterviews;
+
   selectedInterviewType = 'All';
   selectedDateFormatted = '';
-  selectedDate = '';
+  selectedDate = null;
   archivedSelected = false;
 
   interviews: Interview[] = [];
@@ -41,10 +45,10 @@ export class InterviewPanelComponent implements OnInit {
           this.interviews = this.interviewService.getAllInterview().filter(x => x.IsArchived == false);
           this.interviewTypes = this.interviewService.getInterviewTypes();
 
-
-
-
-
+          // this.interviewService.getTimeIn24HourFormat('4:15 PM');
+          // this.interviewService.getTimeIn24HourFormat('4:15 AM');
+          // this.interviewService.getTimeIn24HourFormat('11:15 AM');
+          // this.interviewService.getTimeIn24HourFormat('11:15 PM');
       });
   }
 
@@ -124,54 +128,47 @@ export class InterviewPanelComponent implements OnInit {
   filterByArchived(event: any) {
     this.archivedSelected = event.checked;
     this.interviews = this.interviewService
-      .filterByDate(this.selectedDateFormatted, this.archivedSelected, this.selectedInterviewType);
+      .filterByDate(
+        this.selectedDateFormatted,
+        this.archivedSelected,
+        this.selectedInterviewType,
+        this.selectedInterviewPeriod
+      );
   }
 
 
   filterByDate(selectedDate: any) {
    this.selectedDateFormatted = moment(new Date(selectedDate)).format('ddd, Do MMMM, YYYY');
+   this.selectedInterviewPeriod = this.AllInterviews;
    this.interviews = this.interviewService
-     .filterByDate(this.selectedDateFormatted, this.archivedSelected, this.selectedInterviewType);
+     .filterByDate(
+       this.selectedDateFormatted,
+       this.archivedSelected,
+       this.selectedInterviewType,
+       this.selectedInterviewPeriod
+     );
   }
 
 
   filterByInterviewType(interviewType: string) {
     this.selectedInterviewType = interviewType;
+    this.selectedInterviewPeriod = this.AllInterviews;
     this.interviews = this.interviewService
-      .filterByDate(this.selectedDateFormatted, this.archivedSelected, this.selectedInterviewType);
+      .filterByDate(
+        this.selectedDateFormatted,
+        this.archivedSelected,
+        this.selectedInterviewType,
+        this.selectedInterviewPeriod
+      );
   }
 
   filterByInterviewPeriod(interviewPeriod: any) {
     this.selectedDateFormatted = '';
     this.selectedDate = null;
     this.selectedInterviewType = 'All';
-
-    this.interviewService.filterByInterviewPeriod(interviewPeriod, this.archivedSelected);
-
-
-    // const interviewStartTime = this.interviews[1].StartTime;
-    //
-    // const interviewStartTimeWithoutAmPm =  interviewStartTime
-    //   .substr(0, 5);
-    //
-    // console.log(interviewStartTimeWithoutAmPm);
-    //
-    // const getAmPm = interviewStartTime
-    //   .substr(6, interviewStartTime.length);
-    //
-    // console.log(getAmPm);
-    //
-    // const interviewStartTimeWithDate = new Date(new Date(this.interviews[1].Date)
-    //   .toDateString() + ' ' + interviewStartTimeWithoutAmPm);
-    //
-    // console.log(interviewStartTimeWithDate);
-    //
-    //
-    // const now = new Date();
-    // console.log(now);
-    //
-    // console.log(moment(now).isBefore(interviewStartTimeWithDate));
-
+    this.selectedInterviewPeriod = interviewPeriod;
+    this.interviews = this.interviewService
+      .filterByInterviewPeriod(interviewPeriod, this.archivedSelected);
    }
 
   isAllSelected() {
