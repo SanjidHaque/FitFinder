@@ -50,7 +50,6 @@ export class InterviewPanelComponent implements OnInit {
       });
   }
 
-
   archiveInterviews() {
     this.dialogService.confirmationDialog(
       'Archive Interviews',
@@ -63,22 +62,30 @@ export class InterviewPanelComponent implements OnInit {
     ).afterClosed().subscribe(result => {
       if (result.confirmationStatus) {
 
-        let interviews: Interview[] = [];
-        interviews = this.selection.selected;
+        let interviews: Interview[] = this.selection.selected;
+        interviews = interviews.filter(x => x.IsArchived === false);
+
+        if (interviews.length === 0) {
+          this.notifierService.notify('default', 'Already archived!');
+          return;
+        }
 
         this.isDisabled = true;
         this.interviewDataStorageService.archiveInterviews(interviews)
           .subscribe((response: any) => {
-
             this.isDisabled = false;
 
-            for (let i = 0; i < this.interviews.length; i++) {
-              for (let j = 0; j < interviews.length; j++) {
-                if (this.interviews[i].Id === interviews[j].Id) {
-                  this.interviews.splice(j, 1);
+            if (!this.archivedSelected) {
+              for (let i = 0; i < this.interviews.length; i++) {
+                for (let j = 0; j < interviews.length; j++) {
+                  if (this.interviews[i].Id === interviews[j].Id) {
+                    this.interviews.splice(j, 1);
+                  }
                 }
               }
             }
+
+            this.interviewService.archiveInterviews(interviews);
 
             this.selection.clear();
             this.notifierService.notify('default', 'Archived successfully!');
@@ -99,15 +106,19 @@ export class InterviewPanelComponent implements OnInit {
     ).afterClosed().subscribe(result => {
       if (result.confirmationStatus) {
 
-        let interviews: Interview[] = [];
-        interviews = this.selection.selected;
+        let interviews: Interview[] = this.selection.selected;
+        interviews = interviews.filter(x => x.IsArchived === true);
+
+        if (interviews.length === 0) {
+          this.notifierService.notify('default', 'Already restored!');
+          return;
+        }
 
         this.isDisabled = true;
         this.interviewDataStorageService.restoreInterviews(interviews)
           .subscribe((response: any) => {
 
             this.isDisabled = false;
-
             for (let i = 0; i < this.interviews.length; i++) {
               for (let j = 0; j < interviews.length; j++) {
                 if (this.interviews[i].Id === interviews[j].Id) {
@@ -173,6 +184,7 @@ export class InterviewPanelComponent implements OnInit {
 
   resetAllFilter() {
     this.isFilterTouched = false;
+    this.archivedSelected = false;
     this.clearFilter();
     this.interviews = this.interviewService.getAllInterview()
       .filter(x => x.IsArchived === false);
@@ -208,6 +220,4 @@ export class InterviewPanelComponent implements OnInit {
   getInterviewYear(interview: Interview) {
     return moment(new Date(interview.Date)).format('YYYY');
   }
-
-
 }

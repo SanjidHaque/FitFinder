@@ -198,4 +198,13 @@ export class InterviewService {
       return interviews;
     }
   }
+
+  archiveInterviews(interviews: Interview[]) {
+    this.interviews.forEach(interview => {
+      const getInterview = interviews.find(x => x.Id === interview.Id);
+      if (getInterview !== undefined) {
+        getInterview.IsArchived = true;
+      }
+    });
+  }
 }

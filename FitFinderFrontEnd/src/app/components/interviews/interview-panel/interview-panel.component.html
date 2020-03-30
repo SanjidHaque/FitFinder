@@ -52,6 +52,7 @@
       font-size: 14px;">
         Show Archived
         <mat-slide-toggle
+           [checked]="archivedSelected"
           (change)="filterByArchived($event)"
           color="primary"></mat-slide-toggle>
       </div>
