@@ -86,7 +86,6 @@ export class InterviewPanelComponent implements OnInit {
             }
 
             this.interviewService.archiveInterviews(interviews);
-
             this.selection.clear();
             this.notifierService.notify('default', 'Archived successfully!');
           });
@@ -126,6 +125,8 @@ export class InterviewPanelComponent implements OnInit {
                 }
               }
             }
+
+            this.interviewService.restoreInterviews(interviews);
             this.selection.clear();
             this.notifierService.notify('default', 'Restored successfully!');
           });

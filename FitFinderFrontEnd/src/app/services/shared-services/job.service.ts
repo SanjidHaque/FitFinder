@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import {Job} from '../../models/job/job.model';
+import {Interview} from '../../models/interview/interview.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,39 +14,45 @@ export class JobService {
     return this.jobs.slice();
   }
 
-  filterArchivedJob(publishedSelected: string, archivedSelected: boolean,
+  filterArchivedJob(publishedSelected: string,
+                    archivedSelected: boolean,
                     favouriteSelected: boolean) {
 
-    if (archivedSelected) {
-      if (!favouriteSelected && publishedSelected === 'all') {
-        return this.jobs;
-      } else if (favouriteSelected && publishedSelected === 'all') {
-        return this.jobs.filter(x => x.IsFavourite === true);
-      } else if (!favouriteSelected && publishedSelected === 'published') {
-        return this.jobs.filter(x => x.IsPublished === true);
-      } else if (favouriteSelected && publishedSelected === 'published') {
-        return this.jobs.filter(x => x.IsFavourite === true && x.IsPublished === true );
-      } else if (!favouriteSelected && publishedSelected === 'internal') {
-        return this.jobs.filter(x => x.IsPublished === false);
-      } else {
-        return this.jobs.filter(x => x.IsFavourite === true && x.IsPublished === false);
-      }
-    } else {
-      if (!favouriteSelected && publishedSelected === 'all') {
-        return this.jobs.filter( x => x.IsArchived === false);
-      } else if (favouriteSelected && publishedSelected === 'all') {
-        return this.jobs.filter(x => x.IsFavourite === true && x.IsArchived === false);
-      } else if (!favouriteSelected && publishedSelected === 'published') {
-        return this.jobs.filter(x => x.IsPublished === true && x.IsArchived === false);
-      } else if (favouriteSelected && publishedSelected === 'published') {
-        return this.jobs.filter(x => x.IsFavourite === true && x.IsPublished === true && x.IsArchived === false);
-      } else if (!favouriteSelected && publishedSelected === 'internal') {
-        return this.jobs.filter(x => x.IsPublished === false && x.IsArchived === false);
-      } else {
-        return this.jobs.filter(x => x.IsFavourite === true && x.IsPublished === false && x.IsArchived === false);
-      }
+    let jobs = this.jobs;
+    if (!archivedSelected) {
+      jobs = jobs.filter(x => x.IsArchived === false);
+    }
+    if (favouriteSelected) {
+      jobs = jobs.filter(x => x.IsFavourite === true);
     }
 
+    if (publishedSelected === 'published') {
+      return jobs.filter(x => x.IsPublished === true);
+    } else if (publishedSelected === 'internal') {
+      return jobs.filter(x => x.IsPublished === false);
+    } else {
+      return jobs;
+    }
 
   }
+
+  archiveJobs(jobs: Job[]) {
+    this.jobs.forEach(job => {
+      const getJob = jobs.find(x => x.Id === job.Id);
+      if (getJob !== undefined) {
+        getJob.IsArchived = true;
+      }
+    });
+  }
+
+  restoreJobs(jobs: Job[]) {
+    this.jobs.forEach(job => {
+      const getJob = jobs.find(x => x.Id === job.Id);
+      if (getJob !== undefined) {
+        getJob.IsArchived = false;
+      }
+    });
+  }
+
+
 }

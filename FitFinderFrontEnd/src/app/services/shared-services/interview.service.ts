@@ -76,12 +76,6 @@ export class InterviewService {
     }
 
     return newTime;
-
-    // console.log(hours);
-    // console.log(minutes);
-    // console.log(format);
-    // console.log(newTime);
-
   }
 
 
@@ -204,6 +198,15 @@ export class InterviewService {
       const getInterview = interviews.find(x => x.Id === interview.Id);
       if (getInterview !== undefined) {
         getInterview.IsArchived = true;
+      }
+    });
+  }
+
+  restoreInterviews(interviews: Interview[]) {
+    this.interviews.forEach(interview => {
+      const getInterview = interviews.find(x => x.Id === interview.Id);
+      if (getInterview !== undefined) {
+        getInterview.IsArchived = false;
       }
     });
   }
