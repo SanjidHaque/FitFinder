@@ -48,7 +48,7 @@
     <div class="col-xl-3 text-xl-center">
       <button
         (click)="deleteJob()"
-        [disabled]="isDisabled"
+       [disabled]="isDisabled"
         style="background-color: transparent; outline: 0; width: 100%"
         mat-flat-button><i class="far fa-trash-alt"></i> Delete</button>
     </div>
@@ -436,44 +436,44 @@
 
                 {{ pipelineStage.Name }}
 
-                <!--<i-->
-                  <!--*ngIf="pipeline.Name !== 'HIRED' && pipeline.Name !== 'REJECTED'"-->
-                  <!--(click)="addNewPipelineStageCriterion(pipelineStage)"-->
-                  <!--matTooltip="Add a new pipelineStageCriterion"-->
-                  <!--matTooltipPosition="right"-->
-                  <!--style="cursor: pointer; font-size: 13px;"-->
-                  <!--class="fas fa-plus-circle"></i>-->
+                <i
+                  *ngIf="pipeline.Name !== 'HIRED' && pipeline.Name !== 'REJECTED'"
+                  (click)="addNewPipelineStageCriterion(pipelineStage)"
+                  matTooltip="Add new criterion"
+                  matTooltipPosition="right"
+                  style="cursor: pointer; font-size: 13px;"
+                  class="fas fa-plus-circle"></i>
 
               </span>
 
               <div class="row"
                    style="padding-left: 30px; padding-top: 5px; padding-bottom: 5px;"
-                   *ngFor="let pipelineStageCriteria of pipelineStage.PipelineStageCriteria; let i = index">
+                   *ngFor="let pipelineStageCriterion of pipelineStage.PipelineStageCriteria; let i = index">
                 <div class="col-xl-12">
 
                   <span style="font-size: 14px;">
 
                      <i class="far fa-check-circle"></i>
-                    {{ pipelineStageCriteria.Name }} &nbsp;
+                    {{ pipelineStageCriterion.Name }} &nbsp;
 
-                    <!--<i-->
-                      <!--(click)="editPipelineStageCriterion(pipelineStageCriterion)"-->
-                      <!--*ngIf="pipelineStageCriterion.Id === null"-->
-                      <!--style="-->
-                      <!--cursor: pointer;-->
-                      <!--opacity: .8;-->
-                      <!--pipelineStageColor: #345188;-->
-                      <!--font-size: 14px;"-->
-                      <!--class="fas fa-pencil-alt"></i>&nbsp;-->
+                    <i
+                      (click)="editPipelineStageCriterion(pipelineStageCriterion)"
+                      *ngIf="pipelineStageCriterion.JobId !== null"
+                      style="
+                      cursor: pointer;
+                      opacity: .8;
+                      color: #345188;
+                      font-size: 14px;"
+                      class="fas fa-pencil-alt"></i>&nbsp;
 
-                    <!--<i-->
-                      <!--(click)="deletePipelineStageCriterion(pipelineStage, i)"-->
-                      <!--*ngIf="pipelineStageCriterion.Id === null"-->
-                      <!--style="cursor: pointer;-->
-                      <!--opacity: .8;-->
-                      <!--pipelineStageColor: #bc0000;-->
-                      <!--font-size: 14px;"-->
-                      <!--class="far fa-trash-alt"></i>-->
+                    <i
+                      (click)="deletePipelineStageCriterion(pipelineStage, pipelineStageCriterion.Id, i)"
+                      *ngIf="pipelineStageCriterion.JobId !== null"
+                      style="cursor: pointer;
+                      opacity: .8;
+                      color: #bc0000;
+                      font-size: 14px;"
+                      class="far fa-trash-alt"></i>
 
                   </span>
 

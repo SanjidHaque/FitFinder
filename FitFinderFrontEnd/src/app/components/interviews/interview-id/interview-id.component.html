@@ -389,10 +389,11 @@
 
                   <button
                     [disabled]="isDisabled"
+                    matTooltip="Remove"
                     (click)="removeCandidatesFromInterview(i, candidateForInterview.Id)"
-                    style="cursor: pointer; outline: 0;"
+                    style="outline: 0;"
                     mat-flat-button>
-                    <i matTooltip="Remove" class="fas fa-times"></i>
+                    <i class="fas fa-times"></i>
                   </button>
 
                 </div>

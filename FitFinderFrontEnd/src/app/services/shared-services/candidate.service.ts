@@ -14,7 +14,7 @@ export class CandidateService {
   }
 
   filterByArchived(archivedSelected: boolean, favouriteSelected: boolean) {
-    const candidates = this.candidates;
+    let candidates = this.candidates;
 
     if (!archivedSelected) {
       candidates = candidates.filter(x => x.IsArchived === false);

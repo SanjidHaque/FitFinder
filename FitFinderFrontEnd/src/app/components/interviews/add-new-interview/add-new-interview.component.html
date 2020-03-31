@@ -288,8 +288,13 @@
 
                   <div class="col-xl-1">
 
-                    <i (click)="removeCandidatesFromInterview(i)"
-                       style="cursor: pointer;" matTooltip="Remove" class="fas fa-times"></i>
+                    <button
+                      matTooltip="Remove"
+                      (click)="removeCandidatesFromInterview(i)"
+                      style="outline: 0;"
+                      mat-flat-button>
+                      <i class="fas fa-times"></i>
+                    </button>
 
                   </div>
 

@@ -15,6 +15,8 @@ import {ActivatedRoute, Data, Router} from '@angular/router';
 import {JobService} from '../../../../services/shared-services/job.service';
 import {DialogService} from '../../../../services/dialog-services/dialog.service';
 import {SettingsService} from '../../../../services/shared-services/settings.service';
+import {PipelineStageCriterion} from '../../../../models/settings/pipeline-stage-criterion.model';
+import {PipelineStage} from '../../../../models/settings/pipeline-stage.model';
 
 @Component({
   selector: 'app-job-info',
@@ -160,6 +162,107 @@ export class JobInfoComponent implements OnInit {
       }).catch();
   }
 
+
+  addNewPipelineStageCriterion(pipelineStage: PipelineStage) {
+    this.settingsService.addNewPipelineStageCriterion().then(result => {
+
+      if (result !== '') {
+        const pipelineStageCriterion = new PipelineStageCriterion(
+          null,
+          result,
+          null,
+          pipelineStage.Id,
+          null,
+          this.job.Id
+        );
+
+        this.settingsDataStorageService
+          .addNewPipelineStageCriterion(pipelineStageCriterion)
+          .subscribe(
+            (data: any) => {
+
+              if (data.statusText !== 'Success') {
+                this.notifierService.notify('default', data.statusText);
+              } else {
+
+                if (pipelineStage.PipelineStageCriteria === null) {
+                  pipelineStage.PipelineStageCriteria = [];
+                }
+
+                pipelineStage.PipelineStageCriteria.push(data.pipelineStageCriterion);
+                console.log(data.pipelineStageCriterion);
+                this.notifierService
+                  .notify('default', 'New pipeline stage criterion added.');
+
+              }
+            });
+      }
+    });
+  }
+
+
+  editPipelineStageCriterion(pipelineStageCriterion: PipelineStageCriterion) {
+    this.settingsService.editPipelineStageCriterion(pipelineStageCriterion.Name)
+      .then(result => {
+
+        this.isDisabled = true;
+
+        if (result !== '' && result !== pipelineStageCriterion.Name) {
+
+          const editPipelineStageCriterion = new PipelineStageCriterion(
+            pipelineStageCriterion.Id,
+            result,
+            null,
+            pipelineStageCriterion.PipelineStageId,
+            null,
+            null
+          );
+
+          this.settingsDataStorageService
+            .editPipelineStageCriterion(editPipelineStageCriterion)
+            .subscribe((data: any) => {
+
+              this.isDisabled = false;
+              if (data.statusText !== 'Success') {
+                this.notifierService.notify('default', data.statusText);
+              } else {
+                pipelineStageCriterion.Name = result;
+                this.notifierService
+                  .notify('default', 'Pipeline stage criterion updated successfully.');
+              }
+            });
+        }
+      });
+  }
+
+
+  deletePipelineStageCriterion(pipelineStage: PipelineStage,
+                               pipelineStageCriterionId: number,
+                               index: number) {
+    this.isDisabled = true;
+    this.settingsService.deleteResource('Delete Pipeline Stage Criterion')
+      .then(result => {
+
+        if (result.confirmationStatus) {
+
+          this.settingsDataStorageService
+            .deletePipelineStageCriterion(pipelineStageCriterionId)
+            .subscribe((data: any) => {
+
+                this.isDisabled = false;
+
+                if (data.statusText !== 'Success') {
+                  this.notifierService.notify('default', data.statusText);
+                } else {
+                  pipelineStage.PipelineStageCriteria.splice(index, 1);
+                  this.notifierService
+                    .notify('default', 'Pipeline stage criterion deleted successfully.');
+                }
+              });
+        }
+      }).catch();
+  }
+
   getJobDescription() {
     document.getElementById('job-description').innerHTML = this.job.Description;
   }
@@ -214,14 +317,11 @@ export class JobInfoComponent implements OnInit {
   }
 
 
-
   getClosingDays() {
     const today = new Date();
     const closingDate = moment(new Date(this.job.ClosingDate));
     return Math.ceil(closingDate.diff(today, 'days', true));
-
   }
-
 
 
   getCreatedDate() {
@@ -231,5 +331,4 @@ export class JobInfoComponent implements OnInit {
   getClosingDate() {
     return moment(new Date(this.job.ClosingDate)).format('Do MMM YYYY')
   }
-
 }

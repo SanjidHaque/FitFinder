@@ -15,7 +15,15 @@
   outline: 0!important;
   justify-content: left!important;
 }
-
+.disable-icon {
+  pointer-events: none;
+  opacity: .5;
+  font-size: 13px;
+}
+.enable-icon {
+  cursor: pointer;
+  font-size: 13px;
+}
 
 .criteria.rating {
   outline: 0!important;
