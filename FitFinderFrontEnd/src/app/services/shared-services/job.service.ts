@@ -14,9 +14,9 @@ export class JobService {
     return this.jobs.slice();
   }
 
-  filterArchivedJob(publishedSelected: string,
-                    archivedSelected: boolean,
-                    favouriteSelected: boolean) {
+  filterByArchived(publishedSelected: string,
+                   archivedSelected: boolean,
+                   favouriteSelected: boolean) {
 
     let jobs = this.jobs;
     if (!archivedSelected) {

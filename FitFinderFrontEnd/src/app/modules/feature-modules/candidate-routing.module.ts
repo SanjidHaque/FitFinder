@@ -34,7 +34,6 @@ const candidateRoutes: Routes = [
         resolve:
           {
             jobs: JobsResolverService,
-            sources: SourcesResolverService,
             candidates: CandidatesResolverService
           }
       },

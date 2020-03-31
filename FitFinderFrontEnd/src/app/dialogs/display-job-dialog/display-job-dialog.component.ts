@@ -36,19 +36,19 @@ export class DisplayJobDialogComponent implements OnInit {
   filterByArchived(event: any) {
     this.archivedSelected = event.checked;
     this.jobs = this.jobService
-      .filterArchivedJob(this.publishedSelected, this.archivedSelected, this.favouriteSelected);
+      .filterByArchived(this.publishedSelected, this.archivedSelected, this.favouriteSelected);
   }
 
   filterByFavourite(event: any) {
     this.favouriteSelected = event.checked;
     this.jobs = this.jobService
-      .filterArchivedJob(this.publishedSelected, this.archivedSelected, this.favouriteSelected);
+      .filterByArchived(this.publishedSelected, this.archivedSelected, this.favouriteSelected);
   }
 
   filterByPublished(value: string) {
     this.publishedSelected = value;
     this.jobs = this.jobService
-      .filterArchivedJob(value, this.archivedSelected, this.favouriteSelected);
+      .filterByArchived(value, this.archivedSelected, this.favouriteSelected);
   }
 
   getClosingDays(jobClosingDate: string) {

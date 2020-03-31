@@ -42,7 +42,8 @@ export class JobPanelComponent implements OnInit {
     this.route.data
       .subscribe((data: Data) => {
         this.jobService.jobs = data['jobs'].jobs;
-        this.jobs = this.jobService.getAllJob().filter(x => x.IsArchived === false);
+        this.jobs = this.jobService.getAllJob()
+          .filter(x => x.IsArchived === false);
       });
   }
 
@@ -98,8 +99,7 @@ export class JobPanelComponent implements OnInit {
 
           this.isDisabled = true;
           this.jobDataStorageService.archiveJobs(jobs)
-            .subscribe(
-              (response: any) => {
+            .subscribe((response: any) => {
                 this.isDisabled = false;
 
                 if (!this.archivedSelected) {
@@ -174,21 +174,21 @@ export class JobPanelComponent implements OnInit {
   filterByPublished(value: string) {
     this.isFilterTouched = true;
     this.publishedSelected = value;
-    this.jobs = this.jobService.filterArchivedJob(
+    this.jobs = this.jobService.filterByArchived(
       value, this.archivedSelected, this.favouriteSelected);
   }
 
   filterByArchived(event: any) {
     this.isFilterTouched = true;
     this.archivedSelected = event.checked;
-    this.jobs = this.jobService.filterArchivedJob(
+    this.jobs = this.jobService.filterByArchived(
       this.publishedSelected, this.archivedSelected, this.favouriteSelected);
   }
 
   filterByFavourite(event: any) {
     this.isFilterTouched = true;
     this.favouriteSelected = event.checked;
-    this.jobs = this.jobService.filterArchivedJob(
+    this.jobs = this.jobService.filterByArchived(
       this.publishedSelected, this.archivedSelected, this.favouriteSelected);
   }
 

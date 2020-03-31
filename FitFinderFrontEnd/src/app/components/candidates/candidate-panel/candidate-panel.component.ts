@@ -3,15 +3,13 @@ import {Candidate} from '../../../models/candidate/candidate.model';
 import {CandidateDataStorageService} from '../../../services/data-storage-services/candidate-data-storage.service';
 import {SelectionModel} from '@angular/cdk/collections';
 import {Job} from '../../../models/job/job.model';
-import {JobDataStorageService} from '../../../services/data-storage-services/job-data-storage.service';
 import * as moment from 'moment';
-import {SettingsDataStorageService} from '../../../services/data-storage-services/settings-data-storage.service';
 import {Source} from '../../../models/settings/source.model';
 import {NotifierService} from 'angular-notifier';
-import {ConfirmationDialogComponent} from '../../../dialogs/confirmation-dialog/confirmation-dialog.component';
 import {MatDialog} from '@angular/material';
 import {ActivatedRoute, Data} from '@angular/router';
 import {DialogService} from '../../../services/dialog-services/dialog.service';
+import {CandidateService} from '../../../services/shared-services/candidate.service';
 
 
 @Component({
@@ -22,38 +20,33 @@ import {DialogService} from '../../../services/dialog-services/dialog.service';
 })
 export class CandidatePanelComponent implements OnInit {
   isDisabled = false;
+  isFilterTouched = false;
 
-  archivedChecked = false;
-  favouriteChecked = false;
+  archivedSelected = false;
+  favouriteSelected = false;
+  selectedCandidateStatus = 'All';
 
   selection = new SelectionModel<Candidate>(true, []);
-  selectedValue = 'all';
-  candidates: Candidate[] = [];
-  jobs: Job[] = [];
-  sources: Source[] = [];
   candidateDefaultImage = 'assets/images/defaultImage.png';
 
-
+  candidates: Candidate[] = [];
+  jobs: Job[] = [];
 
   constructor(private candidateDataStorageService: CandidateDataStorageService,
               private notifierService: NotifierService,
+              private candidateService: CandidateService,
               private dialog: MatDialog,
               private route: ActivatedRoute,
-              private dialogService: DialogService,
-              private settingsDataStorageService: SettingsDataStorageService,
-              private jobDataStorageService: JobDataStorageService) {}
+              private dialogService: DialogService) {}
 
   ngOnInit() {
     this.route.data
-      .subscribe(
-        (data: Data) => {
+      .subscribe((data: Data) => {
           this.jobs = data['jobs'].jobs;
-          this.sources = data['sources'].sources;
-          this.candidates = data['candidates'].candidates;
-        }
-      );
-
-
+          this.candidateService.candidates = data['candidates'].candidates;
+          this.candidates = this.candidateService.getAllCandidate()
+            .filter(x => x.IsArchived === false);
+        });
   }
 
   favouriteCandidates(candidate: Candidate) {
@@ -99,25 +92,33 @@ export class CandidatePanelComponent implements OnInit {
     ).afterClosed().subscribe(result => {
         if (result.confirmationStatus) {
 
-          let candidates: Candidate[] = [];
-          candidates = this.selection.selected;
+          let candidates: Candidate[] = this.selection.selected;
+          candidates = candidates.filter(x => x.IsArchived === false);
+
+          if (candidates.length === 0) {
+            this.notifierService.notify('default', 'Already archived!');
+            return;
+          }
 
           this.isDisabled = true;
           this.candidateDataStorageService.archiveCandidates(candidates)
-            .subscribe(
-              (response: any) => {
-                this.isDisabled = false;
+            .subscribe((response: any) => {
+              this.isDisabled = false;
 
+              if (!this.archivedSelected) {
                 for (let i = 0; i < this.candidates.length; i++) {
-                 for (let j = 0; j < candidates.length; j++) {
-                   if (this.candidates[i].Id === candidates[j].Id)  {
-                     this.candidates[i].IsArchived = true;
-                   }
-                 }
+                  for (let j = 0; j < candidates.length; j++) {
+                    if (this.candidates[i].Id === candidates[j].Id) {
+                      this.candidates.splice(j, 1);
+                    }
+                  }
                 }
-                this.selection.clear();
-                this.notifierService.notify('default', 'Archived successfully!')
-              });
+              }
+
+              this.candidateService.archiveCandidates(candidates);
+              this.selection.clear();
+              this.notifierService.notify('default', 'Archived successfully!');
+            });
         }
       });
   }
@@ -134,8 +135,13 @@ export class CandidatePanelComponent implements OnInit {
     ).afterClosed().subscribe(result => {
         if (result.confirmationStatus) {
 
-          let candidates: Candidate[] = [];
-          candidates = this.selection.selected;
+          let candidates: Candidate[] = this.selection.selected;
+          candidates = candidates.filter(x => x.IsArchived === false);
+
+          if (candidates.length === 0) {
+            this.notifierService.notify('default', 'Already restored!');
+            return;
+          }
 
           this.isDisabled = true;
           this.candidateDataStorageService.restoreCandidates(candidates)
@@ -151,6 +157,7 @@ export class CandidatePanelComponent implements OnInit {
                   }
                 }
 
+                this.candidateService.restoreCandidates(candidates);
                 this.selection.clear();
                 this.notifierService.notify('default', 'Restored successfully!')
             });
@@ -158,16 +165,30 @@ export class CandidatePanelComponent implements OnInit {
       });
   }
 
-  onValueChange(value: string) {
-    this.selectedValue = value;
+  resetAllFilter() {
+    this.isFilterTouched = false;
+    this.archivedSelected = false;
+    this.favouriteSelected = false;
+    this.candidates = this.candidateService.getAllCandidate()
+      .filter(x => x.IsArchived === false);
   }
 
-  archiveStatus(event: any) {
-    this.archivedChecked = event.checked;
-
+  filterByActiveStatus(value: string) {
+    this.selectedCandidateStatus = value;
   }
-  favouriteStatus(event: any) {
-    this.favouriteChecked = event.checked;
+
+  filterByArchived(event: any) {
+    this.isFilterTouched = true;
+    this.archivedSelected = event.checked;
+    this.candidates = this.candidateService.filterByArchived(
+      this.archivedSelected, this.favouriteSelected);
+  }
+
+  filterByFavourite(event: any) {
+    this.isFilterTouched = true;
+    this.favouriteSelected = event.checked;
+    this.candidates = this.candidateService.filterByArchived(
+      this.archivedSelected, this.favouriteSelected);
   }
 
   getJobName(candidate: Candidate) {
@@ -184,7 +205,6 @@ export class CandidatePanelComponent implements OnInit {
   }
 
 
-
   getApplicationDate(candidate: Candidate) {
     return moment(new Date(candidate.ApplicationDate)).format('Do MMMM, YYYY');
   }
@@ -199,9 +219,5 @@ export class CandidatePanelComponent implements OnInit {
     this.isAllSelected() ?
       this.selection.clear() :
       this.candidates.forEach(row => this.selection.select(row));
-  }
-
-
-  getInterviewDate() {
   }
 }
