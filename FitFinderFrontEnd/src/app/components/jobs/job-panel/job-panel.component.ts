@@ -21,6 +21,8 @@ import {DialogService} from '../../../services/dialog-services/dialog.service';
   encapsulation: ViewEncapsulation.None
 })
 export class JobPanelComponent implements OnInit {
+  isDisabled = false;
+  isFilterTouched = false;
 
   archivedSelected = false;
   favouriteSelected = false;
@@ -62,6 +64,7 @@ export class JobPanelComponent implements OnInit {
   unfavouriteJobs(job: Job) {
     const jobs: Job[] = [];
     jobs.push(job);
+
     this.jobDataStorageService.unfavouriteJobs(jobs)
       .subscribe((response: any) => {
           for (let i = 0; i < this.jobs.length; i++) {
@@ -85,20 +88,31 @@ export class JobPanelComponent implements OnInit {
     ).afterClosed().subscribe(result => {
         if (result.confirmationStatus) {
 
-          let jobs: Job[] = [];
-          jobs = this.selection.selected;
+          let jobs: Job[] = this.selection.selected;
+          jobs = jobs.filter(x => x.IsArchived === false);
 
+          if (jobs.length === 0) {
+            this.notifierService.notify('default', 'Already archived!');
+            return;
+          }
+
+          this.isDisabled = true;
           this.jobDataStorageService.archiveJobs(jobs)
             .subscribe(
               (response: any) => {
+                this.isDisabled = false;
 
-                for (let i = 0; i < this.jobs.length; i++) {
-                  for (let j = 0; j < jobs.length; j++) {
-                    if (this.jobs[i].Id === jobs[j].Id)  {
-                      this.jobs[i].IsArchived = true;
+                if (!this.archivedSelected) {
+                  for (let i = 0; i < this.jobs.length; i++) {
+                    for (let j = 0; j < jobs.length; j++) {
+                      if (this.jobs[i].Id === jobs[j].Id) {
+                        this.jobs.splice(j, 1);
+                      }
                     }
                   }
                 }
+
+                this.jobService.archiveJobs(jobs);
                 this.selection.clear();
                 this.notifierService.notify('default', 'Archived successfully.');
               });
@@ -118,12 +132,19 @@ export class JobPanelComponent implements OnInit {
     ).afterClosed().subscribe(result => {
         if (result.confirmationStatus) {
 
-          let jobs: Job[] = [];
-          jobs = this.selection.selected;
+          let jobs: Job[] = this.selection.selected;
+          jobs = jobs.filter(x => x.IsArchived === true);
 
+          if (jobs.length === 0) {
+            this.notifierService.notify('default', 'Already restored!');
+            return;
+          }
+
+          this.isDisabled = true;
           this.jobDataStorageService.restoreJobs(jobs)
             .subscribe(
               (response: any) => {
+                this.isDisabled = false;
 
                 for (let i = 0; i < this.jobs.length; i++) {
                   for (let j = 0; j < jobs.length; j++) {
@@ -132,6 +153,8 @@ export class JobPanelComponent implements OnInit {
                     }
                   }
                 }
+
+                this.jobService.restoreJobs(jobs);
                 this.selection.clear();
                 this.notifierService.notify('default', 'Restored successfully.')
               });
@@ -139,19 +162,31 @@ export class JobPanelComponent implements OnInit {
       });
   }
 
+  resetAllFilter() {
+    this.isFilterTouched = false;
+    this.archivedSelected = false;
+    this.favouriteSelected = false;
+    this.publishedSelected = 'all';
+    this.jobs = this.jobService.getAllJob()
+      .filter(x => x.IsArchived === false);
+  }
+
   filterByPublished(value: string) {
+    this.isFilterTouched = true;
     this.publishedSelected = value;
     this.jobs = this.jobService.filterArchivedJob(
       value, this.archivedSelected, this.favouriteSelected);
   }
 
   filterByArchived(event: any) {
+    this.isFilterTouched = true;
     this.archivedSelected = event.checked;
     this.jobs = this.jobService.filterArchivedJob(
       this.publishedSelected, this.archivedSelected, this.favouriteSelected);
   }
 
   filterByFavourite(event: any) {
+    this.isFilterTouched = true;
     this.favouriteSelected = event.checked;
     this.jobs = this.jobService.filterArchivedJob(
       this.publishedSelected, this.archivedSelected, this.favouriteSelected);
@@ -161,7 +196,6 @@ export class JobPanelComponent implements OnInit {
     // const today = moment(new Date());
     // const closingDate = moment(new Date(jobClosingDate));
     // return closingDate.diff(today, 'days');
-
 
     const today = new Date();
     const closingDate = moment(new Date(jobClosingDate));

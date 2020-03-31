@@ -2,17 +2,22 @@
 
 <div class="row">
 
-  <div class="col-xl-10">
+  <div class="col-xl-3">
     <h3>Jobs</h3>
   </div>
 
-  <div class="col-xl-2">
+  <div class="col-xl-9">
     <button
       routerLink = "/jobs/add-new-job"
-      style="width: 100%;
-      outline: 0;"
+      style="outline: 0;"
       color="primary"
-      mat-raised-button><i class="fas fa-plus"></i> New Job</button>
+      mat-stroked-button><i class="fas fa-plus"></i> New</button>&nbsp;
+    <button
+      *ngIf="isFilterTouched"
+      (click)="resetAllFilter()"
+      style="
+      outline: 0;"
+      mat-stroked-button>Reset</button>
   </div>
 
 </div>
@@ -23,19 +28,21 @@
 
   <div class="col-xl-3">
 
-    <div class="row">
+    <!--<div class="row">-->
 
-      <div class="offset-xl-1 col-xl-10" style="padding-top: 30px; text-align: left; font-size: 14px;">
-        <mat-button-toggle-group
-          #group="matButtonToggleGroup" [value]="publishedSelected"
-                                 (change)="filterByPublished(group.value)">
-          <mat-button-toggle value="all"> All </mat-button-toggle>
-          <mat-button-toggle value="published"> Published </mat-button-toggle>
-          <mat-button-toggle value="internal"> Internal </mat-button-toggle>
-        </mat-button-toggle-group>
-      </div>
+      <!--<div class="offset-xl-1 col-xl-10" style="padding-top: 30px; text-align: left; font-size: 14px;">-->
+        <!--<mat-button-toggle-group-->
+          <!--#group="matButtonToggleGroup" [value]="publishedSelected"-->
+                                 <!--(change)="filterByPublished(group.value)">-->
+          <!--<mat-button-toggle value="all"> All </mat-button-toggle>-->
+          <!--<mat-button-toggle value="published"> Published </mat-button-toggle>-->
+          <!--<mat-button-toggle value="internal"> Internal </mat-button-toggle>-->
+        <!--</mat-button-toggle-group>-->
+      <!--</div>-->
 
-    </div>
+    <!--</div>-->
+
+    <!--The above commented code will be implemented later-->
 
     <div class="row" >
 
@@ -44,6 +51,7 @@
        font-weight: bold;
        text-align: left; font-size: 14px;">
         Show Archived <mat-slide-toggle
+        [checked]="archivedSelected"
         (change)="filterByArchived($event)"
         color="primary"></mat-slide-toggle>
       </div>
@@ -57,6 +65,7 @@
        font-weight: bold;
        text-align: left; font-size: 14px;">
         Only Favourites <mat-slide-toggle
+        [checked]="favouriteSelected"
         (change)="filterByFavourite($event)"
         color="primary"></mat-slide-toggle>
       </div>
@@ -89,7 +98,8 @@
           mat-flat-button
           [disabled]="jobs.length == 0
           ||
-          !selection.hasValue()"
+          !selection.hasValue()
+          || isDisabled"
           style="background-color: transparent; outline: 0;"><i class="fas fa-archive"></i> Archive</button>
 
         <button
@@ -97,7 +107,8 @@
           mat-flat-button
           [disabled]="jobs.length == 0
           ||
-          !selection.hasValue()"
+          !selection.hasValue()
+          || isDisabled"
           style="background-color: transparent; outline: 0;"><i class="far fa-window-restore"></i> Restore</button>
       </div>
     </div>
