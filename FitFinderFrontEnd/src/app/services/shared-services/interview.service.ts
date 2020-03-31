@@ -43,15 +43,21 @@ export class InterviewService {
   }
 
   getTimeIn12HourFormat(time: string) {
+    let hours = Number.parseInt(time.slice(0, 2), 10)
     const minutes = time.slice(3, 5);
     let newTime;
 
-    if (Number.parseInt(time.slice(0, 2), 10) > 12) {
-      const hours = Number.parseInt(time.slice(0, 2), 10) - 12;
-      newTime = hours.toString() + ':' + minutes + ' PM';
-    } else if (Number.parseInt(time.slice(0, 2), 10) === 0) {
+    if (hours > 12) {
+      hours = hours - 12;
+      if (hours < 10) {
+        newTime = '0' + hours.toString() + ':' + minutes + ' PM';
+      } else {
+        newTime = hours.toString() + ':' + minutes + ' PM';
+      }
+
+    } else if (hours === 0) {
       newTime = '12' + ':' + minutes + ' AM';
-    } else if (Number.parseInt(time.slice(0, 2), 10) === 12) {
+    } else if (hours === 12) {
       newTime = '12' + ':' + minutes + ' PM';
     } else {
       newTime = time + ' AM';
@@ -61,15 +67,21 @@ export class InterviewService {
   }
 
   getTimeIn24HourFormat(time: string) {
+
     let hours = Number.parseInt(time.substr(0, time.indexOf(':')), 10);
     const timeWithoutFormat = time.split(' ')[0];
     const minutes = timeWithoutFormat.substr((timeWithoutFormat.indexOf(':') + 1), timeWithoutFormat.length);
     const format = time.split(' ')[1];
 
     let newTime;
-
     if (format === 'AM') {
-      newTime = hours.toString() + ':' + minutes;
+
+      if (hours < 10) {
+        newTime = '0' + hours.toString() + ':' + minutes;
+      } else {
+        newTime = hours.toString() + ':' + minutes;
+      }
+
     } else {
       hours += 12;
       newTime = hours.toString() + ':' + minutes;

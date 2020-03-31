@@ -53,7 +53,7 @@ export class EditInterviewComponent implements OnInit {
       'date': new FormControl(this.interview.Date, Validators.required),
       'name': new FormControl(this.interview.Name, noWhitespaceValidator),
       'userAccounts': new FormControl(this.userAccounts, Validators.required),
-      'location': new FormControl(this.interview.Location, noWhitespaceValidator),
+      'location': new FormControl(this.interview.Location),
       'startTime': new FormControl(startTime, Validators.required),
       'endTime': new FormControl(endTime, Validators.required),
       'interviewType': new FormControl(this.interview.InterviewType, Validators.required)
