@@ -1,0 +1,24 @@
+:host /deep/ angular-editor.jobEditor .angular-editor-button[title="Insert Image"]{
+  display: none
+}
+:host /deep/ angular-editor.jobEditor .angular-editor-button[title="Insert Link"]{
+  display: none
+}
+:host /deep/ angular-editor.jobEditor .angular-editor-button[title="Unlink"]{
+  display: none
+}
+:host /deep/ angular-editor.jobEditor .angular-editor-button[title="HTML Code"]{
+  display: none
+}
+
+
+
+::ng-deep select#fontSelector- {
+  display: none!important;
+}
+::ng-deep select#fontSizeSelector- {
+  display: none!important;
+}
+::ng-deep select#heading- {
+  display: none!important;
+}

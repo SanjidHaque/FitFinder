@@ -15,6 +15,7 @@ import {JobResolverService} from '../../route-resolvers/job-resolver.service';
 import {JobInfoComponent} from '../../components/jobs/job-id/job-info/job-info.component';
 import {JobCandidatesComponent} from '../../components/jobs/job-id/job-candidates/job-candidates.component';
 import {JobAnalyticsComponent} from '../../components/jobs/job-id/job-analytics/job-analytics.component';
+import {EditJobComponent} from '../../components/jobs/edit-job/edit-job.component';
 
 
 const jobRoutes: Routes = [
@@ -52,7 +53,8 @@ const jobRoutes: Routes = [
         component: JobIdComponent,
         resolve:
           {
-            job: JobResolverService
+            job: JobResolverService,
+            workflows: WorkflowsResolverService
           },
         children:
           [
@@ -74,6 +76,17 @@ const jobRoutes: Routes = [
               component: JobAnalyticsComponent
             }
           ]
+      },
+      {
+        path: ':job-id/edit-job',
+        component: EditJobComponent,
+        resolve:
+          {
+            job: JobResolverService,
+            jobTypes: JobTypesResolverService,
+            jobFunctions: JobFunctionsResolverService,
+            departments: DepartmentsResolverService
+          }
       }
     ]
   }

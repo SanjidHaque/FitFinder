@@ -13,13 +13,12 @@ import {Department} from '../../../models/settings/department.model';
 import {JobFunction} from '../../../models/settings/job-function.model';
 import {JobType} from '../../../models/settings/job-type.model';
 import {SettingsDataStorageService} from '../../../services/data-storage-services/settings-data-storage.service';
-import {CandidateDataStorageService} from '../../../services/data-storage-services/candidate-data-storage.service';
 import {Workflow} from '../../../models/settings/workflow.model';
 import {PipelineStageCriterion} from '../../../models/settings/pipeline-stage-criterion.model';
 import {PipelineStage} from '../../../models/settings/pipeline-stage.model';
 import {GapiService} from '../../../services/google-api-services/gapi.service';
 import {AttachmentDataStorageService} from '../../../services/data-storage-services/attachment-data-storage.service';
-import {Pipeline} from '../../../models/settings/pipeline.model';
+import {SettingsService} from '../../../services/shared-services/settings.service';
 
 @Component({
   selector: 'app-add-new-job',
@@ -79,35 +78,27 @@ export class AddNewJobComponent implements OnInit {
   @ViewChild('fileUpload', {static: false}) fileUploadVar: any;
   isDisabled = false;
 
-  constructor(private departmentDialog: MatDialog,
-              private settingsDataStorageService: SettingsDataStorageService,
-              private jobFunctionalityDialog: MatDialog,
+  constructor(private settingsDataStorageService: SettingsDataStorageService,
               private notifierService: NotifierService,
               private jobDataStorageService: JobDataStorageService,
-              private candidateDataStorageService: CandidateDataStorageService,
               private attachmentDataStorageService: AttachmentDataStorageService,
               private route: ActivatedRoute,
               private gapiService: GapiService,
+              private settingsService: SettingsService,
               private router: Router,
-              private dialog: MatDialog,
-              private jobType: MatDialog) {
+              private dialog: MatDialog) {
     this.filesToUpload = [];
   }
 
   ngOnInit() {
-    this.route.data
-      .subscribe(
-        (data: Data) => {
+    this.route.data.subscribe((data: Data) => {
           this.jobTypes = data['jobTypes'].jobTypes;
           this.jobFunctions = data['jobFunctions'].jobFunctions;
           this.departments = data['departments'].departments;
           this.workflows = data['workflows'].workflows;
-
-        }
-      );
+        });
 
     this.filterDefaultPipelineStages();
-
 
     this.minDate = this.getTomorrowsDate();
     this.addNewJobForm = new FormGroup({
@@ -321,10 +312,6 @@ export class AddNewJobComponent implements OnInit {
 
     });
 
-
-
-
-
   }
 
   deletePipelineStageCriterion(pipelineStage: PipelineStage, index: number) {
@@ -359,7 +346,6 @@ export class AddNewJobComponent implements OnInit {
   }
 
 
-
   getFile() {
     document.getElementById('choseFile').click();
   }
@@ -387,25 +373,10 @@ export class AddNewJobComponent implements OnInit {
   }
 
 
-
-
   addNewDepartment() {
-    const dialogRef = this.departmentDialog.open(AddUpdateDialogComponent,
-      {
-        hasBackdrop: true,
-        disableClose: true,
-        width: '400px',
-        data:
-          {
-            header: 'New Department',
-            name: '',
-            iconClass: 'far fa-building',
-            footer: 'Add or update different departments your organization needs.'
-          }
-      });
-
-    dialogRef.afterClosed().subscribe(result => {
+    this.settingsService.addNewDepartment().then(result => {
       if (result !== '') {
+
         const department = new Department(
           null,
           result,
@@ -416,32 +387,24 @@ export class AddNewJobComponent implements OnInit {
         this.settingsDataStorageService.addNewDepartment(department)
           .subscribe(
             (data: any) => {
-             this.departments.push(data);
-             this.notifierService.notify('default', 'New department added.');
-            }
-          );
+              if (data.statusText !== 'Success') {
+                this.notifierService.notify('default', data.statusText);
+              } else {
+                this.departments.push(data.department);
+                this.notifierService.notify('default',
+                  'New department added.');
+                //  this.gapiService.syncToDrive(this.departments, []).then().catch();
+              }
+            });
       }
     });
   }
 
 
   addNewJobFunction() {
-    const dialogRef = this.jobFunctionalityDialog.open(AddUpdateDialogComponent,
-      {
-        hasBackdrop: true,
-        disableClose: true,
-        width: '400px',
-        data:
-          {
-            header: 'New Job Function',
-            name: '',
-            iconClass: 'fas fa-briefcase',
-            footer: 'Add or update different job job-functions your organization needs.'
-          }
-      });
-
-    dialogRef.afterClosed().subscribe(result => {
+    this.settingsService.addNewJobFunction().then(result => {
       if (result !== '') {
+
         const jobFunction = new JobFunction(
           null,
           result,
@@ -452,10 +415,14 @@ export class AddNewJobComponent implements OnInit {
         this.settingsDataStorageService.addNewJobFunction(jobFunction)
           .subscribe(
             (data: any) => {
-              this.jobFunctions.push(data);
-              this.notifierService.notify('default', 'New job function added!');
-            }
-          );
+              if (data.statusText !== 'Success') {
+                this.notifierService.notify('default', data.statusText);
+              } else {
+                this.jobFunctions.push(data.jobFunction);
+                this.notifierService.notify('default',
+                  'New job function added.');
+              }
+            });
       }
     });
   }
@@ -463,22 +430,9 @@ export class AddNewJobComponent implements OnInit {
 
 
   addNewJobType() {
-    const dialogRef = this.jobType.open(AddUpdateDialogComponent,
-      {
-        hasBackdrop: true,
-        disableClose: true,
-        width: '400px',
-        data:
-          {
-            header: 'New Job Type',
-            name: '',
-            iconClass: 'fas fa-passport',
-            footer: 'Add or update different job job-types your organization hires.'
-          }
-      });
-
-    dialogRef.afterClosed().subscribe(result => {
+    this.settingsService.addNewJobType().then(result => {
       if (result !== '') {
+
         const jobType = new JobType(
           null,
           result,
@@ -486,15 +440,20 @@ export class AddNewJobComponent implements OnInit {
           null
         );
 
-
         this.settingsDataStorageService.addNewJobType(jobType)
           .subscribe(
             (data: any) => {
-              this.jobTypes.push(data);
-              this.notifierService.notify('default', 'New job type added!');
-            }
-          );
+              if (data.statusText !== 'Success') {
+                this.notifierService.notify('default', data.statusText);
+              } else {
+                this.jobTypes.push(data.jobType);
+                this.notifierService.notify('default',
+                  'New job type added.');
+              }
+            });
       }
     });
   }
+
+
 }

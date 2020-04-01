@@ -13,6 +13,8 @@ import {AngularMaterialModule} from '../shared-modules/angular-material.module';
 import {PipeModule} from '../shared-modules/pipe.module';
 import {AngularEditorModule} from '@kolkov/angular-editor';
 import {DialogModule} from '../shared-modules/dialog.module';
+import {AppComponent} from '../../app.component';
+import {EditJobComponent} from '../../components/jobs/edit-job/edit-job.component';
 
 
 @NgModule({
@@ -20,6 +22,7 @@ import {DialogModule} from '../shared-modules/dialog.module';
     JobsComponent,
     JobIdComponent,
     JobInfoComponent,
+    EditJobComponent,
     JobPanelComponent,
     AddNewJobComponent,
     JobAnalyticsComponent,

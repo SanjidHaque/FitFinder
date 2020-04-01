@@ -15,6 +15,7 @@ import {PipeModule} from './modules/shared-modules/pipe.module';
 import {CoreModule} from './modules/core-module/core.module';
 import {DialogModule} from './modules/shared-modules/dialog.module';
 import {AuthModule} from './modules/auth/auth.module';
+import { EditJobComponent } from './components/jobs/edit-job/edit-job.component';
 
 @NgModule({
   declarations: [
