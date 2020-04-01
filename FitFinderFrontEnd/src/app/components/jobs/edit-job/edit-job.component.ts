@@ -228,7 +228,7 @@ export class EditJobComponent implements OnInit {
       null,
       null,
       null,
-      ''
+      null
     );
 
     this.isDisabled = true;

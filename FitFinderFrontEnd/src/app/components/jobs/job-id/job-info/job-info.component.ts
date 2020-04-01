@@ -1,15 +1,10 @@
-import {Component, DoCheck, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {JobDataStorageService} from '../../../../services/data-storage-services/job-data-storage.service';
 import {Job} from '../../../../models/job/job.model';
 import * as moment from 'moment';
-import {CandidateAttachment} from '../../../../models/candidate/canidate-attachment.model';
 import {JobAttachment} from '../../../../models/job/job-attachment.model';
 import {NotifierService} from 'angular-notifier';
-import {Department} from '../../../../models/settings/department.model';
-import {JobFunction} from '../../../../models/settings/job-function.model';
-import {JobType} from '../../../../models/settings/job-type.model';
 import {SettingsDataStorageService} from '../../../../services/data-storage-services/settings-data-storage.service';
-import {ConfirmationDialogComponent} from '../../../../dialogs/confirmation-dialog/confirmation-dialog.component';
 import {MatDialog} from '@angular/material';
 import {ActivatedRoute, Data, Router} from '@angular/router';
 import {JobService} from '../../../../services/shared-services/job.service';
@@ -17,6 +12,7 @@ import {DialogService} from '../../../../services/dialog-services/dialog.service
 import {SettingsService} from '../../../../services/shared-services/settings.service';
 import {PipelineStageCriterion} from '../../../../models/settings/pipeline-stage-criterion.model';
 import {PipelineStage} from '../../../../models/settings/pipeline-stage.model';
+import {AttachmentDataStorageService} from '../../../../services/data-storage-services/attachment-data-storage.service';
 
 @Component({
   selector: 'app-job-info',
@@ -28,24 +24,18 @@ export class JobInfoComponent implements OnInit {
 
   candidateDefaultImage = 'assets/images/defaultImage.png';
   job: Job;
-  filesToUpload: Array<File>;
-  @ViewChild('fileUpload', {static: false}) fileUploadVar: any;
-
-  departments: Department[] = [];
-  jobFunctions: JobFunction[] = [];
-  jobTypes: JobType[] = [];
+  filesToUpload: Array<File> = [];
 
   constructor(private jobDataStorageService: JobDataStorageService,
               private settingsDataStorageService: SettingsDataStorageService,
+              private attachmentDataStorageService: AttachmentDataStorageService,
               private settingsService: SettingsService,
               private dialog: MatDialog,
               private route: ActivatedRoute,
               private router: Router,
               private dialogService: DialogService,
               private jobService: JobService,
-              private notifierService: NotifierService) {
-    this.filesToUpload = [];
-  }
+              private notifierService: NotifierService) {}
 
   ngOnInit() {
     this.job = this.jobService.job;
@@ -97,7 +87,7 @@ export class JobInfoComponent implements OnInit {
                 this.isDisabled = false;
 
                 this.job.IsArchived = true;
-                this.notifierService.notify('default', 'Archived successfully.')
+                this.notifierService.notify('default', 'Archived successfully.');
               });
         }
       }
@@ -121,17 +111,14 @@ export class JobInfoComponent implements OnInit {
 
           this.isDisabled = true;
           this.jobDataStorageService.restoreJobs(jobs)
-            .subscribe(
-              (response: any) => {
+            .subscribe((response: any) => {
                 this.isDisabled = false;
 
                 this.job.IsArchived = false;
                 this.notifierService.notify('default', 'Restored successfully.')
-              }
-            );
+              });
         }
-      }
-    );
+      });
   }
 
 
@@ -284,36 +271,96 @@ export class JobInfoComponent implements OnInit {
     document.getElementById('choseFile').click();
   }
 
-  fileChangeEvent(fileInput: any) {
+  addNewJobAttachment(fileInput: any) {
 
-    for (let i = 0; i < fileInput.target.files.length; i++) {
-      const fileName = fileInput.target.files[i].name.substr(0, fileInput.target.files[i].name.lastIndexOf('.'));
-      const fileExtension = fileInput.target.files[i].name.split('.').pop();
+      const fileName = fileInput.target.files[0].name
+        .substr(0, fileInput.target.files[0].name.lastIndexOf('.'));
+
+      const fileExtension = fileInput.target.files[0].name.split('.').pop();
+
       if (fileExtension === 'pdf' || fileExtension === 'doc' || fileExtension === 'docx') {
+
         const newFileName = fileName + Date.now() + '.' + fileExtension;
-        const newFile = new File([fileInput.target.files[i]], newFileName, {type: fileInput.target.files[i].type});
+        const newFile = new File([fileInput.target.files[0]], newFileName, {type: fileInput.target.files[0].type});
         this.filesToUpload.push(newFile);
+
         const jobAttachment = new JobAttachment(
           null,
-          fileInput.target.files[i].name,
+          fileInput.target.files[0].name,
           newFile.name,
           null,
           this.job.Id
         );
-        this.job.JobAttachments.push(jobAttachment);
-        this.notifierService.notify('default', 'File uploaded successfully');
+
+        if (this.job.JobAttachments === null) {
+          this.job.JobAttachments = [];
+        }
+
+        this.attachmentDataStorageService.uploadAttachments(this.filesToUpload)
+          .subscribe((data: any) => {
+
+            if (data.statusText !== 'Success') {
+              this.isDisabled = false;
+              this.notifierService.notify('default', data.statusText);
+
+            } else {
+
+              this.jobDataStorageService.addNewJobAttachment(jobAttachment)
+                .subscribe((res: any) => {
+                  this.isDisabled = false;
+                  if (data.statusText !== 'Success') {
+                    this.notifierService.notify('default', data.statusText);
+                  } else {
+                    jobAttachment.Id = res.Id;
+
+                    this.job.JobAttachments.push(jobAttachment);
+                    this.notifierService.notify('default', 'File uploaded successfully');
+                  }
+                });
+              }
+          });
+
+
       } else {
         this.notifierService.notify('default', 'Unsupported file format!');
-
       }
-    }
-    this.filesToUpload = [];
-    this.fileUploadVar.nativeElement.value = '';
 
+    this.filesToUpload = [];
   }
 
-  downloadFile(jobAttachment: JobAttachment) {
-    window.open('http://localhost:55586/Content/Attachments/' + jobAttachment.ModifiedFileName);
+
+  downloadJobAttachment(jobAttachment: JobAttachment) {
+    window.open('http://localhost:55586/Content/Attachments/' +
+      jobAttachment.ModifiedFileName);
+  }
+
+  deleteJobAttachment(jobAttachment: JobAttachment, index: number) {
+    this.settingsService.deleteResource('Delete Attachment')
+      .then(result => {
+        if (result.confirmationStatus) {
+
+          const jobAttachments = [];
+          jobAttachments.push(jobAttachment.ModifiedFileName);
+
+          this.isDisabled = true;
+          this.jobDataStorageService.deleteJobAttachment(jobAttachment.Id)
+            .subscribe((data: any) => {
+              this.isDisabled = false;
+
+              if (data.statusText !== 'Success') {
+                this.notifierService.notify('default', data.statusText);
+              } else {
+                this.job.JobAttachments.splice(index, 1);
+
+                if (this.job.JobAttachments.length === 0) {
+                  this.job.JobAttachments = null;
+                }
+                this.notifierService.notify('default', 'Attachment deleted successfully.');
+              }
+
+            });
+        }
+      });
   }
 
 
@@ -323,12 +370,11 @@ export class JobInfoComponent implements OnInit {
     return Math.ceil(closingDate.diff(today, 'days', true));
   }
 
-
   getCreatedDate() {
-    return moment(new Date(this.job.PostingDate)).format('Do MMM YYYY')
+    return moment(new Date(this.job.PostingDate)).format('Do MMM YYYY');
   }
 
   getClosingDate() {
-    return moment(new Date(this.job.ClosingDate)).format('Do MMM YYYY')
+    return moment(new Date(this.job.ClosingDate)).format('Do MMM YYYY');
   }
 }

@@ -112,7 +112,7 @@ namespace FitFinderBackEnd.Services
                 {
                     try
                     {
-                        File.Delete(filePath);
+                         File.Delete(filePath);
                     }
                     catch (Exception)
                     {

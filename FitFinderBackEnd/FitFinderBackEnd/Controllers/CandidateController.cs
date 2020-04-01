@@ -277,6 +277,15 @@ namespace FitFinderBackEnd.Controllers
         }
 
 
+        [HttpPost]
+        [Route("api/AddNewCandidateAttachment")]
+        public IHttpActionResult AddNewCandidateAttachment(CandidateAttachment candidateAttachment)
+        {
+            _context.CandidateAttachments.Add(candidateAttachment);
+            _context.SaveChanges();
+            return Ok(new { statusText = _statusTextService.Success });
+        }
+
         [HttpPut]
         [Route("api/ArchiveCandidates")]
         public IHttpActionResult ArchiveCandidates(List<Candidate> candidates)

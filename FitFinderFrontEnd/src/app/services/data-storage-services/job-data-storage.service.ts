@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 
 import {Job} from '../../models/job/job.model';
 import {UserAccountDataStorageService} from './user-account-data-storage.service';
+import {JobAttachment} from '../../models/job/job-attachment.model';
 
 
 @Injectable({
@@ -28,6 +29,10 @@ export class JobDataStorageService {
     return this.httpClient.post<Job>(this.rootUrl + '/api/AddNewJob', job);
   }
 
+  addNewJobAttachment(jobAttachment: JobAttachment) {
+    return this.httpClient.post<JobAttachment>(this.rootUrl + '/api/AddNewJobAttachment', jobAttachment);
+  }
+
   archiveJobs(jobs: Job[]) {
     return this.httpClient.put<Job[]>(this.rootUrl  + '/api/ArchiveJobs', jobs);
   }
@@ -46,6 +51,11 @@ export class JobDataStorageService {
 
   editJob(job: Job) {
     return this.httpClient.put<Job>(this.rootUrl + '/api/EditJob', job);
+  }
+
+  deleteJobAttachment(jobAttachmentId: number) {
+    return this.httpClient
+      .delete(`${this.rootUrl + '/api/DeleteJobAttachment'}/${jobAttachmentId}`);
   }
 
   deleteJob(jobId: number) {

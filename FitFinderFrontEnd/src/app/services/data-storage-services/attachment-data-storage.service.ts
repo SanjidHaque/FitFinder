@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+
 import {UserAccountDataStorageService} from './user-account-data-storage.service';
-import {Candidate} from '../../models/candidate/candidate.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AttachmentDataStorageService {
-
   private rootUrl = '';
 
   constructor(private httpClient: HttpClient,
@@ -22,5 +21,4 @@ export class AttachmentDataStorageService {
     }
     return this.httpClient.post(this.rootUrl + '/api/UploadAttachments', formData);
   }
-
 }

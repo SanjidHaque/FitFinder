@@ -287,16 +287,17 @@
       </div>
 
       <input id="choseFile"
-             #fileUpload
-             (change)="fileChangeEvent($event)"
+             (change)="addNewJobAttachment($event)"
              hidden
              type="file"/>
 
     </div>
     <hr>
 
-    <div class="row" *ngIf="job.JobAttachments !== null; else noAttachments">
-      <div class="col-xl-12" *ngFor="let jobAttachment of job.JobAttachments">
+    <div class="row" *ngIf="
+    job.JobAttachments !== null;
+    else noAttachments">
+      <div class="col-xl-12" *ngFor="let jobAttachment of job.JobAttachments; let i = index">
 
         <div class="row">
           <div class="col-xl-10" style="
@@ -317,7 +318,8 @@
 
               <div class="col-xl-6">
                 <i
-                  (click)="downloadFile(jobAttachment)"
+                  [ngClass]="[!isDisabled ? 'enable-icon' : 'disable-icon']"
+                  (click)="downloadJobAttachment(jobAttachment)"
                   style="cursor: pointer;"
                   title="Download" class="fas fa-download"></i>
               </div>
@@ -326,8 +328,11 @@
 
 
               <div class="col-xl-6">
-                <i style="cursor: pointer;"
-                   title="Delete" class="far fa-trash-alt"></i>
+                <i
+                  [ngClass]="[!isDisabled ? 'enable-icon' : 'disable-icon']"
+                  (click)="deleteJobAttachment(jobAttachment, i)"
+                  style="cursor: pointer;"
+                  title="Delete" class="far fa-trash-alt"></i>
               </div>
 
             </div>
@@ -357,25 +362,13 @@
       </div>
     </div>
     <hr>
-    <div class="row">
-      <div class="col-xl-12">
-        <div class="row">
-          <div class="col-xl-1">
-            <img
-              style="
-                    outline: 0;
-                    border-radius: 50%;height: 40px; width: 40px"
-              [src]="candidateDefaultImage">
-          </div>
 
-          <div class="col-xl-11"
-               style=" text-align: left; padding-top: 3px; font-size: 20px;">
+    <div class="row">
+      <div class="col-xl-12"
+           style=" text-align: left; padding-top: 3px; font-size: 20px;">
             Sanjid Haque
-          </div>
-        </div>
       </div>
     </div>
-
     <br>
 
     <div class="row">

@@ -201,8 +201,17 @@ namespace FitFinderBackEnd.Controllers
             return Ok(new {job, statusText = _statusTextService.Success });
         }
 
-       
-    
+
+        [HttpPost]
+        [Route("api/AddNewJobAttachment")]
+        public IHttpActionResult AddNewJobAttachment(JobAttachment jobAttachment)
+        {
+            _context.JobAttachments.Add(jobAttachment);
+            _context.SaveChanges();
+            return Ok(new { jobAttachment.Id, statusText = _statusTextService.Success });
+        }
+
+
 
         [HttpPut]
         [Route("api/ArchiveJobs")]
@@ -272,6 +281,25 @@ namespace FitFinderBackEnd.Controllers
             return Ok(new { statusText = _statusTextService.Success });
         }
 
+        [HttpDelete]
+        [Route("api/DeleteJobAttachment/{jobAttachmentId}")]
+        [AllowAnonymous]
+        public IHttpActionResult DeleteJobAttachment(long jobAttachmentId)
+        {
+
+            JobAttachment jobAttachment = _context.JobAttachments.FirstOrDefault(x => x.Id == jobAttachmentId);
+            if (jobAttachment == null)
+            {
+                return Ok(new { statusText = _statusTextService.ResourceNotFound });
+            }
+
+            List<JobAttachment> jobAttachments = new List<JobAttachment> {jobAttachment};
+            _sharedService.DeleteJobAttachment(jobAttachments);
+            _context.JobAttachments.Remove(jobAttachment);
+            
+            _context.SaveChanges();
+            return Ok(new { statusText = _statusTextService.Success });
+        }
 
         [HttpDelete]
         [Route("api/DeleteJob/{jobId}")]
