@@ -318,6 +318,8 @@
 
               <div class="col-xl-6">
                 <i
+                  matRipple
+                  [matRippleUnbounded]="true"
                   [ngClass]="[!isDisabled ? 'enable-icon' : 'disable-icon']"
                   (click)="downloadJobAttachment(jobAttachment)"
                   style="cursor: pointer;"
@@ -329,9 +331,11 @@
 
               <div class="col-xl-6">
                 <i
+                  matRipple
+                  [matRippleUnbounded]="true"
                   [ngClass]="[!isDisabled ? 'enable-icon' : 'disable-icon']"
-                  (click)="deleteJobAttachment(jobAttachment, i)"
                   style="cursor: pointer;"
+                  (click)="deleteJobAttachment(jobAttachment, i)"
                   title="Delete" class="far fa-trash-alt"></i>
               </div>
 

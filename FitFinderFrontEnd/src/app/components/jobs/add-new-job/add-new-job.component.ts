@@ -172,7 +172,7 @@ export class AddNewJobComponent implements OnInit {
       null,
       null,
       null,
-      this.addNewJobForm.controls['workflowId'].value,
+      this.addNewJobForm.controls['workflowId'].value
     );
 
 

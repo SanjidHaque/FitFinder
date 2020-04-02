@@ -11,6 +11,7 @@ import {ActivatedRoute, Data, Router} from '@angular/router';
 import {SettingsService} from '../../../services/shared-services/settings.service';
 import {Job} from '../../../models/job/job.model';
 import * as moment from 'moment';
+import {Workflow} from '../../../models/settings/workflow.model';
 
 @Component({
   selector: 'app-edit-job',
@@ -27,6 +28,7 @@ export class EditJobComponent implements OnInit {
   departments: Department[] = [];
   jobFunctions: JobFunction[] = [];
   jobTypes: JobType[] = [];
+  workflows: Workflow[] = [];
 
   jobDescriptionConfig: AngularEditorConfig = {
     editable: true,
@@ -70,7 +72,7 @@ export class EditJobComponent implements OnInit {
               private jobDataStorageService: JobDataStorageService,
               private route: ActivatedRoute,
               private settingsService: SettingsService,
-              private router: Router) { }
+              private router: Router) {}
 
   ngOnInit() {
     this.route.data.subscribe((data: Data) => {
@@ -78,6 +80,7 @@ export class EditJobComponent implements OnInit {
       this.jobTypes = data['jobTypes'].jobTypes;
       this.jobFunctions = data['jobFunctions'].jobFunctions;
       this.departments = data['departments'].departments;
+      this.workflows = data['workflows'].workflows;
     });
 
     this.minDate = this.getTomorrowsDate();
@@ -113,7 +116,6 @@ export class EditJobComponent implements OnInit {
     const tomorrow =  today.setDate(today.getDate() + 1);
     return moment(tomorrow).format('YYYY-MM-DD');
   }
-
 
   addNewDepartment() {
     this.settingsService.addNewDepartment().then(result => {
@@ -228,7 +230,7 @@ export class EditJobComponent implements OnInit {
       null,
       null,
       null,
-      null
+     null
     );
 
     this.isDisabled = true;

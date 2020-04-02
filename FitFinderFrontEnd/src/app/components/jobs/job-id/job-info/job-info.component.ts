@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {JobDataStorageService} from '../../../../services/data-storage-services/job-data-storage.service';
 import {Job} from '../../../../models/job/job.model';
 import * as moment from 'moment';
@@ -265,7 +265,6 @@ export class JobInfoComponent implements OnInit {
   getGoodToHaveSkill() {
     document.getElementById('job-good-to-have').innerHTML = this.job.GoodToHaveSkills;
   }
-
 
   getFile() {
     document.getElementById('choseFile').click();

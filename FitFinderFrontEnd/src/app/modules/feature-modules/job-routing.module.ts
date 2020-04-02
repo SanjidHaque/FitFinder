@@ -85,7 +85,8 @@ const jobRoutes: Routes = [
             job: JobResolverService,
             jobTypes: JobTypesResolverService,
             jobFunctions: JobFunctionsResolverService,
-            departments: DepartmentsResolverService
+            departments: DepartmentsResolverService,
+            workflows: WorkflowsResolverService
           }
       }
     ]

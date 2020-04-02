@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 
 
 import {
-  DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MAT_DIALOG_DEFAULT_OPTIONS, MatAutocompleteModule,
+  MAT_DATE_FORMATS, MAT_DATE_LOCALE, MAT_DIALOG_DEFAULT_OPTIONS, MatAutocompleteModule,
   MatNativeDateModule
 } from '@angular/material';
 import {MatTableModule} from '@angular/material/table';
@@ -31,6 +31,7 @@ import {MatChipsModule} from '@angular/material/chips';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatListModule} from '@angular/material/list';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatRippleModule} from '@angular/material/core';
 
 
 
@@ -63,7 +64,8 @@ import {MatSidenavModule} from '@angular/material/sidenav';
     MatAutocompleteModule,
     MatExpansionModule,
     MatListModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatRippleModule
   ],
   exports: [
     MatButtonModule,
@@ -92,7 +94,8 @@ import {MatSidenavModule} from '@angular/material/sidenav';
     MatAutocompleteModule,
     MatExpansionModule,
     MatListModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatRippleModule
   ],
 
   providers: [

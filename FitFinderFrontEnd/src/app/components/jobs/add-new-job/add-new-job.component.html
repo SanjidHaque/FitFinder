@@ -517,8 +517,6 @@
             <mat-label>Select Workflow</mat-label>
             <mat-select required formControlName="workflowId">
               <mat-option
-                *ngIf="jobFunctions.length == 0">No workflow is available</mat-option>
-              <mat-option
                 *ngFor="let workflow of workflows" [value]="workflow.Id">
                 {{ workflow.Name }}
               </mat-option>
