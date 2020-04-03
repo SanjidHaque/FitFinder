@@ -1,0 +1,489 @@
+<br>
+<form
+  [formGroup]="editCandidateForm"
+  (ngSubmit)="editCandidate()"
+  #form="ngForm">
+  <div class="row">
+
+    <div class="col-xl-10">
+      <h3>Edit Candidate</h3>
+    </div>
+
+
+    <div class="col-xl-1 pr-xl-1">
+      <button
+        type="submit"
+        [disabled]="!form.valid || isDisabled"
+        style="width: 100%;
+      outline: 0;"
+        color="primary"
+        mat-flat-button>Save</button>
+    </div>
+
+    <div class="col-xl-1 pl-xl-1">
+      <button
+        type="button"
+        style="width:
+      100%;outline: 0;"
+        routerLink="/candidates/{{ candidate.Id }}"
+        mat-stroked-button>Cancel</button>
+    </div>
+
+  </div>
+  <hr>
+
+
+  <div class="row" style="padding-bottom: 50px;">
+
+    <div class="col-xl-7">
+
+
+      <div class="row">
+
+        <div class="col-xl-6">
+          <mat-form-field style="width: 100%;" appearance="outline">
+            <mat-label>First Name</mat-label>
+            <input
+              formControlName="firstName"
+              required
+              matInput>
+            <mat-error>You must enter a first name!</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-xl-6">
+          <mat-form-field style="width: 100%;" appearance="outline">
+            <mat-label>Last Name</mat-label>
+            <input
+              formControlName="lastName"
+              matInput>
+          </mat-form-field>
+        </div>
+
+      </div>
+
+
+      <div class="row">
+
+        <div class="col-xl-6">
+          <mat-form-field style="width: 100%;" appearance="outline">
+            <mat-label>Email</mat-label>
+            <input
+              formControlName="email"
+              required
+              matInput>
+            <mat-error *ngIf="editCandidateForm.get('email').invalid">
+              {{getEmailErrorMessage()}}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-xl-6">
+          <mat-form-field style="width: 100%;" appearance="outline">
+            <mat-label>Mobile</mat-label>
+            <input
+              required
+              formControlName="mobile"
+              matInput>
+            <mat-error>You must enter a phone number!</mat-error>
+          </mat-form-field>
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="col-xl-12">
+          <mat-form-field style="width: 100%;" appearance="outline">
+            <mat-label>Address</mat-label>
+            <input
+              formControlName="address"
+              matInput>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+
+        <div class="col-xl-4">
+          <mat-form-field style="width: 100%;" appearance="outline">
+            <mat-label>City</mat-label>
+            <input
+              formControlName="city"
+              required
+              matInput>
+            <mat-error>You must enter a city!</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-xl-4">
+          <mat-form-field style="width: 100%;" appearance="outline">
+            <mat-label>State</mat-label>
+            <input
+              formControlName="state"
+              matInput>
+          </mat-form-field>
+        </div>
+
+        <div class="col-xl-4">
+          <mat-form-field style="width: 100%;" appearance="outline">
+            <mat-label>Country</mat-label>
+            <input
+              formControlName="country"
+              required
+              matInput>
+            <mat-error>You must enter a country!</mat-error>
+          </mat-form-field>
+        </div>
+
+      </div>
+
+      <div class="row">
+
+        <div class="col-xl-12">
+          <mat-form-field style="width: 100%;" appearance="outline">
+            <mat-label>Select Candidate Source</mat-label>
+            <mat-select
+              required
+              formControlName="sourceId">
+              <mat-option *ngIf="sources.length === 0">No source is available</mat-option>
+
+              <mat-option
+                *ngFor="let source of sources"
+                [value]="source.Id">
+                {{ source.Name }}
+              </mat-option>
+
+            </mat-select>
+            <mat-error>You must select a source!</mat-error>
+          </mat-form-field>
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="col-xl-12">
+          <h6>Education</h6>
+        </div>
+      </div>
+      <hr *ngIf="editCandidateForm.get('educations')['controls'].length === 0">
+      <br>
+
+
+      <div class="row"
+           formArrayName="educations"
+           *ngFor="
+           let formFields of editCandidateForm.get('educations')['controls'];
+           let i = index">
+        <div class="col-xl-12" [formGroupName]="i">
+          <hr>
+          <div class="row">
+            <div class="col-xl-12 text-xl-right">
+              <i
+                matTooltip="Remove fields"
+                style="cursor: pointer;"
+                (click)="removeEducationFields(i)"
+                class="fas fa-times"></i>
+            </div>
+          </div>
+
+          <div class="row">
+
+            <div class="col-xl-6">
+              <mat-form-field style="width: 100%;" appearance="outline">
+                <mat-label>Name</mat-label>
+                <input
+                  formControlName = 'Name'
+                  required
+                  matInput>
+                <mat-error>You must enter a name!</mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="col-xl-6">
+              <mat-form-field style="width: 100%;" appearance="outline">
+                <mat-label>Institute Name</mat-label>
+                <input
+                  formControlName = 'InstituteName'
+                  required
+                  matInput>
+                <mat-error>You must enter an institute name!</mat-error>
+              </mat-form-field>
+            </div>
+
+          </div>
+
+
+          <div class="row">
+            <div class="col-xl-12">
+              <mat-form-field style="width: 100%;" appearance="outline">
+                <mat-label>Result</mat-label>
+                <input
+                  formControlName = 'Result'
+                  matInput>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row">
+
+            <div class="col-xl-6">
+
+              <mat-form-field style="width: 100%;" appearance="outline">
+                <mat-label>Start Date</mat-label>
+                <input
+                  formControlName = 'StartDate'
+                  matInput
+                  (dateChange)="getStartDateOfEducation($event.value, i)"
+                  [matDatepicker]="picker1"
+                  readonly
+                  (click)="picker1.open()"
+                >
+                <mat-datepicker-toggle
+                  matTooltip = "Click Me!"
+                  matTooltipPosition = "right"
+                  matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker
+                  #picker1
+                ></mat-datepicker>
+              </mat-form-field>
+            </div>
+
+            <div class="col-xl-6">
+              <mat-form-field style="width: 100%;" appearance="outline">
+                <mat-label>End Date</mat-label>
+                <input
+                  formControlName = 'EndDate'
+                  matInput
+                  [matDatepicker]="picker2"
+                  [min]="startDateOfEducation[i]"
+                  readonly
+                  (click)="picker2.open()"
+                >
+                <mat-error>Ending date is smaller than starting date!</mat-error>
+                <mat-datepicker-toggle
+                  matTooltip = "Click Me!"
+                  matTooltipPosition = "right"
+                  matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker
+                  #picker2
+                ></mat-datepicker>
+              </mat-form-field>
+            </div>
+
+          </div>
+
+        </div>
+        <hr>
+      </div>
+
+      <div class="row">
+        <div class="offset-xl-1 col-xl-10">
+          <button
+            type="button"
+            (click)= "addEducationFields()"
+            style="
+          width: 100%;
+          outline: 0;"
+            mat-flat-button color="primary"><i class="fas fa-plus-circle"></i>
+            Add Qualification
+          </button>
+        </div>
+      </div>
+
+      <br>
+
+      <div class="row">
+        <div class="col-xl-12">
+          <h6>Experience</h6>
+        </div>
+      </div>
+      <hr *ngIf="editCandidateForm.get('experiences')['controls'].length === 0">
+      <br>
+
+      <div class="row"
+           formArrayName="experiences"
+           *ngFor="let formFields of editCandidateForm.get('experiences')['controls']; let i = index">
+        <div class="col-xl-12" [formGroupName]="i">
+          <hr>
+          <div class="row">
+            <div class="col-xl-12 text-xl-right">
+              <i
+                matTooltip="Remove fields"
+                style="cursor: pointer;"
+                (click)="removeExperienceFields(i)"
+                class="fas fa-times"></i>
+            </div>
+          </div>
+
+          <div class="row">
+
+            <div class="col-xl-6">
+              <mat-form-field style="width: 100%;" appearance="outline">
+                <mat-label>Employer Name</mat-label>
+                <input
+                  formControlName = 'EmployerName'
+                  required
+                  matInput>
+                <mat-error>You must enter an employer name!</mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="col-xl-6">
+              <mat-form-field style="width: 100%;" appearance="outline">
+                <mat-label>Designation</mat-label>
+                <input
+                  formControlName = 'Designation'
+                  required
+                  matInput>
+                <mat-error>You must enter a designation!</mat-error>
+              </mat-form-field>
+            </div>
+
+          </div>
+
+
+          <div class="row">
+            <div class="col-xl-12">
+              <mat-form-field style="width: 100%;" appearance="outline">
+                <mat-label>Role</mat-label>
+                <textarea
+                  matInput
+                  formControlName = 'Role'
+                ></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row">
+
+            <div class="col-xl-6">
+
+              <mat-form-field style="width: 100%;" appearance="outline">
+                <mat-label>Start Date</mat-label>
+                <input
+                  formControlName = 'StartDate'
+                  matInput
+                  (dateChange)="getStartDateOfExperience($event.value, i)"
+                  [matDatepicker]="picker1"
+                  readonly
+                  (click)="picker1.open()"
+                >
+                <mat-datepicker-toggle
+                  matTooltip = "Click Me!"
+                  matTooltipPosition = "right"
+                  matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker
+                  #picker1
+                ></mat-datepicker>
+              </mat-form-field>
+            </div>
+
+            <div class="col-xl-6">
+              <mat-form-field style="width: 100%;" appearance="outline">
+                <mat-label>End Date</mat-label>
+                <input
+                  formControlName = 'EndDate'
+                  matInput
+                  [matDatepicker]="picker2"
+                  [min]="startDateOfExperience[i]"
+                  readonly
+                  (click)="picker2.open()"
+                >
+                <mat-error>Ending date is smaller than starting date!</mat-error>
+                <mat-datepicker-toggle
+                  matTooltip = "Click Me!"
+                  matTooltipPosition = "right"
+                  matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker
+                  #picker2
+                ></mat-datepicker>
+              </mat-form-field>
+            </div>
+
+          </div>
+
+          <div class="row">
+            <div class="col-xl-12 text-xl-right">
+              <mat-checkbox
+                labelPosition="before"
+                color="primary"
+                formControlName='IsCurrent'>Current</mat-checkbox>
+            </div>
+          </div>
+
+
+        </div>
+        <hr>
+      </div>
+
+      <div class="row">
+        <div class="offset-xl-1 col-xl-10">
+          <button
+            type="button"
+            (click)= "addExperienceFields()"
+            style="
+          width: 100%;
+          outline: 0;"
+            mat-flat-button color="primary"><i class="fas fa-plus-circle"></i>
+            Add Work Experience
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col-xl-5">
+
+
+      <div class="row">
+        <div class="col-xl-12">
+          <h6>Social</h6>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-xl-12">
+
+          <mat-form-field style="width: 100%;" appearance="outline">
+            <mat-label>Facebook</mat-label>
+            <input
+              formControlName="facebookUrl"
+              matInput>
+          </mat-form-field>
+
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xl-12">
+
+          <mat-form-field style="width: 100%;" appearance="outline">
+            <mat-label>Linkedin</mat-label>
+            <input
+              formControlName="linkedInUrl"
+              matInput>
+          </mat-form-field>
+
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xl-12">
+
+          <mat-form-field style="width: 100%;" appearance="outline">
+            <mat-label>Github</mat-label>
+            <input
+              formControlName="githubUrl"
+              matInput>
+          </mat-form-field>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+</form>
+

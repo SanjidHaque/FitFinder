@@ -16,6 +16,7 @@ import {CandidateScoreCardComponent} from '../../components/candidates/candidate
 import {CandidateEmailComponent} from '../../components/candidates/candidate-id/candidate-email/candidate-email.component';
 import {CandidateInterviewComponent} from '../../components/candidates/candidate-id/candidate-interview/candidate-interview.component';
 import {CandidateTaskComponent} from '../../components/candidates/candidate-id/candidate-task/candidate-task.component';
+import {EditCandidateComponent} from '../../components/candidates/edit-candidate/edit-candidate.component';
 
 const candidateRoutes: Routes = [
   {
@@ -85,6 +86,15 @@ const candidateRoutes: Routes = [
               component: CandidateTaskComponent
             }
           ]
+      },
+      {
+        path: ':candidate-id/edit-candidate',
+        component: EditCandidateComponent,
+        resolve:
+          {
+            candidate: CandidateResolverService,
+            sources: SourcesResolverService
+          }
       }
     ]
   }

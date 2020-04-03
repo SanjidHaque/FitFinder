@@ -157,6 +157,7 @@
 
       <div *ngIf="!candidate.IsArchived || candidate.JobAssignments !== null" class="col-xl-3 text-xl-center">
         <button
+          routerLink="/candidates/{{ candidate.Id }}/edit-candidate"
           style="background-color: transparent; outline: 0;"
           mat-flat-button><i class="far fa-edit"></i> Edit</button>
       </div>
@@ -174,7 +175,7 @@
 
     <div class="row">
       <div style="font-size: 14px;" class="col-xl-10">
-        <strong> <i title="Source/Candidate Application Date"
+        <strong> <i title="Source and Candidate Application Date"
                     class="fab fa-osi"></i> {{ candidate.Source.Name }} </strong> on
         {{ getApplicationDate() }}
       </div>
@@ -351,7 +352,7 @@
 
         </div>
 
-        <div class="col-xl-2">
+        <div class="col-xl-2" *ngIf="candidateEducation.StartDate !== ''">
 
           <div class="row">
             <div class="col-xl-12"
@@ -379,7 +380,7 @@
 
         </div>
 
-        <div class="col-xl-2">
+        <div class="col-xl-2" *ngIf="candidateEducation.EndDate !== ''">
 
           <div class="row">
             <div class="col-xl-12"
@@ -439,14 +440,16 @@
           <div class="row">
             <div class="col-xl-12"
                  style="font-size: 13px;">
-              <i class="fas fa-briefcase"></i> {{ candidateExperience.Designation }} | {{  candidateExperience.Role}}
+              <i class="fas fa-briefcase"></i>
+              {{ candidateExperience.Designation }}
+            <span *ngIf="candidateExperience.Role !== ''"> | {{  candidateExperience.Role}} </span>
             </div>
           </div>
 
 
         </div>
 
-        <div class="col-xl-2">
+        <div class="col-xl-2" *ngIf="candidateExperience.StartDate !== ''">
 
           <div class="row">
             <div class="col-xl-12"
@@ -474,6 +477,8 @@
 
         </div>
 
+        <div *ngIf="candidateExperience.EndDate !== ''">
+
         <div class="col-xl-2" *ngIf="!candidateExperience.IsCurrent; else currentlyWorking">
 
           <div class="row">
@@ -499,6 +504,8 @@
 
             </div>
           </div>
+
+        </div>
 
         </div>
 

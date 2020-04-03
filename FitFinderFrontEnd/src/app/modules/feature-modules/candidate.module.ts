@@ -15,17 +15,20 @@ import {AngularMaterialModule} from '../shared-modules/angular-material.module';
 import {StarRatingConfigService, StarRatingModule} from 'angular-star-rating';
 import {PipeModule} from '../shared-modules/pipe.module';
 import {DialogModule} from '../shared-modules/dialog.module';
+import {AppComponent} from '../../app.component';
+import {EditCandidateComponent} from '../../components/candidates/edit-candidate/edit-candidate.component';
 
 
 @NgModule({
   declarations: [
     CandidatesComponent,
-    AddNewCandidateComponent,
-    CandidatePanelComponent,
     CandidateIdComponent,
     CandidateInfoComponent,
     CandidateTaskComponent,
+    EditCandidateComponent,
+    CandidatePanelComponent,
     CandidateEmailComponent,
+    AddNewCandidateComponent,
     CandidateInterviewComponent,
     CandidateScoreCardComponent
   ],

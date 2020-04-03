@@ -16,6 +16,7 @@ import {CoreModule} from './modules/core-module/core.module';
 import {DialogModule} from './modules/shared-modules/dialog.module';
 import {AuthModule} from './modules/auth/auth.module';
 import { EditJobComponent } from './components/jobs/edit-job/edit-job.component';
+import { EditCandidateComponent } from './components/candidates/edit-candidate/edit-candidate.component';
 
 @NgModule({
   declarations: [

@@ -70,7 +70,8 @@ export class AddNewCandidateComponent implements OnInit {
       'educations': new FormArray([]),
       'experiences': new FormArray([]),
       'facebookUrl': new FormControl(''),
-      'linkedInUrl': new FormControl('')
+      'linkedInUrl': new FormControl(''),
+      'githubUrl': new FormControl('')
     });
   }
 
@@ -131,6 +132,7 @@ export class AddNewCandidateComponent implements OnInit {
   getStartDateOfExperience(date: string, index: number) {
     this.startDateOfExperience[index] = date;
   }
+
   populateEducationFields() {
     return this.formBuilder.group({
       id: [],
@@ -217,7 +219,7 @@ export class AddNewCandidateComponent implements OnInit {
       jobAssignments,
       this.addNewCandidateForm.controls['facebookUrl'].value,
       this.addNewCandidateForm.controls['linkedInUrl'].value,
-      '',
+      this.addNewCandidateForm.controls['githubUrl'].value,
       false,
       false,
       false,
