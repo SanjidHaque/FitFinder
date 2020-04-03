@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterContentChecked, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Department} from '../../../models/settings/department.model';
 import {JobFunction} from '../../../models/settings/job-function.model';
@@ -18,7 +18,7 @@ import {Workflow} from '../../../models/settings/workflow.model';
   templateUrl: './edit-job.component.html',
   styleUrls: ['./edit-job.component.css']
 })
-export class EditJobComponent implements OnInit {
+export class EditJobComponent implements OnInit, AfterContentChecked {
   isDisabled = false;
 
   editJobForm: FormGroup;
@@ -71,6 +71,7 @@ export class EditJobComponent implements OnInit {
               private notifierService: NotifierService,
               private jobDataStorageService: JobDataStorageService,
               private route: ActivatedRoute,
+              private ref: ChangeDetectorRef,
               private settingsService: SettingsService,
               private router: Router) {}
 
@@ -100,10 +101,16 @@ export class EditJobComponent implements OnInit {
       'experienceStarts': new FormControl(this.job.ExperienceStarts, Validators.min(0)),
       'experienceEnds': new FormControl(this.job.ExperienceEnds, Validators.min(0)),
       'salaryStarts': new FormControl(this.job.SalaryStarts, Validators.min(0)),
-      'salaryEnds': new FormControl(this.job.SalaryEnds, Validators.min(0))
+      'salaryEnds': new FormControl(this.job.SalaryEnds, Validators.min(0)),
+      'workflowId': new FormControl(this.job.WorkflowId, Validators.required)
     });
 
   }
+
+  ngAfterContentChecked() {
+    this.ref.detectChanges();
+  }
+
 
   getJobPositionErrorMessage() {
     return this.editJobForm.controls['positions'].hasError('required') ? 'You must enter a position!' :
@@ -230,7 +237,7 @@ export class EditJobComponent implements OnInit {
       null,
       null,
       null,
-     null
+      this.editJobForm.controls['workflowId'].value
     );
 
     this.isDisabled = true;

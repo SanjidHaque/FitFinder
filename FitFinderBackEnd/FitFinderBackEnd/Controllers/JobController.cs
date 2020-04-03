@@ -109,8 +109,7 @@ namespace FitFinderBackEnd.Controllers
             getJob.SalaryEnds = job.SalaryEnds;
             getJob.ClosingDate = job.ClosingDate;
             getJob.Positions = job.Positions;
-            
-
+            getJob.WorkflowId = job.WorkflowId;
 
             _context.Entry(getJob).State = EntityState.Modified;
             _context.SaveChanges();
