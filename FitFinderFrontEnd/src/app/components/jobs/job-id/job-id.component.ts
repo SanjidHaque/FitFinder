@@ -16,7 +16,6 @@ import {DialogService} from '../../../services/dialog-services/dialog.service';
 
 export class JobIdComponent implements OnInit {
   isDisabled = false;
-
   job: Job;
 
   constructor(private route: ActivatedRoute,

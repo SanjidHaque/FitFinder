@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Web.Http;
+using Antlr.Runtime.Misc;
 using FitFinderBackEnd.Models;
 using FitFinderBackEnd.Models.Candidate;
 using FitFinderBackEnd.Models.Job;
@@ -123,10 +124,11 @@ namespace FitFinderBackEnd.Controllers
             getCandidate.SourceId = candidate.SourceId;
             getCandidate.FacebookUrl = candidate.FacebookUrl;
             getCandidate.LinkedInUrl = candidate.LinkedInUrl;
+            getCandidate.GitHubUrl = candidate.GitHubUrl;
             getCandidate.Country = candidate.Country;
 
-            UpdateCandidateEducations(getCandidate);
-            UpdateCandidateExperiences(getCandidate);
+            UpdateCandidateEducations(candidate);
+            UpdateCandidateExperiences(candidate);
 
             _context.Entry(getCandidate).State = EntityState.Modified;
             _context.SaveChanges();
@@ -140,8 +142,13 @@ namespace FitFinderBackEnd.Controllers
                 .Where(x => x.CandidateId == candidate.Id)
                 .ToList();
 
-            _context.CandidateEducations.RemoveRange(candidateEducations);
+            if (candidate.CandidateEducations == null)
+            {
+                candidate.CandidateEducations = new List<CandidateEducation>();
+            }
+
             _context.CandidateEducations.AddRange(candidate.CandidateEducations);
+            _context.CandidateEducations.RemoveRange(candidateEducations);
         }
 
         private void UpdateCandidateExperiences(Candidate candidate)
@@ -150,8 +157,8 @@ namespace FitFinderBackEnd.Controllers
                 .Where(x => x.CandidateId == candidate.Id)
                 .ToList();
 
-            _context.CandidateExperiences.RemoveRange(candidateExperiences);
             _context.CandidateExperiences.AddRange(candidate.CandidateExperiences);
+            _context.CandidateExperiences.RemoveRange(candidateExperiences);
         }
 
 
@@ -282,6 +289,25 @@ namespace FitFinderBackEnd.Controllers
         public IHttpActionResult AddNewCandidateAttachment(CandidateAttachment candidateAttachment)
         {
             _context.CandidateAttachments.Add(candidateAttachment);
+            _context.SaveChanges();
+            return Ok(new { candidateAttachment.Id, statusText = _statusTextService.Success });
+        }
+
+        [HttpDelete]
+        [Route("api/DeleteCandidateAttachment/{candidateAttachmentId}")]
+        [AllowAnonymous]
+        public IHttpActionResult DeleteJobAttachment(long candidateAttachmentId)
+        {
+            CandidateAttachment candidateAttachment = _context.CandidateAttachments.FirstOrDefault(x => x.Id == candidateAttachmentId);
+            if (candidateAttachment == null)
+            {
+                return Ok(new { statusText = _statusTextService.ResourceNotFound });
+            }
+
+            List<CandidateAttachment> candidateAttachments = new List<CandidateAttachment> { candidateAttachment };
+            _sharedService.DeleteCandidateAttachment(candidateAttachments);
+            _context.CandidateAttachments.Remove(candidateAttachment);
+
             _context.SaveChanges();
             return Ok(new { statusText = _statusTextService.Success });
         }

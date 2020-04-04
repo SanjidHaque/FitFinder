@@ -14,6 +14,7 @@ import {NotifierService} from 'angular-notifier';
 export class EditCandidateComponent implements OnInit {
   isDisabled = false;
   editCandidateForm: FormGroup;
+  nonWhitespaceRegExp: RegExp = new RegExp('\\S');
 
   startDateOfEducation = [];
   startDateOfExperience = [];
@@ -62,7 +63,7 @@ export class EditCandidateComponent implements OnInit {
               group.patchValue(item);
               return group; })),
           'facebookUrl': new FormControl(this.candidate.FacebookUrl),
-          'linkedInUrl': new FormControl(this.candidate.LinkedInUrl),
+          'linkedInUrl': new FormControl(this.candidate.LinkedInUrl, Validators.pattern(this.nonWhitespaceRegExp)),
           'githubUrl': new FormControl(this.candidate.GitHubUrl)
         });
       });
@@ -129,18 +130,6 @@ export class EditCandidateComponent implements OnInit {
 
   editCandidate () {
 
-    const educations = this.editCandidateForm.controls['educations'].value;
-    // if (educations.length === 0) {
-    //   educations = null;
-    // }
-
-
-
-    const experiences = this.editCandidateForm.controls['experiences'].value;
-    // if (experiences.length === 0) {
-    //   experiences = null;
-    // }
-
     const candidate = new Candidate(
       this.candidate.Id,
       this.editCandidateForm.controls['firstName'].value,
@@ -153,8 +142,8 @@ export class EditCandidateComponent implements OnInit {
       this.editCandidateForm.controls['country'].value,
       null,
       this.editCandidateForm.controls['sourceId'].value,
-      educations,
-      experiences,
+      this.editCandidateForm.controls['educations'].value,
+      this.editCandidateForm.controls['experiences'].value,
       [],
       [],
       this.editCandidateForm.controls['facebookUrl'].value,

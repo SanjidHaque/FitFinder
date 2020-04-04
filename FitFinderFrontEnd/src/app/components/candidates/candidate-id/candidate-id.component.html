@@ -174,23 +174,31 @@
     <hr>
 
     <div class="row">
-      <div style="font-size: 14px;" class="col-xl-10">
+      <div style="font-size: 14px;" class="col-xl-8">
         <strong> <i title="Source and Candidate Application Date"
                     class="fab fa-osi"></i> {{ candidate.Source.Name }} </strong> on
         {{ getApplicationDate() }}
       </div>
 
-      <div *ngIf="candidate.FacebookUrl !== ''" class="col-xl-1 text-xl-right" style="font-size: 22px;">
-        <i style="cursor: pointer; color: #4267b2;"
-           (click)="goToFacebookProfile()"
-           class="fab fa-facebook-square"></i>
-      </div>
+      <div class="col-xl-4 text-xl-right" style="font-size: 22px;">
 
-      <div *ngIf="candidate.LinkedInUrl !== ''" class="col-xl-1 text-xl-left" style="font-size: 22px;">
-        <i
-          style="cursor: pointer; color: #0077b5;"
-          (click)="goToLinkedInProfile()"
-          class="fab fa-linkedin"></i>
+       <span *ngIf="candidate.FacebookUrl !== ''">
+        <i style="cursor: pointer; color: #3b5998;"
+           (click)="goToFacebookProfile()"
+           class="fab fa-facebook-square"></i> &nbsp;
+       </span>
+
+        <span *ngIf="candidate.LinkedInUrl !== ''" >
+          <i style="cursor: pointer; color: #0e76a8;"
+             (click)="goToLinkedInProfile()"
+             class="fab fa-linkedin"></i> &nbsp;
+        </span>
+
+        <i *ngIf="candidate.GitHubUrl !== ''"
+           style="cursor: pointer; color: black;"
+           (click)="goToGithubProfile()"
+           class="fab fa-github"></i>
+
       </div>
 
     </div>
@@ -233,19 +241,36 @@
     <hr>
 
     <div class="row">
-      <div class="col-xl-12" style="font-weight: bold;">
-        ATTACHMENTS
+
+      <div class="col-xl-6" style="padding-top: 7px;">
+        <h6>ATTACHMENTS</h6>
       </div>
+
+      <div class="col-xl-6 text-xl-right" >
+        <button
+          style="outline: 0;"
+          type="button"
+          matTooltip="Add attachments"
+          (click)="getFile()"
+          mat-flat-button><i class="fas fa-plus-circle"></i> Add</button>
+      </div>
+
+      <input id="choseFile"
+             (change)="addNewCandidateAttachment($event)"
+             hidden
+             type="file"/>
+
     </div>
     <hr>
 
     <div class="row"
          *ngIf="candidate.CandidateAttachments !== null; else noAttachments">
       <div class="col-xl-12"
-           *ngFor="let candidateAttachment of candidate.CandidateAttachments">
+           *ngFor="let candidateAttachment of candidate.CandidateAttachments;
+                   let i = index">
 
         <div class="row">
-        <div class="col-xl-9" style="
+        <div class="col-xl-10" style="
           font-size: 14px;
           font-weight: bold;
           padding-top: 6px;
@@ -261,32 +286,40 @@
 
         </div>
 
-        <div class="col-xl-3">
+        <div class="col-xl-2">
 
           <div class="row">
 
-
-            <div class="col-xl-3">
+            <div class="col-xl-4">
               <i
-                (click)="downloadFile(candidateAttachment)"
+                matRipple
+                [matRippleUnbounded]="true"
+                [ngClass]="[!isDisabled ? 'enable-icon' : 'disable-icon']"
+                (click)="downloadCandidateAttachment(candidateAttachment)"
                 style="cursor: pointer;"
                 title="Download" class="fas fa-download"></i>
             </div>
 
 
-
-            <div class="col-xl-3">
+            <div class="col-xl-4">
               <i
+                matRipple
+                [matRippleUnbounded]="true"
+                [ngClass]="[!isDisabled ? 'enable-icon' : 'disable-icon']"
                 style="cursor: pointer;"
                 title="Set as Resume"
                 class="fas fa-file-prescription"></i>
             </div>
 
 
-
-            <div class="col-xl-3">
-              <i style="cursor: pointer;"
-                 title="Delete" class="far fa-trash-alt"></i>
+            <div class="col-xl-4">
+              <i
+                matRipple
+                [matRippleUnbounded]="true"
+                [ngClass]="[!isDisabled ? 'enable-icon' : 'disable-icon']"
+                (click)="deleteCandidateAttachment(candidateAttachment, i)"
+                style="cursor: pointer;"
+                title="Delete" class="far fa-trash-alt"></i>
             </div>
 
           </div>
@@ -680,7 +713,7 @@
 
 
     <div class="row">
-      <div class="col-xl-4 text-xl-center">
+      <div class="offset-xl-8 col-xl-4 text-xl-center">
         <button
           matTooltip="Scorecard"
           matTooltipPosition="below"
@@ -690,26 +723,26 @@
       </div>
 
 
-      <div class="col-xl-4 text-xl-center">
-        <button
-          matTooltip="Email"
-          matTooltipPosition="below"
-          style="outline: 0; font-size: 20px; width: 100%;"
-          mat-flat-button
-          routerLinkActive="active"
-          routerLink="candidate-email"><i class="far fa-envelope"></i></button>
-      </div>
+      <!--<div class="col-xl-4 text-xl-center">-->
+        <!--<button-->
+          <!--matTooltip="Email"-->
+          <!--matTooltipPosition="below"-->
+          <!--style="outline: 0; font-size: 20px; width: 100%;"-->
+          <!--mat-flat-button-->
+          <!--routerLinkActive="active"-->
+          <!--routerLink="candidate-email"><i class="far fa-envelope"></i></button>-->
+      <!--</div>-->
 
-      <div class="col-xl-4 text-xl-center">
-        <button
-          matTooltip="Interviews"
-          matTooltipPosition="below"
-          style="outline: 0; font-size: 20px; width: 100%;"
-          mat-flat-button
-          routerLinkActive="active"
-          routerLink="candidate-interview"><i class="fas fa-calendar-alt"></i></button>
-      </div>
-    </div>
+      <!--<div class="col-xl-4 text-xl-center">-->
+        <!--<button-->
+          <!--matTooltip="Interviews"-->
+          <!--matTooltipPosition="below"-->
+          <!--style="outline: 0; font-size: 20px; width: 100%;"-->
+          <!--mat-flat-button-->
+          <!--routerLinkActive="active"-->
+          <!--routerLink="candidate-interview"><i class="fas fa-calendar-alt"></i></button>-->
+      <!--</div>-->
+    <!--</div>-->
 
     <div class="row">
       <div class="col-xl-12">

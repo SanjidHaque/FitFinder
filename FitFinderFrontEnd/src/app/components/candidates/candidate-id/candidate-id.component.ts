@@ -22,6 +22,8 @@ import {Department} from '../../../models/settings/department.model';
 import {JobAssignmentDataStorageService} from '../../../services/data-storage-services/job-assignment-data-storage.service';
 import {SettingsService} from '../../../services/shared-services/settings.service';
 import {DialogService} from '../../../services/dialog-services/dialog.service';
+import {JobAttachment} from '../../../models/job/job-attachment.model';
+import {AttachmentDataStorageService} from '../../../services/data-storage-services/attachment-data-storage.service';
 
 
 
@@ -46,6 +48,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
   candidate: Candidate;
   jobs: Job[] = [];
   job: Job;
+  filesToUpload: Array<File> = [];
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -55,6 +58,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
               private settingsService: SettingsService,
               private dialogService: DialogService,
               private jobDataStorageService: JobDataStorageService,
+              private attachmentDataStorageService: AttachmentDataStorageService,
               private candidateDataStorageService: CandidateDataStorageService,
               private jobAssignmentDataStorageService: JobAssignmentDataStorageService) {}
 
@@ -263,6 +267,99 @@ export class CandidateIdComponent implements OnInit, DoCheck {
          );
      }
     });
+  }
+
+  getFile() {
+    document.getElementById('choseFile').click();
+  }
+
+  addNewCandidateAttachment(fileInput: any) {
+
+    const fileName = fileInput.target.files[0].name
+      .substr(0, fileInput.target.files[0].name.lastIndexOf('.'));
+
+    const fileExtension = fileInput.target.files[0].name.split('.').pop();
+
+    if (fileExtension === 'pdf' || fileExtension === 'doc' || fileExtension === 'docx') {
+
+      const newFileName = fileName + Date.now() + '.' + fileExtension;
+      const newFile = new File([fileInput.target.files[0]], newFileName, {type: fileInput.target.files[0].type});
+      this.filesToUpload.push(newFile);
+
+      const candidateAttachment = new CandidateAttachment(
+        null,
+        null,
+        this.candidate.Id,
+        fileInput.target.files[0].name,
+        newFile.name,
+        false
+      );
+
+      if (this.candidate.CandidateAttachments === null) {
+        this.candidate.CandidateAttachments = [];
+      }
+
+      this.attachmentDataStorageService.uploadAttachments(this.filesToUpload)
+        .subscribe((data: any) => {
+
+          if (data.statusText !== 'Success') {
+            this.isDisabled = false;
+            this.notifierService.notify('default', data.statusText);
+
+          } else {
+
+            this.candidateDataStorageService.addNewCandidateAttachment(candidateAttachment)
+              .subscribe((res: any) => {
+                this.isDisabled = false;
+                if (data.statusText !== 'Success') {
+                  this.notifierService.notify('default', data.statusText);
+                } else {
+                  candidateAttachment.Id = res.Id;
+
+                  this.candidate.CandidateAttachments.push(candidateAttachment);
+                  this.notifierService.notify('default',
+                    'File uploaded successfully');
+                }
+              });
+          }
+        });
+
+
+    } else {
+      this.notifierService.notify('default', 'Unsupported file format!');
+    }
+
+    this.filesToUpload = [];
+  }
+
+
+  deleteCandidateAttachment(candidateAttachment: CandidateAttachment, index: number) {
+    this.settingsService.deleteResource('Delete Attachment')
+      .then(result => {
+        if (result.confirmationStatus) {
+
+          const candidateAttachments = [];
+          candidateAttachments.push(candidateAttachment.ModifiedFileName);
+
+          this.isDisabled = true;
+          this.candidateDataStorageService.deleteCandidateAttachment(candidateAttachment.Id)
+            .subscribe((data: any) => {
+              this.isDisabled = false;
+
+              if (data.statusText !== 'Success') {
+                this.notifierService.notify('default', data.statusText);
+              } else {
+                this.candidate.CandidateAttachments.splice(index, 1);
+
+                if (this.candidate.CandidateAttachments.length === 0) {
+                  this.candidate.CandidateAttachments = null;
+                }
+                this.notifierService.notify('default', 'Attachment deleted successfully.');
+              }
+
+            });
+        }
+      });
   }
 
   favouriteCandidates(candidate: Candidate) {
@@ -479,7 +576,11 @@ export class CandidateIdComponent implements OnInit, DoCheck {
     window.open('http://' + this.candidate.LinkedInUrl);
   }
 
-  downloadFile(candidateAttachment: CandidateAttachment) {
+  goToGithubProfile() {
+    window.open('http://' + this.candidate.GitHubUrl);
+  }
+
+  downloadCandidateAttachment(candidateAttachment: CandidateAttachment) {
     window.open('http://localhost:55586/Content/Attachments/' +
       candidateAttachment.ModifiedFileName);
   }
