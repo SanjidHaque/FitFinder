@@ -1,4 +1,4 @@
-import {Component, DoCheck, OnInit} from '@angular/core';
+import {Component, DoCheck, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Data, Router} from '@angular/router';
 import {Candidate} from '../../../models/candidate/candidate.model';
 import {CandidateDataStorageService} from '../../../services/data-storage-services/candidate-data-storage.service';
@@ -24,6 +24,7 @@ import {SettingsService} from '../../../services/shared-services/settings.servic
 import {DialogService} from '../../../services/dialog-services/dialog.service';
 import {JobAttachment} from '../../../models/job/job-attachment.model';
 import {AttachmentDataStorageService} from '../../../services/data-storage-services/attachment-data-storage.service';
+import {UserAccountDataStorageService} from '../../../services/data-storage-services/user-account-data-storage.service';
 
 
 
@@ -48,7 +49,11 @@ export class CandidateIdComponent implements OnInit, DoCheck {
   candidate: Candidate;
   jobs: Job[] = [];
   job: Job;
-  filesToUpload: Array<File> = [];
+  candidateAttachmentsToUpload: Array<File> = [];
+  candidateImageToUpload: File = null;
+  @ViewChild('image', { static: false }) imageElementRef: ElementRef;
+
+  imageFolerPath = '';
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -60,6 +65,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
               private jobDataStorageService: JobDataStorageService,
               private attachmentDataStorageService: AttachmentDataStorageService,
               private candidateDataStorageService: CandidateDataStorageService,
+              private userAccountDataStorageService: UserAccountDataStorageService,
               private jobAssignmentDataStorageService: JobAssignmentDataStorageService) {}
 
   ngOnInit() {
@@ -68,6 +74,15 @@ export class CandidateIdComponent implements OnInit, DoCheck {
           this.jobs = data['jobs'].jobs;
           this.candidate = data['candidate'].candidate;
           this.departments = data['departments'].departments;
+
+          this.imageFolerPath = this.userAccountDataStorageService.imageFolderPath;
+
+          if (this.candidate.CandidateImagePath !== null) {
+            this.candidate.CandidateImagePath = this.imageFolerPath + this.candidate.CandidateImagePath;
+          } else {
+            this.candidate.CandidateImagePath = this.candidateDefaultImage;
+          }
+
         });
 
     if (this.candidate.JobAssignments !== null) {
@@ -269,28 +284,79 @@ export class CandidateIdComponent implements OnInit, DoCheck {
     });
   }
 
-  getFile() {
-    document.getElementById('choseFile').click();
+
+  updateCandidateImage(file: FileList) {
+
+
+    const fileExtension = file.item(0).name.split('.').pop();
+    if (fileExtension === 'jpg' || fileExtension === 'jpeg' || fileExtension === 'png') {
+
+      const fileName = file.item(0).name
+        .substr(0, file.item(0).name.lastIndexOf('.'));
+      const newFileName = fileName + Date.now() + '.' + fileExtension;
+      const newFile = new File([file.item(0)], newFileName, {type: file.item(0).type});
+
+      this.isDisabled = true;
+      this.attachmentDataStorageService
+        .uploadImage(this.candidate.Id.toString(), newFile, 'Candidate')
+        .subscribe((data: any) => {
+
+          this.isDisabled = false;
+          if (data.statusText !== 'Success') {
+            this.isDisabled = false;
+            this.notifierService.notify('default', data.statusText);
+
+          } else {
+
+            this.candidateImageToUpload = newFile;
+            const reader = new FileReader();
+            reader.onload = (event: any) => {
+              this.candidate.CandidateImagePath = event.target.result;
+            };
+            reader.readAsDataURL(this.candidateImageToUpload);
+            this.imageElementRef.nativeElement.value = '';
+            this.notifierService.notify('default', 'Candidate photo updated.');
+          }
+
+        });
+
+    } else {
+      this.notifierService.notify('default', 'Unsupported file format!');
+    }
   }
 
-  addNewCandidateAttachment(fileInput: any) {
+  deleteCandidateImage() {
+    this.candidate.CandidateImagePath = this.candidateDefaultImage;
+    this.candidateImageToUpload = null;
+    this.imageElementRef.nativeElement.value = '';
+  }
 
-    const fileName = fileInput.target.files[0].name
-      .substr(0, fileInput.target.files[0].name.lastIndexOf('.'));
+  getCandidateImage() {
+    document.getElementById('candidateImage').click();
+  }
 
-    const fileExtension = fileInput.target.files[0].name.split('.').pop();
+  getCandidateAttachment() {
+    document.getElementById('candidateAttachment').click();
+  }
+
+  addNewCandidateAttachment(file: any) {
+
+    const fileName = file.target.files[0].name
+      .substr(0, file.target.files[0].name.lastIndexOf('.'));
+
+    const fileExtension = file.target.files[0].name.split('.').pop();
 
     if (fileExtension === 'pdf' || fileExtension === 'doc' || fileExtension === 'docx') {
 
       const newFileName = fileName + Date.now() + '.' + fileExtension;
-      const newFile = new File([fileInput.target.files[0]], newFileName, {type: fileInput.target.files[0].type});
-      this.filesToUpload.push(newFile);
+      const newFile = new File([file.target.files[0]], newFileName, {type: file.target.files[0].type});
+      this.candidateAttachmentsToUpload.push(newFile);
 
       const candidateAttachment = new CandidateAttachment(
         null,
         null,
         this.candidate.Id,
-        fileInput.target.files[0].name,
+        file.target.files[0].name,
         newFile.name,
         false
       );
@@ -299,7 +365,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
         this.candidate.CandidateAttachments = [];
       }
 
-      this.attachmentDataStorageService.uploadAttachments(this.filesToUpload)
+      this.attachmentDataStorageService.uploadAttachments(this.candidateAttachmentsToUpload)
         .subscribe((data: any) => {
 
           if (data.statusText !== 'Success') {
@@ -329,9 +395,30 @@ export class CandidateIdComponent implements OnInit, DoCheck {
       this.notifierService.notify('default', 'Unsupported file format!');
     }
 
-    this.filesToUpload = [];
+    this.candidateAttachmentsToUpload = [];
   }
 
+  changeCandidateResume(candidateAttachment: CandidateAttachment, index: number) {
+    this.isDisabled = true;
+
+    this.candidateDataStorageService.changeCandidateResume(candidateAttachment)
+      .subscribe((data: any) => {
+        this.isDisabled = false;
+
+        if (data.statusText !== 'Success') {
+          this.notifierService.notify('default', data.statusText);
+        } else {
+          this.candidate.CandidateAttachments[index].IsResume = !this.candidate.CandidateAttachments[index].IsResume;
+          for (let i = 0; i < this.candidate.CandidateAttachments.length; i++) {
+            if (i !== index) {
+              this.candidate.CandidateAttachments[i].IsResume = false;
+            }
+          }
+          this.notifierService.notify('default', 'Candidate resume changed.');
+        }
+
+      });
+  }
 
   deleteCandidateAttachment(candidateAttachment: CandidateAttachment, index: number) {
     this.settingsService.deleteResource('Delete Attachment')

@@ -21,4 +21,12 @@ export class AttachmentDataStorageService {
     }
     return this.httpClient.post(this.rootUrl + '/api/UploadAttachments', formData);
   }
+
+  uploadImage(id: string, candidateImage: File, objectType: string) {
+    const formData = new FormData();
+    formData.append('CandidateImage', candidateImage);
+    formData.append('Id', id);
+    formData.append('ObjectType', objectType);
+    return this.httpClient.post(this.rootUrl + '/api/UploadImage', formData);
+  }
 }

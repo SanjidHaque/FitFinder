@@ -7,6 +7,7 @@ using System.Security.Claims;
 using System.Web;
 using System.Web.Http;
 using FitFinderBackEnd.Models;
+using FitFinderBackEnd.Models.Candidate;
 using FitFinderBackEnd.Services;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -17,13 +18,15 @@ namespace FitFinderBackEnd.Controllers
     [Authorize]
     public class AttachmentsController : ApiController
     {
-        
-       private ApplicationUserManager _userManager;
-       private StatusTextService _statusTextService;
+
+        private ApplicationUserManager _userManager;
+        private StatusTextService _statusTextService;
+        private readonly ApplicationDbContext _context;
 
         public AttachmentsController()
         {
             _statusTextService = new StatusTextService();
+            _context = new ApplicationDbContext();
         }
 
         public AttachmentsController(ApplicationUserManager userManager,
@@ -71,10 +74,56 @@ namespace FitFinderBackEnd.Controllers
 
             }
 
-
-
-            return Ok(new {statusText = _statusTextService.Success });
+            return Ok(new { statusText = _statusTextService.Success });
         }
+
+
+        [HttpPost]
+        [Route("api/UploadImage")]
+        [AllowAnonymous]
+        public IHttpActionResult UploadImage()
+        {
+
+            HttpRequest httpRequest = HttpContext.Current.Request;
+            var postedFile = httpRequest.Files[0];
+            var filePath = HttpContext.Current.Server.MapPath("~/Content/Images/" + postedFile.FileName);
+
+            try
+            {   
+                postedFile.SaveAs(filePath);
+            }
+            catch (HttpException)
+            {
+                return Ok(new { statusText = _statusTextService.SomethingWentWrong });
+            }
+
+            string idInString = httpRequest["Id"];
+            int id = int.Parse(idInString);
+
+            string objectType = httpRequest["ObjectType"];
+
+            if (objectType == "Candidate")
+            {
+                Candidate candidate = _context.Candidates.FirstOrDefault(x => x.Id == id);
+                if (candidate == null)
+                {
+                    return Ok(new { statusText = _statusTextService.ResourceNotFound });
+                }
+
+                if (candidate.CandidateImagePath != null)
+                {
+                    DeleteAttachments(new List<string>{ postedFile.FileName });
+                }
+
+                candidate.CandidateImagePath = postedFile.FileName;
+                _context.SaveChanges();
+
+            }
+
+            return Ok(new { statusText = _statusTextService.Success });
+        }
+
+
 
 
         [HttpPost]

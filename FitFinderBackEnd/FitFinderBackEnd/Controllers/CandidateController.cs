@@ -4,7 +4,6 @@ using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Web.Http;
-using Antlr.Runtime.Misc;
 using FitFinderBackEnd.Models;
 using FitFinderBackEnd.Models.Candidate;
 using FitFinderBackEnd.Models.Job;
@@ -293,6 +292,45 @@ namespace FitFinderBackEnd.Controllers
             return Ok(new { candidateAttachment.Id, statusText = _statusTextService.Success });
         }
 
+        [HttpPost]
+        [Route("api/ChangeCandidateResume")]
+        public IHttpActionResult ChangeCandidateResume(CandidateAttachment candidateAttachment)
+        {
+            CandidateAttachment getCandidateAttachment = _context.CandidateAttachments
+                .FirstOrDefault(x => x.Id == candidateAttachment.Id);
+
+            if (getCandidateAttachment == null)
+            {
+                return Ok(new { statusText = _statusTextService.ResourceNotFound });
+            }
+
+            if (getCandidateAttachment.IsResume)
+            {
+                getCandidateAttachment.IsResume = false;
+            }
+            else
+            {
+                getCandidateAttachment.IsResume = true;
+            }
+
+            List<CandidateAttachment> candidateAttachments = _context.CandidateAttachments
+                .Where(x => x.CandidateId ==  candidateAttachment.CandidateId)
+                .AsNoTracking()
+                .ToList();
+            candidateAttachments.ForEach(x =>
+            {
+                if (x.Id != candidateAttachment.Id)
+                {
+                    x.IsResume = false;
+                }
+            });
+
+            _context.SaveChanges();
+            return Ok(new { statusText = _statusTextService.Success });
+        }
+
+
+
         [HttpDelete]
         [Route("api/DeleteCandidateAttachment/{candidateAttachmentId}")]
         [AllowAnonymous]
@@ -307,6 +345,25 @@ namespace FitFinderBackEnd.Controllers
             List<CandidateAttachment> candidateAttachments = new List<CandidateAttachment> { candidateAttachment };
             _sharedService.DeleteCandidateAttachment(candidateAttachments);
             _context.CandidateAttachments.Remove(candidateAttachment);
+
+            _context.SaveChanges();
+            return Ok(new { statusText = _statusTextService.Success });
+        }
+
+
+        [HttpPost]
+        [Route("api/DeleteCandidateImage")]
+        [AllowAnonymous]
+        public IHttpActionResult DeleteCandidateImage(Candidate candidate)
+        {
+            Candidate getCandidate = _context.Candidates.FirstOrDefault(x => x.Id == candidate.Id);
+            if (getCandidate == null)
+            {
+                return Ok(new { statusText = _statusTextService.ResourceNotFound });
+            }
+
+            _sharedService.OnDeleteAttachment(new List<string>{ getCandidate.CandidateImagePath });
+            getCandidate.CandidateImagePath = null;
 
             _context.SaveChanges();
             return Ok(new { statusText = _statusTextService.Success });

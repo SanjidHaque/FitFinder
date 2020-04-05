@@ -154,6 +154,7 @@ export class EditCandidateComponent implements OnInit {
       false,
       '',
       false,
+      '',
       null,
       null
     );

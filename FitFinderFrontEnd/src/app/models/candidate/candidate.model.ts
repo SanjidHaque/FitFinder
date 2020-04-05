@@ -30,6 +30,7 @@ export class Candidate {
     public IsClosed: boolean,
     public ApplicationDate: string,
     public IsFavourite: boolean,
+    public CandidateImagePath: string,
     public Company: Company,
     public CompanyId: number
   ) { }

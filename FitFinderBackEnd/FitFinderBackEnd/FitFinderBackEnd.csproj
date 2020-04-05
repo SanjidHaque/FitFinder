@@ -293,6 +293,10 @@
     <Compile Include="Migrations\202003221810276_ConfirmedDeclinedPropertyAdded.Designer.cs">
       <DependentUpon>202003221810276_ConfirmedDeclinedPropertyAdded.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202004041539547_CandidateImagePathPropertyAdded.cs" />
+    <Compile Include="Migrations\202004041539547_CandidateImagePathPropertyAdded.Designer.cs">
+      <DependentUpon>202004041539547_CandidateImagePathPropertyAdded.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -425,6 +429,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Images\" />
     <Folder Include="Views\Mvc\" />
   </ItemGroup>
   <ItemGroup>
@@ -486,6 +491,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202003221810276_ConfirmedDeclinedPropertyAdded.resx">
       <DependentUpon>202003221810276_ConfirmedDeclinedPropertyAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004041539547_CandidateImagePathPropertyAdded.resx">
+      <DependentUpon>202004041539547_CandidateImagePathPropertyAdded.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

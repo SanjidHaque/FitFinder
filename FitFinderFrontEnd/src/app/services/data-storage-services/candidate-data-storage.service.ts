@@ -37,6 +37,12 @@ export class CandidateDataStorageService {
         , candidateAttachment);
   }
 
+  changeCandidateResume(candidateAttachment: CandidateAttachment) {
+    return this.httpClient
+      .post<CandidateAttachment>(this.rootUrl + '/api/ChangeCandidateResume'
+        , candidateAttachment);
+  }
+
   archiveCandidates(candidates: Candidate[]) {
     return this.httpClient.put<Candidate[]>(this.rootUrl + '/api/ArchiveCandidates',
       candidates);

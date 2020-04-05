@@ -225,6 +225,7 @@ export class AddNewCandidateComponent implements OnInit {
       false,
       new Date().toString(),
       false,
+      '',
       null,
       null
     );

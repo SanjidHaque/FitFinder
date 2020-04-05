@@ -53,7 +53,7 @@
 
     <div class="row">
 
-      <div class="col-xl-10">
+      <div class="col-xl-9">
 
         <div class="row">
           <div class="col-xl-12"
@@ -80,7 +80,7 @@
       </div>
 
 
-      <div class="col-xl-2" style="text-align: center;">
+      <div class="col-xl-3" style="text-align: center;">
 
         <div class="row">
           <div class="col-xl-12">
@@ -88,8 +88,8 @@
             <img
               class="img-responsive"
               style="outline: 0;
-              border-radius: 50%; height: 70px; width: 70px"
-              [src]="candidateDefaultImage">
+              border-radius: 50%; height: 100px; width: 100px"
+              [src]="candidate.CandidateImagePath">
 
           </div>
         </div>
@@ -98,15 +98,34 @@
 
           <div class="offset-xl-1 col-xl-5 text-xl-right">
 
-            <i style="cursor: pointer;"
-               title="Add/edit image" class="fas fa-plus-circle"></i>
+            <i
+              matRipple
+              [matRippleUnbounded]="true"
+              [ngClass]="[!isDisabled ? 'enable-icon' : 'disable-icon']"
+              (click)="getCandidateImage()"
+              style="cursor: pointer;"
+              title="Update photo"
+              class="fas fa-plus-circle"></i>
+
+            <input
+              #image
+              id="candidateImage"
+              hidden
+              type="file"
+              accept="image/*"
+              (change)="updateCandidateImage($event.target.files)">
 
           </div>
 
           <div class="col-xl-5 text-xl-left">
 
-            <i style="cursor: pointer;"
-               title="Remove image" class="far fa-trash-alt"></i>
+            <i matRipple
+               [matRippleUnbounded]="true"
+               [ngClass]="[!isDisabled ? 'enable-icon' : 'disable-icon']"
+               (click)="deleteCandidateImage()"
+               style="cursor: pointer;"
+               title="Remove image"
+               class="far fa-trash-alt"></i>
 
           </div>
 
@@ -251,11 +270,11 @@
           style="outline: 0;"
           type="button"
           matTooltip="Add attachments"
-          (click)="getFile()"
+          (click)="getCandidateAttachment()"
           mat-flat-button><i class="fas fa-plus-circle"></i> Add</button>
       </div>
 
-      <input id="choseFile"
+      <input id="candidateAttachment"
              (change)="addNewCandidateAttachment($event)"
              hidden
              type="file"/>
@@ -306,6 +325,7 @@
                 matRipple
                 [matRippleUnbounded]="true"
                 [ngClass]="[!isDisabled ? 'enable-icon' : 'disable-icon']"
+                (click)="changeCandidateResume(candidateAttachment ,i)"
                 style="cursor: pointer;"
                 title="Set as Resume"
                 class="fas fa-file-prescription"></i>

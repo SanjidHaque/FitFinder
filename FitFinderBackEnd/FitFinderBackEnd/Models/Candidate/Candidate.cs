@@ -28,6 +28,7 @@ namespace FitFinderBackEnd.Models.Candidate
         public bool IsClosed  { get; set; }
         public string ApplicationDate { get; set; }
         public bool IsFavourite { get; set; }
+        public string CandidateImagePath { get; set; }
         public Company Company { get; set; }    
         public long? CompanyId { get; set; } 
     

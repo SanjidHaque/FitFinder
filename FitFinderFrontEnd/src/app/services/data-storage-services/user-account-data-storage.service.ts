@@ -12,6 +12,7 @@ import {Job} from '../../models/job/job.model';
 export class UserAccountDataStorageService {
   backEndPort = '55586';
   rootUrl = 'http://localhost:' + this.backEndPort;
+  imageFolderPath = this.rootUrl + '/Content/Images/';
 
 
   // rootUrl = 'http://18.190.19.146:4204/';
