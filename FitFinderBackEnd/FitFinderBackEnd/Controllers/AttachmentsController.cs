@@ -21,12 +21,14 @@ namespace FitFinderBackEnd.Controllers
 
         private ApplicationUserManager _userManager;
         private StatusTextService _statusTextService;
+        private SharedService _sharedService;
         private readonly ApplicationDbContext _context;
 
         public AttachmentsController()
         {
             _statusTextService = new StatusTextService();
             _context = new ApplicationDbContext();
+            _sharedService = new SharedService();
         }
 
         public AttachmentsController(ApplicationUserManager userManager,
@@ -112,7 +114,7 @@ namespace FitFinderBackEnd.Controllers
 
                 if (candidate.CandidateImagePath != null)
                 {
-                    DeleteAttachments(new List<string>{ postedFile.FileName });
+                    _sharedService.OnDeleteAttachment(new List<string>{ candidate.CandidateImagePath }, "Image");
                 }
 
                 candidate.CandidateImagePath = postedFile.FileName;
@@ -123,16 +125,13 @@ namespace FitFinderBackEnd.Controllers
             return Ok(new { statusText = _statusTextService.Success });
         }
 
-
-
-
         [HttpPost]
         [Route("api/DeleteAttachments")]
         [AllowAnonymous]
         public IHttpActionResult DeleteAttachments(List<string> modifiedFileNames)
         {
             SharedService sharedService = new SharedService();
-            sharedService.OnDeleteAttachment(modifiedFileNames);
+            sharedService.OnDeleteAttachment(modifiedFileNames, "Attachment");
 
             return Ok(new { statusText = _statusTextService.Success });
         }

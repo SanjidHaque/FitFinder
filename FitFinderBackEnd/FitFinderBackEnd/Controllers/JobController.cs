@@ -334,7 +334,7 @@ namespace FitFinderBackEnd.Controllers
                 modifiedFileNames.Add(jobAttachment.ModifiedFileName);
             });
 
-            _sharedService.OnDeleteAttachment(modifiedFileNames);
+            _sharedService.OnDeleteAttachment(modifiedFileNames, "Attachment");
 
             _context.Jobs.Remove(job);
             _context.SaveChanges();

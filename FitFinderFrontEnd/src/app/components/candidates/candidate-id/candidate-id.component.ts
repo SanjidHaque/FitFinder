@@ -286,8 +286,6 @@ export class CandidateIdComponent implements OnInit, DoCheck {
 
 
   updateCandidateImage(file: FileList) {
-
-
     const fileExtension = file.item(0).name.split('.').pop();
     if (fileExtension === 'jpg' || fileExtension === 'jpeg' || fileExtension === 'png') {
 
@@ -311,7 +309,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
             this.candidateImageToUpload = newFile;
             const reader = new FileReader();
             reader.onload = (event: any) => {
-              this.candidate.CandidateImagePath = event.target.result;
+              this.candidate.CandidateImagePath = this.imageFolerPath + newFile.name;
             };
             reader.readAsDataURL(this.candidateImageToUpload);
             this.imageElementRef.nativeElement.value = '';
@@ -326,9 +324,36 @@ export class CandidateIdComponent implements OnInit, DoCheck {
   }
 
   deleteCandidateImage() {
-    this.candidate.CandidateImagePath = this.candidateDefaultImage;
-    this.candidateImageToUpload = null;
-    this.imageElementRef.nativeElement.value = '';
+
+    this.settingsService.deleteResource('Delete Attachment')
+      .then(result => {
+        if (result.confirmationStatus) {
+
+          if (this.candidate.CandidateImagePath === this.candidateDefaultImage) {
+            this.notifierService.notify('default', 'No photo found!');
+            return;
+          }
+
+          this.isDisabled = true;
+          this.candidateDataStorageService.deleteCandidateImage(this.candidate)
+            .subscribe((data: any) => {
+              this.isDisabled = false;
+              if (data.statusText !== 'Success') {
+
+                this.notifierService.notify('default', data.statusText);
+
+              } else {
+
+                this.candidate.CandidateImagePath = this.candidateDefaultImage;
+                this.candidateImageToUpload = null;
+                this.imageElementRef.nativeElement.value = '';
+                this.notifierService.notify('default', 'Photo deleted ');
+              }
+
+            });
+
+        }
+      });
   }
 
   getCandidateImage() {

@@ -362,7 +362,7 @@ namespace FitFinderBackEnd.Controllers
                 return Ok(new { statusText = _statusTextService.ResourceNotFound });
             }
 
-            _sharedService.OnDeleteAttachment(new List<string>{ getCandidate.CandidateImagePath });
+            _sharedService.OnDeleteAttachment(new List<string>{ getCandidate.CandidateImagePath }, "Image");
             getCandidate.CandidateImagePath = null;
 
             _context.SaveChanges();
@@ -471,7 +471,9 @@ namespace FitFinderBackEnd.Controllers
                 modifiedFileNames.Add(candidateAttachment.ModifiedFileName);
             });
 
-            _sharedService.OnDeleteAttachment(modifiedFileNames);
+            _sharedService.OnDeleteAttachment(modifiedFileNames, "Attachment");
+            _sharedService.OnDeleteAttachment(new List<string>{ candidate.CandidateImagePath }, "Image");
+
 
             _context.Candidates.Remove(candidate);
             _context.SaveChanges();

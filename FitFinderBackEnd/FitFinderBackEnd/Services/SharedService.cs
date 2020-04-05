@@ -103,11 +103,22 @@ namespace FitFinderBackEnd.Services
 
 
 
-        public void OnDeleteAttachment(List<string> modifiedFileNames)
+        public void OnDeleteAttachment(List<string> modifiedFileNames, string folderType)
         {
+            string folderPath;
+            if (folderType == "Attachment")
+            {
+                folderPath = "~/Content/Attachments/";
+            }
+            else
+            {
+                folderPath = "~/Content/Images/";
+            }
+           
+
             modifiedFileNames.ForEach(modifiedFileName =>
             {
-                string filePath = HttpContext.Current.Server.MapPath("~/Content/Attachments/" + modifiedFileName);
+                string filePath = HttpContext.Current.Server.MapPath(folderPath + modifiedFileName);
                 if (File.Exists(filePath))
                 {
                     try
@@ -133,7 +144,7 @@ namespace FitFinderBackEnd.Services
                 {
                     fileNames.Add(fileName.ModifiedFileName);
                 });
-                OnDeleteAttachment(fileNames);
+                OnDeleteAttachment(fileNames, "Attachment");
             }
         }
 
@@ -147,7 +158,7 @@ namespace FitFinderBackEnd.Services
                 {
                     fileNames.Add(fileName.ModifiedFileName);
                 });
-                OnDeleteAttachment(fileNames);
+                OnDeleteAttachment(fileNames, "Attachment");
             }
         }
 

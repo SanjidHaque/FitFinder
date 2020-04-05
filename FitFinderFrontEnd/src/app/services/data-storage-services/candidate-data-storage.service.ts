@@ -68,6 +68,11 @@ export class CandidateDataStorageService {
       candidate);
   }
 
+  deleteCandidateImage(candidate: Candidate) {
+    return this.httpClient.post<Candidate>(this.rootUrl + '/api/DeleteCandidateImage',
+      candidate);
+  }
+
   deleteCandidateAttachment(candidateAttachmentId: number) {
     return this.httpClient
       .delete(`${this.rootUrl + '/api/DeleteCandidateAttachment'}/${candidateAttachmentId}`);
