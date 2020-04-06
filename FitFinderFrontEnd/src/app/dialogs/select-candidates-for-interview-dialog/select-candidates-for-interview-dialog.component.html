@@ -1,53 +1,51 @@
 <div class="row">
-  <div class="col-xl-12">
+  <div class="col-xl-10">
 
-    <h2 mat-dialog-title>Add Candidates</h2>
-    <hr>
+    <h4>Add Candidates</h4>
 
   </div>
-</div>
 
+
+    <div class="col-xl-2 text-xl-right">
+
+      <button
+        *ngIf="isFilterTouched"
+        (click)="resetAllFilter()"
+        style=" outline: 0;"
+        mat-stroked-button>Reset</button>
+
+    </div>
+
+
+</div>
 
 
 <div class="row">
 
   <div class="col-xl-3 col-3" style="padding-top: 14px;">
 
-    <div class="row">
-      <div class="col-xl-12">
+    <!--<div class="row">-->
+      <!--<div class="col-xl-12">-->
 
-        <mat-button-toggle-group #group="matButtonToggleGroup" [value]="selectedValue" (change)="onValueChange(group.value)">
-          <mat-button-toggle value="all"> All </mat-button-toggle>
-          <mat-button-toggle value="active"> Active </mat-button-toggle>
-          <mat-button-toggle value="closed"> Closed </mat-button-toggle>
-        </mat-button-toggle-group>
+        <!--<mat-button-toggle-group #group="matButtonToggleGroup" [value]="selectedValue" (change)="onValueChange(group.value)">-->
+          <!--<mat-button-toggle value="All"> All </mat-button-toggle>-->
+          <!--<mat-button-toggle value="Active"> Active </mat-button-toggle>-->
+          <!--<mat-button-toggle value="Closed"> Closed </mat-button-toggle>-->
+        <!--</mat-button-toggle-group>-->
 
-      </div>
-    </div>
-
-    <div class="row" >
-
-      <div class="col-xl-10" style="
-       padding-top: 20px; text-align: left;
-       padding-left: 21px;
-       font-weight: bold;
-       font-size: 14px;">
-        Show Archived <mat-slide-toggle
-        (change)="archiveStatus($event)"
-        color="primary"></mat-slide-toggle>
-      </div>
-
-    </div>
+      <!--</div>-->
+    <!--</div>-->
 
     <div class="row" >
 
       <div class="col-xl-10" style="
       padding-left: 21px;
-       padding-top: 20px; text-align: left;
-       font-weight: bold;
-       font-size: 14px;">
+      text-align: left;
+      font-weight: bold;
+      font-size: 14px;">
         Favourites Only <mat-slide-toggle
-        (change)="favouriteStatus($event)"
+        [checked]="favouriteSelected"
+        (change)="filterByFavourite($event)"
         color="primary"></mat-slide-toggle>
       </div>
 
@@ -59,46 +57,14 @@
 
   <div class="col-xl-9 col-9">
 
-    <div class="row">
-      <div class="col-xl-1 col-1"
-           style="padding-top: 23px; padding-left: 26px; text-align: center;">
+    <div class="row"
+         *ngIf="candidates.length === 0; else candidateExists"
+         style="
+         opacity: .8;
+         height: 75vh">
+      <div class="col-xl-12">
 
-        <mat-checkbox (change)="$event ? masterToggle() : null"
-                      color="primary"
-                      matTooltip="Select all"
-                      matTooltipPosition="left"
-                      style="margin-top: 18px;"
-                      [checked]="selection.hasValue() && isAllSelected()"
-                      [indeterminate]="selection.hasValue() && !isAllSelected()">
-        </mat-checkbox>
-
-      </div>
-
-      <div class="col-xl-11 col-11" style="padding-top: 5px;">
-
-        <mat-form-field appearance="outline" class="select-candidates"
-          style="width: 100%;">
-          <input
-            matInput
-            [(ngModel)]="term"
-            placeholder="Search Candidates">
-        </mat-form-field>
-
-      </div>
-
-    </div>
-
-    <mat-dialog-content class="mat-typography">
-
-      <div class="row"
-           *ngIf="candidates.length == 0; else candidateExists"
-           style="margin-top: 10px;
-           opacity: .8;
-           border: 1px solid #f0f0f0; border-radius: 5px;">
-        <div class="col-xl-12">
-          <br>
-          <br>
-          <div style="text-align: center;">
+          <div style="text-align: center; padding-top: 150px;">
             <i class="fab fa-blackberry fa-5x"></i>
           </div>
 
@@ -113,7 +79,38 @@
       </div>
 
       <ng-template #candidateExists>
-<div style="height: 40vh; overflow-x: hidden; overflow-y: visible;">
+
+
+        <div class="row">
+          <div class="col-xl-1 col-1"
+               style="padding-top: 23px; padding-left: 26px; text-align: center;">
+
+            <mat-checkbox (change)="$event ? masterToggle() : null"
+                          color="primary"
+                          matTooltip="Select all"
+                          matTooltipPosition="left"
+                          style="margin-top: 18px;"
+                          [checked]="selection.hasValue() && isAllSelected()"
+                          [indeterminate]="selection.hasValue() && !isAllSelected()">
+            </mat-checkbox>
+
+          </div>
+
+          <div class="col-xl-11 col-11" style="padding-top: 5px;">
+
+            <mat-form-field appearance="outline" class="select-candidates"
+                            style="width: 100%;">
+              <input
+                matInput
+                [(ngModel)]="term"
+                placeholder="Search Candidates">
+            </mat-form-field>
+
+          </div>
+
+        </div>
+
+<div style="height: 62vh; overflow-x: hidden; overflow-y: scroll">
 
   <div class="row"
        *ngFor="let candidate of candidates | searchCandidate:term">
@@ -122,13 +119,15 @@
 
       <div class="row">
         <div class="col-xl-12"
-             style="padding-top: 25px; text-align: center; padding-right: 1px;"
-        >
-          <mat-checkbox (click)="$event.stopPropagation()"
-                        color="primary"
-                        (change)="$event ? selection.toggle(candidate) : null"
-                        [checked]="selection.isSelected(candidate)">
+             style="padding-top: 25px; text-align: center; padding-right: 1px;">
+
+          <mat-checkbox
+            (click)="$event.stopPropagation()"
+            color="primary"
+            (change)="$event ? selection.toggle(candidate) : null"
+            [checked]="selection.isSelected(candidate)">
           </mat-checkbox>
+
         </div>
       </div>
 
@@ -200,13 +199,7 @@
 
 </div>
 
-
       </ng-template>
-
-
-
-
-    </mat-dialog-content>
 
 
   </div>

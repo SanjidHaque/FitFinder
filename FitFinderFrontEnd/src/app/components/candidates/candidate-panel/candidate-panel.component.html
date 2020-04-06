@@ -228,7 +228,8 @@
                     outline: 0;
                     cursor: pointer;
                     border-radius: 50%;height: 60px; width: 60px"
-                    [src]="candidate.CandidateImagePath">
+                    [src]="imageFolderPath + candidate.CandidateImagePath"
+                    (error)="img.src = candidateDefaultImage" #img>
                 </div>
 
                 <div class="col-xl-7">

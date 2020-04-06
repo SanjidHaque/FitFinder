@@ -47,23 +47,13 @@ export class CandidatePanelComponent implements OnInit {
       .subscribe((data: Data) => {
           this.jobs = data['jobs'].jobs;
           this.candidateService.candidates = data['candidates'].candidates;
+          this.imageFolderPath = this.userAccountDataStorageService.imageFolderPath;
+        //  this.candidateService.setCandidateProfilePicture();
           this.candidates = this.candidateService.getAllCandidate()
             .filter(x => x.IsArchived === false);
-          this.imageFolderPath = this.userAccountDataStorageService.imageFolderPath;
-          this.setCandidateProfilePicture();
       });
   }
 
-
-  setCandidateProfilePicture() {
-    this.candidates.forEach(candidate => {
-      if (candidate.CandidateImagePath !== null) {
-        candidate.CandidateImagePath = this.imageFolderPath + candidate.CandidateImagePath;
-      } else {
-        candidate.CandidateImagePath = this.candidateDefaultImage;
-      }
-    });
-  }
 
 
 
@@ -127,13 +117,14 @@ export class CandidatePanelComponent implements OnInit {
                 for (let i = 0; i < this.candidates.length; i++) {
                   for (let j = 0; j < candidates.length; j++) {
                     if (this.candidates[i].Id === candidates[j].Id) {
-                      this.candidates.splice(j, 1);
+                      this.candidates.splice(i, 1);
                     }
                   }
                 }
               }
 
               this.candidateService.archiveCandidates(candidates);
+              console.log(this.candidates);
               this.selection.clear();
               this.notifierService.notify('default', 'Archived successfully!');
             });
@@ -154,7 +145,7 @@ export class CandidatePanelComponent implements OnInit {
         if (result.confirmationStatus) {
 
           let candidates: Candidate[] = this.selection.selected;
-          candidates = candidates.filter(x => x.IsArchived === false);
+          candidates = candidates.filter(x => x.IsArchived === true);
 
           if (candidates.length === 0) {
             this.notifierService.notify('default', 'Already restored!');
@@ -200,6 +191,7 @@ export class CandidatePanelComponent implements OnInit {
     this.archivedSelected = event.checked;
     this.candidates = this.candidateService.filterByArchived(
       this.archivedSelected, this.favouriteSelected);
+    console.log(this.candidates);
   }
 
   filterByFavourite(event: any) {

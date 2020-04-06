@@ -4,7 +4,7 @@ import {SelectionModel} from '@angular/cdk/collections';
 import * as moment from 'moment';
 import {Job} from '../../models/job/job.model';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {UserAccountDataStorageService} from '../../services/data-storage-services/user-account-data-storage.service';
+import {CandidateService} from '../../services/shared-services/candidate.service';
 
 @Component({
   selector: 'app-select-candidates-for-interview',
@@ -13,12 +13,13 @@ import {UserAccountDataStorageService} from '../../services/data-storage-service
   encapsulation: ViewEncapsulation.None
 })
 export class SelectCandidatesForInterviewDialogComponent implements OnInit, OnDestroy {
+  isDisabled = false;
+  isFilterTouched = false;
+
+  archivedSelected = false;
+  favouriteSelected = false;
+  selectedCandidateStatus = 'All';
   term: string;
-  selectedValue = 'all';
-  archivedChecked = false;
-  favouriteChecked = false;
-  candidateDefaultImage = 'assets/images/defaultImage.png';
-  imageFolderPath = '';
 
   selection = new SelectionModel<Candidate>(true, []);
 
@@ -26,36 +27,35 @@ export class SelectCandidatesForInterviewDialogComponent implements OnInit, OnDe
   jobs: Job[] = [];
 
   constructor(public dialogRef: MatDialogRef<SelectCandidatesForInterviewDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: any,
-              private userAccountDataStorageService: UserAccountDataStorageService) {}
+              private candidateService: CandidateService,
+              @Inject(MAT_DIALOG_DATA) public data: any) {}
 
   ngOnInit() {
-    this.candidates = this.data.candidates;
+    this.candidateService.candidates  = this.data.candidates;
+    this.candidateService.setCandidateProfilePicture();
+    this.candidates = this.candidateService.getAllCandidate()
+      .filter(x => x.IsArchived === false);
     this.jobs = this.data.jobs;
-    this.imageFolderPath = this.userAccountDataStorageService.imageFolderPath;
-   // this.setCandidateProfilePicture();
   }
 
-  setCandidateProfilePicture() {
-    this.candidates.forEach(candidate => {
-      if (candidate.CandidateImagePath !== null) {
-        candidate.CandidateImagePath = this.imageFolderPath + candidate.CandidateImagePath;
-      } else {
-        candidate.CandidateImagePath = this.candidateDefaultImage;
-      }
-    });
+
+  resetAllFilter() {
+    this.isFilterTouched = false;
+    this.archivedSelected = false;
+    this.favouriteSelected = false;
+    this.candidates = this.candidateService.getAllCandidate()
+      .filter(x => x.IsArchived === false);
   }
 
-  archiveStatus(event: any) {
-    this.archivedChecked = event.checked;
+  filterByActiveStatus(value: string) {
+    this.selectedCandidateStatus = value;
   }
 
-  favouriteStatus(event: any) {
-    this.favouriteChecked = event.checked;
-  }
-
-  onValueChange(value: string) {
-    this.selectedValue = value;
+  filterByFavourite(event: any) {
+    this.isFilterTouched = true;
+    this.favouriteSelected = event.checked;
+    this.candidates = this.candidateService.filterByArchived(
+      this.archivedSelected, this.favouriteSelected);
   }
 
   isAllSelected() {
@@ -91,8 +91,9 @@ export class SelectCandidatesForInterviewDialogComponent implements OnInit, OnDe
   getApplicationDate(candidate: Candidate) {
     return moment(new Date(candidate.ApplicationDate)).format('Do MMMM, YYYY');
   }
+
+
   ngOnDestroy() {
-    console.log('Destroyed!');
     this.candidates = [];
   }
 

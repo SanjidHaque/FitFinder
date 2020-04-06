@@ -12,10 +12,9 @@ import {CommonModule} from '@angular/common';
 import {CandidateRoutingModule} from './candidate-routing.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AngularMaterialModule} from '../shared-modules/angular-material.module';
-import {StarRatingConfigService, StarRatingModule} from 'angular-star-rating';
+import {StarRatingModule} from 'angular-star-rating';
 import {PipeModule} from '../shared-modules/pipe.module';
 import {DialogModule} from '../shared-modules/dialog.module';
-import {AppComponent} from '../../app.component';
 import {EditCandidateComponent} from '../../components/candidates/edit-candidate/edit-candidate.component';
 
 

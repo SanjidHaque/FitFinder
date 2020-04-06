@@ -10,6 +10,9 @@
 @import '~css-star-rating/css/star-rating.css';
 
 
+.custom-dialog-container .mat-dialog-container {
+  padding-bottom: 0 !important;
+}
 
 .rating {
   outline: 0!important;
