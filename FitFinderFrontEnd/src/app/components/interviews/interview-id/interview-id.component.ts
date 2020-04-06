@@ -16,6 +16,7 @@ import {SettingsService} from '../../../services/shared-services/settings.servic
 import {UserAccount} from '../../../models/settings/user-account.model';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {InterviewerForInterview} from '../../../models/interview/interviewer-for-interview.model';
+import {UserAccountDataStorageService} from '../../../services/data-storage-services/user-account-data-storage.service';
 
 
 @Component({
@@ -28,6 +29,7 @@ export class InterviewIdComponent implements OnInit {
   isDisabled = false;
 
   candidateDefaultImage = 'assets/images/defaultImage.png';
+  imageFolderPath = '';
   assignInterviewerForm: FormGroup;
 
   interview: Interview;
@@ -45,6 +47,7 @@ export class InterviewIdComponent implements OnInit {
               private dialogService: DialogService,
               private settingsService: SettingsService,
               private interviewService: InterviewService,
+              private userAccountDataStorageService: UserAccountDataStorageService,
               private interviewDataStorageService: InterviewDataStorageService) {}
 
   ngOnInit() {
@@ -60,10 +63,29 @@ export class InterviewIdComponent implements OnInit {
           this.candidates = data['candidates'].candidates;
           this.userAccounts = data['userAccounts'].userAccounts;
           this.interviewStatuses = this.interviewService.getInterviewStatuses();
+          this.imageFolderPath = this.userAccountDataStorageService.imageFolderPath;
+          this.setCandidateProfilePicture();
           this.createAssignInterviewersForm();
         });
   }
 
+  setCandidateProfilePicture() {
+    this.candidates.forEach(candidate => {
+      if (candidate.CandidateImagePath !== null) {
+        candidate.CandidateImagePath = this.imageFolderPath + candidate.CandidateImagePath;
+      } else {
+        candidate.CandidateImagePath = this.candidateDefaultImage;
+      }
+    });
+
+    this.interview.CandidatesForInterview.forEach(candidate => {
+      if (candidate.Candidate.CandidateImagePath !== null) {
+        candidate.Candidate.CandidateImagePath = this.imageFolderPath + candidate.Candidate.CandidateImagePath;
+      } else {
+        candidate.Candidate.CandidateImagePath = this.candidateDefaultImage;
+      }
+    });
+  }
 
   createAssignInterviewersForm() {
     this.assignInterviewerForm = new FormGroup({
@@ -257,6 +279,15 @@ export class InterviewIdComponent implements OnInit {
           .assignCandidatesToInterview(candidatesForInterview)
           .subscribe((data: any) => {
 
+            data.candidatesForInterviews.forEach(candidate => {
+              if (candidate.Candidate.CandidateImagePath !== null) {
+                candidate.Candidate.CandidateImagePath = this.imageFolderPath + candidate.Candidate.CandidateImagePath;
+              } else {
+                candidate.Candidate.CandidateImagePath = this.candidateDefaultImage;
+              }
+            });
+
+
             if (this.interview.CandidatesForInterview === null) {
               this.interview.CandidatesForInterview =
                 data.candidatesForInterviews;
@@ -359,6 +390,10 @@ export class InterviewIdComponent implements OnInit {
 
   goToLinkedInProfile(candidate: Candidate) {
     window.open('http://' + candidate.LinkedInUrl);
+  }
+
+  goToGithubProfile(candidate: Candidate) {
+    window.open('http://' + candidate.GitHubUrl);
   }
 
 }

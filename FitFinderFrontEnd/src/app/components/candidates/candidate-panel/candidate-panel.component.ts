@@ -10,6 +10,7 @@ import {MatDialog} from '@angular/material';
 import {ActivatedRoute, Data} from '@angular/router';
 import {DialogService} from '../../../services/dialog-services/dialog.service';
 import {CandidateService} from '../../../services/shared-services/candidate.service';
+import {UserAccountDataStorageService} from '../../../services/data-storage-services/user-account-data-storage.service';
 
 
 @Component({
@@ -28,6 +29,7 @@ export class CandidatePanelComponent implements OnInit {
 
   selection = new SelectionModel<Candidate>(true, []);
   candidateDefaultImage = 'assets/images/defaultImage.png';
+  imageFolderPath = '';
 
   candidates: Candidate[] = [];
   jobs: Job[] = [];
@@ -36,6 +38,7 @@ export class CandidatePanelComponent implements OnInit {
               private notifierService: NotifierService,
               private candidateService: CandidateService,
               private dialog: MatDialog,
+              private userAccountDataStorageService: UserAccountDataStorageService,
               private route: ActivatedRoute,
               private dialogService: DialogService) {}
 
@@ -46,8 +49,23 @@ export class CandidatePanelComponent implements OnInit {
           this.candidateService.candidates = data['candidates'].candidates;
           this.candidates = this.candidateService.getAllCandidate()
             .filter(x => x.IsArchived === false);
-        });
+          this.imageFolderPath = this.userAccountDataStorageService.imageFolderPath;
+          this.setCandidateProfilePicture();
+      });
   }
+
+
+  setCandidateProfilePicture() {
+    this.candidates.forEach(candidate => {
+      if (candidate.CandidateImagePath !== null) {
+        candidate.CandidateImagePath = this.imageFolderPath + candidate.CandidateImagePath;
+      } else {
+        candidate.CandidateImagePath = this.candidateDefaultImage;
+      }
+    });
+  }
+
+
 
   favouriteCandidates(candidate: Candidate) {
     const candidates: Candidate[] = [];

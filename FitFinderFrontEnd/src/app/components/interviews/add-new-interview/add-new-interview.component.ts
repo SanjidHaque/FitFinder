@@ -14,6 +14,7 @@ import {Job} from '../../../models/job/job.model';
 import {UserAccount} from '../../../models/settings/user-account.model';
 import {InterviewService} from '../../../services/shared-services/interview.service';
 import {noWhitespaceValidator} from '../../../custom-form-validators/no-white-space.validator';
+import {UserAccountDataStorageService} from '../../../services/data-storage-services/user-account-data-storage.service';
 
 @Component({
   selector: 'app-add-new-interview',
@@ -34,11 +35,13 @@ export class AddNewInterviewComponent implements OnInit {
   userAccounts: UserAccount[] = [];
   interviewTypes: any = [];
   minDate: Date;
+  imageFolderPath = '';
 
   constructor(private dialog: MatDialog,
               private interviewDataStorageService: InterviewDataStorageService,
               private interviewService: InterviewService,
               private router: Router,
+              private userAccountDataStorageService: UserAccountDataStorageService,
               private route: ActivatedRoute,
               private notifierService: NotifierService) {}
 
@@ -49,11 +52,23 @@ export class AddNewInterviewComponent implements OnInit {
           this.candidates = data['candidates'].candidates;
           this.userAccounts = data['userAccounts'].userAccounts;
           this.interviewTypes = this.interviewService.getInterviewTypes();
+          this.imageFolderPath = this.userAccountDataStorageService.imageFolderPath;
           this.createNewInterviewForm();
+          this.setCandidateProfilePicture();
           this.minDate = new Date();
         });
   }
 
+
+  setCandidateProfilePicture() {
+    this.candidates.forEach(candidate => {
+      if (candidate.CandidateImagePath !== null) {
+        candidate.CandidateImagePath = this.imageFolderPath + candidate.CandidateImagePath;
+      } else {
+        candidate.CandidateImagePath = this.candidateDefaultImage;
+      }
+    });
+  }
 
   createNewInterviewForm() {
     this.addNewInterviewForm = new FormGroup({

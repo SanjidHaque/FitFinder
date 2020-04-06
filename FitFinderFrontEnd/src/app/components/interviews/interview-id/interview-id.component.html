@@ -342,7 +342,7 @@
                     class="img-responsive"
                     style="
                       border-radius: 50%;height: 60px; width: 60px"
-                    [src]="candidateDefaultImage">
+                    [src]="candidateForInterview.Candidate.CandidateImagePath">
 
                 </div>
 
@@ -475,26 +475,31 @@
 
 
             <div class="row">
-              <div style="font-size: 14px;" class="col-xl-10">
+              <div style="font-size: 14px;" class="col-xl-8">
                 <strong> <i title="Source/Candidate Application Date" class="fab fa-osi"></i>
                   {{ candidateForInterview.Candidate.Source.Name }}
                 </strong> on {{ getApplicationDate(candidateForInterview.Candidate) }}
               </div>
 
-              <div *ngIf="candidateForInterview.Candidate.FacebookUrl !== ''"
-                   class="col-xl-1 text-xl-right" style="font-size: 22px;">
-                <i style="cursor: pointer;"
-                   (click)="goToFacebookProfile(candidateForInterview.Candidate)"
-                   class="fab fa-facebook-square"></i>
-              </div>
+              <div class="col-xl-4 text-xl-right" style="font-size: 22px;">
 
+       <span *ngIf="candidateForInterview.Candidate.FacebookUrl !== ''">
+        <i style="cursor: pointer; color: #3b5998;"
+           (click)="goToFacebookProfile(candidateForInterview.Candidate)"
+           class="fab fa-facebook-square"></i> &nbsp;
+       </span>
 
-              <div *ngIf="candidateForInterview.Candidate.LinkedInUrl !== ''"
-                   class="col-xl-1 text-xl-left" style="font-size: 22px;">
-                <i
-                  style="cursor: pointer;"
-                  (click)="goToLinkedInProfile(candidateForInterview.Candidate)"
-                  class="fab fa-linkedin"></i>
+                <span *ngIf="candidateForInterview.Candidate.LinkedInUrl !== ''" >
+          <i style="cursor: pointer; color: #0e76a8;"
+             (click)="goToLinkedInProfile(candidateForInterview.Candidate)"
+             class="fab fa-linkedin"></i> &nbsp;
+        </span>
+
+                <i *ngIf="candidateForInterview.Candidate.GitHubUrl !== ''"
+                   style="cursor: pointer; color: black;"
+                   (click)="goToGithubProfile(candidateForInterview.Candidate)"
+                   class="fab fa-github"></i>
+
               </div>
             </div>
             <hr>

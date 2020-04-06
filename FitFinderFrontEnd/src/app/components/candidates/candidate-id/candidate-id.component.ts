@@ -53,7 +53,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
   candidateImageToUpload: File = null;
   @ViewChild('image', { static: false }) imageElementRef: ElementRef;
 
-  imageFolerPath = '';
+  imageFolderPath = '';
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -74,14 +74,8 @@ export class CandidateIdComponent implements OnInit, DoCheck {
           this.jobs = data['jobs'].jobs;
           this.candidate = data['candidate'].candidate;
           this.departments = data['departments'].departments;
-
-          this.imageFolerPath = this.userAccountDataStorageService.imageFolderPath;
-
-          if (this.candidate.CandidateImagePath !== null) {
-            this.candidate.CandidateImagePath = this.imageFolerPath + this.candidate.CandidateImagePath;
-          } else {
-            this.candidate.CandidateImagePath = this.candidateDefaultImage;
-          }
+          this.imageFolderPath = this.userAccountDataStorageService.imageFolderPath;
+          this.setCandidateProfilePicture();
 
         });
 
@@ -92,6 +86,14 @@ export class CandidateIdComponent implements OnInit, DoCheck {
 
     this.candidateService.candidate = this.candidate;
     this.getCurrentStageNameAndColor();
+  }
+
+  setCandidateProfilePicture() {
+    if (this.candidate.CandidateImagePath !== null) {
+      this.candidate.CandidateImagePath = this.imageFolderPath + this.candidate.CandidateImagePath;
+    } else {
+      this.candidate.CandidateImagePath = this.candidateDefaultImage;
+    }
   }
 
   ngDoCheck() {
@@ -309,7 +311,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
             this.candidateImageToUpload = newFile;
             const reader = new FileReader();
             reader.onload = (event: any) => {
-              this.candidate.CandidateImagePath = this.imageFolerPath + newFile.name;
+              this.candidate.CandidateImagePath = this.imageFolderPath + newFile.name;
             };
             reader.readAsDataURL(this.candidateImageToUpload);
             this.imageElementRef.nativeElement.value = '';
