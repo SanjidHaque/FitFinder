@@ -25,9 +25,7 @@ import {UserAccountDataStorageService} from '../../../services/data-storage-serv
 
 export class AddNewInterviewComponent implements OnInit {
   isDisabled = false;
-
   addNewInterviewForm: FormGroup;
-  candidateDefaultImage = 'assets/images/defaultImage.png';
 
   selectedCandidatesForInterview: Candidate[] = [];
   jobs: Job[] = [];
@@ -54,31 +52,21 @@ export class AddNewInterviewComponent implements OnInit {
           this.interviewTypes = this.interviewService.getInterviewTypes();
           this.imageFolderPath = this.userAccountDataStorageService.imageFolderPath;
           this.createNewInterviewForm();
-          this.setCandidateProfilePicture();
           this.minDate = new Date();
         });
   }
 
 
-  setCandidateProfilePicture() {
-    this.candidates.forEach(candidate => {
-      if (candidate.CandidateImagePath !== null) {
-        candidate.CandidateImagePath = this.imageFolderPath + candidate.CandidateImagePath;
-      } else {
-        candidate.CandidateImagePath = this.candidateDefaultImage;
-      }
-    });
-  }
 
   createNewInterviewForm() {
     this.addNewInterviewForm = new FormGroup({
       'date': new FormControl('', [Validators.required]),
       'name': new FormControl('', [Validators.required, noWhitespaceValidator]),
       'userAccounts': new FormControl('', Validators.required),
-      'location': new FormControl(''),
+      'location': new FormControl('Dhaka, Bangladesh'),
       'startTime': new FormControl('10:00', Validators.required),
       'endTime': new FormControl('11:30', Validators.required),
-      'interviewType': new FormControl('', Validators.required)
+      'interviewType': new FormControl(this.interviewTypes[0].Name, Validators.required)
     });
   }
 

@@ -28,17 +28,16 @@ export class CandidatePanelComponent implements OnInit {
   selectedCandidateStatus = 'All';
 
   selection = new SelectionModel<Candidate>(true, []);
-  candidateDefaultImage = 'assets/images/defaultImage.png';
   imageFolderPath = '';
 
   candidates: Candidate[] = [];
   jobs: Job[] = [];
 
   constructor(private candidateDataStorageService: CandidateDataStorageService,
+              private userAccountDataStorageService: UserAccountDataStorageService,
               private notifierService: NotifierService,
               private candidateService: CandidateService,
               private dialog: MatDialog,
-              private userAccountDataStorageService: UserAccountDataStorageService,
               private route: ActivatedRoute,
               private dialogService: DialogService) {}
 
@@ -47,13 +46,12 @@ export class CandidatePanelComponent implements OnInit {
       .subscribe((data: Data) => {
           this.jobs = data['jobs'].jobs;
           this.candidateService.candidates = data['candidates'].candidates;
-          this.imageFolderPath = this.userAccountDataStorageService.imageFolderPath;
-        //  this.candidateService.setCandidateProfilePicture();
-          this.candidates = this.candidateService.getAllCandidate()
+          this.candidates = this.candidateService
+            .getAllCandidate()
             .filter(x => x.IsArchived === false);
+          this.imageFolderPath = this.userAccountDataStorageService.imageFolderPath;
       });
   }
-
 
 
 

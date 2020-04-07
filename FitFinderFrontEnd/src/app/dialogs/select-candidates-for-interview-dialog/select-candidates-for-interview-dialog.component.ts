@@ -32,7 +32,6 @@ export class SelectCandidatesForInterviewDialogComponent implements OnInit, OnDe
 
   ngOnInit() {
     this.candidateService.candidates  = this.data.candidates;
-    this.candidateService.setCandidateProfilePicture();
     this.candidates = this.candidateService.getAllCandidate()
       .filter(x => x.IsArchived === false);
     this.jobs = this.data.jobs;
@@ -91,7 +90,6 @@ export class SelectCandidatesForInterviewDialogComponent implements OnInit, OnDe
   getApplicationDate(candidate: Candidate) {
     return moment(new Date(candidate.ApplicationDate)).format('Do MMMM, YYYY');
   }
-
 
   ngOnDestroy() {
     this.candidates = [];

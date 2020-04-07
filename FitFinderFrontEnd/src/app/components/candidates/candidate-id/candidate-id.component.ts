@@ -16,13 +16,11 @@ import {ChangeStatusDialogComponent} from '../../../dialogs/change-status-dialog
 import {PipelineStage} from '../../../models/settings/pipeline-stage.model';
 import {StageComment} from '../../../models/settings/stage-comment.model';
 import {NotifierService} from 'angular-notifier';
-import {ConfirmationDialogComponent} from '../../../dialogs/confirmation-dialog/confirmation-dialog.component';
 import {CandidateService} from '../../../services/shared-services/candidate.service';
 import {Department} from '../../../models/settings/department.model';
 import {JobAssignmentDataStorageService} from '../../../services/data-storage-services/job-assignment-data-storage.service';
 import {SettingsService} from '../../../services/shared-services/settings.service';
 import {DialogService} from '../../../services/dialog-services/dialog.service';
-import {JobAttachment} from '../../../models/job/job-attachment.model';
 import {AttachmentDataStorageService} from '../../../services/data-storage-services/attachment-data-storage.service';
 import {UserAccountDataStorageService} from '../../../services/data-storage-services/user-account-data-storage.service';
 
@@ -37,7 +35,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
   isDisabled = false;
 
   selectTabIndex = 0;
-  candidateDefaultImage = 'assets/images/defaultImage.png';
+  defaultImage = 'defaultImage.png';
   rating: 0;
   currentPipelineStageId = 0;
   pipelineStageName = '';
@@ -52,6 +50,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
   candidateAttachmentsToUpload: Array<File> = [];
   candidateImageToUpload: File = null;
   @ViewChild('image', { static: false }) imageElementRef: ElementRef;
+
 
   imageFolderPath = '';
 
@@ -69,31 +68,19 @@ export class CandidateIdComponent implements OnInit, DoCheck {
               private jobAssignmentDataStorageService: JobAssignmentDataStorageService) {}
 
   ngOnInit() {
-    this.route.data
-      .subscribe((data: Data) => {
-          this.jobs = data['jobs'].jobs;
-          this.candidate = data['candidate'].candidate;
-          this.departments = data['departments'].departments;
-          this.imageFolderPath = this.userAccountDataStorageService.imageFolderPath;
-          this.setCandidateProfilePicture();
+    this.route.data.subscribe((data: Data) => {
+      this.jobs = data['jobs'].jobs;
+      this.candidate = data['candidate'].candidate;
+      this.departments = data['departments'].departments;
+      if (this.candidate.JobAssignments !== null) {
+        this.job = this.candidate.JobAssignments[0].Job;
+        //  this.changeStatus(this.candidate.JobAssignment[0].CurrentStageId);
+      }
 
-        });
-
-    if (this.candidate.JobAssignments !== null) {
-      this.job = this.candidate.JobAssignments[0].Job;
-    //  this.changeStatus(this.candidate.JobAssignment[0].CurrentStageId);
-    }
-
-    this.candidateService.candidate = this.candidate;
-    this.getCurrentStageNameAndColor();
-  }
-
-  setCandidateProfilePicture() {
-    if (this.candidate.CandidateImagePath !== null) {
-      this.candidate.CandidateImagePath = this.imageFolderPath + this.candidate.CandidateImagePath;
-    } else {
-      this.candidate.CandidateImagePath = this.candidateDefaultImage;
-    }
+      this.imageFolderPath = this.userAccountDataStorageService.imageFolderPath;
+      this.candidateService.candidate = this.candidate;
+      this.getCurrentStageNameAndColor();
+    });
   }
 
   ngDoCheck() {
@@ -106,7 +93,8 @@ export class CandidateIdComponent implements OnInit, DoCheck {
     if (this.candidate.JobAssignments !== null) {
       this.currentPipelineStageId =
         this.candidate.JobAssignments
-          .find( x => x.IsActive === true).CurrentStageId;
+          .find( x => x.IsActive === true)
+          .CurrentStageId;
       this.pipelineStageName = this.detectStageChange(this.currentPipelineStageId).stageName;
       this.pipelineStageColor = this.detectStageChange(this.currentPipelineStageId).stageColor;
     }
@@ -119,7 +107,6 @@ export class CandidateIdComponent implements OnInit, DoCheck {
   openCurrentPipelineStage() {
     this.changeStatus(this.currentPipelineStageId);
   }
-
 
   detectStageChange(pipelineStageId: number) {
 
@@ -311,7 +298,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
             this.candidateImageToUpload = newFile;
             const reader = new FileReader();
             reader.onload = (event: any) => {
-              this.candidate.CandidateImagePath = this.imageFolderPath + newFile.name;
+              this.candidate.ImageName = newFile.name;
             };
             reader.readAsDataURL(this.candidateImageToUpload);
             this.imageElementRef.nativeElement.value = '';
@@ -331,7 +318,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
       .then(result => {
         if (result.confirmationStatus) {
 
-          if (this.candidate.CandidateImagePath === this.candidateDefaultImage) {
+          if (this.candidate.ImageName === this.defaultImage) {
             this.notifierService.notify('default', 'No photo found!');
             return;
           }
@@ -346,10 +333,10 @@ export class CandidateIdComponent implements OnInit, DoCheck {
 
               } else {
 
-                this.candidate.CandidateImagePath = this.candidateDefaultImage;
+                this.candidate.ImageName = this.defaultImage;
                 this.candidateImageToUpload = null;
                 this.imageElementRef.nativeElement.value = '';
-                this.notifierService.notify('default', 'Photo deleted ');
+                this.notifierService.notify('default', 'Photo deleted successfully. ');
               }
 
             });

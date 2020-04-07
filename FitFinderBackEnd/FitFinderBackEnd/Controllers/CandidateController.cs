@@ -59,23 +59,21 @@ namespace FitFinderBackEnd.Controllers
         public IHttpActionResult AddNewCandidate(Candidate candidate)
         {
 
-            SharedService sharedService = new SharedService();
-
             Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
             if (userNameClaim == null)
             {
-               sharedService.DeleteCandidateAttachment(candidate.CandidateAttachments);
+               _sharedService.DeleteCandidateAttachment(candidate.CandidateAttachments);
                return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
             ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
             if (applicationUser == null)
             {
-                sharedService.DeleteCandidateAttachment(candidate.CandidateAttachments);
+                _sharedService.DeleteCandidateAttachment(candidate.CandidateAttachments);
                 return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
-
+            candidate.ImageName = _sharedService.defaultImage;
             candidate.CompanyId = applicationUser.CompanyId;
             _context.Candidates.Add(candidate);
             _context.SaveChanges();
@@ -86,12 +84,12 @@ namespace FitFinderBackEnd.Controllers
             if (candidate.JobAssignments.Count != 0)
             {
                 candidate.JobAssignments[0].CandidateId = candidate.Id;
-                JobAssignment getJobAssignment = sharedService.OnAddJobAssignment(candidate.JobAssignments[0]);
+                JobAssignment getJobAssignment = _sharedService.OnAddJobAssignment(candidate.JobAssignments[0]);
 
 
                 if (getJobAssignment == null)
                 {
-                    sharedService.DeleteCandidateAttachment(candidate.CandidateAttachments);
+                    _sharedService.DeleteCandidateAttachment(candidate.CandidateAttachments);
                     _context.Candidates.Remove(candidate);
                     _context.SaveChanges();
 
@@ -362,8 +360,12 @@ namespace FitFinderBackEnd.Controllers
                 return Ok(new { statusText = _statusTextService.ResourceNotFound });
             }
 
-            _sharedService.OnDeleteAttachment(new List<string>{ getCandidate.CandidateImagePath }, "Image");
-            getCandidate.CandidateImagePath = null;
+            if (getCandidate.ImageName != _sharedService.defaultImage)
+            {
+                _sharedService.OnDeleteAttachment(new List<string> { getCandidate.ImageName }, "Image");
+                getCandidate.ImageName = _sharedService.defaultImage;
+            }
+
 
             _context.SaveChanges();
             return Ok(new { statusText = _statusTextService.Success });
@@ -472,8 +474,10 @@ namespace FitFinderBackEnd.Controllers
             });
 
             _sharedService.OnDeleteAttachment(modifiedFileNames, "Attachment");
-            _sharedService.OnDeleteAttachment(new List<string>{ candidate.CandidateImagePath }, "Image");
-
+            if (candidate.ImageName != _sharedService.defaultImage)
+            {
+                _sharedService.OnDeleteAttachment(new List<string> { candidate.ImageName }, "Image");
+            }
 
             _context.Candidates.Remove(candidate);
             _context.SaveChanges();

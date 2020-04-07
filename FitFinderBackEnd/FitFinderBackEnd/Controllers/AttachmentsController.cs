@@ -112,12 +112,12 @@ namespace FitFinderBackEnd.Controllers
                     return Ok(new { statusText = _statusTextService.ResourceNotFound });
                 }
 
-                if (candidate.CandidateImagePath != null)
+                if (candidate.ImageName != _sharedService.defaultImage)
                 {
-                    _sharedService.OnDeleteAttachment(new List<string>{ candidate.CandidateImagePath }, "Image");
+                    _sharedService.OnDeleteAttachment(new List<string>{ candidate.ImageName }, "Image");
                 }
 
-                candidate.CandidateImagePath = postedFile.FileName;
+                candidate.ImageName = postedFile.FileName;
                 _context.SaveChanges();
 
             }

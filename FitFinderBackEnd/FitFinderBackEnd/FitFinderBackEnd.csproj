@@ -297,6 +297,10 @@
     <Compile Include="Migrations\202004041539547_CandidateImagePathPropertyAdded.Designer.cs">
       <DependentUpon>202004041539547_CandidateImagePathPropertyAdded.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202004070909328_CandiateImageNameRenamed.cs" />
+    <Compile Include="Migrations\202004070909328_CandiateImageNameRenamed.Designer.cs">
+      <DependentUpon>202004070909328_CandiateImageNameRenamed.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -494,6 +498,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202004041539547_CandidateImagePathPropertyAdded.resx">
       <DependentUpon>202004041539547_CandidateImagePathPropertyAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004070909328_CandiateImageNameRenamed.resx">
+      <DependentUpon>202004070909328_CandiateImageNameRenamed.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

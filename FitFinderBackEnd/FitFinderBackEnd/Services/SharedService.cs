@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Web;
-using System.Web.Razor.Parser.SyntaxTree;
 using FitFinderBackEnd.Models;
 using FitFinderBackEnd.Models.Candidate;
 using FitFinderBackEnd.Models.Interview;
@@ -17,6 +15,8 @@ namespace FitFinderBackEnd.Services
     {
         private readonly ApplicationDbContext _context;
         private SettingsService _settingsService;
+        public string defaultImage = "defaultImage.png";
+
 
         public SharedService()
         {
@@ -103,7 +103,7 @@ namespace FitFinderBackEnd.Services
 
 
 
-        public void OnDeleteAttachment(List<string> modifiedFileNames, string folderType)
+        public void OnDeleteAttachment(List<string> fileNames, string folderType)
         {
             string folderPath;
             if (folderType == "Attachment")
@@ -116,7 +116,7 @@ namespace FitFinderBackEnd.Services
             }
            
 
-            modifiedFileNames.ForEach(modifiedFileName =>
+            fileNames.ForEach(modifiedFileName =>
             {
                 string filePath = HttpContext.Current.Server.MapPath(folderPath + modifiedFileName);
                 if (File.Exists(filePath))

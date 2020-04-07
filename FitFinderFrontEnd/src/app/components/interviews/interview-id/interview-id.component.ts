@@ -64,28 +64,10 @@ export class InterviewIdComponent implements OnInit {
           this.userAccounts = data['userAccounts'].userAccounts;
           this.interviewStatuses = this.interviewService.getInterviewStatuses();
           this.imageFolderPath = this.userAccountDataStorageService.imageFolderPath;
-          this.setCandidateProfilePicture();
           this.createAssignInterviewersForm();
         });
   }
 
-  setCandidateProfilePicture() {
-    this.candidates.forEach(candidate => {
-      if (candidate.CandidateImagePath !== null) {
-        candidate.CandidateImagePath = this.imageFolderPath + candidate.CandidateImagePath;
-      } else {
-        candidate.CandidateImagePath = this.candidateDefaultImage;
-      }
-    });
-
-    this.interview.CandidatesForInterview.forEach(candidate => {
-      if (candidate.Candidate.CandidateImagePath !== null) {
-        candidate.Candidate.CandidateImagePath = this.imageFolderPath + candidate.Candidate.CandidateImagePath;
-      } else {
-        candidate.Candidate.CandidateImagePath = this.candidateDefaultImage;
-      }
-    });
-  }
 
   createAssignInterviewersForm() {
     this.assignInterviewerForm = new FormGroup({
@@ -279,15 +261,6 @@ export class InterviewIdComponent implements OnInit {
         this.interviewDataStorageService
           .assignCandidatesToInterview(candidatesForInterview)
           .subscribe((data: any) => {
-
-            data.candidatesForInterviews.forEach(candidate => {
-              if (candidate.Candidate.CandidateImagePath !== null) {
-                candidate.Candidate.CandidateImagePath = this.imageFolderPath + candidate.Candidate.CandidateImagePath;
-              } else {
-                candidate.Candidate.CandidateImagePath = this.candidateDefaultImage;
-              }
-            });
-
 
             if (this.interview.CandidatesForInterview === null) {
               this.interview.CandidatesForInterview =

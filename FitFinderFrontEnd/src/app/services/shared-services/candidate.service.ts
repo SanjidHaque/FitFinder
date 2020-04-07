@@ -9,25 +9,9 @@ import {UserAccountDataStorageService} from '../data-storage-services/user-accou
 export class CandidateService {
   candidate: Candidate;
   candidates: Candidate[] = [];
-  candidateDefaultImage = 'assets/images/defaultImage.png';
-  imageFolderPath = '';
-
-  constructor(private userAccountDataStorageService: UserAccountDataStorageService) {
-    this.imageFolderPath = this.userAccountDataStorageService.imageFolderPath;
-  }
 
   getAllCandidate() {
     return this.candidates.slice();
-  }
-
-  setCandidateProfilePicture() {
-    this.candidates.forEach(candidate => {
-      if (candidate.CandidateImagePath !== null) {
-        candidate.CandidateImagePath = this.imageFolderPath + candidate.CandidateImagePath;
-      } else {
-        candidate.CandidateImagePath = this.candidateDefaultImage;
-      }
-    });
   }
 
   filterByArchived(archivedSelected: boolean, favouriteSelected: boolean) {
