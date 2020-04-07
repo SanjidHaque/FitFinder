@@ -37,6 +37,7 @@ import {HttpErrorInterceptor} from '../../http-error-interceptor/http-error.inte
 import {StarRatingConfigService} from 'angular-star-rating';
 import {AttachmentDataStorageService} from '../../services/data-storage-services/attachment-data-storage.service';
 import {JobAssignmentDataStorageService} from '../../services/data-storage-services/job-assignment-data-storage.service';
+import {CandidateSpecificInterviewResolverService} from '../../route-resolvers/candidate-specific-interview-resolver.service';
 
 export function initGapi(gapiService: GapiService) {
   return () => gapiService.initClient();
@@ -71,6 +72,7 @@ export function initGapi(gapiService: GapiService) {
     JobsResolverService,
     CompanyResolverService,
     RolesResolverService,
+    CandidateSpecificInterviewResolverService,
     SettingsDataStorageService,
     UserAccountDataStorageService,
     JobDataStorageService,

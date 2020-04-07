@@ -733,8 +733,9 @@
 
 
     <div class="row">
-      <div class="offset-xl-8 col-xl-4 text-xl-center">
+      <div class="offset-xl-8 col-xl-2 text-xl-center">
         <button
+          [disabled]="candidate.IsArchived"
           matTooltip="Scorecard"
           matTooltipPosition="below"
           style="outline: 0; font-size: 20px; width: 100%;"
@@ -753,16 +754,17 @@
           <!--routerLink="candidate-email"><i class="far fa-envelope"></i></button>-->
       <!--</div>-->
 
-      <!--<div class="col-xl-4 text-xl-center">-->
-        <!--<button-->
-          <!--matTooltip="Interviews"-->
-          <!--matTooltipPosition="below"-->
-          <!--style="outline: 0; font-size: 20px; width: 100%;"-->
-          <!--mat-flat-button-->
-          <!--routerLinkActive="active"-->
-          <!--routerLink="candidate-interview"><i class="fas fa-calendar-alt"></i></button>-->
-      <!--</div>-->
-    <!--</div>-->
+      <div class="col-xl-2 text-xl-center">
+        <button
+          matTooltip="Interviews"
+          [disabled]="candidate.IsArchived"
+          matTooltipPosition="below"
+          style="outline: 0; font-size: 20px; width: 100%;"
+          mat-flat-button
+          routerLinkActive="active"
+          routerLink="candidate-interviews"><i class="fas fa-calendar-alt"></i></button>
+      </div>
+    </div>
 
     <div class="row">
       <div class="col-xl-12">

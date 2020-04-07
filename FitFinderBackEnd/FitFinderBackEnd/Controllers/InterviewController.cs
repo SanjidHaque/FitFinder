@@ -147,6 +147,47 @@ namespace FitFinderBackEnd.Controllers
 
 
         [HttpGet]
+        [Route("api/GetAllCandidateSpecificInterview/{candidateId}")]
+        [AllowAnonymous]
+        public IHttpActionResult GetAllCandidateSpecificInterview(long candidateId)
+        {
+            List<CandidateForInterview> candidatesForInterview = new List<CandidateForInterview>();
+            Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
+
+            if (userNameClaim == null)
+            {
+                return Ok(new { candidatesForInterview, statusText = _statusTextService.UserClaimError });
+            }
+
+            ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
+            if (applicationUser == null)
+            {
+                return Ok(new { candidatesForInterview, statusText = _statusTextService.UserClaimError });
+            }
+
+
+            candidatesForInterview = _context.CandidatesForInterviews
+                .Where(x => x.CandidateId == candidateId)
+                .OrderByDescending(x => x.Id)
+                .ToList();
+
+            candidatesForInterview.ForEach(candidateForInterview =>
+            {
+                Interview interview = _context.Interviews
+                    .FirstOrDefault(x => x.Id == candidateForInterview.InterviewId);
+
+                if (interview != null)
+                {
+                    candidateForInterview.Interview = interview;
+                }
+               
+            }); 
+
+
+            return Ok(new { candidatesForInterview, statusText = _statusTextService.Success });
+        }
+
+        [HttpGet]
         [Route("api/GetInterview/{interviewId}")]
         [AllowAnonymous]
         public IHttpActionResult GetInterview(long interviewId)

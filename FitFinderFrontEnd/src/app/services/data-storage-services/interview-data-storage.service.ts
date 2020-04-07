@@ -23,6 +23,11 @@ export class InterviewDataStorageService {
     return this.httpClient.get<Interview[]>(this.rootUrl + '/api/GetAllInterview');
   }
 
+  getAllCandidateSpecificInterview(candidateId: number) {
+    return this.httpClient.get<CandidateForInterview>(`${this.rootUrl +
+    '/api/GetAllCandidateSpecificInterview'}/${candidateId}` );
+  }
+
   getInterview(interviewId: number) {
     return this.httpClient.get<Interview>(`${this.rootUrl +
     '/api/GetInterview'}/${interviewId}` );

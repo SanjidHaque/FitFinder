@@ -23,6 +23,7 @@ import {SettingsService} from '../../../services/shared-services/settings.servic
 import {DialogService} from '../../../services/dialog-services/dialog.service';
 import {AttachmentDataStorageService} from '../../../services/data-storage-services/attachment-data-storage.service';
 import {UserAccountDataStorageService} from '../../../services/data-storage-services/user-account-data-storage.service';
+import {CandidateForInterview} from '../../../models/interview/candidate-for-interview.model';
 
 
 
@@ -46,7 +47,9 @@ export class CandidateIdComponent implements OnInit, DoCheck {
   departments: Department[] = [];
   candidate: Candidate;
   jobs: Job[] = [];
+  candidateSpecificInterviews: CandidateForInterview[] = [];
   job: Job;
+
   candidateAttachmentsToUpload: Array<File> = [];
   candidateImageToUpload: File = null;
   @ViewChild('image', { static: false }) imageElementRef: ElementRef;
@@ -69,14 +72,19 @@ export class CandidateIdComponent implements OnInit, DoCheck {
 
   ngOnInit() {
     this.route.data.subscribe((data: Data) => {
+
       this.jobs = data['jobs'].jobs;
       this.candidate = data['candidate'].candidate;
       this.departments = data['departments'].departments;
+      this.departments = data['departments'].departments;
+      this.candidateService
+        .candidateSpecificInterviews = data['candidateSpecificInterviews']
+        .candidatesForInterview;
+
       if (this.candidate.JobAssignments !== null) {
         this.job = this.candidate.JobAssignments[0].Job;
         //  this.changeStatus(this.candidate.JobAssignment[0].CurrentStageId);
       }
-
       this.imageFolderPath = this.userAccountDataStorageService.imageFolderPath;
       this.candidateService.candidate = this.candidate;
       this.getCurrentStageNameAndColor();

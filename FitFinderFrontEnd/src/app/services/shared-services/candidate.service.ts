@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {Candidate} from '../../models/candidate/candidate.model';
 
 import {UserAccountDataStorageService} from '../data-storage-services/user-account-data-storage.service';
+import {CandidateForInterview} from '../../models/interview/candidate-for-interview.model';
 
 @Injectable({
   providedIn: 'root'
@@ -9,10 +10,17 @@ import {UserAccountDataStorageService} from '../data-storage-services/user-accou
 export class CandidateService {
   candidate: Candidate;
   candidates: Candidate[] = [];
+  candidateSpecificInterviews: CandidateForInterview[] = [];
 
   getAllCandidate() {
     return this.candidates.slice();
   }
+
+  getAllCandidateSpecificInterviews() {
+    return this.candidateSpecificInterviews.slice();
+  }
+
+
 
   filterByArchived(archivedSelected: boolean, favouriteSelected: boolean) {
     let candidates = this.candidates;

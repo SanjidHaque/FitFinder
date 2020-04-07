@@ -17,6 +17,7 @@ import {CandidateEmailComponent} from '../../components/candidates/candidate-id/
 import {CandidateInterviewComponent} from '../../components/candidates/candidate-id/candidate-interview/candidate-interview.component';
 import {CandidateTaskComponent} from '../../components/candidates/candidate-id/candidate-task/candidate-task.component';
 import {EditCandidateComponent} from '../../components/candidates/edit-candidate/edit-candidate.component';
+import {CandidateSpecificInterviewResolverService} from '../../route-resolvers/candidate-specific-interview-resolver.service';
 
 const candidateRoutes: Routes = [
   {
@@ -56,7 +57,8 @@ const candidateRoutes: Routes = [
             sources: SourcesResolverService,
             candidate: CandidateResolverService,
             pipelines: WorkflowsResolverService,
-            departments: DepartmentsResolverService
+            departments: DepartmentsResolverService,
+            candidateSpecificInterviews: CandidateSpecificInterviewResolverService
           },
         children:
           [
@@ -78,7 +80,7 @@ const candidateRoutes: Routes = [
               component: CandidateEmailComponent
             },
             {
-              path: 'candidate-interview',
+              path: 'candidate-interviews',
               component: CandidateInterviewComponent
             },
             {
