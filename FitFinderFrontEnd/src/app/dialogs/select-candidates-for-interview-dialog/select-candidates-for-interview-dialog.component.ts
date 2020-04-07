@@ -5,6 +5,7 @@ import * as moment from 'moment';
 import {Job} from '../../models/job/job.model';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {CandidateService} from '../../services/shared-services/candidate.service';
+import {UserAccountDataStorageService} from '../../services/data-storage-services/user-account-data-storage.service';
 
 @Component({
   selector: 'app-select-candidates-for-interview',
@@ -22,18 +23,21 @@ export class SelectCandidatesForInterviewDialogComponent implements OnInit, OnDe
   term: string;
 
   selection = new SelectionModel<Candidate>(true, []);
+  imageFolderPath = '';
 
   candidates: Candidate[] = [];
   jobs: Job[] = [];
 
   constructor(public dialogRef: MatDialogRef<SelectCandidatesForInterviewDialogComponent>,
               private candidateService: CandidateService,
+              private userAccountDataStorageService: UserAccountDataStorageService,
               @Inject(MAT_DIALOG_DATA) public data: any) {}
 
   ngOnInit() {
     this.candidateService.candidates  = this.data.candidates;
     this.candidates = this.candidateService.getAllCandidate()
       .filter(x => x.IsArchived === false);
+    this.imageFolderPath = this.userAccountDataStorageService.imageFolderPath;
     this.jobs = this.data.jobs;
   }
 
