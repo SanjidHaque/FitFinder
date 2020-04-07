@@ -39,11 +39,11 @@
     <div class="row" >
 
       <div class="col-xl-10" style="
-      padding-left: 21px;
-      text-align: left;
-      font-weight: bold;
-      font-size: 14px;">
-        Favourites Only <mat-slide-toggle
+       padding-left: 21px;
+       text-align: left;
+       font-weight: bold;
+       font-size: 14px;">
+        Only Favourites <mat-slide-toggle
         [checked]="favouriteSelected"
         (change)="filterByFavourite($event)"
         color="primary"></mat-slide-toggle>
@@ -112,7 +112,7 @@
 
 <div style="height: 62vh; overflow-x: hidden; overflow-y: scroll">
 
-  <div class="row"
+  <div class="row" style="padding-top: 5px; padding-bottom: 5px;"
        *ngFor="let candidate of candidates | searchCandidate:term">
 
     <div class="col-xl-1">
@@ -135,9 +135,7 @@
 
     <div
       class="col-xl-1"
-      style="
-                  padding-top: 5px;
-                  padding-bottom: 5px;">
+      style="padding-top: 5px; padding-bottom: 5px;">
       <img
         class="img-responsive"
         style="
@@ -147,13 +145,12 @@
         [src]="imageFolderPath + candidate.ImageName">
     </div>
 
-    <div class="col-xl-10">
+    <div class="col-xl-10" style="padding-left: 27px;">
       <div class="row">
 
         <div
           class="col-xl-12"
-          style="
-                      padding-top: 10px;">
+          style="padding-top: 10px;">
           <strong
             style="
                        outline: 0;

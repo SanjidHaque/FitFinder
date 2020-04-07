@@ -547,6 +547,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
         hasBackdrop: true,
         disableClose: true,
         width: '1000px',
+        height: '100%',
         data: { jobs: this.jobs }
       });
 

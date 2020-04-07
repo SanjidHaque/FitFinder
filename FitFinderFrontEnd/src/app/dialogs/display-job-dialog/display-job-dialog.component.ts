@@ -14,6 +14,9 @@ import {JobService} from '../../services/shared-services/job.service';
 })
 
 export class DisplayJobDialogComponent implements OnInit {
+  isDisabled = false;
+  isFilterTouched = false;
+
   archivedSelected = false;
   favouriteSelected = false;
   publishedSelected = 'all';
@@ -30,30 +33,43 @@ export class DisplayJobDialogComponent implements OnInit {
 
   ngOnInit() {
     this.jobService.jobs = this.data.jobs;
-    this.jobs = this.jobService.getAllJob().filter(x => x.IsArchived === false);
+    this.jobs = this.jobService.getAllJob()
+      .filter(x => x.IsArchived === false);
   }
 
   filterByArchived(event: any) {
+    this.isFilterTouched = false;
     this.archivedSelected = event.checked;
     this.jobs = this.jobService
       .filterByArchived(this.publishedSelected, this.archivedSelected, this.favouriteSelected);
   }
 
   filterByFavourite(event: any) {
+    this.isFilterTouched = false;
     this.favouriteSelected = event.checked;
     this.jobs = this.jobService
       .filterByArchived(this.publishedSelected, this.archivedSelected, this.favouriteSelected);
   }
 
   filterByPublished(value: string) {
+    this.isFilterTouched = false;
     this.publishedSelected = value;
     this.jobs = this.jobService
       .filterByArchived(value, this.archivedSelected, this.favouriteSelected);
   }
 
+  resetAllFilter() {
+    this.isFilterTouched = false;
+    this.archivedSelected = false;
+    this.favouriteSelected = false;
+    this.publishedSelected = 'all';
+    this.jobs = this.jobService.getAllJob()
+      .filter(x => x.IsArchived === false);
+  }
+
   getClosingDays(jobClosingDate: string) {
-    const today = moment(new Date());
+    const today = new Date();
     const closingDate = moment(new Date(jobClosingDate));
-    return closingDate.diff(today, 'days');
+    return Math.ceil(closingDate.diff(today, 'days', true));
   }
 }

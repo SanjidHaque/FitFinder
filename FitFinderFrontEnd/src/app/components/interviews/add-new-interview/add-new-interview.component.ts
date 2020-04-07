@@ -118,6 +118,7 @@ export class AddNewInterviewComponent implements OnInit {
         hasBackdrop: true,
         disableClose: true,
         width: '1000px',
+        height: '100%',
         data:
           {
             candidates: this.candidates,

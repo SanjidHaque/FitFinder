@@ -176,8 +176,7 @@
 
               <div class="row">
                 <div class="col-xl-12"
-                     style="padding-top: 25px;"
-                >
+                     style="padding-top: 25px;">
                   <mat-checkbox (click)="$event.stopPropagation()"
                                 color="primary"
                                 (change)="$event ? selection.toggle(job) : null"
@@ -250,79 +249,79 @@
 
             <ng-template #notArchived>
 
-              <div
-                *ngIf="job.IsPublished; else jobIsNotPublished"
-                class="col-xl-2 text-xl-center" style="padding-top: 10px;">
-                <div class="row">
-                  <div class="col-xl-12">
-                    <i title="Published Job" class="fas fa-bullhorn"></i>
-                  </div>
-                </div>
-                <div
-                  *ngIf="job.ClosingDate !== ''
-                && getClosingDays(job.ClosingDate) > 0"
-                  class="row">
-                  <div
-                    style="
-                font-weight: bold;
-                font-size: 11px;" class="col-xl-12 text-xl-center">
-                  <span
-                    matTooltip="Closing in {{ getClosingDays(job.ClosingDate) }} Days"
-                    matTooltipPosition="after">{{ getClosingDays(job.ClosingDate) }} days</span>
-                  </div>
-                </div>
-              </div>
+              <!--<div-->
+                <!--*ngIf="job.IsPublished; else jobIsNotPublished"-->
+                <!--class="col-xl-2 text-xl-center" style="padding-top: 10px;">-->
+                <!--<div class="row">-->
+                  <!--<div class="col-xl-12">-->
+                    <!--<i title="Published Job" class="fas fa-bullhorn"></i>-->
+                  <!--</div>-->
+                <!--</div>-->
+                <!--<div-->
+                  <!--*ngIf="job.ClosingDate !== ''-->
+                <!--&& getClosingDays(job.ClosingDate) > 0"-->
+                  <!--class="row">-->
+                  <!--<div-->
+                    <!--style="-->
+                <!--font-weight: bold;-->
+                <!--font-size: 11px;" class="col-xl-12 text-xl-center">-->
+                  <!--<span-->
+                    <!--matTooltip="Closing in {{ getClosingDays(job.ClosingDate) }} Days"-->
+                    <!--matTooltipPosition="after">{{ getClosingDays(job.ClosingDate) }} days</span>-->
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</div>-->
 
-              <ng-template #jobIsNotPublished>
-                <div class="col-xl-2" style="padding-top: 10px;">
+              <!--<ng-template #jobIsNotPublished>-->
+                <!--<div class="col-xl-2" style="padding-top: 10px;">-->
 
-                </div>
-              </ng-template>
+                <!--</div>-->
+              <!--</ng-template>-->
 
-              <div class="col-xl-1">
-                <div class="row"  style="font-size: 25px;">
-                  <div class="col-xl-12">
-                    0
-                  </div>
-                </div>
+              <!--<div class="col-xl-1">-->
+                <!--<div class="row"  style="font-size: 25px;">-->
+                  <!--<div class="col-xl-12">-->
+                    <!--0-->
+                  <!--</div>-->
+                <!--</div>-->
 
-                <div class="row">
-                  <div class="col-xl-12"
-                       style="font-weight: bold; font-size: 9px; opacity: .9;" >
-                    New
-                  </div>
-                </div>
-              </div>
+                <!--<div class="row">-->
+                  <!--<div class="col-xl-12"-->
+                       <!--style="font-weight: bold; font-size: 9px; opacity: .9;" >-->
+                    <!--New-->
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</div>-->
 
-              <div class="col-xl-1">
-                <div class="row"  style="font-size: 25px;">
-                  <div class="col-xl-12">
-                    0
-                  </div>
-                </div>
+              <!--<div class="col-xl-1">-->
+                <!--<div class="row"  style="font-size: 25px;">-->
+                  <!--<div class="col-xl-12">-->
+                    <!--0-->
+                  <!--</div>-->
+                <!--</div>-->
 
-                <div class="row">
-                  <div class="col-xl-12"
-                       style="font-weight: bold; font-size: 9px; opacity: .9;" >
-                    Active
-                  </div>
-                </div>
-              </div>
+                <!--<div class="row">-->
+                  <!--<div class="col-xl-12"-->
+                       <!--style="font-weight: bold; font-size: 9px; opacity: .9;" >-->
+                    <!--Active-->
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</div>-->
 
-              <div class="col-xl-1">
-                <div class="row"  style="font-size: 25px;">
-                  <div class="col-xl-12">
-                    0
-                  </div>
-                </div>
+              <!--<div class="col-xl-1">-->
+                <!--<div class="row"  style="font-size: 25px;">-->
+                  <!--<div class="col-xl-12">-->
+                    <!--0-->
+                  <!--</div>-->
+                <!--</div>-->
 
-                <div class="row">
-                  <div class="col-xl-12"
-                       style="font-weight: bold; font-size: 9px; opacity: .9;" >
-                    Hired
-                  </div>
-                </div>
-              </div>
+                <!--<div class="row">-->
+                  <!--<div class="col-xl-12"-->
+                       <!--style="font-weight: bold; font-size: 9px; opacity: .9;" >-->
+                    <!--Hired-->
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</div>-->
 
             </ng-template>
 
