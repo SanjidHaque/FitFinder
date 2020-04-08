@@ -28,7 +28,6 @@ import {UserAccountDataStorageService} from '../../../services/data-storage-serv
 export class InterviewIdComponent implements OnInit {
   isDisabled = false;
 
-  candidateDefaultImage = 'assets/images/defaultImage.png';
   imageFolderPath = '';
   assignInterviewerForm: FormGroup;
 
@@ -339,7 +338,7 @@ export class InterviewIdComponent implements OnInit {
   }
 
   getInterviewDay(interview: Interview) {
-    return moment(new Date(interview.Date)).format('Do');
+    return moment(new Date(interview.Date)).format('D');
   }
 
   getInterviewMonth(interview: Interview) {

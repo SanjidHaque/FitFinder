@@ -211,7 +211,7 @@ export class InterviewPanelComponent implements OnInit {
   }
 
   getInterviewDay(interview: Interview) {
-    return moment(new Date(interview.Date)).format('Do');
+    return moment(new Date(interview.Date)).format('D');
   }
 
   getInterviewMonth(interview: Interview) {

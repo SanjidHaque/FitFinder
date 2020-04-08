@@ -1,0 +1,290 @@
+<div class="row">
+  <div class="col-xl-12" style="text-align: center;">
+
+    <button
+      routerLink = "/interviews/add-new-interview"
+      style="
+      width: 95%;
+      outline: 0;"
+      color="primary"
+      mat-stroked-button><i class="fas fa-plus"></i> New Interview</button>&nbsp;
+
+  </div>
+</div>
+
+<div
+  *ngIf="candidateSpecificInterviews.length !== 0"
+  style="padding-top: 10px; padding-left: 15px; padding-right: 15px;">
+
+  <div class="row"
+       style="padding-top: 5px; padding-bottom: 5px; padding-left: 15px;"
+       *ngFor="let candidateSpecificInterview of candidateSpecificInterviews">
+    <div class="col-xl-12">
+
+      <div class="row">
+
+        <div class="col-xl-1"
+             style="text-align: center;
+                border: 2px solid whitesmoke;
+                outline: 0;
+                cursor: pointer;
+                border-radius: 2px;">
+
+          <div class="row">
+            <div class="col-xl-12"
+                 style="font-weight: bold;
+             font-size: 17px; text-align: center;">
+
+              {{ getInterviewDay(candidateSpecificInterview.Interview) }}
+
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xl-12"
+                 style="
+             font-size: 9px;
+             font-weight: bold; text-align: center;">
+
+              {{ getInterviewMonth(candidateSpecificInterview.Interview) | uppercase}}
+
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xl-12"
+                 style="font-size: 9px;
+                    background-color: #1a237e;
+                    color: white;
+                    font-weight: bold; text-align: center;">
+
+              {{ getInterviewYear(candidateSpecificInterview.Interview) }}
+
+            </div>
+          </div>
+
+
+
+        </div>
+
+        <div class="col-xl-8">
+
+
+          <div class="row" style="font-size: 17px;">
+            <div class="col-xl-12">
+
+            <span
+              routerLink="/interviews/{{ candidateSpecificInterview.Interview.Id }}"
+              style="color: #4b96e6; font-size: 19px; outline: 0; cursor: pointer;">
+              {{ candidateSpecificInterview.Interview.StartTime }} -
+            {{ candidateSpecificInterview.Interview.Name }}
+            ({{ candidateSpecificInterview.Interview
+            .InterviewType }})
+
+            </span>
+
+            </div>
+          </div>
+
+          <div class="row" style="padding-top: 2px; font-size: 13px;">
+            <div class="col-xl-12">
+              <i class="fas fa-ribbon"></i>
+              {{ candidateSpecificInterview.Interview.InterviewType }}
+            </div>
+          </div>
+
+
+
+        </div>
+
+        <div class="col-xl-3" style="text-align: right;">
+
+          <div class="row">
+            <div class="col-xl-12">
+
+            <span
+              style="
+              padding: 2px 5px;
+              font-size: 14px;
+              color: white;
+              border: 1px solid transparent;
+              border-radius: 3px;"
+              [ngStyle]="{'backgroundColor' : getBackgroundColor(candidateSpecificInterview.InterviewStatus)}"
+            >
+
+              {{ candidateSpecificInterview.InterviewStatus }}
+
+            </span>
+
+            </div>
+          </div>
+
+
+          <div class="row">
+            <div class="col-xl-12" style="font-weight: 500; padding-top: 4px;">
+
+              <i class="far fa-clock"></i>
+              {{ candidateSpecificInterview.Interview.StartTime }}
+
+            </div>
+          </div>
+
+
+
+        </div>
+
+      </div>
+
+
+    </div>
+  </div>
+
+</div>
+
+<br>
+
+<div
+  *ngIf="upcomingInterviews.length !== 0"
+  style="padding-top: 10px; padding-left: 15px; padding-right: 15px;">
+  <hr>
+
+  <div class="row">
+    <div class="col-xl-12" style="font-weight: 500; font-size: 20px;">
+
+      Upcoming Interviews
+
+    </div>
+  </div>
+
+
+  <div class="row"
+       style="padding-top: 10px; padding-bottom: 5px; padding-left: 15px;"
+       *ngFor="let upcomingInterview of upcomingInterviews">
+    <div class="col-xl-12">
+
+      <div class="row">
+
+        <div class="col-xl-1"
+             style="text-align: center;
+                border: 2px solid whitesmoke;
+                outline: 0;
+                cursor: pointer;
+                border-radius: 2px;">
+
+          <div class="row">
+            <div class="col-xl-12"
+                 style="font-weight: bold;
+             font-size: 17px; text-align: center;">
+
+              {{ getInterviewDay(upcomingInterview.Interview) }}
+
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xl-12"
+                 style="
+             font-size: 9px;
+             font-weight: bold; text-align: center;">
+
+              {{ getInterviewMonth(upcomingInterview.Interview) | uppercase}}
+
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xl-12"
+                 style="font-size: 9px;
+                    background-color: #1a237e;
+                    color: white;
+                    font-weight: bold; text-align: center;">
+
+              {{ getInterviewYear(upcomingInterview.Interview) }}
+
+            </div>
+          </div>
+
+
+
+        </div>
+
+        <div class="col-xl-8">
+
+
+          <div class="row" style="font-size: 17px;">
+            <div class="col-xl-12">
+
+            <span
+              routerLink="/interviews/{{ upcomingInterview.Interview.Id }}"
+              style="color: #4b96e6; font-size: 19px; outline: 0; cursor: pointer;">
+              {{ upcomingInterview.Interview.StartTime }} -
+            {{ upcomingInterview.Interview.Name }}
+            ({{ upcomingInterview.Interview
+            .InterviewType }})
+
+            </span>
+
+            </div>
+          </div>
+
+          <div class="row" style="padding-top: 2px; font-size: 13px;">
+            <div class="col-xl-12">
+              <i class="fas fa-ribbon"></i>
+              {{ upcomingInterview.Interview.InterviewType }}
+            </div>
+          </div>
+
+
+
+        </div>
+
+        <div class="col-xl-3" style="text-align: right;">
+
+          <div class="row">
+            <div class="col-xl-12">
+
+            <span
+              style="
+              padding: 2px 5px;
+              font-size: 14px;
+              color: white;
+              border: 1px solid transparent;
+              border-radius: 3px;"
+              [ngStyle]="{'backgroundColor' : getBackgroundColor(upcomingInterview.InterviewStatus)}"
+            >
+
+              {{ upcomingInterview.InterviewStatus }}
+
+            </span>
+
+            </div>
+          </div>
+
+
+          <div class="row">
+            <div class="col-xl-12" style="font-weight: 500; padding-top: 4px;">
+
+              <i class="far fa-clock"></i>
+              {{ upcomingInterview.Interview.StartTime }}
+
+            </div>
+          </div>
+
+
+
+        </div>
+
+      </div>
+
+
+    </div>
+  </div>
+
+</div>
+
+
+
+
+
+
+

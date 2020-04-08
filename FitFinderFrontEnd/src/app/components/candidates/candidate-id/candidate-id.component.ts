@@ -72,7 +72,6 @@ export class CandidateIdComponent implements OnInit, DoCheck {
 
   ngOnInit() {
     this.route.data.subscribe((data: Data) => {
-
       this.jobs = data['jobs'].jobs;
       this.candidate = data['candidate'].candidate;
       this.departments = data['departments'].departments;

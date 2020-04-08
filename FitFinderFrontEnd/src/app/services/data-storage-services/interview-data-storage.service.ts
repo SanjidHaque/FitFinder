@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import {Interview} from '../../models/interview/interview.model';
-import {Subject} from 'rxjs/index';
-import {Candidate} from '../../models/candidate/candidate.model';
 import {HttpClient} from '@angular/common/http';
 import {UserAccountDataStorageService} from './user-account-data-storage.service';
 import {InterviewerForInterview} from '../../models/interview/interviewer-for-interview.model';
@@ -18,14 +16,13 @@ export class InterviewDataStorageService {
     this.rootUrl = userAccountDataStorageService.rootUrl;
   }
 
-
   getAllInterview() {
     return this.httpClient.get<Interview[]>(this.rootUrl + '/api/GetAllInterview');
   }
 
   getAllCandidateSpecificInterview(candidateId: number) {
-    return this.httpClient.get<CandidateForInterview>(`${this.rootUrl +
-    '/api/GetAllCandidateSpecificInterview'}/${candidateId}` );
+    return this.httpClient.get<CandidateForInterview[]>(`${this.rootUrl +
+    '/api/GetAllCandidateSpecificInterview'}/${candidateId}`);
   }
 
   getInterview(interviewId: number) {
