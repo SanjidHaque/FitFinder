@@ -4,6 +4,8 @@ import {CandidateService} from '../../../../services/shared-services/candidate.s
 import {Interview} from '../../../../models/interview/interview.model';
 import * as moment from 'moment';
 import {InterviewService} from '../../../../services/shared-services/interview.service';
+import {Router} from '@angular/router';
+import {Candidate} from '../../../../models/candidate/candidate.model';
 
 @Component({
   selector: 'app-candidate-interview',
@@ -13,11 +15,14 @@ import {InterviewService} from '../../../../services/shared-services/interview.s
 export class CandidateInterviewComponent implements OnInit {
   candidateSpecificInterviews: CandidateForInterview[] = [];
   upcomingInterviews: CandidateForInterview[] = [];
+  candidate: Candidate;
 
   constructor(private candidateService: CandidateService,
+              private router: Router,
               private interviewService: InterviewService) {}
 
   ngOnInit() {
+
     this.candidateSpecificInterviews = this.candidateService.getAllCandidateSpecificInterviews();
     this.getUpcomingInterviews(this.candidateSpecificInterviews);
   }
@@ -62,6 +67,11 @@ export class CandidateInterviewComponent implements OnInit {
       }
     });
 
+  }
+
+  addNewInterview() {
+    this.interviewService.selectedCandidateForInterview = this.candidateService.candidate;
+    this.router.navigate(['/interviews/add-new-interview']);
   }
 
 }

@@ -79,6 +79,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
       this.candidateService
         .candidateSpecificInterviews = data['candidateSpecificInterviews']
         .candidatesForInterview;
+      this.candidateService.candidate = this.candidate;
 
       if (this.candidate.JobAssignments !== null) {
         this.job = this.candidate.JobAssignments[0].Job;

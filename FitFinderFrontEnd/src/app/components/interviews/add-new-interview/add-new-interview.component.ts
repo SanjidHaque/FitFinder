@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {DateAdapter, MatDialog} from '@angular/material';
 import {LongDateAdapter} from '../../../date-adapters/long-date.adpater';
@@ -15,6 +15,8 @@ import {UserAccount} from '../../../models/settings/user-account.model';
 import {InterviewService} from '../../../services/shared-services/interview.service';
 import {noWhitespaceValidator} from '../../../custom-form-validators/no-white-space.validator';
 import {UserAccountDataStorageService} from '../../../services/data-storage-services/user-account-data-storage.service';
+import {CandidateForInterview} from '../../../models/interview/candidate-for-interview.model';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-add-new-interview',
@@ -23,10 +25,12 @@ import {UserAccountDataStorageService} from '../../../services/data-storage-serv
   providers: [{provide: DateAdapter, useClass: LongDateAdapter}]
 })
 
-export class AddNewInterviewComponent implements OnInit {
+export class AddNewInterviewComponent implements OnInit, OnDestroy {
   isDisabled = false;
   addNewInterviewForm: FormGroup;
+  interviewName ='';
 
+  selectedCandidateForInterview: Candidate;
   selectedCandidatesForInterview: Candidate[] = [];
   jobs: Job[] = [];
   candidates: Candidate[] = [];
@@ -44,13 +48,19 @@ export class AddNewInterviewComponent implements OnInit {
               private notifierService: NotifierService) {}
 
   ngOnInit() {
-    this.route.data
-      .subscribe((data: Data) => {
+    this.route.data.subscribe((data: Data) => {
           this.jobs = data['jobs'].jobs;
           this.candidates = data['candidates'].candidates;
           this.userAccounts = data['userAccounts'].userAccounts;
           this.interviewTypes = this.interviewService.getInterviewTypes();
           this.imageFolderPath = this.userAccountDataStorageService.imageFolderPath;
+
+          this.selectedCandidateForInterview = this.interviewService.selectedCandidateForInterview;
+          if (this.selectedCandidateForInterview !== null) {
+            this.selectedCandidatesForInterview.push(this.selectedCandidateForInterview);
+            this.interviewName = 'Interview of ' + this.selectedCandidateForInterview.FirstName;
+          }
+
           this.createNewInterviewForm();
           this.minDate = new Date();
         });
@@ -60,8 +70,8 @@ export class AddNewInterviewComponent implements OnInit {
 
   createNewInterviewForm() {
     this.addNewInterviewForm = new FormGroup({
-      'date': new FormControl('', [Validators.required]),
-      'name': new FormControl('', [Validators.required, noWhitespaceValidator]),
+      'date': new FormControl(new Date(moment().add(7, 'days')), [Validators.required]),
+      'name': new FormControl(this.interviewName, [Validators.required, noWhitespaceValidator]),
       'userAccounts': new FormControl('', Validators.required),
       'location': new FormControl('Dhaka, Bangladesh'),
       'startTime': new FormControl('10:00', Validators.required),
@@ -150,6 +160,11 @@ export class AddNewInterviewComponent implements OnInit {
 
   removeCandidatesFromInterview(index: number) {
     this.selectedCandidatesForInterview.splice(index, 1);
+  }
+
+  ngOnDestroy() {
+    this.interviewService.selectedCandidateForInterview = null;
+    console.log('Destroyed!');
   }
 
 }
