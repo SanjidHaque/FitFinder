@@ -66,13 +66,11 @@ namespace FitFinderBackEnd.Models
         public DbSet<PipelineStageCriterion> PipelineStageCriteria { get; set; }
 
         public DbSet<JobAssignment> JobAssignments { get; set; }
-        public DbSet<StageScore> StageScores { get; set; }
-        public DbSet<CriteriaScore> CriteriaScores { get; set; }
-        public DbSet<StageComment> StageComments { get; set; }
+        public DbSet<PipelineStageScore> PipelineStageScores { get; set; }
+        public DbSet<PipelineStageCriterionScore> PipelineStageCriterionScores { get; set; }
+        public DbSet<PipelineStageComment> PipelineStageComments { get; set; }
 
         public DbSet<Company> Companies { get; set; }
-
-       
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)

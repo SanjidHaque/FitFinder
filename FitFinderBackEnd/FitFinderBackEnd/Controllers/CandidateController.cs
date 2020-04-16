@@ -37,7 +37,7 @@ namespace FitFinderBackEnd.Controllers
             AccessTokenFormat = accessTokenFormat;
         }
 
-     
+
 
         public ApplicationUserManager UserManager
         {
@@ -62,8 +62,8 @@ namespace FitFinderBackEnd.Controllers
             Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
             if (userNameClaim == null)
             {
-               _sharedService.DeleteCandidateAttachment(candidate.CandidateAttachments);
-               return Ok(new { statusText = _statusTextService.UserClaimError });
+                _sharedService.DeleteCandidateAttachment(candidate.CandidateAttachments);
+                return Ok(new { statusText = _statusTextService.UserClaimError });
             }
 
             ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
@@ -78,24 +78,23 @@ namespace FitFinderBackEnd.Controllers
             _context.Candidates.Add(candidate);
             _context.SaveChanges();
 
-           
 
-           
-            if (candidate.JobAssignments.Count != 0)
+
+        
+
+            candidate.JobAssignments[0].CandidateId = candidate.Id;
+            JobAssignment getJobAssignment = _sharedService.OnAddJobAssignment(candidate.JobAssignments[0]);
+            _context.SaveChanges();
+
+            if (getJobAssignment == null)
             {
-                candidate.JobAssignments[0].CandidateId = candidate.Id;
-                JobAssignment getJobAssignment = _sharedService.OnAddJobAssignment(candidate.JobAssignments[0]);
+                _sharedService.DeleteCandidateAttachment(candidate.CandidateAttachments);
+                _context.Candidates.Remove(candidate);
+                _context.SaveChanges();
 
-
-                if (getJobAssignment == null)
-                {
-                    _sharedService.DeleteCandidateAttachment(candidate.CandidateAttachments);
-                    _context.Candidates.Remove(candidate);
-                    _context.SaveChanges();
-
-                    return Ok(new { statusText = _statusTextService.SomethingWentWrong });
-                }
+                return Ok(new { statusText = _statusTextService.SomethingWentWrong });
             }
+
 
             return Ok(new { candidate, statusText = _statusTextService.Success });
         }
@@ -159,7 +158,7 @@ namespace FitFinderBackEnd.Controllers
         }
 
 
-        
+
         [HttpGet]
         [Route("api/GetAllCandidate")]
         [AllowAnonymous]
@@ -200,7 +199,7 @@ namespace FitFinderBackEnd.Controllers
                 .Include(x => x.Candidate)
                 .ToList();
 
-            return Ok(new {candidates, statusText = _statusTextService.Success });
+            return Ok(new { candidates, statusText = _statusTextService.Success });
         }
 
 
@@ -209,7 +208,7 @@ namespace FitFinderBackEnd.Controllers
         [AllowAnonymous]
         public IHttpActionResult GetCandidate(long candidateId)
         {
-           
+
             Candidate candidate = _context.Candidates
                 .FirstOrDefault(x => x.Id == candidateId);
 
@@ -244,24 +243,24 @@ namespace FitFinderBackEnd.Controllers
                     .Where(x => x.PipelineStage.Pipeline.WorkflowId == workflow.Id
                                 && (x.JobId == job.Id || x.JobId == null))
                     .ToList();
-               
+
 
                 jobAssignment.Job = job;
 
             });
-         
 
-            List<CriteriaScore> criteriaScores = _context.CriteriaScores
+
+            List<PipelineStageCriterionScore> criteriaScores = _context.PipelineStageCriterionScores
                 .Include(x => x.JobAssignment)
                 .ToList();
 
-            List<StageScore> stageScores = _context.StageScores
+            List<PipelineStageScore> stageScores = _context.PipelineStageScores
                 .Include(x => x.JobAssignment)
                 .ToList();
 
-            List<StageComment> stageComments = _context.StageComments
-                .Include(x => x.JobAssignment)
-                .ToList();
+            //List<PipelineStageComment> stageComments = _context.PipelineStageComments
+            //    .Include(x => x.JobAssignment)
+            //    .ToList();
 
 
             List<CandidateEducation> candidateEducations = _context.CandidateEducations
@@ -312,7 +311,7 @@ namespace FitFinderBackEnd.Controllers
             }
 
             List<CandidateAttachment> candidateAttachments = _context.CandidateAttachments
-                .Where(x => x.CandidateId ==  candidateAttachment.CandidateId)
+                .Where(x => x.CandidateId == candidateAttachment.CandidateId)
                 .AsNoTracking()
                 .ToList();
             candidateAttachments.ForEach(x =>
@@ -402,7 +401,7 @@ namespace FitFinderBackEnd.Controllers
             }
 
             _context.SaveChanges();
-            return Ok(new {  statusText = _statusTextService.Success });
+            return Ok(new { statusText = _statusTextService.Success });
         }
 
         [HttpPut]
@@ -420,7 +419,7 @@ namespace FitFinderBackEnd.Controllers
             }
 
             _context.SaveChanges();
-            return Ok(new {  statusText = _statusTextService.Success });
+            return Ok(new { statusText = _statusTextService.Success });
         }
 
         [HttpPut]
@@ -438,7 +437,7 @@ namespace FitFinderBackEnd.Controllers
             }
 
             _context.SaveChanges();
-            return Ok(new {  statusText = _statusTextService.Success });
+            return Ok(new { statusText = _statusTextService.Success });
         }
 
         [HttpDelete]
@@ -461,10 +460,10 @@ namespace FitFinderBackEnd.Controllers
                 return Ok(new { StatusText = _statusTextService.ReportingPurposeIssue });
             }
 
-           List<CandidateAttachment> candidateAttachments = _context.CandidateAttachments
-               .Where(x => x.CandidateId == candidateId)
-               .AsNoTracking()
-               .ToList();
+            List<CandidateAttachment> candidateAttachments = _context.CandidateAttachments
+                .Where(x => x.CandidateId == candidateId)
+                .AsNoTracking()
+                .ToList();
 
             List<string> modifiedFileNames = new List<string>();
 

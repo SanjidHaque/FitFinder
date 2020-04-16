@@ -13,9 +13,9 @@ namespace FitFinderBackEnd.Models.Candidate
         public long CandidateId { get; set; }
         public Job.Job Job { get; set; }
         public long? JobId { get; set; }
-        public List<StageScore> StageScores { get; set; }
-        public List<CriteriaScore> CriteriaScores { get; set; }
-        public List<StageComment> StageComments { get; set; }
+        public List<PipelineStageScore> StageScores { get; set; }
+        public List<PipelineStageCriterionScore> CriteriaScores { get; set; }
+        public List<PipelineStageComment> StageComments { get; set; }
         public long CurrentStageId { get; set; }
         public bool IsActive { get; set; }  
     }

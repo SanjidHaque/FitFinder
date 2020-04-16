@@ -314,7 +314,7 @@ namespace FitFinderBackEnd.Controllers
 
 
             bool hasRelation = (_context.JobAssignments.Any(o => o.JobId == jobId)
-                                && _context.PipelineStageCriteria.Any(o => o.JobId == jobId));
+                                || _context.PipelineStageCriteria.Any(o => o.JobId == jobId));
 
             if (hasRelation)
             {

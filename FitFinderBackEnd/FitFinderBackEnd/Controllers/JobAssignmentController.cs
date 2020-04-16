@@ -64,33 +64,33 @@ namespace FitFinderBackEnd.Controllers
         }
 
 
-        public void AddNewStageComments(List<StageComment> stageComments)
+        public void AddNewStageComments(List<PipelineStageComment> stageComments)
         {
-            _context.StageComments.AddRange(stageComments);
+            _context.PipelineStageComments.AddRange(stageComments);
         }
 
 
 
         public void  RemoveOldScores(JobAssignment jobAssignment)
         {
-            List<StageScore> stageScore = _context.StageScores
+            List<PipelineStageScore> stageScore = _context.PipelineStageScores
                 .Where(x => x.JobAssignmentId == jobAssignment.Id)
                 .ToList();
 
-            List<CriteriaScore> criteriaScore = _context.CriteriaScores
+            List<PipelineStageCriterionScore> criteriaScore = _context.PipelineStageCriterionScores
                 .Where(x => x.JobAssignmentId == jobAssignment.Id)
                 .ToList();
 
-            _context.StageScores.RemoveRange(stageScore);
-            _context.CriteriaScores.RemoveRange(criteriaScore);
+            _context.PipelineStageScores.RemoveRange(stageScore);
+            _context.PipelineStageCriterionScores.RemoveRange(criteriaScore);
         
 
         }
 
         public void AddNewScores(JobAssignment jobAssignment)
         {
-            _context.StageScores.AddRange(jobAssignment.StageScores);
-            _context.CriteriaScores.AddRange(jobAssignment.CriteriaScores);
+            _context.PipelineStageScores.AddRange(jobAssignment.StageScores);
+            _context.PipelineStageCriterionScores.AddRange(jobAssignment.CriteriaScores);
         }
 
 

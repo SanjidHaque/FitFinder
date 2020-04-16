@@ -54,34 +54,34 @@ namespace FitFinderBackEnd.Services
                 .ToList();
 
 
-            List<StageComment> stageComments = new List<StageComment>();
-            List<StageScore> stageScores = new List<StageScore>();
-            List<CriteriaScore> criteriaScores = new List<CriteriaScore>();
+            List<PipelineStageComment> stageComments = new List<PipelineStageComment>();
+            List<PipelineStageScore> stageScores = new List<PipelineStageScore>();
+            List<PipelineStageCriterionScore> criteriaScores = new List<PipelineStageCriterionScore>();
 
-            StageComment stageComment = new StageComment
-            {
-                PipelineStageId = pipelines[0].PipelineStages[0].Id,
-                CandidateId = jobAssignment.CandidateId,
-                Comment = "Created from"
-            };
+            //PipelineStageComment stageComment = new PipelineStageComment
+            //{
+            //    PipelineStageId = pipelines[0].PipelineStages[0].Id,
+            //    CandidateId = jobAssignment.CandidateId,
+            //    Comment = "Created from"
+            //};
 
-            stageComments.Add(stageComment);
+          //  stageComments.Add(stageComment);
 
             pipelineStages.ForEach(x =>
             {
-                StageScore stageScore = new StageScore
+                PipelineStageScore pipelineStageScore = new PipelineStageScore
                 {
                     PipelineStageId = x.Id,
                     CandidateId = jobAssignment.CandidateId,
                     Rating = 0
                 };
 
-                stageScores.Add(stageScore);
+                stageScores.Add(pipelineStageScore);
             });
 
             pipelineStageCriteria.ForEach(x =>
             {
-                CriteriaScore criteriaScore = new CriteriaScore
+                PipelineStageCriterionScore pipelineStageCriterionScore = new PipelineStageCriterionScore
                 {
                     PipelineStageId = x.PipelineStageId,
                     PipelineStageCriterionId = x.Id,
@@ -89,14 +89,13 @@ namespace FitFinderBackEnd.Services
                     Rating = 0
                 };
 
-                criteriaScores.Add(criteriaScore);
+                criteriaScores.Add(pipelineStageCriterionScore);
             });
 
             jobAssignment.CurrentStageId = pipelines[0].PipelineStages[0].Id;
             jobAssignment.StageComments = stageComments;
             jobAssignment.StageScores = stageScores;
             jobAssignment.CriteriaScores = criteriaScores;
-            jobAssignment.Job = job;
 
             return jobAssignment;
         }

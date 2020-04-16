@@ -1138,13 +1138,13 @@ namespace FitFinderBackEnd.Controllers
             }
 
 
-            bool hasRelation = (_context.StageComments.Any(o => o.PipelineStageId == pipelineStageId)
-                                && _context.StageScores.Any(o => o.PipelineStageId == pipelineStageId));
+            //bool hasRelation = (_context.PipelineStageComments.Any(o => o.PipelineStageId == pipelineStageId)
+            //                    && _context.PipelineStageScores.Any(o => o.PipelineStageId == pipelineStageId));
 
-            if (hasRelation)
-            {
-                return Ok(new { StatusText = _statusTextService.ReportingPurposeIssue });
-            }
+            //if (hasRelation)
+            //{
+            //    return Ok(new { StatusText = _statusTextService.ReportingPurposeIssue });
+            //}
 
 
             _context.PipelineStages.Remove(pipelineStage);
@@ -1168,7 +1168,7 @@ namespace FitFinderBackEnd.Controllers
             }
 
 
-            bool hasRelation = _context.CriteriaScores.Any(o => o.PipelineStageCriterionId == pipelineStageCriterionId);
+            bool hasRelation = _context.PipelineStageCriterionScores.Any(o => o.PipelineStageCriterionId == pipelineStageCriterionId);
 
             if (hasRelation)
             {
