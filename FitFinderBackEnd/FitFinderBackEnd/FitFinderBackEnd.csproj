@@ -257,6 +257,22 @@
     <Compile Include="Migrations\202004161108405_Init.Designer.cs">
       <DependentUpon>202004161108405_Init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202004161214243_GeneralCommentTableAdded.cs" />
+    <Compile Include="Migrations\202004161214243_GeneralCommentTableAdded.Designer.cs">
+      <DependentUpon>202004161214243_GeneralCommentTableAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004161228478_Test.cs" />
+    <Compile Include="Migrations\202004161228478_Test.Designer.cs">
+      <DependentUpon>202004161228478_Test.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004161245304_Reset.cs" />
+    <Compile Include="Migrations\202004161245304_Reset.Designer.cs">
+      <DependentUpon>202004161245304_Reset.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004161250587_Reset1.cs" />
+    <Compile Include="Migrations\202004161250587_Reset1.Designer.cs">
+      <DependentUpon>202004161250587_Reset1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -424,6 +440,18 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202004161108405_Init.resx">
       <DependentUpon>202004161108405_Init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004161214243_GeneralCommentTableAdded.resx">
+      <DependentUpon>202004161214243_GeneralCommentTableAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004161228478_Test.resx">
+      <DependentUpon>202004161228478_Test.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004161245304_Reset.resx">
+      <DependentUpon>202004161245304_Reset.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004161250587_Reset1.resx">
+      <DependentUpon>202004161250587_Reset1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -56,12 +56,13 @@ export class AddNewCandidateComponent implements OnInit {
         }
       );
 
+
     this.addNewCandidateForm = new FormGroup({
       'jobId': new FormControl(''),
       'firstName': new FormControl('', Validators.required),
       'lastName': new FormControl(''),
-      'email': new FormControl('', [Validators.required, Validators.email]),
-      'mobile': new FormControl('', Validators.required),
+      'email': new FormControl('sanjidulhaque@gmail.com', [Validators.required, Validators.email]),
+      'mobile': new FormControl('01966168250', Validators.required),
       'address': new FormControl(''),
       'city': new FormControl('Dhaka', Validators.required),
       'state': new FormControl(''),
@@ -185,21 +186,20 @@ export class AddNewCandidateComponent implements OnInit {
     const jobId = this.addNewCandidateForm.controls['jobId'].value;
     const jobAssignments: JobAssignment[] = [];
 
-    if (jobId !== '') {
-      const jobAssignment = new JobAssignment(
-        null,
-        null,
-        null,
-        null,
-        jobId,
-        [],
-        [],
-        [],
-        null,
-        true,
-      );
-      jobAssignments.push(jobAssignment);
-    }
+    const jobAssignment = new JobAssignment(
+      null,
+      null,
+      null,
+      null,
+      jobId,
+      [],
+      [],
+      [],
+      null,
+      true,
+    );
+    jobAssignments.push(jobAssignment);
+
 
     const candidate = new Candidate(
       null,

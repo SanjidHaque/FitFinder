@@ -2,7 +2,7 @@ import {PipelineStageCriterion} from './pipeline-stage-criterion.model';
 import {JobAssignment} from '../candidate/job-assignment.model';
 import {Candidate} from '../candidate/candidate.model';
 
-export class CriteriaScore {
+export class PipelineStageCriterionScore {
   constructor(
     public Id: number,
     public JobAssignment: JobAssignment,
@@ -12,6 +12,5 @@ export class CriteriaScore {
     public Rating: number,
     public PipelineStageCriterion: PipelineStageCriterion,
     public PipelineStageCriterionId: number
-  ) {
-  }
+  ) {}
 }

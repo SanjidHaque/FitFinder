@@ -132,14 +132,14 @@ namespace FitFinderBackEnd.Migrations
             //        Name = "Not available for interview"
             //    }
             // );
-            
+
 
 
 
 
             //context.Workflows.AddOrUpdate(x => x.Id, new Workflow
             //{
-            //    CompanyId = 1,
+            //    CompanyId = null,
             //    Name = "Default",
             //    Pipelines = new List<Pipeline>()
             //        {
@@ -232,7 +232,7 @@ namespace FitFinderBackEnd.Migrations
             //                            PipelineStageCriteria = new List<PipelineStageCriterion>()
             //                        } }
             //            } }
-            //} );
+            //});
 
 
 
@@ -280,7 +280,7 @@ namespace FitFinderBackEnd.Migrations
 
 
 
-           // context.SaveChanges();
+           //  context.SaveChanges();
         }
     }
 }

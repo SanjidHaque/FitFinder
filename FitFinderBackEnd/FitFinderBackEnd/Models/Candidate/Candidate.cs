@@ -31,6 +31,6 @@ namespace FitFinderBackEnd.Models.Candidate
         public string ImageName { get; set; }
         public Company Company { get; set; }    
         public long? CompanyId { get; set; } 
-    
+
     }
 }

@@ -54,18 +54,10 @@ namespace FitFinderBackEnd.Services
                 .ToList();
 
 
-            List<PipelineStageComment> stageComments = new List<PipelineStageComment>();
-            List<PipelineStageScore> stageScores = new List<PipelineStageScore>();
-            List<PipelineStageCriterionScore> criteriaScores = new List<PipelineStageCriterionScore>();
+            List<PipelineStageScore> pipelineStageScores = new List<PipelineStageScore>();
+            List<PipelineStageCriterionScore> pipelineStageCriterionScores = new List<PipelineStageCriterionScore>();
 
-            //PipelineStageComment stageComment = new PipelineStageComment
-            //{
-            //    PipelineStageId = pipelines[0].PipelineStages[0].Id,
-            //    CandidateId = jobAssignment.CandidateId,
-            //    Comment = "Created from"
-            //};
-
-          //  stageComments.Add(stageComment);
+           
 
             pipelineStages.ForEach(x =>
             {
@@ -76,7 +68,7 @@ namespace FitFinderBackEnd.Services
                     Rating = 0
                 };
 
-                stageScores.Add(pipelineStageScore);
+                pipelineStageScores.Add(pipelineStageScore);
             });
 
             pipelineStageCriteria.ForEach(x =>
@@ -89,13 +81,12 @@ namespace FitFinderBackEnd.Services
                     Rating = 0
                 };
 
-                criteriaScores.Add(pipelineStageCriterionScore);
+                pipelineStageCriterionScores.Add(pipelineStageCriterionScore);
             });
 
             jobAssignment.CurrentStageId = pipelines[0].PipelineStages[0].Id;
-            jobAssignment.StageComments = stageComments;
-            jobAssignment.StageScores = stageScores;
-            jobAssignment.CriteriaScores = criteriaScores;
+            jobAssignment.PipelineStageScores = pipelineStageScores;
+            jobAssignment.PipelineStageCriterionScores = pipelineStageCriterionScores;
 
             return jobAssignment;
         }
@@ -167,11 +158,11 @@ namespace FitFinderBackEnd.Services
 
             foreach (var role in applicationUser.Roles)
             {
-                if (role.RoleId == "f11f2694-b80a-403b-81fa-3fc4f2f41c6e")
+                if (role.RoleId == "f4bf4348-e386-4081-bcf9-f45160fac1fe")
                 {
                     roleName = "Admin";
                 }
-                else if (role.RoleId == "5e4e0928-d8b5-4981-939e-39b46fa44834")
+                else if (role.RoleId == "935e5c85-aa06-4c11-a992-9f6bf23a9dd3")
                 {
                     roleName = "HR";
                 }

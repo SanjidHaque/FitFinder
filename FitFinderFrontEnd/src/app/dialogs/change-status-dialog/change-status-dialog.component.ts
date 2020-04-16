@@ -1,8 +1,8 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {PipelineStage} from '../../models/settings/pipeline-stage.model';
-import {StageScore} from '../../models/settings/stage-score.model';
-import {CriteriaScore} from '../../models/settings/criteria-score.model';
+import {PipelineStageScore} from '../../models/settings/pipeline-stage-score.model';
+import {PipelineStageCriterionScore} from '../../models/settings/pipeline-stage-criterion-score.model';
 
 @Component({
   selector: 'app-change-status',
@@ -14,7 +14,6 @@ export class ChangeStatusDialogComponent implements OnInit {
   pipelineStages: PipelineStage[] = [];
   currentStageName: string;
   currentStageId: number;
-  criteriaScores: CriteriaScore[] = [];
 
 
   constructor(
@@ -41,31 +40,31 @@ export class ChangeStatusDialogComponent implements OnInit {
   }
 
   resetCriteriaScore(criteriaId: number) {
-    for (let j = 0; j < this.data.criteriaScore.length; j++) {
-      if (this.data.criteriaScore[j].PipelineStageCriterionId === criteriaId) {
-        this.data.criteriaScore[j].Rating = 0;
+    for (let j = 0; j < this.data.pipelineStageCriterionScores.length; j++) {
+      if (this.data.pipelineStageCriterionScores[j].PipelineStageCriterionId === criteriaId) {
+        this.data.pipelineStageCriterionScores[j].Rating = 0;
         return;
       }
     }
   }
 
   resetStageScore(stageId: number) {
-    for (let j = 0; j < this.data.stageScore.length; j++) {
-      if (this.data.stageScore[j].PipelineStageId === stageId) {
-        this.data.stageScore[j].Rating = 0;
+    for (let j = 0; j < this.data.pipelineStageCriterionScores.length; j++) {
+      if (this.data.pipelineStageScores[j].PipelineStageId === stageId) {
+        this.data.pipelineStageScores[j].Rating = 0;
         return;
       }
     }
   }
 
   criteriaScoreChanged(event: any, pipelineStageCriterionId: number) {
-    for (let j = 0; j < this.data.criteriaScore.length; j++) {
-      if (this.data.criteriaScore[j].PipelineStageCriterionId === pipelineStageCriterionId) {
-        this.data.criteriaScore[j].Rating = event.rating;
+    for (let j = 0; j < this.data.pipelineStageCriterionScores.length; j++) {
+      if (this.data.pipelineStageCriterionScores[j].PipelineStageCriterionId === pipelineStageCriterionId) {
+        this.data.pipelineStageCriterionScores[j].Rating = event.rating;
         return;
       }
     }
-    const criteriaScore = new CriteriaScore(
+    const criteriaScore = new PipelineStageCriterionScore(
       null,
       null,
       this.data.candidate.JobAssignments[this.data.candidate.JobAssignments.length - 1].Id,
@@ -75,19 +74,19 @@ export class ChangeStatusDialogComponent implements OnInit {
       null,
       pipelineStageCriterionId
     );
-    this.data.criteriaScore.push(criteriaScore);
+    this.data.pipelineStageCriterionScores.push(criteriaScore);
   }
 
 
 
   stageScoreChanged(event: any, pipelineStageId: number) {
-    for (let j = 0; j < this.data.stageScore.length; j++) {
-      if (this.data.stageScore[j].PipelineStageId === pipelineStageId) {
-        this.data.stageScore[j].Rating = event.rating;
+    for (let j = 0; j < this.data.pipelineStageScores.length; j++) {
+      if (this.data.pipelineStageScores[j].PipelineStageId === pipelineStageId) {
+        this.data.pipelineStageScores[j].Rating = event.rating;
         return;
       }
     }
-    const stageScore = new StageScore(
+    const pipelineStageScore = new PipelineStageScore(
       null,
       null,
       this.data.candidate.JobAssignments[this.data.candidate.JobAssignments.length - 1].Id,
@@ -96,25 +95,25 @@ export class ChangeStatusDialogComponent implements OnInit {
       null,
       this.data.candidate.Id,
       event.rating,
+      []
     );
-    this.data.stageScore.push(stageScore);
+    this.data.pipelineStageScores.push(pipelineStageScore);
   }
 
 
   getStageScore(stageId: number) {
-    for (let j = 0; j < this.data.stageScore.length; j++) {
-      if (this.data.stageScore[j].PipelineStageId === stageId) {
-        return this.data.stageScore[j].Rating;
+    for (let j = 0; j < this.data.pipelineStageScores.length; j++) {
+      if (this.data.pipelineStageScores[j].PipelineStageId === stageId) {
+        return this.data.pipelineStageScores[j].Rating;
       }
     }
     return 0;
   }
 
   getCriteriaScore(criteriaId: number) {
-
-    for (let j = 0; j < this.data.criteriaScore.length; j++) {
-      if (this.data.criteriaScore[j].PipelineStageCriterionId === criteriaId) {
-        return this.data.criteriaScore[j].Rating;
+    for (let j = 0; j < this.data.pipelineStageCriterionScores.length; j++) {
+      if (this.data.pipelineStageCriterionScores[j].PipelineStageCriterionId === criteriaId) {
+        return this.data.pipelineStageCriterionScores[j].Rating;
       }
     }
     return 0;

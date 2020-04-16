@@ -244,23 +244,26 @@ namespace FitFinderBackEnd.Controllers
                                 && (x.JobId == job.Id || x.JobId == null))
                     .ToList();
 
+                List<GeneralComment> generalComments = _context
+                    .GeneralComments
+                    .Include(x => x.JobAssignment)
+                    .ToList();
 
+                jobAssignment.GeneralComments = generalComments;
                 jobAssignment.Job = job;
 
             });
 
 
-            List<PipelineStageCriterionScore> criteriaScores = _context.PipelineStageCriterionScores
+            List<PipelineStageCriterionScore> pipelineStageCriterionScores = _context
+                .PipelineStageCriterionScores
                 .Include(x => x.JobAssignment)
                 .ToList();
 
-            List<PipelineStageScore> stageScores = _context.PipelineStageScores
+            List<PipelineStageScore> pipelineStageScores = _context
+                .PipelineStageScores
                 .Include(x => x.JobAssignment)
                 .ToList();
-
-            //List<PipelineStageComment> stageComments = _context.PipelineStageComments
-            //    .Include(x => x.JobAssignment)
-            //    .ToList();
 
 
             List<CandidateEducation> candidateEducations = _context.CandidateEducations

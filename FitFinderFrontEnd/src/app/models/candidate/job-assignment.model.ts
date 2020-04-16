@@ -1,8 +1,8 @@
-import {StageScore} from '../settings/stage-score.model';
-import {CriteriaScore} from '../settings/criteria-score.model';
-import {StageComment} from '../settings/stage-comment.model';
+import {PipelineStageScore} from '../settings/pipeline-stage-score.model';
+import {PipelineStageCriterionScore} from '../settings/pipeline-stage-criterion-score.model';
 import {Job} from '../job/job.model';
 import {Candidate} from './candidate.model';
+import {GeneralComment} from './general-comment.model';
 
 export class JobAssignment {
   constructor(
@@ -11,9 +11,9 @@ export class JobAssignment {
     public CandidateId: number,
     public Job: Job,
     public JobId: number,
-    public StageScores: StageScore[],
-    public CriteriaScores: CriteriaScore[],
-    public StageComments: StageComment[],
+    public PipelineStageScores: PipelineStageScore[],
+    public PipelineStageCriterionScores: PipelineStageCriterionScore[],
+    public GeneralComments: GeneralComment[],
     public CurrentStageId: number,
     public IsActive: boolean
   ) {}

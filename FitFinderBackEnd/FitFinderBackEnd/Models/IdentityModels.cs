@@ -43,8 +43,9 @@ namespace FitFinderBackEnd.Models
         public DbSet<CandidateEducation> CandidateEducations { get; set; }
         public DbSet<CandidateExperience> CandidateExperiences { get; set; }
         public DbSet<CandidateAttachment> CandidateAttachments { get; set; }
+        public DbSet<GeneralComment> GeneralComments { get; set; }    
 
-
+            
         public DbSet<Source> Sources { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<JobFunction> JobFunctions { get; set; }

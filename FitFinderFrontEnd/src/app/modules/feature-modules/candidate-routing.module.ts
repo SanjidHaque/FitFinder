@@ -56,7 +56,6 @@ const candidateRoutes: Routes = [
             jobs: JobsResolverService,
             sources: SourcesResolverService,
             candidate: CandidateResolverService,
-            pipelines: WorkflowsResolverService,
             departments: DepartmentsResolverService,
             candidateSpecificInterviews: CandidateSpecificInterviewResolverService
           },

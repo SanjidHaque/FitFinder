@@ -5,6 +5,6 @@
         public long Id { get; set; }
         public string Comment { get; set; }
         public PipelineStageScore PipelineStageScore { get; set; }
-        public long? StageScoreId { get; set; }  
+        public long? PipelineStageScoreId { get; set; }  
     }
 }

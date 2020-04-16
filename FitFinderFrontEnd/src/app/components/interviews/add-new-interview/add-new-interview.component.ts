@@ -15,7 +15,6 @@ import {UserAccount} from '../../../models/settings/user-account.model';
 import {InterviewService} from '../../../services/shared-services/interview.service';
 import {noWhitespaceValidator} from '../../../custom-form-validators/no-white-space.validator';
 import {UserAccountDataStorageService} from '../../../services/data-storage-services/user-account-data-storage.service';
-import {CandidateForInterview} from '../../../models/interview/candidate-for-interview.model';
 import * as moment from 'moment';
 
 @Component({
@@ -70,7 +69,7 @@ export class AddNewInterviewComponent implements OnInit, OnDestroy {
 
   createNewInterviewForm() {
     this.addNewInterviewForm = new FormGroup({
-      'date': new FormControl(new Date(moment().add(7, 'days')), [Validators.required]),
+      'date': new FormControl(new Date(moment().add(7, 'days').toLocaleString()), [Validators.required]),
       'name': new FormControl(this.interviewName, [Validators.required, noWhitespaceValidator]),
       'userAccounts': new FormControl('', Validators.required),
       'location': new FormControl('Dhaka, Bangladesh'),

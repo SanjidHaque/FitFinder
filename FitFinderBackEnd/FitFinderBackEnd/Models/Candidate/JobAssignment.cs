@@ -13,10 +13,10 @@ namespace FitFinderBackEnd.Models.Candidate
         public long CandidateId { get; set; }
         public Job.Job Job { get; set; }
         public long? JobId { get; set; }
-        public List<PipelineStageScore> StageScores { get; set; }
-        public List<PipelineStageCriterionScore> CriteriaScores { get; set; }
-        public List<PipelineStageComment> StageComments { get; set; }
-        public long CurrentStageId { get; set; }
+        public List<PipelineStageScore> PipelineStageScores { get; set; }
+        public List<PipelineStageCriterionScore> PipelineStageCriterionScores { get; set; }
+        public List<GeneralComment> GeneralComments { get; set; } 
+        public long CurrentStageId { get; set; }    
         public bool IsActive { get; set; }  
     }
 }

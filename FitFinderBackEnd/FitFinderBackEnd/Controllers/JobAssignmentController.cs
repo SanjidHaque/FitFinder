@@ -45,10 +45,7 @@ namespace FitFinderBackEnd.Controllers
 
             _context.SaveChanges();
 
-            if (jobAssignment.StageComments.Count != 0)
-            {
-                AddNewStageComments(jobAssignment.StageComments);
-            }
+
 
             JobAssignment getUpdatedJobAssignment = GetUpdatedJobAssignment(jobAssignment);
 
@@ -89,8 +86,8 @@ namespace FitFinderBackEnd.Controllers
 
         public void AddNewScores(JobAssignment jobAssignment)
         {
-            _context.PipelineStageScores.AddRange(jobAssignment.StageScores);
-            _context.PipelineStageCriterionScores.AddRange(jobAssignment.CriteriaScores);
+            _context.PipelineStageScores.AddRange(jobAssignment.PipelineStageScores);
+            _context.PipelineStageCriterionScores.AddRange(jobAssignment.PipelineStageCriterionScores);
         }
 
 
