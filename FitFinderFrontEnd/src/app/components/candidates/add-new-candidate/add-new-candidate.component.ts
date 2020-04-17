@@ -195,11 +195,9 @@ export class AddNewCandidateComponent implements OnInit {
       [],
       [],
       [],
-      null,
-      true,
+      null
     );
     jobAssignments.push(jobAssignment);
-
 
     const candidate = new Candidate(
       null,

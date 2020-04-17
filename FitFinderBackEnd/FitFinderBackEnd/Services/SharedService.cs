@@ -84,7 +84,7 @@ namespace FitFinderBackEnd.Services
                 pipelineStageCriterionScores.Add(pipelineStageCriterionScore);
             });
 
-            jobAssignment.CurrentStageId = pipelines[0].PipelineStages[0].Id;
+            jobAssignment.CurrentPipelineStageId = pipelines[0].PipelineStages[0].Id;
             jobAssignment.PipelineStageScores = pipelineStageScores;
             jobAssignment.PipelineStageCriterionScores = pipelineStageCriterionScores;
 

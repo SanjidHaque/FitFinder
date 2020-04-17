@@ -273,6 +273,10 @@
     <Compile Include="Migrations\202004161250587_Reset1.Designer.cs">
       <DependentUpon>202004161250587_Reset1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202004171308531_JobAssignmentModelCHanged.cs" />
+    <Compile Include="Migrations\202004171308531_JobAssignmentModelCHanged.Designer.cs">
+      <DependentUpon>202004171308531_JobAssignmentModelCHanged.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -452,6 +456,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202004161250587_Reset1.resx">
       <DependentUpon>202004161250587_Reset1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004171308531_JobAssignmentModelCHanged.resx">
+      <DependentUpon>202004171308531_JobAssignmentModelCHanged.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

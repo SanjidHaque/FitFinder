@@ -49,7 +49,7 @@ const candidateRoutes: Routes = [
           }
       },
       {
-        path: ':candidate-id',
+        path: ':candidate-id/:job-assignment-id',
         component: CandidateIdComponent,
         resolve:
           {

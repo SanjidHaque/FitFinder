@@ -280,22 +280,22 @@ export class InterviewIdComponent implements OnInit {
 
 
   getJobTitle(candidateId: number) {
-    const jobAssigned = this.candidates.find(x => x.Id === candidateId).JobAssignments;
-    if (jobAssigned === null ) {
-      return '';
-    }
+    // const jobAssigned = this.candidates.find(x => x.Id === candidateId).JobAssignments;
+    // if (jobAssigned === null ) {
+    //   return '';
+    // }
+    //
+    // const activeJob = jobAssigned.find(x => x.IsActive === true);
+    // if (activeJob === undefined) {
+    //   return '';
+    // }
+    //
+    // const job = this.jobs.find(x => x.Id === activeJob.JobId);
+    // if (job === undefined) {
+    //   return '';
+    // }
 
-    const activeJob = jobAssigned.find(x => x.IsActive === true);
-    if (activeJob === undefined) {
-      return '';
-    }
-
-    const job = this.jobs.find(x => x.Id === activeJob.JobId);
-    if (job === undefined) {
-      return '';
-    }
-
-    return job.Title;
+    return 'Porsche Carrera GT';
   }
 
 

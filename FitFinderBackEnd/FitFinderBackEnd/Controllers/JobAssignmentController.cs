@@ -37,7 +37,7 @@ namespace FitFinderBackEnd.Controllers
 
             }
 
-            getJobAssignment.CurrentStageId = jobAssignment.CurrentStageId;
+            getJobAssignment.CurrentPipelineStageId = jobAssignment.CurrentPipelineStageId;
             //  _context.SaveChanges();
 
             RemoveOldScores(jobAssignment);
@@ -120,6 +120,22 @@ namespace FitFinderBackEnd.Controllers
             {
                 return Ok(new { statusText = _statusTextService.ResourceNotFound });
             }
+
+            List<GeneralComment> generalComments = _context.GeneralComments
+                .Where(x => x.JobAssignmentId == getJobAssignment.Id)
+                .ToList();
+
+            List<PipelineStageScore> pipelineStageScores = _context.PipelineStageScores
+                .Where(x => x.JobAssignmentId == getJobAssignment.Id)
+                .ToList();
+
+            List<PipelineStageCriterionScore> pipelineStageCriterionScores = _context.PipelineStageCriterionScores
+                .Where(x => x.JobAssignmentId == getJobAssignment.Id)
+                .ToList();
+
+            _context.GeneralComments.RemoveRange(generalComments);
+            _context.PipelineStageScores.RemoveRange(pipelineStageScores);
+            _context.PipelineStageCriterionScores.RemoveRange(pipelineStageCriterionScores);
 
             _context.JobAssignments.Remove(getJobAssignment);
             _context.SaveChanges();

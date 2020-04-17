@@ -14,7 +14,6 @@ export class JobAssignment {
     public PipelineStageScores: PipelineStageScore[],
     public PipelineStageCriterionScores: PipelineStageCriterionScore[],
     public GeneralComments: GeneralComment[],
-    public CurrentStageId: number,
-    public IsActive: boolean
+    public CurrentPipelineStageId: number
   ) {}
 }

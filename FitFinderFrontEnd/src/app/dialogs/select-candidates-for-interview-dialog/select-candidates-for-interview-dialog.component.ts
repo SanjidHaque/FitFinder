@@ -74,21 +74,21 @@ export class SelectCandidatesForInterviewDialogComponent implements OnInit, OnDe
   }
 
   getJobName(candidate: Candidate) {
-    if (candidate.JobAssignments === null) {
-      return '';
-    }
+    // if (candidate.JobAssignments === null) {
+    //   return '';
+    // }
+    //
+    // const jobAssignment = candidate.JobAssignments.find(x => x.IsActive === true);
+    // if (jobAssignment === undefined) {
+    //   return '';
+    // }
+    //
+    // const job = this.jobs.find(x => x.Id === jobAssignment.JobId);
+    // if (job === undefined) {
+    //   return '';
+    // }
 
-    const jobAssignment = candidate.JobAssignments.find(x => x.IsActive === true);
-    if (jobAssignment === undefined) {
-      return '';
-    }
-
-    const job = this.jobs.find(x => x.Id === jobAssignment.JobId);
-    if (job === undefined) {
-      return '';
-    }
-
-    return job.Title;
+    return 'Porsche Carrera GT';
   }
 
   getApplicationDate(candidate: Candidate) {

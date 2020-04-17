@@ -608,14 +608,14 @@
 
           <span
             *ngIf="candidate.IsArchived"
-          >{{ getLastAssignedJobName() }} </span>
+          >{{ jobAssignment.Job.Title }} </span>
 
           <span
             *ngIf="!candidate.IsArchived"
             style="cursor: pointer;"
             (click)="goToJobDetail()"
             title="Go To Detail"
-          >{{ getLastAssignedJobName() }} </span>
+          >{{ jobAssignment.Job.Title }} </span>
         </div>
 
         <div class="col-xl-4">
@@ -624,7 +624,7 @@
               [disabled]="candidate.IsArchived"
               class="stage-select"
               (selectionChange)="pipelineStageChanged($event.value)"
-              [(value)]="currentPipelineStageId"
+              [(value)]="jobAssignment.CurrentPipelineStageId"
               style="font-size: 15px; ">
 
               <mat-select-trigger>
@@ -715,6 +715,7 @@
               <span>Change Job</span>
             </button>
             <button
+              style="outline: 0;"
               (click)="removeJobAssignment()"
               mat-menu-item>
               <mat-icon>remove_circle_outline

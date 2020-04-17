@@ -16,7 +16,6 @@ namespace FitFinderBackEnd.Models.Candidate
         public List<PipelineStageScore> PipelineStageScores { get; set; }
         public List<PipelineStageCriterionScore> PipelineStageCriterionScores { get; set; }
         public List<GeneralComment> GeneralComments { get; set; } 
-        public long CurrentStageId { get; set; }    
-        public bool IsActive { get; set; }  
+        public long CurrentPipelineStageId { get; set; }    
     }
 }
