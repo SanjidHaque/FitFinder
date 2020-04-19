@@ -7,7 +7,6 @@ import {CandidateAttachment} from '../../../models/candidate/canidate-attachment
 import {CandidateEducation} from '../../../models/candidate/candidate-education.model';
 import {CandidateExperience} from '../../../models/candidate/candidate-experience.model';
 import {MatDialog} from '@angular/material';
-import {DisplayJobDialogComponent} from '../../../dialogs/display-job-dialog/display-job-dialog.component';
 import {JobAssignment} from '../../../models/candidate/job-assignment.model';
 import {Job} from '../../../models/job/job.model';
 import {JobDataStorageService} from '../../../services/data-storage-services/job-data-storage.service';
@@ -22,8 +21,6 @@ import {DialogService} from '../../../services/dialog-services/dialog.service';
 import {AttachmentDataStorageService} from '../../../services/data-storage-services/attachment-data-storage.service';
 import {UserAccountDataStorageService} from '../../../services/data-storage-services/user-account-data-storage.service';
 import {CandidateForInterview} from '../../../models/interview/candidate-for-interview.model';
-
-
 
 @Component({
   selector: 'app-candidate-id',
@@ -51,7 +48,6 @@ export class CandidateIdComponent implements OnInit, DoCheck {
   candidateImageToUpload: File = null;
   @ViewChild('image', { static: false }) imageElementRef: ElementRef;
 
-
   imageFolderPath = '';
 
   constructor(private route: ActivatedRoute,
@@ -74,7 +70,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
 
       this.route.paramMap.subscribe(params => {
       //  this.jobAssignmentId = +params.get('job-assignment-id');
-        this.jobAssignmentId = 2;
+        this.jobAssignmentId = 3;
         this.jobAssignment = this.candidate.JobAssignments
           .find(x => x.Id === this.jobAssignmentId);
         this.job = this.jobAssignment.Job;

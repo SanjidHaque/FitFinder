@@ -70,7 +70,7 @@
       <ng-template matTabContent>
 
         <div
-          *ngIf="pipelineStage.PipelineStageCriteria !== null; else criteriaExist"
+          *ngIf="pipelineStage.PipelineStageCriteria !== null; else criteriaNotExist"
           style="height: 30vh;
          overflow-y: scroll;
          padding-top: 20px;
@@ -78,14 +78,13 @@
 
           <div class="row"
                style="font-size: 15px;
-                 padding-bottom: 6px;
+                 padding-bottom: 10px;
                  padding-right: 10px;
-                 padding-top: 6px;
-                 border-bottom: 1px solid #f2f2f2"
-               *ngFor="let criteria of pipelineStage.PipelineStageCriteria">
+                 padding-top: 6px"
+               *ngFor="let pipelineStageCriteria of pipelineStage.PipelineStageCriteria">
             <div class="col-xl-8" style="padding-left: 25px;">
 
-              &bull; &nbsp; {{ criteria.Name }}
+              <i class="fas fa-flag"></i> &nbsp; {{ pipelineStageCriteria.Name }}
 
             </div>
 
@@ -97,8 +96,8 @@
                 staticColor="123"
                 [starType]="'svg'"
                 [hoverEnabled]="true"
-                [rating]="getCriteriaScore(criteria.Id)"
-                (ratingChange)="criteriaScoreChanged($event, criteria.Id)"
+                [rating]="getCriteriaScore(pipelineStageCriteria.Id)"
+                (ratingChange)="criteriaScoreChanged($event, pipelineStageCriteria.Id)"
               ></star-rating>
 
             </div>
@@ -107,7 +106,7 @@
 
               <i
                 style="cursor: pointer;"
-                (click)="resetCriteriaScore(criteria.Id)"
+                (click)="resetCriteriaScore(pipelineStageCriteria.Id)"
                 class="far fa-times-circle"></i>
             </div>
 
@@ -115,7 +114,7 @@
 
         </div>
 
-        <ng-template #criteriaExist>
+        <ng-template #criteriaNotExist>
 
           <div class="row" style="
           text-align: center;
