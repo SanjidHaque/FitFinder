@@ -23,12 +23,20 @@ export class JobAssignmentDataStorageService {
       jobAssignment);
   }
 
+  addNewPipelineStageScore(pipelineStageScore: PipelineStageScore) {
+    return this.httpClient.post<PipelineStageScore>(this.rootUrl + '/api/AddNewPipelineStageScore', pipelineStageScore);
+  }
+
+  addNewPipelineStageCriterionScore(pipelineStageCriterionScore: PipelineStageCriterionScore) {
+    return this.httpClient.post<PipelineStageCriterionScore>(this.rootUrl + '/api/AddNewPipelineStageCriterionScore', pipelineStageCriterionScore);
+  }
+
   updatePipelineStageScore(pipelineStageScore: PipelineStageScore) {
-    return this.httpClient.put<PipelineStageScore>(this.rootUrl + '/api/UpdatePipelineStageScore', workflow);
+    return this.httpClient.put<PipelineStageScore>(this.rootUrl + '/api/UpdatePipelineStageScore', pipelineStageScore);
   }
 
   updatePipelineStageCriterionScore(pipelineStageCriterionScore: PipelineStageCriterionScore) {
-    return this.httpClient.put<PipelineStageCriterionScore>(this.rootUrl + '/api/UpdatePipelineStageCriterionScore', workflow);
+    return this.httpClient.put<PipelineStageCriterionScore>(this.rootUrl + '/api/UpdatePipelineStageCriterionScore', pipelineStageCriterionScore);
   }
 
   addGeneralComment(generalComment: GeneralComment) {

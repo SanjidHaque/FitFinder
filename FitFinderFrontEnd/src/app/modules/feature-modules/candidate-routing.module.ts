@@ -49,6 +49,15 @@ const candidateRoutes: Routes = [
           }
       },
       {
+        path: ':candidate-id/edit-candidate',
+        component: EditCandidateComponent,
+        resolve:
+          {
+            candidate: CandidateResolverService,
+            sources: SourcesResolverService
+          }
+      },
+      {
         path: ':candidate-id/:job-assignment-id',
         component: CandidateIdComponent,
         resolve:
@@ -87,15 +96,6 @@ const candidateRoutes: Routes = [
               component: CandidateTaskComponent
             }
           ]
-      },
-      {
-        path: ':candidate-id/edit-candidate',
-        component: EditCandidateComponent,
-        resolve:
-          {
-            candidate: CandidateResolverService,
-            sources: SourcesResolverService
-          }
       }
     ]
   }

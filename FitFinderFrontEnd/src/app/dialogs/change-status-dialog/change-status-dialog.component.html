@@ -26,14 +26,14 @@
           [rating]="getPipelineStageScore(currentPipelineStageId)"
           [starType]="'svg'"
           [hoverEnabled]="true"
-          (ratingChange)="updatePipelineStageScore($event, currentPipelineStageId)"
+          (ratingChange)="updatePipelineStageScore($event.rating, currentPipelineStageId)"
         ></star-rating>
     </div>
 
     <div class="col-xl-8" style="margin-left: -45px;">
       <i
         style="cursor: pointer;"
-        (click)="resetPipelineStageScore(currentPipelineStageId)"
+        (click)="updatePipelineStageScore(0, currentPipelineStageId)"
         class="far fa-times-circle"></i>
     </div>
   </div>
@@ -70,7 +70,7 @@
       <ng-template matTabContent>
 
         <div
-          *ngIf="pipelineStage.PipelineStageCriteria !== null; else criteriaNotExist"
+          *ngIf="pipelineStage.PipelineStageCriteria !== null; else criterionNotExist"
           style="height: 30vh;
          overflow-y: scroll;
          padding-top: 20px;
@@ -81,10 +81,10 @@
                  padding-bottom: 10px;
                  padding-right: 10px;
                  padding-top: 6px"
-               *ngFor="let pipelineStageCriteria of pipelineStage.PipelineStageCriteria">
+               *ngFor="let pipelineStageCriterion of pipelineStage.PipelineStageCriteria">
             <div class="col-xl-8" style="padding-left: 25px;">
 
-              <i class="fas fa-flag"></i> &nbsp; {{ pipelineStageCriteria.Name }}
+              <i class="fas fa-flag"></i> &nbsp; {{ pipelineStageCriterion.Name }}
 
             </div>
 
@@ -96,8 +96,8 @@
                 staticColor="123"
                 [starType]="'svg'"
                 [hoverEnabled]="true"
-                [rating]="getPipelineStageCriterionScore(pipelineStageCriteria.Id)"
-                (ratingChange)="updatePipelineStageCriterionScore($event, pipelineStageCriteria.Id)"
+                [rating]="getPipelineStageCriterionScore(pipelineStageCriterion.Id)"
+                (ratingChange)="updatePipelineStageCriterionScore($event.rating, pipelineStageCriterion.Id)"
               ></star-rating>
 
             </div>
@@ -106,7 +106,7 @@
 
               <i
                 style="cursor: pointer;"
-                (click)="resetPipelineStageCriterionScore(pipelineStageCriteria.Id)"
+                (click)="updatePipelineStageCriterionScore(0 ,pipelineStageCriterion.Id)"
                 class="far fa-times-circle"></i>
             </div>
 
@@ -114,7 +114,7 @@
 
         </div>
 
-        <ng-template #criteriaNotExist>
+        <ng-template #criterionNotExist>
 
           <div class="row" style="
           text-align: center;
@@ -123,7 +123,7 @@
           opacity: .6;
           height: 30vh;">
             <div class="col-xl-12" style="padding-top: 20px;">
-              No stage criteria is available here.
+              No stage criterion is available here.
 
             </div>
           </div>

@@ -118,6 +118,28 @@ namespace FitFinderBackEnd.Controllers
             _context.SaveChanges();
             return Ok(new { statusText = _statusTextService.Success });
         }
+
+
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("api/AddNewPipelineStageCriterionScore")]
+        public IHttpActionResult AddNewPipelineStageCriterionScore(PipelineStageCriterionScore pipelineStageCriterionScore)
+        {
+            _context.PipelineStageCriterionScores.Add(pipelineStageCriterionScore);   
+            _context.SaveChanges();
+            return Ok(new { pipelineStageCriterionScore.Id,  statusText = _statusTextService.Success });
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("api/AddNewPipelineStageScore")]
+        public IHttpActionResult AddNewPipelineStageScore(PipelineStageScore pipelineStageScore)
+        {
+            _context.PipelineStageScores.Add(pipelineStageScore);
+            _context.SaveChanges();
+            return Ok(new { pipelineStageScore.Id, statusText = _statusTextService.Success });
+        }
+
         [HttpPut]
         [Route("api/UpdatePipelineStageCriterionScore")]
         [AllowAnonymous]

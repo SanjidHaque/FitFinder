@@ -172,7 +172,8 @@ export class CandidateIdComponent implements OnInit, DoCheck {
         data: {
           pipelines: this.job.Workflow.Pipelines,
           selectTab: this.selectTabIndex,
-          candidate: this.candidate,
+          jobAssignmentId: this.jobAssignmentId,
+          candidateId: this.candidate.Id,
           pipelineStageId: pipelineStageId,
           pipelineStageScores: pipelineStageScores,
           pipelineStageCriterionScores: pipelineStageCriterionScores,

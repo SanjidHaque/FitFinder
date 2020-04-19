@@ -75,7 +75,6 @@ namespace FitFinderBackEnd.Services
             {
                 PipelineStageCriterionScore pipelineStageCriterionScore = new PipelineStageCriterionScore
                 {
-                    PipelineStageId = x.PipelineStageId,
                     PipelineStageCriterionId = x.Id,
                     CandidateId = jobAssignment.CandidateId,
                     Rating = 0
