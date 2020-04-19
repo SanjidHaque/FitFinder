@@ -12,7 +12,6 @@ import {Job} from '../../../models/job/job.model';
 import {JobDataStorageService} from '../../../services/data-storage-services/job-data-storage.service';
 import {ChangeStatusDialogComponent} from '../../../dialogs/change-status-dialog/change-status-dialog.component';
 import {PipelineStage} from '../../../models/settings/pipeline-stage.model';
-import {PipelineStageComment} from '../../../models/settings/pipeline-stage-comment.model';
 import {NotifierService} from 'angular-notifier';
 import {CandidateService} from '../../../services/shared-services/candidate.service';
 import {JobAssignmentDataStorageService} from '../../../services/data-storage-services/job-assignment-data-storage.service';
@@ -194,8 +193,8 @@ export class CandidateIdComponent implements OnInit, DoCheck {
          }
        }
 
-       currentStageId = allPipelineStage[result.selectTab].Id;
-       const pipelineStageComments: PipelineStageComment[] = [];
+       // currentStageId = allPipelineStage[result.selectTab].Id;
+       // const pipelineStageComments: PipelineStageComment[] = [];
 
        // if (result.comment !== '') {
        //    const stageComment = new PipelineStageComment(
@@ -203,7 +202,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
        //     null,
        //     this.getActiveJobAssignment().Id,
        //     null,
-       //     currentStageId,
+       //     currentPipelineStageId,
        //     null,
        //     this.candidate.Id,
        //     result.comment
@@ -239,7 +238,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
              //   = this.candidate.JobAssignments.findIndex( x => x.Id === this.getActiveJobAssignment().Id);
              // this.candidate.JobAssignments[activeJobAssignmentIndex] = data.getUpdatedJobAssignment;
              this.notifierService.notify('default', 'Status changed.');
-            // this.currentPipelineStageId = this.detectStageChange(currentStageId).stageId;
+            // this.currentPipelineStageId = this.detectStageChange(currentPipelineStageId).stageId;
              this.pipelineStageName = this.detectStageChange(currentStageId).stageName;
              this.pipelineStageColor = this.detectStageChange(currentStageId).stageColor;
            }

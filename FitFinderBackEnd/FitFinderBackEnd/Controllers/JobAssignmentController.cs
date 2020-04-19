@@ -61,10 +61,10 @@ namespace FitFinderBackEnd.Controllers
         }
 
 
-        public void AddNewStageComments(List<PipelineStageComment> stageComments)
-        {
-            _context.PipelineStageComments.AddRange(stageComments);
-        }
+        //public void AddNewStageComments(List<PipelineStageComment> stageComments)
+        //{
+        //    _context.PipelineStageComments.AddRange(stageComments);
+        //}
 
 
 
@@ -91,8 +91,6 @@ namespace FitFinderBackEnd.Controllers
         }
 
 
-
-
         [HttpPost]
         [Route("api/AddJobAssignment")]
         public IHttpActionResult AddJobAssignment(JobAssignment jobAssignment)
@@ -102,13 +100,62 @@ namespace FitFinderBackEnd.Controllers
 
             if (getJobAssignment == null)
             {
-                return Ok(new {statusText = _statusTextService.SomethingWentWrong});
+                return Ok(new { statusText = _statusTextService.SomethingWentWrong });
             }
 
             _context.JobAssignments.Add(getJobAssignment);
             _context.SaveChanges();
 
-            return Ok(new { jobAssignment, statusText = _statusTextService.Success});
+            return Ok(new { jobAssignment, statusText = _statusTextService.Success });
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("api/AddGeneralComment")]
+        public IHttpActionResult AddGeneralComment(GeneralComment generalComment)
+        {
+            _context.GeneralComments.Add(generalComment);
+            _context.SaveChanges();
+            return Ok(new { statusText = _statusTextService.Success });
+        }
+        [HttpPut]
+        [Route("api/UpdatePipelineStageCriterionScore")]
+        [AllowAnonymous]
+        public IHttpActionResult UpdatePipelineStageCriterionScore(PipelineStageCriterionScore pipelineStageCriterionScore)
+        {
+            PipelineStageCriterionScore getPipelineStageCriterionScore = _context
+                .PipelineStageCriterionScores
+                .FirstOrDefault(x => x.Id == pipelineStageCriterionScore.Id);
+
+            if (getPipelineStageCriterionScore == null)
+            {
+                return Ok(new { statusText = _statusTextService.ResourceNotFound });
+            }
+
+            getPipelineStageCriterionScore.Rating = pipelineStageCriterionScore.Rating;
+            _context.SaveChanges();
+
+            return Ok(new { statusText = _statusTextService.Success });
+        }
+
+        [HttpPut]
+        [Route("api/UpdatePipelineStageScore")]
+        [AllowAnonymous]
+        public IHttpActionResult UpdatePipelineStageScore(PipelineStageScore pipelineStageScore)
+        {
+            PipelineStageScore getpipelineStageScore = _context
+                .PipelineStageScores
+                .FirstOrDefault(x => x.Id == pipelineStageScore.Id);
+
+            if (getpipelineStageScore == null)
+            {
+                return Ok(new { statusText = _statusTextService.ResourceNotFound });
+            }
+
+            getpipelineStageScore.Rating = pipelineStageScore.Rating;
+            _context.SaveChanges();
+
+            return Ok(new { statusText = _statusTextService.Success });
         }
 
         [HttpPost]

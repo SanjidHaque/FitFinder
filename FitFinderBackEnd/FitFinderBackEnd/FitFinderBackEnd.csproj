@@ -277,6 +277,10 @@
     <Compile Include="Migrations\202004171308531_JobAssignmentModelCHanged.Designer.cs">
       <DependentUpon>202004171308531_JobAssignmentModelCHanged.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202004191616180_SomeModelChanged.cs" />
+    <Compile Include="Migrations\202004191616180_SomeModelChanged.Designer.cs">
+      <DependentUpon>202004191616180_SomeModelChanged.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -303,7 +307,6 @@
     <Compile Include="Models\Settings\PipelineStageCriterion.cs" />
     <Compile Include="Models\Settings\RejectedReason.cs" />
     <Compile Include="Models\Settings\Source.cs" />
-    <Compile Include="Models\Settings\PipelineStageComment.cs" />
     <Compile Include="Models\Settings\PipelineStageScore.cs" />
     <Compile Include="Models\Settings\Company.cs" />
     <Compile Include="Models\Settings\UserAccount.cs" />
@@ -459,6 +462,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202004171308531_JobAssignmentModelCHanged.resx">
       <DependentUpon>202004171308531_JobAssignmentModelCHanged.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004191616180_SomeModelChanged.resx">
+      <DependentUpon>202004191616180_SomeModelChanged.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

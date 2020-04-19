@@ -2,7 +2,7 @@
 
   <div class="col-xl-8" style=" font-size: 17px; font-weight: bold; padding-top: 3px">
 
-      <i class="fas fa-flag-checkered"></i> {{ currentStageName }}
+      <i class="fas fa-flag-checkered"></i> {{ currentPipelineStageName }}
 
   </div>
 
@@ -13,9 +13,9 @@
 </div>
 
   <div
-    *ngIf="currentStageId !== 7 &&
-     currentStageId !== 8 &&
-     currentStageId !== 9; else notHiredOrDisqualifed"
+    *ngIf="currentPipelineStageId !== 7 &&
+     currentPipelineStageId !== 8 &&
+     currentPipelineStageId !== 9; else notHiredOrDisqualifed"
     class="row" style="padding-top: 0; padding-bottom: 10px;">
     <div class="col-xl-3">
 
@@ -23,17 +23,17 @@
           style="cursor: pointer;"
           size="medium"
           staticColor="123"
-          [rating]="getStageScore(currentStageId)"
+          [rating]="getPipelineStageScore(currentPipelineStageId)"
           [starType]="'svg'"
           [hoverEnabled]="true"
-          (ratingChange)="stageScoreChanged($event, currentStageId)"
+          (ratingChange)="updatePipelineStageScore($event, currentPipelineStageId)"
         ></star-rating>
     </div>
 
     <div class="col-xl-8" style="margin-left: -45px;">
       <i
         style="cursor: pointer;"
-        (click)="resetStageScore(currentStageId)"
+        (click)="resetPipelineStageScore(currentPipelineStageId)"
         class="far fa-times-circle"></i>
     </div>
   </div>
@@ -51,7 +51,7 @@
 
   disableRipple="true"
   [selectedIndex]="data.selectTab"
-  (selectedIndexChange)="tabChange($event)">
+  (selectedIndexChange)="pipelineStageChanged($event)">
 
 
     <mat-tab
@@ -96,8 +96,8 @@
                 staticColor="123"
                 [starType]="'svg'"
                 [hoverEnabled]="true"
-                [rating]="getCriteriaScore(pipelineStageCriteria.Id)"
-                (ratingChange)="criteriaScoreChanged($event, pipelineStageCriteria.Id)"
+                [rating]="getPipelineStageCriterionScore(pipelineStageCriteria.Id)"
+                (ratingChange)="updatePipelineStageCriterionScore($event, pipelineStageCriteria.Id)"
               ></star-rating>
 
             </div>
@@ -106,7 +106,7 @@
 
               <i
                 style="cursor: pointer;"
-                (click)="resetCriteriaScore(pipelineStageCriteria.Id)"
+                (click)="resetPipelineStageCriterionScore(pipelineStageCriteria.Id)"
                 class="far fa-times-circle"></i>
             </div>
 

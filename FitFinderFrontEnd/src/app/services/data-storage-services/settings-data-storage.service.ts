@@ -174,6 +174,4 @@ export class SettingsDataStorageService {
   deletePipelineStageCriterion(pipelineStageCriterionId: number) {
     return this.httpClient.delete(`${this.rootUrl + '/api/DeletePipelineStageCriterion'}/${pipelineStageCriterionId}`);
   }
-  
-
 }

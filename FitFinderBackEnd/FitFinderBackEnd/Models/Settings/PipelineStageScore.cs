@@ -14,6 +14,5 @@ namespace FitFinderBackEnd.Models.Settings
         public Candidate.Candidate Candidate { get; set; }
         public long CandidateId { get; set; }
         public long Rating { get; set; }
-        public List<PipelineStageComment> PipelineStageComments { get; set; }   
     }
 }
