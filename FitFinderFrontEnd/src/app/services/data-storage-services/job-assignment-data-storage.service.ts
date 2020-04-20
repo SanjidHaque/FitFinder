@@ -43,8 +43,8 @@ export class JobAssignmentDataStorageService {
     return this.httpClient.put<GeneralComment>(this.rootUrl + '/api/AddGeneralComment', generalComment);
   }
 
-  updateJobAssignment(jobAssignment: JobAssignment) {
-    return this.httpClient.post<JobAssignment>(this.rootUrl + '/api/UpdateJobAssignment',
+  changePipelineStage(jobAssignment: JobAssignment) {
+    return this.httpClient.put<JobAssignment>(this.rootUrl + '/api/ChangePipelineStage',
       jobAssignment);
   }
 

@@ -29,13 +29,12 @@ export class ChangeStatusDialogComponent implements OnInit {
       }
     }
     this.currentPipelineStageName = this.pipelineStages[this.data.selectTab].Name;
-    this.currentPipelineStageId = this.data.pipelineStageId;
+    this.currentPipelineStageId = this.data.currentPipelineStageId;
   }
 
   pipelineStageChanged(index: number) {
     this.currentPipelineStageName = this.pipelineStages[index].Name;
     this.currentPipelineStageId = this.pipelineStages[index].Id;
-
     this.data.comment = '';
     this.data.selectTab = index;
   }
@@ -68,8 +67,6 @@ export class ChangeStatusDialogComponent implements OnInit {
           } else {
             pipelineStageCriterionScore.Id = data.Id;
             this.data.pipelineStageCriterionScores.push(pipelineStageCriterionScore);
-
-            this.notifierService.notify('default', 'Score updated successfully.');
           }
 
         });
@@ -100,7 +97,6 @@ export class ChangeStatusDialogComponent implements OnInit {
           this.notifierService.notify('default', data.statusText);
         } else {
           getPipelineStageCriterionScore.Rating = rating;
-          this.notifierService.notify('default', 'Score updated successfully.');
         }
 
       });
@@ -111,6 +107,31 @@ export class ChangeStatusDialogComponent implements OnInit {
       .find(x => x.PipelineStageId === pipelineStageId);
 
     if (getPipelineStageScore === undefined) {
+
+      const pipelineStageScore = new PipelineStageScore(
+        null,
+        null,
+        this.data.jobAssignmentId,
+        null,
+        pipelineStageId,
+        null,
+        this.data.candidateId,
+        rating
+      );
+
+      this.jobAssignmentDataStorageService
+        .addNewPipelineStageScore(pipelineStageScore)
+        .subscribe((data: any) => {
+
+          if (data.statusText !== 'Success') {
+            this.notifierService.notify('default', data.statusText);
+          } else {
+            pipelineStageScore.Id = data.Id;
+            this.data.pipelineStageScores.push(pipelineStageScore);
+          }
+
+        });
+
       return;
     }
 
@@ -137,7 +158,6 @@ export class ChangeStatusDialogComponent implements OnInit {
           this.notifierService.notify('default', data.statusText);
         } else {
           getPipelineStageScore.Rating = rating;
-          this.notifierService.notify('default', 'Score updated successfully.');
         }
 
       });
@@ -164,5 +184,10 @@ export class ChangeStatusDialogComponent implements OnInit {
     }
 
     return getPipelineStageCriterionScore.Rating;
+  }
+
+  closeDialog() {
+    this.data.currentPipelineStageId = this.currentPipelineStageId;
+    this.dialogRef.close(this.data);
   }
 }

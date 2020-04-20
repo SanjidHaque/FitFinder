@@ -34,6 +34,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
   rating: 0;
   pipelineStageName = '';
   pipelineStageColor = '';
+  currentPipelineStageId: number;
 
   candidates: Candidate[] = [];
   candidate: Candidate;
@@ -73,6 +74,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
         this.jobAssignment = this.candidate.JobAssignments
           .find(x => x.Id === this.jobAssignmentId);
         this.job = this.jobAssignment.Job;
+        this.currentPipelineStageId = this.jobAssignment.CurrentPipelineStageId;
       });
 
 
@@ -150,7 +152,6 @@ export class CandidateIdComponent implements OnInit, DoCheck {
     }
 
     const pipelineStageScores = this.jobAssignment.PipelineStageScores;
-
     let pipelineStageCriterionScores = this.jobAssignment.PipelineStageCriterionScores;
 
     if (pipelineStageCriterionScores === null) {
@@ -174,7 +175,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
           selectTab: this.selectTabIndex,
           jobAssignmentId: this.jobAssignmentId,
           candidateId: this.candidate.Id,
-          pipelineStageId: pipelineStageId,
+          currentPipelineStageId: pipelineStageId,
           pipelineStageScores: pipelineStageScores,
           pipelineStageCriterionScores: pipelineStageCriterionScores,
           comment: '',
@@ -183,65 +184,34 @@ export class CandidateIdComponent implements OnInit, DoCheck {
       });
 
     dialogRef.afterClosed().subscribe(result => {
-     if (result !== null) {
-
-       let currentStageId = 1;
-
-       const allPipelineStage: PipelineStage[] = [];
-       for (let i = 0; i < this.job.Workflow.Pipelines.length; i++) {
-         for (let j = 0; j < this.job.Workflow.Pipelines[i].PipelineStages.length; j++) {
-           allPipelineStage.push(this.job.Workflow.Pipelines[i].PipelineStages[j]);
-         }
-       }
-
-       // currentStageId = allPipelineStage[result.selectTab].Id;
-       // const pipelineStageComments: PipelineStageComment[] = [];
-
-       // if (result.comment !== '') {
-       //    const stageComment = new PipelineStageComment(
-       //     null,
-       //     null,
-       //     this.getActiveJobAssignment().Id,
-       //     null,
-       //     currentPipelineStageId,
-       //     null,
-       //     this.candidate.Id,
-       //     result.comment
-       //   );
-       //    stageComments.push(stageComment);
-       // }
-
-
-       for (let i = 0; i < result.pipelineStageScores.length; i++) {
-         result.pipelineStageScores[i].Id = null;
-       }
-
-
-       for (let i = 0; i < result.pipelineStageCriterionScores.length; i++) {
-         result.pipelineStageCriterionScores[i].Id = null;
-       }
+     if (result.currentPipelineStageId !== this.jobAssignment.CurrentPipelineStageId) {
 
        const jobAssignment = new JobAssignment(
          this.jobAssignmentId,
          null,
-         this.candidate.Id,
          null,
-         this.jobAssignment.JobId,
-         result.pipelineStageScores,
-         result.pipelineStageCriterionScores,
+         null,
+         null,
          [],
-         currentStageId
+         [],
+         [],
+         result.currentPipelineStageId
        );
 
-       this.jobAssignmentDataStorageService.updateJobAssignment(jobAssignment)
+       this.jobAssignmentDataStorageService.changePipelineStage(jobAssignment)
          .subscribe((data: any) => {
-             // const activeJobAssignmentIndex
-             //   = this.candidate.JobAssignments.findIndex( x => x.Id === this.getActiveJobAssignment().Id);
-             // this.candidate.JobAssignments[activeJobAssignmentIndex] = data.getUpdatedJobAssignment;
-             this.notifierService.notify('default', 'Status changed.');
-            // this.currentPipelineStageId = this.detectStageChange(currentPipelineStageId).stageId;
-             this.pipelineStageName = this.detectStageChange(currentStageId).stageName;
-             this.pipelineStageColor = this.detectStageChange(currentStageId).stageColor;
+
+           if (data.statusText !== 'Success') {
+             this.notifierService.notify('default', data.statusText);
+           } else {
+             this.notifierService.notify('default', 'Pipeline stage changed.');
+             this.jobAssignment.CurrentPipelineStageId = result.currentPipelineStageId;
+             this.currentPipelineStageId = result.currentPipelineStageId;
+             this.pipelineStageName = this
+               .detectStageChange(this.jobAssignment.CurrentPipelineStageId).stageName;
+             this.pipelineStageColor = this
+               .detectStageChange(this.jobAssignment.CurrentPipelineStageId).stageColor;
+           }
            }
          );
      }
@@ -526,7 +496,7 @@ export class CandidateIdComponent implements OnInit, DoCheck {
     this.changeStatus(pipeline.PipelineStages[0].Id);
   }
 
-  moveToNextStage() {
+  moveToNextPipelineStage() {
     const pipelineStages: PipelineStage[] = [];
 
     for (let i = 0; i < this.job.Workflow.Pipelines.length; i++) {

@@ -159,13 +159,10 @@
   <mat-dialog-actions align="end">
     <button
       mat-flat-button
-      [mat-dialog-close]="data"
+      (click)="closeDialog()"
       color="primary"
       style="outline: 0;"
-    >OK</button>
-    <button
-      mat-stroked-button
-      style="outline: 0;"
-      [mat-dialog-close]=null>Cancel</button>
+    >Save</button>
+
   </mat-dialog-actions>
 </div>

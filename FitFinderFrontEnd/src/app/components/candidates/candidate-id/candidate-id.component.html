@@ -624,7 +624,7 @@
               [disabled]="candidate.IsArchived"
               class="stage-select"
               (selectionChange)="pipelineStageChanged($event.value)"
-              [(value)]="jobAssignment.CurrentPipelineStageId"
+              [(value)]="currentPipelineStageId"
               style="font-size: 15px; ">
 
               <mat-select-trigger>
@@ -674,7 +674,7 @@
             style="font-weight: 900;"
             [disabled]="candidate.IsArchived"
             (click)="openCurrentPipelineStage()"
-            class="btn btn-info">||</button>
+            class="btn btn-info"><i class="fas fa-external-link-alt"></i></button>
 
           <button
             style="margin-right: 4px; margin-left: 4px;"
@@ -684,7 +684,7 @@
 
           <button
             [disabled]="candidate.IsArchived"
-            (click)="moveToNextStage()"
+            (click)="moveToNextPipelineStage()"
             class="btn btn-success">
             <i class="fas fa-angle-double-right"></i></button>
 

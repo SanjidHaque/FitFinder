@@ -36,7 +36,6 @@ export class PipelineComponent implements OnInit {
   addNewPipelineStage(pipelineId: number) {
 
     this.settingsService.addNewPipelineStage().then(result => {
-      this.isDisabled = true;
 
       if (result !== '') {
         const pipelineStage = new PipelineStage(
@@ -48,12 +47,14 @@ export class PipelineComponent implements OnInit {
           []
         );
 
-        const getPipeline =
-          this.workflow.Pipelines.find(x => x.Id === pipelineId);
+        const getPipeline = this
+          .workflow
+          .Pipelines
+          .find(x => x.Id === pipelineId);
 
+        this.isDisabled = true;
         this.settingsDataStorageService.addNewPipelineStage(pipelineStage)
-          .subscribe(
-            (data: any) => {
+          .subscribe((data: any) => {
 
               this.isDisabled = false;
               if (data.statusText !== 'Success') {
