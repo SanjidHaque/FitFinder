@@ -1,4 +1,4 @@
-import {Component, DoCheck, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, DoCheck, OnDestroy ,ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Data, Router} from '@angular/router';
 import {Candidate} from '../../../models/candidate/candidate.model';
 import {CandidateDataStorageService} from '../../../services/data-storage-services/candidate-data-storage.service';
@@ -26,7 +26,7 @@ import {CandidateForInterview} from '../../../models/interview/candidate-for-int
   templateUrl: './candidate-id.component.html',
   styleUrls: ['./candidate-id.component.css']
 })
-export class CandidateIdComponent implements OnInit, DoCheck {
+export class CandidateIdComponent implements OnInit, DoCheck, OnDestroy  {
   isDisabled = false;
 
   selectTabIndex = 0;
@@ -184,37 +184,40 @@ export class CandidateIdComponent implements OnInit, DoCheck {
       });
 
     dialogRef.afterClosed().subscribe(result => {
-     if (result.currentPipelineStageId !== this.jobAssignment.CurrentPipelineStageId) {
 
-       const jobAssignment = new JobAssignment(
-         this.jobAssignmentId,
-         null,
-         null,
-         null,
-         null,
-         [],
-         [],
-         [],
-         result.currentPipelineStageId
-       );
+      if (result !== undefined) {
 
-       this.jobAssignmentDataStorageService.changePipelineStage(jobAssignment)
-         .subscribe((data: any) => {
+        if (result.currentPipelineStageId !== this.jobAssignment.CurrentPipelineStageId) {
 
-           if (data.statusText !== 'Success') {
-             this.notifierService.notify('default', data.statusText);
-           } else {
-             this.notifierService.notify('default', 'Pipeline stage changed.');
-             this.jobAssignment.CurrentPipelineStageId = result.currentPipelineStageId;
-             this.currentPipelineStageId = result.currentPipelineStageId;
-             this.pipelineStageName = this
-               .detectStageChange(this.jobAssignment.CurrentPipelineStageId).stageName;
-             this.pipelineStageColor = this
-               .detectStageChange(this.jobAssignment.CurrentPipelineStageId).stageColor;
-           }
-           }
-         );
-     }
+          const jobAssignment = new JobAssignment(
+            this.jobAssignmentId,
+            null,
+            null,
+            null,
+            null,
+            [],
+            [],
+            [],
+            result.currentPipelineStageId
+          );
+
+          this.jobAssignmentDataStorageService.changePipelineStage(jobAssignment)
+            .subscribe((data: any) => {
+
+              if (data.statusText !== 'Success') {
+                this.notifierService.notify('default', data.statusText);
+              } else {
+                this.notifierService.notify('default', 'Pipeline stage changed.');
+                this.jobAssignment.CurrentPipelineStageId = result.currentPipelineStageId;
+                this.currentPipelineStageId = result.currentPipelineStageId;
+                this.pipelineStageName = this
+                  .detectStageChange(this.jobAssignment.CurrentPipelineStageId).stageName;
+                this.pipelineStageColor = this
+                  .detectStageChange(this.jobAssignment.CurrentPipelineStageId).stageColor;
+              }
+            });
+        }
+      }
     });
   }
 
@@ -597,4 +600,9 @@ export class CandidateIdComponent implements OnInit, DoCheck {
     return moment(candidateExperience.EndDate).format('YYYY');
   }
 
+  ngOnDestroy() {
+    if (this.dialog.openDialogs.length > 0) {
+      this.dialog.closeAll();
+    }
+  }
 }

@@ -21,75 +21,6 @@ namespace FitFinderBackEnd.Controllers
         }
 
 
-        [HttpPost]
-        [Route("api/UpdateJobAssignment")]
-        public  IHttpActionResult UpdateJobAssignment(JobAssignment jobAssignment)
-        {
-            if (jobAssignment == null)
-            {
-                return Ok(new { statusText = _statusTextService.ResourceNotFound });
-            }
-
-            JobAssignment getJobAssignment = _context.JobAssignments.FirstOrDefault(x => x.Id == jobAssignment.Id);
-            if (getJobAssignment == null)
-            {
-                return Ok(new { statusText = _statusTextService.ResourceNotFound });
-
-            }
-
-            getJobAssignment.CurrentPipelineStageId = jobAssignment.CurrentPipelineStageId;
-            //  _context.SaveChanges();
-
-            RemoveOldScores(jobAssignment);
-            AddNewScores(jobAssignment);
-
-            _context.SaveChanges();
-
-
-
-            JobAssignment getUpdatedJobAssignment = GetUpdatedJobAssignment(jobAssignment);
-
-            return Ok(new { getUpdatedJobAssignment, statusText = _statusTextService.Success });
-
-           
-        }
-
-
-        public JobAssignment GetUpdatedJobAssignment(JobAssignment jobAssignment)
-        {
-            return _context.JobAssignments.FirstOrDefault(x => x.Id == jobAssignment.Id);
-        }
-
-
-        //public void AddNewStageComments(List<PipelineStageComment> stageComments)
-        //{
-        //    _context.PipelineStageComments.AddRange(stageComments);
-        //}
-
-
-
-        public void  RemoveOldScores(JobAssignment jobAssignment)
-        {
-            List<PipelineStageScore> stageScore = _context.PipelineStageScores
-                .Where(x => x.JobAssignmentId == jobAssignment.Id)
-                .ToList();
-
-            List<PipelineStageCriterionScore> criteriaScore = _context.PipelineStageCriterionScores
-                .Where(x => x.JobAssignmentId == jobAssignment.Id)
-                .ToList();
-
-            _context.PipelineStageScores.RemoveRange(stageScore);
-            _context.PipelineStageCriterionScores.RemoveRange(criteriaScore);
-        
-
-        }
-
-        public void AddNewScores(JobAssignment jobAssignment)
-        {
-            _context.PipelineStageScores.AddRange(jobAssignment.PipelineStageScores);
-            _context.PipelineStageCriterionScores.AddRange(jobAssignment.PipelineStageCriterionScores);
-        }
-
 
         [HttpPost]
         [Route("api/AddJobAssignment")]
@@ -175,6 +106,26 @@ namespace FitFinderBackEnd.Controllers
             }
 
             getpipelineStageScore.Rating = pipelineStageScore.Rating;
+            _context.SaveChanges();
+
+            return Ok(new { statusText = _statusTextService.Success });
+        }
+
+
+        [HttpPut]
+        [Route("api/ChangePipelineStage")]
+        [AllowAnonymous]
+        public IHttpActionResult ChangePipelineStage(JobAssignment jobAssignment)
+        {
+            JobAssignment getJobAssignment = _context.JobAssignments
+                .FirstOrDefault(x => x.Id == jobAssignment.Id);
+
+            if (getJobAssignment == null)
+            {
+                return Ok(new { statusText = _statusTextService.ResourceNotFound });
+            }
+
+            getJobAssignment.CurrentPipelineStageId = jobAssignment.CurrentPipelineStageId;
             _context.SaveChanges();
 
             return Ok(new { statusText = _statusTextService.Success });
