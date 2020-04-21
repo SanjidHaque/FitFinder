@@ -70,7 +70,7 @@ export class CandidateIdComponent implements OnInit, DoCheck, OnDestroy  {
 
       this.route.paramMap.subscribe(params => {
       //  this.jobAssignmentId = +params.get('job-assignment-id');
-        this.jobAssignmentId = 3;
+        this.jobAssignmentId = 4;
         this.jobAssignment = this.candidate.JobAssignments
           .find(x => x.Id === this.jobAssignmentId);
         this.job = this.jobAssignment.Job;

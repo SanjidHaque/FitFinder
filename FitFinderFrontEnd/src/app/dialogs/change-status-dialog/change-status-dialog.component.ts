@@ -186,8 +186,12 @@ export class ChangeStatusDialogComponent implements OnInit {
     return getPipelineStageCriterionScore.Rating;
   }
 
-  closeDialog() {
+  confirmClick() {
     this.data.currentPipelineStageId = this.currentPipelineStageId;
     this.dialogRef.close(this.data);
+  }
+
+  cancelClick() {
+    this.dialogRef.close();
   }
 }

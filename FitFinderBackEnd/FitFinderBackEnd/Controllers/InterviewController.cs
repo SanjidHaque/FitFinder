@@ -386,6 +386,25 @@ namespace FitFinderBackEnd.Controllers
                 return Ok(new { statusText = _statusTextService.ResourceNotFound });
             }
 
+            Interview interview = _context.Interviews.FirstOrDefault(x => x.Id == candidateForInterview.InterviewId);
+
+            if (interview == null)
+            {
+                return Ok(new { statusText = _statusTextService.ResourceNotFound });
+            }
+
+
+            if (candidateForInterview.InterviewStatus == "Confirmed")
+            {
+                interview.ConfirmedCandidate--;
+            }
+
+            if (candidateForInterview.InterviewStatus == "Declined")
+            {
+                interview.DeclinedCandidate--;
+            }
+
+
             _context.CandidatesForInterviews.Remove(candidateForInterview);
             _context.SaveChanges();
 

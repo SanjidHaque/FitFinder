@@ -159,10 +159,15 @@
   <mat-dialog-actions align="end">
     <button
       mat-flat-button
-      (click)="closeDialog()"
+      (click)="confirmClick()"
       color="primary"
       style="outline: 0;"
     >Save</button>
+    <button
+      mat-stroked-button
+      (click)="cancelClick()"
+      style="outline: 0;"
+    >Cancel</button>
 
   </mat-dialog-actions>
 </div>
