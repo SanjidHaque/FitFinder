@@ -43,9 +43,9 @@ namespace FitFinderBackEnd.Controllers
         [HttpPost]
         [AllowAnonymous]
         [Route("api/AddGeneralComment")]
-        public IHttpActionResult AddGeneralComment(GeneralComment generalComment)
+        public IHttpActionResult AddGeneralComment(List<GeneralComment> generalComments)
         {
-            _context.GeneralComments.Add(generalComment);
+            _context.GeneralComments.AddRange(generalComments);
             _context.SaveChanges();
             return Ok(new { statusText = _statusTextService.Success });
         }
@@ -125,6 +125,7 @@ namespace FitFinderBackEnd.Controllers
                 return Ok(new { statusText = _statusTextService.ResourceNotFound });
             }
 
+            _context.GeneralComments.AddRange(jobAssignment.GeneralComments);
             getJobAssignment.CurrentPipelineStageId = jobAssignment.CurrentPipelineStageId;
             _context.SaveChanges();
 

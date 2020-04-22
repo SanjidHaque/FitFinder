@@ -1,3 +1,7 @@
+<form
+  [formGroup]="commentForm"
+  #form="ngForm">
+
 <div class="row">
 
   <div class="col-xl-8" style=" font-size: 17px; font-weight: bold; padding-top: 3px">
@@ -97,7 +101,11 @@
                 [starType]="'svg'"
                 [hoverEnabled]="true"
                 [rating]="getPipelineStageCriterionScore(pipelineStageCriterion.Id)"
-                (ratingChange)="updatePipelineStageCriterionScore($event.rating, pipelineStageCriterion.Id)"
+                (ratingChange)="updatePipelineStageCriterionScore(
+                $event.rating,
+                pipelineStageCriterion.Id,
+                pipelineStageCriterion.Name
+                )"
               ></star-rating>
 
             </div>
@@ -106,7 +114,11 @@
 
               <i
                 style="cursor: pointer;"
-                (click)="updatePipelineStageCriterionScore(0 ,pipelineStageCriterion.Id)"
+                (click)="updatePipelineStageCriterionScore(
+                0,
+                pipelineStageCriterion.Id,
+                pipelineStageCriterion.Name
+                )"
                 class="far fa-times-circle"></i>
             </div>
 
@@ -134,14 +146,14 @@
         <div class="row" style="padding-top: 30px;">
           <div class="offset-xl-1 col-xl-10">
 
-            <form>
+
               <mat-form-field appearance="outline" style="width: 100%">
                 <textarea
-                  name="name"
-                  [(ngModel)]="data.comment"
+                  formControlName="comment"
                   matInput placeholder="Internal comment"></textarea>
+                <mat-error>No white space is allowed!</mat-error>
               </mat-form-field>
-            </form>
+
 
           </div>
         </div>
@@ -158,6 +170,7 @@
 <div>
   <mat-dialog-actions align="end">
     <button
+      [disabled]="!form.valid"
       mat-flat-button
       (click)="confirmClick()"
       color="primary"
@@ -171,3 +184,4 @@
 
   </mat-dialog-actions>
 </div>
+</form>

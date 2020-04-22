@@ -49,12 +49,10 @@ export class AddNewCandidateComponent implements OnInit {
 
   ngOnInit() {
     this.route.data
-      .subscribe(
-        (data: Data) => {
+      .subscribe((data: Data) => {
           this.sources = data['sources'].sources;
           this.jobs = data['jobs'].jobs;
-        }
-      );
+        });
 
 
     this.addNewCandidateForm = new FormGroup({

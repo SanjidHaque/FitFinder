@@ -20,6 +20,7 @@ import {DialogService} from '../../../services/dialog-services/dialog.service';
 import {AttachmentDataStorageService} from '../../../services/data-storage-services/attachment-data-storage.service';
 import {UserAccountDataStorageService} from '../../../services/data-storage-services/user-account-data-storage.service';
 import {CandidateForInterview} from '../../../models/interview/candidate-for-interview.model';
+import {GeneralComment} from '../../../models/candidate/general-comment.model';
 
 @Component({
   selector: 'app-candidate-id',
@@ -35,6 +36,7 @@ export class CandidateIdComponent implements OnInit, DoCheck, OnDestroy  {
   pipelineStageName = '';
   pipelineStageColor = '';
   currentPipelineStageId: number;
+  currentUserName = '';
 
   candidates: Candidate[] = [];
   candidate: Candidate;
@@ -83,6 +85,7 @@ export class CandidateIdComponent implements OnInit, DoCheck, OnDestroy  {
         .candidateSpecificInterviews = data['candidateSpecificInterviews']
         .candidatesForInterview;
       this.imageFolderPath = this.userAccountDataStorageService.imageFolderPath;
+      this.currentUserName = localStorage.getItem('userName');
       this.getCurrentStageNameAndColor();
     });
   }
@@ -141,7 +144,6 @@ export class CandidateIdComponent implements OnInit, DoCheck, OnDestroy  {
   }
 
 
-
   changeStatus(pipelineStageId: number) {
    const pipelineStages: PipelineStage[] = [];
 
@@ -164,6 +166,7 @@ export class CandidateIdComponent implements OnInit, DoCheck, OnDestroy  {
       }
     }
 
+    const generalComments: GeneralComment[] = [];
 
     const dialogRef = this.dialog.open(ChangeStatusDialogComponent,
       {
@@ -178,16 +181,40 @@ export class CandidateIdComponent implements OnInit, DoCheck, OnDestroy  {
           currentPipelineStageId: pipelineStageId,
           pipelineStageScores: pipelineStageScores,
           pipelineStageCriterionScores: pipelineStageCriterionScores,
-          comment: '',
+          generalComments: generalComments,
           status: false
         }
       });
 
     dialogRef.afterClosed().subscribe(result => {
 
+
       if (result !== undefined) {
 
         if (result.currentPipelineStageId !== this.jobAssignment.CurrentPipelineStageId) {
+
+          const oldPipelineStage = pipelineStages
+            .find(x => x.Id === this.jobAssignment.CurrentPipelineStageId);
+
+          const newPipelineStage = pipelineStages
+            .find(x => x.Id === result.currentPipelineStageId);
+
+
+          const comment = this.currentUserName
+            + ' changed pipeline stage from '
+            + oldPipelineStage.Name
+            + ' to '
+            + newPipelineStage.Name
+            + '.'
+
+          const generalComment = new GeneralComment(
+            null,
+            comment,
+            null,
+            this.jobAssignmentId
+          );
+
+          result.generalComments.push(generalComment);
 
           const jobAssignment = new JobAssignment(
             this.jobAssignmentId,
@@ -197,7 +224,7 @@ export class CandidateIdComponent implements OnInit, DoCheck, OnDestroy  {
             null,
             [],
             [],
-            [],
+            result.generalComments,
             result.currentPipelineStageId
           );
 
@@ -214,10 +241,34 @@ export class CandidateIdComponent implements OnInit, DoCheck, OnDestroy  {
                   .detectStageChange(this.jobAssignment.CurrentPipelineStageId).stageName;
                 this.pipelineStageColor = this
                   .detectStageChange(this.jobAssignment.CurrentPipelineStageId).stageColor;
+                this.mergeNewGeneralComments(result.generalComments);
               }
             });
+        } else {
+
+          if (result.generalComments.length !== 0) {
+            this.jobAssignmentDataStorageService.addGeneralComment(result.generalComments)
+              .subscribe((res: any) => {
+
+                if (res.statusText !== 'Success') {
+                  this.notifierService.notify('default', res.statusText);
+                } else {
+
+                  this.mergeNewGeneralComments(result.generalComments);
+
+                }
+              });
+
+          }
         }
+
       }
+    });
+  }
+
+  mergeNewGeneralComments(newGeneralComments: GeneralComment[]) {
+    newGeneralComments.forEach(newGeneralComment => {
+      this.jobAssignment.GeneralComments.unshift(newGeneralComment);
     });
   }
 

@@ -40,7 +40,7 @@ export class JobAssignmentDataStorageService {
   }
 
   addGeneralComment(generalComment: GeneralComment) {
-    return this.httpClient.put<GeneralComment>(this.rootUrl + '/api/AddGeneralComment', generalComment);
+    return this.httpClient.post<GeneralComment>(this.rootUrl + '/api/AddGeneralComment', generalComment);
   }
 
   changePipelineStage(jobAssignment: JobAssignment) {

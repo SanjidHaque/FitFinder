@@ -247,6 +247,7 @@ namespace FitFinderBackEnd.Controllers
                 List<GeneralComment> generalComments = _context
                     .GeneralComments
                     .Include(x => x.JobAssignment)
+                    .OrderByDescending(o => o.Id)
                     .ToList();
 
                 jobAssignment.GeneralComments = generalComments;
