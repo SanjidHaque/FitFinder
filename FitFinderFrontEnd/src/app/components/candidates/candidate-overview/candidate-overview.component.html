@@ -1,0 +1,35 @@
+<div
+  *ngIf="!candidate.IsArchived"
+  style="padding-bottom: 20px;">
+<form
+  [formGroup]="commentForm"
+  #form="ngForm">
+
+  <div class="row">
+    <div class="col-xl-12">
+
+      <mat-form-field appearance="outline" style="width: 100%">
+                <textarea
+                  formControlName="comment"
+                  matInput placeholder="Add internal comment">
+                </textarea>
+        <mat-error>No white space is allowed!</mat-error>
+      </mat-form-field>
+
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-12" style="text-align: right;">
+      <button
+        [disabled]="!form.valid || isDisabled || commentForm.controls['comment'].value === ''"
+        mat-flat-button
+        (click)="addGeneralComment()"
+        color="primary"
+        style="outline: 0;"
+      >Add</button>
+    </div>
+  </div>
+
+</form>
+</div>

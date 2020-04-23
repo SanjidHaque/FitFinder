@@ -22,6 +22,7 @@ export class CandidateInterviewComponent implements OnInit {
 
   ngOnInit() {
     this.candidateSpecificInterviews = this.candidateService.getAllCandidateSpecificInterviews();
+    this.candidate = this.candidateService.candidate;
   }
 
   getInterviewDay(interview: Interview) {

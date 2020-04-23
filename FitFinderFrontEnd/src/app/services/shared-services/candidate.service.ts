@@ -3,6 +3,7 @@ import {Candidate} from '../../models/candidate/candidate.model';
 
 import {UserAccountDataStorageService} from '../data-storage-services/user-account-data-storage.service';
 import {CandidateForInterview} from '../../models/interview/candidate-for-interview.model';
+import {JobAssignment} from '../../models/candidate/job-assignment.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,8 @@ export class CandidateService {
   candidate: Candidate;
   candidates: Candidate[] = [];
   candidateSpecificInterviews: CandidateForInterview[] = [];
+
+  jobAssignment: JobAssignment;
 
   getAllCandidate() {
     return this.candidates.slice();

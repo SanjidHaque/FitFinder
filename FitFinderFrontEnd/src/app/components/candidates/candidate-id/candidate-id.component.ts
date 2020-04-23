@@ -83,9 +83,12 @@ export class CandidateIdComponent implements OnInit, DoCheck, OnDestroy  {
       this.route.paramMap.subscribe(params => {
       //  this.jobAssignmentId = +params.get('job-assignment-id');
         this.jobAssignmentId = 4;
-        this.jobAssignment = this.candidate.JobAssignments
+
+        this.candidateService.jobAssignment = this.candidate.JobAssignments
           .find(x => x.Id === this.jobAssignmentId);
+        this.jobAssignment =  this.candidateService.jobAssignment;
         this.job = this.jobAssignment.Job;
+
         this.currentPipelineStageId = this.jobAssignment.CurrentPipelineStageId;
       });
 
@@ -105,6 +108,7 @@ export class CandidateIdComponent implements OnInit, DoCheck, OnDestroy  {
 
   ngDoCheck() {
     this.getCurrentStageNameAndColor();
+    this.jobAssignment =  this.candidateService.jobAssignment
   }
 
   getCurrentStageNameAndColor() {

@@ -1,77 +1,79 @@
-<div class="row">
-  <div class="col-xl-12" style="text-align: center;">
+<div *ngIf="!candidate.IsArchived">
 
-    <button
-      (click)="addNewInterview()"
-      style="
+  <div class="row">
+    <div class="col-xl-12" style="text-align: center;">
+
+      <button
+        (click)="addNewInterview()"
+        style="
       width: 95%;
       outline: 0;"
-      color="primary"
-      mat-stroked-button><i class="fas fa-plus"></i> New Interview</button>&nbsp;
+        color="primary"
+        mat-stroked-button><i class="fas fa-plus"></i> New Interview</button>&nbsp;
 
+    </div>
   </div>
-</div>
 
-<div
-  *ngIf="candidateSpecificInterviews.length !== 0"
-  style="padding-top: 10px; padding-left: 15px; padding-right: 15px;">
+  <div
+    *ngIf="candidateSpecificInterviews.length !== 0"
+    style="padding-top: 10px; padding-left: 15px; padding-right: 15px;">
 
-  <div class="row"
-       style="padding-top: 5px; padding-bottom: 5px; padding-left: 15px;"
-       *ngFor="let candidateSpecificInterview of candidateSpecificInterviews">
-    <div class="col-xl-12">
+    <div class="row"
+         style="padding-top: 5px; padding-bottom: 5px; padding-left: 15px;"
+         *ngFor="let candidateSpecificInterview of candidateSpecificInterviews">
+      <div class="col-xl-12">
 
-      <div class="row">
+        <div class="row">
 
-        <div class="col-xl-1"
-             style="text-align: center;
+          <div class="col-xl-1"
+               style="text-align: center;
                 border: 2px solid whitesmoke;
                 outline: 0;
                 cursor: pointer;
                 border-radius: 2px;">
 
-          <div class="row">
-            <div class="col-xl-12"
-                 style="font-weight: bold;
+            <div class="row">
+              <div class="col-xl-12"
+                   style="font-weight: bold;
              font-size: 17px; text-align: center;">
 
-              {{ getInterviewDay(candidateSpecificInterview.Interview) }}
+                {{ getInterviewDay(candidateSpecificInterview.Interview) }}
 
+              </div>
             </div>
-          </div>
 
-          <div class="row">
-            <div class="col-xl-12"
-                 style="
+            <div class="row">
+              <div class="col-xl-12"
+                   style="
              font-size: 9px;
              font-weight: bold; text-align: center;">
 
-              {{ getInterviewMonth(candidateSpecificInterview.Interview) | uppercase}}
+                {{ getInterviewMonth(candidateSpecificInterview.Interview) | uppercase}}
 
+              </div>
             </div>
-          </div>
 
-          <div class="row">
-            <div class="col-xl-12"
-                 style="font-size: 9px;
+            <div class="row">
+              <div class="col-xl-12"
+                   style="font-size: 9px;
                     background-color: #1a237e;
                     color: white;
                     font-weight: bold; text-align: center;">
 
-              {{ getInterviewYear(candidateSpecificInterview.Interview) }}
+                {{ getInterviewYear(candidateSpecificInterview.Interview) }}
 
+              </div>
             </div>
+
+
+
           </div>
 
+          <div class="col-xl-8">
 
 
-        </div>
-
-        <div class="col-xl-8">
-
-
-          <div class="row" style="font-size: 17px;">
-            <div class="col-xl-12">
+            <div class="row" style="font-size: 17px;">
+              <div class="col-xl-12">
 
             <span
               routerLink="/interviews/{{ candidateSpecificInterview.Interview.Id }}"
@@ -83,24 +85,24 @@
 
             </span>
 
+              </div>
             </div>
+
+            <div class="row" style="padding-top: 2px; font-size: 13px;">
+              <div class="col-xl-12">
+                <i class="fas fa-ribbon"></i>
+                {{ candidateSpecificInterview.Interview.InterviewType }}
+              </div>
+            </div>
+
+
+
           </div>
 
-          <div class="row" style="padding-top: 2px; font-size: 13px;">
-            <div class="col-xl-12">
-              <i class="fas fa-ribbon"></i>
-              {{ candidateSpecificInterview.Interview.InterviewType }}
-            </div>
-          </div>
+          <div class="col-xl-3" style="text-align: right;">
 
-
-
-        </div>
-
-        <div class="col-xl-3" style="text-align: right;">
-
-          <div class="row">
-            <div class="col-xl-12">
+            <div class="row">
+              <div class="col-xl-12">
 
             <span
               style="
@@ -116,31 +118,34 @@
 
             </span>
 
+              </div>
             </div>
-          </div>
 
 
-          <div class="row">
-            <div class="col-xl-12" style="font-weight: 500; padding-top: 4px;">
+            <div class="row">
+              <div class="col-xl-12" style="font-weight: 500; padding-top: 4px;">
 
-              <i class="far fa-clock"></i>
-              {{ candidateSpecificInterview.Interview.StartTime }}
+                <i class="far fa-clock"></i>
+                {{ candidateSpecificInterview.Interview.StartTime }}
 
+              </div>
             </div>
+
+
+
           </div>
-
-
 
         </div>
 
+
       </div>
-
-
     </div>
-  </div>
 
+  </div>
+  <br>
 </div>
-<br>
+
+
 
 
 
