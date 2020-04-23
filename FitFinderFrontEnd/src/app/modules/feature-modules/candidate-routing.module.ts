@@ -9,15 +9,13 @@ import {CandidatesResolverService} from '../../route-resolvers/candidates-resolv
 import {AddNewCandidateComponent} from '../../components/candidates/add-new-candidate/add-new-candidate.component';
 import {CandidateIdComponent} from '../../components/candidates/candidate-id/candidate-id.component';
 import {CandidateResolverService} from '../../route-resolvers/candidate-resolver.service';
-import {WorkflowsResolverService} from '../../route-resolvers/workflows-resolver.service';
 import {DepartmentsResolverService} from '../../route-resolvers/departments-resolver.service';
-import {CandidateInfoComponent} from '../../components/candidates/candidate-id/candidate-info/candidate-info.component';
-import {CandidateScoreCardComponent} from '../../components/candidates/candidate-id/candidate-score-card/candidate-score-card.component';
-import {CandidateEmailComponent} from '../../components/candidates/candidate-id/candidate-email/candidate-email.component';
 import {CandidateInterviewComponent} from '../../components/candidates/candidate-id/candidate-interview/candidate-interview.component';
-import {CandidateTaskComponent} from '../../components/candidates/candidate-id/candidate-task/candidate-task.component';
 import {EditCandidateComponent} from '../../components/candidates/edit-candidate/edit-candidate.component';
 import {CandidateSpecificInterviewResolverService} from '../../route-resolvers/candidate-specific-interview-resolver.service';
+import {WithdrawnReasonsResolverService} from '../../route-resolvers/withdrawn-reasons-resolver.service';
+import {RejectedReasonsResolverService} from '../../route-resolvers/rejected-reasons-resolver.service';
+import {CandidateOverviewComponent} from '../../components/candidates/candidate-overview/candidate-overview.component';
 
 const candidateRoutes: Routes = [
   {
@@ -64,6 +62,8 @@ const candidateRoutes: Routes = [
           {
             jobs: JobsResolverService,
             sources: SourcesResolverService,
+            withdrawnReasons: WithdrawnReasonsResolverService,
+            rejectedReasons: RejectedReasonsResolverService,
             candidate: CandidateResolverService,
             departments: DepartmentsResolverService,
             candidateSpecificInterviews: CandidateSpecificInterviewResolverService
@@ -72,28 +72,16 @@ const candidateRoutes: Routes = [
           [
             {
               path: '',
-              redirectTo: 'candidate-scorecard',
+              redirectTo: 'candidate-overview',
               pathMatch: 'full'
             },
             {
-              path: 'candidate-info',
-              component: CandidateInfoComponent
-            },
-            {
-              path: 'candidate-scorecard',
-              component: CandidateScoreCardComponent
-            },
-            {
-              path: 'candidate-email',
-              component: CandidateEmailComponent
+              path: 'candidate-overview',
+              component: CandidateOverviewComponent
             },
             {
               path: 'candidate-interviews',
               component: CandidateInterviewComponent
-            },
-            {
-              path: 'candidate-task',
-              component: CandidateTaskComponent
             }
           ]
       }

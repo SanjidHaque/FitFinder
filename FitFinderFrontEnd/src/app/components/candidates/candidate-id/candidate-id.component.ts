@@ -21,6 +21,10 @@ import {AttachmentDataStorageService} from '../../../services/data-storage-servi
 import {UserAccountDataStorageService} from '../../../services/data-storage-services/user-account-data-storage.service';
 import {CandidateForInterview} from '../../../models/interview/candidate-for-interview.model';
 import {GeneralComment} from '../../../models/candidate/general-comment.model';
+import {WithdrawnReason} from '../../../models/settings/withdrawn-reason.model';
+import {RejectedReason} from '../../../models/settings/rejected-reason.model';
+import {Interview} from '../../../models/interview/interview.model';
+import {InterviewService} from '../../../services/shared-services/interview.service';
 
 @Component({
   selector: 'app-candidate-id',
@@ -41,7 +45,10 @@ export class CandidateIdComponent implements OnInit, DoCheck, OnDestroy  {
   candidates: Candidate[] = [];
   candidate: Candidate;
   jobs: Job[] = [];
-  candidateSpecificInterviews: CandidateForInterview[] = [];
+  withdrawnReasons: WithdrawnReason[] = [];
+  rejectedReasons: RejectedReason[] = [];
+  upcomingInterviews: CandidateForInterview[] = [];
+
   job: Job;
   jobAssignment: JobAssignment;
   jobAssignmentId: number;
@@ -57,6 +64,7 @@ export class CandidateIdComponent implements OnInit, DoCheck, OnDestroy  {
               private dialog: MatDialog,
               private notifierService: NotifierService,
               private candidateService: CandidateService,
+              private interviewService: InterviewService,
               private settingsService: SettingsService,
               private dialogService: DialogService,
               private jobDataStorageService: JobDataStorageService,
@@ -69,6 +77,8 @@ export class CandidateIdComponent implements OnInit, DoCheck, OnDestroy  {
     this.route.data.subscribe((data: Data) => {
       this.jobs = data['jobs'].jobs;
       this.candidate = data['candidate'].candidate;
+      this.rejectedReasons = data['rejectedReasons'].rejectedReasons;
+      this.withdrawnReasons = data['withdrawnReasons'].withdrawnReasons;
 
       this.route.paramMap.subscribe(params => {
       //  this.jobAssignmentId = +params.get('job-assignment-id');
@@ -81,9 +91,12 @@ export class CandidateIdComponent implements OnInit, DoCheck, OnDestroy  {
 
 
       this.candidateService.candidate = this.candidate;
+
       this.candidateService
         .candidateSpecificInterviews = data['candidateSpecificInterviews']
         .candidatesForInterview;
+      this.getUpcomingInterviews(this.candidateService.getAllCandidateSpecificInterviews());
+
       this.imageFolderPath = this.userAccountDataStorageService.imageFolderPath;
       this.currentUserName = localStorage.getItem('userName');
       this.getCurrentStageNameAndColor();
@@ -182,6 +195,8 @@ export class CandidateIdComponent implements OnInit, DoCheck, OnDestroy  {
           pipelineStageScores: pipelineStageScores,
           pipelineStageCriterionScores: pipelineStageCriterionScores,
           generalComments: generalComments,
+          rejectedReasons: this.rejectedReasons,
+          withdrawnReasons: this.withdrawnReasons,
           status: false
         }
       });
@@ -597,7 +612,47 @@ export class CandidateIdComponent implements OnInit, DoCheck, OnDestroy  {
       }).catch();
 
   }
+  getInterviewDay(interview: Interview) {
+    return moment(new Date(interview.Date)).format('D');
+  }
 
+  getInterviewMonth(interview: Interview) {
+    return moment(new Date(interview.Date)).format('MMM');
+  }
+
+  getInterviewYear(interview: Interview) {
+    return moment(new Date(interview.Date)).format('YYYY');
+  }
+
+  getBackgroundColor(interviewStatus: string) {
+    if (interviewStatus === 'Confirmed') {
+      return '#37a6b4';
+    } else if (interviewStatus === 'Pending') {
+      return '#2574ab';
+    } else if (interviewStatus === 'Declined') {
+      return '#d35d5b';
+    } else {
+      return '#e7b36a';
+    }
+  }
+
+  getUpcomingInterviews(candidateForInterviews: CandidateForInterview[]) {
+
+    candidateForInterviews.forEach(candidateForInterview => {
+      const startTimeIn24HourFormat  = this.interviewService
+        .getTimeIn24HourFormat(candidateForInterview.Interview.StartTime);
+
+      const interviewStartTimeWithDate =
+        new Date(new Date(candidateForInterview.Interview.Date)
+          .toDateString() + ' ' + startTimeIn24HourFormat);
+
+      if (moment(new Date()).isBefore(interviewStartTimeWithDate)
+        && candidateForInterview.InterviewStatus === 'Confirmed') {
+        this.upcomingInterviews.push(candidateForInterview);
+      }
+    });
+
+  }
   getApplicationDate() {
     return moment(new Date(this.candidate.ApplicationDate)).format('Do MMM YYYY');
   }

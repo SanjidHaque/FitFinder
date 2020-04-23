@@ -39,7 +39,9 @@ export class ChangeStatusDialogComponent implements OnInit {
     this.currentUserName = localStorage.getItem('userName');
 
     this.commentForm = new FormGroup({
-      'comment' : new FormControl('', Validators.pattern(this.noWhitespaceRegExp))
+      'comment' : new FormControl('', Validators.pattern(this.noWhitespaceRegExp)),
+      'rejectedReason' : new FormControl(''),
+      'withdrawnReason' : new FormControl('')
     });
   }
 
@@ -276,6 +278,42 @@ export class ChangeStatusDialogComponent implements OnInit {
   }
 
   confirmClick() {
+    if (this.currentPipelineStageName === 'Rejected'
+      && this.commentForm.controls['rejectedReason'].value !== '') {
+      const comment = this.currentUserName
+        + ' selected a reason '
+        + ', "'
+        + this.commentForm.controls['rejectedReason'].value
+        + '"';
+
+      const generalComment = new GeneralComment(
+        null,
+        comment,
+        null,
+        this.data.jobAssignmentId
+      );
+      this.data.generalComments.push(generalComment);
+    }
+
+
+    if (this.currentPipelineStageName === 'Withdrawn'
+      && this.commentForm.controls['withdrawnReason'].value !== '') {
+      const comment = this.currentUserName
+        + ' selected a reason '
+        + ', "'
+        + this.commentForm.controls['withdrawnReason'].value
+        + '"';
+
+      const generalComment = new GeneralComment(
+        null,
+        comment,
+        null,
+        this.data.jobAssignmentId
+      );
+      this.data.generalComments.push(generalComment);
+    }
+
+
     if (this.commentForm.controls['comment'].value !== '') {
 
       const comment = this.currentUserName

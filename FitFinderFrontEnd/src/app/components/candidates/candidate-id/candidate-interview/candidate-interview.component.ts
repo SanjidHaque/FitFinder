@@ -14,7 +14,6 @@ import {Candidate} from '../../../../models/candidate/candidate.model';
 })
 export class CandidateInterviewComponent implements OnInit {
   candidateSpecificInterviews: CandidateForInterview[] = [];
-  upcomingInterviews: CandidateForInterview[] = [];
   candidate: Candidate;
 
   constructor(private candidateService: CandidateService,
@@ -22,9 +21,7 @@ export class CandidateInterviewComponent implements OnInit {
               private interviewService: InterviewService) {}
 
   ngOnInit() {
-
     this.candidateSpecificInterviews = this.candidateService.getAllCandidateSpecificInterviews();
-    this.getUpcomingInterviews(this.candidateSpecificInterviews);
   }
 
   getInterviewDay(interview: Interview) {
@@ -49,24 +46,6 @@ export class CandidateInterviewComponent implements OnInit {
     } else {
       return '#e7b36a';
     }
-  }
-
-  getUpcomingInterviews(candidateForInterviews: CandidateForInterview[]) {
-
-    candidateForInterviews.forEach(candidateForInterview => {
-      const startTimeIn24HourFormat  = this.interviewService
-        .getTimeIn24HourFormat(candidateForInterview.Interview.StartTime);
-
-      const interviewStartTimeWithDate =
-        new Date(new Date(candidateForInterview.Interview.Date)
-          .toDateString() + ' ' + startTimeIn24HourFormat);
-
-      if (moment(new Date()).isBefore(interviewStartTimeWithDate)
-        && candidateForInterview.InterviewStatus === 'Confirmed') {
-        this.upcomingInterviews.push(candidateForInterview);
-      }
-    });
-
   }
 
   addNewInterview() {

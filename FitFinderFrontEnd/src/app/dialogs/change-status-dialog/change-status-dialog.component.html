@@ -128,17 +128,58 @@
 
         <ng-template #criterionNotExist>
 
-          <div class="row" style="
-          text-align: center;
-          font-weight: bold;
-          font-size: 14px;
-          opacity: .6;
-          height: 30vh;">
+          <div class="row"
+               style="
+               text-align: center;
+               font-weight: bold;
+               font-size: 14px;
+               opacity: .6;
+               height: 30vh;">
+
             <div class="col-xl-12" style="padding-top: 20px;">
               No stage criterion is available here.
+            </div>
+
+          </div>
+
+
+          <div class="row" >
+            <div class="offset-xl-1 col-xl-10"
+                 *ngIf="currentPipelineStageName === 'Rejected'">
+
+              <mat-form-field style="width: 100%;" appearance="outline">
+                <mat-label>Select Rejected Reason</mat-label>
+                <mat-select
+                  formControlName="rejectedReason">
+                  <mat-option>Select Rejected Reason</mat-option>
+                  <mat-option *ngFor = "let rejectedReason of data.rejectedReasons"
+                              [value] = "rejectedReason.Name"> {{ rejectedReason.Name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
 
             </div>
           </div>
+
+
+          <div class="row" >
+            <div class="offset-xl-1 col-xl-10"
+                 *ngIf="currentPipelineStageName === 'Withdrawn'">
+
+              <mat-form-field style="width: 100%;" appearance="outline">
+                <mat-label>Select Withdrawn Reason</mat-label>
+                <mat-select
+                  formControlName="withdrawnReason">
+                  <mat-option>Select Withdrawn Reason</mat-option>
+                  <mat-option *ngFor = "let withdrawnReason of data.withdrawnReasons"
+                              [value] = "withdrawnReason.Name"> {{ withdrawnReason.Name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+            </div>
+          </div>
+
 
 
         </ng-template>
