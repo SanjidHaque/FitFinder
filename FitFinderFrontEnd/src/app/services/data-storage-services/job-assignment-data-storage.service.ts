@@ -18,9 +18,9 @@ export class JobAssignmentDataStorageService {
   }
 
 
-  addJobAssignment(jobAssignment: JobAssignment) {
-    return this.httpClient.post<JobAssignment>(this.rootUrl + '/api/AddJobAssignment',
-      jobAssignment);
+  addJobAssignments(jobAssignments: JobAssignment[]) {
+    return this.httpClient.post<JobAssignment[]>(this.rootUrl + '/api/AddJobAssignments',
+      jobAssignments);
   }
 
   addNewPipelineStageScore(pipelineStageScore: PipelineStageScore) {
@@ -39,8 +39,8 @@ export class JobAssignmentDataStorageService {
     return this.httpClient.put<PipelineStageCriterionScore>(this.rootUrl + '/api/UpdatePipelineStageCriterionScore', pipelineStageCriterionScore);
   }
 
-  addGeneralComment(generalComment: GeneralComment) {
-    return this.httpClient.post<GeneralComment>(this.rootUrl + '/api/AddGeneralComment', generalComment);
+  addGeneralComment(generalComments: GeneralComment[]) {
+    return this.httpClient.post<GeneralComment[]>(this.rootUrl + '/api/AddGeneralComments', generalComments);
   }
 
   changePipelineStage(jobAssignment: JobAssignment) {

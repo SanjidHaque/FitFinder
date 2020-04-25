@@ -81,8 +81,8 @@ export class CandidateIdComponent implements OnInit, DoCheck, OnDestroy  {
       this.withdrawnReasons = data['withdrawnReasons'].withdrawnReasons;
 
       this.route.paramMap.subscribe(params => {
-      //  this.jobAssignmentId = +params.get('job-assignment-id');
-        this.jobAssignmentId = 4;
+        this.jobAssignmentId = +params.get('job-assignment-id');
+     //   this.jobAssignmentId = 4;
 
         this.candidateService.jobAssignment = this.candidate.JobAssignments
           .find(x => x.Id === this.jobAssignmentId);

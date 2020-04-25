@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Security.Claims;
 using System.Web.Http;
 using FitFinderBackEnd.Models;
+using FitFinderBackEnd.Models.Candidate;
 using FitFinderBackEnd.Models.Job;
 using FitFinderBackEnd.Models.Settings;
 using FitFinderBackEnd.Services;
@@ -200,6 +201,34 @@ namespace FitFinderBackEnd.Controllers
             return Ok(new {job, statusText = _statusTextService.Success });
         }
 
+
+
+        [HttpGet]
+        [Route("api/GetAllJobSpecificCandidate/{jobId}")]
+        [AllowAnonymous]
+        public IHttpActionResult GetAllJobSpecificCandidate(long jobId)
+        {
+            List<JobAssignment> jobAssignments = _context.JobAssignments
+                .Where(x => x.JobId == jobId)
+                .OrderByDescending(x => x.Id)
+                .ToList();
+
+            jobAssignments.ForEach(jobAssignment =>
+            {
+                Candidate candidate = _context.Candidates
+                    .FirstOrDefault(x => x.Id == jobAssignment.CandidateId);
+
+                if (candidate != null)
+                {
+                    Source source = _context.Sources
+                        .FirstOrDefault(x => x.Id == candidate.SourceId);
+
+                    jobAssignment.Candidate = candidate;
+                }
+            });
+
+            return Ok(new { jobAssignments, statusText = _statusTextService.Success });
+        }
 
         [HttpPost]
         [Route("api/AddNewJobAttachment")]

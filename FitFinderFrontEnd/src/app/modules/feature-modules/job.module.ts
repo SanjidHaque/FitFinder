@@ -5,7 +5,6 @@ import {JobPanelComponent} from '../../components/jobs/job-panel/job-panel.compo
 import {JobIdComponent} from '../../components/jobs/job-id/job-id.component';
 import {JobInfoComponent} from '../../components/jobs/job-id/job-info/job-info.component';
 import {JobCandidatesComponent} from '../../components/jobs/job-id/job-candidates/job-candidates.component';
-import {JobAnalyticsComponent} from '../../components/jobs/job-id/job-analytics/job-analytics.component';
 import {CommonModule} from '@angular/common';
 import {JobRoutingModule} from './job-routing.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -13,7 +12,6 @@ import {AngularMaterialModule} from '../shared-modules/angular-material.module';
 import {PipeModule} from '../shared-modules/pipe.module';
 import {AngularEditorModule} from '@kolkov/angular-editor';
 import {DialogModule} from '../shared-modules/dialog.module';
-import {AppComponent} from '../../app.component';
 import {EditJobComponent} from '../../components/jobs/edit-job/edit-job.component';
 
 
@@ -25,7 +23,6 @@ import {EditJobComponent} from '../../components/jobs/edit-job/edit-job.componen
     EditJobComponent,
     JobPanelComponent,
     AddNewJobComponent,
-    JobAnalyticsComponent,
     JobCandidatesComponent
   ],
   imports: [

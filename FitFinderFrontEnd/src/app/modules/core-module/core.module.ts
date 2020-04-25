@@ -2,7 +2,7 @@ import {APP_INITIALIZER, NgModule} from '@angular/core';
 import {HeaderComponent} from '../../components/header/header.component';
 import {DashboardComponent} from '../../components/dashboard/dashboard.component';
 import {CommonModule} from '@angular/common';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {FormsModule} from '@angular/forms';
 import {AngularMaterialModule} from '../shared-modules/angular-material.module';
 import {AppRoutingModule} from '../../app-routing.module';
 import {CandidateDataStorageService} from '../../services/data-storage-services/candidate-data-storage.service';
@@ -37,7 +37,8 @@ import {HttpErrorInterceptor} from '../../http-error-interceptor/http-error.inte
 import {StarRatingConfigService} from 'angular-star-rating';
 import {AttachmentDataStorageService} from '../../services/data-storage-services/attachment-data-storage.service';
 import {JobAssignmentDataStorageService} from '../../services/data-storage-services/job-assignment-data-storage.service';
-import {CandidateSpecificInterviewResolverService} from '../../route-resolvers/candidate-specific-interview-resolver.service';
+import {CandidateSpecificInterviewsResolverService} from '../../route-resolvers/candidate-specific-interviews-resolver.service';
+import {JobSpecificCandidatesResolverService} from '../../route-resolvers/job-specific-candidates-resolver.service';
 
 export function initGapi(gapiService: GapiService) {
   return () => gapiService.initClient();
@@ -72,7 +73,8 @@ export function initGapi(gapiService: GapiService) {
     JobsResolverService,
     CompanyResolverService,
     RolesResolverService,
-    CandidateSpecificInterviewResolverService,
+    CandidateSpecificInterviewsResolverService,
+    JobSpecificCandidatesResolverService,
     SettingsDataStorageService,
     UserAccountDataStorageService,
     JobDataStorageService,

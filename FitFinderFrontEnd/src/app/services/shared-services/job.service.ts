@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import {Job} from '../../models/job/job.model';
 import {Interview} from '../../models/interview/interview.model';
+import {JobAssignment} from '../../models/candidate/job-assignment.model';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +11,14 @@ export class JobService {
   job: Job;
   jobs: Job[] = [];
 
+  jobSpecificCandidates: JobAssignment[] = [];
+
   getAllJob() {
     return this.jobs.slice();
+  }
+
+  getAllJobSpecificCandidates() {
+    return this.jobSpecificCandidates.slice();
   }
 
   filterByArchived(publishedSelected: string,

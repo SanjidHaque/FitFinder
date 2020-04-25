@@ -4,6 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {Job} from '../../models/job/job.model';
 import {UserAccountDataStorageService} from './user-account-data-storage.service';
 import {JobAttachment} from '../../models/job/job-attachment.model';
+import {JobAssignment} from '../../models/candidate/job-assignment.model';
 
 
 @Injectable({
@@ -23,6 +24,10 @@ export class JobDataStorageService {
 
   getJob(jobId: number) {
     return this.httpClient.get<Job>(`${this.rootUrl + '/api/GetJob'}/${jobId}`);
+  }
+
+  getAllJobSpecificCandidate(jobId: number) {
+    return this.httpClient.get<JobAssignment[]>(`${this.rootUrl + '/api/GetAllJobSpecificCandidate'}/${jobId}`);
   }
 
   addNewJob(job: Job) {

@@ -11,6 +11,7 @@ import {JobAssignment} from '../../models/candidate/job-assignment.model';
 export class CandidateService {
   candidate: Candidate;
   candidates: Candidate[] = [];
+
   candidateSpecificInterviews: CandidateForInterview[] = [];
 
   jobAssignment: JobAssignment;

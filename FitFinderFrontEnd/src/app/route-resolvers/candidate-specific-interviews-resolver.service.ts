@@ -7,7 +7,7 @@ import {InterviewDataStorageService} from '../services/data-storage-services/int
 @Injectable({
   providedIn: 'root'
 })
-export class CandidateSpecificInterviewResolverService implements Resolve<CandidateForInterview[]> {
+export class CandidateSpecificInterviewsResolverService implements Resolve<CandidateForInterview[]> {
   constructor(private interviewDataStorageService: InterviewDataStorageService) {}
 
   resolve(route: ActivatedRouteSnapshot):

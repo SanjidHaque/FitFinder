@@ -17,6 +17,7 @@ export class InterviewService {
   interviews: Interview[] = [];
   selectedCandidateForInterview: Candidate = null;
 
+
   interviewTypes = [
     {Name: 'Face to Face'},
     {Name: 'Telephonic'},

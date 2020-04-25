@@ -24,26 +24,46 @@ namespace FitFinderBackEnd.Controllers
 
         [HttpPost]
         [Route("api/AddJobAssignment")]
-        public IHttpActionResult AddJobAssignment(JobAssignment jobAssignment)
+        public IHttpActionResult AddJobAssignments(List<JobAssignment> jobAssignments)
         {
             SharedService sharedService = new SharedService();
-            JobAssignment getJobAssignment = sharedService.OnAddJobAssignment(jobAssignment);
+            List<JobAssignment> newJobAssignments = new List<JobAssignment>();
 
-            if (getJobAssignment == null)
+            jobAssignments.ForEach(jobAssignment =>
             {
-                return Ok(new { statusText = _statusTextService.SomethingWentWrong });
-            }
+                JobAssignment getJobAssignment = sharedService.OnAddJobAssignment(jobAssignment);
+                if (getJobAssignment != null)
+                {
+                    newJobAssignments.Add(getJobAssignment);
+                }
+            });
 
-            _context.JobAssignments.Add(getJobAssignment);
+           
+            _context.JobAssignments.AddRange(newJobAssignments);
+
+            newJobAssignments.ForEach(newJobAssignment =>
+            {
+                Candidate candidate = _context.Candidates
+                    .FirstOrDefault(x => x.Id == newJobAssignment.CandidateId);
+
+                if (candidate != null)
+                {
+                    Source source = _context.Sources
+                        .FirstOrDefault(x => x.Id == candidate.SourceId);
+
+                    newJobAssignment.Candidate = candidate;
+                }
+            });
+
             _context.SaveChanges();
-
-            return Ok(new { jobAssignment, statusText = _statusTextService.Success });
+                
+            return Ok(new { newJobAssignments, statusText = _statusTextService.Success });
         }
 
         [HttpPost]
         [AllowAnonymous]
-        [Route("api/AddGeneralComment")]
-        public IHttpActionResult AddGeneralComment(List<GeneralComment> generalComments)
+        [Route("api/AddGeneralComments")]
+        public IHttpActionResult AddGeneralComments(List<GeneralComment> generalComments)
         {
             _context.GeneralComments.AddRange(generalComments);
             _context.SaveChanges();

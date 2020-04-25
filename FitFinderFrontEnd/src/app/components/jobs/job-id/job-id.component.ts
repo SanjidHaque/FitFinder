@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Data} from '@angular/router';
-import {MatDialog} from '@angular/material';
 import {NotifierService} from 'angular-notifier';
 import {JobDataStorageService} from '../../../services/data-storage-services/job-data-storage.service';
 import {Job} from '../../../models/job/job.model';
@@ -19,7 +18,6 @@ export class JobIdComponent implements OnInit {
   job: Job;
 
   constructor(private route: ActivatedRoute,
-              private dialog: MatDialog,
               private dialogService: DialogService,
               private notifierService: NotifierService,
               private jobDataStorageService: JobDataStorageService,
@@ -28,8 +26,11 @@ export class JobIdComponent implements OnInit {
   ngOnInit() {
     this.route.data.subscribe((data: Data) => {
           this.job = data['job'].job;
+          this.jobService
+            .jobSpecificCandidates = data['jobSpecificCandidates']
+            .jobAssignments;
           this.jobService.job = this.job;
-        });
+    });
   }
 
   restoreJobs(job: Job) {

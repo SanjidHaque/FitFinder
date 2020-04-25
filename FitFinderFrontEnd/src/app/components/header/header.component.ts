@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, ViewEncapsulation} from '@angular/core';
 import {Router} from '@angular/router';
 
 @Component({
@@ -7,19 +7,15 @@ import {Router} from '@angular/router';
   styleUrls: ['./header.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
 
   navigationBarLinks =  [
     {path: '/dashboard', label: 'Dashboard', iconClass: 'fas fa-tachometer-alt'},
     {path: '/jobs', label: 'Jobs', iconClass: 'fas fa-briefcase'},
-    {path: '/candidates', label: 'Candidates', iconClass: 'fas fa-box-open'},
     {path: '/interviews', label: 'Interviews', iconClass: 'far fa-calendar-alt'}
   ];
 
   constructor(private router: Router) { }
-
-  ngOnInit() {
-  }
 
   signOut()  {
     localStorage.removeItem('userToken');

@@ -1,0 +1,313 @@
+<div class="row">
+
+  <div class="col-xl-3">
+    <h3>Candidates</h3>
+  </div>
+
+  <div class="col-xl-9">
+    <button
+      routerLink = "/candidates/add-new-candidate"
+      style="outline: 0;"
+      color="primary"
+      mat-stroked-button><i class="fas fa-plus"></i> New</button>&nbsp;
+    <button
+      *ngIf="isFilterTouched"
+      (click)="resetAllFilter()"
+      style=" outline: 0;"
+      mat-stroked-button>Reset</button>
+  </div>
+
+</div>
+
+<div class="row">
+
+  <div class="col-xl-3">
+
+    <!--<div class="row">-->
+
+    <!--<div class="offset-xl-1 col-xl-10" style="padding-top: 30px; text-align: left; font-size: 14px;">-->
+    <!--<mat-button-toggle-group-->
+    <!--#group="matButtonToggleGroup"-->
+    <!--[value]="selectedCandidateStatus"-->
+    <!--(change)="filterByActiveStatus(group.value)">-->
+    <!--<mat-button-toggle value="All"> All </mat-button-toggle>-->
+    <!--<mat-button-toggle value="Active"> Active </mat-button-toggle>-->
+    <!--<mat-button-toggle value="Closed"> Closed </mat-button-toggle>-->
+    <!--</mat-button-toggle-group>-->
+    <!--</div>-->
+
+    <!--</div>-->
+
+    <div class="row" >
+
+      <div class="offset-xl-1 col-xl-10" style="
+       padding-top: 20px; text-align: left;
+       font-weight: bold;
+       font-size: 14px;">
+        Show Archived <mat-slide-toggle
+        [checked]="archivedSelected"
+        (change)="filterByArchived($event)"
+        color="primary"></mat-slide-toggle>
+      </div>
+
+    </div>
+
+    <div class="row" >
+
+      <div class="offset-xl-1 col-xl-10" style="
+       padding-top: 20px; text-align: left;
+       font-weight: bold;
+       font-size: 14px;">
+        Favourites Only <mat-slide-toggle
+        [checked]="favouriteSelected"
+        (change)="filterByFavourite($event)"
+        color="primary"></mat-slide-toggle>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="col-xl-8">
+
+    <div class="row">
+      <div class="col-xl-1 text-xl-left" style="padding-top: 18px;">
+
+        <mat-checkbox (change)="$event ? masterToggle() : null"
+                      [disabled]="candidates.length === 0"
+                      color="primary"
+                      [matTooltip]="candidates.length === 0 ? '' : 'Select All'"
+                      matTooltipPosition="left"
+                      style="margin-top: 18px;"
+                      [checked]="selection.hasValue() && isAllSelected()"
+                      [indeterminate]="selection.hasValue() && !isAllSelected()">
+        </mat-checkbox>
+
+      </div>
+      <div class="col-xl-11" style="padding-left: 0; margin-top: 10px">
+        <!--<button-->
+        <!--mat-flat-button-->
+        <!--[disabled]="candidates.length == 0-->
+        <!--||-->
+        <!--!selection.hasValue()"-->
+        <!--style="background-color: transparent; outline: 0;"><i class="fas fa-plus-circle"></i> Assign Job</button>-->
+        <!--<button mat-flat-button
+        [disabled]="candidates.length == 0
+        || !selection.hasValue()" style="background-pipelineStageColor: transparent; outline: 0;"><i class="fas fa-tag"></i> Tag</button>-->
+        <!--<button-->
+        <!--mat-flat-button-->
+        <!--[disabled]="candidates.length == 0-->
+        <!--||-->
+        <!--!selection.hasValue()"-->
+        <!--style="background-color: transparent; outline: 0;"><i class="fas fa-sign-out-alt"></i> Status</button>-->
+        <!--<button-->
+        <!--mat-flat-button-->
+        <!--[disabled]="candidates.length == 0-->
+        <!--||-->
+        <!--!selection.hasValue()"-->
+        <!--style="background-color: transparent; outline: 0;"><i class="far fa-envelope"></i> Email</button>-->
+        <!--<button -->
+        <!--mat-flat-button -->
+        <!--[disabled]="candidates.length == 0 -->
+        <!--|| !selection.hasValue()"-->
+        <!--style="background-color: transparent; outline: 0;">-->
+        <!--<i class="far fa-calendar-alt"></i>-->
+        <!--Interview-->
+        <!--</button>-->
+        <!--<button mat-flat-button
+         [disabled]="candidates.length == 0 || !selection.hasValue()"
+         style="background-pipelineStageColor: transparent; outline: 0;">
+         <i class="fas fa-thumbtack"></i>
+          Task
+         </button>-->
+        <button
+          mat-flat-button
+          (click)="archiveCandidates()"
+          [disabled]="candidates.length === 0
+          ||
+          !selection.hasValue()
+          || isDisabled"
+          style="background-color: transparent; outline: 0;"><i class="fas fa-archive"></i> Archive</button>
+        <button
+          (click)="restoreCandidates()"
+          mat-flat-button
+          [disabled]="candidates.length === 0
+          ||
+          !selection.hasValue()
+          || isDisabled"
+          style="background-color: transparent; outline: 0;"><i class="far fa-window-restore"></i> Restore</button>
+      </div>
+    </div>
+
+    <div class="row"
+         *ngIf="candidates.length === 0; else candidateExists"
+         style="margin-top: 10px; border: 1px solid #f0f0f0; border-radius: 5px;">
+      <div class="col-xl-12">
+        <br>
+        <br>
+        <br>
+        <br>
+        <div style="text-align: center;">
+          <i class="fas fa-box-open fa-5x"></i>
+        </div>
+
+        <br>
+
+        <div style="text-align: center;">
+          <h3>You do not have any candidates</h3>
+        </div>
+
+        <div style="text-align: center;">
+          Candidates applying for this job will show up here.
+        </div>
+
+        <br>
+
+        <div style="text-align: center;">
+          <button
+            routerLink = "/candidates/add-new-candidate"
+            mat-raised-button style="outline: 0 ;">Create a New Candidate</button>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+      </div>
+    </div>
+
+    <ng-template #candidateExists>
+
+      <div class="row" style="margin-top: 10px;">
+        <div class="col-xl-12">
+
+          <div class="row">
+            <div class="col-xl-12">
+              <mat-form-field
+                style="width: 100%;">
+                <input
+                  matInput
+                  [(ngModel)]="term"
+                  placeholder="Search candidates">
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row" *ngFor="let candidate of candidates | searchCandidate:term">
+
+            <div class="col-xl-1">
+
+              <div class="row">
+                <div class="col-xl-12"
+                     style="padding-top: 25px;"
+                >
+                  <mat-checkbox (click)="$event.stopPropagation()"
+                                color="primary"
+                                (change)="$event ? selection.toggle(candidate) : null"
+                                [checked]="selection.isSelected(candidate)">
+                  </mat-checkbox>
+                </div>
+              </div>
+
+            </div>
+
+            <div
+              class="col-xl-1"
+              style="
+                  padding-top: 5px;
+                  padding-bottom: 5px;">
+              <img
+                (click)="goToCandidateDetail(candidate)"
+                class="img-responsive"
+                style="
+                    outline: 0;
+                    cursor: pointer;
+                    border-radius: 50%;height: 60px; width: 60px"
+                [src]="imageFolderPath + candidate.ImageName">
+            </div>
+
+            <div class="col-xl-7">
+              <div class="row">
+
+                <div
+                  class="col-xl-12"
+                  style="
+                      padding-top: 10px;">
+                  <strong
+                    (click)="goToCandidateDetail(candidate)"
+                    style="
+                       outline: 0;
+                       cursor: pointer;"
+                  >{{ candidate.FirstName }} {{ candidate.LastName }} </strong>
+                  <i
+                    (click)="unfavouriteCandidates(candidate)"
+                    *ngIf="candidate.IsFavourite"
+                    style="color: #FFD61D; cursor: pointer;" class="fas fa-heart"></i>
+
+                  <i
+                    (click)="favouriteCandidates(candidate)"
+                    style="cursor: pointer;"
+                    *ngIf="!candidate.IsFavourite"
+                    class="far fa-heart"></i>
+                </div>
+
+              </div>
+              <div class="row">
+                <div
+                  style="font-size: 12px;"
+                  class="col-xl-12">
+
+                  <strong
+                    title="Candidate Source"
+                  ><i class="fab fa-osi"></i> {{ candidate.Source.Name }} &nbsp;
+                  </strong>
+
+                  <strong
+                    title="Candidate Application Date"
+                  ><i class="far fa-calendar-alt"></i> {{ getApplicationDate(candidate) }}</strong>
+
+                </div>
+              </div>
+
+
+            </div>
+
+
+            <div class="col-xl-3 text-xl-right"
+                 style="font-weight: bold; opacity: .5;"
+                 *ngIf="candidate.IsArchived; else notArchived">
+              <br>
+              <i style="background-color: #eee;
+                     border-color: #ccc;" class="far fa-square"></i>
+              <span style="font-size: 14px;"> Archived </span>
+
+
+            </div>
+
+            <ng-template #notArchived>
+
+              <div class="col-xl-3">
+
+                <!--Pipeline Stage Criterion Name Here-->
+
+              </div>
+
+            </ng-template>
+
+
+
+          </div>
+
+
+
+        </div>
+      </div>
+
+    </ng-template>
+
+
+  </div>
+
+</div>

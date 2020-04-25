@@ -12,7 +12,7 @@ import {CandidateResolverService} from '../../route-resolvers/candidate-resolver
 import {DepartmentsResolverService} from '../../route-resolvers/departments-resolver.service';
 import {CandidateInterviewComponent} from '../../components/candidates/candidate-id/candidate-interview/candidate-interview.component';
 import {EditCandidateComponent} from '../../components/candidates/edit-candidate/edit-candidate.component';
-import {CandidateSpecificInterviewResolverService} from '../../route-resolvers/candidate-specific-interview-resolver.service';
+import {CandidateSpecificInterviewsResolverService} from '../../route-resolvers/candidate-specific-interviews-resolver.service';
 import {WithdrawnReasonsResolverService} from '../../route-resolvers/withdrawn-reasons-resolver.service';
 import {RejectedReasonsResolverService} from '../../route-resolvers/rejected-reasons-resolver.service';
 import {CandidateOverviewComponent} from '../../components/candidates/candidate-overview/candidate-overview.component';
@@ -66,7 +66,7 @@ const candidateRoutes: Routes = [
             rejectedReasons: RejectedReasonsResolverService,
             candidate: CandidateResolverService,
             departments: DepartmentsResolverService,
-            candidateSpecificInterviews: CandidateSpecificInterviewResolverService
+            candidateSpecificInterviews: CandidateSpecificInterviewsResolverService
           },
         children:
           [
