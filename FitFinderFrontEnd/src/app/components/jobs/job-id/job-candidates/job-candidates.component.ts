@@ -97,6 +97,15 @@ export class JobCandidatesComponent implements OnInit {
     this.router.navigate(['/candidates/', candidate.Id, jobAssignmentId]);
   }
 
+  addNewCandidate() {
+    this.jobService.jobId = this.jobSpecificCandidates[0].JobId;
+    this.router.navigate(['/candidates/add-new-candidate']);
+  }
+
+  addExistingCandidates() {}
+
+  addCandidateFromResume() {}
+
   favouriteCandidates(candidate: Candidate) {
     const candidates: Candidate[] = [];
     candidates.push(candidate);

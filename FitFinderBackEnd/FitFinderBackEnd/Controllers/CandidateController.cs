@@ -96,7 +96,7 @@ namespace FitFinderBackEnd.Controllers
             }
 
 
-            return Ok(new { candidate, statusText = _statusTextService.Success });
+            return Ok(new { candidate, getJobAssignment, statusText = _statusTextService.Success });
         }
 
 
@@ -222,6 +222,7 @@ namespace FitFinderBackEnd.Controllers
                 .Where(x => x.CandidateId == candidateId)
                 .ToList();
 
+
             Source source = _context.Sources
                 .FirstOrDefault(x => x.Id == candidate.SourceId);
 
@@ -246,7 +247,7 @@ namespace FitFinderBackEnd.Controllers
 
                 List<GeneralComment> generalComments = _context
                     .GeneralComments
-                    .Include(x => x.JobAssignment)
+                    .Where(x => x.JobAssignmentId == jobAssignment.Id)
                     .OrderByDescending(o => o.Id)
                     .ToList();
 

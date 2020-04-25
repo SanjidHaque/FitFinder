@@ -19,6 +19,7 @@ export class EditCandidateComponent implements OnInit {
   startDateOfEducation = [];
   startDateOfExperience = [];
 
+  jobAssignmentId: number;
   candidate: Candidate;
   sources: Source[] = [];
 
@@ -33,6 +34,10 @@ export class EditCandidateComponent implements OnInit {
       .subscribe((data: Data) => {
         this.candidate = data['candidate'].candidate;
         this.sources = data['sources'].sources;
+
+        this.route.paramMap.subscribe(params => {
+          this.jobAssignmentId = +params.get('job-assignment-id');
+        });
 
         if (this.candidate.CandidateEducations === null) {
           this.candidate.CandidateEducations = [];
@@ -167,7 +172,7 @@ export class EditCandidateComponent implements OnInit {
           this.isDisabled = false;
           this.notifierService.notify('default', data.statusText);
         } else {
-          this.router.navigate(['/candidates/', this.candidate.Id]);
+          this.router.navigate(['/candidates/', this.candidate.Id, this.jobAssignmentId ]);
           this.notifierService.notify('default', 'Candidate updated successfully.');
         }
 

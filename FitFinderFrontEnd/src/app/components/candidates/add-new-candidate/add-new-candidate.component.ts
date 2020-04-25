@@ -13,6 +13,7 @@ import {SettingsDataStorageService} from '../../../services/data-storage-service
 import {Source} from '../../../models/settings/source.model';
 import {JobAssignment} from '../../../models/candidate/job-assignment.model';
 import {AttachmentDataStorageService} from '../../../services/data-storage-services/attachment-data-storage.service';
+import {JobService} from '../../../services/shared-services/job.service';
 
 
 @Component({
@@ -33,11 +34,13 @@ export class AddNewCandidateComponent implements OnInit {
   filesToUpload: Array<File>;
   @ViewChild('fileUpload', {static: false}) fileUploadVar: any;
   isDisabled = false;
+  selectedJobId = null;
 
   addNewCandidateForm: FormGroup;
 
   constructor(private router: Router,
               private route: ActivatedRoute,
+              private jobService: JobService,
               private jobDataStorageService: JobDataStorageService,
               private settingsDataStorageService: SettingsDataStorageService,
               private attachmentDataStorageService: AttachmentDataStorageService,
@@ -52,11 +55,12 @@ export class AddNewCandidateComponent implements OnInit {
       .subscribe((data: Data) => {
           this.sources = data['sources'].sources;
           this.jobs = data['jobs'].jobs;
+          this.selectedJobId = this.jobService.jobId;
         });
 
 
     this.addNewCandidateForm = new FormGroup({
-      'jobId': new FormControl(''),
+      'jobId': new FormControl(this.selectedJobId),
       'firstName': new FormControl('', Validators.required),
       'lastName': new FormControl(''),
       'email': new FormControl('sanjidulhaque@gmail.com', [Validators.required, Validators.email]),
@@ -250,7 +254,8 @@ export class AddNewCandidateComponent implements OnInit {
          this.isDisabled = false;
          this.notifierService.notify('default', data.statusText);
        } else {
-         this.router.navigate(['/candidates/', data.candidate.Id]);
+         this.router
+           .navigate(['/candidates/', data.candidate.Id, data.getJobAssignment.Id]);
          this.notifierService.notify('default', 'New candidate added.');
        }
 

@@ -1,25 +1,25 @@
-<div class="row">
+<!--<div class="row" style="padding-top: 10px;">-->
 
-  <div class="col-xl-3">
-    <h3>Candidates</h3>
-  </div>
+  <!--<div class="col-xl-3">-->
+    <!--<h4>Candidates</h4>-->
+  <!--</div>-->
 
-  <div class="col-xl-9">
-    <button
-      routerLink = "/candidates/add-new-candidate"
-      style="outline: 0;"
-      color="primary"
-      mat-stroked-button><i class="fas fa-plus"></i> New</button>&nbsp;
-    <button
-      *ngIf="isFilterTouched"
-      (click)="resetAllFilter()"
-      style=" outline: 0;"
-      mat-stroked-button>Reset</button>
-  </div>
+  <!--<div class="col-xl-9">-->
+    <!--<button-->
+      <!--routerLink = "/candidates/add-new-candidate"-->
+      <!--style="outline: 0;"-->
+      <!--color="primary"-->
+      <!--mat-stroked-button><i class="fas fa-plus"></i> New</button>&nbsp;-->
+    <!--<button-->
+      <!--*ngIf="isFilterTouched"-->
+      <!--(click)="resetAllFilter()"-->
+      <!--style=" outline: 0;"-->
+      <!--mat-stroked-button>Reset</button>-->
+  <!--</div>-->
 
-</div>
+<!--</div>-->
 
-<div class="row">
+<div class="row" style="padding-top: 10px;">
 
   <div class="col-xl-3">
 
@@ -120,6 +120,42 @@
          <i class="fas fa-thumbtack"></i>
           Task
          </button>-->
+
+        <button
+          mat-flat-button
+          style="outline: 0;"
+          [matMenuTriggerFor]="menu">
+          Add <i class="fas fa-chevron-down"></i>
+        </button>
+
+        <mat-menu #menu="matMenu">
+
+          <button
+            style="outline: 0"
+            (click)="addNewCandidate()"
+            mat-menu-item>
+            <i class="fas fa-plus-circle"></i> &nbsp;
+            <span>New Candidate</span>
+          </button>
+
+          <button
+            style="outline: 0;"
+            (click)="addCandidateFromResume()"
+            mat-menu-item>
+            <i class="far fa-file"></i> &nbsp;
+            <span>Add Candidate from Resume</span>
+          </button>
+
+          <button
+            style="outline: 0;"
+            (click)="addExistingCandidates()"
+            mat-menu-item>
+            <i class="fas fa-plus-circle"></i> &nbsp;
+            <span>Add Existing Candidates</span>
+          </button>
+
+        </mat-menu>
+
         <button
           mat-flat-button
           (click)="archiveCandidates()"

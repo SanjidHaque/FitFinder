@@ -8,6 +8,7 @@ import {JobAssignment} from '../../models/candidate/job-assignment.model';
   providedIn: 'root'
 })
 export class JobService {
+  jobId: number;
   job: Job;
   jobs: Job[] = [];
 

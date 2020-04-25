@@ -47,7 +47,7 @@ const candidateRoutes: Routes = [
           }
       },
       {
-        path: ':candidate-id/edit-candidate',
+        path: ':candidate-id/:job-assignment-id/edit-candidate',
         component: EditCandidateComponent,
         resolve:
           {

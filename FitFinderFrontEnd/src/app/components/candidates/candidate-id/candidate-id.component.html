@@ -1,41 +1,4 @@
 <br>
-<div class="row">
-
-  <div class="col-xl-2">
-    <div class="row">
-
-
-      <div
-        class="col-xl-4">
-        <button
-          routerLink="/candidates"
-          style="outline: 0;"
-          mat-raised-button color="primary"><i
-          class="far fa-arrow-alt-circle-left"></i> Candidate Panel</button>
-      </div>
-
-
-
-    </div>
-  </div>
-
-  <div class="col-xl-8"
-       style="
-       font-weight: bold;
-       opacity: .7;
-       text-align: center;"
-       *ngIf="candidate.JobAssignments === null; else jobIsNotAssigned">
-    Assign Job to Change Candidate Status
-  </div>
-
-  <ng-template #jobIsNotAssigned>
-    <div class="col-xl-8">
-
-    </div>
-  </ng-template>
-
-
-</div>
 <hr>
 
 <div class="row">
@@ -167,7 +130,7 @@
 
       <div *ngIf="!candidate.IsArchived || candidate.JobAssignments !== null" class="col-xl-3 text-xl-center">
         <button
-          routerLink="/candidates/{{ candidate.Id }}/edit-candidate"
+          routerLink="/candidates/{{ candidate.Id }}/{{ jobAssignmentId }}/edit-candidate"
           style="background-color: transparent; outline: 0;"
           mat-flat-button><i class="far fa-edit"></i> Edit</button>
       </div>
@@ -691,9 +654,7 @@
             mat-icon-button
             style="outline: 0;"
             [matMenuTriggerFor]="menu">
-            <mat-icon>
-              more_horiz
-            </mat-icon>
+            <i class="fas fa-ellipsis-h"></i>
           </button>
 
           <mat-menu #menu="matMenu">
@@ -701,16 +662,14 @@
               style="outline: 0;"
               (click)="changeJobAssignment()"
               mat-menu-item>
-              <mat-icon>subdirectory_arrow_right
-              </mat-icon>
+              <i class="fas fa-sync"></i> &nbsp;
               <span>Change Job</span>
             </button>
             <button
               style="outline: 0;"
               (click)="removeJobAssignment()"
               mat-menu-item>
-              <mat-icon>remove_circle_outline
-              </mat-icon>
+              <i class="fas fa-minus-circle"></i> &nbsp;
               <span>Remove Job</span>
             </button>
           </mat-menu>
