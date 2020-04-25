@@ -25,17 +25,8 @@ const candidateRoutes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'candidate-panel',
+        redirectTo: 'add-new-candidate',
         pathMatch: 'full'
-      },
-      {
-        path: 'candidate-panel',
-        component: CandidatePanelComponent,
-        resolve:
-          {
-            jobs: JobsResolverService,
-            candidates: CandidatesResolverService
-          }
       },
       {
         path: 'add-new-candidate',

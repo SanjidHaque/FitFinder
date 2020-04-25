@@ -1,5 +1,5 @@
 <br>
-<hr>
+<br>
 
 <div class="row">
 
@@ -15,19 +15,6 @@
 
             {{ candidate.FirstName }}  {{ candidate.LastName }}
 
-          </div>
-        </div>
-
-        <div class="row" >
-          <div class="col-xl-4 "
-               style="">
-            <star-rating
-              class="criteria"
-              size="medium"
-              [rating] = "0"
-              [readOnly]="true"
-              [starType]="'svg'"
-            ></star-rating>
           </div>
         </div>
 
@@ -867,8 +854,10 @@
 
     <br>
 
-    <div class="row"
-         style="padding-left: 15px; padding-right: 15px;">
+    <div
+      *ngIf="jobAssignment.GeneralComments.length !== 0"
+      class="row"
+      style="padding-left: 15px; padding-right: 15px;">
       <div class="col-xl-12" style="font-weight: 500; font-size: 20px;">
 
         Recent Activities

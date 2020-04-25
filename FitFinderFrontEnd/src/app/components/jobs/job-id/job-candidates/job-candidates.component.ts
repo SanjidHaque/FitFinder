@@ -12,6 +12,8 @@ import {SelectionModel} from '@angular/cdk/collections';
 import * as moment from 'moment';
 import {CandidateDataStorageService} from '../../../../services/data-storage-services/candidate-data-storage.service';
 import {DialogService} from '../../../../services/dialog-services/dialog.service';
+import {Job} from '../../../../models/job/job.model';
+import {PipelineStage} from '../../../../models/settings/pipeline-stage.model';
 
 @Component({
   selector: 'app-job-candidates',
@@ -28,6 +30,8 @@ export class JobCandidatesComponent implements OnInit {
 
   jobSpecificCandidates: JobAssignment[] = [];
   candidates: Candidate[] = [];
+  pipelineStages: PipelineStage[] = [];
+  job: Job;
 
   imageFolderPath = '';
 
@@ -48,9 +52,18 @@ export class JobCandidatesComponent implements OnInit {
       .getAllCandidate()
       .filter(x => x.IsArchived === false);
 
+    this.job = this.jobService.job;
+    this.extractPipelineStages();
     this.imageFolderPath = this.userAccountDataStorageService.imageFolderPath;
   }
 
+  extractPipelineStages() {
+    this.job.Workflow.Pipelines.forEach( pipeline => {
+      pipeline.PipelineStages.forEach(pipelineStage => {
+        this.pipelineStages.push(pipelineStage);
+      });
+    });
+  }
 
   extractCandidates(jobAssignments: JobAssignment[]) {
     const candidates: Candidate[] = [];
@@ -65,13 +78,48 @@ export class JobCandidatesComponent implements OnInit {
   }
 
 
+  getPipelineStageColor(candidate: Candidate) {
+    const jobAssignment = this.jobSpecificCandidates
+      .find(x => x.CandidateId === candidate.Id);
+
+    if (jobAssignment === undefined) {
+      return '#eee';
+    }
+
+    const pipelineStage = this.pipelineStages
+      .find(x => x.Id === jobAssignment.CurrentPipelineStageId);
+
+    if (pipelineStage === undefined) {
+      return '#eee';
+    }
+
+    return pipelineStage.Color;
+  }
+
+  getPipelineStageName(candidate: Candidate) {
+    const jobAssignment = this.jobSpecificCandidates
+      .find(x => x.CandidateId === candidate.Id);
+
+    if (jobAssignment === undefined) {
+      return 'Undefined';
+    }
+
+    const pipelineStage = this.pipelineStages
+      .find(x => x.Id === jobAssignment.CurrentPipelineStageId);
+
+    if (pipelineStage === undefined) {
+      return 'Undefined';
+    }
+
+    return pipelineStage.Name;
+  }
+
   resetAllFilter() {
     this.isFilterTouched = false;
     this.archivedSelected = false;
     this.favouriteSelected = false;
-    this.jobSpecificCandidates = this.jobService
-      .getAllJobSpecificCandidates()
-      .filter(x => x.Candidate.IsArchived === false);
+    this.candidates = this.candidateService.getAllCandidate()
+      .filter(x => x.IsArchived === false);
   }
 
   filterByArchived(event: any) {

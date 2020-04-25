@@ -1,23 +1,18 @@
-<!--<div class="row" style="padding-top: 10px;">-->
+<div class="row" style="padding-top: 10px;">
 
-  <!--<div class="col-xl-3">-->
-    <!--<h4>Candidates</h4>-->
-  <!--</div>-->
+  <div class="col-xl-3">
+    <h4>Job Candidates</h4>
+  </div>
 
-  <!--<div class="col-xl-9">-->
-    <!--<button-->
-      <!--routerLink = "/candidates/add-new-candidate"-->
-      <!--style="outline: 0;"-->
-      <!--color="primary"-->
-      <!--mat-stroked-button><i class="fas fa-plus"></i> New</button>&nbsp;-->
-    <!--<button-->
-      <!--*ngIf="isFilterTouched"-->
-      <!--(click)="resetAllFilter()"-->
-      <!--style=" outline: 0;"-->
-      <!--mat-stroked-button>Reset</button>-->
-  <!--</div>-->
+  <div class="col-xl-9">
+    <button
+      *ngIf="isFilterTouched"
+      (click)="resetAllFilter()"
+      style=" outline: 0;"
+      mat-stroked-button>Reset</button>
+  </div>
 
-<!--</div>-->
+</div>
 
 <div class="row" style="padding-top: 10px;">
 
@@ -68,7 +63,7 @@
 
   </div>
 
-  <div class="col-xl-8">
+  <div class="col-xl-9">
 
     <div class="row">
       <div class="col-xl-1 text-xl-left" style="padding-top: 18px;">
@@ -311,12 +306,14 @@
             </div>
 
 
-            <div class="col-xl-3 text-xl-right"
+            <div class="col-xl-3"
                  style="font-weight: bold; opacity: .5;"
                  *ngIf="candidate.IsArchived; else notArchived">
               <br>
-              <i style="background-color: #eee;
-                     border-color: #ccc;" class="far fa-square"></i>
+              <i style="
+              background-color: #eee;
+              border-color: #ccc;"
+                 class="far fa-square"></i>
               <span style="font-size: 14px;"> Archived </span>
 
 
@@ -325,8 +322,16 @@
             <ng-template #notArchived>
 
               <div class="col-xl-3">
+                <br>
+                <input readonly
+                       style="outline: 0;
+                       border: 1px solid transparent;
+                       border-radius: 2px;
+                       height: 14px;
+                       width: 14px;"
+                  [style.background]="getPipelineStageColor(candidate)"/>
 
-                <!--Pipeline Stage Criterion Name Here-->
+                <span style="font-size: 14px; font-weight: 500;"> {{ getPipelineStageName(candidate) }} </span>
 
               </div>
 
