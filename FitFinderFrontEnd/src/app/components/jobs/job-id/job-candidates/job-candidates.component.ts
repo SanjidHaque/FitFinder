@@ -202,7 +202,6 @@ export class JobCandidatesComponent implements OnInit {
   }
 
   addExistingCandidates() {
-
     const dialogRef = this.dialog.open(SelectCandidatesDialogComponent,
       {
         hasBackdrop: true,
@@ -217,42 +216,44 @@ export class JobCandidatesComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((selectedCandidates: Candidate[]) => {
 
-      const jobAssignments: JobAssignment[] = [];
-      selectedCandidates.forEach(selectedCandidate => {
-        const jobAssignment = new JobAssignment(
-          null,
-          null,
-          selectedCandidate.Id,
-          null,
-          this.job.Id,
-          [],
-          [],
-          [],
-          null
-        );
-        jobAssignments.push(jobAssignment);
-      });
-
-      this.jobAssignmentDataStorageService.addJobAssignments(jobAssignments)
-        .subscribe((data: any) => {
-
-          if (data.statusText !== 'Success') {
-            this.notifierService.notify('default', data.statusText);
-          } else {
-
-            this.jobSpecificCandidates = this.jobSpecificCandidates
-              .concat(data.newJobAssignments);
-            
-            data.newJobAssignments.forEach(newJobAssignment => {
-              this.jobCandidates.unshift(newJobAssignment.Candidate);
-            });
-
-            this.notifierService.notify('default', 'Candidate Assigned Successfully!');
-          }
-
+      if (selectedCandidates !== '') {
+        const jobAssignments: JobAssignment[] = [];
+        selectedCandidates.forEach(selectedCandidate => {
+          const jobAssignment = new JobAssignment(
+            null,
+            null,
+            selectedCandidate.Id,
+            null,
+            this.job.Id,
+            [],
+            [],
+            [],
+            null
+          );
+          jobAssignments.push(jobAssignment);
         });
 
+        this.jobAssignmentDataStorageService.addJobAssignments(jobAssignments)
+          .subscribe((data: any) => {
+
+            if (data.statusText !== 'Success') {
+              this.notifierService.notify('default', data.statusText);
+            } else {
+
+              this.jobSpecificCandidates = this.jobSpecificCandidates
+                .concat(data.newJobAssignments);
+
+              data.newJobAssignments.forEach(newJobAssignment => {
+                this.jobCandidates.unshift(newJobAssignment.Candidate);
+              });
+
+              this.notifierService.notify('default', 'Candidate Assigned Successfully!');
+            }
+
+          });
+      }
     });
+
   }
 
   addCandidateFromResume() {}

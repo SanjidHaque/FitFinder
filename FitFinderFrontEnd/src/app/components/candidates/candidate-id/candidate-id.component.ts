@@ -25,6 +25,8 @@ import {WithdrawnReason} from '../../../models/settings/withdrawn-reason.model';
 import {RejectedReason} from '../../../models/settings/rejected-reason.model';
 import {Interview} from '../../../models/interview/interview.model';
 import {InterviewService} from '../../../services/shared-services/interview.service';
+import {SelectCandidatesDialogComponent} from '../../../dialogs/select-candidates-for-interview-dialog/select-candidates-dialog.component';
+import {DisplayJobDialogComponent} from '../../../dialogs/display-job-dialog/display-job-dialog.component';
 
 @Component({
   selector: 'app-candidate-id',
@@ -142,9 +144,62 @@ export class CandidateIdComponent implements OnInit, DoCheck, OnDestroy  {
     }
   }
 
+  changeJobAssignment() {
+    const dialogRef = this.dialog.open(DisplayJobDialogComponent,
+      {
+        hasBackdrop: true,
+        disableClose: true,
+        width: '1000px',
+        height: '100%',
+        data:
+          {
+            jobs: this.jobs.filter(x => x.IsArchived === false && x.Id !== this.jobAssignment.JobId)
+          }
+      });
 
-  changeJobAssignment() {}
+    const jobAssignments: JobAssignment[] = [];
+    dialogRef.afterClosed().subscribe((selectedJob: Job[]) => {
 
+      if (selectedJob !== '') {
+
+        const jobAssignment = new JobAssignment(
+          null,
+          null,
+          this.candidate.Id,
+          null,
+          selectedJob[0].Id,
+          [],
+          [],
+          [],
+          null
+        );
+        jobAssignments.push(jobAssignment);
+        this.jobAssignmentDataStorageService.removeJobAssignment(this.jobAssignment)
+          .subscribe((data: any) => {
+
+            if (data.statusText !== 'Success') {
+              this.notifierService.notify('default', data.statusText);
+              return;
+            } else {
+
+              this.jobAssignmentDataStorageService.addJobAssignments(jobAssignments)
+                .subscribe((res: any) => {
+
+                  if (res.statusText !== 'Success') {
+                    this.notifierService.notify('default', res.statusText);
+                  } else {
+                    this.router
+                      .navigate(['/candidates/', this.candidate.Id, res.newJobAssignments[0].Id ]);
+                    this.notifierService.notify('default', 'Job changed successfully!');
+                  }
+                });
+
+            }
+
+          });
+      }
+    });
+  }
 
   removeJobAssignment() {
     this.settingsService.deleteResource('Remove Job Assignment')
@@ -153,8 +208,15 @@ export class CandidateIdComponent implements OnInit, DoCheck, OnDestroy  {
         if (result.confirmationStatus) {
           this.jobAssignmentDataStorageService.removeJobAssignment(this.jobAssignment)
             .subscribe((data: any) => {
+
+              if (data.statusText !== 'Success') {
+                this.notifierService.notify('default', data.statusText);
+              } else {
                 this.notifierService.notify('default', 'Job removed.');
-                this.router.navigate(['/jobs/', this.jobAssignment.JobId]);
+                this.router
+                  .navigate(['/jobs/', this.jobAssignment.JobId, '/job-candidates']);
+              }
+
               });
         }
       });

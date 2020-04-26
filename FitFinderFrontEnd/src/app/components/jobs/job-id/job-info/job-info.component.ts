@@ -22,7 +22,6 @@ import {AttachmentDataStorageService} from '../../../../services/data-storage-se
 export class JobInfoComponent implements OnInit {
   isDisabled = false;
 
-  candidateDefaultImage = 'assets/images/defaultImage.png';
   job: Job;
   filesToUpload: Array<File> = [];
 
