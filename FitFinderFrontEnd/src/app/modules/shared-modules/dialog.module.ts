@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {DisplayJobDialogComponent} from '../../dialogs/display-job-dialog/display-job-dialog.component';
 import {ChangeStatusDialogComponent} from '../../dialogs/change-status-dialog/change-status-dialog.component';
-import {SelectCandidatesForInterviewDialogComponent} from '../../dialogs/select-candidates-for-interview-dialog/select-candidates-for-interview-dialog.component';
+import {SelectCandidatesDialogComponent} from '../../dialogs/select-candidates-for-interview-dialog/select-candidates-dialog.component';
 import {AddUpdateDialogComponent} from '../../dialogs/add-update-dialog/add-update-dialog.component';
 import {AddUpdatePipelineStageDialogComponent} from '../../dialogs/add-update-pipeline-stage-dialog/add-update-pipeline-stage-dialog.component';
 import {DisplayPipelineStageCriteriaDialogComponent} from '../../dialogs/display-pipeline-stage-criteria-dialog/display-pipeline-stage-criteria-dialog.component';
@@ -17,7 +17,7 @@ import { ColorPickerModule } from 'ngx-color-picker';
   declarations: [
     DisplayJobDialogComponent,
     ChangeStatusDialogComponent,
-    SelectCandidatesForInterviewDialogComponent,
+    SelectCandidatesDialogComponent,
     AddUpdateDialogComponent,
     AddUpdatePipelineStageDialogComponent,
     DisplayPipelineStageCriteriaDialogComponent,
@@ -35,7 +35,7 @@ import { ColorPickerModule } from 'ngx-color-picker';
   entryComponents: [
     DisplayJobDialogComponent,
     ChangeStatusDialogComponent,
-    SelectCandidatesForInterviewDialogComponent,
+    SelectCandidatesDialogComponent,
     AddUpdateDialogComponent,
     AddUpdatePipelineStageDialogComponent,
     DisplayPipelineStageCriteriaDialogComponent,

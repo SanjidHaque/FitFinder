@@ -4,7 +4,7 @@ import {JobAssignment} from '../../../../models/candidate/job-assignment.model';
 import {NotifierService} from 'angular-notifier';
 import {JobDataStorageService} from '../../../../services/data-storage-services/job-data-storage.service';
 import {JobService} from '../../../../services/shared-services/job.service';
-import {Router} from '@angular/router';
+import {Data, ActivatedRoute, Router} from '@angular/router';
 import {CandidateService} from '../../../../services/shared-services/candidate.service';
 import {UserAccountDataStorageService} from '../../../../services/data-storage-services/user-account-data-storage.service';
 import {Candidate} from '../../../../models/candidate/candidate.model';
@@ -14,6 +14,10 @@ import {CandidateDataStorageService} from '../../../../services/data-storage-ser
 import {DialogService} from '../../../../services/dialog-services/dialog.service';
 import {Job} from '../../../../models/job/job.model';
 import {PipelineStage} from '../../../../models/settings/pipeline-stage.model';
+import {InterviewService} from '../../../../services/shared-services/interview.service';
+import {SelectCandidatesDialogComponent} from '../../../../dialogs/select-candidates-for-interview-dialog/select-candidates-dialog.component';
+import {MatDialog} from '@angular/material';
+import {JobAssignmentDataStorageService} from '../../../../services/data-storage-services/job-assignment-data-storage.service';
 
 @Component({
   selector: 'app-job-candidates',
@@ -29,6 +33,7 @@ export class JobCandidatesComponent implements OnInit {
   favouriteSelected = false;
 
   jobSpecificCandidates: JobAssignment[] = [];
+  jobCandidates: Candidate[] = [];
   candidates: Candidate[] = [];
   pipelineStages: PipelineStage[] = [];
   job: Job;
@@ -37,24 +42,31 @@ export class JobCandidatesComponent implements OnInit {
 
   constructor(private notifierService: NotifierService,
               private dialogService: DialogService,
+              private dialog: MatDialog,
               private jobDataStorageService: JobDataStorageService,
               private userAccountDataStorageService: UserAccountDataStorageService,
               private candidateDataStorageService: CandidateDataStorageService,
+              private jobAssignmentDataStorageService: JobAssignmentDataStorageService,
               private candidateService: CandidateService,
+              private interviewService: InterviewService,
               private router: Router,
+              private route: ActivatedRoute,
               private jobService: JobService) {}
 
   ngOnInit() {
-    this.jobSpecificCandidates = this.jobService.getAllJobSpecificCandidates();
+    this.route.data.subscribe((data: Data) => {
+      this.candidates = data['candidates'].candidates;
+      this.jobSpecificCandidates = this.jobService.getAllJobSpecificCandidates();
 
-    this.candidateService.candidates = this.extractCandidates(this.jobSpecificCandidates);
-    this.candidates = this.candidateService
-      .getAllCandidate()
-      .filter(x => x.IsArchived === false);
+      this.candidateService.candidates = this.extractCandidates(this.jobSpecificCandidates);
+      this.jobCandidates = this.candidateService
+        .getAllCandidate()
+        .filter(x => x.IsArchived === false);
 
-    this.job = this.jobService.job;
-    this.extractPipelineStages();
-    this.imageFolderPath = this.userAccountDataStorageService.imageFolderPath;
+      this.job = this.jobService.job;
+      this.extractPipelineStages();
+      this.imageFolderPath = this.userAccountDataStorageService.imageFolderPath;
+    });
   }
 
   extractPipelineStages() {
@@ -77,6 +89,24 @@ export class JobCandidatesComponent implements OnInit {
     return candidates;
   }
 
+
+  addNewInterview() {
+    const archivedCandidates: Candidate[] = this.selection.selected
+      .filter(x => x.IsArchived === true);
+
+    if (archivedCandidates.length !== 0) {
+      this.notifierService.notify('default', 'Archive candidates should be restored first!')
+    }
+
+    const candidates: Candidate[] = this.selection.selected
+      .filter(x => x.IsArchived === false);
+
+    if (candidates.length === 0) {
+      return;
+    }
+    this.interviewService.selectedCandidatesForInterview = candidates;
+    this.router.navigate(['/interviews/add-new-interview']);
+  }
 
   getPipelineStageColor(candidate: Candidate) {
     const jobAssignment = this.jobSpecificCandidates
@@ -146,11 +176,84 @@ export class JobCandidatesComponent implements OnInit {
   }
 
   addNewCandidate() {
-    this.jobService.jobId = this.jobSpecificCandidates[0].JobId;
+    this.jobService.jobId = this.job.Id;
     this.router.navigate(['/candidates/add-new-candidate']);
   }
 
-  addExistingCandidates() {}
+  getUniqueCandidates() {
+    const candidates = this.candidates
+      .filter(x => x.IsArchived === false);
+
+    const uniqueCandidates: Candidate[] = [];
+    candidates.forEach(candidate => {
+
+      const getUniqueCandidate = uniqueCandidates
+        .find(x => x.Id === candidate.Id);
+
+      const getJobCandidate =  this.jobCandidates
+        .find(x => x.Id === candidate.Id);
+
+      if ((getUniqueCandidate === undefined) && (getJobCandidate === undefined)) {
+        uniqueCandidates.push(candidate);
+      }
+    });
+
+    return uniqueCandidates;
+  }
+
+  addExistingCandidates() {
+
+    const dialogRef = this.dialog.open(SelectCandidatesDialogComponent,
+      {
+        hasBackdrop: true,
+        disableClose: true,
+        width: '1000px',
+        height: '100%',
+        data:
+          {
+            candidates: this.getUniqueCandidates()
+          }
+      });
+
+    dialogRef.afterClosed().subscribe((selectedCandidates: Candidate[]) => {
+
+      const jobAssignments: JobAssignment[] = [];
+      selectedCandidates.forEach(selectedCandidate => {
+        const jobAssignment = new JobAssignment(
+          null,
+          null,
+          selectedCandidate.Id,
+          null,
+          this.job.Id,
+          [],
+          [],
+          [],
+          null
+        );
+        jobAssignments.push(jobAssignment);
+      });
+
+      this.jobAssignmentDataStorageService.addJobAssignments(jobAssignments)
+        .subscribe((data: any) => {
+
+          if (data.statusText !== 'Success') {
+            this.notifierService.notify('default', data.statusText);
+          } else {
+
+            this.jobSpecificCandidates = this.jobSpecificCandidates
+              .concat(data.newJobAssignments);
+            
+            data.newJobAssignments.forEach(newJobAssignment => {
+              this.jobCandidates.unshift(newJobAssignment.Candidate);
+            });
+
+            this.notifierService.notify('default', 'Candidate Assigned Successfully!');
+          }
+
+        });
+
+    });
+  }
 
   addCandidateFromResume() {}
 
@@ -276,14 +379,14 @@ export class JobCandidatesComponent implements OnInit {
 
   isAllSelected() {
     const numSelected = this.selection.selected.length;
-    const numRows = this.candidates.length;
+    const numRows = this.jobCandidates.length;
     return numSelected === numRows;
   }
 
   masterToggle() {
     this.isAllSelected() ?
       this.selection.clear() :
-      this.candidates.forEach(row => this.selection.select(row));
+      this.jobCandidates.forEach(row => this.selection.select(row));
   }
 }
 

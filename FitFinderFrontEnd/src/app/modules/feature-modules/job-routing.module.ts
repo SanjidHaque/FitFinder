@@ -15,8 +15,8 @@ import {JobResolverService} from '../../route-resolvers/job-resolver.service';
 import {JobInfoComponent} from '../../components/jobs/job-id/job-info/job-info.component';
 import {JobCandidatesComponent} from '../../components/jobs/job-id/job-candidates/job-candidates.component';
 import {EditJobComponent} from '../../components/jobs/edit-job/edit-job.component';
-import {JobAssignment} from '../../models/candidate/job-assignment.model';
 import {JobSpecificCandidatesResolverService} from '../../route-resolvers/job-specific-candidates-resolver.service';
+import {CandidatesResolverService} from '../../route-resolvers/candidates-resolver.service';
 
 
 const jobRoutes: Routes = [
@@ -70,7 +70,11 @@ const jobRoutes: Routes = [
             },
             {
               path: 'job-candidates',
-              component: JobCandidatesComponent
+              component: JobCandidatesComponent,
+              resolve:
+                {
+                  candidates: CandidatesResolverService
+                }
             }
           ]
       },

@@ -23,7 +23,7 @@ namespace FitFinderBackEnd.Controllers
 
 
         [HttpPost]
-        [Route("api/AddJobAssignment")]
+        [Route("api/AddJobAssignments")]
         public IHttpActionResult AddJobAssignments(List<JobAssignment> jobAssignments)
         {
             SharedService sharedService = new SharedService();

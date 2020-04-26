@@ -50,7 +50,7 @@ export class CandidateInterviewComponent implements OnInit {
   }
 
   addNewInterview() {
-    this.interviewService.selectedCandidateForInterview = this.candidateService.candidate;
+    this.interviewService.selectedCandidatesForInterview.push(this.candidateService.candidate);
     this.router.navigate(['/interviews/add-new-interview']);
   }
 

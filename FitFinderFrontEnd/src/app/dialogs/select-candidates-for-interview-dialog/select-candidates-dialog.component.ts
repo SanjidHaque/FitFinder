@@ -8,12 +8,12 @@ import {CandidateService} from '../../services/shared-services/candidate.service
 import {UserAccountDataStorageService} from '../../services/data-storage-services/user-account-data-storage.service';
 
 @Component({
-  selector: 'app-select-candidates-for-interview',
-  templateUrl: './select-candidates-for-interview-dialog.component.html',
-  styleUrls: ['./select-candidates-for-interview-dialog.component.css'],
+  selector: 'app-select-candidates-dialog',
+  templateUrl: './select-candidates-dialog.component.html',
+  styleUrls: ['./select-candidates-dialog.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class SelectCandidatesForInterviewDialogComponent implements OnInit, OnDestroy {
+export class SelectCandidatesDialogComponent implements OnInit, OnDestroy {
   isDisabled = false;
   isFilterTouched = false;
 
@@ -28,7 +28,7 @@ export class SelectCandidatesForInterviewDialogComponent implements OnInit, OnDe
   candidates: Candidate[] = [];
   jobs: Job[] = [];
 
-  constructor(public dialogRef: MatDialogRef<SelectCandidatesForInterviewDialogComponent>,
+  constructor(public dialogRef: MatDialogRef<SelectCandidatesDialogComponent>,
               private candidateService: CandidateService,
               private userAccountDataStorageService: UserAccountDataStorageService,
               @Inject(MAT_DIALOG_DATA) public data: any) {}

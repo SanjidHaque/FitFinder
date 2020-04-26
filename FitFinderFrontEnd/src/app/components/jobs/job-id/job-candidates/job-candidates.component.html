@@ -69,9 +69,9 @@
       <div class="col-xl-1 text-xl-left" style="padding-top: 18px;">
 
         <mat-checkbox (change)="$event ? masterToggle() : null"
-                      [disabled]="candidates.length === 0"
+                      [disabled]="jobCandidates.length === 0"
                       color="primary"
-                      [matTooltip]="candidates.length === 0 ? '' : 'Select All'"
+                      [matTooltip]="jobCandidates.length === 0 ? '' : 'Select All'"
                       matTooltipPosition="left"
                       style="margin-top: 18px;"
                       [checked]="selection.hasValue() && isAllSelected()"
@@ -80,41 +80,6 @@
 
       </div>
       <div class="col-xl-11" style="padding-left: 0; margin-top: 10px">
-        <!--<button-->
-        <!--mat-flat-button-->
-        <!--[disabled]="candidates.length == 0-->
-        <!--||-->
-        <!--!selection.hasValue()"-->
-        <!--style="background-color: transparent; outline: 0;"><i class="fas fa-plus-circle"></i> Assign Job</button>-->
-        <!--<button mat-flat-button
-        [disabled]="candidates.length == 0
-        || !selection.hasValue()" style="background-pipelineStageColor: transparent; outline: 0;"><i class="fas fa-tag"></i> Tag</button>-->
-        <!--<button-->
-        <!--mat-flat-button-->
-        <!--[disabled]="candidates.length == 0-->
-        <!--||-->
-        <!--!selection.hasValue()"-->
-        <!--style="background-color: transparent; outline: 0;"><i class="fas fa-sign-out-alt"></i> Status</button>-->
-        <!--<button-->
-        <!--mat-flat-button-->
-        <!--[disabled]="candidates.length == 0-->
-        <!--||-->
-        <!--!selection.hasValue()"-->
-        <!--style="background-color: transparent; outline: 0;"><i class="far fa-envelope"></i> Email</button>-->
-        <!--<button -->
-        <!--mat-flat-button -->
-        <!--[disabled]="candidates.length == 0 -->
-        <!--|| !selection.hasValue()"-->
-        <!--style="background-color: transparent; outline: 0;">-->
-        <!--<i class="far fa-calendar-alt"></i>-->
-        <!--Interview-->
-        <!--</button>-->
-        <!--<button mat-flat-button
-         [disabled]="candidates.length == 0 || !selection.hasValue()"
-         style="background-pipelineStageColor: transparent; outline: 0;">
-         <i class="fas fa-thumbtack"></i>
-          Task
-         </button>-->
 
         <button
           mat-flat-button
@@ -154,7 +119,7 @@
         <button
           mat-flat-button
           (click)="archiveCandidates()"
-          [disabled]="candidates.length === 0
+          [disabled]="jobCandidates.length === 0
           ||
           !selection.hasValue()
           || isDisabled"
@@ -162,16 +127,24 @@
         <button
           (click)="restoreCandidates()"
           mat-flat-button
-          [disabled]="candidates.length === 0
+          [disabled]="jobCandidates.length === 0
           ||
           !selection.hasValue()
           || isDisabled"
           style="background-color: transparent; outline: 0;"><i class="far fa-window-restore"></i> Restore</button>
+        <button
+          (click)="addNewInterview()"
+          mat-flat-button
+          [disabled]="jobCandidates.length === 0
+          ||
+          !selection.hasValue()
+          || isDisabled"
+          style="background-color: transparent; outline: 0;"><i class="far fa-calendar-alt"></i> Interview</button>
       </div>
     </div>
 
     <div class="row"
-         *ngIf="candidates.length === 0; else candidateExists"
+         *ngIf="jobCandidates.length === 0; else candidateExists"
          style="margin-top: 10px; border: 1px solid #f0f0f0; border-radius: 5px;">
       <div class="col-xl-12">
         <br>
@@ -226,7 +199,7 @@
             </div>
           </div>
 
-          <div class="row" *ngFor="let candidate of candidates | searchCandidate:term">
+          <div class="row" *ngFor="let candidate of jobCandidates | searchCandidate:term">
 
             <div class="col-xl-1">
 

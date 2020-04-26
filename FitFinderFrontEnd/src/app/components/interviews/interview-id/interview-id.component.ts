@@ -6,7 +6,7 @@ import * as moment from 'moment';
 import {NotifierService} from 'angular-notifier';
 import {Candidate} from '../../../models/candidate/candidate.model';
 import {Job} from '../../../models/job/job.model';
-import {SelectCandidatesForInterviewDialogComponent} from '../../../dialogs/select-candidates-for-interview-dialog/select-candidates-for-interview-dialog.component';
+import {SelectCandidatesDialogComponent} from '../../../dialogs/select-candidates-for-interview-dialog/select-candidates-dialog.component';
 import {MatDialog} from '@angular/material';
 import {CandidateForInterview} from '../../../models/interview/candidate-for-interview.model';
 import {Source} from '../../../models/settings/source.model';
@@ -221,7 +221,7 @@ export class InterviewIdComponent implements OnInit {
   }
 
   openSelectCandidatesDialog() {
-    const dialogRef = this.dialog.open(SelectCandidatesForInterviewDialogComponent,
+    const dialogRef = this.dialog.open(SelectCandidatesDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,

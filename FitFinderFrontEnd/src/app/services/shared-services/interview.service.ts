@@ -15,7 +15,7 @@ import * as moment from 'moment';
 
 export class InterviewService {
   interviews: Interview[] = [];
-  selectedCandidateForInterview: Candidate = null;
+  selectedCandidatesForInterview: Candidate[] = [];
 
 
   interviewTypes = [

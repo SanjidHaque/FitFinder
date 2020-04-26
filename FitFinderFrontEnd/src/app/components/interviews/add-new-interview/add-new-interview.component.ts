@@ -4,8 +4,8 @@ import {DateAdapter, MatDialog} from '@angular/material';
 import {LongDateAdapter} from '../../../date-adapters/long-date.adpater';
 import {Candidate} from '../../../models/candidate/candidate.model';
 import {
-  SelectCandidatesForInterviewDialogComponent
-} from '../../../dialogs/select-candidates-for-interview-dialog/select-candidates-for-interview-dialog.component';
+  SelectCandidatesDialogComponent
+} from '../../../dialogs/select-candidates-for-interview-dialog/select-candidates-dialog.component';
 import {Interview} from '../../../models/interview/interview.model';
 import {InterviewDataStorageService} from '../../../services/data-storage-services/interview-data-storage.service';
 import {ActivatedRoute, Data, Router} from '@angular/router';
@@ -29,7 +29,6 @@ export class AddNewInterviewComponent implements OnInit, OnDestroy {
   addNewInterviewForm: FormGroup;
   interviewName ='';
 
-  selectedCandidateForInterview: Candidate;
   selectedCandidatesForInterview: Candidate[] = [];
   jobs: Job[] = [];
   candidates: Candidate[] = [];
@@ -54,10 +53,9 @@ export class AddNewInterviewComponent implements OnInit, OnDestroy {
           this.interviewTypes = this.interviewService.getInterviewTypes();
           this.imageFolderPath = this.userAccountDataStorageService.imageFolderPath;
 
-          this.selectedCandidateForInterview = this.interviewService.selectedCandidateForInterview;
-          if (this.selectedCandidateForInterview !== null) {
-            this.selectedCandidatesForInterview.push(this.selectedCandidateForInterview);
-            this.interviewName = 'Interview of ' + this.selectedCandidateForInterview.FirstName;
+          this.selectedCandidatesForInterview = this.interviewService.selectedCandidatesForInterview;
+          if (this.selectedCandidatesForInterview.length === 1) {
+            this.interviewName = 'Interview of ' + this.selectedCandidatesForInterview[0].FirstName;
           }
 
           this.createNewInterviewForm();
@@ -122,7 +120,7 @@ export class AddNewInterviewComponent implements OnInit, OnDestroy {
   }
 
   openSelectCandidatesDialog() {
-    const dialogRef = this.dialog.open(SelectCandidatesForInterviewDialogComponent,
+    const dialogRef = this.dialog.open(SelectCandidatesDialogComponent,
       {
         hasBackdrop: true,
         disableClose: true,
@@ -130,8 +128,7 @@ export class AddNewInterviewComponent implements OnInit, OnDestroy {
         height: '100%',
         data:
           {
-            candidates: this.candidates,
-            jobs: this.jobs
+            candidates: this.candidates.filter(x => x.IsArchived === false)
           }
       });
 
@@ -162,7 +159,7 @@ export class AddNewInterviewComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.interviewService.selectedCandidateForInterview = null;
+    this.interviewService.selectedCandidatesForInterview = [];
     console.log('Destroyed!');
   }
 
