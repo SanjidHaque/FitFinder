@@ -3,16 +3,17 @@ import { Injectable } from '@angular/core';
 import {Job} from '../../models/job/job.model';
 import {Interview} from '../../models/interview/interview.model';
 import {JobAssignment} from '../../models/candidate/job-assignment.model';
+import {Candidate} from '../../models/candidate/candidate.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class JobService {
   jobId: number;
+
   job: Job;
   jobs: Job[] = [];
-
-  jobSpecificCandidates: JobAssignment[] = [];
+  jobSpecificCandidates: Candidate[] = [];
 
   getAllJob() {
     return this.jobs.slice();

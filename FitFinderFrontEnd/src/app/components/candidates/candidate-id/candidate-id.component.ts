@@ -180,7 +180,7 @@ export class CandidateIdComponent implements OnInit, DoCheck, OnDestroy  {
           }
       });
 
-    const jobAssignments: JobAssignment[] = [];
+
     dialogRef.afterClosed().subscribe((selectedJob: any) => {
 
       if (selectedJob !== '') {
@@ -197,7 +197,40 @@ export class CandidateIdComponent implements OnInit, DoCheck, OnDestroy  {
           null
         );
 
+        const candidates: Candidate[] = [];
+        const jobAssignments: JobAssignment[] = [];
         jobAssignments.push(jobAssignment);
+
+        const candidate = new Candidate(
+          this.candidate.Id,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          jobAssignments,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        );
+        candidates.push(candidate);
+
         this.jobAssignmentDataStorageService.removeJobAssignment(this.jobAssignment)
           .subscribe((data: any) => {
 
@@ -206,16 +239,22 @@ export class CandidateIdComponent implements OnInit, DoCheck, OnDestroy  {
               return;
             } else {
 
-              this.jobAssignmentDataStorageService.addJobAssignments(jobAssignments)
+              this.jobAssignmentDataStorageService.addJobAssignments(candidates)
                 .subscribe((res: any) => {
 
                   if (res.statusText !== 'Success') {
                     this.notifierService.notify('default', res.statusText);
                   } else {
-                    this.router
-                      .navigate(['/candidates/',
-                        this.candidate.Id,
-                        res.newJobAssignments[0].Candidate.Id ]);
+
+                    this.router.navigateByUrl('/',
+                        {skipLocationChange: true}
+                      ).then(() =>
+                        this.router.navigate(['/candidates/',
+                          this.candidate.Id,
+                          res.newJobAssignments[0].Id]
+                        ));
+
+
                     this.notifierService.notify('default', 'Job changed successfully!');
                   }
                 });

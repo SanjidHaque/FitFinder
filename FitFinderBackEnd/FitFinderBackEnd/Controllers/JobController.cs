@@ -147,6 +147,21 @@ namespace FitFinderBackEnd.Controllers
                 Department department = _context.Departments.FirstOrDefault(x => x.Id == job.DepartmentId);
                 job.Department = department;
 
+                Workflow workflow = _context.Workflows.FirstOrDefault(x => x.Id == job.WorkflowId);
+
+                if (workflow != null)
+                {
+                    List<Pipeline> pipelines = _context.Pipelines
+                        .Where(x => x.WorkflowId == workflow.Id)
+                        .ToList();
+
+                    List<PipelineStage> pipelineStages = _context.PipelineStages
+                        .Where(x => x.Pipeline.WorkflowId == workflow.Id)
+                        .ToList();
+                }
+
+                job.Workflow = workflow;
+
                 List<JobAssignment> jobAssignments = _context.JobAssignments
                     .Where(x => x.JobId == job.Id)
                     .AsNoTracking()
@@ -248,12 +263,14 @@ namespace FitFinderBackEnd.Controllers
         [AllowAnonymous]
         public IHttpActionResult GetAllJobSpecificCandidate(long jobId)
         {
-            List<JobAssignment> jobAssignments = _context.JobAssignments
+            List<JobAssignment> getJobAssignments = _context.JobAssignments
                 .Where(x => x.JobId == jobId)
                 .OrderByDescending(x => x.Id)
                 .ToList();
 
-            jobAssignments.ForEach(jobAssignment =>
+            List<Candidate> candidates = new List<Candidate>();
+
+            getJobAssignments.ForEach(jobAssignment =>
             {
                 Candidate candidate = _context.Candidates
                     .FirstOrDefault(x => x.Id == jobAssignment.CandidateId);
@@ -263,11 +280,17 @@ namespace FitFinderBackEnd.Controllers
                     Source source = _context.Sources
                         .FirstOrDefault(x => x.Id == candidate.SourceId);
 
-                    jobAssignment.Candidate = candidate;
+                    List<JobAssignment> jobAssignments = _context.JobAssignments
+                        .Where(x => x.CandidateId == candidate.Id)
+                        .ToList();
+
+                //    candidate.JobAssignments = jobAssignments;
+                 //   jobAssignment.Candidate = candidate;
                 }
+                candidates.Add(candidate);
             });
 
-            return Ok(new { jobAssignments, statusText = _statusTextService.Success });
+            return Ok(new { candidates, statusText = _statusTextService.Success });
         }
 
         [HttpPost]
@@ -381,8 +404,8 @@ namespace FitFinderBackEnd.Controllers
                 return Ok(new { statusText = _statusTextService.ResourceNotFound });
             }
 
-
             bool hasRelation = (_context.JobAssignments.Any(o => o.JobId == jobId)
+                                || _context.Interviews.Any(o => o.JobId == jobId)
                                 || _context.PipelineStageCriteria.Any(o => o.JobId == jobId));
 
             if (hasRelation)

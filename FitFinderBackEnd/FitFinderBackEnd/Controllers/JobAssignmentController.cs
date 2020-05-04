@@ -24,14 +24,14 @@ namespace FitFinderBackEnd.Controllers
 
         [HttpPost]
         [Route("api/AddJobAssignments")]
-        public IHttpActionResult AddJobAssignments(List<JobAssignment> jobAssignments)
+        public IHttpActionResult AddJobAssignments(List<Candidate> candidates)
         {
             SharedService sharedService = new SharedService();
             List<JobAssignment> newJobAssignments = new List<JobAssignment>();
 
-            jobAssignments.ForEach(jobAssignment =>
+            candidates.ForEach(candidate =>
             {
-                JobAssignment getJobAssignment = sharedService.OnAddJobAssignment(jobAssignment);
+                JobAssignment getJobAssignment = sharedService.OnAddJobAssignment(candidate.JobAssignments[0]);
                 if (getJobAssignment != null)
                 {
                     newJobAssignments.Add(getJobAssignment);
@@ -40,24 +40,18 @@ namespace FitFinderBackEnd.Controllers
 
            
             _context.JobAssignments.AddRange(newJobAssignments);
-
-            newJobAssignments.ForEach(newJobAssignment =>
-            {
-                Candidate candidate = _context.Candidates
-                    .FirstOrDefault(x => x.Id == newJobAssignment.CandidateId);
-
-                if (candidate != null)
-                {
-                    Source source = _context.Sources
-                        .FirstOrDefault(x => x.Id == candidate.SourceId);
-
-                    newJobAssignment.Candidate = candidate;
-                }
-            });
-
             _context.SaveChanges();
+
+
+            candidates.ForEach(candidate =>
+            {
+                List<JobAssignment> jobAssignments = _context.JobAssignments
+                    .Where(x => x.CandidateId == candidate.Id)
+                    .ToList();
+                candidate.JobAssignments = jobAssignments;
+            });
                 
-            return Ok(new { newJobAssignments, statusText = _statusTextService.Success });
+            return Ok(new { candidates, newJobAssignments, statusText = _statusTextService.Success });
         }
 
         [HttpPost]

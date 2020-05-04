@@ -6,6 +6,7 @@ import {Job} from '../../models/job/job.model';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {CandidateService} from '../../services/shared-services/candidate.service';
 import {UserAccountDataStorageService} from '../../services/data-storage-services/user-account-data-storage.service';
+import {PipelineStage} from '../../models/settings/pipeline-stage.model';
 
 @Component({
   selector: 'app-select-candidates-dialog',
@@ -72,7 +73,56 @@ export class SelectCandidatesDialogComponent implements OnInit, OnDestroy {
       this.selection.clear() :
       this.candidates.forEach(row => this.selection.select(row));
   }
-  
+
+  extractPipelineStages(job: Job) {
+    const pipelineStages: PipelineStage[] = [];
+
+    job.Workflow.Pipelines.forEach( pipeline => {
+      pipeline.PipelineStages.forEach(pipelineStage => {
+        pipelineStages.push(pipelineStage);
+      });
+    });
+
+    return pipelineStages;
+  }
+
+  getPipelineStageProperty(candidate: Candidate, propertyName: string) {
+    const pipelineStages = this.extractPipelineStages(this.data.job);
+    const jobAssignment = candidate.JobAssignments
+      .find(x => x.JobId === this.data.job.Id);
+
+    if (jobAssignment === undefined) {
+
+      if (propertyName === 'Name') {
+        return 'Undefined';
+      } else {
+        return '#eee';
+      }
+
+    }
+
+    const pipelineStage = pipelineStages
+      .find(x => x.Id === jobAssignment.CurrentPipelineStageId);
+
+    if (pipelineStage === undefined) {
+
+      if (pipelineStage === undefined) {
+        if (propertyName === 'Name') {
+          return 'Undefined';
+        } else {
+          return '#eee';
+        }
+      }
+
+    }
+
+    if (propertyName === 'Name') {
+      return pipelineStage.Name;
+    } else {
+      return pipelineStage.Color;
+    }
+
+  }
 
   getApplicationDate(candidate: Candidate) {
     return moment(new Date(candidate.ApplicationDate)).format('Do MMMM, YYYY');

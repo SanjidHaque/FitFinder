@@ -16,6 +16,7 @@ import {InterviewService} from '../../../services/shared-services/interview.serv
 import {noWhitespaceValidator} from '../../../custom-form-validators/no-white-space.validator';
 import {UserAccountDataStorageService} from '../../../services/data-storage-services/user-account-data-storage.service';
 import * as moment from 'moment';
+import {PipelineStage} from '../../../models/settings/pipeline-stage.model';
 
 @Component({
   selector: 'app-add-new-interview',
@@ -74,7 +75,7 @@ export class AddNewInterviewComponent implements OnInit, OnDestroy {
       'startTime': new FormControl('10:00', Validators.required),
       'endTime': new FormControl('11:30', Validators.required),
       'interviewType': new FormControl(this.interviewTypes[0].Name, Validators.required),
-      'jobId': new FormControl('', Validators.required)
+      'jobId': new FormControl(this.interviewService.jobId, Validators.required)
     });
   }
 
@@ -146,7 +147,64 @@ export class AddNewInterviewComponent implements OnInit, OnDestroy {
     return candidates;
   }
 
+  extractPipelineStages(job: Job) {
+    const pipelineStages: PipelineStage[] = [];
+
+    job.Workflow.Pipelines.forEach( pipeline => {
+      pipeline.PipelineStages.forEach(pipelineStage => {
+        pipelineStages.push(pipelineStage);
+      });
+    });
+
+    return pipelineStages;
+  }
+
+  getPipelineStageProperty(candidate: Candidate, propertyName: string) {
+    const jobId = this.addNewInterviewForm.controls['jobId'].value;
+    const job = this.jobs.find(x => x.Id === jobId);
+
+    const pipelineStages = this.extractPipelineStages(job);
+
+    const jobAssignment = candidate.JobAssignments
+      .find(x => x.JobId === jobId);
+
+    if (jobAssignment === undefined) {
+
+      if (propertyName === 'Name') {
+        return 'Undefined';
+      } else {
+        return '#eee';
+      }
+
+    }
+
+    const pipelineStage = pipelineStages
+      .find(x => x.Id === jobAssignment.CurrentPipelineStageId);
+
+    if (pipelineStage === undefined) {
+
+      if (pipelineStage === undefined) {
+        if (propertyName === 'Name') {
+          return 'Undefined';
+        } else {
+          return '#eee';
+        }
+      }
+
+    }
+
+    if (propertyName === 'Name') {
+      return pipelineStage.Name;
+    } else {
+      return pipelineStage.Color;
+    }
+
+  }
+
   openSelectCandidatesDialog() {
+    const jobId = this.addNewInterviewForm.controls['jobId'].value;
+    const job = this.jobs.find(x => x.Id === jobId);
+
     const dialogRef = this.dialog.open(SelectCandidatesDialogComponent,
       {
         hasBackdrop: true,
@@ -155,6 +213,8 @@ export class AddNewInterviewComponent implements OnInit, OnDestroy {
         height: '100%',
         data:
           {
+            job: job,
+            showPipelineStage: true,
             candidates: this.getJobSpecificCandidates().filter(x => x.IsArchived === false)
           }
       });

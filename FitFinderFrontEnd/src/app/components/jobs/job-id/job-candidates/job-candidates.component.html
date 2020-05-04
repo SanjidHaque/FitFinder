@@ -69,9 +69,9 @@
       <div class="col-xl-1 text-xl-left" style="padding-top: 18px;">
 
         <mat-checkbox (change)="$event ? masterToggle() : null"
-                      [disabled]="jobCandidates.length === 0"
+                      [disabled]="jobSpecificCandidates.length === 0"
                       color="primary"
-                      [matTooltip]="jobCandidates.length === 0 ? '' : 'Select All'"
+                      [matTooltip]="jobSpecificCandidates.length === 0 ? '' : 'Select All'"
                       matTooltipPosition="left"
                       style="margin-top: 18px;"
                       [checked]="selection.hasValue() && isAllSelected()"
@@ -119,7 +119,7 @@
         <button
           mat-flat-button
           (click)="archiveCandidates()"
-          [disabled]="jobCandidates.length === 0
+          [disabled]="jobSpecificCandidates.length === 0
           ||
           !selection.hasValue()
           || isDisabled"
@@ -127,7 +127,7 @@
         <button
           (click)="restoreCandidates()"
           mat-flat-button
-          [disabled]="jobCandidates.length === 0
+          [disabled]="jobSpecificCandidates.length === 0
           ||
           !selection.hasValue()
           || isDisabled"
@@ -135,7 +135,7 @@
         <button
           (click)="addNewInterview()"
           mat-flat-button
-          [disabled]="jobCandidates.length === 0
+          [disabled]="jobSpecificCandidates.length === 0
           ||
           !selection.hasValue()
           || isDisabled"
@@ -144,7 +144,7 @@
     </div>
 
     <div class="row"
-         *ngIf="jobCandidates.length === 0; else candidateExists"
+         *ngIf="jobSpecificCandidates.length === 0; else candidateExists"
          style="margin-top: 10px; border: 1px solid #f0f0f0; border-radius: 5px;">
       <div class="col-xl-12">
         <br>
@@ -199,7 +199,7 @@
             </div>
           </div>
 
-          <div class="row" *ngFor="let candidate of jobCandidates | searchCandidate:term">
+          <div class="row" *ngFor="let candidate of jobSpecificCandidates | searchCandidate:term">
 
             <div class="col-xl-1">
 
@@ -302,9 +302,9 @@
                        border-radius: 2px;
                        height: 14px;
                        width: 14px;"
-                  [style.background]="getPipelineStageColor(candidate)"/>
+                  [style.background]="getPipelineStageProperty(candidate, 'Color')"/>
 
-                <span style="font-size: 14px; font-weight: 500;"> {{ getPipelineStageName(candidate) }} </span>
+                <span style="font-size: 14px; font-weight: 500;"> {{ getPipelineStageProperty(candidate, 'Name') }} </span>
 
               </div>
 

@@ -10,6 +10,7 @@ using System.Web.Http;
 using FitFinderBackEnd.Models;
 using FitFinderBackEnd.Models.Candidate;
 using FitFinderBackEnd.Models.Interview;
+using FitFinderBackEnd.Models.Job;
 using FitFinderBackEnd.Models.Settings;
 using FitFinderBackEnd.Services;
 using Microsoft.AspNet.Identity;
@@ -134,6 +135,9 @@ namespace FitFinderBackEnd.Controllers
 
             interviews.ForEach(interview =>
             {
+                Job job = _context.Jobs.FirstOrDefault(x => x.Id == interview.JobId);
+
+
                 List<CandidateForInterview> candidatesForInterview = _context.CandidatesForInterviews
                     .Where(x => x.InterviewId == interview.Id)
                     .ToList();
@@ -193,7 +197,7 @@ namespace FitFinderBackEnd.Controllers
         public IHttpActionResult GetInterview(long interviewId)
         {
             Interview interview = _context.Interviews.FirstOrDefault(x => x.Id == interviewId);
-
+            Job job = _context.Jobs.FirstOrDefault(x => x.Id == interview.JobId);
             if (interview == null)
             {
                 return Ok(new { interview, statusText = _statusTextService.ResourceNotFound });

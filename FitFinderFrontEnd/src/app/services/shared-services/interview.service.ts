@@ -14,9 +14,9 @@ import * as moment from 'moment';
 })
 
 export class InterviewService {
+  jobId = null;
   interviews: Interview[] = [];
   selectedCandidatesForInterview: Candidate[] = [];
-
 
   interviewTypes = [
     {Name: 'Face to Face'},

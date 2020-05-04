@@ -16,6 +16,8 @@ namespace FitFinderBackEnd.Models.Interview
         public bool IsArchived { get; set; }
         public string HiringManagerName { get; set; }
         public long? ConfirmedCandidate { get; set; }
-        public long? DeclinedCandidate { get; set; }    
+        public long? DeclinedCandidate { get; set; }
+        public Job.Job Job { get; set; }
+        public long? JobId { get; set; }    
     }
 }

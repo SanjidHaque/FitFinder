@@ -32,8 +32,7 @@ export class JobCandidatesComponent implements OnInit {
   archivedSelected = false;
   favouriteSelected = false;
 
-  jobSpecificCandidates: JobAssignment[] = [];
-  jobCandidates: Candidate[] = [];
+  jobSpecificCandidates: Candidate[] = [];
   candidates: Candidate[] = [];
   pipelineStages: PipelineStage[] = [];
   job: Job;
@@ -56,10 +55,8 @@ export class JobCandidatesComponent implements OnInit {
   ngOnInit() {
     this.route.data.subscribe((data: Data) => {
       this.candidates = data['candidates'].candidates;
-      this.jobSpecificCandidates = this.jobService.getAllJobSpecificCandidates();
-
-      this.candidateService.candidates = this.extractCandidates(this.jobSpecificCandidates);
-      this.jobCandidates = this.candidateService
+      this.candidateService.candidates = this.jobService.getAllJobSpecificCandidates();
+      this.jobSpecificCandidates = this.candidateService
         .getAllCandidate()
         .filter(x => x.IsArchived === false);
 
@@ -77,19 +74,6 @@ export class JobCandidatesComponent implements OnInit {
     });
   }
 
-  extractCandidates(jobAssignments: JobAssignment[]) {
-    const candidates: Candidate[] = [];
-
-    jobAssignments.forEach( jobAssignment => {
-      if (jobAssignment.Candidate !== null) {
-        candidates.push(jobAssignment.Candidate);
-      }
-    });
-
-    return candidates;
-  }
-
-
   addNewInterview() {
     const archivedCandidates: Candidate[] = this.selection.selected
       .filter(x => x.IsArchived === true);
@@ -105,71 +89,70 @@ export class JobCandidatesComponent implements OnInit {
       return;
     }
     this.interviewService.selectedCandidatesForInterview = candidates;
+    this.interviewService.jobId = this.job.Id;
     this.router.navigate(['/interviews/add-new-interview']);
   }
 
-  getPipelineStageColor(candidate: Candidate) {
-    const jobAssignment = this.jobSpecificCandidates
-      .find(x => x.CandidateId === candidate.Id);
+  getPipelineStageProperty(candidate: Candidate, propertyName: string) {
+    const jobAssignment = candidate.JobAssignments
+      .find(x => x.JobId === this.job.Id);
 
     if (jobAssignment === undefined) {
-      return '#eee';
+
+      if (propertyName === 'Name') {
+        return 'Undefined';
+      } else {
+        return '#eee';
+      }
+
     }
 
     const pipelineStage = this.pipelineStages
       .find(x => x.Id === jobAssignment.CurrentPipelineStageId);
 
     if (pipelineStage === undefined) {
-      return '#eee';
+
+      if (propertyName === 'Name') {
+        return 'Undefined';
+      } else {
+        return '#eee';
+      }
+
     }
 
-    return pipelineStage.Color;
-  }
-
-  getPipelineStageName(candidate: Candidate) {
-    const jobAssignment = this.jobSpecificCandidates
-      .find(x => x.CandidateId === candidate.Id);
-
-    if (jobAssignment === undefined) {
-      return 'Undefined';
+    if (propertyName === 'Name') {
+      return pipelineStage.Name;
+    } else {
+      return pipelineStage.Color;
     }
-
-    const pipelineStage = this.pipelineStages
-      .find(x => x.Id === jobAssignment.CurrentPipelineStageId);
-
-    if (pipelineStage === undefined) {
-      return 'Undefined';
-    }
-
-    return pipelineStage.Name;
   }
 
   resetAllFilter() {
     this.isFilterTouched = false;
     this.archivedSelected = false;
     this.favouriteSelected = false;
-    this.candidates = this.candidateService.getAllCandidate()
+    this.jobSpecificCandidates = this.candidateService.getAllCandidate()
       .filter(x => x.IsArchived === false);
   }
 
   filterByArchived(event: any) {
     this.isFilterTouched = true;
     this.archivedSelected = event.checked;
-    this.candidates = this.candidateService.filterByArchived(
+    this.jobSpecificCandidates = this.candidateService.filterByArchived(
       this.archivedSelected, this.favouriteSelected);
   }
 
   filterByFavourite(event: any) {
     this.isFilterTouched = true;
     this.favouriteSelected = event.checked;
-    this.candidates = this.candidateService.filterByArchived(
+    this.jobSpecificCandidates = this.candidateService.filterByArchived(
       this.archivedSelected, this.favouriteSelected);
   }
 
 
   goToCandidateDetail(candidate: Candidate) {
-    const jobAssignmentId = this.jobSpecificCandidates
-      .find(x => x.Candidate.Id === candidate.Id)
+    const jobAssignmentId = candidate.JobAssignments
+      .find(x => x.JobId === this.job.Id)
       .Id;
 
     this.router.navigate(['/candidates/', candidate.Id, jobAssignmentId]);
@@ -190,7 +173,7 @@ export class JobCandidatesComponent implements OnInit {
       const getUniqueCandidate = uniqueCandidates
         .find(x => x.Id === candidate.Id);
 
-      const getJobCandidate =  this.jobCandidates
+      const getJobCandidate =  this.jobSpecificCandidates
         .find(x => x.Id === candidate.Id);
 
       if ((getUniqueCandidate === undefined) && (getJobCandidate === undefined)) {
@@ -210,15 +193,16 @@ export class JobCandidatesComponent implements OnInit {
         height: '100%',
         data:
           {
-            candidates: this.getUniqueCandidates()
+            candidates: this.getUniqueCandidates(),
+            showPipelineStage: false
           }
       });
 
     dialogRef.afterClosed().subscribe((selectedCandidates: any) => {
 
       if (selectedCandidates !== '') {
-        const jobAssignments: JobAssignment[] = [];
         selectedCandidates.forEach(selectedCandidate => {
+          const jobAssignments: JobAssignment[] = [];
           const jobAssignment = new JobAssignment(
             null,
             null,
@@ -230,22 +214,27 @@ export class JobCandidatesComponent implements OnInit {
             [],
             null
           );
+
           jobAssignments.push(jobAssignment);
+          selectedCandidate.JobAssignments = jobAssignments;
         });
 
-        this.jobAssignmentDataStorageService.addJobAssignments(jobAssignments)
+
+        this.jobAssignmentDataStorageService.addJobAssignments(selectedCandidates)
           .subscribe((data: any) => {
 
             if (data.statusText !== 'Success') {
               this.notifierService.notify('default', data.statusText);
             } else {
 
-              this.jobSpecificCandidates = this.jobSpecificCandidates
-                .concat(data.newJobAssignments);
-
-              data.newJobAssignments.forEach(newJobAssignment => {
-                this.jobCandidates.unshift(newJobAssignment.Candidate);
-              });
+              if (this.jobSpecificCandidates.length === 0) {
+                this.jobSpecificCandidates = this.jobSpecificCandidates
+                  .concat(data.candidates);
+              } else {
+                data.candidates.forEach(candidate => {
+                  this.jobSpecificCandidates.unshift(candidate);
+                });
+              }
 
               this.notifierService.notify('default', 'Candidate Assigned Successfully!');
             }
@@ -264,9 +253,9 @@ export class JobCandidatesComponent implements OnInit {
     this.candidateDataStorageService.favouriteCandidates(candidates)
       .subscribe(
         (response: any) => {
-          for (let i = 0; i < this.candidates.length; i++) {
-            if (this.candidates[i].Id === candidate.Id) {
-              this.candidates[i].IsFavourite = true;
+          for (let i = 0; i < this.jobSpecificCandidates.length; i++) {
+            if (this.jobSpecificCandidates[i].Id === candidate.Id) {
+              this.jobSpecificCandidates[i].IsFavourite = true;
             }
           }
           this.notifierService.notify('default', 'Added to favourites!')
@@ -279,9 +268,9 @@ export class JobCandidatesComponent implements OnInit {
     candidates.push(candidate);
     this.candidateDataStorageService.unfavouriteCandidates(candidates)
       .subscribe((response: any) => {
-          for (let i = 0; i < this.candidates.length; i++) {
-            if (this.candidates[i].Id === candidate.Id) {
-              this.candidates[i].IsFavourite = false;
+          for (let i = 0; i < this.jobSpecificCandidates.length; i++) {
+            if (this.jobSpecificCandidates[i].Id === candidate.Id) {
+              this.jobSpecificCandidates[i].IsFavourite = false;
             }
           }
           this.notifierService.notify('default', 'Removed from favourites!')
@@ -315,10 +304,10 @@ export class JobCandidatesComponent implements OnInit {
             this.isDisabled = false;
 
             if (!this.archivedSelected) {
-              for (let i = 0; i < this.candidates.length; i++) {
+              for (let i = 0; i < this.jobSpecificCandidates.length; i++) {
                 for (let j = 0; j < candidates.length; j++) {
-                  if (this.candidates[i].Id === candidates[j].Id) {
-                    this.candidates.splice(i, 1);
+                  if (this.jobSpecificCandidates[i].Id === candidates[j].Id) {
+                    this.jobSpecificCandidates.splice(i, 1);
                   }
                 }
               }
@@ -358,10 +347,10 @@ export class JobCandidatesComponent implements OnInit {
 
             this.isDisabled = false;
 
-            for (let i = 0; i < this.candidates.length; i++) {
+            for (let i = 0; i < this.jobSpecificCandidates.length; i++) {
               for (let j = 0; j < candidates.length; j++) {
-                if (this.candidates[i].Id === candidates[j].Id)  {
-                  this.candidates[i].IsArchived = false;
+                if (this.jobSpecificCandidates[i].Id === candidates[j].Id)  {
+                  this.jobSpecificCandidates[i].IsArchived = false;
                 }
               }
             }
@@ -380,14 +369,14 @@ export class JobCandidatesComponent implements OnInit {
 
   isAllSelected() {
     const numSelected = this.selection.selected.length;
-    const numRows = this.jobCandidates.length;
+    const numRows = this.jobSpecificCandidates.length;
     return numSelected === numRows;
   }
 
   masterToggle() {
     this.isAllSelected() ?
       this.selection.clear() :
-      this.jobCandidates.forEach(row => this.selection.select(row));
+      this.jobSpecificCandidates.forEach(row => this.selection.select(row));
   }
 }
 

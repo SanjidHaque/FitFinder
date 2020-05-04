@@ -5,6 +5,7 @@ import {UserAccountDataStorageService} from './user-account-data-storage.service
 import {PipelineStageScore} from '../../models/settings/pipeline-stage-score.model';
 import {PipelineStageCriterionScore} from '../../models/settings/pipeline-stage-criterion-score.model';
 import {GeneralComment} from '../../models/candidate/general-comment.model';
+import {Candidate} from '../../models/candidate/candidate.model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,9 +19,9 @@ export class JobAssignmentDataStorageService {
   }
 
 
-  addJobAssignments(jobAssignments: JobAssignment[]) {
-    return this.httpClient.post<JobAssignment[]>(this.rootUrl + '/api/AddJobAssignments',
-      jobAssignments);
+  addJobAssignments(candidates: Candidate[]) {
+    return this.httpClient.post<Candidate[]>(this.rootUrl + '/api/AddJobAssignments',
+      candidates);
   }
 
   addNewPipelineStageScore(pipelineStageScore: PipelineStageScore) {

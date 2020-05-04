@@ -28,7 +28,7 @@ export class JobIdComponent implements OnInit {
           this.job = data['job'].job;
           this.jobService
             .jobSpecificCandidates = data['jobSpecificCandidates']
-            .jobAssignments;
+            .candidates;
           this.jobService.job = this.job;
     });
   }

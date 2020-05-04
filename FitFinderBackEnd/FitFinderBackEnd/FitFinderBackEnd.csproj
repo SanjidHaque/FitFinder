@@ -301,6 +301,10 @@
     <Compile Include="Migrations\202005022113419_JobModelChanged1.Designer.cs">
       <DependentUpon>202005022113419_JobModelChanged1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202005040157301_InterviewModelChanged.cs" />
+    <Compile Include="Migrations\202005040157301_InterviewModelChanged.Designer.cs">
+      <DependentUpon>202005040157301_InterviewModelChanged.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -500,6 +504,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202005022113419_JobModelChanged1.resx">
       <DependentUpon>202005022113419_JobModelChanged1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005040157301_InterviewModelChanged.resx">
+      <DependentUpon>202005040157301_InterviewModelChanged.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
