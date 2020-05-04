@@ -2,11 +2,9 @@ import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
 import {NgModule} from '@angular/core';
 
 import {DashboardComponent} from './components/dashboard/dashboard.component';
-import {CandidatesResolverService} from './route-resolvers/candidates-resolver.service';
 import {InterviewsResolverService} from './route-resolvers/interviews-resolver.service';
 import {JobsResolverService} from './route-resolvers/jobs-resolver.service';
 import {PageNotFoundComponent} from './components/page-not-found/page-not-found.component';
-import {DepartmentsResolverService} from './route-resolvers/departments-resolver.service';
 import {SourcesResolverService} from './route-resolvers/sources-resolver.service';
 import {AuthGuard} from './auth/auth.guard';
 
@@ -17,10 +15,8 @@ const appRoutes: Routes = [
     canActivate: [AuthGuard],
     resolve:
       {
-        candidates: CandidatesResolverService,
         interviews: InterviewsResolverService,
         jobs: JobsResolverService,
-        departments: DepartmentsResolverService,
         sources: SourcesResolverService
       }
   },

@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Security.Claims;
 using System.Web.Http;
 using FitFinderBackEnd.Models;
+using FitFinderBackEnd.Models.Candidate;
 using FitFinderBackEnd.Models.Settings;
 using FitFinderBackEnd.Services;
 using Microsoft.AspNet.Identity;
@@ -97,7 +98,44 @@ namespace FitFinderBackEnd.Controllers
 
             sources = _context.Sources
                 .Where(x => x.CompanyId == applicationUser.CompanyId)
+                .AsNoTracking()
                 .ToList();
+
+            sources.ForEach(source =>
+            {
+                List<Candidate> candidates = _context.Candidates.Where(x => x.SourceId == source.Id).ToList();
+
+                candidates.ForEach(candidate =>
+                {
+                    List<JobAssignment> jobAssignments = _context.JobAssignments
+                        .Where(x => x.CandidateId == candidate.Id)
+                        .AsNoTracking()
+                        .ToList();
+
+                    jobAssignments.ForEach(jobAssignment =>
+                    {
+                        PipelineStage pipelineStage = _context.PipelineStages
+                            .FirstOrDefault(x => x.Id == jobAssignment.CurrentPipelineStageId);
+
+                        if (pipelineStage != null)
+                        {
+                            if (pipelineStage.Name == "Hired")
+                            {
+                                source.HiredCandidates++;
+                            }
+                            if (pipelineStage.Name != "New" 
+                                || pipelineStage.Name != "Hired" 
+                                || pipelineStage.Name != "Rejected"
+                                || pipelineStage.Name != "Withdrawn")
+                            {
+                                source.ActiveCandidates++;
+                            }
+                        }
+
+                    });
+                });
+                source.TotalCandidates = candidates.Count;
+            });
 
             return Ok(new { sources, statusText = _statusTextService.Success });
         }
@@ -609,7 +647,7 @@ namespace FitFinderBackEnd.Controllers
             }
 
             bool isDuplicate = _context.RejectedReasons
-                .Any(o => o.Name == rejectedReason.Name 
+                .Any(o => o.Name == rejectedReason.Name
                           && o.Name != getRejectedReason.Name
                           && o.CompanyId == applicationUser.CompanyId);
 
@@ -1183,7 +1221,7 @@ namespace FitFinderBackEnd.Controllers
 
         }
 
-        
+
 
 
     }

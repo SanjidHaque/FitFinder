@@ -1,6 +1,7 @@
 import {Company} from '../settings/company.model';
 import {CandidateForInterview} from './candidate-for-interview.model';
 import {InterviewerForInterview} from './interviewer-for-interview.model';
+import {Job} from '../job/job.model';
 
 export class Interview {
   constructor(
@@ -18,7 +19,9 @@ export class Interview {
     public Company: Company,
     public CompanyId: number,
     public ConfirmedCandidate: number,
-    public DeclinedCandidate: number
+    public DeclinedCandidate: number,
+    public Job: Job,
+    public JobId: number
   ) {
   }
 }

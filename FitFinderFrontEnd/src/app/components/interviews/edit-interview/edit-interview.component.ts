@@ -86,6 +86,8 @@ export class EditInterviewComponent implements OnInit {
       null,
       null,
       null,
+      null,
+      null,
       null
     );
     this.isDisabled = true;

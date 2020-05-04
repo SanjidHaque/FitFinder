@@ -35,6 +35,9 @@ export class SourcesComponent implements OnInit {
         const source = new Source(
           null,
           result,
+          0,
+          0,
+          0,
           null,
           null
         );
@@ -59,6 +62,9 @@ export class SourcesComponent implements OnInit {
         const editedSource = new Source(
           source.Id,
           result,
+          null,
+          null,
+          null,
           null,
           null
         );

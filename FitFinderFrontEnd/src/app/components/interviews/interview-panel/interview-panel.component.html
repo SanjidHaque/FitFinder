@@ -36,7 +36,7 @@
           #group="matButtonToggleGroup"
           [value]="selectedInterviewPeriod"
           (change)="filterByInterviewPeriod(group.value)">
-          <mat-button-toggle [value]="AllInterviews"> All </mat-button-toggle>
+          <mat-button-toggle [value]="allInterviews"> All </mat-button-toggle>
           <mat-button-toggle [value]="upcomingInterviews"> Upcoming </mat-button-toggle>
           <mat-button-toggle [value]="pastInterviews"> Past </mat-button-toggle>
         </mat-button-toggle-group>

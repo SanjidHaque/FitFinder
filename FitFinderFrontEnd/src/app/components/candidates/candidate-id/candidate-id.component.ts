@@ -1,5 +1,5 @@
-import {Component, DoCheck, OnDestroy ,ElementRef, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute, Data, Router} from '@angular/router';
+import {Component, DoCheck, OnDestroy , ElementRef, OnInit, ViewChild} from '@angular/core';
+import {ActivatedRoute, Data, NavigationEnd, Router} from '@angular/router';
 import {Candidate} from '../../../models/candidate/candidate.model';
 import {CandidateDataStorageService} from '../../../services/data-storage-services/candidate-data-storage.service';
 import * as moment from 'moment';
@@ -25,7 +25,6 @@ import {WithdrawnReason} from '../../../models/settings/withdrawn-reason.model';
 import {RejectedReason} from '../../../models/settings/rejected-reason.model';
 import {Interview} from '../../../models/interview/interview.model';
 import {InterviewService} from '../../../services/shared-services/interview.service';
-import {SelectCandidatesDialogComponent} from '../../../dialogs/select-candidates-for-interview-dialog/select-candidates-dialog.component';
 import {DisplayJobDialogComponent} from '../../../dialogs/display-job-dialog/display-job-dialog.component';
 
 @Component({
@@ -58,7 +57,6 @@ export class CandidateIdComponent implements OnInit, DoCheck, OnDestroy  {
   candidateAttachmentsToUpload: Array<File> = [];
   candidateImageToUpload: File = null;
   @ViewChild('image', { static: false }) imageElementRef: ElementRef;
-
   imageFolderPath = '';
 
   constructor(private route: ActivatedRoute,
@@ -84,32 +82,36 @@ export class CandidateIdComponent implements OnInit, DoCheck, OnDestroy  {
 
       this.route.paramMap.subscribe(params => {
         this.jobAssignmentId = +params.get('job-assignment-id');
-     //   this.jobAssignmentId = 4;
-
         this.candidateService.jobAssignment = this.candidate.JobAssignments
           .find(x => x.Id === this.jobAssignmentId);
-        this.jobAssignment =  this.candidateService.jobAssignment;
-        this.job = this.jobAssignment.Job;
 
-        this.currentPipelineStageId = this.jobAssignment.CurrentPipelineStageId;
+        if (this.candidateService.jobAssignment === undefined) {
+          this.notifierService.notify('default', 'Resource not found!');
+          this.router.navigate(['/jobs/']);
+        } else {
+
+          this.jobAssignment =  this.candidateService.jobAssignment;
+          this.job = this.jobAssignment.Job;
+          this.currentPipelineStageId = this.jobAssignment.CurrentPipelineStageId;
+
+          this.candidateService.candidate = this.candidate;
+          this.candidateService
+            .candidateSpecificInterviews = data['candidateSpecificInterviews']
+            .candidatesForInterview;
+          this.getUpcomingInterviews(this.candidateService.getAllCandidateSpecificInterviews());
+
+          this.imageFolderPath = this.userAccountDataStorageService.imageFolderPath;
+          this.currentUserName = localStorage.getItem('userName');
+          this.getCurrentStageNameAndColor();
+
+        }
+
       });
-
-
-      this.candidateService.candidate = this.candidate;
-
-      this.candidateService
-        .candidateSpecificInterviews = data['candidateSpecificInterviews']
-        .candidatesForInterview;
-      this.getUpcomingInterviews(this.candidateService.getAllCandidateSpecificInterviews());
-
-      this.imageFolderPath = this.userAccountDataStorageService.imageFolderPath;
-      this.currentUserName = localStorage.getItem('userName');
-      this.getCurrentStageNameAndColor();
     });
   }
 
   ngDoCheck() {
-    this.getCurrentStageNameAndColor();
+//    this.getCurrentStageNameAndColor();
     this.jobAssignment =  this.candidateService.jobAssignment
   }
 
@@ -144,6 +146,27 @@ export class CandidateIdComponent implements OnInit, DoCheck, OnDestroy  {
     }
   }
 
+  getUniqueJobs() {
+    const jobs = this.jobs
+      .filter(x => x.IsArchived === false);
+
+    const uniqueJobs: Job[] = [];
+    jobs.forEach(job => {
+
+      const getUniqueJob = uniqueJobs
+        .find(x => x.Id === job.Id);
+
+      const getAssignedJob =  this.candidate.JobAssignments
+        .find(x => x.JobId === job.Id);
+
+      if ((getUniqueJob === undefined) && (getAssignedJob === undefined)) {
+        uniqueJobs.push(job);
+      }
+    });
+
+    return uniqueJobs;
+  }
+
   changeJobAssignment() {
     const dialogRef = this.dialog.open(DisplayJobDialogComponent,
       {
@@ -153,12 +176,12 @@ export class CandidateIdComponent implements OnInit, DoCheck, OnDestroy  {
         height: '100%',
         data:
           {
-            jobs: this.jobs.filter(x => x.IsArchived === false && x.Id !== this.jobAssignment.JobId)
+            jobs: this.getUniqueJobs()
           }
       });
 
     const jobAssignments: JobAssignment[] = [];
-    dialogRef.afterClosed().subscribe((selectedJob: Job[]) => {
+    dialogRef.afterClosed().subscribe((selectedJob: any) => {
 
       if (selectedJob !== '') {
 
@@ -173,6 +196,7 @@ export class CandidateIdComponent implements OnInit, DoCheck, OnDestroy  {
           [],
           null
         );
+
         jobAssignments.push(jobAssignment);
         this.jobAssignmentDataStorageService.removeJobAssignment(this.jobAssignment)
           .subscribe((data: any) => {
@@ -189,7 +213,9 @@ export class CandidateIdComponent implements OnInit, DoCheck, OnDestroy  {
                     this.notifierService.notify('default', res.statusText);
                   } else {
                     this.router
-                      .navigate(['/candidates/', this.candidate.Id, res.newJobAssignments[0].Id ]);
+                      .navigate(['/candidates/',
+                        this.candidate.Id,
+                        res.newJobAssignments[0].Candidate.Id ]);
                     this.notifierService.notify('default', 'Job changed successfully!');
                   }
                 });
@@ -212,9 +238,9 @@ export class CandidateIdComponent implements OnInit, DoCheck, OnDestroy  {
               if (data.statusText !== 'Success') {
                 this.notifierService.notify('default', data.statusText);
               } else {
-                this.notifierService.notify('default', 'Job removed.');
+                this.notifierService.notify('default', 'Job assignment removed.');
                 this.router
-                  .navigate(['/jobs/', this.jobAssignment.JobId, '/job-candidates']);
+                  .navigate(['/jobs/', this.jobAssignment.JobId, 'job-candidates']);
               }
 
               });

@@ -72,24 +72,7 @@ export class SelectCandidatesDialogComponent implements OnInit, OnDestroy {
       this.selection.clear() :
       this.candidates.forEach(row => this.selection.select(row));
   }
-
-  getJobName(candidate: Candidate) {
-    // if (candidate.JobAssignments === null) {
-    //   return '';
-    // }
-    //
-    // const jobAssignment = candidate.JobAssignments.find(x => x.IsActive === true);
-    // if (jobAssignment === undefined) {
-    //   return '';
-    // }
-    //
-    // const job = this.jobs.find(x => x.Id === jobAssignment.JobId);
-    // if (job === undefined) {
-    //   return '';
-    // }
-
-    return 'Porsche Carrera GT';
-  }
+  
 
   getApplicationDate(candidate: Candidate) {
     return moment(new Date(candidate.ApplicationDate)).format('Do MMMM, YYYY');

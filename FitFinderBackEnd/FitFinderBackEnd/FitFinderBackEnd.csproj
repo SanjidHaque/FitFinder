@@ -285,6 +285,22 @@
     <Compile Include="Migrations\202004192031453_ScoreModelChanged.Designer.cs">
       <DependentUpon>202004192031453_ScoreModelChanged.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202004292122125_SourceModelChanged.cs" />
+    <Compile Include="Migrations\202004292122125_SourceModelChanged.Designer.cs">
+      <DependentUpon>202004292122125_SourceModelChanged.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004302025591_JobModelChanged.cs" />
+    <Compile Include="Migrations\202004302025591_JobModelChanged.Designer.cs">
+      <DependentUpon>202004302025591_JobModelChanged.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005010728022_jobModelChangedAgain.cs" />
+    <Compile Include="Migrations\202005010728022_jobModelChangedAgain.Designer.cs">
+      <DependentUpon>202005010728022_jobModelChangedAgain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005022113419_JobModelChanged1.cs" />
+    <Compile Include="Migrations\202005022113419_JobModelChanged1.Designer.cs">
+      <DependentUpon>202005022113419_JobModelChanged1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -472,6 +488,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202004192031453_ScoreModelChanged.resx">
       <DependentUpon>202004192031453_ScoreModelChanged.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004292122125_SourceModelChanged.resx">
+      <DependentUpon>202004292122125_SourceModelChanged.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004302025591_JobModelChanged.resx">
+      <DependentUpon>202004302025591_JobModelChanged.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005010728022_jobModelChangedAgain.resx">
+      <DependentUpon>202005010728022_jobModelChangedAgain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005022113419_JobModelChanged1.resx">
+      <DependentUpon>202005022113419_JobModelChanged1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

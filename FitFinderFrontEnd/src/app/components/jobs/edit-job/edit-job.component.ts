@@ -237,7 +237,11 @@ export class EditJobComponent implements OnInit, AfterContentChecked {
       null,
       null,
       null,
-      this.editJobForm.controls['workflowId'].value
+      this.editJobForm.controls['workflowId'].value,
+      null,
+      null,
+      null,
+      null
     );
 
     this.isDisabled = true;

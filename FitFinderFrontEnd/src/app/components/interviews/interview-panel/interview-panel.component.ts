@@ -19,10 +19,10 @@ export class InterviewPanelComponent implements OnInit {
   isDisabled = false;
   isFilterTouched = false;
 
-  AllInterviews = 'All';
+  allInterviews = 'All';
   upcomingInterviews = 'Upcoming';
   pastInterviews = 'Past';
-  selectedInterviewPeriod = this.AllInterviews;
+  selectedInterviewPeriod = this.allInterviews;
 
   selectedInterviewType = 'All';
   selectedDateFormatted = '';
@@ -195,7 +195,7 @@ export class InterviewPanelComponent implements OnInit {
     this.selectedDateFormatted = '';
     this.selectedDate = null;
     this.selectedInterviewType = 'All';
-    this.selectedInterviewPeriod = this.AllInterviews;
+    this.selectedInterviewPeriod = this.allInterviews;
   }
 
   isAllSelected() {

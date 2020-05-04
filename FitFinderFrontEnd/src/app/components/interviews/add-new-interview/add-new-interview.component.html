@@ -183,6 +183,25 @@
 
       <div class="row">
 
+        <div class="col-xl-12">
+          <mat-form-field style="width: 100%;" appearance="outline">
+            <mat-label>Select Job</mat-label>
+            <mat-select
+              (selectionChange)="selectedJobChanged()"
+              required
+              formControlName="jobId">
+              <mat-option
+                *ngFor="let job of jobs"
+                [value]="job.Id"> {{ job.Title }} </mat-option>
+            </mat-select>
+            <mat-error>You must select a job!</mat-error>
+          </mat-form-field>
+        </div>
+
+      </div>
+
+      <div class="row">
+
         <div class="col-xl-6">
           <h6>Candidates</h6>
         </div>
@@ -215,17 +234,22 @@
 
 
 
-          <div style="text-align: center;">
-            <h6>No Candidate Selected</h6>
+          <div style="text-align: center; opacity: .7;">
+            <h6>No candidate  is selected.</h6>
+            <h6
+              *ngIf="addNewInterviewForm.controls['jobId'].value === ''">
+              You have to select a job first.</h6>
           </div>
 
 
           <div style="text-align: center;">
             <button
-              [disabled]="candidates.length === 0"
+              [disabled]="candidates.length === 0
+              || addNewInterviewForm.controls['jobId'].value === ''"
               type="button"
               (click)="openSelectCandidatesDialog()"
-              mat-flat-button style="outline: 0 ;">
+              mat-flat-button
+              style="background-color: transparent; outline: 0;">
               <i class="fas fa-plus-circle"></i> Select Candidates</button>
           </div>
           <br>

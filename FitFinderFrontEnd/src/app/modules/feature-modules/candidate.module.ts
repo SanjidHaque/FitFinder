@@ -12,7 +12,7 @@ import {StarRatingModule} from 'angular-star-rating';
 import {PipeModule} from '../shared-modules/pipe.module';
 import {DialogModule} from '../shared-modules/dialog.module';
 import {EditCandidateComponent} from '../../components/candidates/edit-candidate/edit-candidate.component';
-import {CandidateOverviewComponent} from '../../components/candidates/candidate-overview/candidate-overview.component';
+import {CandidateOverviewComponent} from '../../components/candidates/candidate-id/candidate-overview/candidate-overview.component';
 
 
 @NgModule({

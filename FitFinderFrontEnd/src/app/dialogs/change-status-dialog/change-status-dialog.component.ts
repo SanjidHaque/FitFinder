@@ -279,7 +279,8 @@ export class ChangeStatusDialogComponent implements OnInit {
 
   confirmClick() {
     if (this.currentPipelineStageName === 'Rejected'
-      && this.commentForm.controls['rejectedReason'].value !== '') {
+      && this.commentForm.controls['rejectedReason'].value !== ''
+      && this.commentForm.controls['rejectedReason'].value !== undefined) {
       const comment = this.currentUserName
         + ' selected a reason '
         + ', "'
@@ -297,7 +298,8 @@ export class ChangeStatusDialogComponent implements OnInit {
 
 
     if (this.currentPipelineStageName === 'Withdrawn'
-      && this.commentForm.controls['withdrawnReason'].value !== '') {
+      && this.commentForm.controls['withdrawnReason'].value !== ''
+      && this.commentForm.controls['withdrawnReason'].value !== undefined) {
       const comment = this.currentUserName
         + ' selected a reason '
         + ', "'

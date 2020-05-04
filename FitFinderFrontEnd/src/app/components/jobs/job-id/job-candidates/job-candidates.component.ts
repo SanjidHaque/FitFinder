@@ -214,7 +214,7 @@ export class JobCandidatesComponent implements OnInit {
           }
       });
 
-    dialogRef.afterClosed().subscribe((selectedCandidates: Candidate[]) => {
+    dialogRef.afterClosed().subscribe((selectedCandidates: any) => {
 
       if (selectedCandidates !== '') {
         const jobAssignments: JobAssignment[] = [];

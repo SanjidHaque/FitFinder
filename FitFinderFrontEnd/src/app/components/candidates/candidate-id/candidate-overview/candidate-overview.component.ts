@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {Candidate} from '../../../models/candidate/candidate.model';
+import {Candidate} from '../../../../models/candidate/candidate.model';
 import {NotifierService} from 'angular-notifier';
-import {CandidateService} from '../../../services/shared-services/candidate.service';
+import {CandidateService} from '../../../../services/shared-services/candidate.service';
 import { FormControl, FormGroup, Validators} from '@angular/forms';
-import {JobAssignmentDataStorageService} from '../../../services/data-storage-services/job-assignment-data-storage.service';
-import {GeneralComment} from '../../../models/candidate/general-comment.model';
+import {JobAssignmentDataStorageService} from '../../../../services/data-storage-services/job-assignment-data-storage.service';
+import {GeneralComment} from '../../../../models/candidate/general-comment.model';
 
 @Component({
   selector: 'app-candidate-overview',

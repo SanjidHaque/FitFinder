@@ -73,7 +73,8 @@ export class AddNewInterviewComponent implements OnInit, OnDestroy {
       'location': new FormControl('Dhaka, Bangladesh'),
       'startTime': new FormControl('10:00', Validators.required),
       'endTime': new FormControl('11:30', Validators.required),
-      'interviewType': new FormControl(this.interviewTypes[0].Name, Validators.required)
+      'interviewType': new FormControl(this.interviewTypes[0].Name, Validators.required),
+      'jobId': new FormControl('', Validators.required)
     });
   }
 
@@ -101,7 +102,9 @@ export class AddNewInterviewComponent implements OnInit, OnDestroy {
       null,
       null,
       0,
-      0
+      0,
+      null,
+      this.addNewInterviewForm.controls['jobId'].value
     );
     this.isDisabled = true;
     this.interviewDataStorageService.addNewInterview(interview)
@@ -119,6 +122,30 @@ export class AddNewInterviewComponent implements OnInit, OnDestroy {
          });
   }
 
+  selectedJobChanged() {
+    this.selectedCandidatesForInterview = [];
+  }
+
+  getJobSpecificCandidates() {
+    const jobId = this.addNewInterviewForm.controls['jobId'].value;
+    const candidates: Candidate[] = [];
+
+    this.candidates.forEach(candidate => {
+
+      if (candidate.JobAssignments !== null) {
+
+        candidate.JobAssignments.forEach(jobAssignment => {
+          if (jobAssignment.JobId === jobId) {
+            candidates.push(candidate);
+          }
+        });
+      }
+
+    });
+
+    return candidates;
+  }
+
   openSelectCandidatesDialog() {
     const dialogRef = this.dialog.open(SelectCandidatesDialogComponent,
       {
@@ -128,7 +155,7 @@ export class AddNewInterviewComponent implements OnInit, OnDestroy {
         height: '100%',
         data:
           {
-            candidates: this.candidates.filter(x => x.IsArchived === false)
+            candidates: this.getJobSpecificCandidates().filter(x => x.IsArchived === false)
           }
       });
 
@@ -160,7 +187,6 @@ export class AddNewInterviewComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.interviewService.selectedCandidatesForInterview = [];
-    console.log('Destroyed!');
   }
 
 }

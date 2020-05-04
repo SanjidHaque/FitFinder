@@ -38,6 +38,10 @@ namespace FitFinderBackEnd.Models.Job
         public Company Company { get; set; }    
         public long? CompanyId { get; set; }
         public Workflow Workflow { get; set; }
-        public long WorkflowId { get; set; }    
+        public long WorkflowId { get; set; }
+        public long? TotalCandidates { get; set; }
+        public long? NewCandidates { get; set; }
+        public long? ActiveCandidates { get; set; }
+        public long? HiredCandidates { get; set; }
     }
 }

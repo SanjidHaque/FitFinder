@@ -79,7 +79,7 @@ namespace FitFinderBackEnd.Controllers
             _context.Jobs.Add(job);
             _context.SaveChanges();
 
-            return Ok(new { job,  statusText = _statusTextService.Success });
+            return Ok(new { job, statusText = _statusTextService.Success });
         }
 
 
@@ -146,6 +146,46 @@ namespace FitFinderBackEnd.Controllers
             {
                 Department department = _context.Departments.FirstOrDefault(x => x.Id == job.DepartmentId);
                 job.Department = department;
+
+                List<JobAssignment> jobAssignments = _context.JobAssignments
+                    .Where(x => x.JobId == job.Id)
+                    .AsNoTracking()
+                    .ToList();
+
+                job.TotalCandidates = jobAssignments.Count;
+                jobAssignments.ForEach(jobAssignment =>
+                {
+                    Candidate candidate = _context.Candidates
+                        .FirstOrDefault(x => x.Id == jobAssignment.CandidateId);
+
+                    PipelineStage pipelineStage = _context.PipelineStages
+                        .FirstOrDefault(x => x.Id == jobAssignment.CurrentPipelineStageId);
+
+                    if (pipelineStage != null && candidate != null)
+                    {
+                        if (!candidate.IsArchived)
+                        {
+                            if (pipelineStage.Name == "Hired")
+                            {
+                                job.HiredCandidates++;
+                            }
+                            if (pipelineStage.Name == "New")
+                            {
+                                job.NewCandidates++;
+                            }
+                            if (pipelineStage.Name != "New"
+                                || pipelineStage.Name != "Hired"
+                                || pipelineStage.Name != "Rejected"
+                                || pipelineStage.Name != "Withdrawn")
+                            {
+                                job.ActiveCandidates++;
+                            }
+                        }
+
+                    }
+
+                });
+
             });
 
             return Ok(new { jobs, statusText = _statusTextService.Success });
@@ -156,12 +196,12 @@ namespace FitFinderBackEnd.Controllers
         [AllowAnonymous]
         public IHttpActionResult GetJob(long jobId)
         {
-            
+
             Job job = _context.Jobs.FirstOrDefault(x => x.Id == jobId);
 
             if (job == null)
             {
-                return Ok(new { job, statusText = _statusTextService.ResourceNotFound});
+                return Ok(new { job, statusText = _statusTextService.ResourceNotFound });
             }
 
             List<JobAttachment> jobAttachments = _context.JobAttachments
@@ -184,7 +224,7 @@ namespace FitFinderBackEnd.Controllers
                 .ToList();
 
             List<PipelineStageCriterion> pipelineStageCriteria = _context.PipelineStageCriteria
-                .Where(x => x.PipelineStage.Pipeline.WorkflowId == workflow.Id 
+                .Where(x => x.PipelineStage.Pipeline.WorkflowId == workflow.Id
                             && (x.JobId == job.Id || x.JobId == null))
                 .ToList();
 
@@ -198,7 +238,7 @@ namespace FitFinderBackEnd.Controllers
             JobType jobType = _context.JobTypes
                 .FirstOrDefault(x => x.Id == job.JobTypeId);
 
-            return Ok(new {job, statusText = _statusTextService.Success });
+            return Ok(new { job, statusText = _statusTextService.Success });
         }
 
 
@@ -289,7 +329,7 @@ namespace FitFinderBackEnd.Controllers
             }
 
             _context.SaveChanges();
-             return Ok(new { statusText = _statusTextService.Success });
+            return Ok(new { statusText = _statusTextService.Success });
         }
 
         [HttpPut]
@@ -321,10 +361,10 @@ namespace FitFinderBackEnd.Controllers
                 return Ok(new { statusText = _statusTextService.ResourceNotFound });
             }
 
-            List<JobAttachment> jobAttachments = new List<JobAttachment> {jobAttachment};
+            List<JobAttachment> jobAttachments = new List<JobAttachment> { jobAttachment };
             _sharedService.DeleteJobAttachment(jobAttachments);
             _context.JobAttachments.Remove(jobAttachment);
-            
+
             _context.SaveChanges();
             return Ok(new { statusText = _statusTextService.Success });
         }
@@ -369,7 +409,7 @@ namespace FitFinderBackEnd.Controllers
             _context.SaveChanges();
 
             return Ok(new { statusText = _statusTextService.Success });
-            
+
         }
 
 

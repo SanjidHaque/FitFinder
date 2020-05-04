@@ -15,7 +15,7 @@ import {EditCandidateComponent} from '../../components/candidates/edit-candidate
 import {CandidateSpecificInterviewsResolverService} from '../../route-resolvers/candidate-specific-interviews-resolver.service';
 import {WithdrawnReasonsResolverService} from '../../route-resolvers/withdrawn-reasons-resolver.service';
 import {RejectedReasonsResolverService} from '../../route-resolvers/rejected-reasons-resolver.service';
-import {CandidateOverviewComponent} from '../../components/candidates/candidate-overview/candidate-overview.component';
+import {CandidateOverviewComponent} from '../../components/candidates/candidate-id/candidate-overview/candidate-overview.component';
 
 const candidateRoutes: Routes = [
   {

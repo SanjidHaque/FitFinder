@@ -35,6 +35,10 @@ export class Job {
      public Company: Company,
      public CompanyId: number,
      public Workflow: Workflow,
-     public WorkflowId: number
+     public WorkflowId: number,
+     public TotalCandidates: number,
+     public NewCandidates: number,
+     public ActiveCandidates: number,
+     public HiredCandidates: number
   ) {}
 }
