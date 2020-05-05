@@ -12,6 +12,8 @@ import {InterviewIdComponent} from '../../components/interviews/interview-id/int
 import {InterviewResolverService} from '../../route-resolvers/interview-resolver.service';
 import {UserAccountsResolverService} from '../../route-resolvers/user-accounts-resolver.service';
 import {EditInterviewComponent} from '../../components/interviews/edit-interview/edit-interview.component';
+import {WithdrawnReasonsResolverService} from '../../route-resolvers/withdrawn-reasons-resolver.service';
+import {RejectedReasonsResolverService} from '../../route-resolvers/rejected-reasons-resolver.service';
 
 
 const interviewRoutes: Routes = [
@@ -51,7 +53,9 @@ const interviewRoutes: Routes = [
           {
             interview: InterviewResolverService,
             candidates: CandidatesResolverService,
-            userAccounts: UserAccountsResolverService
+            userAccounts: UserAccountsResolverService,
+            withdrawnReasons: WithdrawnReasonsResolverService,
+            rejectedReasons: RejectedReasonsResolverService,
           }
       },
       {

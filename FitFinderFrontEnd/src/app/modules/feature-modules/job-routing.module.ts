@@ -61,7 +61,7 @@ const jobRoutes: Routes = [
           [
             {
               path: '',
-              redirectTo: 'job-info',
+              redirectTo: 'job-candidates',
               pathMatch: 'full'
             },
             {

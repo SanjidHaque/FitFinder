@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -57,7 +58,7 @@ namespace FitFinderBackEnd.Services
             List<PipelineStageScore> pipelineStageScores = new List<PipelineStageScore>();
             List<PipelineStageCriterionScore> pipelineStageCriterionScores = new List<PipelineStageCriterionScore>();
 
-           
+
 
             pipelineStages.ForEach(x =>
             {
@@ -103,7 +104,7 @@ namespace FitFinderBackEnd.Services
             {
                 folderPath = "~/Content/Images/";
             }
-           
+
 
             fileNames.ForEach(modifiedFileName =>
             {
@@ -112,7 +113,7 @@ namespace FitFinderBackEnd.Services
                 {
                     try
                     {
-                         File.Delete(filePath);
+                        File.Delete(filePath);
                     }
                     catch (Exception)
                     {
@@ -203,15 +204,27 @@ namespace FitFinderBackEnd.Services
 
             if (candidate != null)
             {
-               Source source = _context.Sources.FirstOrDefault(s => s.Id == candidate.SourceId);
+                Source source = _context.Sources.FirstOrDefault(s => s.Id == candidate.SourceId);
 
-               List<CandidateAttachment> candidateAttachments = _context.CandidateAttachments
-                .Where(z => z.CandidateId == candidateId)
-                .ToList();
+                List<CandidateAttachment> candidateAttachments = _context.CandidateAttachments
+                 .Where(z => z.CandidateId == candidateId)
+                 .ToList();
 
                 List<JobAssignment> jobAssignments = _context.JobAssignments
                     .Where(x => x.CandidateId == candidateId)
                     .ToList();
+
+
+                List<PipelineStageCriterionScore> pipelineStageCriterionScores = _context
+                    .PipelineStageCriterionScores
+                    .Include(x => x.JobAssignment)
+                    .ToList();
+
+                List<PipelineStageScore> pipelineStageScores = _context
+                    .PipelineStageScores
+                    .Include(x => x.JobAssignment)
+                    .ToList();
+
             }
 
             return candidate;

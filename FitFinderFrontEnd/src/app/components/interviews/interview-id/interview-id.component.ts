@@ -18,6 +18,12 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {InterviewerForInterview} from '../../../models/interview/interviewer-for-interview.model';
 import {UserAccountDataStorageService} from '../../../services/data-storage-services/user-account-data-storage.service';
 import {PipelineStage} from '../../../models/settings/pipeline-stage.model';
+import {GeneralComment} from '../../../models/candidate/general-comment.model';
+import {ChangeStatusDialogComponent} from '../../../dialogs/change-status-dialog/change-status-dialog.component';
+import {JobAssignment} from '../../../models/candidate/job-assignment.model';
+import {WithdrawnReason} from '../../../models/settings/withdrawn-reason.model';
+import {RejectedReason} from '../../../models/settings/rejected-reason.model';
+import {JobAssignmentDataStorageService} from '../../../services/data-storage-services/job-assignment-data-storage.service';
 
 
 @Component({
@@ -31,13 +37,19 @@ export class InterviewIdComponent implements OnInit {
 
   imageFolderPath = '';
   assignInterviewerForm: FormGroup;
+  currentUserName = '';
 
   interview: Interview;
+  jobAssignment: JobAssignment;
+
   interviews: Interview[] = [];
   candidates: Candidate[] = [];
   sources: Source[] = [];
   userAccounts: UserAccount[] = [];
   pipelineStages: PipelineStage[] = [];
+  withdrawnReasons: WithdrawnReason[] = [];
+  rejectedReasons: RejectedReason[] = [];
+
   interviewStatuses : any = [];
 
   constructor(private route: ActivatedRoute,
@@ -48,12 +60,16 @@ export class InterviewIdComponent implements OnInit {
               private settingsService: SettingsService,
               private interviewService: InterviewService,
               private userAccountDataStorageService: UserAccountDataStorageService,
+              private jobAssignmentDataStorageService: JobAssignmentDataStorageService,
               private interviewDataStorageService: InterviewDataStorageService) {}
 
   ngOnInit() {
     this.route.data.subscribe(
         (data: Data) => {
           this.interview = data['interview'].interview;
+          this.rejectedReasons = data['rejectedReasons'].rejectedReasons;
+          this.withdrawnReasons = data['withdrawnReasons'].withdrawnReasons;
+
           if (this.interview === null) {
             this.router.navigate(['/interviews']);
             this.notifierService.notify('default', 'Resource not found!');
@@ -63,6 +79,8 @@ export class InterviewIdComponent implements OnInit {
           this.userAccounts = data['userAccounts'].userAccounts;
           this.interviewStatuses = this.interviewService.getInterviewStatuses();
           this.imageFolderPath = this.userAccountDataStorageService.imageFolderPath;
+          this.currentUserName = localStorage.getItem('userName');
+
           this.createAssignInterviewersForm();
           this.extractPipelineStages();
         });
@@ -81,6 +99,115 @@ export class InterviewIdComponent implements OnInit {
       pipeline.PipelineStages.forEach(pipelineStage => {
         this.pipelineStages.push(pipelineStage);
       });
+    });
+  }
+
+  updatePipelineScores(candidate: Candidate) {
+    this.jobAssignment = candidate.JobAssignments
+      .find(x => x.JobId === this.interview.JobId);
+
+    const pipelineStageScores = this.jobAssignment.PipelineStageScores;
+    let pipelineStageCriterionScores = this.jobAssignment.PipelineStageCriterionScores;
+
+    if (pipelineStageCriterionScores === null) {
+      pipelineStageCriterionScores = [];
+    }
+
+    let selectTabIndex = 0;
+    for (let k = 0; k < this.pipelineStages.length; k++) {
+      if (this.pipelineStages[k].Id === this.jobAssignment.CurrentPipelineStageId) {
+        selectTabIndex = k;
+      }
+    }
+
+    const generalComments: GeneralComment[] = [];
+
+    const dialogRef = this.dialog.open(ChangeStatusDialogComponent,
+      {
+        hasBackdrop: true,
+        disableClose: true,
+        width: '700px',
+        data: {
+          pipelines: this.interview.Job.Workflow.Pipelines,
+          selectTab: selectTabIndex,
+          jobAssignmentId: this.jobAssignment.Id,
+          candidateId: candidate.Id,
+          currentPipelineStageId: this.jobAssignment.CurrentPipelineStageId,
+          pipelineStageScores: pipelineStageScores,
+          pipelineStageCriterionScores: pipelineStageCriterionScores,
+          generalComments: generalComments,
+          rejectedReasons: this.rejectedReasons,
+          withdrawnReasons: this.withdrawnReasons,
+          status: false
+        }
+      });
+
+    dialogRef.afterClosed().subscribe(result => {
+
+      if (result !== undefined) {
+        if (result.currentPipelineStageId !== this.jobAssignment.CurrentPipelineStageId) {
+
+          const oldPipelineStage = this.pipelineStages
+            .find(x => x.Id === this.jobAssignment.CurrentPipelineStageId);
+
+          const newPipelineStage = this.pipelineStages
+            .find(x => x.Id === result.currentPipelineStageId);
+
+
+          const comment = this.currentUserName
+            + ' changed pipeline stage from '
+            + oldPipelineStage.Name
+            + ' to '
+            + newPipelineStage.Name
+            + '.';
+
+          const generalComment = new GeneralComment(
+            null,
+            comment,
+            null,
+            this.jobAssignment.Id
+          );
+
+          result.generalComments.push(generalComment);
+
+          const jobAssignment = new JobAssignment(
+            this.jobAssignment.Id,
+            null,
+            null,
+            null,
+            null,
+            [],
+            [],
+            result.generalComments,
+            result.currentPipelineStageId
+          );
+
+          this.jobAssignmentDataStorageService.changePipelineStage(jobAssignment)
+            .subscribe((data: any) => {
+
+              if (data.statusText !== 'Success') {
+                this.notifierService.notify('default', data.statusText);
+              } else {
+                this.notifierService.notify('default', 'Pipeline stage changed.');
+                this.jobAssignment.CurrentPipelineStageId = result.currentPipelineStageId;
+              }
+
+            });
+        } else {
+
+          if (result.generalComments.length !== 0) {
+            this.jobAssignmentDataStorageService.addGeneralComment(result.generalComments)
+              .subscribe((res: any) => {
+
+                if (res.statusText !== 'Success') {
+                  this.notifierService.notify('default', res.statusText);
+                }
+              });
+
+          }
+        }
+
+      }
     });
   }
 
@@ -273,8 +400,7 @@ export class InterviewIdComponent implements OnInit {
         height: '100%',
         data:
           {
-            candidates: this.candidates,
-            jobs: this.jobs
+            candidates: this.candidates
           }
       });
 
@@ -320,10 +446,6 @@ export class InterviewIdComponent implements OnInit {
           });
       }
     });
-  }
-
-  updatePipelineScores() {
-
   }
 
   changeInterviewStatus(statusName: string, candidateForInterview: CandidateForInterview) {

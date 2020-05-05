@@ -125,11 +125,11 @@ export class CandidateIdComponent implements OnInit, DoCheck, OnDestroy  {
   }
 
   pipelineStageChanged(pipelineStageId: number) {
-    this.changeStatus(pipelineStageId);
+    this.updatePipelineScores(pipelineStageId);
   }
 
   openCurrentPipelineStage() {
-    this.changeStatus(this.jobAssignment.CurrentPipelineStageId);
+    this.updatePipelineScores(this.jobAssignment.CurrentPipelineStageId);
   }
 
   detectStageChange(pipelineStageId: number) {
@@ -288,7 +288,7 @@ export class CandidateIdComponent implements OnInit, DoCheck, OnDestroy  {
   }
 
 
-  changeStatus(pipelineStageId: number) {
+  updatePipelineScores(pipelineStageId: number) {
    const pipelineStages: PipelineStage[] = [];
 
     for (let i = 0; i < this.job.Workflow.Pipelines.length; i++) {
@@ -351,7 +351,7 @@ export class CandidateIdComponent implements OnInit, DoCheck, OnDestroy  {
             + oldPipelineStage.Name
             + ' to '
             + newPipelineStage.Name
-            + '.'
+            + '.';
 
           const generalComment = new GeneralComment(
             null,
@@ -693,7 +693,7 @@ export class CandidateIdComponent implements OnInit, DoCheck, OnDestroy  {
 
   moveToRejected() {
     const pipeline = this.job.Workflow.Pipelines.find(x => x.Name === 'REJECTED');
-    this.changeStatus(pipeline.PipelineStages[0].Id);
+    this.updatePipelineScores(pipeline.PipelineStages[0].Id);
   }
 
   moveToNextPipelineStage() {
@@ -710,7 +710,7 @@ export class CandidateIdComponent implements OnInit, DoCheck, OnDestroy  {
         const nextStageIndex = i + 1;
         if (nextStageIndex !== pipelineStages.length) {
           const nextStageId = pipelineStages[nextStageIndex].Id;
-          this.changeStatus(nextStageId);
+          this.updatePipelineScores(nextStageId);
         }
       }
     }

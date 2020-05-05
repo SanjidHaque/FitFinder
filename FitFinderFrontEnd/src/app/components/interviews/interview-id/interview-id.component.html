@@ -422,6 +422,7 @@
               </div>
               <div class="col-xl-4 text-xl-center">
                 <button
+                  (click)="updatePipelineScores(candidateForInterview.Candidate)"
                   [disabled]="interview.IsArchived"
                   mat-flat-button
                   style="outline: 0;
