@@ -310,21 +310,21 @@
     </div>
 
     <ng-template #candidateIsSelected>
-      <div class="row">
+      <!--<div class="row">-->
 
-        <div class="offset-xl-7 col-xl-4 text-xl-right"
-             *ngIf="interview.CandidatesForInterview !== null">
+        <!--<div class="offset-xl-7 col-xl-4 text-xl-right"-->
+             <!--*ngIf="interview.CandidatesForInterview !== null">-->
 
-          <button
-            [disabled]="interview.IsArchived || candidates.length === 0"
-            type="button"
-            (click)="openSelectCandidatesDialog()"
-            mat-flat-button style="outline: 0; background-color: transparent;">
-            <i class="fas fa-plus-circle"></i> Add Candidates</button>
+          <!--<button-->
+            <!--[disabled]="interview.IsArchived || candidates.length === 0"-->
+            <!--type="button"-->
+            <!--(click)="openSelectCandidatesDialog()"-->
+            <!--mat-flat-button style="outline: 0; background-color: transparent;">-->
+            <!--<i class="fas fa-plus-circle"></i> Add Candidates</button>-->
 
-        </div>
+        <!--</div>-->
 
-      </div>
+      <!--</div>-->
 
 
       <div class="row">
@@ -370,39 +370,39 @@
                   </div>
 
                   <div class="row">
-                    <div class="col-xl-3 text-xl-left"
+                    <div class="col-xl-12 text-xl-left"
                          style="padding-top: 5px;">
 
-                      <star-rating
-                        [rating] = "4"
-                        [readOnly]="true"
-                        [starType]="'svg'"
-                      ></star-rating>
+                      <input readonly
+                             style="outline: 0;
+                       border: 1px solid transparent;
+                       border-radius: 2px;
+                       height: 14px;
+                       width: 14px;"
+                             [style.background]="getPipelineStageProperty(candidateForInterview.Candidate, 'Color')"/>
+
+                      <span style="font-size: 14px; font-weight: 500;">
+                        {{ getPipelineStageProperty(candidateForInterview.Candidate, 'Name') }}
+                      </span>
 
                     </div>
 
-
-                    <div
-                      class="col-xl-9">
-
-                      <!--Stage pipelineStageCriterion pipelineStageName is here-->
-                    </div>
                   </div>
 
                 </div>
 
-                <div class="col-xl-1" *ngIf="!interview.IsArchived">
+                <!--<div class="col-xl-1" *ngIf="!interview.IsArchived">-->
 
-                  <button
-                    [disabled]="isDisabled"
-                    matTooltip="Remove"
-                    (click)="removeCandidatesFromInterview(i, candidateForInterview.Id)"
-                    style="outline: 0;"
-                    mat-flat-button>
-                    <i class="fas fa-times"></i>
-                  </button>
+                  <!--<button-->
+                    <!--[disabled]="isDisabled"-->
+                    <!--matTooltip="Remove"-->
+                    <!--(click)="removeCandidatesFromInterview(i, candidateForInterview.Id)"-->
+                    <!--style="outline: 0;"-->
+                    <!--mat-flat-button>-->
+                    <!--<i class="fas fa-times"></i>-->
+                  <!--</button>-->
 
-                </div>
+                <!--</div>-->
 
               </div>
 
@@ -414,9 +414,7 @@
             <div class="row">
               <div class="col-xl-4 text-xl-center">
                 <button
-                  [disabled]="
-                getJobTitle(candidateForInterview.CandidateId) === '' ||
-                interview.IsArchived"
+                  [disabled]="interview.IsArchived"
                   mat-flat-button
                   style="outline: 0;
                 background-color: transparent;">
@@ -424,9 +422,7 @@
               </div>
               <div class="col-xl-4 text-xl-center">
                 <button
-                  [disabled]="
-                getJobTitle(candidateForInterview.CandidateId) === '' ||
-                interview.IsArchived"
+                  [disabled]="interview.IsArchived"
                   mat-flat-button
                   style="outline: 0;
                 background-color: transparent;">
@@ -462,22 +458,6 @@
             </div>
             <hr>
 
-            <div class="row" *ngIf="getJobTitle(candidateForInterview.CandidateId) !== ''">
-
-              <div class="col-xl-12"
-                   style="
-                   color: #4d94e5;
-                   font-size: 16px;
-                   padding-top: 5px;
-                   padding-bottom: 7px;">
-
-                <i title="Job Application" class="fas fa-briefcase"></i>
-                <span style="
-                    color: #4d94e5;">
-                {{ getJobTitle(candidateForInterview.CandidateId) }}</span>
-
-              </div>
-            </div>
 
 
             <div class="row">

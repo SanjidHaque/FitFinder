@@ -17,6 +17,7 @@ import {UserAccount} from '../../../models/settings/user-account.model';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {InterviewerForInterview} from '../../../models/interview/interviewer-for-interview.model';
 import {UserAccountDataStorageService} from '../../../services/data-storage-services/user-account-data-storage.service';
+import {PipelineStage} from '../../../models/settings/pipeline-stage.model';
 
 
 @Component({
@@ -34,9 +35,9 @@ export class InterviewIdComponent implements OnInit {
   interview: Interview;
   interviews: Interview[] = [];
   candidates: Candidate[] = [];
-  jobs: Job[] = [];
   sources: Source[] = [];
   userAccounts: UserAccount[] = [];
+  pipelineStages: PipelineStage[] = [];
   interviewStatuses : any = [];
 
   constructor(private route: ActivatedRoute,
@@ -58,12 +59,12 @@ export class InterviewIdComponent implements OnInit {
             this.notifierService.notify('default', 'Resource not found!');
           }
 
-          this.jobs = data['jobs'].jobs;
           this.candidates = data['candidates'].candidates;
           this.userAccounts = data['userAccounts'].userAccounts;
           this.interviewStatuses = this.interviewService.getInterviewStatuses();
           this.imageFolderPath = this.userAccountDataStorageService.imageFolderPath;
           this.createAssignInterviewersForm();
+          this.extractPipelineStages();
         });
   }
 
@@ -72,6 +73,49 @@ export class InterviewIdComponent implements OnInit {
     this.assignInterviewerForm = new FormGroup({
       'userAccounts': new FormControl(null, Validators.required)
     });
+  }
+
+
+  extractPipelineStages() {
+    this.interview.Job.Workflow.Pipelines.forEach( pipeline => {
+      pipeline.PipelineStages.forEach(pipelineStage => {
+        this.pipelineStages.push(pipelineStage);
+      });
+    });
+  }
+
+  getPipelineStageProperty(candidate: Candidate, propertyName: string) {
+    const jobAssignment = candidate.JobAssignments
+      .find(x => x.JobId === this.interview.JobId);
+
+    if (jobAssignment === undefined) {
+
+      if (propertyName === 'Name') {
+        return 'Undefined';
+      } else {
+        return '#eee';
+      }
+
+    }
+
+    const pipelineStage = this.pipelineStages
+      .find(x => x.Id === jobAssignment.CurrentPipelineStageId);
+
+    if (pipelineStage === undefined) {
+
+      if (propertyName === 'Name') {
+        return 'Undefined';
+      } else {
+        return '#eee';
+      }
+
+    }
+
+    if (propertyName === 'Name') {
+      return pipelineStage.Name;
+    } else {
+      return pipelineStage.Color;
+    }
   }
 
   assignInterviewerToInterview() {
@@ -278,27 +322,9 @@ export class InterviewIdComponent implements OnInit {
     });
   }
 
+  updatePipelineScores() {
 
-  getJobTitle(candidateId: number) {
-    // const jobAssigned = this.candidates.find(x => x.Id === candidateId).JobAssignments;
-    // if (jobAssigned === null ) {
-    //   return '';
-    // }
-    //
-    // const activeJob = jobAssigned.find(x => x.IsActive === true);
-    // if (activeJob === undefined) {
-    //   return '';
-    // }
-    //
-    // const job = this.jobs.find(x => x.Id === activeJob.JobId);
-    // if (job === undefined) {
-    //   return '';
-    // }
-
-    return 'Porsche Carrera GT';
   }
-
-
 
   changeInterviewStatus(statusName: string, candidateForInterview: CandidateForInterview) {
 

@@ -169,7 +169,6 @@ namespace FitFinderBackEnd.Controllers
                 return Ok(new { candidatesForInterview, statusText = _statusTextService.UserClaimError });
             }
 
-
             candidatesForInterview = _context.CandidatesForInterviews
                 .Where(x => x.CandidateId == candidateId)
                 .OrderByDescending(x => x.Id)
@@ -197,7 +196,7 @@ namespace FitFinderBackEnd.Controllers
         public IHttpActionResult GetInterview(long interviewId)
         {
             Interview interview = _context.Interviews.FirstOrDefault(x => x.Id == interviewId);
-            Job job = _context.Jobs.FirstOrDefault(x => x.Id == interview.JobId);
+
             if (interview == null)
             {
                 return Ok(new { interview, statusText = _statusTextService.ResourceNotFound });
@@ -214,6 +213,29 @@ namespace FitFinderBackEnd.Controllers
 
             List<InterviewerForInterview> interviewersForInterviews = _context.InterviewersForInterviews
                 .Where(x => x.InterviewId == interviewId)
+                .ToList();
+
+            Job job = _context.Jobs.FirstOrDefault(x => x.Id == interview.JobId);
+            Workflow workflow = _context.Workflows.FirstOrDefault(x => x.Id == job.WorkflowId);
+
+            
+            if (workflow == null)
+            {
+                interview = null;
+                return Ok(new { interview ,statusText = _statusTextService.ResourceNotFound });
+            }
+
+            List<Pipeline> pipelines = _context.Pipelines
+                .Where(x => x.WorkflowId == workflow.Id)
+                .ToList();
+
+            List<PipelineStage> pipelineStages = _context.PipelineStages
+                .Where(x => x.Pipeline.WorkflowId == workflow.Id)
+                .ToList();
+
+            List<PipelineStageCriterion> pipelineStageCriteria = _context.PipelineStageCriteria
+                .Where(x => x.PipelineStage.Pipeline.WorkflowId == workflow.Id
+                            && (x.JobId == job.Id || x.JobId == null))
                 .ToList();
 
             interviewersForInterviews.ForEach(x =>

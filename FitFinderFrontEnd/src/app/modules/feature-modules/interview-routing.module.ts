@@ -51,7 +51,6 @@ const interviewRoutes: Routes = [
           {
             interview: InterviewResolverService,
             candidates: CandidatesResolverService,
-            jobs: JobsResolverService,
             userAccounts: UserAccountsResolverService
           }
       },

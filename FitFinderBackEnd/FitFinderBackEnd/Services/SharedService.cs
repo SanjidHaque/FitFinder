@@ -208,6 +208,10 @@ namespace FitFinderBackEnd.Services
                List<CandidateAttachment> candidateAttachments = _context.CandidateAttachments
                 .Where(z => z.CandidateId == candidateId)
                 .ToList();
+
+                List<JobAssignment> jobAssignments = _context.JobAssignments
+                    .Where(x => x.CandidateId == candidateId)
+                    .ToList();
             }
 
             return candidate;
