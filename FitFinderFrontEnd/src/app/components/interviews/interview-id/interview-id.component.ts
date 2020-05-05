@@ -87,6 +87,16 @@ export class InterviewIdComponent implements OnInit {
   }
 
 
+  goToCandidateDetail(candidate: Candidate) {
+    const jobAssignmentId = candidate.JobAssignments
+      .find(x => x.JobId === this.interview.JobId)
+      .Id;
+
+    this.router.navigate(['/candidates/', candidate.Id, jobAssignmentId]);
+  }
+
+
+
   createAssignInterviewersForm() {
     this.assignInterviewerForm = new FormGroup({
       'userAccounts': new FormControl(null, Validators.required)
@@ -391,6 +401,35 @@ export class InterviewIdComponent implements OnInit {
       }).catch();
   }
 
+  getUniqueCandidates() {
+    const uniqueCandidates: Candidate[] = [];
+    const jobCandidates: Candidate[] = [];
+
+    this.candidates.forEach(candidate => {
+      candidate.JobAssignments.forEach(jobAssignment => {
+        if (jobAssignment.JobId === this.interview.JobId) {
+          jobCandidates.push(candidate);
+        }
+      });
+    });
+
+    jobCandidates.forEach(candidate => {
+
+      const getInterviewCandidate = this.interview.CandidatesForInterview
+        .find(x => x.CandidateId === candidate.Id);
+
+      const getUniqueCandidate = uniqueCandidates
+        .find(x => x.Id === candidate.Id);
+
+      if ((getUniqueCandidate === undefined) && (getInterviewCandidate === undefined)) {
+        uniqueCandidates.push(candidate);
+      }
+
+    });
+
+    return uniqueCandidates;
+  }
+
   openSelectCandidatesDialog() {
     const dialogRef = this.dialog.open(SelectCandidatesDialogComponent,
       {
@@ -400,7 +439,9 @@ export class InterviewIdComponent implements OnInit {
         height: '100%',
         data:
           {
-            candidates: this.candidates
+            candidates: this.getUniqueCandidates(),
+            job: this.interview.Job,
+            showPipelineStage: true,
           }
       });
 

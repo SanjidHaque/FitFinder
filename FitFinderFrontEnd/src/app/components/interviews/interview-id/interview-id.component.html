@@ -310,21 +310,21 @@
     </div>
 
     <ng-template #candidateIsSelected>
-      <!--<div class="row">-->
+      <div class="row">
 
-        <!--<div class="offset-xl-7 col-xl-4 text-xl-right"-->
-             <!--*ngIf="interview.CandidatesForInterview !== null">-->
+        <div class="offset-xl-7 col-xl-4 text-xl-right"
+             *ngIf="interview.CandidatesForInterview !== null">
 
-          <!--<button-->
-            <!--[disabled]="interview.IsArchived || candidates.length === 0"-->
-            <!--type="button"-->
-            <!--(click)="openSelectCandidatesDialog()"-->
-            <!--mat-flat-button style="outline: 0; background-color: transparent;">-->
-            <!--<i class="fas fa-plus-circle"></i> Add Candidates</button>-->
+          <button
+            [disabled]="interview.IsArchived || candidates.length === 0"
+            type="button"
+            (click)="openSelectCandidatesDialog()"
+            mat-flat-button style="outline: 0; background-color: transparent;">
+            <i class="fas fa-plus-circle"></i> Add Candidates</button>
 
-        <!--</div>-->
+        </div>
 
-      <!--</div>-->
+      </div>
 
 
       <div class="row">
@@ -357,15 +357,15 @@
                   <div class="row">
                     <div class="col-xl-12 text-xl-left"
                          style="padding-top: 6px;">
-                      <a title="More Detail"
-                         style="cursor: pointer; outline: 0; text-decoration: none;"
-                         routerLink="/candidates/{{ candidateForInterview.CandidateId }}"
-                      >
+                      <span
+                        (click)="goToCandidateDetail(candidateForInterview.Candidate)"
+                        title="More detail"
+                        style="cursor: pointer; outline: 0;">
                         <strong>
                           {{candidateForInterview.Candidate.FirstName }}
                           {{candidateForInterview.Candidate.LastName }}
                         </strong>
-                      </a>
+                      </span>
                     </div>
                   </div>
 
@@ -391,18 +391,18 @@
 
                 </div>
 
-                <!--<div class="col-xl-1" *ngIf="!interview.IsArchived">-->
+                <div class="col-xl-1" *ngIf="!interview.IsArchived">
 
-                  <!--<button-->
-                    <!--[disabled]="isDisabled"-->
-                    <!--matTooltip="Remove"-->
-                    <!--(click)="removeCandidatesFromInterview(i, candidateForInterview.Id)"-->
-                    <!--style="outline: 0;"-->
-                    <!--mat-flat-button>-->
-                    <!--<i class="fas fa-times"></i>-->
-                  <!--</button>-->
+                  <button
+                    [disabled]="isDisabled"
+                    matTooltip="Remove"
+                    (click)="removeCandidatesFromInterview(i, candidateForInterview.Id)"
+                    style="outline: 0;"
+                    mat-flat-button>
+                    <i class="fas fa-times"></i>
+                  </button>
 
-                <!--</div>-->
+                </div>
 
               </div>
 
