@@ -1,0 +1,51 @@
+<form [formGroup]="commentForm"
+      #form="ngForm">
+
+
+
+  <div class="row" style="font-weight: 500; font-size: 18px;">
+    <div class="col-xl-12">
+
+      <i class="far fa-comment-alt"></i> Add Comment
+
+    </div>
+  </div>
+
+
+  <div class="row" style="padding-top: 15px;">
+
+    <div class="col-xl-12">
+      <mat-form-field style="width: 100%" appearance="outline">
+        <textarea
+          required
+          formControlName="comment"
+          matInput></textarea>
+        <mat-error>This field is required!</mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+
+
+  <div>
+
+    <mat-dialog-actions align="end">
+      <button
+        type="submit"
+        mat-flat-button
+        [disabled]="!form.valid"
+        color="primary"
+        (click)="confirmClick()"
+        style="outline: 0;"
+      >Save</button>
+      <button
+        type="button"
+        mat-stroked-button
+        (click)="cancelClick()"
+        style="outline: 0;"
+      >Cancel</button>
+    </mat-dialog-actions>
+
+
+  </div>
+
+</form>

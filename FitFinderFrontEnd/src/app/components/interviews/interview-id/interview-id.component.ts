@@ -24,6 +24,7 @@ import {JobAssignment} from '../../../models/candidate/job-assignment.model';
 import {WithdrawnReason} from '../../../models/settings/withdrawn-reason.model';
 import {RejectedReason} from '../../../models/settings/rejected-reason.model';
 import {JobAssignmentDataStorageService} from '../../../services/data-storage-services/job-assignment-data-storage.service';
+import {AddNewCommentDialogComponent} from '../../../dialogs/add-new-comment-dialog/add-new-comment-dialog.component';
 
 
 @Component({
@@ -96,6 +97,44 @@ export class InterviewIdComponent implements OnInit {
   }
 
 
+  addNewComment(candidate: Candidate) {
+    const jobAssignment = candidate.JobAssignments
+      .find(x => x.JobId === this.interview.JobId);
+
+    this.dialog.open(AddNewCommentDialogComponent, {
+      hasBackdrop: true,
+      disableClose: true,
+      width: '500px',
+    })
+      .afterClosed()
+      .subscribe(result => {
+        if (result !== '') {
+
+          const comment = this.currentUserName
+            + '  added a comment, "'
+            + result
+            + '"';
+
+          const generalComments: GeneralComment[] = [];
+          const generalComment = new GeneralComment(
+            null,
+            comment,
+            null,
+            jobAssignment.Id
+          );
+          generalComments.push(generalComment);
+
+          this.jobAssignmentDataStorageService.addGeneralComment(generalComments)
+            .subscribe((data: any) => {
+              if (data.statusText !== 'Success') {
+                this.notifierService.notify('default', data.statusText);
+              } else {
+                this.notifierService.notify('default', 'New comment added.');
+              }
+            });
+        }
+      });
+  }
 
   createAssignInterviewersForm() {
     this.assignInterviewerForm = new FormGroup({
