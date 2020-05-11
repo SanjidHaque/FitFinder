@@ -54,9 +54,15 @@
 
 <div class="row">
 
-  <div class="col-xl-6" style="border: 1px solid whitesmoke;
-  padding-top: 20px;
-  border-radius: 3px;">
+  <div class="col-xl-6"
+       style="
+       padding: 20px;">
+
+    <div
+      style="
+      border: 2px solid whitesmoke;
+      border-radius: 3px;
+      padding: 20px;">
 
       <div class="row">
 
@@ -81,9 +87,7 @@
       <hr>
 
       <div
-        style="height: 30vh;
-           overflow-x: hidden;
-           overflow-y: scroll;"
+        style="height: 30vh;"
         *ngIf="sources.length === 0; else sourceExists">
 
         <div class="row">
@@ -91,8 +95,7 @@
                style="opacity: .5;
                padding-top: 20px;
                font-weight: bold;
-             height: 30vh;
-             text-align: center;">
+               text-align: center;">
 
             No Records
 
@@ -102,67 +105,81 @@
       </div>
 
       <ng-template #sourceExists>
-        <div class="row"
-             *ngFor="let source of sources"
-             style="padding-top: 8px;
-           border-bottom: 1px solid whitesmoke;
-           padding-bottom: 8px">
 
-          <div class="col-xl-3 text-xl-left" style="font-size: 15px; color: #4d94e5;">
-            {{ source.Name }}
+        <div
+          style="height: 30vh; overflow-x: hidden; overflow-y: scroll;">
+
+          <div class="row"
+               *ngFor="let source of sources"
+               style="
+             padding-top: 8px;
+             padding-bottom: 8px">
+
+            <div class="col-xl-3 text-xl-left" style="font-size: 15px; color: #4d94e5;">
+              {{ source.Name }}
+            </div>
+
+            <div class="col-xl-3 text-xl-center">
+              {{ source.TotalCandidates }}
+            </div>
+
+            <div class="col-xl-3 text-xl-center">
+              {{ source.ActiveCandidates }}
+            </div>
+
+            <div class="col-xl-3 text-xl-center">
+              {{ source.HiredCandidates }}
+            </div>
+
           </div>
-
-          <div class="col-xl-3 text-xl-center">
-            {{ source.TotalCandidates }}
-          </div>
-
-          <div class="col-xl-3 text-xl-center">
-            {{ source.ActiveCandidates }}
-          </div>
-
-          <div class="col-xl-3 text-xl-center">
-            {{ source.HiredCandidates }}
-          </div>
-
         </div>
 
 
+
+
       </ng-template>
+    </div>
+
+
 
 
 
   </div>
 
-  <div class="col-xl-6" style="border: 2px solid whitesmoke;
-  padding-top: 20px;
-  border-radius: 3px;">
+  <div class="col-xl-6" style="padding: 20px;">
 
-    <div class="row">
+    <div
+      style="
+      border: 2px solid whitesmoke;
+      border-radius: 3px;
+      padding: 20px;">
 
-      <div class="col-xl-3 text-xl-left" style="font-size: 15px; font-weight: bold;">
-        JOBS
+
+      <div class="row">
+
+        <div class="col-xl-3 text-xl-left" style="font-size: 15px; font-weight: bold;">
+          JOBS
+        </div>
+
+        <div class="col-xl-3 text-xl-center" style="font-size: 14px;">
+          Candidates
+        </div>
+
+        <div class="col-xl-3 text-xl-center" style="font-size: 14px;">
+          Active
+        </div>
+
+        <div class="col-xl-3 text-xl-center" style="font-size: 14px;">
+          Hired
+        </div>
+
       </div>
 
-      <div class="col-xl-3 text-xl-center" style="font-size: 14px;">
-        Candidates
-      </div>
-
-      <div class="col-xl-3 text-xl-center" style="font-size: 14px;">
-        Active
-      </div>
-
-      <div class="col-xl-3 text-xl-center" style="font-size: 14px;">
-        Hired
-      </div>
-
-    </div>
 
     <hr>
 
     <div
-      style="height: 30vh;
-           overflow-x: hidden;
-           overflow-y: scroll;"
+      style="height: 30vh"
       *ngIf="jobs.length === 0; else jobExists">
 
 
@@ -171,7 +188,6 @@
              style="opacity: .5;
                padding-top: 20px;
                font-weight: bold;
-             height: 30vh;
              text-align: center;">
 
           No Records
@@ -182,104 +198,316 @@
 
     <ng-template #jobExists>
 
-      <div class="row"
-           *ngFor="let job of jobs"
-           style="padding-top: 8px;
-           border-bottom: 1px solid whitesmoke;
+      <div
+        style="height: 30vh; overflow-x: hidden; overflow-y: scroll;">
+
+        <div class="row"
+             *ngFor="let job of jobs"
+             style="padding-top: 8px;
            padding-bottom: 8px">
 
-        <div class="col-xl-3 text-xl-left" style="font-size: 15px; color: #4d94e5;">
+          <div class="col-xl-3 text-xl-left" style="font-size: 15px; color: #4d94e5;">
          <span
            style="cursor: pointer; outline: 0;"
-           routerLink="/jobs/{{ job.Id }}" >
+           routerLink="/jobs/{{ job.Id }}">
            {{ job.Title }}
          </span>
-        </div>
+          </div>
 
-        <div class="col-xl-3 text-xl-center">
-          {{ job.TotalCandidates }}
-        </div>
+          <div class="col-xl-3 text-xl-center">
+            {{ job.TotalCandidates }}
+          </div>
 
-        <div class="col-xl-3 text-xl-center">
-          {{ job.ActiveCandidates }}
-        </div>
+          <div class="col-xl-3 text-xl-center">
+            {{ job.ActiveCandidates }}
+          </div>
 
-        <div class="col-xl-3 text-xl-center">
-          {{ job.HiredCandidates }}
+          <div class="col-xl-3 text-xl-center">
+            {{ job.HiredCandidates }}
+          </div>
+
         </div>
 
       </div>
 
     </ng-template>
 
-
+    </div>
 
   </div>
 
 </div>
 
 <br>
-<br>
 
-<!--<div class="row">
-    <div class="col-xl-12" style="padding-bottom: 10px;">
+<div class="row">
 
-      <div class="row">
-        <div class="col-xl-6">
+<div class="col-xl-6" style="padding: 20px;">
 
-
-            <div class="row">
-              <div class="col-xl-12" style="text-align: center; font-size: 20px;">
-                Tasks
-              </div>
-            </div>
-
-            <div style="text-align: center; opacity: .5; padding-top: 60px; padding-bottom: 60px;">
-              <div class="row">
-                <div class="col-xl-12" style="font-size: 50px;">
-                  <i class="far fa-check-circle"></i>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-xl-12">
-                  No Pending Tasks
-                </div>
-              </div>
-            </div>
+  <div
+    style="
+      border: 2px solid whitesmoke;
+      border-radius: 3px;
+      padding: 20px;">
 
 
-        </div>
+    <div class="row">
 
-
-
-        <div class="col-xl-6">
-
-
-            <div class="row">
-              <div class="col-xl-12" style="text-align: center; font-size: 20px;">
-                Interviews
-              </div>
-            </div>
-
-            <div style="text-align: center; opacity: .5; padding-top: 60px; padding-bottom: 60px;">
-              <div class="row">
-                <div class="col-xl-12" style="font-size: 50px;">
-                  <i class="far fa-calendar-alt"></i>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-xl-12">
-                  No Upcoming Interviews
-                </div>
-              </div>
-            </div>
-
-
-        </div>
+      <div class="col-xl-12 text-xl-left" style="font-size: 15px; font-weight: bold;">
+        YOUR UPCOMING INTERVIEWS
       </div>
 
     </div>
-  </div>-->
 
+
+    <hr>
+
+    <div
+      style="height: 30vh"
+      *ngIf="myUpcomingInterviews.length === 0; else myUpcomingInterviewsExists">
+
+
+      <div class="row">
+        <div class="col-xl-12"
+             style="opacity: .5;
+               padding-top: 20px;
+               font-weight: bold;
+             text-align: center;">
+
+          No Records
+
+        </div>
+      </div>
+    </div>
+
+    <ng-template #myUpcomingInterviewsExists>
+
+      <div
+        style="height: 30vh; overflow-x: hidden; overflow-y: scroll;">
+
+        <div class="row"
+             *ngFor="let myUpcomingInterview of myUpcomingInterviews"
+             style="padding-top: 8px;
+             padding-left: 15px;
+           padding-bottom: 8px">
+
+
+              <div class="col-xl-2"
+                   style="text-align: center;
+                border: 2px solid whitesmoke;
+
+                cursor: pointer;
+                border-radius: 2px;">
+
+                <div class="row">
+                  <div class="col-xl-12"
+                       style="font-weight: bold;
+             font-size: 17px; text-align: center;">
+
+                    {{ getInterviewDay(myUpcomingInterview) }}
+
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-xl-12"
+                       style="
+             font-size: 9px;
+             font-weight: bold; text-align: center;">
+
+                    {{ getInterviewMonth(myUpcomingInterview) | uppercase}}
+
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-xl-12"
+                       style="font-size: 9px;
+                    background-color: #1a237e;
+                    color: white;
+                    font-weight: bold; text-align: center;">
+
+                    {{ getInterviewYear(myUpcomingInterview) }}
+
+                  </div>
+                </div>
+
+
+
+              </div>
+
+              <div class="col-xl-10">
+
+
+                <div class="row" style="font-size: 17px;">
+                  <div class="col-xl-12">
+
+            <span
+              routerLink="/interviews/{{ myUpcomingInterview.Id }}"
+              style="color: #4b96e6; font-size: 19px; outline: 0; cursor: pointer;">
+              {{ myUpcomingInterview.StartTime }} -
+            {{ myUpcomingInterview.Name }}
+            ({{ myUpcomingInterview.InterviewType }})
+
+            </span>
+
+                  </div>
+                </div>
+
+                <div class="row" style="padding-top: 2px; font-size: 13px;">
+                  <div class="col-xl-12">
+                    <i class="fas fa-ribbon"></i>
+                    {{ myUpcomingInterview.InterviewType }}
+                  </div>
+                </div>
+
+
+
+              </div>
+
+
+
+      </div>
+
+      </div>
+    </ng-template>
+
+  </div>
+
+</div>
+
+  <div class="col-xl-6" style="padding: 20px;">
+
+    <div
+      style="
+      border: 2px solid whitesmoke;
+      border-radius: 3px;
+      padding: 20px;">
+
+
+      <div class="row">
+
+        <div class="col-xl-12 text-xl-left" style="font-size: 15px; font-weight: bold;">
+          ALL UPCOMING INTERVIEWS
+        </div>
+
+      </div>
+
+
+      <hr>
+
+      <div
+        style="height: 30vh"
+        *ngIf="allUpcomingInterviews.length === 0; else allUpcomingInterviewsExists">
+
+
+        <div class="row">
+          <div class="col-xl-12"
+               style="opacity: .5;
+               padding-top: 20px;
+               font-weight: bold;
+             text-align: center;">
+
+            No Records
+
+          </div>
+        </div>
+      </div>
+
+      <ng-template #allUpcomingInterviewsExists>
+
+        <div
+          style="height: 30vh; overflow-x: hidden; overflow-y: scroll;">
+
+          <div class="row"
+               *ngFor="let allUpcomingInterview of allUpcomingInterviews"
+               style="padding-top: 8px;
+             padding-left: 15px;
+           padding-bottom: 8px">
+
+
+            <div class="col-xl-2"
+                 style="text-align: center;
+                border: 2px solid whitesmoke;
+
+                cursor: pointer;
+                border-radius: 2px;">
+
+              <div class="row">
+                <div class="col-xl-12"
+                     style="font-weight: bold;
+             font-size: 17px; text-align: center;">
+
+                  {{ getInterviewDay(allUpcomingInterview) }}
+
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-xl-12"
+                     style="
+             font-size: 9px;
+             font-weight: bold; text-align: center;">
+
+                  {{ getInterviewMonth(allUpcomingInterview) | uppercase}}
+
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-xl-12"
+                     style="font-size: 9px;
+                    background-color: #1a237e;
+                    color: white;
+                    font-weight: bold; text-align: center;">
+
+                  {{ getInterviewYear(allUpcomingInterview) }}
+
+                </div>
+              </div>
+
+
+
+            </div>
+
+            <div class="col-xl-10">
+
+
+              <div class="row" style="font-size: 17px;">
+                <div class="col-xl-12">
+
+            <span
+              routerLink="/interviews/{{ allUpcomingInterview.Id }}"
+              style="color: #4b96e6; font-size: 19px; outline: 0; cursor: pointer;">
+              {{ allUpcomingInterview.StartTime }} -
+            {{ allUpcomingInterview.Name }}
+            ({{ allUpcomingInterview.InterviewType }})
+
+            </span>
+
+                </div>
+              </div>
+
+              <div class="row" style="padding-top: 2px; font-size: 13px;">
+                <div class="col-xl-12">
+                  <i class="fas fa-ribbon"></i>
+                  {{ allUpcomingInterview.InterviewType }}
+                </div>
+              </div>
+
+
+
+            </div>
+
+
+
+          </div>
+
+        </div>
+      </ng-template>
+
+    </div>
+
+  </div>
+
+</div>

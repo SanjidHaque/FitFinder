@@ -142,6 +142,24 @@ namespace FitFinderBackEnd.Controllers
                     .Where(x => x.InterviewId == interview.Id)
                     .ToList();
 
+                List<InterviewerForInterview> interviewerForInterviews = _context.InterviewersForInterviews
+                    .Where(x => x.InterviewId == interview.Id)
+                    .ToList();
+
+                interviewerForInterviews.ForEach(interviewerForInterview =>
+                {
+                    UserAccount userAccount = new UserAccount();
+                    ApplicationUser getApplicationUser = _context.Users
+                        .FirstOrDefault(x => x.Id == interviewerForInterview.UserAccountId);
+
+                    if (getApplicationUser != null)
+                    {
+                        userAccount.UserName = getApplicationUser.UserName;
+                    }
+
+                    interviewerForInterview.UserAccount = userAccount;
+                });
+
                 interview.CandidatesForInterview = candidatesForInterview;
             });
 
