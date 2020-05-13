@@ -38,7 +38,7 @@ const appRoutes: Routes = [
   },
   {
     path : '',
-    redirectTo: '/dashboard',
+    redirectTo: '/forgot-password',
     pathMatch : 'full'
   },
   {

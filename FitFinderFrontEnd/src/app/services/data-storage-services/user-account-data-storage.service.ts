@@ -41,6 +41,18 @@ export class UserAccountDataStorageService {
   }
 
 
+  forgotPassword(changePassword: ChangePassword) {
+    const reqHeader = new HttpHeaders({ 'No-Auth': 'True' });
+    return this.http.post(this.rootUrl + '/api/ForgotPassword', changePassword,
+      { headers: reqHeader });
+  }
+
+  resetPassword(changePassword: ChangePassword) {
+    const reqHeader = new HttpHeaders({ 'No-Auth': 'True' });
+    return this.http.post(this.rootUrl + '/api/ResetPassword', changePassword,
+      { headers: reqHeader });
+  }
+
 
   addNewUserAccount(userAccount: UserAccount) {
     return this.http.post<UserAccount[]>(this.rootUrl + '/api/AddNewUserAccount', userAccount);
@@ -49,8 +61,6 @@ export class UserAccountDataStorageService {
   editUserAccount(userAccount: UserAccount) {
     return this.http.put<UserAccount[]>(this.rootUrl + '/api/EditUserAccount', userAccount);
   }
-
-
 
   addNewCompany(company: Company) {
     return this.http.post<Company>(this.rootUrl + '/api/AddNewCompany', company);

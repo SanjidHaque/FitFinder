@@ -22,22 +22,9 @@ export class ChangeProfilePasswordComponent implements OnInit {
   ngOnInit() {
     this.changeProfilePasswordForm = new FormGroup({
       'oldPassword': new FormControl('', Validators.required),
-      'newPassword': new FormControl('',
-        [
-          Validators.required,
-          Validators.pattern(
-            '(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{7,}')
-        ]),
+      'newPassword': new FormControl('', Validators.required),
       'confirmNewPassword': new FormControl('', Validators.required),
-
     });
-  }
-
-
-  getPasswordConditionErrorMessage() {
-    return this.changeProfilePasswordForm.controls['newPassword'].hasError('required') ? 'You must enter a password' :
-      this.changeProfilePasswordForm.controls['newPassword'].hasError('pattern') ? 'Not a valid password' :
-        '';
   }
 
   getPasswordMatchingErrorMessage() {
@@ -52,10 +39,12 @@ export class ChangeProfilePasswordComponent implements OnInit {
   changeProfilePassword() {
     this.isDisabled = true;
     const changePassword = new ChangePassword(
+      '',
+      '',
+      '',
       this.changeProfilePasswordForm.controls['oldPassword'].value,
       this.changeProfilePasswordForm.controls['newPassword'].value
     );
-
 
 
     this.userAccountDataStorageService.changeProfilePassword(changePassword)

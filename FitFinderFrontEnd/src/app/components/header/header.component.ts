@@ -1,5 +1,5 @@
 import {Component, ViewEncapsulation} from '@angular/core';
-import {Router} from '@angular/router';
+import {ActivatedRoute, PRIMARY_OUTLET, Router, UrlSegment, UrlSegmentGroup, UrlTree} from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -8,14 +8,13 @@ import {Router} from '@angular/router';
   encapsulation: ViewEncapsulation.None
 })
 export class HeaderComponent {
-
   navigationBarLinks =  [
     {path: '/dashboard', label: 'Dashboard', iconClass: 'fas fa-tachometer-alt'},
     {path: '/jobs', label: 'Jobs', iconClass: 'fas fa-briefcase'},
     {path: '/interviews', label: 'Interviews', iconClass: 'far fa-calendar-alt'}
   ];
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
   signOut()  {
     localStorage.removeItem('userToken');

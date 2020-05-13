@@ -179,8 +179,8 @@ export class AddNewCandidateComponent implements OnInit {
   }
 
   getEmailErrorMessage() {
-    return this.addNewCandidateForm.controls['email'].hasError('required') ? 'You must enter an email' :
-      this.addNewCandidateForm.controls['email'].hasError('email') ? 'Not a valid email' :
+    return this.addNewCandidateForm.controls['email'].hasError('required') ? 'You must enter an email!' :
+      this.addNewCandidateForm.controls['email'].hasError('email') ? 'Not a valid email!' :
         '';
   }
 
@@ -235,8 +235,7 @@ export class AddNewCandidateComponent implements OnInit {
    if (this.filesToUpload.length !== 0) {
 
      await this.attachmentDataStorageService.uploadAttachments(this.filesToUpload)
-       .subscribe(
-         (data: any) => {
+       .subscribe((data: any) => {
            if (data.statusText !== 'Success') {
              this.isDisabled = false;
              this.notifierService.notify('default', data.statusText);

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
@@ -769,6 +770,91 @@ namespace FitFinderBackEnd.Controllers
 
 
 
+        [HttpPost]
+        [Route("api/ForgotPassword")]
+        [AllowAnonymous]
+        public async Task<IHttpActionResult> ForgotPassword(ChangePassword changePassword)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await UserManager.FindByEmailAsync(changePassword.Email);
+                if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
+                {
+                    return Ok(new { statusText = _statusTextService.UserDoesNotExist });
+                }
+
+                try
+                {
+                  
+                    string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                    var callbackUrl = new Uri(Url.Link("ResetPasswordMiddleWareRoute", new { userId = user.Id, code = code }));
+                    
+                    await UserManager
+                        .SendEmailAsync(user.Id, "Reset Password",
+                            "Please reset your password by clicking <a href=\""
+                            + callbackUrl 
+                            + "\">here</a>");
+                    return Ok(new { statusText = _statusTextService.Success });
+                }
+                catch (Exception ex)
+                {
+                    return Ok(new {statusText = _statusTextService.SomethingWentWrong});
+                }
+
+            }
+
+            return Ok(new { statusText = _statusTextService.SomethingWentWrong });
+        }
+
+
+        [HttpGet]
+        [Route("ResetPasswordMiddleWare", Name = "ResetPasswordMiddleWareRoute")]
+        [AllowAnonymous]
+        public async Task<RedirectResult> ResetPasswordMiddleWare(string userId, string code)
+        {
+            if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(code))
+            {
+                return Redirect("http://localhost:4200/password-reset-link-expired");
+            }
+
+            ApplicationUser applicationUser = await UserManager.FindByIdAsync(userId);
+            if (applicationUser == null)
+            {
+                return Redirect("http://localhost:4200/password-reset-link-expired");
+            }
+
+
+            code = Convert.ToBase64String(Encoding.UTF8.GetBytes(code));
+            return Redirect(string.Format("http://localhost:4200/reset-password/{0}/{1}", userId , code));
+        }
+
+        [HttpPost]
+        [Route("api/ResetPassword")]
+        [AllowAnonymous]
+        public async Task<IHttpActionResult> ResetPassword(ChangePassword changePassword)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Ok(new { statusText = _statusTextService.SomethingWentWrong });
+            }
+            ApplicationUser applicationUser = await UserManager.FindByIdAsync(changePassword.UserId);
+            if (applicationUser == null)
+            {
+                return Ok(new { statusText = _statusTextService.SomethingWentWrong });
+            }
+
+            changePassword.Code = Encoding.UTF8.GetString(Convert.FromBase64String(changePassword.Code));
+
+            IdentityResult result = await UserManager
+                .ResetPasswordAsync(changePassword.UserId, changePassword.Code, changePassword.NewPassword);
+
+            if (result.Succeeded)
+            {
+                return Ok(new { statusText = _statusTextService.Success });
+            }
+
+            return Ok(new { statusText = _statusTextService.SomethingWentWrong });
+        }
         // POST api/Account/RegisterExternal
         [OverrideAuthentication]
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]

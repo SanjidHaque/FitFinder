@@ -6,6 +6,8 @@ import {EmailConfirmationLinkExpiredComponent} from '../../components/email-conf
 import {ForgotPasswordComponent} from '../../components/forgot-password/forgot-password.component';
 import {ForbiddenComponent} from '../../components/forbidden/forbidden.component';
 import {AuthGuard} from '../../auth/auth.guard';
+import {ResetPasswordComponent} from '../../components/reset-password/reset-password.component';
+import {PasswordResetLinkExpiredComponent} from '../../components/password-reset-link-expired/password-reset-link-expired.component';
 
 
 const authRoutes: Routes = [
@@ -18,8 +20,16 @@ const authRoutes: Routes = [
     component: EmailConfirmedComponent
   },
   {
-    path: 'email-confirmation-dialog-link-expired',
+    path: 'email-confirmation-link-expired',
     component: EmailConfirmationLinkExpiredComponent
+  },
+  {
+    path: 'password-reset-link-expired',
+    component: PasswordResetLinkExpiredComponent
+  },
+  {
+    path: 'reset-password/:user-id/:code',
+    component: ResetPasswordComponent
   },
   {
     path: 'forgot-password',
