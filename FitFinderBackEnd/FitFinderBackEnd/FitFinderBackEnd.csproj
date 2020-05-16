@@ -341,6 +341,7 @@
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Services\EmailService.cs" />
+    <Compile Include="Services\EncryptionService.cs" />
     <Compile Include="Services\SharedService.cs" />
     <Compile Include="Services\PasswordGeneratorService.cs" />
     <Compile Include="Services\SettingsService.cs" />

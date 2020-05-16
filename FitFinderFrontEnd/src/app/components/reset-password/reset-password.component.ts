@@ -12,6 +12,8 @@ import {ChangePassword} from '../../models/settings/change-password.model';
 })
 export class ResetPasswordComponent implements OnInit {
   isDisabled = false;
+  hideNewPassword = true;
+  hideConfirmNewPassword = true;
   resetPasswordForm: FormGroup;
 
   code: string;

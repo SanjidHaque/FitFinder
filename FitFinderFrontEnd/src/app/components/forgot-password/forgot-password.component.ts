@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {FormControl, FormGroup, NgForm, Validators} from '@angular/forms';
 import {UserAccountDataStorageService} from '../../services/data-storage-services/user-account-data-storage.service';
 import {ChangePassword} from '../../models/settings/change-password.model';
 import {NotifierService} from 'angular-notifier';
@@ -12,6 +12,7 @@ import {NotifierService} from 'angular-notifier';
 export class ForgotPasswordComponent implements OnInit {
   isDisabled = false;
   forgotPasswordForm: FormGroup;
+  @ViewChild('form', {static: false}) private form: NgForm;
 
   constructor(private userAccountDataStorageService: UserAccountDataStorageService,
               private notifierService: NotifierService) { }
@@ -46,9 +47,7 @@ export class ForgotPasswordComponent implements OnInit {
         if (data.statusText !== 'Success') {
           this.notifierService.notify('default', data.statusText);
         } else {
-          this.forgotPasswordForm.controls['email'].setValue({
-            'email': null
-          });
+          this.form.resetForm();
           this.notifierService
             .notify('default', 'Check your email inbox. ' +
               'We have sent instructions to reset your password.');

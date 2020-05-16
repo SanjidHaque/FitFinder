@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {Component, OnInit } from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {UserAccountDataStorageService} from '../../../../services/data-storage-services/user-account-data-storage.service';
 import {Router} from '@angular/router';
 import {ChangePassword} from '../../../../models/settings/change-password.model';
 import {NotifierService} from 'angular-notifier';
+import {PasswordErrorStateMatcher} from '../../../../custom-form-validators/password-error-state-matcher';
 
 @Component({
   selector: 'app-change-profile-password',
@@ -12,29 +13,54 @@ import {NotifierService} from 'angular-notifier';
 })
 export class ChangeProfilePasswordComponent implements OnInit {
   isDisabled = false;
+  passwordErrorStateMatcher = new PasswordErrorStateMatcher();
+
   changeProfilePasswordForm: FormGroup;
 
 
-  constructor( private userAccountDataStorageService: UserAccountDataStorageService,
-               private notifierService: NotifierService,
-               private router: Router) { }
+  constructor(private userAccountDataStorageService: UserAccountDataStorageService,
+              private notifierService: NotifierService,
+              private router: Router,
+              private fb: FormBuilder) { }
 
   ngOnInit() {
-    this.changeProfilePasswordForm = new FormGroup({
-      'oldPassword': new FormControl('', Validators.required),
-      'newPassword': new FormControl('', Validators.required),
-      'confirmNewPassword': new FormControl('', Validators.required),
-    });
+    this.changeProfilePasswordForm = this.fb.group({
+      oldPassword: ['', [Validators.required, Validators.minLength(6)]],
+      newPassword: ['', [Validators.required, Validators.minLength(6)]],
+      confirmNewPassword: ['', Validators.required]
+    }, {validator: this.checkPasswords })
   }
 
-  getPasswordMatchingErrorMessage() {
-    if (this.changeProfilePasswordForm.controls['newPassword'].value !==
-      this.changeProfilePasswordForm.controls['confirmNewPassword'].value) {
-      return 'Passwords do not matched!';
-    } else {
-      return 'You must confirm your password!';
-    }
+
+  getOldPasswordConditionErrorMessage() {
+    return this.changeProfilePasswordForm.controls['oldPassword']
+      .hasError('required') ? 'You must enter your old password!' :
+      this.changeProfilePasswordForm.controls['oldPassword']
+        .hasError('minlength') ? 'Should be at least six characters long!' : '';
   }
+
+  getNewPasswordConditionErrorMessage() {
+    return this.changeProfilePasswordForm.controls['newPassword']
+      .hasError('required') ? 'You must enter your new password!' :
+      this.changeProfilePasswordForm.controls['newPassword']
+        .hasError('minlength') ? 'Should be at least six characters long!' : '';
+  }
+
+  getConfirmNewPasswordConditionErrorMessage() {
+    return this.changeProfilePasswordForm.controls['confirmNewPassword']
+      .hasError('required') ? 'You must confirm your new password!' :
+      this.changeProfilePasswordForm
+        .hasError('notSame') ? 'Password do not match!' : '';
+  }
+
+
+  checkPasswords(group: FormGroup) {
+    const newPassword = group.controls['newPassword'].value;
+    const confirmNewPassword = group.controls['confirmNewPassword'].value;
+
+    return newPassword === confirmNewPassword ? null : { notSame: true }
+  }
+
 
   changeProfilePassword() {
     this.isDisabled = true;

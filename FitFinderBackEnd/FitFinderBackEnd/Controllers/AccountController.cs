@@ -823,9 +823,13 @@ namespace FitFinderBackEnd.Controllers
                 return Redirect("http://localhost:4200/password-reset-link-expired");
             }
 
+         
+            userId = Convert.ToBase64String(Encoding.UTF8.GetBytes(userId));
 
+            code = EncryptionService.Encrypt(code);
             code = Convert.ToBase64String(Encoding.UTF8.GetBytes(code));
-            return Redirect(string.Format("http://localhost:4200/reset-password/{0}/{1}", userId , code));
+
+            return Redirect($"http://localhost:4200/reset-password/{userId}/{code}");
         }
 
         [HttpPost]
@@ -837,13 +841,17 @@ namespace FitFinderBackEnd.Controllers
             {
                 return Ok(new { statusText = _statusTextService.SomethingWentWrong });
             }
+
+            changePassword.UserId = Encoding.UTF8.GetString(Convert.FromBase64String(changePassword.UserId));
             ApplicationUser applicationUser = await UserManager.FindByIdAsync(changePassword.UserId);
+
             if (applicationUser == null)
             {
                 return Ok(new { statusText = _statusTextService.SomethingWentWrong });
             }
 
             changePassword.Code = Encoding.UTF8.GetString(Convert.FromBase64String(changePassword.Code));
+            changePassword.Code = EncryptionService.Decrypt(changePassword.Code);
 
             IdentityResult result = await UserManager
                 .ResetPasswordAsync(changePassword.UserId, changePassword.Code, changePassword.NewPassword);
