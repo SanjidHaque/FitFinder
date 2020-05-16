@@ -13,6 +13,11 @@ import {PasswordErrorStateMatcher} from '../../../../custom-form-validators/pass
 })
 export class ChangeProfilePasswordComponent implements OnInit {
   isDisabled = false;
+
+  hideOldPassword = true;
+  hideNewPassword = true;
+  hideConfirmNewPassword = true;
+
   passwordErrorStateMatcher = new PasswordErrorStateMatcher();
 
   changeProfilePasswordForm: FormGroup;
