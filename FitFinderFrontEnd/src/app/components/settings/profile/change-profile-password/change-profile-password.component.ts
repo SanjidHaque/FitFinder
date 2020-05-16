@@ -26,14 +26,14 @@ export class ChangeProfilePasswordComponent implements OnInit {
   constructor(private userAccountDataStorageService: UserAccountDataStorageService,
               private notifierService: NotifierService,
               private router: Router,
-              private fb: FormBuilder) { }
+              private formBuilder: FormBuilder) { }
 
   ngOnInit() {
-    this.changeProfilePasswordForm = this.fb.group({
+    this.changeProfilePasswordForm = this.formBuilder.group({
       oldPassword: ['', [Validators.required, Validators.minLength(6)]],
       newPassword: ['', [Validators.required, Validators.minLength(6)]],
       confirmNewPassword: ['', Validators.required]
-    }, {validator: this.checkPasswords })
+    }, {validator: this.checkPasswords });
   }
 
 
