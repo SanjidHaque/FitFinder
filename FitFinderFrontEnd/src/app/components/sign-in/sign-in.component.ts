@@ -24,8 +24,7 @@ export class SignInComponent  {
 
     this.isDisabled = true;
     this.userAccountDataStorageService.login(userName, password)
-      .subscribe(
-        (data : any) => {
+      .subscribe((data : any) => {
           localStorage.setItem('userName', userName);
           localStorage.setItem('userToken', data.access_token);
           localStorage.setItem('userRoles', data.role);

@@ -41,12 +41,9 @@ body {
   display: inline-flex;
 }
 
-
-
 .notifier__notification--material .notifier__notification-button{
  padding: 0 0 0 0!important;
 }
-
 
 .job-assign.mat-form-field-appearance-outline .mat-form-field-infix {
   padding: 2px 2px 9px 3px!important;

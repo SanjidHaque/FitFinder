@@ -52,7 +52,7 @@ export class DepartmentsComponent implements OnInit {
                 this.departments.push(data.department);
                 this.notifierService.notify('default',
                   'New department added.');
-              //  this.gapiService.syncToDrive(this.departments, []).then().catch();
+                this.gapiService.syncToDrive(this.departments, []).then().catch();
               }
             });
       }

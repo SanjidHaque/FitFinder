@@ -217,7 +217,7 @@ export class AddNewJobComponent implements OnInit {
 
                 const jobs: Job[] = [];
                 jobs.push(data.job);
-                // this.gapiService.syncToDrive(this.departments, jobs);
+                this.gapiService.syncToDrive(this.departments, jobs);
               });
           }
         });

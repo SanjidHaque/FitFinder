@@ -10,7 +10,6 @@ import {EmailConfirmedComponent} from '../../components/email-confirmed/email-co
 import {EmailConfirmationLinkExpiredComponent} from '../../components/email-confirmation-link-expired/email-confirmation-link-expired.component';
 import {ForbiddenComponent} from '../../components/forbidden/forbidden.component';
 import {ResetPasswordComponent} from '../../components/reset-password/reset-password.component';
-import {AppComponent} from '../../app.component';
 import {PasswordResetLinkExpiredComponent} from '../../components/password-reset-link-expired/password-reset-link-expired.component';
 
 @NgModule({
