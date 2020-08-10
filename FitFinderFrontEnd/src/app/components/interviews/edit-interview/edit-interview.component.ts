@@ -8,7 +8,7 @@ import {InterviewDataStorageService} from '../../../services/data-storage-servic
 import {Interview} from '../../../models/interview/interview.model';
 import {noWhitespaceValidator} from '../../../custom-form-validators/no-white-space.validator';
 import {LongDateAdapter} from '../../../date-adapters/long-date.adpater';
-import {DateAdapter} from '@angular/material';
+import {DateAdapter} from '@angular/material/core';
 
 @Component({
   selector: 'app-edit-interview',

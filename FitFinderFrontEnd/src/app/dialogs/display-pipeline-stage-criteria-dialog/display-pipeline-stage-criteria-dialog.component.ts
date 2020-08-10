@@ -1,5 +1,5 @@
 import {Component, Inject} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {NotifierService} from 'angular-notifier';
 import {PipelineStageCriterion} from '../../models/settings/pipeline-stage-criterion.model';
 import {SettingsDataStorageService} from '../../services/data-storage-services/settings-data-storage.service';

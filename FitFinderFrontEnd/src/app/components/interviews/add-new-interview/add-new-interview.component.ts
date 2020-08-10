@@ -1,6 +1,7 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {DateAdapter, MatDialog} from '@angular/material';
+import {DateAdapter} from '@angular/material/core';
+import {MatDialog} from '@angular/material/dialog';
 import {LongDateAdapter} from '../../../date-adapters/long-date.adpater';
 import {Candidate} from '../../../models/candidate/candidate.model';
 import {

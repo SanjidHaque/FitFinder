@@ -6,7 +6,7 @@ import * as moment from 'moment';
 import {CandidateAttachment} from '../../../models/candidate/canidate-attachment.model';
 import {CandidateEducation} from '../../../models/candidate/candidate-education.model';
 import {CandidateExperience} from '../../../models/candidate/candidate-experience.model';
-import {MatDialog} from '@angular/material';
+import {MatDialog} from '@angular/material/dialog';
 import {JobAssignment} from '../../../models/candidate/job-assignment.model';
 import {Job} from '../../../models/job/job.model';
 import {JobDataStorageService} from '../../../services/data-storage-services/job-data-storage.service';

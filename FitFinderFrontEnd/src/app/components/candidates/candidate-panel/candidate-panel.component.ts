@@ -4,9 +4,8 @@ import {CandidateDataStorageService} from '../../../services/data-storage-servic
 import {SelectionModel} from '@angular/cdk/collections';
 import {Job} from '../../../models/job/job.model';
 import * as moment from 'moment';
-import {Source} from '../../../models/settings/source.model';
 import {NotifierService} from 'angular-notifier';
-import {MatDialog} from '@angular/material';
+import {MatDialog} from '@angular/material/dialog';
 import {ActivatedRoute, Data} from '@angular/router';
 import {DialogService} from '../../../services/dialog-services/dialog.service';
 import {CandidateService} from '../../../services/shared-services/candidate.service';

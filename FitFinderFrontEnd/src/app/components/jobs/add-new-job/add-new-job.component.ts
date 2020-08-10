@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AngularEditorConfig} from '@kolkov/angular-editor';
-import {MatDialog} from '@angular/material';
+import {MatDialog} from '@angular/material/dialog';
 import * as moment from 'moment';
 import {JobAttachment} from '../../../models/job/job-attachment.model';
 import {NotifierService} from 'angular-notifier';

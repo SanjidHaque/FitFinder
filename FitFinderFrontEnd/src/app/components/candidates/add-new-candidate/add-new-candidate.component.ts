@@ -3,7 +3,7 @@ import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angul
 import {ActivatedRoute, Data, Router} from '@angular/router';
 import {Candidate} from '../../../models/candidate/candidate.model';
 import {CandidateDataStorageService} from '../../../services/data-storage-services/candidate-data-storage.service';
-import {DateAdapter} from '@angular/material';
+import {DateAdapter} from '@angular/material/core';
 import {ShortDateAdapter} from '../../../date-adapters/short-date.adapter';
 import {NotifierService} from 'angular-notifier';
 import {CandidateAttachment} from '../../../models/candidate/canidate-attachment.model';
@@ -14,7 +14,6 @@ import {Source} from '../../../models/settings/source.model';
 import {JobAssignment} from '../../../models/candidate/job-assignment.model';
 import {AttachmentDataStorageService} from '../../../services/data-storage-services/attachment-data-storage.service';
 import {JobService} from '../../../services/shared-services/job.service';
-
 
 @Component({
   selector: 'app-add-new-candidate',

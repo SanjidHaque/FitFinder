@@ -16,7 +16,7 @@ import {Job} from '../../../../models/job/job.model';
 import {PipelineStage} from '../../../../models/settings/pipeline-stage.model';
 import {InterviewService} from '../../../../services/shared-services/interview.service';
 import {SelectCandidatesDialogComponent} from '../../../../dialogs/select-candidates-for-interview-dialog/select-candidates-dialog.component';
-import {MatDialog} from '@angular/material';
+import {MatDialog} from '@angular/material/dialog';
 import {JobAssignmentDataStorageService} from '../../../../services/data-storage-services/job-assignment-data-storage.service';
 
 @Component({

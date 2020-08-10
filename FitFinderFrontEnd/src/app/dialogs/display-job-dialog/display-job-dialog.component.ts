@@ -3,7 +3,7 @@ import * as moment from 'moment';
 import {Job} from '../../models/job/job.model';
 import {SelectionModel} from '@angular/cdk/collections';
 import {Department} from '../../models/settings/department.model';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {JobService} from '../../services/shared-services/job.service';
 
 @Component({

@@ -5,7 +5,7 @@ import * as moment from 'moment';
 import {JobAttachment} from '../../../../models/job/job-attachment.model';
 import {NotifierService} from 'angular-notifier';
 import {SettingsDataStorageService} from '../../../../services/data-storage-services/settings-data-storage.service';
-import {MatDialog} from '@angular/material';
+import {MatDialog} from '@angular/material/dialog';
 import {ActivatedRoute, Data, Router} from '@angular/router';
 import {JobService} from '../../../../services/shared-services/job.service';
 import {DialogService} from '../../../../services/dialog-services/dialog.service';
@@ -39,7 +39,6 @@ export class JobInfoComponent implements OnInit {
   ngOnInit() {
     this.job = this.jobService.job;
   }
-
 
   favouriteJobs(job: Job) {
     const jobs: Job[] = [];

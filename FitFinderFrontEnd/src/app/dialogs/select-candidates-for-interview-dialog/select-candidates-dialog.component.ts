@@ -3,7 +3,7 @@ import {Candidate} from '../../models/candidate/candidate.model';
 import {SelectionModel} from '@angular/cdk/collections';
 import * as moment from 'moment';
 import {Job} from '../../models/job/job.model';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {CandidateService} from '../../services/shared-services/candidate.service';
 import {UserAccountDataStorageService} from '../../services/data-storage-services/user-account-data-storage.service';
 import {PipelineStage} from '../../models/settings/pipeline-stage.model';

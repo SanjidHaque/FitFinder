@@ -1,14 +1,10 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Job} from '../../../models/job/job.model';
-import {Subscription} from 'rxjs/index';
 import {JobDataStorageService} from '../../../services/data-storage-services/job-data-storage.service';
 import {SelectionModel} from '@angular/cdk/collections';
-import {MatDialog, MatTreeFlatDataSource} from '@angular/material';
+
 import * as moment from 'moment';
 import {Department} from '../../../models/settings/department.model';
-import {SettingsDataStorageService} from '../../../services/data-storage-services/settings-data-storage.service';
-import {Candidate} from '../../../models/candidate/candidate.model';
-import {ConfirmationDialogComponent} from '../../../dialogs/confirmation-dialog/confirmation-dialog.component';
 import {NotifierService} from 'angular-notifier';
 import {ActivatedRoute, Data} from '@angular/router';
 import {JobService} from '../../../services/shared-services/job.service';

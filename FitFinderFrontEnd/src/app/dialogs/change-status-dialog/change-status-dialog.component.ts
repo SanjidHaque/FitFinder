@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {PipelineStage} from '../../models/settings/pipeline-stage.model';
 import {PipelineStageScore} from '../../models/settings/pipeline-stage-score.model';
 import {PipelineStageCriterionScore} from '../../models/settings/pipeline-stage-criterion-score.model';
