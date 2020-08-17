@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {MatDialog} from '@angular/material';
 import {NotifierService} from 'angular-notifier';
 import {Department} from '../../../../models/settings/department.model';
 import {SettingsDataStorageService} from '../../../../services/data-storage-services/settings-data-storage.service';
 import {ActivatedRoute, Data} from '@angular/router';
 import {GapiService} from '../../../../services/google-api-services/gapi.service';
 import {SettingsService} from '../../../../services/shared-services/settings.service';
+import {MatDialog} from '@angular/material/dialog';
 
 
 @Component({

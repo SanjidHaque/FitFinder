@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
@@ -787,13 +788,26 @@ namespace FitFinderBackEnd.Controllers
                 {
                   
                     string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                    var callbackUrl = new Uri(Url.Link("ResetPasswordMiddleWareRoute", new { userId = user.Id, code = code }));
-                    
-                    await UserManager
-                        .SendEmailAsync(user.Id, "Reset Password",
-                            "Please reset your password by clicking <a href=\""
-                            + callbackUrl 
-                            + "\">here</a>");
+                    Uri callbackUrl = new Uri(Url.Link("ResetPasswordMiddleWareRoute", new { userId = user.Id, code = code }));
+
+                    string s ="https://www.google.com/";
+
+                    string messageBody = System.IO.File.ReadAllText(HttpContext.Current.Server.MapPath("~/Email Templates/PasswordResetLink.html"));
+
+                    string body = string.Empty;
+
+                    using (StreamReader reader = new StreamReader(HttpContext.Current.Server.MapPath("~/Email Templates/PasswordResetLink.html")))
+                    {
+                        body = reader.ReadToEnd();
+                    }
+
+
+                    messageBody.Replace("{callbackUrl}", callbackUrl.ToString());
+                    messageBody.Replace("{userName}", "Soi");
+
+                    await UserManager.SendEmailAsync(user.Id, "Reset Password", messageBody);
+
+                  
                     return Ok(new { statusText = _statusTextService.Success });
                 }
                 catch (Exception ex)

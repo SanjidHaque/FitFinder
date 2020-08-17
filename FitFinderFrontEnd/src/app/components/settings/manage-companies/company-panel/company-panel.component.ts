@@ -3,7 +3,7 @@ import {Company} from '../../../../models/settings/company.model';
 import {ActivatedRoute, Data, Router} from '@angular/router';
 import {NotifierService} from 'angular-notifier';
 import {UserAccountDataStorageService} from '../../../../services/data-storage-services/user-account-data-storage.service';
-import {MatDialog} from '@angular/material';
+import {MatDialog} from '@angular/material/dialog';
 import {SettingsService} from '../../../../services/shared-services/settings.service';
 
 

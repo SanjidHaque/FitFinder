@@ -17,38 +17,50 @@
 
 
 <div class="col-xl-10 col-12 nav nav-tabs">
-      <a class = "nav-link nav-item"
-         *ngFor = "let navigationBarLink of navigationBarLinks"
-         [routerLink]="navigationBarLink.path"
-         routerLinkActive = "active"
-         [matTooltip] = "[navigationBarLink.label]">
-        <h3><i [class] = "[navigationBarLink.iconClass]"></i></h3>
-      </a>
+  <a class="nav-link nav-item"
+     routerLink="/dashboard"
+     routerLinkActive="active"
+     matTooltip="Dashboard">
+    <h3><i class="fas fa-tachometer-alt"></i></h3>
+  </a>
 
-      <a [matMenuTriggerFor]="menu" 
-         style="cursor: pointer;"
-         class = "nav-link nav-item"
-         matTooltip = Options>
-        <h3><i class="fas fa-chevron-circle-down"></i></h3>
+  <a class="nav-link nav-item"
+     routerLink="/jobs"
+     routerLinkActive="active"
+     matTooltip="Jobs">
+    <h3><i class="fas fa-briefcase"></i></h3>
+  </a>
 
-        <mat-menu #menu="matMenu">
-          <button
-            style="outline: 0;"
-            routerLink="/settings/profile" mat-menu-item>
-            <i class="fas fa-anchor"></i> Profile
-          </button>
-          <button
-            style="outline: 0;"
-            routerLink="/settings" mat-menu-item>
-            <i class="fas fa-cog"></i> Settings
-          </button>
-          <button
-            style="outline: 0;"
-            (click)="signOut()" mat-menu-item>
-            <i class="fas fa-power-off"></i> Sign Out
-          </button>
-        </mat-menu>
+  <a class="nav-link nav-item"
+     routerLink="/interviews"
+     routerLinkActive="active"
+     matTooltip="Interviews">
+    <h3><i class="far fa-calendar-alt"></i></h3>
+  </a>
 
+  <a [matMenuTriggerFor]="menu"
+     style="cursor: pointer;"
+     class="nav-link nav-item"
+     matTooltip=Options>
+    <h3><i class="fas fa-chevron-circle-down"></i></h3>
+
+    <mat-menu #menu="matMenu">
+      <button
+        style="outline: 0;"
+        routerLink="/settings/profile" mat-menu-item>
+        <i class="fas fa-anchor"></i> Profile
+      </button>
+      <button
+        style="outline: 0;"
+        routerLink="/settings" mat-menu-item>
+        <i class="fas fa-cog"></i> Settings
+      </button>
+      <button
+        style="outline: 0;"
+        (click)="signOut()" mat-menu-item>
+        <i class="fas fa-power-off"></i> Sign Out
+      </button>
+    </mat-menu>
   </a>
 </div>
 

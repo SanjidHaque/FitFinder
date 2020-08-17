@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import {Candidate} from '../../models/candidate/candidate.model';
-import {Subject} from 'rxjs/index';
+
 import {HttpClient} from '@angular/common/http';
 import {UserAccountDataStorageService} from './user-account-data-storage.service';
-import {JobAttachment} from '../../models/job/job-attachment.model';
 import {CandidateAttachment} from '../../models/candidate/canidate-attachment.model';
 
 @Injectable({

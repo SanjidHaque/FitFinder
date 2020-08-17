@@ -3,7 +3,7 @@ import {ActivatedRoute, Data, Router} from '@angular/router';
 import {Workflow} from '../../../../models/settings/workflow.model';
 import {PipelineStage} from '../../../../models/settings/pipeline-stage.model';
 import {DisplayPipelineStageCriteriaDialogComponent} from '../../../../dialogs/display-pipeline-stage-criteria-dialog/display-pipeline-stage-criteria-dialog.component';
-import {MatDialog} from '@angular/material';
+import {MatDialog} from '@angular/material/dialog';
 import {NotifierService} from 'angular-notifier';
 import {SettingsDataStorageService} from '../../../../services/data-storage-services/settings-data-storage.service';
 import {SettingsService} from '../../../../services/shared-services/settings.service';

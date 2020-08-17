@@ -3,8 +3,7 @@ import {ActivatedRoute, Data, Params, Router} from '@angular/router';
 import {NotifierService} from 'angular-notifier';
 import {Company} from '../../../../models/settings/company.model';
 import {UserAccountDataStorageService} from '../../../../services/data-storage-services/user-account-data-storage.service';
-import {MatDialog} from '@angular/material';
-import {AddUpdateDialogComponent} from '../../../../dialogs/add-update-dialog/add-update-dialog.component';
+import {MatDialog} from '@angular/material/dialog';
 import {SettingsService} from '../../../../services/shared-services/settings.service';
 
 @Component({

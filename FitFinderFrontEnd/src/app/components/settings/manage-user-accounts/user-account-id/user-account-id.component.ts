@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, Data, Params, Router} from '@angular/router';
+import {ActivatedRoute, Data, Router} from '@angular/router';
 import {UserAccount} from '../../../../models/settings/user-account.model';
 import {NotifierService} from 'angular-notifier';
 import {UserAccountDataStorageService} from '../../../../services/data-storage-services/user-account-data-storage.service';
-import {Department} from '../../../../models/settings/department.model';
 import {SettingsService} from '../../../../services/shared-services/settings.service';
 
 @Component({

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {Job} from '../models/job/job.model';
 import {Resolve} from '@angular/router';
-import {Observable} from 'rxjs/index';
 import {JobDataStorageService} from '../services/data-storage-services/job-data-storage.service';
+import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'

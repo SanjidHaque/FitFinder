@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, DoCheck, NgZone, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, NgZone, OnInit} from '@angular/core';
 import {UserAccount} from '../../../../models/settings/user-account.model';
 import {ActivatedRoute, Data, Router} from '@angular/router';
 import {NotifierService} from 'angular-notifier';
