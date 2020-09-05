@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -22,6 +23,7 @@ namespace FitFinderBackEnd.Controllers
         private ApplicationUserManager _userManager;
         private StatusTextService _statusTextService;
         private SharedService _sharedService;
+        private HangfireService _hangfireService;
         private readonly ApplicationDbContext _context;
 
         public AttachmentsController()
@@ -29,6 +31,7 @@ namespace FitFinderBackEnd.Controllers
             _statusTextService = new StatusTextService();
             _context = new ApplicationDbContext();
             _sharedService = new SharedService();
+            _hangfireService = new HangfireService();
         }
 
         public AttachmentsController(ApplicationUserManager userManager,
@@ -59,7 +62,6 @@ namespace FitFinderBackEnd.Controllers
         [AllowAnonymous]
         public IHttpActionResult UploadAttachments()
         {
-
             var httpRequest = HttpContext.Current.Request;
             for (int i = 0; i < httpRequest.Files.Count; i++)
             {
@@ -80,11 +82,57 @@ namespace FitFinderBackEnd.Controllers
         }
 
 
+
+        [HttpPost]
+        [Route("api/UploadCandidateResumesForNlp")]
+        [AllowAnonymous]
+        public IHttpActionResult UploadCandidateResumesForNlp()
+        {
+            HttpRequest httpRequest = HttpContext.Current.Request;
+            string jobIdInString = httpRequest["jobId"];
+            int jobId = int.Parse(jobIdInString);
+
+
+            // var fileName = "Sanjid.docx";
+            // var path = HttpContext.Current.Server.MapPath("~/Content/Attachments/" + fileName);
+            //
+            // var dir = Path.GetDirectoryName(path);
+            //
+            // var newPath = @dir + "\\"  + fileName;
+
+         //   string newPath = Path.GetFullPath(path);
+
+            
+    //        return Ok();
+
+            List<string> filePaths = new List<string>();
+            for (int i = 0; i < httpRequest.Files.Count; i++)
+            {
+                HttpPostedFile postedFile = httpRequest.Files[i];
+                var filePath = HttpContext.Current.Server.MapPath("~/Content/Attachments/" + postedFile.FileName);
+                filePaths.Add(filePath);
+                try
+                {
+                    postedFile.SaveAs(filePath);
+                }
+                catch (HttpException)
+                {
+                    return Ok(new { statusText = _statusTextService.SomethingWentWrong });
+                }
+            }
+            _hangfireService.CreateNewCandidates(filePaths, jobId);
+
+            return Ok(new { statusText = _statusTextService.Success });
+        }
+
+
         [HttpPost]
         [Route("api/UploadImage")]
         [AllowAnonymous]
         public IHttpActionResult UploadImage()
         {
+
+
 
             HttpRequest httpRequest = HttpContext.Current.Request;
             var postedFile = httpRequest.Files[0];

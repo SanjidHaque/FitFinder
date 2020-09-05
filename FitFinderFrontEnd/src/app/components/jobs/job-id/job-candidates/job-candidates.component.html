@@ -116,6 +116,13 @@
 
         </mat-menu>
 
+        <input id="choseFile"
+               #fileUpload
+               multiple
+               (change)="fileChangeEvent($event)"
+               hidden
+               type="file"/>
+
         <button
           mat-flat-button
           (click)="archiveCandidates()"

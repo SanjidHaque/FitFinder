@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 
 import {JobAssignment} from '../../../../models/candidate/job-assignment.model';
 import {NotifierService} from 'angular-notifier';
@@ -18,6 +18,8 @@ import {InterviewService} from '../../../../services/shared-services/interview.s
 import {SelectCandidatesDialogComponent} from '../../../../dialogs/select-candidates-for-interview-dialog/select-candidates-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {JobAssignmentDataStorageService} from '../../../../services/data-storage-services/job-assignment-data-storage.service';
+import {CandidateAttachment} from '../../../../models/candidate/canidate-attachment.model';
+import {AttachmentDataStorageService} from '../../../../services/data-storage-services/attachment-data-storage.service';
 
 @Component({
   selector: 'app-job-candidates',
@@ -38,12 +40,15 @@ export class JobCandidatesComponent implements OnInit {
   job: Job;
 
   imageFolderPath = '';
+  @ViewChild('fileUpload', {static: false}) fileUploadVar: any;
+  filesToUpload: Array<File> = [];
 
   constructor(private notifierService: NotifierService,
               private dialogService: DialogService,
               private dialog: MatDialog,
               private jobDataStorageService: JobDataStorageService,
               private userAccountDataStorageService: UserAccountDataStorageService,
+              private attachmentDataStorageService: AttachmentDataStorageService,
               private candidateDataStorageService: CandidateDataStorageService,
               private jobAssignmentDataStorageService: JobAssignmentDataStorageService,
               private candidateService: CandidateService,
@@ -245,7 +250,56 @@ export class JobCandidatesComponent implements OnInit {
 
   }
 
-  addCandidateFromResume() {}
+  addCandidateFromResume() {
+    document.getElementById('choseFile').click();
+  }
+
+
+  fileChangeEvent(fileInput: any) {
+    if (fileInput.target.files.length > 20) {
+      this.notifierService.notify('default', 'Maximum 20 files are allowed!');
+      return;
+    }
+
+    let unsupportedCount = 0;
+
+    for (let i = 0; i < fileInput.target.files.length; i++) {
+      const fileName = fileInput.target.files[i].name.substr(0, fileInput.target.files[i].name.lastIndexOf('.'));
+      const fileExtension = fileInput.target.files[i].name.split('.').pop();
+
+      if (fileExtension === 'doc' || fileExtension === 'docx') {
+        const newFileName = fileName + Date.now() + '.' + fileExtension;
+        const newFile = new File([fileInput.target.files[i]], newFileName, {type: fileInput.target.files[i].type});
+        this.filesToUpload.push(newFile);
+
+      } else {
+        unsupportedCount++;
+      }
+    }
+
+    if (unsupportedCount > 0) {
+      this.notifierService.notify('default', 'Only doc or docx file is allowed. Some files cannot be uploaded.');
+    }
+    console.log(this.filesToUpload);
+
+    this.attachmentDataStorageService.uploadCandidateResumesForNlp(this.filesToUpload,
+      this.job.Id.toString())
+      .subscribe((data: any) => {
+
+        if (data.statusText !== 'Success') {
+          this.notifierService.notify('default', data.statusText);
+        } else {
+          this.fileUploadVar.nativeElement.value = '';
+          this.notifierService.getConfig().behaviour.autoHide = 20000;
+          this.notifierService.notify('default', 'Syncing with the server');
+        }
+
+      });
+
+
+  }
+
+
 
   favouriteCandidates(candidate: Candidate) {
     const candidates: Candidate[] = [];

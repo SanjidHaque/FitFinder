@@ -22,6 +22,15 @@ export class AttachmentDataStorageService {
     return this.httpClient.post(this.rootUrl + '/api/UploadAttachments', formData);
   }
 
+  uploadCandidateResumesForNlp(attachments: Array<File>, jobId: string) {
+    const formData = new FormData();
+    formData.append('jobId', jobId);
+    for (let i = 0; i < attachments.length; i++) {
+      formData.append('Attachments', attachments[i]);
+    }
+    return this.httpClient.post(this.rootUrl + '/api/UploadCandidateResumesForNlp', formData);
+  }
+
   uploadImage(id: string, candidateImage: File, objectType: string) {
     const formData = new FormData();
     formData.append('CandidateImage', candidateImage);
