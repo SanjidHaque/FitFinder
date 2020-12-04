@@ -17,101 +17,76 @@ namespace FitFinderBackEnd.Services
     public class HangfireService
     {
         ApplicationDbContext _context;
+        private SharedService _sharedService;
 
         public HangfireService()
         {
             _context = new ApplicationDbContext();
+            _sharedService = new SharedService();
         }
 
-        public void CreateNewCandidates(List<string> filePaths, long jobId)
+        public void CreateNewCandidates(List<dynamic> fileInformations, long jobId, long? companyId)
         {
-             BackgroundJob.Enqueue(() => OnCreateNewCandidates(filePaths, jobId));
+             BackgroundJob.Enqueue(() => OnCreateNewCandidates(fileInformations, jobId, companyId));
         }
-        public void OnCreateNewCandidates(List<string> filePaths, long jobdId)   
+        public void OnCreateNewCandidates(List<dynamic> fileInformations, long jobdId, long? companyId)   
         {
-            //Candidate candidate = new Candidate
-            //{
-            //    FirstName = "Asif Atick",
-            //    Mobile = "01966168250",
-            //    Email = "sanjidulhaque@gmail.com",
-            //    SourceId = 1
-            //};
-
-            //_context.Candidates.Add(candidate);
-            //_context.SaveChanges();
-
-       //     string url = "http://122.248.222.23:7712/api/v1/upload-cv";
-            ////string urlParameters = "";
-
-
-            ////HttpClient client = new HttpClient();
-            ////client.BaseAddress = new Uri(url);
-
-
-            ////client.DefaultRequestHeaders.Accept.Add(
-            ////    new MediaTypeWithQualityHeaderValue("application/x-www-form-urlencoded"));
-
-
-            ////HttpResponseMessage response = client.GetAsync(httpPostedFile).Result;  
-            ////if (response.IsSuccessStatusCode)
-            ////{
-
-            ////}
-            ////else
-            ////{
-
-            ////}
-
-            ////client.Dispose();
-
-
-            ////HttpContent stringContent = new StringContent(paramString);
-            ////HttpContent fileStreamContent = new StreamContent(httpPostedFile);
-            ////HttpContent bytesContent = new ByteArrayContent(paramFileBytes);
-            ////using (var client = new HttpClient())
-            ////using (var formData = new MultipartFormDataContent())
-            ////{
-            ////    formData.Add(stringContent, "param1", "param1");
-            ////    formData.Add(fileStreamContent, "file1", "file1");
-            ////    formData.Add(bytesContent, "file2", "file2");
-            ////    var response = await client.PostAsync(actionUrl, formData);
-            ////    if (!response.IsSuccessStatusCode)
-            ////    {
-            ////        return null;
-            ////    }
-            ////    return await response.Content.ReadAsStreamAsync();
-
-            //  var fileName = "Sanjid.docx";
-            //  var filePath = HttpContext.Current.Server.MapPath("~/Content/Attachments/" + fileName);
-
-            //    filePath = "@" + filePath;http://122.248.222.23:7712/api/v1/upload-cv
-            //using (WebClient client = new WebClient())
-            //{
-            //    client.Headers[HttpRequestHeader.ContentType] = "application/octet-stream";
-            //    byte[] response = client.UploadFile(url, filePath);
-            //}
-
-
-            filePaths.ForEach(filePath =>
+            fileInformations.ForEach(fileInformation =>
             { 
                 RestClient restClient = new RestClient("http://122.248.222.23:7712");
-                RestRequest request = new RestSharp.RestRequest("api/v1/upload-cv", RestSharp.Method.POST);
-                request.AlwaysMultipartFormData = true;
-                request.AddHeader("Content-Type", "multipart/form-data");
-                request.AddFile("cv", filePath);
-                CandidateResponseContent candidateResponseContent = restClient.Execute<CandidateResponseContent>(request).Data;
+                RestRequest restRequest = new RestSharp.RestRequest("api/v1/upload-cv", Method.POST);
+                restRequest.AlwaysMultipartFormData = true;
+                restRequest.AddHeader("Content-Type", "multipart/form-data");
+                restRequest.AddFile("cv", fileInformation.FileName);
+               
+
+                IRestResponse<CandidateResponseContent> candidateResponseContent =
+                    ExecuteAsyncRequest<CandidateResponseContent>(restClient, restRequest)
+                        .GetAwaiter()
+                        .GetResult();
+
+
+                // List<CandidateAttachment> candidateAttachments = new List<CandidateAttachment>
+                // {
+                //     new CandidateAttachment
+                //     {
+                //         Id = null,
+                //         CandidateId = null,
+                //         FileName = 
+                //     }
+                // };
 
                 Candidate candidate = new Candidate
                 {
-                    FirstName = "Asif Atick",
-                    Mobile = "01966168250",
-                    Email = "sanjidulhaque@gmail.com",
-                    SourceId = 1
+                    FirstName = candidateResponseContent.Data.Name,
+                    Mobile = candidateResponseContent.Data.contact,
+                    Email = candidateResponseContent.Data.email,
+                    SourceId = 1,
+                    
                 };
+
+
 
                 _context.Candidates.Add(candidate);
                 _context.SaveChanges();
             });
+        }
+        async Task<IRestResponse<T>> ExecuteAsyncRequest<T>(RestClient client, IRestRequest request) where T : class, new()
+        {
+            var taskCompletionSource = new TaskCompletionSource<IRestResponse<T>>();
+
+            client.ExecuteAsync<T>(request, restResponse =>
+            {
+                if (restResponse.ErrorException != null)
+                {
+                    const string message = "Error retrieving response.";
+                    throw new ApplicationException(message, restResponse.ErrorException);
+                }
+
+                taskCompletionSource.SetResult(restResponse);
+            });
+
+            return await taskCompletionSource.Task;
         }
     }
 }

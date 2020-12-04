@@ -293,10 +293,7 @@ export class JobCandidatesComponent implements OnInit {
           this.notifierService.getConfig().behaviour.autoHide = 20000;
           this.notifierService.notify('default', 'Syncing with the server');
         }
-
       });
-
-
   }
 
 

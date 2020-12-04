@@ -88,29 +88,29 @@ namespace FitFinderBackEnd.Controllers
         [AllowAnonymous]
         public IHttpActionResult UploadCandidateResumesForNlp()
         {
+            Claim userNameClaim = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
+            if (userNameClaim == null)
+            {
+                return Ok(new { statusText = _statusTextService.UserClaimError });
+            }
+
+            ApplicationUser applicationUser = UserManager.FindByName(userNameClaim.Value);
+            if (applicationUser == null)
+            {
+                return Ok(new { statusText = _statusTextService.UserClaimError });
+            }
+
             HttpRequest httpRequest = HttpContext.Current.Request;
             string jobIdInString = httpRequest["jobId"];
             int jobId = int.Parse(jobIdInString);
 
-
-            // var fileName = "Sanjid.docx";
-            // var path = HttpContext.Current.Server.MapPath("~/Content/Attachments/" + fileName);
-            //
-            // var dir = Path.GetDirectoryName(path);
-            //
-            // var newPath = @dir + "\\"  + fileName;
-
-         //   string newPath = Path.GetFullPath(path);
-
+            var fileInformations = new List<dynamic>();
             
-    //        return Ok();
-
-            List<string> filePaths = new List<string>();
             for (int i = 0; i < httpRequest.Files.Count; i++)
             {
                 HttpPostedFile postedFile = httpRequest.Files[i];
                 var filePath = HttpContext.Current.Server.MapPath("~/Content/Attachments/" + postedFile.FileName);
-                filePaths.Add(filePath);
+                fileInformations.Add( new { FilePath = filePath, FileName = postedFile.FileName });
                 try
                 {
                     postedFile.SaveAs(filePath);
@@ -120,7 +120,7 @@ namespace FitFinderBackEnd.Controllers
                     return Ok(new { statusText = _statusTextService.SomethingWentWrong });
                 }
             }
-            _hangfireService.CreateNewCandidates(filePaths, jobId);
+            _hangfireService.CreateNewCandidates(fileInformations, jobId, applicationUser.CompanyId);
 
             return Ok(new { statusText = _statusTextService.Success });
         }
